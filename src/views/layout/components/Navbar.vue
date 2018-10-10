@@ -120,12 +120,24 @@ export default {
             newPw: this.form.newpassword
           }).then(
             res => {
-              console.log(res)
-              this.$message.success('修改密码成功')
-              this.modifyPasswordShow = false
+              if(JSON.parse(res.data).code=='success'){
+                 this.$message.success('修改密码成功')
+                 this.modifyPasswordShow = false
+              } else{
+                this.$message({
+                  showClose: true,
+                  message: '修改密码出错',
+                  type: 'error'
+                });
+              }
+             
             }
           ).catch(err => {
-            console.log(err)
+             this.$message({
+                  showClose: true,
+                  message: '数据请求出错',
+                  type: 'error'
+              });
           })
         } else {
           console.log('error submit!!')
