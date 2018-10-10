@@ -8,6 +8,7 @@ export function getWarehouseType() {
   })
 }
 
+
 //业务类型枚举
 export function getBillType() {
   return request({
