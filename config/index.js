@@ -9,12 +9,13 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/csj_login': {
-        target: 'http://172.16.80.83:7878',//志强
+        target: 'http://192.168.1.195:7878',//服务器
+        // target: 'http://172.16.80.83:7878',//志强
         changeOrigin: true
       },
       '/webApi': {
-        // target: 'http://192.168.1.195:7878',//服务器
-        target: 'http://172.16.80.83:7878',//志强
+        target: 'http://192.168.1.195:7878',//服务器
+        // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://172.16.80.172:7878', //陈姐
         changeOrigin: true
