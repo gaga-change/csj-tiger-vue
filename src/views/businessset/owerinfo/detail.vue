@@ -6,20 +6,9 @@
             {{item.title}}: <span>{{formatter(config[item.value],item.type)}}</span>
         </el-col>
 
-        <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-          <el-table-column
-            v-for="item in tableConfig"
-            :key="item.prop"
-            :fixed="item.fixed"
-            :formatter="item.formatter"
-            :width="item.width"
-            :prop="item.prop"
-            :label="item.label">
-          </el-table-column>
-        </el-table>
+       <web-pagination-table 
+      :config="tableConfig" 
+      :allTableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -27,8 +16,10 @@
 <script>
  import moment from 'moment';
  import {owerInfoDetail} from '@/api/owerinfo';
+ import webPaginationTable from '@/components/Table/webPaginationTable'
 
  export default {
+    components: { webPaginationTable },
     data() {
       return {
         config:{},
@@ -42,10 +33,10 @@
 
     beforeMount(){
       this.tableConfig=[
-          { label:'序号',width:"150",fixed:true,formatter:this.formatter(1,'index')},
+          { label:'序号',width:"50",fixed:true,type:'index'},
           { label:'仓库编号',prop:'warehouseNo',width:"150",fixed:false,},
-          { label:'仓库名称',prop:'warehouseName',width:"150",fixed:false,},
-          { label:'仓库类型',prop:'warehouseType',width:"150",fixed:false,formatter:(row, column, cellValue, index)=>this.formatter(cellValue,'warehouseType')},
+          { label:'仓库名称',prop:'warehouseName',width:"180",fixed:false,},
+          { label:'仓库类型',prop:'warehouseType',width:"150",fixed:false,dom:(row, column, cellValue, index)=>this.formatter(cellValue,'warehouseType')},
           { label:'负责人',prop:'warehouseLinkUser',width:"150",fixed:false,},
           { label:'联系电话',prop:'warehouseLinkUserTel',width:"150",fixed:false,},
       ];
@@ -90,8 +81,8 @@
           switch(type){
             case 'index':return (row, column, cellValue, index)=>index+1
             case 'time': return moment(value).format('YYYY-MM-DD');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'---';
-            case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key==value)&&this.warehouseTypeConfig.find(v=>v.key==value).value||'---';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key==value)&&this.warehouseTypeConfig.find(v=>v.key==value).value||'暂无数据';
             case 'boolean': return Number(value)?'是':'否';
             default : return value
           }

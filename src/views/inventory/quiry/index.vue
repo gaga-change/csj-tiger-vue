@@ -29,37 +29,16 @@
           </el-col>
       </el-form>
 
-          <el-table
-            v-loading="loading"
-            element-loading-text="加载中..."
-            element-loading-background="rgba(255, 255, 255, 0.5)"
-            :data="tableData"
-            border
-            style="width: 100%">
-
-            <el-table-column
-              v-for="item in tableConfig"
-              :formatter="item.formatter"
-              :width="item.width"
-              :key="item.lable"
-              :prop="item.prop"
-              :label="item.label">
-            </el-table-column>
-
-          </el-table>
-
-          <el-pagination
-            style="marginTop:16px"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="ruleForm.pageNum"
-            :page-sizes="[7,10, 15, 20, 30]"
-            :page-size="ruleForm.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            v-if="total>7"
-            :total="total">
-          </el-pagination>
-
+          <base-table 
+            @sizeChange="handleSizeChange"
+            @currentChange="handleCurrentChange"
+            :loading="loading"
+            :config="tableConfig"  
+            :total="total" 
+            :maxTotal="7"
+            :pageSize="ruleForm.pageSize"
+            :currentPage="ruleForm.pageNum"
+            :tableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -67,10 +46,10 @@
 <script>
     import moment from 'moment';
     import { stockSelect} from '@/api/inventory'
-    
-
-
+    import BaseTable from '@/components/Table'
+    import {getBillType,getStockDirectType}  from '@/api/map'
     export default {
+      components: { BaseTable },
       data() {
       return {
         ruleForm: {
@@ -79,13 +58,12 @@
             skuName:'',
             hasLock:'',
             warehouseCode:'',
-
-
             pageNum: 1,
             pageSize:7,
          },
         total:0,
         busiBillTypeConfig:[],
+        stockDirectTypeConfig:[],
         tableConfig:[],
         rules: {
          
@@ -97,7 +75,7 @@
 
     beforeMount(){
       this.tableConfig=[
-        { label:'商品编号',prop:'skuCode',width:'180px',fixed:true,formatter:this.formatter(1,'linkTo')},
+        { label:'商品编号',prop:'skuCode',width:'180px',fixed:true,dom:this.formatter('linkTo')},
         { label:'商品名称',prop:'skuName',width:'150px' },
         { label:'仓库名称',prop:'warehouseName',width:'180px'},
         { label:'规格型号',prop:'skuFormat',width:'180px'},
@@ -108,7 +86,7 @@
         { label:'成本价',prop:'costPrice',width:'150px',},
         { label:'总数量',prop:'skuQty',width:'150px',},
         { label:'锁定数量',prop:'lockQty',width:'150px',},
-        { label:'操作',width:'150px',fixed:'right',formatter:this.formatter(1,'linkTo','查看') },
+        { label:'操作',width:'150px',fixed:'right',dom:this.formatter('linkTo','查看') },
       ]
     },
 
@@ -118,33 +96,65 @@
          this.ruleForm=JSON.parse(this.$route.query.data)
        }
 
+        getBillType().then(res=>{
+         if(res.success){
+           this.busiBillTypeConfig=res.data;
+         } else{
+            this.$message({
+              showClose: true,
+              message: '数据请求出错',
+              type: 'error'
+            });
+         }
+       }).catch(err=>{
+          this.$message({
+            showClose: true,
+            message: '数据请求出错',
+            type: 'error'
+          });
+      })
+
+       getStockDirectType().then(res=>{
+         if(res.success){
+           this.stockDirectTypeConfig=res.data;
+         } else{
+            this.$message({
+              showClose: true,
+              message: '数据请求出错',
+              type: 'error'
+            });
+         }
+       }).catch(err=>{
+          this.$message({
+            showClose: true,
+            message: '数据请求出错',
+            type: 'error'
+          });
+      })
+
+
      this.getCurrentTableData();
      
     },
 
     methods: {
-        formatter(value,type,text){
-         if(value!=undefined){
+        formatter(type,value){
             switch(type){
-              case 'Boolean': return (row, column, cellValue, index)=>Number(cellValue)?'是':'否';
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                   let query={
                     warehouseCode:row.warehouseCode,
                     skuCode:row.skuCode,
                     busiBillTypeConfig:this.busiBillTypeConfig,
+                    stockDirectTypeConfig:this.stockDirectTypeConfig
                   }
                   let linkTo={
                     path:'/inventory/quiry-detail',
                     query:{data:JSON.stringify(query)}
                   }
-                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{text?text:cellValue}</router-link>
+                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
               };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录'
               default:return value
             }
-         } else{
-           return '无'
-         }
        },
 
 

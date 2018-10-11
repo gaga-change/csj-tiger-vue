@@ -47,38 +47,18 @@
           </el-col>
       </el-form>
 
-          <el-table
-            v-loading="loading"
-            element-loading-text="加载中..."
-            element-loading-background="rgba(255, 255, 255, 0.5)"
-            :data="tableData"
-            border
-            style="width: 100%">
-
-            <el-table-column
-              v-for="item in tableConfig"
-              :formatter="item.formatter"
-              :key="item.lable"
-              :prop="item.prop"
-              :label="item.label">
-            </el-table-column>
-
-          </el-table>
-
-          <el-pagination
-            style="marginTop:16px"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="ruleForm.pageNum"
-            :page-sizes="[7,10, 15, 20, 30]"
-            :page-size="ruleForm.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            v-if="total>7"
-            :total="total">
-          </el-pagination>
+      <base-table 
+        @sizeChange="handleSizeChange"
+        @currentChange="handleCurrentChange"
+        :loading="loading"
+        :config="tableConfig"  
+        :total="total" 
+        :maxTotal="7"
+        :pageSize="ruleForm.pageSize"
+        :currentPage="ruleForm.pageNum"
+        :tableData="tableData"/>
     </el-row>
 
-    <Table/>
   </div>
 </template>
 
@@ -86,7 +66,7 @@
     import moment from 'moment';
     import {outBillSelect} from '@/api/outgoing'
     import {getBillType,outbusibillstate}  from '@/api/map'
-    import Table from '@/components/Table'
+    import BaseTable from '@/components/Table'
     
     const validatorLinkTel = (rule, value, callback) => {
       if (value==undefined||value==''||/^[1][3,4,5,7,8][0-9]{9}$/.test(value)) {
@@ -97,7 +77,7 @@
     };
 
     export default {
-      components: { Table },
+      components: { BaseTable },
       data() {
       return {
         ruleForm: {
@@ -119,26 +99,29 @@
           ],
         },
          loading:false,
-         tableData: []
+         tableData: [],
+         tableConfig:[],
       }
     },
 
     beforeMount(){
-      this.tableConfig=[
-      { label:'业务单号',prop:'busiBillNo',formatter:this.formatter(1,'linkTo') },
-      { label:'货主编号',prop:'ownerCode'},
-      { label:'货主名称',prop:'ownerName'},
-      { label:'制单人',prop:'busiBillCreater'},
-      { label:'制单时间',prop:'busiBillCreateTime',formatter:this.formatter(1,'time')},
-      { label:'是否越库',prop:'isCross',formatter:this.formatter(1,'Boolean')},
-      { label:'操作',formatter:this.formatter(1,'linkTo','查看')},
-     ]
+
+     this.tableConfig=[
+        { label:'业务单号',prop:'busiBillNo',dom:this.formatter('linkTo')},
+        { label:'货主编号',prop:'ownerCode'},
+        { label:'货主名称',prop:'ownerName'},
+        { label:'制单人',prop:'busiBillCreater'},
+        { label:'制单时间',prop:'busiBillCreateTime',type:'time'},
+        { label:'是否越库',prop:'isCross',type:'Boolean'},
+        { label:'操作',dom:this.formatter('linkTo','查看')},
+      ]
     },
 
      mounted(){
        if(this.$route.query.data){
          this.ruleForm=JSON.parse(this.$route.query.data)
        }
+
        getBillType().then(res=>{
          if(res.success){
            this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('出库'));
@@ -185,10 +168,8 @@
     },
 
     methods: { 
-      formatter(value,type,text){
-         if(value!=undefined){
+      formatter(type,value){
             switch(type){
-              case 'Boolean': return (row, column, cellValue, index)=>Number(cellValue)?'是':'否';
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                 let query={
                   busiBillNo:row.busiBillNo,
@@ -199,14 +180,10 @@
                   path:'/outgoing/businessorder-detail',
                   query:{data:JSON.stringify(query)}
                 }
-                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{text?text:cellValue}</router-link>
+                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
                 };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录'
-              default:return value
             }
-         } else{
-           return '无'
-         }
+        
        },
 
        submitForm(formName) {

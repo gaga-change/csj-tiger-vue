@@ -3,23 +3,12 @@
       <el-row>
 
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(config[item.value],item.type)}}</span>
+            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
         </el-col>
 
-        <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-          <el-table-column
-            v-for="item in tableConfig"
-            :key="item.prop"
-            :fixed="item.fixed"
-            :formatter="item.formatter"
-            :width="item.width"
-            :prop="item.prop"
-            :label="item.label">
-          </el-table-column>
-        </el-table>
+        <web-pagination-table 
+        :config="tableConfig" 
+        :allTableData="tableData"/> 
     </el-row>
   </div>
 </template>
@@ -27,8 +16,9 @@
 <script>
  import moment from 'moment';
  import {stockRecord} from '@/api/inventory';
-
+ import webPaginationTable from '@/components/Table/webPaginationTable'
  export default {
+    components: { webPaginationTable },
     data() {
       return {
         config:{},
@@ -36,16 +26,17 @@
         tableData:[],
         tableConfig:[],
         busiBillTypeConfig:[],
+        stockDirectTypeConfig:[]
       }
     },
 
     beforeMount(){
       this.tableConfig=[
-          { label:'序号',width:"150",fixed:true,formatter:this.formatter(1,'index')},
+          { label:'序号',width:"50",fixed:true,type:'index'},
           { label:'变动日期',prop:'changeTime',width:"150",fixed:false,},
-          { label:'出入库类型',prop:'direcType',width:"150",fixed:false,},
-          { label:'业务类型',prop:'busiBillType',width:"150",fixed:false,},
-          { label:'出入库方',prop:'warehouseName',width:"150",fixed:false,},
+          { label:'出入库类型',prop:'direcType',width:"150",fixed:false,dom:(row, column, cellValue, index)=>this.formatter('direcType',cellValue)},
+          { label:'业务类型',prop:'busiBillType',width:"150",fixed:false,dom:(row, column, cellValue, index)=>this.formatter('busiBillType',cellValue)},
+          { label:'出入库方',prop:'warehouseName',width:"180",fixed:false,},
           { label:'变动前数量',prop:'beforeQty',width:"150",fixed:false,},
           { label:'变动数量',prop:'changeQty',width:"150",fixed:false},
           { label:'变动后数量',prop:'afterQty',width:"150",fixed:false},
@@ -67,9 +58,9 @@
       ]
     },
     mounted(){
-      let { warehouseCode,skuCode,busiBillTypeConfig,}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let { warehouseCode,skuCode,busiBillTypeConfig,stockDirectTypeConfig}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
       this.busiBillTypeConfig=busiBillTypeConfig||[];
-
+      this.stockDirectTypeConfig=stockDirectTypeConfig||[];
 
       stockRecord({warehouseCode,skuCode}).then(res=>{
         if(res.success){
@@ -77,7 +68,6 @@
           this.config=data;
           this.tableData=Array.isArray(data.items)?data.items:[]
         } else{
-           console.log('busibill/select/detail',res)
             this.$message({
               showClose: true,
               message: '数据请求出错',
@@ -85,7 +75,6 @@
            });
         }
       }).catch(err=>{
-         console.log('busibill/select/detail',err)
           this.$message({
             showClose: true,
             message: '数据请求出错',
@@ -95,18 +84,12 @@
     },
 
     methods:{
-      formatter(value,type){
-        if(value!=undefined){
+      formatter(type,value){
           switch(type){
-            case 'index':return (row, column, cellValue, index)=>index+1
-            case 'time': return moment(value).format('YYYY-MM-DD');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'---';
-            case 'boolean': return Number(value)?'是':'否';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'direcType': return this.stockDirectTypeConfig.find(v=>v.key==value)&&this.stockDirectTypeConfig.find(v=>v.key==value).value||'暂无数据';
             default : return value
           }
-        } else{
-          return '---'
-        }
       }
     }
  }

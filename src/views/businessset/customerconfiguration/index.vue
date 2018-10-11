@@ -32,35 +32,16 @@
           </el-col>
       </el-form>
 
-          <el-table
-            v-loading="loading"
-            element-loading-text="加载中..."
-            element-loading-background="rgba(255, 255, 255, 0.5)"
-            :data="tableData"
-            border
-            style="width: 100%">
-
-            <el-table-column
-              v-for="item in tableConfig"
-              :formatter="item.formatter"
-              :key="item.lable"
-              :prop="item.prop"
-              :label="item.label">
-            </el-table-column>
-
-          </el-table>
-
-          <el-pagination
-            style="marginTop:16px"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="ruleForm.pageNum"
-            :page-sizes="[7,10, 15, 20, 30]"
-            :page-size="ruleForm.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            v-if="total>7"
-            :total="total">
-          </el-pagination>
+        <base-table 
+          @sizeChange="handleSizeChange"
+          @currentChange="handleCurrentChange"
+          :loading="loading"
+          :config="tableConfig"  
+          :total="total" 
+          :maxTotal="7"
+          :pageSize="ruleForm.pageSize"
+          :currentPage="ruleForm.pageNum"
+          :tableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -70,8 +51,10 @@
     import moment from 'moment';
     import { warehouseSelect} from '@/api/customerconfiguration'
     import { getWarehouseType } from '@/api/map';
+    import BaseTable from '@/components/Table'
 
     export default {
+      components: { BaseTable },
       data() {
       return {
         ruleForm: {
@@ -94,15 +77,15 @@
 
     beforeMount(){
       this.tableConfig=[
-      { label:'仓库编号',prop:'warehouseNo',formatter:this.formatter(1,'linkTo')},
+      { label:'仓库编号',prop:'warehouseNo',dom:this.formatter('linkTo')},
       { label:'仓库名称',prop:'warehouseName'},
-      { label:'所在省/市',width:"150",fixed:false,formatter:(row, column, cellValue, index)=>{
-        return `${row.warehouseProvince}/${row.warehouseCity}`
+      { label:'所在省/市',fixed:false,dom:(row, column, cellValue, index)=>{
+        return `${row.warehouseProvince||'未记录'}/${row.warehouseCity||'未记录'}`
      }},
-      { label:'仓库类型',prop:'warehouseType',formatter:this.formatter(1,'time')},
-      { label:'负责人',prop:'warehouseLinkName',formatter:this.formatter(1,'Boolean')},
-      { label:'联系电话',prop:'linkTel',formatter:this.formatter(1,'Boolean')},
-      { label:'操作',formatter:this.formatter(1,'linkTo','查看')},
+      { label:'仓库类型',prop:'warehouseType',dom:(row, column, cellValue, index)=>this.formatter('warehouseType',cellValue)},
+      { label:'负责人',prop:'warehouseLinkName',},
+      { label:'联系电话',prop:'linkTel',},
+      { label:'操作',dom:this.formatter('linkTo','查看')},
      ]
     },
 
@@ -135,10 +118,9 @@
     },
 
     methods: { 
-      formatter(value,type,text){
-         if(value!=undefined){
+      formatter(type,value){
             switch(type){
-              case 'Boolean': return (row, column, cellValue, index)=>Number(cellValue)?'是':'否';
+              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key==value)&&this.warehouseTypeConfig.find(v=>v.key==value).value||'暂无数据';
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                 let query={
                   warehouseNo:row.warehouseNo,
@@ -148,14 +130,11 @@
                   path:'/businessset/customerconfiguration-detail',
                   query:{data:JSON.stringify(query)}
                 }
-                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{text?text:cellValue}</router-link>
+                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
                 };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录'
               default:return value
             }
-         } else{
-           return '无'
-         }
+         
        },
 
        submitForm(formName) {

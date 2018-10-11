@@ -179,19 +179,19 @@ export default [
         component: _import('businessset/owerinfo/detail'),
         hidden: true,
       },
-      // {
-      //   name: 'customerconfiguration',
-      //   path: 'customerconfiguration',
-      //   meta: { title: '客户仓库关系配置', noCache: true },
-      //   component: _import('businessset/customerconfiguration/index')
-      // },
-      // {
-      //   name: 'customerconfiguration-detail',
-      //   path: 'customerconfiguration-detail',
-      //   meta: { title: '客户仓库关系配置详情', noCache: true },
-      //   component: _import('businessset/customerconfiguration/detail'),
-      //   hidden: true,
-      // },
+      {
+        name: 'customerconfiguration',
+        path: 'customerconfiguration',
+        meta: { title: '客户仓库关系配置', noCache: true },
+        component: _import('businessset/customerconfiguration/index')
+      },
+      {
+        name: 'customerconfiguration-detail',
+        path: 'customerconfiguration-detail',
+        meta: { title: '客户仓库关系配置详情', noCache: true },
+        component: _import('businessset/customerconfiguration/detail'),
+        hidden: true,
+      },
       //  {
       //   name: 'ownerconfiguration',
       //   path: 'ownerconfiguration',
@@ -228,5 +228,28 @@ export default [
   //     },
   //   ]
   // },
+
+   {
+    path: '/reply',
+    component: Layout,
+    redirect: 'reply/query',
+    meta: { title: '回单管理', noCache: true,icon:'back' },
+    hidden: false,
+    children: [
+      {
+        name: 'query',
+        path: 'query',
+        meta: { title: '回单查询', noCache: true },
+        component: _import('reply/query/index')
+      },
+      {
+        name: 'query-detail',
+        path: 'query-detail',
+        meta: { title: '回单查询详情', noCache: true },
+        component: _import('reply/query/detail'),
+        hidden: true,
+      },
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
