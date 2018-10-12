@@ -11,9 +11,9 @@
         <el-table-column
           v-for="item in tableConfig"
           :formatter="item.formatter"
+          :key="item.lable"
           :fixed="item.fixed"
           :width="item.width"
-          :key="item.lable"
           :prop="item.prop"
           :label="item.label">
         </el-table-column>
@@ -24,9 +24,9 @@
         :style="paginationStyle"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page.sync="tableCurrentPage"
+        :current-page.sync="currentPage"
         :page-sizes="pageSizes"
-        :page-size="tablePageSize"
+        :page-size="pageSize"
         :layout="layout"
         v-if="total>maxTotal"
         :total="total">
@@ -46,7 +46,7 @@ export default {
       type: Boolean,
       default: false
     },
-    tableData: {
+    allTableData: {
       type: Array,
       default:()=>[]
     },
@@ -54,25 +54,18 @@ export default {
       type: Array,
       default:()=> []
     },
-    currentPage:{
-      type: Number,
-      default: 1
-    },
     pageSizes:{
       type: Array,
-      default:()=> [7,10, 15, 20, 30]
+      default:()=> [5,10, 15, 20, 30]
     },
-    pageSize:{
-      type: Number,
-      default: 7
-    },
+
     layout:{
       type: String,
       default: "total, sizes, prev, pager, next, jumper"
     },
     maxTotal:{
       type: Number,
-      default: 10
+      default: 5
     },
     elementLoadingText:{
       type: String,
@@ -94,16 +87,14 @@ export default {
       type: String,
       default: "marginTop:16px"
     },
-    total:{
-      type: Number,
-      default: 0
-    }
    
   },
 
   data() {
     return {
       tableConfig:[],
+      currentPage:1,
+      pageSize:5,
     }
   },
   
@@ -114,7 +105,7 @@ export default {
          switch(tableConfig[i].type){
            case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录';break;
            case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
-           case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>index+1;break;
+           case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
          }
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom
@@ -123,43 +114,42 @@ export default {
        }
     }
     this.tableConfig=tableConfig;
-
   },
 
-   computed: {
-    tablePageSize:{
-      get: function () {
-       return this.pageSize
-      },
-      set:function(){
-        
-      }
-    },
-
-    tableCurrentPage: {
-      get: function () {
-       return this.currentPage
-      },
-      set:function(){
-
-      }
-    },
-
-  },
 
   mounted(){
     
     
   },
 
+  computed: {
+    total:{
+      get: function () {
+       return this.allTableData.length
+      },
+      set:function(){
+        
+      }
+    },
+     tableData:{
+      get: function () {
+       let from = this.pageSize*(this.currentPage-1);
+       let to = from + this.pageSize;
+       return this.allTableData.slice(from,to)
+      },
+      set:function(){
+        
+      }
+    }
+  },
+
   methods: { 
-    
      handleSizeChange(val){
-        this.$emit('sizeChange', val); 
+        this.pageSize=val
      },
      
      handleCurrentChange(val){
-        this.$emit('currentChange', val); 
+       this.currentPage=val
      }
   }
 }

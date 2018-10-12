@@ -36,6 +36,15 @@ export function getIssuedState() {
 }
 
 
+//出入库类型枚举
+export function getStockDirectType() {
+  return request({
+    url: '/webApi/base/enum/getStockDirectType',
+    method: 'get',
+  })
+}
+
+
 
 
 

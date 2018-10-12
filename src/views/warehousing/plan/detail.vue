@@ -3,23 +3,12 @@
       <el-row>
 
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(config[item.value],item.type)}}</span>
+            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
         </el-col>
 
-        <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-          <el-table-column
-            v-for="item in tableConfig"
-            :key="item.prop"
-            :fixed="item.fixed"
-            :formatter="item.formatter"
-            :width="item.width"
-            :prop="item.prop"
-            :label="item.label">
-          </el-table-column>
-        </el-table>
+        <web-pagination-table 
+        :config="tableConfig" 
+        :allTableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -27,20 +16,21 @@
 <script>
  import moment from 'moment';
  import {inPlanDetail} from '@/api/warehousing'
+ import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',width:"150",fixed:true,formatter:(row, column, cellValue, index)=>index+1},
+    { label:'序号',width:"50",fixed:true,type:'index'},
     { label:'SKU名称',prop:'skuName',width:"150",fixed:false,},
     { label:'规格型号',prop:'skuFormat',width:"150",fixed:false,},
     { label:'品牌',prop:'skuBrandName',width:"150",fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',width:"150",fixed:false},
+    { label:'转换比',prop:'skuUnitConvert',width:"80",fixed:false},
     { label:'入库单价',prop:'inPrice',width:"150",fixed:false},
 
-    { label:'已入/总数(单位)',width:"150",fixed:false,formatter:(row, column, cellValue, index)=>{
+    { label:'已入/总数(单位)',width:"150",fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
     }},
 
-    { label:'还应入',width:"150",fixed:false,formatter:(row, column, cellValue, index)=>{
+    { label:'还应入',width:"150",fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.planInQty-row.realInQty}(${row.skuUnitName})`
     }},
    
@@ -48,20 +38,21 @@
 
  const infoConfig=[
    {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'业务类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'入库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'计划制定时间',type:'time',value:'busiBillCreaterTime',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'计划人',value:'busiBillCreater',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'计划仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'供应商编号',value:'ownerCode',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'供应商名称',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'货主编号',value:'ownerCode',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'货主名称',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'联系电话',value:'linkTel',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'下推状态',value:'issuedState',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'执行状态',value:'execStatus',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'下推状态',value:'issuedState', type:'issuedState',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'执行状态',value:'execStatus', type:'execStatus',style:'minWidth:310px;marginBottom:16px',span:8},
  ]
 
 
  export default {
+    components: { webPaginationTable },
     data() {
       return {
         config:{},
@@ -105,18 +96,18 @@
     },
 
     methods:{
-      formatter(value,type){
+      formatter(type,value,){
         if(value!=undefined){
           switch(type){
             case 'time': return moment(value).format('YYYY-MM-DD');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'---';
-            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'---';
-            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'---';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'暂无数据';
             case 'boolean': return Number(value)?'是':'否';
             default : return value
           }
         } else{
-          return '---'
+          return '暂无数据'
         }
       }
     }

@@ -3,23 +3,12 @@
       <el-row>
 
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(config[item.value],item.type)}}</span>
+            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
         </el-col>
 
-        <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-          <el-table-column
-            v-for="item in tableConfig"
-            :key="item.prop"
-            :fixed="item.fixed"
-            :formatter="item.formatter"
-            :width="item.width"
-            :prop="item.prop"
-            :label="item.label">
-          </el-table-column>
-        </el-table>
+        <web-pagination-table 
+      :config="tableConfig" 
+      :allTableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -27,23 +16,24 @@
 <script>
  import moment from 'moment';
  import {outPlanDetail} from '@/api/outgoing';
+ import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',width:"150",fixed:true,formatter:(row, column, cellValue, index)=>index+1},
+    { label:'序号',width:"50",fixed:true,type:'index'},
     { label:'SKU名称',prop:'skuName',width:"150",fixed:false,},
     { label:'规格型号',prop:'skuFormat',width:"150",fixed:false,},
     { label:'生产厂家',prop:'productFactory',width:"150",fixed:false,},
     { label:'商品分类',prop:'skuCategoryName',width:"150",fixed:false,},
     { label:'品牌名',prop:'skuBrandName',width:"150",fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',width:"150",fixed:false},
-    { label:'已出/应出(单位)',width:"150",fixed:false,formatter:(row, column, cellValue, index)=>{
+    { label:'转换比',prop:'skuUnitConvert',width:"80",fixed:false},
+    { label:'已出/应出(单位)',width:"150",fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
     }},
  ];
 
  const infoConfig=[
    {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'业务类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'出库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'计划制定时间',type:'time',value:'planTime',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'计划人',value:'planName',style:'minWidth:310px;marginBottom:16px',span:8},
@@ -58,6 +48,7 @@
 
 
  export default {
+    components: { webPaginationTable },
     data() {
       return {
         config:{},
@@ -100,13 +91,13 @@
     },
 
     methods:{
-      formatter(value,type){
+      formatter(type,value){
         if(value!=undefined){
           switch(type){
             case 'time': return moment(value).format('YYYY-MM-DD');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'---';
-            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'---';
-            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'---';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'暂无数据';
             case 'boolean': return Number(value)?'是':'否';
             default : return value
           }

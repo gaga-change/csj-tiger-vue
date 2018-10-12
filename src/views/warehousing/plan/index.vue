@@ -3,8 +3,8 @@
     <el-row :gutter="16"  >
         <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="100px">
           <el-col :span="8" style="minWidth:340px">
-            <el-form-item label="业务类型"  prop="busiBillType">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType" style="width:210px"  placeholder="请选择业务类型">
+            <el-form-item label="入库类型"  prop="busiBillType">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType" style="width:210px"  placeholder="请选择入库类型">
                 <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -80,38 +80,16 @@
           </el-col>
       </el-form>
 
-          <el-table
-            v-loading="loading"
-            element-loading-text="加载中..."
-            element-loading-background="rgba(255, 255, 255, 0.5)"
-            :data="tableData"
-            border
-            style="width: 100%">
-
-            <el-table-column
-              v-for="item in tableConfig"
-              :formatter="item.formatter"
-              :width="item.width"
-              :fixed="item.fixed"
-              :key="item.lable"
-              :prop="item.prop"
-              :label="item.label">
-            </el-table-column>
-
-          </el-table>
-
-          <el-pagination
-            style="marginTop:16px"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="ruleForm.pageNum"
-            :page-sizes="[7,10, 15, 20, 30]"
-            :page-size="ruleForm.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            v-if="total>7"
-            :total="total">
-          </el-pagination>
-
+      <base-table 
+        @sizeChange="handleSizeChange"
+        @currentChange="handleCurrentChange"
+        :loading="loading"
+        :config="tableConfig"  
+        :total="total" 
+        :maxTotal="7"
+        :pageSize="ruleForm.pageSize"
+        :currentPage="ruleForm.pageNum"
+        :tableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -120,7 +98,9 @@
     import moment from 'moment';
     import {inPlanSelect} from '@/api/warehousing'
     import {getBillType,getIssuedState,outbusibillstate,getWarehouseType} from '@/api/map'
+    import BaseTable from '@/components/Table'
     export default {
+      components: { BaseTable },
       data() {
       return {
         ruleForm: {
@@ -152,16 +132,16 @@
 
     beforeMount(){
       this.tableConfig=[
-      { label:'计划单号',prop:'planCode',width:'150px',fixed:true,formatter:this.formatter(1,'linkTo')},
-      { label:'业务单号',prop:'busiBillNo',width:'160px' },
-      { label:'货主',prop:'ownerName',width:'180px'},
-      { label:'制单人',prop:'busiBillCreater',width:'180px'},
-      { label:'计划入库仓库',prop:'planWarehouseName',width:'180px'},
-      { label:'制定时间',prop:'busiBillCreaterTime',formatter:this.formatter(1,'time'),width:'160px'},
-      { label:'计划入库日期',prop:'planTime',formatter:this.formatter(1,'time'),width:'160px'},
-      { label:'下推状态',prop:'issuedState',formatter:(row, column, cellValue, index)=>this.formatter(cellValue,'issuedState'),width:'180px',},
-      { label:'执行状态',prop:'execStatus',formatter:(row, column, cellValue, index)=>this.formatter(cellValue,'execStatus'),width:'150px'},
-      { label:'操作',width:'150px',fixed:'right',formatter:this.formatter(1,'linkTo','查看') },
+      { label:'计划单号',prop:'planCode',width:'150',fixed:true,dom:this.formatter('linkTo')},
+      { label:'业务单号',prop:'busiBillNo',width:'150' },
+      { label:'货主',prop:'ownerName',width:'180'},
+      { label:'制单人',prop:'busiBillCreater',width:'180'},
+      { label:'计划入库仓库',prop:'planWarehouseName',width:'180'},
+      { label:'制定时间',prop:'busiBillCreaterTime',type:'time',width:'180'},
+      { label:'计划入库日期',prop:'planTime',type:'time',width:'180'},
+      { label:'下推状态',prop:'issuedState',dom:(row, column, cellValue, index)=>this.formatter('issuedState',cellValue),width:'180'},
+      { label:'执行状态',prop:'execStatus',dom:(row, column, cellValue, index)=>this.formatter('execStatus',cellValue),width:'150'},
+      { label:'操作',width:'150px',fixed:'right',dom:this.formatter('linkTo','查看') },
     ]
     },
 
@@ -256,8 +236,7 @@
     },
 
     methods: {
-       formatter(value,type,text){
-         if(value!=undefined){
+       formatter(type,value){
             switch(type){
               case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)?this.issuedStateConfig.find(v=>v.key==value).value:value;
               case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)?this.execStatuConfig.find(v=>v.key==value).value:value;
@@ -272,14 +251,9 @@
                     path:'/warehousing/plan-detail',
                     query:{data:JSON.stringify(query)}
                   }
-                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{text?text:cellValue}</router-link>
+                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
               };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录'
-              default:return value
             }
-         } else{
-           return '无'
-         }
        },
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}

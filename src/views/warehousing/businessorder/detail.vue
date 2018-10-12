@@ -3,23 +3,12 @@
       <el-row>
 
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(config[item.value],item.type)}}</span>
+            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
         </el-col>
 
-        <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-          <el-table-column
-            v-for="item in tableConfig"
-            :key="item.prop"
-            :fixed="item.fixed"
-            :formatter="item.formatter"
-            :width="item.width"
-            :prop="item.prop"
-            :label="item.label">
-          </el-table-column>
-        </el-table>
+        <web-pagination-table 
+        :config="tableConfig" 
+        :allTableData="tableData"/>
     </el-row>
   </div>
 </template>
@@ -27,18 +16,18 @@
 <script>
  import moment from 'moment';
  import { inBillDetail} from '@/api/warehousing';
-
+ import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',width:"150",fixed:true,formatter:(row, column, cellValue, index)=>index+1},
+    { label:'序号',width:"50",fixed:true,type:'index'},
     { label:'SKU名称',prop:'skuName',width:"150",fixed:false,},
     { label:'规格型号',prop:'skuFormat',width:"180",fixed:false,},
     { label:'生产厂家',prop:'productFactory',width:"150",fixed:false,},
     { label:'商品分类',prop:'skuCategoryno',width:"150",fixed:false,},
     { label:'品牌名',prop:'skuBrandName',width:"150",fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',width:"150",fixed:false},
+    { label:'转换比',prop:'skuUnitConvert',width:"80",fixed:false},
     { label:'出单价格',prop:'inPrice',width:"150",fixed:false,},
-    { label:'已出/应出(单位)',width:"150",fixed:false,formatter:(row, column, cellValue, index)=>{
+    { label:'已出/应出(单位)',width:"150",fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
     }},
    
@@ -61,6 +50,7 @@
 
 
  export default {
+    components: { webPaginationTable },
     data() {
       return {
         config:{},
@@ -103,17 +93,17 @@
     },
 
     methods:{
-      formatter(value,type){
+      formatter(type,value,){
         if(value!=undefined){
           switch(type){
             case 'time': return moment(value).format('YYYY-MM-DD');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'---';
-            case 'busiBillState': return this.busiBillStateConfig.find(v=>v.key==value)&&this.busiBillStateConfig.find(v=>v.key==value).value||'---';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'busiBillState': return this.busiBillStateConfig.find(v=>v.key==value)&&this.busiBillStateConfig.find(v=>v.key==value).value||'暂无数据';
             case 'boolean': return Number(value)?'是':'否';
             default : return value
           }
         } else{
-          return '---'
+          return '暂无数据'
         }
       }
     }
