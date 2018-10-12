@@ -229,27 +229,27 @@ export default [
   //   ]
   // },
 
-   {
-    path: '/reply',
-    component: Layout,
-    redirect: 'reply/query',
-    meta: { title: '回单管理', noCache: true,icon:'back' },
-    hidden: false,
-    children: [
-      {
-        name: 'query',
-        path: 'query',
-        meta: { title: '回单查询', noCache: true },
-        component: _import('reply/query/index')
-      },
-      {
-        name: 'query-detail',
-        path: 'query-detail',
-        meta: { title: '回单查询详情', noCache: true },
-        component: _import('reply/query/detail'),
-        hidden: true,
-      },
-    ]
-  },
+  //  {
+  //   path: '/reply',
+  //   component: Layout,
+  //   redirect: 'reply/query',
+  //   meta: { title: '回单管理', noCache: true,icon:'back' },
+  //   hidden: false,
+  //   children: [
+  //     {
+  //       name: 'query',
+  //       path: 'query',
+  //       meta: { title: '回单查询', noCache: true },
+  //       component: _import('reply/query/index')
+  //     },
+  //     {
+  //       name: 'query-detail',
+  //       path: 'query-detail',
+  //       meta: { title: '回单查询详情', noCache: true },
+  //       component: _import('reply/query/detail'),
+  //       hidden: true,
+  //     },
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ]
