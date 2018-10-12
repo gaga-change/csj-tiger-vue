@@ -119,7 +119,7 @@ export default {
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom
        } else{
-          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null?cellValue:'暂无数据' 
+          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'暂无数据' 
        }
     }
     this.tableConfig=tableConfig;
