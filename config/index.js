@@ -9,22 +9,48 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/csj_login': {
-        target: 'http://192.168.1.195:7878',//服务器
+        target: 'http://192.168.1.195:7979',//测试服务器
+        // target: 'http://172.16.81.126:7878', //苗哥
+        // target: 'http://192.168.2.137:8082',
         // target: 'http://172.16.80.83:7878',//志强
         changeOrigin: true
       },
       '/webApi': {
-        target: 'http://192.168.1.195:7878',//服务器
+        target: 'http://192.168.1.195:7979',//测试服务器
         // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://172.16.80.172:7878', //陈姐
         changeOrigin: true
       },
+      '/planapi': {
+        target: 'http://192.168.2.137:8082',
+        // target: 'http://testscm.csjmro.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/planapi': '/'
+        }
+      },
+      '/jqmapi': {
+        target: 'http://192.168.2.137:8082',
+        // target: 'http://testscm.csjmro.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/jqmapi': '/'
+        }
+      },
+      '/yyjapi': {
+        target: 'http://192.168.2.137:8082',
+        // target: 'http://testscm.csjmro.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/yyjapi': '/'
+        }
+      }
      
     },
 
     // Various Dev Server settings
-    host: '172.16.81.3', // can be overwritten by process.env.HOST
+    host: '192.168.2.161', // can be overwritten by process.env.HOST
     port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
