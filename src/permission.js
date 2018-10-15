@@ -13,6 +13,9 @@ router.beforeEach((to, from, next) => {
     next()
   } else if (store.getters.userInfo == null) {
       store.dispatch('GetInfo').then(res => { 
+        // console.log(res)
+        // debugger
+        
         if (res.data == null) {
           location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
           return 

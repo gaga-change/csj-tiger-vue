@@ -24,7 +24,8 @@ module.exports = {
         changeOrigin: true
       },
       '/planapi': {
-        target: 'http://192.168.2.137:8082',
+        // target: 'http://192.168.2.137:8082',
+        target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://testscm.csjmro.com',
         changeOrigin: true,
         pathRewrite: {
@@ -32,7 +33,8 @@ module.exports = {
         }
       },
       '/jqmapi': {
-        target: 'http://192.168.2.137:8082',
+        // target: 'http://192.168.2.137:8082',
+        target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://testscm.csjmro.com',
         changeOrigin: true,
         pathRewrite: {
@@ -40,7 +42,8 @@ module.exports = {
         }
       },
       '/yyjapi': {
-        target: 'http://192.168.2.137:8082',
+        // target: 'http://192.168.2.137:8082',
+        target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://testscm.csjmro.com',
         changeOrigin: true,
         pathRewrite: {
@@ -61,7 +64,7 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: true,
+    useEslint: false,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,

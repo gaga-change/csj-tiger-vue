@@ -282,9 +282,9 @@
                           
         },
         tableExcelData:[],
-        handleMethod:{
-            Export(demo) {
-              console.log(demo,123);
+        handleMethod: () => {
+
+              console.log(this,123);
               this.downloadLoading = true
               getPaymentDetail(this.currentPostData).then(res => {
                 
@@ -309,7 +309,6 @@
                 console.log(err)
                 this.downloadLoading = false
               })
-            },
         },
         paymentform: {
           payment: {
@@ -380,9 +379,12 @@
       parseTime
     },
     created() {
+      
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
       }
+      console.log(this.companyId,this.userInfo);
+      
       this.getListData()
     },
     methods: {

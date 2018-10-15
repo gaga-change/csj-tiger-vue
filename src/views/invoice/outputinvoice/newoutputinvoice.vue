@@ -580,17 +580,19 @@ export default {
             this.loading = false
             if (res.code === '200' && res.data) {
               this.$confirm('申请销项发票成功！', '提示', {
-                confirmButtonText: '详情',
+                // confirmButtonText: '详情',
+                confirmButtonText: '列表页',
                 cancelButtonText: '关闭',
                 type: 'success'
               }).then(
                 _ => {
                   this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                     this.$router.push({
-                      name: 'outputinvoicedetail',
-                      params: {
-                        ticketno: res.data
-                      }
+                      // name: 'outputinvoicedetail',
+                      // params: {
+                      //   ticketno: res.data
+                      // }
+                      name:'outputinvoicelist'
                     })
                   })
                 }

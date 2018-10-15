@@ -605,10 +605,12 @@ export default {
                 _ => {
                   this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                     this.$router.push({
-                      name: 'inputinvoicedetail',
-                      params: {
-                        ticketno: res.data
-                      }
+                      // name: 'inputinvoicedetail',inputinvoicelist
+              
+                      // params: {
+                      //   ticketno: res.data
+                      // }
+                      name: 'inputinvoicelist',
                     })
                   })
                 }

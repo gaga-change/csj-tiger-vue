@@ -19,10 +19,10 @@ import { exportExcel } from '@/utils/exportexcel'
 export default {
   name:'ExportExecl',
   props:{
-    excelHeaderKeyValue: Object,
-    tableExcelData: Array,
-    handleMethod: Object,
-    currentPostData: Object
+    // excelHeaderKeyValue: Object,
+    // tableExcelData: Array,
+    handleMethod: Function,
+    // currentPostData: Object
   },
   data(){
       return {
@@ -31,23 +31,16 @@ export default {
       }
   },
   methods:{
-    exportExcels(){
-      exportExcel({
-            list: this.tableExcelData,
-            tHeader: Object.keys(this.excelHeaderKeyValue),
-            filterVal: Object.values(this.excelHeaderKeyValue)
-          })
-    },
+    // exportExcels(){
+    //   exportExcel({
+    //         list: this.tableExcelData,
+    //         tHeader: Object.keys(this.excelHeaderKeyValue),
+    //         filterVal: Object.values(this.excelHeaderKeyValue)
+    //       })
+    // },
     clickIt(){
-      // this.handleMethod.bind(this)
+      this.handleMethod.bind(this)()
     }
-  },
-  mounted(){
-    console.log(this.excelHeaderKeyValue,1);
-    console.log(this.tableExcelData,2);
-    console.log(this.handleMethod,3);
-    console.log(this.currentPostData,4);
-    
   }
 }
 </script>
