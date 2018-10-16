@@ -6,6 +6,7 @@ Vue.use(Router)
 
 import Layout from '../views/layout/Layout'
 import Deliver from './deliver'
+import PayReceivableInvoce from './PayReceivableInvoce'
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
@@ -24,16 +25,17 @@ export const constantRouterMap = [
         component: _import('dashboard/index')
       }
     ]
-  },
+  }
 ]
 
 export default new Router({
-  mode: 'hash', 
+  mode: 'hash',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
 
 export const asyncRouterMap = [
-  ...Deliver
+  ...Deliver,
+  ...PayReceivableInvoce
 ]
 
