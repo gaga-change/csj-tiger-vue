@@ -8,8 +8,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/csj_login': {
-        // target: 'http://172.16.81.26:7878', //苗哥
-        target: 'http://192.168.1.195:7979',//测试服务器
+        target: 'http://172.16.81.26:7878', //苗哥
+        // target: 'http://192.168.1.195:7979',//测试服务器
         // target: 'http://192.168.2.139:7878', //陈姐
         // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
@@ -26,11 +26,11 @@ module.exports = {
       },
 
       '/webApi': {
-        target: 'http://192.168.1.195:7979',//测试服务器
+        // target: 'http://192.168.1.195:7979',//测试服务器
         // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://192.168.2.139:7878', //陈姐
-        // target: 'http://172.16.81.26:7878', //苗哥
+        target: 'http://172.16.81.26:7878', //苗哥
         changeOrigin: true
       },
      

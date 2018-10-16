@@ -107,14 +107,12 @@
       data() {
       return {
         ruleForm: {
-
             signNo:'',
             outPlanCode:'',
             ownerCode:'',
             signName:'',
             createrName:'',
             approveStatus:'',
-
 
             time:'',
             makeTime:'',
