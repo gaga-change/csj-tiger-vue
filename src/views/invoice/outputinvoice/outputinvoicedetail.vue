@@ -7,7 +7,7 @@
             <el-button  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
           <el-button  style="margin-left: 10px;" type="success"
-            @click="nextpage('makeoutinvoice')" :disabled="!$haspermission('makeoutinvoice')">财务开票</el-button>
+            @click="nextpage('makeoutinvoiceDelivery')" :disabled="!$haspermission('makeoutinvoice')">财务开票</el-button>
         </template>
         <template v-else-if="planform.OutputInvoice.status == -1 || planform.OutputInvoice.status == -2">
           <el-button  style="margin-left: 10px;" type="warning"  @click="Modify(3, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceDelete')">删除</el-button>

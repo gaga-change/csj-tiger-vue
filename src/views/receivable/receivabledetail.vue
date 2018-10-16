@@ -254,7 +254,7 @@
       downloadFile,
       Edit() {
         this.$router.push({
-          name: 'newreceivable',
+          name: 'newreceivableDelivery',
           query: {
             id: this.$route.params.ticketno
           }

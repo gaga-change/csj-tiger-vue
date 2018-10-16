@@ -247,7 +247,7 @@ export default {
       await getMainDetail({
         ticketno: this.$route.params.ticketno
       }).then(res => {
-        console.log(res)
+        console.log(res,'inputInvoice')
         this.planform.inputInvoice = res.data.data[0]
       }).catch(err => {
         console.log(err)

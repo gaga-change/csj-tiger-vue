@@ -2,10 +2,7 @@
   <div class="app-container">
     <sticky :className="'sub-navbar published'" style="margin-bottom:15px;">
       <template>
-        <export-excel 
-         :table-excel-data="tableExcelData" :excel-header-key-value="excelHeaderKeyValue" 
-        :current-post-data="currentPostData"
-        :handle-method="handleMethod"/>    
+        <el-button style="margin-left: 10px;" type="primary"  @click="Export" :loading="downloadLoading" :disabled="downloadLoading">导出列表</el-button>
       </template>
     </sticky>
     <el-form :model="paymentform" ref="ruleForm" label-width="80px">
@@ -101,7 +98,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="23" style="text-align:right">
           <el-form-item label-width="120px" >
             <el-button type="primary" @click="onSubmit">查询</el-button>
             <el-button @click="onCancel">重置</el-button>
@@ -117,17 +114,19 @@
           border>
           <el-table-column
             label="单号"
-            width="220">
+            width="220"
+            >
             <template slot-scope="scope">
               <el-button type="text" @click="viewRow(scope.row)">{{scope.row.ticketno}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
             label="来源采购订单"
+            prop="purchorder"
             width="200">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <el-button type="text" @click="viewpurchorderRow(scope.row)">{{scope.row.purchorder}}</el-button>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="合同编号"
@@ -201,10 +200,12 @@
           </el-table-column>
           <el-table-column
             label="状态"
+            prop="status"
+            :formatter="(a,b,c,d)=>{return this.$options.filters.statusFilter(c)}"
             width="200">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <span>{{ scope.row.status|statusFilter}}</span>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="业务板块"
@@ -253,63 +254,34 @@
   import { getPaymentDetail } from '@/api/payment'
   import { mapGetters } from 'vuex'
   import { exportExcel } from '@/utils/exportexcel'
-  import ExportExcel  from '@/components/Export/Excel'
   import { parseTime, SettlementMethod, PayFundnature, BusinessTypeData } from '@/utils'
   import Sticky from '@/components/Sticky' // 粘性header组件
   export default {
     name: 'paymentlist',
-    components: { Sticky, ExportExcel },
+    components: { Sticky },
     data() {
       return {
-        excelHeaderKeyValue:{
-                '单号': 'ticketno',
-                '来源采购订单': 'purchorder', 
-                '合同编号': 'contractno',
-                '付款方': 'payername', 
-                '收款方': 'receivablesname',
-                '付款日期': 'paydate', 
-                '款项性质': 'fundnature', 
-                '款项类型': 'fundtype', 
-                '结算方式': 'settlementmethod',
-                '本次实付金额': 'payamount',
-                '现金折扣': 'interestrate', 
-                '结算金额': 'settlementamount', 
-                '状态': 'status', 
-                '业务板块': 'businesstype', 
-                '审核结果': 'checkadvice',
-                '制单人': 'createuser', 
-                '制单日期': 'createdate'
-                          
-        },
-        tableExcelData:[],
-        handleMethod: () => {
 
-              console.log(this,123);
-              this.downloadLoading = true
-              getPaymentDetail(this.currentPostData).then(res => {
-                
-                const exportlist = res.data.data
-                exportlist.forEach(item => {
-                  item.fundnature = this.$options.filters['fundnatureFilter'](item.fundnature)
-                  item.fundtype = this.$options.filters['fundtypeFilter'](item.fundtype)
-                  item.settlementmethod = this.$options.filters['settlementmethodFilter'](item.settlementmethod)
-                  item.businesstype = this.$options.filters['businesstypeFilter'](item.businesstype)
-                  item.status = this.$options.filters['statusFilter'](item.status)
-                })
-                /* 参数{list,tHeader, filterVal} */
-                this.tableExcelData = exportlist;
-                exportExcel({
-                  list: this.tableExcelData,
-                  tHeader: Object.keys(this.excelHeaderKeyValue),
-                  filterVal: Object.values(this.excelHeaderKeyValue)
-                })
-                this.downloadLoading = false
-                console.log(res)
-              }).catch(err => {
-                console.log(err)
-                this.downloadLoading = false
-              })
+        excelHeaderKeyValue:{
+                'ticketno': '单号',
+                'purchorder': '来源采购订单', 
+                'contractno': '合同编号',
+                'payername': '付款方', 
+                'receivablesname': '收款方',
+                'paydate': '付款日期', 
+                'fundnature': '款项性质', 
+                'fundtype': '款项类型', 
+                'settlementmethod': '结算方式',
+                'payamount': '本次实付金额',
+                'interestrate': '现金折扣', 
+                'settlementamount':'结算金额', 
+                'status': '状态', 
+                'businesstype': '业务板块', 
+                'checkadvice': '审核结果',
+                'createuser': '制单人', 
+                'createdate': '制单日期'                     
         },
+
         paymentform: {
           payment: {
             createuser: '', // 创建人
@@ -379,15 +351,46 @@
       parseTime
     },
     created() {
-      
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
       }
-      console.log(this.companyId,this.userInfo);
+      this.getListData()
+      console.log(this,'this');
       
+    },
+    activated(){
+      if (!this.gridData.length) {
+        this.$store.dispatch('GetGysList')
+      }
       this.getListData()
     },
     methods: {
+      Export() {
+        this.downloadLoading = true
+        getPaymentDetail(this.currentPostData).then(res => {
+          const exportlist = res.data.data
+          exportlist.forEach(item => {
+            item.fundnature = this.$options.filters['fundnatureFilter'](item.fundnature)
+            item.fundtype = this.$options.filters['fundtypeFilter'](item.fundtype)
+            item.settlementmethod = this.$options.filters['settlementmethodFilter'](item.settlementmethod)
+            item.businesstype = this.$options.filters['businesstypeFilter'](item.businesstype)
+            item.status = this.$options.filters['statusFilter'](item.status)
+          })
+          let tHeaderKey = Object.keys(this.excelHeaderKeyValue)
+          let tHeaderValue = Object.values(this.excelHeaderKeyValue)
+          /* 参数{list,tHeader, filterVal} */
+          exportExcel({
+            list: exportlist,
+            tHeader: tHeaderValue,
+            filterVal: tHeaderKey
+          })
+          this.downloadLoading = false
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+          this.downloadLoading = false
+        })
+      },
       handleSizeChange(val) {
         this.pagesize = val
         this.getListData()
@@ -442,15 +445,16 @@
       },
       viewRow(row) {
         this.$router.push({
-          name: 'paymentdetail',
+          name: 'paymentdetailDelivery',
           params: {
             ticketno: row.ticketno
           }
         })
       },
       viewpurchorderRow(row) {
+        //采购单链接
         this.$router.push({
-          name: 'purchaseorderdetail',
+          name: 'purchaseorderdetailDelivery',
           params: {
             ticketno: row.purchorder
           }

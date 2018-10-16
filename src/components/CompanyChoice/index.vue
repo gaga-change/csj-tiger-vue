@@ -54,6 +54,8 @@ export default {
     if (!this.gridData.length) {
       this.loading = true
       this.$store.dispatch('GetGysList').then(() => {
+        console.log('this.gridData');
+        
         this.loading = false
         this.getCurrentData()
       })

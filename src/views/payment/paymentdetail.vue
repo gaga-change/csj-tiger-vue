@@ -258,7 +258,7 @@
           this.total = res.data.total
           this.currentPage = res.data.currentPage
           this.planform.payment = this.list[0]
-          console.log(res)
+          console.log(res,'getPaymentDetail')
         }).catch(err => {
           this.fetchSuccess = false
           console.log(err)
@@ -269,7 +269,7 @@
       },
       Edit() {
         this.$router.push({
-          name: 'newpayment',
+          name: 'newpaymentsDelivery',
           query: {
             id: this.$route.params.ticketno
           }

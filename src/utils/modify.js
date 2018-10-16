@@ -1,17 +1,18 @@
 import { OrderOperate } from '@/api/planorder'
 export default function Modify(type, name, needfresh, api) {
   const OrderOperateApi = api || OrderOperate
+  const checkUser = this.userInfo.truename
+  const ticketNo = this.$route.params.ticketno
   // 0 审核
   if (type === 0) {
     this.$prompt('请输入审核意见', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(({ value }) => {
-      console.log(value)
       OrderOperateApi({
-        ticketNo: this.$route.params.ticketno,
+        ticketNo: ticketNo,
         checkFlag: type,
-        checkUser: this.userInfo.truename,
+        checkUser: checkUser,
         checkAdvice: value
       }).then(res => {
         console.log(res)
@@ -40,9 +41,9 @@ export default function Modify(type, name, needfresh, api) {
       type: 'warning'
     }).then(() => {
       OrderOperateApi({
-        ticketNo: this.$route.params.ticketno,
+        ticketNo: ticketNo,
         checkFlag: type,
-        checkUser: this.userInfo.truename
+        checkUser: checkUser
       }).then(res => {
         console.log(res)
         this.planform[name].status = -2
@@ -71,9 +72,9 @@ export default function Modify(type, name, needfresh, api) {
       type: 'warning'
     }).then(() => {
       OrderOperateApi({
-        ticketNo: this.$route.params.ticketno,
+        ticketNo: ticketNo,
         checkFlag: type,
-        checkUser: this.userInfo.truename
+        checkUser: checkUser
       }).then(res => {
         console.log(res)
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
@@ -98,9 +99,9 @@ export default function Modify(type, name, needfresh, api) {
       type: 'warning'
     }).then(() => {
       OrderOperateApi({
-        ticketNo: this.$route.params.ticketno,
+        ticketNo: ticketNo,
         checkFlag: type,
-        checkUser: this.userInfo.truename
+        checkUser: checkUser
       }).then(res => {
         console.log(res)
         this.planform[name].status = 2
@@ -129,9 +130,9 @@ export default function Modify(type, name, needfresh, api) {
       type: 'warning'
     }).then(() => {
       OrderOperateApi({
-        ticketNo: this.$route.params.ticketno,
+        ticketNo: ticketNo,
         checkFlag: type,
-        checkUser: this.userInfo.truename
+        checkUser: checkUser
       }).then(res => {
         console.log(res)
         if (needfresh) {

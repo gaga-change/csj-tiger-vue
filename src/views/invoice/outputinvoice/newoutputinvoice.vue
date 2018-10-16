@@ -56,7 +56,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="23" style="text-align:right">
           <el-form-item label-width="0">
             <el-button type="primary" v-loading="searchLoading" @click="onSubmit">查询</el-button>
             <el-button @click="onCancel">重置</el-button>
@@ -592,7 +592,7 @@ export default {
                       // params: {
                       //   ticketno: res.data
                       // }
-                      name:'outputinvoicelist'
+                      name:'outputinvoicelistDelivery'
                     })
                   })
                 }

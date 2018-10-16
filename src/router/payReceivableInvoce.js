@@ -7,13 +7,13 @@ export default [
     path: '/payment',
     component: Layout,
     redirect: '/payment/newpayment',
-    name: 'payment',
+    name: 'paymentDelivery',
     meta: { title: '付款管理', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newpayment',
         component: _import('payment/newpayment'),
-        name: 'newpayment',
+        name: 'newpaymentDelivery',
         meta: {
           title: '新建付款单',
           icon: 'form',
@@ -23,7 +23,7 @@ export default [
       {
         path: 'paymentlist',
         component: _import('payment/paymentlist'),
-        name: 'paymentlist',
+        name: 'paymentlistDelivery',
         meta: {
           title: '付款单查询',
           icon: 'search',
@@ -34,7 +34,7 @@ export default [
         path: 'paymentdetail/:ticketno',
         component: _import('payment/paymentdetail'),
         hidden: true,
-        name: 'paymentdetail',
+        name: 'paymentdetailDelivery',
         meta: {
           title: '付款单详情',
           icon: 'form',
@@ -48,13 +48,13 @@ export default [
     path: '/receivable',
     component: Layout,
     redirect: '/receivable/newreceivable',
-    name: 'receivable',
+    name: 'receivableDelivery',
     meta: { title: '收款管理', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newreceivable',
         component: _import('receivable/newreceivable'),
-        name: 'newreceivable',
+        name: 'newreceivableDelivery',
         meta: {
           title: '新建收款单',
           icon: 'form',
@@ -64,7 +64,7 @@ export default [
       {
         path: 'receivablelist',
         component: _import('receivable/receivablelist'),
-        name: 'receivablelist',
+        name: 'receivablelistDelivery',
         meta: {
           title: '收款单查询',
           icon: 'search',
@@ -75,7 +75,7 @@ export default [
         path: 'receivabledetail/:ticketno',
         component: _import('receivable/receivabledetail'),
         hidden: true,
-        name: 'receivabledetail',
+        name: 'receivabledetailDelivery',
         meta: {
           title: '收款单详情',
           noCache: true,
@@ -89,13 +89,13 @@ export default [
     path: '/invoice/inputinvoice',
     component: Layout,
     redirect: '/invoice/inputinvoice/newinputinvoice',
-    name: 'inputinvoice',
+    name: 'inputinvoiceDelivery',
     meta: { title: '进项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newinputinvoice',
         component: _import('invoice/inputinvoice/newinputinvoice'),
-        name: 'newinputinvoice',
+        name: 'newinputinvoiceDelivery',
         meta: {
           title: '新建进项发票',
           icon: 'form',
@@ -105,7 +105,7 @@ export default [
       {
         path: 'inputinvoicelist',
         component: _import('invoice/inputinvoice/inputinvoicelist'),
-        name: 'inputinvoicelist',
+        name: 'inputinvoicelistDelivery',
         meta: {
           title: '进项发票查询',
           icon: 'search',
@@ -116,7 +116,7 @@ export default [
         path: 'inputinvoicedetail/:ticketno',
         component: _import('invoice/inputinvoice/inputinvoicedetail'),
         hidden: true,
-        name: 'inputinvoicedetail',
+        name: 'inputinvoicedetailDelivery',
         meta: {
           title: '进项发票详情',
           noCache: true,
@@ -130,13 +130,13 @@ export default [
     path: '/invoice/outputinvoice',
     component: Layout,
     redirect: '/invoice/outputinvoice/newoutputinvoice',
-    name: 'outputinvoice',
+    name: 'outputinvoiceDelivery',
     meta: { title: '销项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newoutputinvoice',
         component: _import('invoice/outputinvoice/newoutputinvoice'),
-        name: 'newoutputinvoice',
+        name: 'newoutputinvoiceDelivery',
         meta: {
           title: '申请销项发票',
           icon: 'form',
@@ -146,7 +146,7 @@ export default [
       {
         path: 'outputinvoicelist',
         component: _import('invoice/outputinvoice/outputinvoicelist'),
-        name: 'outputinvoicelist',
+        name: 'outputinvoicelistDelivery',
         meta: {
           title: '开票申请查询',
           icon: 'search',
@@ -156,7 +156,7 @@ export default [
       {
         path: 'outputinvoiceresultlist',
         component: _import('invoice/outputinvoice/outputinvoiceresultlist'),
-        name: 'outputinvoiceresultlist',
+        name: 'outputinvoiceresultlistDelivery',
         meta: {
           title: '开票结果查询',
           icon: 'search',
@@ -167,7 +167,7 @@ export default [
         path: 'outputinvoicedetail/:ticketno',
         component: _import('invoice/outputinvoice/outputinvoicedetail'),
         hidden: true,
-        name: 'outputinvoicedetail',
+        name: 'outputinvoicedetailDelivery',
         meta: {
           title: '销项开票申请详情',
           icon: 'form',
@@ -179,7 +179,7 @@ export default [
         path: 'outputinvoiceresultdetail/:ticketno',
         component: _import('invoice/outputinvoice/outputinvoiceresultdetail'),
         hidden: true,
-        name: 'outputinvoiceresultdetail',
+        name: 'outputinvoiceresultdetailDelivery',
         meta: {
           title: '销项开票详情',
           icon: 'form',
@@ -191,7 +191,7 @@ export default [
         path: 'makeoutinvoice/:ticketno',
         component: _import('invoice/outputinvoice/makeoutinvoice'),
         hidden: true,
-        name: 'makeoutinvoice',
+        name: 'makeoutinvoiceDelivery',
         meta: {
           title: '财务开票',
           icon: 'form',

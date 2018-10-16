@@ -323,7 +323,7 @@ export default {
                   _ => {
                     this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                       this.$router.push({
-                        name: 'outputinvoiceresultdetail',
+                        name: 'outputinvoiceresultdetailDelivery',
                         params: {
                           ticketno: res.data
                         }

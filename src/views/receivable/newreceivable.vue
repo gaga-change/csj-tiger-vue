@@ -405,7 +405,7 @@
                     _ => {
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
-                          name: 'receivabledetail',
+                          name: 'receivabledetailDelivery',
                           params: {
                             ticketno: res.data
                           }

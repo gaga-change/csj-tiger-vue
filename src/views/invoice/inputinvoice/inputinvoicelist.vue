@@ -52,12 +52,12 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" >
           <el-form-item label="创建人">
             <el-input type="text" v-model="searchForm.inputInvoice.createuser" placeholder="请输入创建人"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="23" style="text-align:center">
           <el-form-item label-width="30px">
             <el-button type="primary" v-loading="loading" @click="onSubmit">查询</el-button>
             <el-button @click="onCancel">重置</el-button>
@@ -240,7 +240,14 @@ export default {
       gridData: 'gysList'
     })
   },
-  created() {
+  beforeMount() {
+    if (!this.gridData.length) {
+      this.$store.dispatch('GetGysList')
+    }
+    
+    this.getListData()
+  },
+  activated(){
     if (!this.gridData.length) {
       this.$store.dispatch('GetGysList')
     }
@@ -313,10 +320,14 @@ export default {
       for (const item of Object.keys(postData)) {
         if (postData[item] !== null && postData[item] !== '') {
           pData[item] = postData[item]
+          console.log(item,postData[item],'item');
+          
         }
       }
+      
       this.loading = true
       getMainDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
+        
         this.list = res.data.data
         this.total = res.data.total
         this.currentPage = res.data.currentPage
@@ -337,7 +348,7 @@ export default {
     },
     viewRow(row) {
       this.$router.push({
-        name: 'inputinvoicedetail',
+        name: 'inputinvoicedetailDelivery',
         params: {
           ticketno: row.ticketno
         }

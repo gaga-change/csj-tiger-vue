@@ -98,11 +98,16 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-form-item label-width="350px" >
+         <el-col :span="23" style="text-align:right">
+
+      <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
         <el-button @click="onCancel">重置</el-button>
       </el-form-item>
+              </el-col>
+      </el-row>
+           
+
       <div class="itemscont">
         <el-table
           :data="list"
@@ -120,10 +125,11 @@
           </el-table-column>
           <el-table-column
             label="来源销售订单"
+            prop="saleorder"
             width="200">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <el-button type="text" @click="viewsalorderRow(scope.row)">{{scope.row.saleorder}}</el-button>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column
             label="合同编号"
@@ -289,6 +295,7 @@
         pageindex: 1,
         total: 0,
         currentPage: 1,
+        totaldata:{},
         statusList: Status,
         fundnature: ReciveFundnature,
         settlementmethod: SettlementMethod,
@@ -312,6 +319,13 @@
       parseTime
     },
     created() {
+      
+      if (!this.gridData.length) {
+        this.$store.dispatch('GetGysList')
+      }
+      this.getListData()
+    },
+    activated(){
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
       }
@@ -399,7 +413,7 @@
       },
       viewRow(row) {
         this.$router.push({
-          name: 'receivabledetail',
+          name: 'receivabledetailDelivery',
           params: {
             ticketno: row.ticketno
           }
@@ -407,7 +421,7 @@
       },
       viewsalorderRow(row) {
         this.$router.push({
-          name: 'saleorderdetail',
+          name: 'saleorderdetailDelivery',
           params: {
             ticketno: row.saleorder
           }

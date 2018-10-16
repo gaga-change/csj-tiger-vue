@@ -52,7 +52,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="23" style="text-align:right">
           <el-form-item label-width="0">
             <el-button type="primary" v-loading="loading" @click="onSubmit">查询</el-button>
             <el-button @click="onCancel">重置</el-button>
@@ -219,6 +219,12 @@ export default {
     }
     this.getListData()
   },
+  activated(){
+    if (!this.gridData.length) {
+      this.$store.dispatch('GetGysList')
+    }
+    this.getListData()
+  },
   methods: {
     parseTime,
     onSubmit() {
@@ -306,7 +312,7 @@ export default {
     },
     viewRow(row) {
       this.$router.push({
-        name: 'outputinvoicedetail',
+        name: 'outputinvoicedetailDelivery',
         params: {
           ticketno: row.ticketno
         }
