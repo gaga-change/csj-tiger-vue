@@ -106,7 +106,7 @@
           createrName:'',
            planCode:'',
            planWarehouseName:'',
-           time:'',
+           time:[],
            issuedState:'',
            execStatus: '',
            pageNum: 1,
@@ -143,7 +143,7 @@
 
      mounted(){
        if(this.$route.query.data){
-         this.ruleForm=JSON.parse(this.$route.query.data)
+         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
        getBillType().then(res=>{
@@ -217,17 +217,42 @@
               case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)?this.issuedStateConfig.find(v=>v.key==value).value:value;
               case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)?this.execStatuConfig.find(v=>v.key==value).value:value;
               case 'linkTo' :return  (row, column, cellValue, index)=>{
-                  let query={
+                 
+                 let query={
                     id:row.id,
                     busiBillTypeConfig:this.busiBillTypeConfig,
                     issuedStateConfig:this.issuedStateConfig,
-                    execStatuConfig:this.execStatuConfig
-                  }
+                    execStatuConfig:this.execStatuConfig,
+                    row:row
+                  };
+
                   let linkTo={
                     path:'/outgoing/plan-detail',
                     query:{data:JSON.stringify(query)}
                   }
-                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
+                  
+                  let operationLink={
+                    path:'/reply/newreceiptorder',
+                    query:{data:JSON.stringify({id:row.id})}
+                  }
+
+                  if(value){
+                    if(row.isCreate){
+                      return <div>
+                       <router-link  to={linkTo} style={{color:'#3399ea',margin:'0 10px'}}>{value}</router-link>
+                       <router-link  to={operationLink} style={{color:'#3399ea'}}>创建回单</router-link>
+                     </div>
+                    } else{
+                       return <div>
+                       <router-link  to={linkTo} style={{color:'#3399ea',margin:'0 10px'}}>{value}</router-link>
+                     </div>
+                    }
+                  
+                  } else {
+                     return  <div>
+                       <router-link  to={linkTo} style={{color:'#3399ea'}}>{cellValue}</router-link>
+                   </div>
+                  }
               };
             }
        },
@@ -264,6 +289,10 @@
       },
 
       getCurrentTableData(){
+        this.$router.replace({
+          path:'/outgoing/plan',
+          query:{data:JSON.stringify(this.ruleForm)}
+        })
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
@@ -281,10 +310,6 @@
           }
         }
         let data={...json}
-        this.$router.replace({
-          path:'/outgoing/plan',
-          query:{data:JSON.stringify(data)}
-        })
        outPlanSelect(data).then(res=>{
        if(res.success){
           let data=res.data;

@@ -243,10 +243,17 @@ export default [
         component: _import('reply/query/index')
       },
       {
-        name: 'query-detail',
-        path: 'query-detail',
-        meta: { title: '回单查询详情', noCache: true },
-        component: _import('reply/query/detail'),
+        name: 'newreceiptorder',
+        path: 'newreceiptorder',
+        meta: { title: '创建回单', noCache: true },
+        component: _import('reply/newreceiptorder/index'),
+        hidden: true,
+      },
+      {
+        name: 'newreceiptorder-detail',
+        path: 'newreceiptorder-detail',
+        meta: { title: '回单详情', noCache: true },
+        component: _import('reply/newreceiptorder/detail'),
         hidden: true,
       },
     ]

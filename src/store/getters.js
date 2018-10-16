@@ -5,6 +5,7 @@ import { asyncRouterMap }  from '@/router'
 const getters = {
   sidebar: state => state.app.sidebar,
   userInfo: state => state.user.userInfo,
+<<<<<<< HEAD
   gysList: state => state.app.gysData,
   storeList: state => state.app.storeList,
   visitedViews: state => state.tagsView.visitedViews,
@@ -15,6 +16,10 @@ const getters = {
   // menu: state => {
   //   return asyncRouterMap
   // }
+=======
+  visitedViews: state => state.tagsView.visitedViews,
+  
+>>>>>>> origin/develop
   menu: state => {
     // const bakmenu = JSON.parse(state.user.userInfo.menus)
     let bakmenu = JSON.parse(state.user.userInfo.menus)

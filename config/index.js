@@ -9,16 +9,34 @@ module.exports = {
     proxyTable: {
       '/csj_login': {
         // target: 'http://172.16.81.26:7878', //苗哥
+<<<<<<< HEAD
         // target: 'http://192.168.1.195:7979',//v1.4测试服务器
         target: 'http://192.168.1.195:2222',//v1.3测试服务器
+=======
+        target: 'http://192.168.1.195:7979',//测试服务器
+>>>>>>> origin/develop
         // target: 'http://192.168.2.139:7878', //陈姐
         // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
         changeOrigin: true
       },
+
+      '/planapi': {
+        target: 'http://192.168.2.34:8082',
+        // target: 'http://testscm.csjmro.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/planapi': '/'
+        }
+      },
+
       '/webApi': {
+<<<<<<< HEAD
          // target: 'http://192.168.1.195:7979',//v1.4测试服务器
          target: 'http://192.168.1.195:2222',//v1.3测试服务器
+=======
+        target: 'http://192.168.1.195:7979',//测试服务器
+>>>>>>> origin/develop
         // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://192.168.2.139:7878', //陈姐
