@@ -4,6 +4,8 @@ import {asyncRouterMap}  from '@/router'
 const getters = {
   sidebar: state => state.app.sidebar,
   userInfo: state => state.user.userInfo,
+  visitedViews: state => state.tagsView.visitedViews,
+  
   menu: state => {
     return asyncRouterMap
   }

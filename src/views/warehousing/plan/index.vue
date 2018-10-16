@@ -147,7 +147,7 @@
 
      mounted(){
        if(this.$route.query.data){
-         this.ruleForm=JSON.parse(this.$route.query.data)
+         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
          getWarehouseType().then(res=>{
@@ -288,6 +288,10 @@
       },
 
       getCurrentTableData(){
+         this.$router.replace({
+          path:'/warehousing/plan',
+          query:{data:JSON.stringify(this.ruleForm)}
+        })
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
@@ -305,10 +309,6 @@
           }
         }
         let data={...json}
-        this.$router.replace({
-          path:'/warehousing/plan',
-          query:{data:JSON.stringify(data)}
-        })
        inPlanSelect(data).then(res=>{
        if(res.success){
           let data=res.data;

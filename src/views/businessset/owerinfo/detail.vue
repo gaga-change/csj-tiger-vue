@@ -87,7 +87,7 @@
             default : return value
           }
         } else{
-          return '---'
+          return '暂无数据'
         }
       }
     }

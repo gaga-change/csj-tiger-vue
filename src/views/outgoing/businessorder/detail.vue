@@ -55,7 +55,7 @@
       return {
         config:{},
         infoConfig,
-        
+
         tableData:[],
         tableConfig:tableConfig,
         busiBillTypeConfig:[],

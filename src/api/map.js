@@ -44,6 +44,24 @@ export function getStockDirectType() {
   })
 }
 
+//货主枚举
+export function ownerInfoMap() {
+  return request({
+    url: '/webApi/base/info/getOwner',
+    method: 'get',
+  })
+}
+
+//审核状态枚举
+export function getApproveStatusMap() {
+  return request({
+    url: '/webApi/base/enum/getApproveStatus',
+    method: 'get',
+  })
+}
+
+
+
 
 
 
