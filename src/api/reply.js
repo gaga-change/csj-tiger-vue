@@ -44,6 +44,14 @@ export function signApprove(data={}) {
 }
 
 
+//删除回单接口
+export function signDelete(data={}) {
+  return request({
+    url: `/webApi/sign/delete`,
+    data:stringify(data),
+    method: 'post',
+  })
+}
 
 
 

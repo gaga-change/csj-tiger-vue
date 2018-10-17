@@ -16,6 +16,7 @@
 <script>
  import moment from 'moment';
  import {inPlanDetail} from '@/api/warehousing'
+ import _  from 'lodash';
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
@@ -48,8 +49,7 @@
    {title:'联系电话',value:'linkTel',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'下推状态',value:'issuedState', type:'issuedState',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'执行状态',value:'execStatus', type:'execStatus',style:'minWidth:310px;marginBottom:16px',span:8},
- ]
-
+ ];
 
  export default {
     components: { webPaginationTable },
@@ -75,10 +75,15 @@
         if(res.success){
           let data=res.data;
           this.config=data;
+          if(this.config.busiBillType==11){
+             let config=_.cloneDeep(this.infoConfig); 
+             config.find(v=>v.title=='货主编号').title='供应商编号';
+             config.find(v=>v.title=='货主名称').title='供应商名称';
+             this.infoConfig=config;
+          }
           let list=data.skuDetails&&data.skuDetails.list||[]
           this.tableData=list
         } else{
-           console.log('busibill/select/detail',res)
             this.$message({
               showClose: true,
               message: '数据请求出错',
@@ -99,15 +104,15 @@
       formatter(type,value,){
         if(value!=undefined){
           switch(type){
-            case 'time': return moment(value).format('YYYY-MM-DD');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
-            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'暂无数据';
-            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'';
+            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'';
+            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'';
             case 'boolean': return Number(value)?'是':'否';
             default : return value
           }
         } else{
-          return '暂无数据'
+          return ''
         }
       }
     }

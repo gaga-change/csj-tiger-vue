@@ -29,10 +29,10 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:310px">
-            <el-form-item label="仓库"  prop="warehouseCode">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode" style="width:210px"  placeholder="请选择仓库">
-                <el-option   v-for="item in warehouseNameComfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+           <el-col :span="8" style="minWidth:310px">
+             <el-form-item label="仓库"  prop="warehouseCode">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode" style="width:210px"  placeholder="请选择入库类型">
+                <el-option   v-for="item in warehouseTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -79,7 +79,7 @@
 <script>
     import moment from 'moment';
     import {inOrderSelect} from '@/api/warehousing'
-    import {getBillType,getWarehouseType} from '@/api/map'
+    import {getBillType,getWarehouse} from '@/api/map'
     import BaseTable from '@/components/Table'
     export default {
       components: { BaseTable },
@@ -98,7 +98,7 @@
          },
         total:0,
         busiBillTypeConfig:[],
-        warehouseNameComfig:[],
+        warehouseTypeConfig:[],
         tableConfig:[],
         rules: {
          
@@ -126,18 +126,18 @@
           this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
-       getWarehouseType().then(res=>{
-          if(res.success){
-           this.warehouseNameComfig=res.data||[];
-         } else{
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-            });
-         }
+        getWarehouse().then(res=>{
+        if(res.success){
+          this.warehouseTypeConfig=res.data;
+        } else{
+          this.$message({
+            showClose: true,
+            message: '数据请求出错',
+            type: 'error'
+          });
+       }
        }).catch(err=>{
-         this.$message({
+          this.$message({
             showClose: true,
             message: '数据请求出错',
             type: 'error'
@@ -224,7 +224,7 @@
         for(let i in this.ruleForm){
         if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD hh:mm:ss'));
+               let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD HH:mm:ss'));
                if(arr.every(v=>v)){
                  json['inStoreBeginDate']=arr[0];
                  json['inStoreEndDate']=arr[1];

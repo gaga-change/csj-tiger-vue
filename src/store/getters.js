@@ -16,7 +16,6 @@ const getters = {
   //   return asyncRouterMap
   // }
   menu: state => {
-    // const bakmenu = JSON.parse(state.user.userInfo.menus)
     let bakmenu = JSON.parse(state.user.userInfo.menus)
     let localPathArr=asyncRouterMap.map(v=>v.path)
         if(Array.isArray(bakmenu)){
@@ -48,6 +47,10 @@ const getters = {
         meta: JSON.parse(item.meta),
         children: subchildren
       })
+    })
+
+    menutemp.push({
+      path: '*', redirect: '/404', hidden: true 
     })
     return menutemp
   }

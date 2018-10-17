@@ -3,7 +3,7 @@
      <sticky :className="'sub-navbar published'">
     <template v-if="fetchSuccess">
       <template v-if="planform.receiptOrder.status == 2">
-        <!-- <el-button  style="margin-left: 10px;" type="warning" @click="Prompt('delete')" >删除</el-button> -->
+        <el-button  style="margin-left: 10px;" type="warning" @click="Prompt('delete')" >删除</el-button>
         <el-button  style="margin-left: 10px;" type="primary" @click="Edit" >修改</el-button>
       </template>
       <template v-else-if="planform.receiptOrder.status == 0">
@@ -171,11 +171,11 @@
 
      formatter(value,type='default'){
        if(!value){
-         return '暂无数据'
+         return ''
        }
        switch(type){
          case 'time': return moment(value).format('YYYY-MM-DD hh:mm:ss');
-         case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'暂无数据';
+         case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'';
          default : return value;
        }
      }

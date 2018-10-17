@@ -112,14 +112,14 @@ export default {
     for(let i in tableConfig){
        if(tableConfig[i].type){
          switch(tableConfig[i].type){
-           case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录';break;
+           case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;
            case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
            case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>index+1;break;
          }
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom
        } else{
-          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'暂无数据' 
+          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
        }
     }
     this.tableConfig=tableConfig;

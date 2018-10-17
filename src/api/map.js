@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-//仓库枚举
+//仓库类型枚举
 export function getWarehouseType() {
   return request({
     url: `/webApi/base/enum/getWarehouseType`,
@@ -60,6 +60,13 @@ export function getApproveStatusMap() {
   })
 }
 
+//仓库枚举
+export function getWarehouse() {
+  return request({
+    url: '/webApi/base/info/getWarehouse',
+    method: 'get',
+  })
+}
 
 
 
