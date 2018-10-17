@@ -200,7 +200,7 @@
                 }
                 return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
                 };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录'
+              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'未记录'
           }
        },
 
@@ -239,8 +239,8 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-          if(this.ruleForm[i]!=undefined&&this.ruleForm[i]!=''){
-            if(i=='time'){
+          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+            if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
                if(arr.every(v=>v)){
                  json['createTimeFrom']=arr[0];

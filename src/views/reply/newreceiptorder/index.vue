@@ -45,7 +45,7 @@
             <el-form-item 
               label="签收人电话"
               :rules="[
-                { required: true,pattern:/^[1][3,4,5,7,8][0-9]{9}$/,message: '请输入正确规则的手机号码'},
+                { required: true,pattern:/^[1][3,4,5,7,8][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/,message: '请输入正确规则的手机号或电话号码'},
               ]"
              prop="saleSignReq.signTel">
               <el-input  v-model="planform.saleSignReq.signTel" style="width:220px" placeholder="请输入签收人电话"></el-input>
@@ -337,6 +337,7 @@
 
     methods:{
       submitOrder(formName){
+        let {modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -350,14 +351,23 @@
               }
             }
             json['details']=data['details'].map(v=>{
-              return {
-                outPlanDetailId:v.id,
-                signQty:v.signQty,
-                rejectQty:v.rejectQty
+              if(modify){
+                return {
+                  outPlanDetailId:v.outPlanDetailId,
+                  signQty:v.signQty,
+                  rejectQty:v.rejectQty
+                }
+              } else{
+                return {
+                  outPlanDetailId:v.id,
+                  signQty:v.signQty,
+                  rejectQty:v.rejectQty
+                }
               }
+              
             })
 
-            if(!json['details'].every(v=>v.signQty!=undefined&&v.rejectQty!=undefined)){
+            if(!json['details'].every(v=>v.signQty!==undefined&&v.rejectQty!==undefined)){
                 this.$message({
                 showClose: true,
                 message: '签收数量和拒收数量不能为空',

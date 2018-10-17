@@ -80,7 +80,7 @@
       { label:'仓库编号',prop:'warehouseNo',dom:this.formatter('linkTo')},
       { label:'仓库名称',prop:'warehouseName'},
       { label:'所在省/市',fixed:false,dom:(row, column, cellValue, index)=>{
-        return `${row.warehouseProvince||'未记录'}/${row.warehouseCity||'未记录'}`
+        return `${row.warehouseProvince||''} ${row.warehouseCity||''}`
      }},
       { label:'仓库类型',prop:'warehouseType',dom:(row, column, cellValue, index)=>this.formatter('warehouseType',cellValue)},
       { label:'负责人',prop:'warehouseLinkName',},
@@ -120,7 +120,7 @@
     methods: { 
       formatter(type,value){
             switch(type){
-              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key==value)&&this.warehouseTypeConfig.find(v=>v.key==value).value||'暂无数据';
+              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'暂无数据';
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                 let query={
                   warehouseNo:row.warehouseNo,

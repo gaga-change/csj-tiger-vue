@@ -13,7 +13,15 @@ import store from './store'
 
 import '@/icons' 
 import '@/permission' 
+
+import * as filters from './filters' // global filters
+
 import { EXTENDS } from './assets/extends'
+
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 Vue.use(ElementUI, { locale })
 Vue.use(EXTENDS)

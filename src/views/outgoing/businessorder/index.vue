@@ -222,7 +222,7 @@
         let json={};
 
         for(let i in this.ruleForm){
-          if(this.ruleForm[i]!=undefined&&this.ruleForm[i]!=''){
+          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             json[i]=this.ruleForm[i]
           }
         }

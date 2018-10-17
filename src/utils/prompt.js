@@ -1,4 +1,4 @@
-import { signApprove } from '@/api/reply'
+import { signApprove,signDelete } from '@/api/reply'
 export function Prompt(type){
   let data=_.cloneDeep(this.planform);
   if(type=='examine'){
@@ -89,7 +89,27 @@ export function Prompt(type){
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
-      this.$router.back()
+      signDelete({
+        signId:this.signId,
+      }).then(res=>{
+        if(res.success){
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.$router.back()
+        } else{
+          this.$message({
+            type: 'warn',
+            message: '删除失败'
+          })
+        }
+      }).catch(err=>{
+        this.$message({
+          type: 'warn',
+          message: '删除失败'
+        })
+      })
     }).catch(() => {
       this.$message({
         type: 'info',

@@ -5,6 +5,7 @@ import store from './store'
 import { LoginPath } from '@/utils'
 
 import 'nprogress/nprogress.css'
+import { Message } from 'element-ui';
 
 const whiteList = ['/csj_login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
@@ -13,10 +14,6 @@ router.beforeEach((to, from, next) => {
     next()
   } else if (store.getters.userInfo == null) {
       store.dispatch('GetInfo').then(res => { 
-        if (res.data == null) {
-          location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
-          return 
-        } 
         router.addRoutes(store.getters.menu)
         next({ ...to, replace: true })
       }).catch((err) => {

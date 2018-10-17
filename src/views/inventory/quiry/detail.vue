@@ -86,8 +86,8 @@
     methods:{
       formatter(type,value){
           switch(type){
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
-            case 'direcType': return this.stockDirectTypeConfig.find(v=>v.key==value)&&this.stockDirectTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'';
+            case 'direcType': return this.stockDirectTypeConfig.find(v=>v.key==value)&&this.stockDirectTypeConfig.find(v=>v.key==value).value||'';
             default : return value
           }
       }

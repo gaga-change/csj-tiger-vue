@@ -17,11 +17,10 @@ export function signDetail(data={}) {
   })
 }
 
-
 //回单查询详情页面
 export function planDetail(data={}) {
   return request({
-    url: `/webApi/out/plan/detail?${stringify(data)}`,
+    url: `/webApi/sign/toAddSign?${stringify(data)}`,
     method: 'get',
   })
 }
@@ -45,6 +44,14 @@ export function signApprove(data={}) {
 }
 
 
+//删除回单接口
+export function signDelete(data={}) {
+  return request({
+    url: `/webApi/sign/delete`,
+    data:stringify(data),
+    method: 'post',
+  })
+}
 
 
 

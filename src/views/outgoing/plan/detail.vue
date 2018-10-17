@@ -94,7 +94,7 @@
       formatter(type,value){
         if(value!=undefined){
           switch(type){
-            case 'time': return moment(value).format('YYYY-MM-DD');
+            case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
             case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
             case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'暂无数据';
             case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'暂无数据';

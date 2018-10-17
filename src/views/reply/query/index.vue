@@ -107,14 +107,12 @@
       data() {
       return {
         ruleForm: {
-
             signNo:'',
             outPlanCode:'',
             ownerCode:'',
             signName:'',
             createrName:'',
             approveStatus:'',
-
 
             time:'',
             makeTime:'',
@@ -200,7 +198,7 @@
                   return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
               };
 
-              case 'approveStatus': return this.approveStatusConfig.find(v=>v.key==value)?this.approveStatusConfig.find(v=>v.key==value).value:value;
+              case 'approveStatus': return this.approveStatusConfig.find(v=>v.key===value)?this.approveStatusConfig.find(v=>v.key===value).value:value;
 
              
             }
@@ -249,14 +247,14 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-        if(this.ruleForm[i]!=undefined&&this.ruleForm[i]!=''){
-            if(i=='time'){
+        if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+            if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
                if(arr.every(v=>v)){
                  json['signBeginDate']=arr[0];
                  json['signEndDate']=arr[1];
                } 
-            } else if(i=='makeTime'){
+            } else if(i==='makeTime'){
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
                if(arr.every(v=>v)){
                  json['createBeginDate']=arr[0];
