@@ -175,7 +175,7 @@
        }
        switch(type){
          case 'time': return moment(value).format('YYYY-MM-DD hh:mm:ss');
-         case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key==value)&&this.warehouseTypeConfig.find(v=>v.key==value).value||'暂无数据';
+         case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'暂无数据';
          default : return value;
        }
      }

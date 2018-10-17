@@ -187,7 +187,7 @@
       formatter(type,value){
             switch(type){
               case 'Boolean': return (row, column, cellValue, index)=>Number(cellValue)?'是':'否';
-              case 'billState': return this.busiBillStateConfig.find(v=>v.key==value)?this.busiBillStateConfig.find(v=>v.key==value).value:value;
+              case 'billState': return this.busiBillStateConfig.find(v=>v.key===value)?this.busiBillStateConfig.find(v=>v.key===value).value:value;
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                 let query={
                   id:row.id,
@@ -239,8 +239,8 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-          if(this.ruleForm[i]!=undefined&&this.ruleForm[i]!=''){
-            if(i=='time'){
+          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+            if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
                if(arr.every(v=>v)){
                  json['createTimeFrom']=arr[0];
