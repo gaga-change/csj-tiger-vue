@@ -85,13 +85,13 @@
       formatter(type,value){
         if(value!=undefined){
           switch(type){
-            case 'time': return moment(value).format('YYYY-MM-DD');
+            case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
             case 'boolean': return Number(value)?'是':'否';
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
+            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'';
             default :return  value;
           }
         } else{
-          return '暂无数据'
+          return ''
         }
       }
     }
