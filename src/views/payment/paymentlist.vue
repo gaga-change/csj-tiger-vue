@@ -365,6 +365,12 @@
       this.getListData()
     },
     methods: {
+      // linnTo(){
+      //     return <router-link  to={ name: 'paymentdetailDelivery',
+      //     params: {
+      //       ticketno: row.ticketno
+      //     }} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
+      // },
       Export() {
         this.downloadLoading = true
         getPaymentDetail(this.currentPostData).then(res => {

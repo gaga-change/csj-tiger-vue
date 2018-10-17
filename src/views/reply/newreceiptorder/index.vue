@@ -367,7 +367,7 @@
               
             })
 
-            if(!json['details'].every(v=>v.signQty!=undefined&&v.rejectQty!=undefined)){
+            if(!json['details'].every(v=>v.signQty!==undefined&&v.rejectQty!==undefined)){
                 this.$message({
                 showClose: true,
                 message: '签收数量和拒收数量不能为空',

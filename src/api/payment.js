@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 新增付款单
 export function addOrUpdatePayment(data) {
   return request({
-    url: '/jqmapi/api/payment/addOrUpdatePayment',
+    url: '/webApi/payment/addOrUpdatePayment',
     method: 'post',
     data: data
   })
@@ -12,7 +12,7 @@ export function addOrUpdatePayment(data) {
 // 付款单列表
 export function getPaymentDetail(data) {
   return request({
-    url: '/jqmapi/api/payment/getPaymentDetail',
+    url: '/webApi/payment/getPaymentDetail',
     method: 'post',
     data: data
   })
@@ -22,7 +22,7 @@ export function getPaymentDetail(data) {
 export function createPayment(data) {
 
   return request({
-    url: '/jqmapi/api/payment/createPayment',
+    url: '/webApi/payment/createPayment',
     method: 'post',
     data: data
   })
