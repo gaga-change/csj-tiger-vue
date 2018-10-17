@@ -238,8 +238,8 @@
     methods: {
        formatter(type,value){
             switch(type){
-              case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)?this.issuedStateConfig.find(v=>v.key==value).value:value;
-              case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)?this.execStatuConfig.find(v=>v.key==value).value:value;
+              case 'issuedState': return this.issuedStateConfig.find(v=>v.key===value)?this.issuedStateConfig.find(v=>v.key===value).value:value;
+              case 'execStatus': return this.execStatuConfig.find(v=>v.key===value)?this.execStatuConfig.find(v=>v.key===value).value:value;
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                   let query={
                     planCode:row.planCode,
@@ -295,8 +295,8 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-          if(this.ruleForm[i]!=undefined&&this.ruleForm[i]!=''){
-            if(i=='time'){
+          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+            if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
                if(arr.every(v=>v)){
                  json['planInTimeStart']=arr[0];

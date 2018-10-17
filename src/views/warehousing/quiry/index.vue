@@ -222,8 +222,8 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-        if(this.ruleForm[i]!=undefined&&this.ruleForm[i]!=''){
-            if(i=='time'){
+        if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+            if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD hh:mm:ss'));
                if(arr.every(v=>v)){
                  json['inStoreBeginDate']=arr[0];

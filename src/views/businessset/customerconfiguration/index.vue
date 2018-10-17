@@ -120,7 +120,7 @@
     methods: { 
       formatter(type,value){
             switch(type){
-              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key==value)&&this.warehouseTypeConfig.find(v=>v.key==value).value||'暂无数据';
+              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'暂无数据';
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                 let query={
                   warehouseNo:row.warehouseNo,
