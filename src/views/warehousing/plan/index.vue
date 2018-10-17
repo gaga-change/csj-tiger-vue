@@ -29,11 +29,10 @@
             </el-form-item>
           </el-col>
 
-  
-           <el-col :span="8" style="minWidth:340px">
-            <el-form-item label="计划仓库"  prop="planWarehouseCode">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.planWarehouseCode" style="width:210px"  placeholder="请选择计划仓库">
-                <el-option   v-for="item in warehouseNameComfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+          <el-col :span="8" style="minWidth:340px">
+            <el-form-item label="入库仓库"  prop="planWarehouseCode">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.planWarehouseCode" style="width:210px"  placeholder="请选择下推状态">
+                <el-option   v-for="item in warehouseTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -97,7 +96,7 @@
 <script>
     import moment from 'moment';
     import {inPlanSelect} from '@/api/warehousing'
-    import {getBillType,getIssuedState,outbusibillstate,getWarehouseType} from '@/api/map'
+    import {getBillType,getIssuedState,outbusibillstate,getWarehouse} from '@/api/map'
     import BaseTable from '@/components/Table'
     export default {
       components: { BaseTable },
@@ -117,10 +116,9 @@
         },
         total:0,
         busiBillTypeConfig:[],
+        warehouseTypeConfig:[],
         issuedStateConfig:[],
         execStatuConfig:[],
-        warehouseNameComfig:[],
-        
         tableConfig:[],
         rules: {
          
@@ -150,18 +148,18 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
-         getWarehouseType().then(res=>{
-          if(res.success){
-           this.warehouseNameComfig=res.data||[];
-         } else{
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-            });
-         }
+       getWarehouse().then(res=>{
+        if(res.success){
+          this.warehouseTypeConfig=res.data;
+        } else{
+          this.$message({
+            showClose: true,
+            message: '数据请求出错',
+            type: 'error'
+          });
+       }
        }).catch(err=>{
-         this.$message({
+          this.$message({
             showClose: true,
             message: '数据请求出错',
             type: 'error'
@@ -238,8 +236,8 @@
     methods: {
        formatter(type,value){
             switch(type){
-              case 'issuedState': return this.issuedStateConfig.find(v=>v.key===value)?this.issuedStateConfig.find(v=>v.key===value).value:value;
-              case 'execStatus': return this.execStatuConfig.find(v=>v.key===value)?this.execStatuConfig.find(v=>v.key===value).value:value;
+              case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)?this.issuedStateConfig.find(v=>v.key==value).value:value;
+              case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)?this.execStatuConfig.find(v=>v.key==value).value:value;
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                   let query={
                     planCode:row.planCode,

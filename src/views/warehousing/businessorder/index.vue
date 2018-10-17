@@ -187,7 +187,7 @@
       formatter(type,value){
             switch(type){
               case 'Boolean': return (row, column, cellValue, index)=>Number(cellValue)?'是':'否';
-              case 'billState': return this.busiBillStateConfig.find(v=>v.key===value)?this.busiBillStateConfig.find(v=>v.key===value).value:value;
+              case 'billState': return this.busiBillStateConfig.find(v=>v.key==value)?this.busiBillStateConfig.find(v=>v.key==value).value:value;
               case 'linkTo' :return  (row, column, cellValue, index)=>{
                 let query={
                   id:row.id,
@@ -200,7 +200,7 @@
                 }
                 return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
                 };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD hh:mm:ss'):'未记录'
+              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'未记录'
           }
        },
 
