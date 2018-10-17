@@ -29,13 +29,13 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const data = response.data;
-          if(!data.id){
-              reject(response)
+          if(!data){
+              reject(response) 
           }
           commit('SET_USERINFO', data)
-          commit('SET_PERMISSIONCODES', response.data.permissionCodes)
-          commit('SET_COMPANY', response.data.companyname)
-          commit('SET_COMPANYID', response.data.companyid)
+          commit('SET_PERMISSIONCODES', data.permissionCodes)
+          commit('SET_COMPANY', data.companyname)
+          commit('SET_COMPANYID', data.companyid)
           resolve(response)
         }).catch(error => {
           console.log(error)
