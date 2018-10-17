@@ -131,7 +131,7 @@
         <el-col :span="8">
           <el-form-item label="附件" >
             <template v-for="(enclosure, index) in enclosures" v-if="enclosures.length">
-              <a :href="`/planapi/api/download/file?pathUrl=${enclosure.url}&pathName=${enclosure.name}`" target="_blank" style="padding-right:4px;color:#128fe7;">{{enclosure.name}}</a><br/>
+              <a :href="`/webApi/download/file?pathUrl=${enclosure.url}&pathName=${enclosure.name}`" target="_blank" style="padding-right:4px;color:#128fe7;">{{enclosure.name}}</a><br/>
             </template>
             <span v-else>暂无附件</span>
           </el-form-item>

@@ -230,7 +230,7 @@
           }
         },
         dialogVisible: false,
-        uploadUrl: '/planapi/api/fileupload/filetoserver', // 上传路径
+        uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
         fileList: [],
         uploadButtonVisible: false,
         dialogTableVisible: false,
@@ -384,6 +384,12 @@
             postData.payment.createuser = this.userInfo.truename
             postData.payment.settlementamount = this.settlementamount
             postData.payment.enclosure = JSON.stringify(this.enclosure)
+            console.log(this.paymentform.payment.residualamount,this.settlementamount)
+             if(this.paymentform.payment.residualamount<this.settlementamount){
+            this.$message.error('结算金额不能大于该采购订单应付金额')
+            this.submitloading = false
+            return false
+          }
             console.log('send data: ' + JSON.stringify(postData))
             addOrUpdatePayment(postData.payment).then(
               res => {
