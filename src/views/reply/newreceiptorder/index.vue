@@ -391,7 +391,7 @@
             
   
             Api(json).then(res=>{
-               this.reply=res.data;
+               this.replyid=res.data;
                 this.$confirm('操作成功！', '提示', {
                 confirmButtonText: '详情',
                 cancelButtonText: '关闭',
@@ -402,7 +402,7 @@
                     this.$router.push({
                       path: '/reply/newreceiptorder-detail',
                       query:{data:JSON.stringify({
-                        id:this.reply,
+                        id:modify?this.id:this.replyid,
                         approveStatus:0,         
                       })}
                     })
