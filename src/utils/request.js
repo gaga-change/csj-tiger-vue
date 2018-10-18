@@ -31,13 +31,19 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error)// for debug
+    console.dir(error.response)// for debug
+    let errMessage = "出现了意料之外的错误"
+    if(error && error.response && error.response.data && error.response.data.message){
+      errMessage = error.response.data.message
+    }
     Message({
-      message: error.message,
+      message: errMessage,
       type: 'error',
-      duration: 5 * 1000
+      duration: 5 * 1000,
+      onClose:()=> Promise.reject(error)
+      
     })
-    return Promise.reject(error)
+    // return Promise.reject(error)
   }
 )
 

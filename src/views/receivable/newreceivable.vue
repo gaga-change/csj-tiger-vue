@@ -324,7 +324,7 @@
       },
       getDetail() {
         getReceivableDetail({
-          ticketno: this.$route.params.ticketno
+          ticketno: this.$route.query.id
         }).then(res => {
           this.receivableform.receivable = res.data.data[0]
           this.fileList = JSON.parse(res.data.data[0].enclosure)
