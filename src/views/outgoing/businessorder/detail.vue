@@ -4,7 +4,7 @@
     <el-card class="box-card" body-style="padding:12px" >
       <el-row>
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
+            <span class="card-title">{{item.title}}</span>  <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
         </el-col>
     </el-row>
    </el-card>
@@ -116,8 +116,15 @@
 <style rel="stylesheet/scss" lang="scss" scoped>
   .outgoing-quirydetail-container{
     padding: 12px;
-    span{
-      color:#666;
+    .card-title{
+      font-size: 12px;
+      color:#606266;
+      font-weight: 600;
+    }
+
+    .card-text{
+      font-size: 12px;
+      color:#606266;
     }
   }
 
