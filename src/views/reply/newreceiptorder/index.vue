@@ -15,6 +15,11 @@
     <div class="reply-query-container">
       <el-form :model="planform" ref="ruleForm"  label-width="120px">
         <el-row >
+          <el-col :span="8" v-if="planform.saleSignReq.signNo">
+            <el-form-item label="回单号:" prop="saleSignReq.signNo">
+              {{planform.saleSignReq.signNo}}
+            </el-form-item>
+          </el-col>
           <el-col :span="8">
             <el-form-item label="出库计划单号:" prop="saleSignReq.planCode">
               {{planform.saleSignReq.planCode}}
@@ -226,7 +231,7 @@
 
 <script>
   import moment from 'moment';
-  import { planDetail,signBuildSale,signDetail } from '@/api/reply'
+  import { planDetail,signBuildSale,signDetail,signUpdate } from '@/api/reply'
   import _  from 'lodash';
   import Sticky from '@/components/Sticky'
   import { mapGetters } from 'vuex'
@@ -249,6 +254,7 @@
         fetchSuccess: true,
         submitloading: false,
         loading:false,
+        id:'',
 
         enclosureDialogVisible:false,
         enclosureuploadUrl: '/planapi/api/fileupload/filetoserver',
@@ -263,9 +269,6 @@
       ...mapGetters({
         visitedViews: 'visitedViews',
       }),
-
-      
-
 
       filelength() {
         return this.fileList.length
@@ -287,6 +290,7 @@
 
     mounted(){
       let {id,modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      this.id=id;
       let data=_.cloneDeep(this.planform); 
       this.planform=data;
       if(modify){
@@ -338,6 +342,10 @@
     methods:{
       submitOrder(formName){
         let {modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+        let Api=signBuildSale;
+        if(modify){
+           Api=signUpdate;
+        }
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -350,10 +358,14 @@
                 json[i]=data['saleSignReq'][i]
               }
             }
+            if(modify){
+              json['saleSignId']=this.id;
+            }
+
             json['details']=data['details'].map(v=>{
               if(modify){
                 return {
-                  outPlanDetailId:v.outPlanDetailId,
+                  signDetailId:v.id,
                   signQty:v.signQty,
                   rejectQty:v.rejectQty
                 }
@@ -375,9 +387,11 @@
               });
               return;
             }
+
+            
   
-            signBuildSale(json).then(res=>{
-               this.reply=res.data;
+            Api(json).then(res=>{
+               this.replyid=res.data;
                 this.$confirm('操作成功！', '提示', {
                 confirmButtonText: '详情',
                 cancelButtonText: '关闭',
@@ -388,7 +402,7 @@
                     this.$router.push({
                       path: '/reply/newreceiptorder-detail',
                       query:{data:JSON.stringify({
-                        id:this.reply,
+                        id:modify?this.id:this.replyid,
                         approveStatus:0,         
                       })}
                     })
