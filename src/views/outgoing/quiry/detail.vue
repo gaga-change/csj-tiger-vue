@@ -1,16 +1,20 @@
 <template>
   <div class="outgoing-quirydetail-container">
+     <div style="marginBottom:12px">
+     <item-title text="基本信息"/>
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
       <el-row>
-
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
+           <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
         </el-col>
-
-         <web-pagination-table 
-          :config="tableConfig" 
-          :allTableData="tableData"/>
-
     </el-row>
+      </el-card>
+    </div>
+
+     <item-title text="相关出库单明细"/>
+      <web-pagination-table 
+      :config="tableConfig" 
+      :allTableData="tableData"/>
   </div>
 </template>
 
@@ -28,21 +32,22 @@
         tableData:[],
         tableConfig:[],
         busiBillTypeConfig:[],
+        loading:false
       }
     },
 
     beforeMount(){
       this.tableConfig=[
-          { label:'序号',width:"50",fixed:true,type:'index'},
-          { label:'SKU名称',prop:'skuName',width:"150",fixed:false,},
-          { label:'规格型号',prop:'skuFormat',width:"150",fixed:false,},
-          { label:'生产厂家',prop:'productFactory',width:"150",fixed:false,},
-          { label:'商品分类',prop:'skuCskuCategoryno',width:"150",fixed:false,},
-          { label:'品牌名',prop:'skuBrandName',width:"150",fixed:false,},
-          { label:'单位',prop:'skuUnitName',width:"80",fixed:false},
-          { label:'转换比',prop:'skuUnitConvert',width:"80",fixed:false},
-          { label:'出库单价',prop:'skuOutPrice',width:"150",fixed:false},
-          { label:'出库数量',prop:'outStoreQty',width:"150",fixed:false},
+          { label:'序号',fixed:true,type:'index'},
+          { label:'SKU名称',prop:'skuName',fixed:false,},
+          { label:'规格型号',prop:'skuFormat',fixed:false,},
+          { label:'生产厂家',prop:'productFactory',fixed:false,},
+          { label:'商品分类',prop:'skuCskuCategoryno',fixed:false,},
+          { label:'品牌名',prop:'skuBrandName',fixed:false,},
+          { label:'单位',prop:'skuUnitName',fixed:false},
+          { label:'转换比',prop:'skuUnitConvert',fixed:false},
+          { label:'出库单价',prop:'skuOutPrice',fixed:false},
+          { label:'出库数量',prop:'outStoreQty',fixed:false},
       ];
 
       this.infoConfig=[
@@ -60,15 +65,16 @@
     mounted(){
       let { id,busiBillTypeConfig,}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
       this.busiBillTypeConfig=busiBillTypeConfig||[];
-
-
+      this.loading=true;
       outOrderDetail({orderId:id}).then(res=>{
         if(res.success){
           let data=res.data;
           this.config=data;
-          this.tableData=Array.isArray(data.owOrderDetailList)?data.owOrderDetailList:[]
+          this.tableData=Array.isArray(data.owOrderDetailList)?data.owOrderDetailList:[];
+          this.loading=false;
         } else{
            console.log('busibill/select/detail',res)
+            this.loading=false;
             this.$message({
               showClose: true,
               message: '数据请求出错',
@@ -77,6 +83,7 @@
         }
       }).catch(err=>{
          console.log('busibill/select/detail',err)
+          this.loading=false;
           this.$message({
             showClose: true,
             message: '数据请求出错',
@@ -103,13 +110,3 @@
  }
 
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quirydetail-container{
-    padding: 24px;
-    span{
-      color:#666;
-    }
-  }
-
-</style>

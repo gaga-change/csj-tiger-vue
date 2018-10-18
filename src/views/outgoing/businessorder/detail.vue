@@ -10,7 +10,7 @@
     </el-row>
    </el-card>
     </div>
-      <item-title text="业务单明细"/>
+      <item-title text="相关业务单明细"/>
       <web-pagination-table 
       :loading="loading"
       :config="tableConfig" 

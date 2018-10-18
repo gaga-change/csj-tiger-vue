@@ -87,7 +87,7 @@
       :loading="loading"
       :config="tableConfig"  
       :total="total" 
-      :maxTotal="7"
+      :maxTotal="10"
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
       :tableData="tableData"/>
@@ -114,7 +114,7 @@
            issuedState:'',
            execStatus: '',
            pageNum: 1,
-           pageSize:7,
+           pageSize:10,
         },
         total:0,
         busiBillTypeConfig:[],
@@ -261,7 +261,7 @@
             }
        },
        submitForm(formName) {
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.getCurrentTableData();
@@ -273,7 +273,7 @@
 
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.getCurrentTableData()
       },
 
