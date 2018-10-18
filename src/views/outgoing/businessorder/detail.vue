@@ -1,11 +1,14 @@
 <template>
   <div class="outgoing-quirydetail-container">
+    <div style="marginBottom:12px">
+    <el-card class="box-card" body-style="padding:12px" >
       <el-row>
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
             {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
         </el-col>
     </el-row>
-
+   </el-card>
+    </div>
       <web-pagination-table 
       :config="tableConfig" 
       :allTableData="tableData"/>
@@ -45,7 +48,7 @@
    {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:8},
    {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:16},
-   {title:'其他信息',value:'otherInfo',style:'minWidth:310px;marginBottom:16px',span:24},
+   {title:'其他信息',value:'otherInfo',style:'minWidth:310px',span:24},
  ]
 
 
@@ -112,7 +115,7 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .outgoing-quirydetail-container{
-    padding: 24px;
+    padding: 12px;
     span{
       color:#666;
     }

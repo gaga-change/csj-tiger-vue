@@ -6,6 +6,7 @@
         :element-loading-background="elementLoadingBackground"
         :data="tableData"
         :border="border"
+        size="small"
         :style="tableStyle">
 
         <el-table-column
@@ -26,6 +27,7 @@
         @current-change="handleCurrentChange"
         :current-page.sync="tableCurrentPage"
         :page-sizes="pageSizes"
+        size="small"
         :page-size="tablePageSize"
         :layout="layout"
         v-if="total>maxTotal"

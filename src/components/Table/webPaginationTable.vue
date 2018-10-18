@@ -5,6 +5,7 @@
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="tableData"
+         size="small"
         :border="border"
         :style="tableStyle">
 
@@ -27,6 +28,7 @@
         :current-page.sync="currentPage"
         :page-sizes="pageSizes"
         :page-size="pageSize"
+         size="small"
         :layout="layout"
         v-if="total>maxTotal"
         :total="total">
