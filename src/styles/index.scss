@@ -193,3 +193,21 @@ code {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+body .el-table th.gutter{
+  display: table-cell!important;
+}
+
+body .el-table colgroup.gutter{
+  display: table-cell!important;
+}
+
+.card-title{
+  font-size: 13px;
+  color:#606266;
+  font-weight: 600;
+}
+.card-text{
+  font-size: 13px;
+  color:#606266;
+}

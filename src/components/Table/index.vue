@@ -46,7 +46,7 @@ export default {
    props: {
      loading: {
       type: Boolean,
-      default: false
+      default: false      
     },
     tableData: {
       type: Array,
@@ -62,11 +62,11 @@ export default {
     },
     pageSizes:{
       type: Array,
-      default:()=> [7,10, 15, 20, 30]
+      default:()=> [10, 50, 100, 500]
     },
     pageSize:{
       type: Number,
-      default: 7
+      default: 10
     },
     layout:{
       type: String,
@@ -171,5 +171,6 @@ export default {
   .ctabel{
     width: 100%;
   }
+  
 </style>
 

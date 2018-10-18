@@ -161,5 +161,6 @@ export default {
   .ctabel{
     width: 100%;
   }
+  
 </style>
 
