@@ -33,9 +33,9 @@ const user = {
               reject(response) 
           }
           commit('SET_USERINFO', data)
-          commit('SET_PERMISSIONCODES', data.permissionCodes)
-          commit('SET_COMPANY', data.companyname)
-          commit('SET_COMPANYID', data.companyid)
+          commit('SET_PERMISSIONCODES', data.permissionCodes||[])
+          commit('SET_COMPANY', data.companyname||'')
+          commit('SET_COMPANYID', data.companyid||'')
           resolve(response)
         }).catch(error => {
           console.log(error)

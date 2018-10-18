@@ -36,6 +36,6 @@ export default new Router({
 
 export const asyncRouterMap = [
   ...Deliver,
-  ...PayReceivableInvoce
+  // ...PayReceivableInvoce
 ]
 
