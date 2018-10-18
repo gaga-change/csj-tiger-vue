@@ -34,6 +34,15 @@ export function signBuildSale(data={}) {
   })
 }
 
+//修改回单接口
+export function signUpdate(data={}) {
+  return request({
+    url: `/webApi/sign/update`,
+    data:data,
+    method: 'post',
+  })
+}
+
 //回单审核接口
 export function signApprove(data={}) {
   return request({
