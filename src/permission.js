@@ -17,6 +17,15 @@ router.beforeEach((to, from, next) => {
         router.addRoutes(store.getters.menu)
         next({ ...to, replace: true })
       }).catch((err) => {
+        // Message({
+        //   showClose: true,
+        //   message: err,
+        //   duration:10000,
+        //   type: 'error',
+        //   onClose:()=>{
+        //     location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+        //   }
+        // });
         location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
       })
     } else {

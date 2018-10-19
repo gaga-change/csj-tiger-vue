@@ -174,7 +174,7 @@
          return ''
        }
        switch(type){
-         case 'time': return moment(value).format('YYYY-MM-DD hh:mm:ss');
+         case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
          case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'';
          default : return value;
        }
