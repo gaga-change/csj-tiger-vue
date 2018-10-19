@@ -385,7 +385,7 @@
             postData.payment.settlementamount = this.settlementamount
             postData.payment.enclosure = JSON.stringify(this.enclosure)
             console.log(this.paymentform.payment.residualamount,this.settlementamount)
-             if(this.paymentform.payment.residualamount<this.settlementamount){
+             if(this.paymentform.payment.fundnature == 1&&this.paymentform.payment.residualamount<this.settlementamount){
             this.$message.error('结算金额不能大于该采购订单应付金额')
             this.submitloading = false
             return false

@@ -15,7 +15,7 @@ const getters = {
   //   return asyncRouterMap
   // }
   menu: state => {
-    let bakmenu = JSON.parse(state.user.userInfo.menus)
+    let bakmenu = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
     let localPathArr=asyncRouterMap.map(v=>v.path)
         if(Array.isArray(bakmenu)){
           bakmenu=bakmenu.filter(v=>localPathArr.includes(v.path))

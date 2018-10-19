@@ -393,7 +393,7 @@
             postData.receivable.settlementamount = this.settlementamount
             postData.receivable.enclosure = JSON.stringify(this.enclosure)
             console.log('send data: ' + JSON.stringify(postData))
-             if(this.receivableform.receivable.residualamount<this.settlementamount){
+             if(this.receivableform.receivable.fundnature === '1' && this.receivableform.receivable.residualamount<this.settlementamount){
             this.$message.error('结算金额不能大于该采购订单应付金额')
             this.submitloading = false
             return false
