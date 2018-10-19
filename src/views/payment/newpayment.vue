@@ -65,7 +65,14 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="6">
+          <el-form-item label="本次付款金额" prop="payment.payamount">
+            <el-input type="text" v-model="paymentform.payment.payamount" size="small" placeholder="请输入付款金额"></el-input>
+          </el-form-item>
+        </el-col>
+         <el-col :span="6">
           <el-form-item label="收款方" prop="payment.receivables">
             <el-select v-model="paymentform.payment.receivables" filterable clearable placeholder="请选择收款客户" size="small" prefix-icon="el-icon-search">
               <el-option
@@ -75,24 +82,6 @@
                 :value="item.requestid">
               </el-option>
             </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-form-item label="本次付款金额" prop="payment.payamount">
-            <el-input type="text" v-model="paymentform.payment.payamount" size="small" placeholder="请输入付款金额"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16">
-          <el-form-item label="上传附件">
-            <el-button
-              size="mini"
-              type="primary"
-              @click="importFile">
-              {{enclosure.length ? '继续上传' : '上传附件'}}
-            </el-button>
-            <span v-show="enclosure">{{enclosure.length}}个文件</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -113,6 +102,17 @@
         <el-col :span="6">
           <el-form-item label="备注" prop="payment.memos">
             <el-input type="textarea" v-model="paymentform.payment.memos" size="small" rows='5'></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="上传附件">
+            <el-button
+              size="mini"
+              type="primary"
+              @click="importFile">
+              {{enclosure.length ? '继续上传' : '上传附件'}}
+            </el-button>
+            <span v-show="enclosure">{{enclosure.length}}个文件</span>
           </el-form-item>
         </el-col>
       </el-row>

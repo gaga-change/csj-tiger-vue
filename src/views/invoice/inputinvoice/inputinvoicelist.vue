@@ -1,21 +1,22 @@
 <template lang="html">
 <div class="app-container">
   <el-row>
-    <el-card class="box-card" >
-      <el-form :model="searchForm" ref="searchForm" label-width="80px">
+    <el-card class="simpleCard" shadow="never">
+      <el-form :model="searchForm"  ref="searchForm" label-width="80px" label-postion="left">
+        <el-row>
         <el-col :span="6">
           <el-form-item label="发票号码" >
-            <el-input type="text" v-model="searchForm.inputInvoice.invoiceno" placeholder="请输入发票号码"></el-input>
+            <el-input type="text" v-model="searchForm.inputInvoice.invoiceno" size="small" placeholder="请输入发票号码"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="供应商">
-            <el-input v-model="searchForm.inputInvoice.servicername" @focus="addServicer" prefix-icon="el-icon-search"></el-input>
+            <el-input v-model="searchForm.inputInvoice.servicername" size="small" @focus="addServicer" prefix-icon="el-icon-search"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="状态">
-            <el-select v-model="searchForm.inputInvoice.status" filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+            <el-select v-model="searchForm.inputInvoice.status" size="small" filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -27,15 +28,16 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="开票单号" >
-            <el-input type="text" v-model="searchForm.inputInvoice.ticketno" placeholder="请输入开票单号"></el-input>
+            <el-input type="text" size="small" v-model="searchForm.inputInvoice.ticketno" placeholder="请输入开票单号"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="11">
+        <el-col :span="10">
           <el-form-item label="发票日期">
             <el-date-picker
               v-model="searchForm.inputInvoice.postinvoicedate"
               type="datetimerange"
               :editable="false"
+              size="small"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -47,6 +49,7 @@
             <el-date-picker
               v-model="searchForm.inputInvoice.createdate"
               type="date"
+              size="small"
               placeholder="创建日期"
               :editable="false">
             </el-date-picker>
@@ -54,15 +57,16 @@
         </el-col>
         <el-col :span="6" >
           <el-form-item label="创建人">
-            <el-input type="text" v-model="searchForm.inputInvoice.createuser" placeholder="请输入创建人"></el-input>
+            <el-input type="text" size="small" v-model="searchForm.inputInvoice.createuser" placeholder="请输入创建人"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="23" style="text-align:center">
-          <el-form-item label-width="30px">
-            <el-button type="primary" v-loading="loading" @click="onSubmit">查询</el-button>
-            <el-button @click="onCancel">重置</el-button>
+        <el-col :span="23" >
+          <el-form-item label-width="0" class="simpleCardLastLine">
+            <el-button type="primary" size="small" v-loading="loading" @click="onSubmit">查询</el-button>
+            <el-button size="small" @click="onCancel">重置</el-button>
           </el-form-item>
         </el-col>
+        </el-row>
       </el-form>
     </el-card>
   </el-row>
@@ -70,6 +74,7 @@
     <el-table
       :data="list"
       v-loading="loading"
+      size="small"
       style="width: 100%;margin-top:20px;"
       border>
       <el-table-column
@@ -163,6 +168,7 @@
       :current-page="currentPage"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
+      size="small"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>

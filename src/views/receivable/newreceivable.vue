@@ -2,9 +2,9 @@
   <div class="app-container">
     <el-form :model="receivableform" :rules="rules" ref="ruleForm" label-width="120px">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="款项性质" prop="receivable.fundnature">
-            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in fundnature"
                 :key="item.value"
@@ -14,9 +14,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-if="receivableform.receivable.fundnature == 1">
+        <el-col :span="6" v-if="receivableform.receivable.fundnature == 1">
           <el-form-item label="款项类型" prop="receivable.fundtype">
-            <el-select v-model="receivableform.receivable.fundtype" filterable clearable placeholder="请选择款项类型" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.fundtype" filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in fundtype"
                 :key="item.value"
@@ -28,21 +28,21 @@
         </el-col>
       </el-row>
       <el-row :gutter="20" v-if="receivableform.receivable.fundnature == 1">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="关联销售单" prop="receivable.saleorder">
-            <el-input type="text"  prefix-icon="el-icon-search" @focus="saleorderFocus" v-model="receivableform.receivable.saleorder"></el-input>
+            <el-input type="text"  prefix-icon="el-icon-search" size="small" @focus="saleorderFocus" v-model="receivableform.receivable.saleorder"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="合同编号" prop="receivable.contractno">
-            <el-input type="text" v-model="receivableform.receivable.contractno"></el-input>
+            <el-input type="text" size="small" v-model="receivableform.receivable.contractno"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="结算方式" prop="receivable.settlementmethod">
-            <el-select v-model="receivableform.receivable.settlementmethod" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.settlementmethod" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in settlementmethod"
                 :key="item.value"
@@ -52,20 +52,29 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="收款日期" prop="receivable.recdate">
             <el-date-picker
               v-model="receivableform.receivable.recdate"
               type="datetime"
+              size="small"
               :editable="false"
               placeholder="选择日期时间"
               align="right">
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+       
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="本次收款金额" prop="receivable.recamount">
+            <el-input type="number" size="small" v-model="receivableform.receivable.recamount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
           <el-form-item label="付款方" prop="receivable.payer">
-            <el-select v-model="receivableform.receivable.payer" filterable clearable placeholder="请选择付款客户" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.payer" filterable clearable placeholder="请选择付款客户" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in gridData"
                 :key="item.id"
@@ -77,12 +86,25 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="本次收款金额" prop="receivable.recamount">
-            <el-input type="number" v-model="receivableform.receivable.recamount"></el-input>
+        <el-col :span="6">
+          <el-form-item label="现金折扣" prop="receivable.interestrate">
+            <el-input type="number" size="small" v-model="receivableform.receivable.interestrate"  placeholder="请输入现金折扣"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="6">
+          <el-form-item label="结算金额" prop="receivable.settlementamount">
+            <el-input type="text" :value="settlementamount" size="small" disabled></el-input>
+            <span v-if="receivableform.receivable.fundnature == 1 && receivableform.receivable.saleorder">该笔销售订单应收{{receivableform.receivable.residualamount}}元</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="备注" prop="receivable.memos">
+            <el-input type="textarea" size="small" v-model="receivableform.receivable.memos" rows='5'></el-input>
+          </el-form-item>
+        </el-col>
+         <el-col :span="16">
           <el-form-item label="上传附件">
             <el-button
               size="mini"
@@ -95,29 +117,9 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="现金折扣" prop="receivable.interestrate">
-            <el-input type="number" v-model="receivableform.receivable.interestrate"  placeholder="请输入现金折扣"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="结算金额" prop="receivable.settlementamount">
-            <el-input type="text" :value="settlementamount" disabled></el-input>
-            <span v-if="receivableform.receivable.fundnature == 1 && receivableform.receivable.saleorder">该笔销售订单应收{{receivableform.receivable.residualamount}}元</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item label="备注" prop="receivable.memos">
-            <el-input type="textarea" v-model="receivableform.receivable.memos" rows='5'></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" v-loading="submitloading">新建收款单</el-button>
-          <el-button @click="onCancel">取消</el-button>
+          <el-button type="primary" @click="onSubmit" size="small" v-loading="submitloading">新建收款单</el-button>
+          <el-button @click="onCancel" size="small">取消</el-button>
         </el-form-item>
       </el-row>
     </el-form>

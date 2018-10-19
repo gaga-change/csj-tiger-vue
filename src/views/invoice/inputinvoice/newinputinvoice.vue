@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="fetchSuccess">
 
-      <el-button v-loading="loading" style="margin-left: 10px;" type="success" :disabled="!multipleSelection.length" @click="submitForm()">提交
+      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" :disabled="!multipleSelection.length" @click="submitForm()">提交
       </el-button>
 
     </template>
@@ -19,22 +19,22 @@
       <el-step title="核对金额填写剩余信息" ></el-step>
     </el-steps>
 
-    <el-card class="box-card" style="margin-top: 20px">
+    <el-card class="simpleCard" style="margin-top: 20px">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="80px">
         <el-col :span="6">
           <el-form-item label="供应商" prop="servicer">
-            <el-input v-model="searchForm.servicername" @focus="addServicer" placeholder="请选择供应商" prefix-icon="el-icon-search"></el-input>
+            <el-input v-model="searchForm.servicername" @focus="addServicer" size="small" placeholder="请选择供应商" prefix-icon="el-icon-search"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="采购单号" >
-            <el-input type="text" v-model="searchForm.ticketNo" placeholder="请输入采购单号"></el-input>
+            <el-input type="text" size="small" v-model="searchForm.ticketNo" placeholder="请输入采购单号"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="合同编号" >
             <!-- <el-input type="text" v-model="searchForm.contractNo" placeholder="请输入合同编号"></el-input> -->
-            <el-select v-model="searchForm.contractList" multiple placeholder="请选择">
+            <el-select v-model="searchForm.contractList" size="small" multiple placeholder="请选择">
               <el-option
                 v-for="item in contractList"
                 :key="item"
@@ -50,16 +50,17 @@
               v-model="searchForm.postinstoredate"
               type="datetimerange"
               :editable="false"
+              size="small"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="23" style="text-align:right">
+        <el-col :span="23" >
           <el-form-item label-width="0">
-            <el-button type="primary" v-loading="searchLoading" @click="onSubmit">查询</el-button>
-            <el-button @click="onCancel">重置</el-button>
+            <el-button type="primary" v-loading="searchLoading" size="small" @click="onSubmit">查询</el-button>
+            <el-button @click="onCancel" size="small">重置</el-button>
           </el-form-item>
         </el-col>
       </el-form>
@@ -69,50 +70,49 @@
       <div class="noresult" v-show="!inputInvoiceform.inputInvoiceItems.length">
         <i class="el-icon-search"></i>没有对应的入库单...
       </div>
-      <el-form v-show="inputInvoiceform.inputInvoiceItems.length" class="form-container" :model="inputInvoiceform" :rules="rules" ref="postForm">
+      <el-form v-show="inputInvoiceform.inputInvoiceItems.length" class="form-container" label-position="left" :model="inputInvoiceform" :rules="rules" ref="postForm" label-width="88px">
         <div class="createPost-main-container">
           <el-row>
-            <el-col :span="21">
+            <el-col>
 
               <div class="postInfo-container">
                 <el-row>
-                  <el-col :span="8">
-                    <el-form-item label-width="110px" label="发票号:" class="postInfo-container-item" prop="inputInvoice.invoiceno">
-                      <el-input type="text" v-model="inputInvoiceform.inputInvoice.invoiceno" placeholder="请输入发票号"></el-input>
+                  <el-col :span="6">
+                    <el-form-item label="发票号:" class="postInfo-container-item" prop="inputInvoice.invoiceno">
+                      <el-input type="text" size="small" v-model="inputInvoiceform.inputInvoice.invoiceno" placeholder="请输入发票号"></el-input>
                     </el-form-item>
                   </el-col>
 
-                  <el-col :span="8">
-                    <el-form-item label-width="100px" label="发票日期:" class="postInfo-container-item" prop="inputInvoice.invoicedate">
-                      <el-date-picker v-model="inputInvoiceform.inputInvoice.invoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                  <el-col :span="6">
+                    <el-form-item label="发票日期:" class="postInfo-container-item" prop="inputInvoice.invoicedate">
+                      <el-date-picker size="small"  style="max-witdh=160px;" v-model="inputInvoiceform.inputInvoice.invoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                       </el-date-picker>
                     </el-form-item>
                   </el-col>
 
-                  <el-col :span="8">
-                    <el-form-item label-width="100px" label="到票日期:" class="postInfo-container-item" prop="inputInvoice.receivedate">
-                      <el-date-picker v-model="inputInvoiceform.inputInvoice.receivedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                  <el-col :span="6">
+                    <el-form-item label="到票日期:" class="postInfo-container-item" prop="inputInvoice.receivedate">
+                      <el-date-picker size="small" style="max-witdh=160px;" v-model="inputInvoiceform.inputInvoice.receivedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                       </el-date-picker>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label-width="110px" label="实际开票金额:" class="postInfo-container-item">
+                      <el-input-number size="small" :min="bakamount - 3 > 0 ? bakamount - 3 : 0" :max="bakamount + 3" v-model="invoiceamount" placeholder="请输入开票金额"  @change="setInvoiceamount($event)"></el-input-number>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="8">
-                    <el-form-item label-width="110px" label="实际开票金额:" class="postInfo-container-item">
-                      <el-input-number :min="bakamount - 3 > 0 ? bakamount - 3 : 0" :max="bakamount + 3" v-model="invoiceamount" placeholder="请输入开票金额"  @change="setInvoiceamount($event)"></el-input-number>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="8">
-                    <el-form-item label-width="100px" label="税额:" class="postInfo-container-item">
-                      <el-input placeholder="税额" style='min-width:220px;' :value="taxamount" disabled>
+                  <el-col :span="6">
+                    <el-form-item size="small" label="税额:" class="postInfo-container-item">
+                      <el-input placeholder="税额" style="max-witdh=160px;" :value="taxamount" disabled>
                       </el-input>
                     </el-form-item>
                   </el-col>
 
-                  <el-col :span="8">
-                    <el-form-item label-width="100px" label="发票种类:" class="postInfo-container-item" prop="inputInvoice.invoicetype">
-                      <el-select v-model="inputInvoiceform.inputInvoice.invoicetype" filterable clearable style="min-width:220px" placeholder="请选择发票种类" prefix-icon="el-icon-search">
+                  <el-col :span="6">
+                    <el-form-item  label="发票种类:" class="postInfo-container-item" prop="inputInvoice.invoicetype">
+                      <el-select size="small" v-model="inputInvoiceform.inputInvoice.invoicetype" filterable clearable style="max-witdh=160px;" placeholder="请选择发票种类" prefix-icon="el-icon-search">
                         <el-option
                           v-for="item in invoicetype"
                           :key="item.value"
@@ -122,17 +122,16 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="8">
+              
+                  <el-col :span="6">
                     <el-form-item label-width="110px" label="计划开票金额:" class="postInfo-container-item">
-                      <el-input type="text" :value="planinvoiceamount" placeholder="计划开票金额" disabled></el-input>
+                      <el-input type="text" size="small" :value="planinvoiceamount" placeholder="计划开票金额" disabled></el-input>
                     </el-form-item>
                   </el-col>
 
-                  <el-col :span="8">
-                    <el-form-item label-width="100px" label="税前金额:" class="postInfo-container-item">
-                      <el-input placeholder="税前金额" style='min-width:220px;' :value="pretaxamount" disabled>
+                  <el-col :span="6">
+                    <el-form-item label="税前金额:" class="postInfo-container-item">
+                      <el-input size="small" placeholder="税前金额" style='min-width:220px;' :value="pretaxamount" disabled>
                       </el-input>
                     </el-form-item>
                   </el-col>
@@ -143,7 +142,7 @@
           </el-row>
 
           <el-form-item style="margin-bottom: 40px;" label-width="45px" label="备注:">
-            <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="inputInvoiceform.inputInvoice.memos">
+            <el-input type="textarea" size="small" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="inputInvoiceform.inputInvoice.memos">
             </el-input>
             <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
           </el-form-item>
@@ -152,6 +151,7 @@
               :data="inputInvoiceform.inputInvoiceItems"
               @selection-change="handleSelectionChange"
               ref="inputInvoiceTable"
+              size="small"
               :row-class-name="rowClass"
               style="width: 100%"
               border

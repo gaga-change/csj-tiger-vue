@@ -4,18 +4,18 @@
       <template v-if="fetchSuccess">
         <template v-if="planform.OutputInvoice.status == 1">
           <a :href="printUrl('supply_invoice_export', $route.params.ticketno)" target="_blank">
-            <el-button  style="margin-left: 10px;">导出开票清单</el-button>
+            <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
-          <el-button  style="margin-left: 10px;" type="success"
+          <el-button  style="margin-left: 10px;" type="success" size="small"
             @click="nextpage('makeoutinvoiceDelivery')" :disabled="!$haspermission('makeoutinvoice')">财务开票</el-button>
         </template>
         <template v-else-if="planform.OutputInvoice.status == -1 || planform.OutputInvoice.status == -2">
-          <el-button  style="margin-left: 10px;" type="warning"  @click="Modify(3, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceDelete')">删除</el-button>
+          <el-button  style="margin-left: 10px;" type="warning"  size="small" @click="Modify(3, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceDelete')">删除</el-button>
           <!-- <el-button  style="margin-left: 10px;" type="primary"  @click="Edit">修改</el-button> -->
         </template>
         <template v-else-if="planform.OutputInvoice.status == 0">
-          <el-button  style="margin-left: 10px;" type="primary"  @click="Modify(0, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceCheck')">审核</el-button>
-          <el-button  style="margin-left: 10px;" type="error"  @click="Modify(1, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceReject')">驳回</el-button>
+          <el-button  style="margin-left: 10px;" type="primary"  size="small" @click="Modify(0, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceCheck')">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="error" size="small"  @click="Modify(1, 'OutputInvoice')" :disabled="!$haspermission('outputInvoiceReject')">驳回</el-button>
         </template>
         <template v-else>
           <el-tag >暂无操作</el-tag>
@@ -27,73 +27,71 @@
       </template>
 
     </sticky>
-    <el-form  class="form-container" :model="planform" ref="postForm">
-      <div class="createPost-main-container">
-        <el-row>
-          <el-col :span="21">
 
-            <div class="postInfo-container">
+    <el-form  class="form-container" :model="planform" ref="postForm" label-position="left" label-width="78px">
+      <div class="createPost-main-container">
+        <item-title text="基本信息"/>
+        <el-card v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
+
               <el-row>
-                <el-col :span="8">
+                <el-col :span="6">
                   <el-form-item label-width="110px" label="申请开票单号:" class="postInfo-container-item">
                     {{planform.OutputInvoice.ticketno}}
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="客户:" class="postInfo-container-item">
+                <el-col :span="6">
+                  <el-form-item label="客户:" class="postInfo-container-item">
                     {{planform.OutputInvoice.customername}}
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="最迟开票日期:" class="postInfo-container-item">
+                <el-col :span="6">
+                  <el-form-item label-width="110px" label="最迟开票日期:" class="postInfo-container-item">
                     {{planform.OutputInvoice.lastinvoicedate}}
+                  </el-form-item>
+                </el-col>
+            
+                <el-col :span="6">
+                  <el-form-item label-width="110px" label="申请开票金额:" class="postInfo-container-item">
+                    ￥{{planform.OutputInvoice.planinvoiceamount}}
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="申请开票金额:" class="postInfo-container-item">
-                    ￥{{planform.OutputInvoice.planinvoiceamount}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="单据状态:" class="postInfo-container-item">
+                <el-col :span="6">
+                  <el-form-item label="单据状态:" class="postInfo-container-item">
                     {{planform.OutputInvoice.status|statusFilter}}
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="8" >
-                  <el-form-item label-width="110px" label="申请人:" class="postInfo-container-item">
+                <el-col :span="6" >
+                  <el-form-item label="申请人:" class="postInfo-container-item">
                     {{planform.OutputInvoice.createuser}}
                   </el-form-item>
                 </el-col>
 
-              </el-row>
-              <el-row>
-                <el-col :span="8" v-show="planform.OutputInvoice.checkuser">
-                  <el-form-item label-width="110px" label="审核人:" class="postInfo-container-item">
+             
+                <el-col :span="6" v-show="planform.OutputInvoice.checkuser">
+                  <el-form-item label="审核人:" class="postInfo-container-item">
                     {{planform.OutputInvoice.checkuser}}
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="8" v-show="planform.OutputInvoice.checkdate">
-                  <el-form-item label-width="110px" label="审核日期:" class="postInfo-container-item">
+                <el-col :span="6" v-show="planform.OutputInvoice.checkdate">
+                  <el-form-item label="审核日期:" class="postInfo-container-item">
                     {{planform.OutputInvoice.checkdate}}
                   </el-form-item>
                 </el-col>
               </el-row>
-
-            </div>
-          </el-col>
-        </el-row>
+        </el-card>
+        <item-title text="发票详情" style="margin-top:10px"/>
         <el-form-item style="margin-bottom: 40px;" label-width="0">
           <el-table
             :data="planform.OutputInvoiceItems"
             ref="OutputInvoiceTable"
             style="width: 100%"
+            size="small"
             border
             max-height="600">
             <el-table-column
@@ -249,10 +247,15 @@ export default {
     top:10px;
     color:#ff4949;
   }
+  
+  
   .createPost-container {
     position: relative;
     .createPost-main-container {
       padding: 40px 45px 20px 50px;
+      .el-form-item{
+        margin-bottom: 0;
+      }
       .postInfo-container {
         position: relative;
         @include clearfix;

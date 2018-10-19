@@ -6,7 +6,7 @@
       </template>
     </sticky>
 
-    <el-form :model="paymentform" ref="ruleForm" label-width="80px" style="text-align:left">
+    <el-form :model="paymentform" ref="ruleForm" label-width="80px" label-position="left" style="text-align:left">
     <el-card class="simpleCard">
       <el-row :gutter="20">
         <el-col :span="6">
@@ -84,7 +84,7 @@
         <el-row>
         <el-col :span="6">
           <el-form-item label="合同编号" prop="payment.contractno">
-            <el-input type="text" size="small" v-model="paymentform.payment.contractno"></el-input>
+            <el-input type="text" size="small" style="max-width:200px" v-model="paymentform.payment.contractno"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -100,7 +100,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="23">
-          <el-form-item label-width="0" class="simpleCardLastLine" style="margin-bottom:0">
+          <el-form-item label-width="0" class="simpleCardLastLine" >
             <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
             <el-button @click="onCancel" size="small">重置</el-button>
             </el-form-item>

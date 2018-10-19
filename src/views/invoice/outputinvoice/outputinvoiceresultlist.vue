@@ -1,16 +1,16 @@
 <template lang="html">
 <div class="app-container">
   <el-row>
-    <el-card class="box-card" >
-      <el-form :model="searchForm" ref="searchForm" label-width="80px">
+    <el-card class="simpleCard" shadow="never">
+      <el-form :model="searchForm" ref="searchForm" label-width="68px" label-position="left">
         <el-col :span="6">
           <el-form-item label="客户">
-            <el-input v-model="searchForm.outputInvoice.customername" @focus="addServicer" placeholder="请选择客户" prefix-icon="el-icon-search"></el-input>
+            <el-input v-model="searchForm.outputInvoice.customername" size="small" @focus="addServicer" placeholder="请选择客户" prefix-icon="el-icon-search"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="状态">
-            <el-select v-model="searchForm.outputInvoice.status" filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+            <el-select v-model="searchForm.outputInvoice.status" size="small" filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -21,13 +21,29 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="开票单号" label-width="100px">
-            <el-input type="text" v-model="searchForm.outputInvoice.ticketno" placeholder="请输入开票单号"></el-input>
+          <el-form-item label="开票单号">
+            <el-input type="text" size="small" v-model="searchForm.outputInvoice.ticketno" placeholder="请输入开票单号"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="发票号" label-width="100px">
-            <el-input type="text" v-model="searchForm.outputInvoice.invoiceno" placeholder="请输入开票单号"></el-input>
+          <el-form-item label="发票号">
+            <el-input type="text" size="small" v-model="searchForm.outputInvoice.invoiceno" placeholder="请输入开票单号"></el-input>
+          </el-form-item>
+        </el-col>
+         <el-col :span="6">
+          <el-form-item label="开票人">
+            <el-input type="text" size="small" v-model="searchForm.outputInvoice.createuser" placeholder="请输入开票人"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="开票日期">
+            <el-date-picker
+              v-model="searchForm.outputInvoice.createdate"
+              type="date"
+              size="small"
+              placeholder="开票日期"
+              :editable="false">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="11">
@@ -36,31 +52,18 @@
               v-model="searchForm.outputInvoice.postlastinvoicedate"
               type="datetimerange"
               :editable="false"
+              size="small"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="开票人" label-width="100px">
-            <el-input type="text" v-model="searchForm.outputInvoice.createuser" placeholder="请输入开票人"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="开票日期">
-            <el-date-picker
-              v-model="searchForm.outputInvoice.createdate"
-              type="date"
-              placeholder="开票日期"
-              :editable="false">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="23" style="text-align:right">
-          <el-form-item label-width="30px">
-            <el-button type="primary" v-loading="loading" @click="onSubmit">查询</el-button>
-            <el-button @click="onCancel">重置</el-button>
+      
+        <el-col :span="23" >
+          <el-form-item label-width="0">
+            <el-button type="primary" size="small" v-loading="loading" @click="onSubmit">查询</el-button>
+            <el-button @click="onCancel" size="small">重置</el-button>
           </el-form-item>
         </el-col>
       </el-form>
@@ -70,6 +73,7 @@
     <el-table
       :data="list"
       v-loading="loading"
+      size="small"
       style="width: 100%;margin-top:20px;"
       border>
       <el-table-column
@@ -154,6 +158,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentPageChange"
       :current-page="currentPage"
+      size="small"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"

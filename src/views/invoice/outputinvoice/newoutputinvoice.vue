@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="fetchSuccess">
 
-      <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()" :disabled="!multipleSelection.length">提交
+      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" @click="submitForm()" :disabled="!multipleSelection.length">提交
       </el-button>
       <!-- <el-button v-loading="loading" type="warning" @click="draftForm">保存草稿</el-button> -->
 
@@ -19,22 +19,23 @@
       <el-step title="勾选开票相应单据" ></el-step>
       <el-step title="核对金额填写剩余信息" ></el-step>
     </el-steps>
-
-    <el-card class="box-card" style="margin-top: 20px">
-      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="80px">
+</el-row>
+    <el-card class="simpleCard" style="margin-top: 20px" shadow="never">
+      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="68px" label-position="left">
+      <el-row>
         <el-col :span="6">
           <el-form-item label="客户" prop="customer">
-            <el-input v-model="searchForm.customername" @focus="addServicer" prefix-icon="el-icon-search" placeholder="请选择客户"></el-input>
+            <el-input v-model="searchForm.customername" size="small" @focus="addServicer" prefix-icon="el-icon-search" placeholder="请选择客户"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="销售单号" >
-            <el-input type="text" v-model="searchForm.ticketNo" placeholder="请输入销售单号"></el-input>
+            <el-input type="text" size="small" v-model="searchForm.ticketNo" placeholder="请输入销售单号"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="合同编号" >
-            <el-select v-model="searchForm.contractList" multiple placeholder="请选择">
+            <el-select size="mini" v-model="searchForm.contractList" multiple placeholder="请选择">
               <el-option
                 v-for="item in contractList"
                 :key="item"
@@ -50,29 +51,31 @@
               v-model="searchForm.postoutstoredate"
               type="datetimerange"
               :editable="false"
+              size="small"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="23" style="text-align:right">
-          <el-form-item label-width="0">
-            <el-button type="primary" v-loading="searchLoading" @click="onSubmit">查询</el-button>
-            <el-button @click="onCancel">重置</el-button>
+        <el-col :span="23">
+          <el-form-item label-width="0" class="simpleCardLastLine">
+            <el-button type="primary" v-loading="searchLoading" @click="onSubmit" size="small">查询</el-button>
+            <el-button @click="onCancel" size="small">重置</el-button>
           </el-form-item>
         </el-col>
+         </el-row>
       </el-form>
     </el-card>
-  </el-row>
+ 
     <div class="createPost-container">
       <div class="noresult" v-show="!outputInvoiceform.outputInvoiceItems.length">
         <i class="el-icon-search"></i>没有对应的出库单...
       </div>
-      <el-form v-show="outputInvoiceform.outputInvoiceItems.length" class="form-container" :model="outputInvoiceform" :rules="rules" ref="postForm">
+      <el-form v-show="outputInvoiceform.outputInvoiceItems.length" class="form-container" :model="outputInvoiceform" :rules="rules" ref="postForm" label-position="left">
         <div class="createPost-main-container">
           <el-row>
-            <el-col :span="21">
+            <el-col>
 
               <div class="postInfo-container">
                 <el-row>
@@ -85,7 +88,8 @@
 
                   <el-col :span="8">
                     <el-form-item label-width="110px" label="发票种类:" class="postInfo-container-item" prop="outputInvoice.invoicetype">
-                      <el-select v-model="outputInvoiceform.outputInvoice.invoicetype" style='min-width:220px;' filterable clearable placeholder="请选择发票种类" prefix-icon="el-icon-search">
+                      <el-select v-model="outputInvoiceform.outputInvoice.invoicetype" 
+                      size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票种类" prefix-icon="el-icon-search">
                         <el-option
                           v-for="item in invoicetype"
                           :key="item.value"
@@ -98,7 +102,7 @@
 
                   <el-col :span="8">
                     <el-form-item label-width="120px" label="计划开票金额:" class="postInfo-container-item">
-                      <el-input type="text" :value="planinvoiceamount" style='min-width:220px;' placeholder="计划开票金额" disabled></el-input>
+                      <el-input type="text" size="small" :value="planinvoiceamount" style='min-width:220px;' placeholder="计划开票金额" disabled></el-input>
                     </el-form-item>
                   </el-col>
 
@@ -109,7 +113,7 @@
                     </el-form-item>
                   </el-col> -->
                   <el-col :span="8">
-                    <el-form-item label-width="130px" label="计划开票数量:" class="postInfo-container-item">
+                    <el-form-item label-width="130px" size="small" label="计划开票数量:" class="postInfo-container-item">
                       <el-input placeholder="计划开票数量" style='min-width:200px;' :value="planinvoicenum" disabled>
                       </el-input>
                     </el-form-item>
@@ -119,13 +123,13 @@
                 <el-row>
                   <el-col :span="8">
                     <el-form-item label-width="110px" label="折扣金额合计:" class="postInfo-container-item">
-                      <el-input type="number" v-model="outputInvoiceform.outputInvoice.discountamount" style='min-width:220px;'  placeholder="请输入折扣金额合计"></el-input>
+                      <el-input type="number" size="small" v-model="outputInvoiceform.outputInvoice.discountamount" style='min-width:220px;'  placeholder="请输入折扣金额合计"></el-input>
                     </el-form-item>
                   </el-col>
 
                   <el-col :span="8">
                     <el-form-item label-width="120px" label="最迟开票日期:" class="postInfo-container-item">
-                      <el-date-picker v-model="outputInvoiceform.outputInvoice.lastinvoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                      <el-date-picker size="small" v-model="outputInvoiceform.outputInvoice.lastinvoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                       </el-date-picker>
                     </el-form-item>
                   </el-col>
@@ -136,7 +140,7 @@
           </el-row>
 
           <el-form-item style="margin-bottom: 40px;" label-width="45px" label="备注:">
-            <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="outputInvoiceform.outputInvoice.memos">
+            <el-input type="textarea" size="small"  class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="outputInvoiceform.outputInvoice.memos">
             </el-input>
             <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
           </el-form-item>
@@ -146,6 +150,7 @@
               @selection-change="handleSelectionChange"
               ref="outputInvoiceTable"
               style="width: 100%"
+              size="small" 
               border
               max-height="600">
               <el-table-column
@@ -231,7 +236,7 @@
                 width="175">
                 <template slot-scope="scope">
                   <template v-if="scope.row.edit">
-                    <el-input-number v-model="scope.row.invoicenum" :min="1" :max="scope.row.planinvoicenum" style="max-width: 150px" @change="reflashData"></el-input-number>
+                    <el-input-number size="small"  v-model="scope.row.invoicenum" :min="1" :max="scope.row.planinvoicenum" style="max-width: 150px" @change="reflashData"></el-input-number>
                   </template>
                   <span v-else>{{ scope.row.invoicenum }}</span>
                 </template>

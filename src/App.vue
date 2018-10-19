@@ -10,9 +10,19 @@ export default {
 }
 </script>
 <style lang="scss">
+*{
+  font-size: 14px;
+}
 .simpleCard{
     padding-bottom: 0;
     margin-bottom: 20px;
+    box-shadow: 0 !important;
+    .el-form-item{
+      margin-bottom: 10px;
+      .el-input{
+max-width:200px;
+      }
+    }
     .simpleCardLastLine{
       margin-bottom: 0;
     }

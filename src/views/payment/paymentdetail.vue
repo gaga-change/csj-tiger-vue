@@ -4,15 +4,15 @@
       <template v-if="fetchSuccess">
 
         <template v-if="planform.payment.status == -1 || planform.payment.status == -2">
-          <el-button  style="margin-left: 10px;" type="warning"
+          <el-button  style="margin-left: 10px;" type="warning" size="small"
             @click="Modify(3, 'payment')" :disabled="!$haspermission('paymentDelete')">删除</el-button>
-          <el-button  style="margin-left: 10px;" type="primary"  @click="Edit" :disabled="!$haspermission('paymentEdit')">修改</el-button>
+          <el-button  style="margin-left: 10px;" type="primary" size="small" @click="Edit" :disabled="!$haspermission('paymentEdit')">修改</el-button>
         </template>
         <template v-else-if="planform.payment.status == 0">
           <div>
-            <el-button  style="margin-left: 10px;" type="primary"
+            <el-button  style="margin-left: 10px;" type="primary" size="small"
               @click="Modify(0, 'payment', true)" :disabled="!$haspermission('paymentCheck')">审核</el-button>
-            <el-button  style="margin-left: 10px;" type="error"  @click="Modify(1, 'payment', true)" :disabled="!$haspermission('paymentReject')">驳回</el-button>
+            <el-button  style="margin-left: 10px;" type="error"  size="small" @click="Modify(1, 'payment', true)" :disabled="!$haspermission('paymentReject')">驳回</el-button>
           </div>
         </template>
         <template v-else>
@@ -25,7 +25,7 @@
       </template>
 
     </sticky>
-    <el-form :model="planform" ref="ruleForm" label-width="120px">
+    <el-form :model="planform" ref="ruleForm" label-width="68px" label-position="left">
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="付款单号" prop="payment.ticketno">
@@ -55,7 +55,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="本次实付金额" prop="payment.payamount">
+          <el-form-item label="本次实付金额" prop="payment.payamount" label-width="96px">
             <el-input type="text" v-model="planform.payment.payamount" disabled size="small"></el-input>
           </el-form-item>
         </el-col>
@@ -86,7 +86,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="关联采购单号" prop="payment.purchorder">
+            <el-form-item label="关联采购单号" prop="payment.purchorder" label-width="96px">
               <el-input type="text"  :value="planform.payment.purchorder" disabled size="small"></el-input>
             </el-form-item>
           </el-col>

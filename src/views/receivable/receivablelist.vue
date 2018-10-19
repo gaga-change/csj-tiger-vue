@@ -2,26 +2,26 @@
   <div class="app-container">
     <sticky :className="'sub-navbar published'" style="margin-bottom:15px;">
       <template>
-        <el-button style="margin-left: 10px;" type="primary"  @click="Export" :loading="downloadLoading" :disabled="downloadLoading">导出列表</el-button>
+        <el-button style="margin-left: 10px;" type="primary" size="small"  @click="Export" :loading="downloadLoading" :disabled="downloadLoading">导出列表</el-button>
       </template>
     </sticky>
-    <el-form :model="receivableform" ref="ruleForm" label-width="80px">
+    <el-form :model="receivableform" ref="ruleForm" label-width="68px" label-position="left">
     <el-card class="simpleCard"> 
 
       <el-row >
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="收款单号" prop="receivable.ticketno">
-            <el-input type="text" v-model="receivableform.receivable.ticketno" style="width:220px"></el-input>
+            <el-input type="text" size="small" style="max-width:199px;" v-model="receivableform.receivable.ticketno"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="销售单号" prop="receivable.saleorder">
-            <el-input type="text" v-model="receivableform.receivable.saleorder" style="width:220px"></el-input>
+            <el-input type="text" size="small" style="max-width:199px;" v-model="receivableform.receivable.saleorder" ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="状态" prop="receivable.status">
-            <el-select v-model="receivableform.receivable.status" filterable clearable placeholder="请搜索或选择" prefix-icon="el-icon-search" style="width:220px">
+            <el-select v-model="receivableform.receivable.status" size="small" filterable clearable placeholder="请搜索或选择" prefix-icon="el-icon-search" >
               <el-option
                 v-for="item in statusList"
                 :key="item.value"
@@ -31,11 +31,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row >
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="付款方" prop="receivable.payer">
-            <el-select v-model="receivableform.receivable.payer" filterable clearable placeholder="请选择客户" prefix-icon="el-icon-search" style="width:220px">
+            <el-select v-model="receivableform.receivable.payer" size="small" filterable clearable placeholder="请选择客户" prefix-icon="el-icon-search" >
               <el-option
                 v-for="item in gridData"
                 :key="item.id"
@@ -45,9 +43,11 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+      </el-row>
+      <el-row >
+        <el-col :span="6">
           <el-form-item label="款项性质" prop="receivable.fundnature">
-            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" prefix-icon="el-icon-search" style="width:220px">
+            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" >
               <el-option
                 v-for="item in fundnature"
                 :key="item.value"
@@ -57,9 +57,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="结算方式" prop="receivable.settlementmethod">
-            <el-select v-model="receivableform.receivable.settlementmethod" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search" style="width:220px">
+            <el-select v-model="receivableform.receivable.settlementmethod" filterable clearable placeholder="请选择结算方式" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in settlementmethod"
                 :key="item.value"
@@ -69,28 +69,14 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="收款日期" prop="receivable.recdate">
-            <el-date-picker
-              v-model="receivableform.receivable.postrecdate"
-              type="datetimerange"
-              :editable="false"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
         <el-col :span="6">
           <el-form-item label="合同编号" prop="receivable.contractno">
-            <el-input type="text" v-model="receivableform.receivable.contractno" style="width:220px"></el-input>
+            <el-input type="text" size="small" style="max-width:199px;" v-model="receivableform.receivable.contractno" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="业务板块">
-            <el-select v-model="receivableform.receivable.businesstype" filterable clearable placeholder="请选择" style="width:220px" prefix-icon="el-icon-search" >
+            <el-select v-model="receivableform.receivable.businesstype" size="small" filterable clearable placeholder="请选择"  prefix-icon="el-icon-search" >
               <el-option
                 v-for="item in businesstypeData"
                 :key="item.value"
@@ -100,11 +86,28 @@
             </el-select>
           </el-form-item>
         </el-col>
-         <el-col :span="23" style="text-align:right">
+      </el-row>
+      <el-row >
+        <el-col :span="6">
+          <el-form-item label="收款日期" prop="receivable.recdate">
+            <el-date-picker
+              v-model="receivableform.receivable.postrecdate"
+              type="datetimerange"
+              :editable="false"
+              size="small"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row >
+         <el-col :span="6">
 
-      <el-form-item class="simpleCardLastLine">
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button @click="onCancel">重置</el-button>
+      <el-form-item class="simpleCardLastLine" label-width="0">
+        <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
+        <el-button @click="onCancel" size="small">重置</el-button>
       </el-form-item>
               </el-col>
       </el-row>
@@ -116,6 +119,7 @@
           :data="list"
           v-loading="loading"
           show-summary
+          size="small"
           :summary-method="getSummaries"
           style="width: 100%"
           border>
@@ -123,7 +127,7 @@
             label="单号"
             width="220">
             <template slot-scope="scope">
-              <el-button type="text" @click="viewRow(scope.row)">{{scope.row.ticketno}}</el-button>
+              <el-button type="text" size="small" @click="viewRow(scope.row)">{{scope.row.ticketno}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -244,6 +248,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentPageChange"
           :current-page="currentPage"
+          size="small"
           :page-sizes="[10, 20, 30, 40]"
           :page-size="pagesize"
           layout="total, sizes, prev, pager, next, jumper"

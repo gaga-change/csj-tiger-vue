@@ -4,12 +4,12 @@
       <template v-if="fetchSuccess">
 
         <template v-if="planform.inputInvoice.status == -1 || planform.inputInvoice.status == -2">
-          <el-button  style="margin-left: 10px;" type="warning"  @click="Modify(3, 'inputInvoice')" :disabled="!$haspermission('inputInvoiceDelete')">删除</el-button>
+          <el-button  style="margin-left: 10px;" type="warning" size="small"   @click="Modify(3, 'inputInvoice')" :disabled="!$haspermission('inputInvoiceDelete')">删除</el-button>
           <!-- <el-button  style="margin-left: 10px;" type="primary"  @click="Edit">修改</el-button> -->
         </template>
         <template v-else-if="planform.inputInvoice.status == 0">
-          <el-button  style="margin-left: 10px;" type="primary"  @click="Modify(0, 'inputInvoice')" :disabled="!$haspermission('inputInvoiceCheck')">审核</el-button>
-          <el-button  style="margin-left: 10px;" type="error"  @click="Modify(1, 'inputInvoice')" :disabled="!$haspermission('inputInvoiceReject')">驳回</el-button>
+          <el-button  style="margin-left: 10px;" type="primary" size="small" @click="Modify(0, 'inputInvoice')" :disabled="!$haspermission('inputInvoiceCheck')">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="error" size="small"  @click="Modify(1, 'inputInvoice')" :disabled="!$haspermission('inputInvoiceReject')">驳回</el-button>
         </template>
         <template v-else>
           <el-tag >暂无操作</el-tag>
@@ -21,85 +21,17 @@
       </template>
 
     </sticky>
-    <el-form  class="form-container" :model="planform" ref="postForm">
+    <el-form  class="form-container" label-position="left" :model="planform" ref="postForm">
       <div class="createPost-main-container">
+      <item-title text="基本信息"/>
+        <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
         <el-row>
-          <el-col :span="21">
-
-            <div class="postInfo-container">
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="110px" label="开票单号:" class="postInfo-container-item">
-                    {{planform.inputInvoice.ticketno}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="服务商:" class="postInfo-container-item">
-                    {{planform.inputInvoice.servicername}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="开票日期:" class="postInfo-container-item">
-                    {{planform.inputInvoice.invoicedate}}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="110px" label="发票号码:" class="postInfo-container-item">
-                    {{planform.inputInvoice.invoiceno}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="单据状态:" class="postInfo-container-item">
-                    {{planform.inputInvoice.status|statusFilter}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="税前金额:" class="postInfo-container-item">
-                    ￥{{planform.inputInvoice.pretaxamount}}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="110px" label="税额:" class="postInfo-container-item">
-                    ￥{{planform.inputInvoice.taxamount}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="实际开票金额:" class="postInfo-container-item">
-                    ￥{{planform.inputInvoice.invoiceamount}}
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="计划开票金额:" class="postInfo-container-item">
-                    ￥{{planform.inputInvoice.planinvoiceamount}}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="8" v-show="planform.inputInvoice.checkuser">
-                  <el-form-item label-width="110px" label="审核人:" class="postInfo-container-item">
-                    ￥{{planform.inputInvoice.checkuser}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8" v-show="planform.inputInvoice.checkdate">
-                  <el-form-item label-width="80px" label="审核日期:" class="postInfo-container-item">
-                    ￥{{planform.inputInvoice.checkdate}}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-
-            </div>
+          <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style" v-show="item.value || item.nthShow ">
+              <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
           </el-col>
-        </el-row>
+       </el-row>
+      </el-card>
+<item-title text="进项发票明细" style="margin-top:10px;"/>
         <el-form-item style="margin-bottom: 40px;" label-width="0">
           <el-table
             :data="planform.inputInvoiceItems"
@@ -217,6 +149,24 @@ import { getItemDetail, getMainDetail } from '@/api/invoice'
 import Modify from '@/utils/modify'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
+import moment from 'moment'
+
+const infoConfig=[
+   {title:'开票单号',value:'ticketno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'服务商',value:'servicername',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'开票日期',value:'invoicedate',style:'minWidth:310px;marginBottom:16px',type:'time',span:8,nthShow:true},
+   {title:'发票号码',value:'invoiceno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'单据状态',value:'status',type:'statusFilter',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'税前金额',value:'pretaxamount',style:'minWidth:310px;marginBottom:16px',type:'money',span:8,nthShow:true},
+   {title:'税额',type:'money',value:'taxamount',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'实际开票金额',type:'money',value:'invoiceamount',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'计划开票金额',value:'planinvoiceamount',type:'money',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'审核人',value:'checkuser',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
+   {title:'审核日期',value:'checkdate',type:'time',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
+ ]
+
+
 export default {
   components: {
     Sticky
@@ -227,7 +177,10 @@ export default {
         inputInvoice: {},
         inputInvoiceItems: []
       },
-      fetchSuccess: true
+      fetchSuccess: true,
+      config:{},
+      loading:false,
+      infoConfig
     }
   },
   computed: {
@@ -247,8 +200,8 @@ export default {
       await getMainDetail({
         ticketno: this.$route.params.ticketno
       }).then(res => {
-        console.log(res,'inputInvoice')
         this.planform.inputInvoice = res.data.data[0]
+        this.config = _.cloneDeep(res.data.data[0])
       }).catch(err => {
         console.log(err)
         this.fetchSuccess = false
@@ -262,8 +215,19 @@ export default {
         console.log(err)
         this.fetchSuccess = false
       })
+    },
+    formatter(type,value){
+        if(value!=undefined){
+          switch(type){
+            case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
+            case 'statusFilter': return value || value ==0 ?this.$options.filters.statusFilter(value) :'';
+            case 'money': return `￥${value}`
+            case 'boolean': return Number(value)?'是':'否';
+            default : return value
+          }
+        } 
     }
-  }
+  },
 }
 </script>
 

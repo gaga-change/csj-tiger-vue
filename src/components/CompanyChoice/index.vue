@@ -2,17 +2,17 @@
   <div>
     <el-form :inline="true" :model="postForm" class="demo-form-inline" labelWidth="120px">
       <el-form-item label="企业编号">
-        <el-input v-model="postForm.code" placeholder="请输入企业编号"></el-input>
+        <el-input v-model="postForm.code" size="small" placeholder="请输入企业编号"></el-input>
       </el-form-item>
       <el-form-item label="企业名称">
-        <el-input v-model="postForm.name" placeholder="请输入企业名称"></el-input>
+        <el-input v-model="postForm.name" size="small" placeholder="请输入企业名称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button  @click="onReset">重置</el-button>
+        <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
+        <el-button  @click="onReset" size="small">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="currentData" ref="singleTable" highlight-current-row @current-change="handleCurrentChange" :loading="loading">
+    <el-table size="small" :data="currentData" ref="singleTable" highlight-current-row @current-change="handleCurrentChange" :loading="loading">
       <el-table-column property="code" label="企业编号" ></el-table-column>
       <el-table-column property="name" label="企业名称" ></el-table-column>
     </el-table>
@@ -20,6 +20,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentPageChange"
       :current-page="currentPage"
+      size="small"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"

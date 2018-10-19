@@ -3,7 +3,7 @@
     <sticky :className="'sub-navbar published'" >
       <template v-if="fetchSuccess">
 
-        <el-button  style="margin-left: 10px;" type="success"@click="submitForm" :disabled="!planform.OutputInvoiceItems.length">提交</el-button>
+        <el-button  style="margin-left: 10px;" type="success"@click="submitForm" size="small" :disabled="!planform.OutputInvoiceItems.length">提交</el-button>
 
       </template>
       <template v-else>
@@ -11,112 +11,108 @@
       </template>
 
     </sticky>
-    <el-form  class="form-container" :model="planform" ref="postForm" :rules="makeoutinvoiceRules">
+    <el-form  class="form-container" :model="planform" ref="postForm" label-width="86px" label-position="left" :rules="makeoutinvoiceRules">
       <div class="createPost-main-container">
-        <el-row>
-          <el-col :span="21">
+        <item-title text="基本信息"/>
+        <el-card v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
+          <el-row>
+            <el-col>
+              <div class="postInfo-container">
+                <el-row>
+                  <el-col :span="6">
+                    <el-form-item label-width="110px" label="申请开票单号:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.applyinvoice}}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label-width="110px" label="最迟开票日期:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.lastinvoicedate}}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label-width="110px" label="申请开票金额:" class="postInfo-container-item">
+                      ￥{{planform.OutputInvoice.planinvoiceamount}}
+                    </el-form-item>
+                  </el-col>
+                    <el-col :span="6">
+                    <el-form-item label-width="120px" label="实际开票金额:" class="postInfo-container-item">
+                      ￥{{planform.OutputInvoice.invoiceamount}}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="6">
+                    <el-form-item label="客户:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.customername}}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="单据状态:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.status|statusFilter}}
+                    </el-form-item>
+                  </el-col>
 
-            <div class="postInfo-container">
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="110px" label="申请开票单号:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.applyinvoice}}
-                  </el-form-item>
-                </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="税前金额:" class="postInfo-container-item">
+                      ￥{{planform.OutputInvoice.pretaxamount}}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="税额:" class="postInfo-container-item">
+                      ￥{{planform.OutputInvoice.taxamount}}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="6" >
+                    <el-form-item label="申请人:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.createuser}}
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6" v-show="planform.OutputInvoice.checkuser">
+                    <el-form-item label="审核人:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.checkuser}}
+                    </el-form-item>
+                  </el-col>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="客户:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.customername}}
-                  </el-form-item>
-                </el-col>
+                  <el-col :span="6" v-show="planform.OutputInvoice.checkdate">
+                    <el-form-item label="审核日期:" class="postInfo-container-item">
+                      {{planform.OutputInvoice.checkdate}}
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="6" >
+                    <el-form-item label="发票号:" class="postInfo-container-item" prop="OutputInvoice.invoiceno">
+                      <el-input type="text" v-model="planform.OutputInvoice.invoiceno" placeholder="请输入发票号"></el-input>
+                    </el-form-item>
+                  </el-col>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="最迟开票日期:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.lastinvoicedate}}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="申请开票金额:" class="postInfo-container-item">
-                    ￥{{planform.OutputInvoice.planinvoiceamount}}
-                  </el-form-item>
-                </el-col>
+                  <el-col :span="6" >
+                    <el-form-item label="开票日期:" class="postInfo-container-item" prop="OutputInvoice.invoicedate">
+                      <el-date-picker size="small" v-model="planform.OutputInvoice.invoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                      </el-date-picker>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="单据状态:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.status|statusFilter}}
-                  </el-form-item>
-                </el-col>
+                <el-form-item  label-width="45px" label="备注:">
+                  <el-input type="textarea" size="small" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="planform.OutputInvoice.memos">
+                  </el-input>
+                </el-form-item>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="税前金额:" class="postInfo-container-item">
-                    ￥{{planform.OutputInvoice.pretaxamount}}
-                  </el-form-item>
-                </el-col>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+       <item-title text="财务开票明细" style="margin-top:10px"/>
 
-              </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="110px" label="税额:" class="postInfo-container-item">
-                    ￥{{planform.OutputInvoice.taxamount}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="实际开票金额:" class="postInfo-container-item">
-                    ￥{{planform.OutputInvoice.invoiceamount}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8" >
-                  <el-form-item label-width="80px" label="申请人:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.createuser}}
-                  </el-form-item>
-                </el-col>
-
-              </el-row>
-              <el-row>
-                <el-col :span="8" v-show="planform.OutputInvoice.checkuser">
-                  <el-form-item label-width="110px" label="审核人:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.checkuser}}
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8" v-show="planform.OutputInvoice.checkdate">
-                  <el-form-item label-width="120px" label="审核日期:" class="postInfo-container-item">
-                    {{planform.OutputInvoice.checkdate}}
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="8" >
-                  <el-form-item label-width="110px" label="发票号:" class="postInfo-container-item" prop="OutputInvoice.invoiceno">
-                    <el-input type="text" v-model="planform.OutputInvoice.invoiceno" placeholder="请输入发票号"></el-input>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8" >
-                  <el-form-item label-width="120px" label="开票日期:" class="postInfo-container-item" prop="OutputInvoice.invoicedate">
-                    <el-date-picker v-model="planform.OutputInvoice.invoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
-                    </el-date-picker>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-
-              <el-form-item style="margin-bottom: 40px;" label-width="45px" label="备注:">
-                <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="planform.OutputInvoice.memos">
-                </el-input>
-              </el-form-item>
-
-            </div>
-          </el-col>
-        </el-row>
         <el-form-item style="margin-bottom: 40px;" label-width="0">
           <el-table
             :data="planform.OutputInvoiceItems"
             ref="OutputInvoiceTable"
             style="width: 100%"
+            size="small"
             border
             max-height="600">
             <el-table-column
@@ -401,6 +397,9 @@ export default {
     position: relative;
     .createPost-main-container {
       padding: 40px 45px 20px 50px;
+       .el-form-item{
+        margin-bottom: 0;
+      }
       .postInfo-container {
         position: relative;
         @include clearfix;
