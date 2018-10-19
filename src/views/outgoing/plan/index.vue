@@ -153,38 +153,18 @@
        getBillType().then(res=>{
          if(res.success){
            this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('出库'));
-         } else{
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-            });
          }
        }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+         
       })
 
 
       getIssuedState().then(res=>{
          if(res.success){
            this.issuedStateConfig=res.data;
-         } else{
-            this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
          }
       }).catch(err=>{
-        this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+       
       })
 
 
@@ -196,19 +176,9 @@
               arr.push({key:i,value:data[i]})
           }
           this.execStatuConfig=arr;
-        } else{
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-            });
-        }
+        } 
       }).catch(err=>{
-         this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+       
       })
 
       this.getCurrentTableData();
@@ -319,23 +289,12 @@
           let data=res.data;
           this.tableData=data.list;
           this.total=data.total;
-       } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
        }
         this.loading=false;
 
      }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-           this.loading=false;
-        })
+         this.loading=false;
+     })
       }
     }
  }

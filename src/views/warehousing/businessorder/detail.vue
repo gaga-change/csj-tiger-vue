@@ -24,33 +24,33 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',width:"50",fixed:true,type:'index'},
-    { label:'SKU名称',prop:'skuName',width:"150",fixed:false,},
-    { label:'规格型号',prop:'skuFormat',width:"180",fixed:false,},
-    { label:'生产厂家',prop:'productFactory',width:"150",fixed:false,},
-    { label:'商品分类',prop:'skuCategoryno',width:"150",fixed:false,},
-    { label:'品牌名',prop:'skuBrandName',width:"150",fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',width:"80",fixed:false},
-    { label:'出单价格',prop:'inPrice',width:"150",fixed:false,},
-    { label:'已出/应出(单位)',width:"150",fixed:false,dom:(row, column, cellValue, index)=>{
+    { label:'序号',fixed:true,type:'index'},
+    { label:'SKU名称',prop:'skuName',fixed:false,},
+    { label:'规格型号',prop:'skuFormat',fixed:false,},
+    { label:'生产厂家',prop:'productFactory',fixed:false,},
+    { label:'商品分类',prop:'skuCategoryno',fixed:false,},
+    { label:'品牌名',prop:'skuBrandName',fixed:false,},
+    { label:'转换比',prop:'skuUnitConvert',fixed:false},
+    { label:'出单价格',prop:'inPrice',fixed:false,},
+    { label:'已出/应出(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
     }},
    
  ];
 
  const infoConfig=[
-   {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'业务类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'来源系统',value:'fromSystemId',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'制单时间',type:'time',value:'gmtCreate',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'制单人',value:'createrName',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'状态',type:'busiBillState',value:'billState',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'产品线',value:'productLine',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'业务模式',value:'businessModel',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'供应商编号',value:'providerCode',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'供应商名称',value:'providerName',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'联系电话',value:'providerLinkTel',style:'minWidth:310px;marginBottom:16px',span:16},
-   {title:'其他信息',value:'otherInfo',style:'minWidth:310px;marginBottom:16px',span:24},
+   {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'业务类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'来源系统',value:'fromSystemId',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'制单时间',type:'time',value:'gmtCreate',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'制单人',value:'createrName',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'状态',type:'busiBillState',value:'billState',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'产品线',value:'productLine',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'业务模式',value:'businessModel',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'供应商编号',value:'providerCode',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'供应商名称',value:'providerName',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'联系电话',value:'providerLinkTel',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'其他信息',value:'otherInfo',style:'minWidth:310px;marginBottom:16px',span:6},
  ]
 
 
@@ -82,23 +82,9 @@
           this.config=data;
           this.tableData=data.items;
           this.loading=false;
-        } else{
-           console.log('busibill/select/detail',res)
-            this.loading=false;
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-           });
-        }
+        } 
       }).catch(err=>{
-         console.log('busibill/select/detail',err)
           this.loading=false;
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
       })
     },
 

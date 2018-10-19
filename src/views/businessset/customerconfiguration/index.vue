@@ -1,48 +1,50 @@
 <template>
   <div class="outgoing-quiry-container">
+  <div style="marginBottom:12px">
+   <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
-       
-        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="8" style="minWidth:310px">
+        <el-form :inline="true" :model="ruleForm" size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline">
+          <el-col :span="8" >
             <el-form-item label="仓库编号" prop="warehouseNo">
-              <el-input v-model.lazy.trim="ruleForm.warehouseNo" style="width:210px"  @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主编号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.warehouseNo"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主编号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:310px">
+          <el-col :span="8" >
             <el-form-item label="仓库名称" prop="warehouseName">
-              <el-input v-model.lazy.trim="ruleForm.warehouseName" style="width:210px"  @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.warehouseName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:310px">
+          <el-col :span="8" >
             <el-form-item label="服务客户名称" prop="customerName">
-              <el-input v-model.lazy.trim="ruleForm.customerName" style="width:210px"  @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.customerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary" size="medium"  @click="submitForm('ruleForm')">查询</el-button>
+              <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" size="medium" @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-col>
       </el-form>
-
-        <base-table 
-          @sizeChange="handleSizeChange"
-          @currentChange="handleCurrentChange"
-          :loading="loading"
-          :config="tableConfig"  
-          :total="total" 
-          :maxTotal="7"
-          :pageSize="ruleForm.pageSize"
-          :currentPage="ruleForm.pageNum"
-          :tableData="tableData"/>
     </el-row>
+    </el-card>
+  </div>
+    <base-table 
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+      :loading="loading"
+      :config="tableConfig"  
+      :total="total" 
+      :maxTotal="10"
+      :pageSize="ruleForm.pageSize"
+      :currentPage="ruleForm.pageNum"
+      :tableData="tableData"/>
   </div>
 </template>
 
@@ -62,7 +64,7 @@
           warehouseName: '',
           customerName:'',
           pageNum: 1,
-          pageSize:7,
+          pageSize:10,
         },
         total:0,
         warehouseTypeConfig:[],
@@ -97,19 +99,9 @@
        getWarehouseType().then(res=>{
         if(res.success){
           this.warehouseTypeConfig=res.data;
-        } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
+        } 
        }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+
        })
   
 
@@ -138,7 +130,7 @@
        },
 
        submitForm(formName) {
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.getCurrentTableData();
@@ -150,7 +142,7 @@
 
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.getCurrentTableData()
       },
 
@@ -182,31 +174,15 @@
           let data=res.data;
           this.tableData=data.list;
           this.total=data.total;
-       } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
+       } 
         this.loading=false;
 
-     }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-           this.loading=false;
+        }).catch(err=>{
+              this.loading=false;
         })
       }
     }
  }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quiry-container{
-    padding: 24px;
-  }
-</style>
 

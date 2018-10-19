@@ -1,6 +1,5 @@
 import { signApprove,signDelete } from '@/api/reply'
 export function Prompt(type){
-  let data=_.cloneDeep(this.planform);
   if(type=='examine'){
      this.$prompt('请输入审核意见', '提示', {
         confirmButtonText: '确定',
@@ -12,8 +11,7 @@ export function Prompt(type){
           code:1
         }).then(res=>{
           if(res.success){
-            data.receiptOrder.status=1;
-            this.planform=data; 
+            this.approveStatus=1;
             this.$message({
               type: 'success',
               message: '审核成功!'
@@ -27,19 +25,19 @@ export function Prompt(type){
             })
           } else{
             this.$message({
-              type: 'warn',
+              type: 'error',
               message: '审核失败!'
             })
           }
         }).catch(err=>{
           this.$message({
-            type: 'warn',
+            type: 'error',
             message: '审核失败!'
           })
         })
       }).catch(err=>{
         this.$message({
-          type: 'warn',
+          type: 'info',
           message: '已取消审核!'
         })
     })
@@ -54,8 +52,7 @@ export function Prompt(type){
         code:2
       }).then(res=>{
         if(res.success){
-          data.receiptOrder.status=2;
-          this.planform=data;
+          this.approveStatus=2;
           this.$router.replace({
             path:'/reply/newreceiptorder-detail',
             query:{data:JSON.stringify({
@@ -65,14 +62,14 @@ export function Prompt(type){
           })
         } else{
           this.$message({
-            type: 'warn',
+            type: 'error',
             message: '驳回失败,已取消驳回'
           })
         }
        
       }).catch(err=>{
         this.$message({
-          type: 'warn',
+          type: 'error',
           message: '驳回失败,已取消驳回'
         })
       })
@@ -100,13 +97,13 @@ export function Prompt(type){
           this.$router.back()
         } else{
           this.$message({
-            type: 'warn',
+            type: 'error',
             message: '删除失败'
           })
         }
       }).catch(err=>{
         this.$message({
-          type: 'warn',
+          type: 'error',
           message: '删除失败'
         })
       })

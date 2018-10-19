@@ -2,75 +2,37 @@
   <div>
      <sticky :className="'sub-navbar published'">
     <template v-if="fetchSuccess">
-      <template v-if="planform.receiptOrder.status == 2">
-        <el-button  style="margin-left: 10px;" type="warning" @click="Prompt('delete')" >删除</el-button>
-        <el-button  style="margin-left: 10px;" type="primary" @click="Edit" >修改</el-button>
+      <template v-if="approveStatus == 2">
+        <el-button  style="margin-left: 10px;"  size="small"  type="warning" @click="Prompt('delete')" >删除</el-button>
+        <el-button  style="margin-left: 10px;"  size="small"  type="primary" @click="Edit" >修改</el-button>
       </template>
-      <template v-else-if="planform.receiptOrder.status == 0">
-        <el-button  style="margin-left: 10px;" type="primary"   @click="Prompt('examine')" >审核</el-button>
-        <el-button  style="margin-left: 10px;" type="error"  @click="Prompt('reject')"  >驳回</el-button>
+      <template v-else-if="approveStatus == 0">
+        <el-button  style="margin-left: 10px;"   size="small" type="primary"   @click="Prompt('examine')" >审核</el-button>
+        <el-button  style="margin-left: 10px;"   size="small"  type="error"  @click="Prompt('reject')"  >驳回</el-button>
       </template>
       <template v-else>
         <el-tag v-show="false">详情</el-tag>
       </template>
     </template>
   </sticky>
+
   <div class="transfermanagement-container">
-    <el-form :model="planform" ref="ruleForm" :rules="rules" label-width="120px">
-      <el-row >
-         <el-col :span="8" v-if="planform.receiptOrder.signNo">
-            <el-form-item label="回单号:" prop="receiptOrder.signNo">
-              {{planform.receiptOrder.signNo}}
-            </el-form-item>
-          </el-col>
-        <el-col :span="8">
-           <el-form-item label="出库计划单号:" prop="receiptOrder.outPlanCode">
-            {{formatter(planform.receiptOrder.outPlanCode)}}
-           </el-form-item>
+   <div style="margin:8px 0 12px">
+     <item-title text="基本信息"/>
+     <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
+      <el-row>
+        <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
+           <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(config[item.value],item.type)}}</span>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="收货企业:" prop="receiptOrder.ownerName">
-            {{formatter(planform.receiptOrder.ownerName)}}
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="发货仓库:" prop="receiptOrder.planWarehouseCode">
-            {{formatter(planform.receiptOrder.planWarehouseName)}}
-          </el-form-item>
-        </el-col>
-
-      <el-col :span="8">
-        <el-form-item label="签收人:" prop="receiptOrder.signName">
-          {{formatter(planform.receiptOrder.signName)}}
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="签收人电话:" prop="receiptOrder.signTel">
-          {{formatter(planform.receiptOrder.signTel)}}
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="签收日期:" prop="receiptOrder.signCreateTime">
-          {{formatter(planform.receiptOrder.signCreateTime,'time')}}
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="审核人:" prop="receiptOrder.approveName">
-          {{planform.receiptOrder.approveName}}
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="审核日期:" prop="receiptOrder.approveCreateTime">
-          {{formatter(planform.receiptOrder.approveCreateTime,'time')}}
-        </el-form-item>
-      </el-col>
       </el-row>
-    </el-form>
+      </el-card>
+    </div>
 
+    <item-title text="相关明细"/>
     <web-pagination-table 
+     :loading="loading"
      :config="tableConfig" 
      :allTableData="tableData"/>
-     
   </div>
   </div>
 </template>
@@ -80,7 +42,6 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import {Prompt} from '@/utils/prompt'
  import { signDetail} from '@/api/reply'
- import { getWarehouseType } from '@/api/map'
  import moment from 'moment'
  export default {
   components: { 
@@ -90,73 +51,62 @@
    data(){
      return {
        fetchSuccess:true,
-       planform:{
-         receiptOrder:{status:1},
-       },
+        approveStatus:1,
         tableConfig:[],
         tableData:[],
-        rules:{
 
-        },
-        warehouseTypeConfig:[],
+        infoConfig:[],
+        config:[],
+        rules:{},
+        loading:false
      }
    },
 
     beforeMount(){
       this.tableConfig=[
-          { label:'序号',width:"50",fixed:true,type:'index'},
-          { label:'商品编码',prop:'skuCode',width:"150",fixed:false,},
-          { label:'商品名称',prop:'skuName',width:"150",fixed:false,},
-          { label:'品牌',prop:'skuBrandName',width:"150",fixed:false,},
-          { label:'规格',prop:'skuFormat',width:"150",fixed:false,},
-          { label:'单位',prop:'skuUnitName',width:"150",fixed:false,},
-          { label:'单价',prop:'skuPrice',width:"100",fixed:false},
-          { label:'转换率',prop:'skuUnitConvert',width:"100",fixed:false},
-          { label:'签收数量',prop:'signQty',width:"150",fixed:false},
-          { label:'拒收数量',prop:'rejectQty',width:"150",fixed:false},
+          { label:'序号',fixed:true,type:'index'},
+          { label:'商品编码',prop:'skuCode',fixed:false,},
+          { label:'商品名称',prop:'skuName',fixed:false,},
+          { label:'品牌',prop:'skuBrandName',fixed:false,},
+          { label:'规格',prop:'skuFormat',fixed:false,},
+          { label:'单位',prop:'skuUnitName',fixed:false,},
+          { label:'单价',prop:'skuPrice',fixed:false},
+          { label:'转换率',prop:'skuUnitConvert',fixed:false},
+          { label:'签收数量',prop:'signQty',fixed:false},
+          { label:'拒收数量',prop:'rejectQty',fixed:false},
       ];
-      this.tableData=[
-        {skuName:'商品编码',skuFormat:'商品名称',productFactory:'品牌',skuCategoryno:'规格',skuBrandName:'单位',skuUnitName:'单价',skuUnitConvert:'税率',inPrice:'签收数量',inStoreQty:'签收金额'}
-      ]
+
+     this.infoConfig=[
+        {title:'回单号',value:'signNo',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'出库计划单号',value:'outPlanCode',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'收货企业',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'发货仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'签收人',value:'signName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'签收人电话',value:'signTel',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'签收日期',value:'signCreateTime',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'审核人',value:'approveName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'审核日期',value:'approveCreateTime',style:'minWidth:310px;marginBottom:16px',span:6},
+      ];
      },
 
    mounted(){
       let { id,approveStatus}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
-      let data=_.cloneDeep(this.planform);
-      data.receiptOrder.status=approveStatus;
       this.signId=id;
-      this.planform=data;
-       getWarehouseType().then(res=>{
-        if(res.success){
-          this.warehouseTypeConfig=res.data;
-        } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
-       }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       })
-    
+      this.approveStatus=approveStatus;
+      this.loading=true;
+
       signDetail({signId:id}).then(res=>{
+        this.loading=false;
         if(res.data){
-          data.receiptOrder={...data.receiptOrder,...res.data};
-          this.planform=data;
+          this.config=res.data;
+          if(!this.config.signNo){
+            let index=this.infoConfig.findIndex(v=>v.value=='signNo');
+            this.infoConfig.splice(index,1)
+          }
           this.tableData=res.data.itemList
         }
-        
       }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+         
        })
    },
 
@@ -175,7 +125,6 @@
        }
        switch(type){
          case 'time': return moment(value).format('YYYY-MM-DD hh:mm:ss');
-         case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'';
          default : return value;
        }
      }
@@ -184,7 +133,7 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .transfermanagement-container{
-    padding: 24px;
+  .el-form-item{
+    margin-bottom: 0;
   }
 </style>

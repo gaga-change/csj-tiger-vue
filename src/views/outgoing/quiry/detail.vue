@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
      <div style="marginBottom:12px">
      <item-title text="基本信息"/>
-      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
+     <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
       <el-row>
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
            <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
@@ -13,6 +13,7 @@
 
      <item-title text="相关出库单明细"/>
       <web-pagination-table 
+      :loading="loading"
       :config="tableConfig" 
       :allTableData="tableData"/>
   </div>
@@ -51,15 +52,15 @@
       ];
 
       this.infoConfig=[
-        {title:'出库单号',value:'warehouseExeCode',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'出库日期',type:'time',value:'outStoreTime',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'出库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'联系电话',value:'arrivalLinkTel',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:24},
+        {title:'出库单号',value:'warehouseExeCode',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'出库日期',type:'time',value:'outStoreTime',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'出库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'联系电话',value:'arrivalLinkTel',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:6},
       ]
     },
     mounted(){
@@ -72,23 +73,10 @@
           this.config=data;
           this.tableData=Array.isArray(data.owOrderDetailList)?data.owOrderDetailList:[];
           this.loading=false;
-        } else{
-           console.log('busibill/select/detail',res)
-            this.loading=false;
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-           });
-        }
+        } 
+        this.loading=false;
       }).catch(err=>{
-         console.log('busibill/select/detail',err)
           this.loading=false;
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
       })
     },
 

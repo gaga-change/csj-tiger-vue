@@ -36,18 +36,18 @@
  ];
 
  const infoConfig=[
-   {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'出库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'计划制定时间',type:'time',value:'planTime',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'计划人',value:'planName',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'计划仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'下推状态',type:'issuedState',value:'issuedState',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'执行状态',type:'execStatus',value:'execStatus',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'联系电话',value:'arrivalLinkTel',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:24},
+   {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'出库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'计划制定时间',type:'time',value:'planTime',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'计划人',value:'planName',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'计划仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'下推状态',type:'issuedState',value:'issuedState',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'执行状态',type:'execStatus',value:'execStatus',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'联系电话',value:'arrivalLinkTel',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:6},
  ]
 
 
@@ -77,24 +77,11 @@
           let data=res.data;
           this.config=data;
           this.tableData=Array.isArray(data.itemList)?data.itemList:[];
-          this.loading=false;
-        } else{
-           this.loading=false;
-           console.log('busibill/select/detail',res)
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-           });
         }
+        this.loading=false;
+
       }).catch(err=>{
          this.loading=false;
-         console.log('busibill/select/detail',err)
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
       })
     },
 

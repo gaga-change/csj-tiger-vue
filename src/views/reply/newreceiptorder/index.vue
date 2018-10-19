@@ -3,7 +3,7 @@
     <sticky :className="'sub-navbar published'">
       <template v-if="fetchSuccess">
         <template>
-          <el-button style="margin-left: 10px;" type="primary" @click="submitOrder('ruleForm')" v-loading="submitloading">
+          <el-button  size="small" type="primary" @click="submitOrder('ruleForm')" v-loading="submitloading">
             提交
           </el-button>
         </template>
@@ -13,56 +13,64 @@
       </template>
     </sticky>
     <div class="reply-query-container">
-      <el-form :model="planform" ref="ruleForm"  label-width="120px">
+      <el-form :model="planform" ref="ruleForm" label-width="70px"  label-position="left" size="small" >
+      <div style="margin:8px 0 12px">
+       <item-title text="基本信息"/>
+        <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
         <el-row >
-          <el-col :span="8" v-if="planform.saleSignReq.signNo">
+          <el-col :span="6" v-if="planform.saleSignReq.signNo">
             <el-form-item label="回单号:" prop="saleSignReq.signNo">
               {{planform.saleSignReq.signNo}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="出库计划单号:" prop="saleSignReq.planCode">
+          <el-col :span="6">
+            <el-form-item label="出库计划单号:" label-width="100px"   prop="saleSignReq.planCode">
               {{planform.saleSignReq.planCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="收货企业:" prop="saleSignReq.ownerName">
               {{planform.saleSignReq.ownerName}}
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="发货仓库" prop="saleSignReq.planWarehouseName">
               {{planform.saleSignReq.planWarehouseName}}
             </el-form-item>
           </el-col>
           
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item
              label="签收人"
              :rules="[
                 { required: true, message: '该项为必填'},
               ]"
               prop="saleSignReq.signName">
-              <el-input v-model="planform.saleSignReq.signName" style="width:220px" placeholder="请输入签收人"></el-input>
+              <el-input v-model="planform.saleSignReq.signName" style="width:180px"  placeholder="请输入签收人"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item 
               label="签收人电话"
+              label-width="90px"
               :rules="[
-                { required: true,pattern:/^[1][3,4,5,7,8][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/,message: '请输入正确规则的手机号或电话号码'},
+                { required: true,pattern:/^[1][3,4,5,7,8][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/,message: '请输入正确规则的手机号或电话号'},
               ]"
              prop="saleSignReq.signTel">
-              <el-input  v-model="planform.saleSignReq.signTel" style="width:220px" placeholder="请输入签收人电话"></el-input>
+              <el-input  
+              style="width:180px" 
+              v-model="planform.saleSignReq.signTel"
+                placeholder="请输入签收人电话"></el-input>
             </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item 
             label="签收日期" 
+            label-width="74px"
             :rules="[
                 { required: true, message: '该项为必填'},
               ]"
-          prop="saleSignReq.signCreateTime">
+              prop="saleSignReq.signCreateTime">
               <el-date-picker
                 v-model="planform.saleSignReq.signCreateTime"
                 type="datetime"
@@ -85,77 +93,69 @@
         </el-form-item>
       </el-col> -->
 
-
-        </el-row>
-
+          </el-row>
+        </el-card>
+      </div> 
+       <item-title text="相关明细"/>
         <el-row >
           <el-form-item label-width="0" prop="details">
             <el-table
               :data="planform.details"
-              style="width: 100%"
+              size="small"
               v-loading="loading"
-              border
+              
               max-height="600">
               <el-table-column
                 label="序号"
-                type="index"
-                width="55">
+                type="index">
               </el-table-column>
               <el-table-column
                 label="商品编码"
-                prop="skuCode"
-                width="120">
+                prop="skuCode" >
               </el-table-column>
             <el-table-column
               label="商品名称"
-              prop="skuName"
-              width="120">
+              prop="skuName">
             </el-table-column>
             <el-table-column
               label="品牌"
-              prop="skuBrandName"
-              width="120">
+              prop="skuBrandName">
             </el-table-column>
             <el-table-column
               label="规格"
-              prop="skuFormat"
-              width="200">
+              prop="skuFormat">
             </el-table-column>
             <el-table-column
               label="单位"
-              prop="skuUnitName"
-              width="80">
+              prop="skuUnitName">
             </el-table-column>
             <el-table-column
               label="出库数量"
-              prop=""
-              width="100">
+              prop="realOutQty">
               <template slot-scope="scope">
                 <span >{{ scope.row.realOutQty }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="单价"
-              prop="skuPrice"
-              width="100">
+              prop="skuPrice">
             </el-table-column>
             <el-table-column
               label="转换率"
-              prop="skuUnitConvert"
-              width="100">
+              prop="skuUnitConvert">
             </el-table-column>
       
             <el-table-column
               label="签收数量"
-              fixed="right"
-              width="180">
+               width="120">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
+                    size="mini"
                     :max="scope.row.realOutQty-scope.row.rejectQty" 
                     :min="0" 
-                    v-model="scope.row.signQty"
-                    style="width:150px;">
+                     style="width:100px"
+                    v-model="scope.row.signQty" >
                    </el-input-number>
                 </template>
                 <span v-else>
@@ -166,15 +166,16 @@
 
              <el-table-column
               label="拒收数量"
-              fixed="right"
-              width="180">
+              width="120">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
                   :max="scope.row.realOutQty-scope.row.signQty" 
                   :min="0" 
-                   v-model="scope.row.rejectQty"
-                   style="width:150px;"></el-input-number>
+                  size="mini"
+                  style="width:100px"
+                   v-model="scope.row.rejectQty" >
+                   </el-input-number>
                 </template>
                 <span v-else>
                   {{scope.row.rejectQty}}
@@ -183,7 +184,6 @@
             </el-table-column>
    
             <el-table-column
-              fixed="right"
               v-if="!($route.query.id)"
               label="操作"
               width="150">
@@ -293,8 +293,10 @@
       this.id=id;
       let data=_.cloneDeep(this.planform); 
       this.planform=data;
+      this.loading=true;
       if(modify){
           signDetail({signId:id}).then(res=>{
+          this.loading=false;
           if(res.data&&Array.isArray(res.data.itemList)){
             data.saleSignReq={...data.saleSignReq,...res.data}
             data.saleSignReq.planCode=data.saleSignReq.outPlanCode
@@ -309,14 +311,11 @@
             this.planform=data;
           }
         }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+           this.loading=false;
         })
       } else {
         planDetail({id}).then(res=>{
+          this.loading=false;
           if(res.data&&Array.isArray(res.data.itemList)){
             data.saleSignReq={...data.saleSignReq,...res.data}
             let dataList=res.data.itemList;
@@ -330,11 +329,7 @@
             this.planform=data;
           }
         }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+            this.loading=false;
         })
       }
     },
@@ -349,6 +344,7 @@
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.submitloading=true;
             let data=_.cloneDeep(this.planform);
             data.saleSignReq.enclosure=JSON.stringify(this.enclosure)
             data.saleSignReq.signCreateTime=moment(data.saleSignReq.signCreateTime).valueOf();
@@ -388,10 +384,9 @@
               return;
             }
 
-            
-  
             Api(json).then(res=>{
-               this.replyid=res.data;
+                this.submitloading=false;
+                this.replyid=res.data;
                 this.$confirm('操作成功！', '提示', {
                 confirmButtonText: '详情',
                 cancelButtonText: '关闭',
@@ -409,14 +404,10 @@
                   })
                 }
               ).catch(err=>{
-                
+                 
               })
             }).catch(err=>{
-              this.$message({
-                showClose: true,
-                message: '数据请求出错',
-                type: 'error'
-              });
+              this.submitloading=false;
             })
           } else {
             return false;
@@ -488,8 +479,3 @@
  }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .reply-query-container{
-    padding: 24px;
-  }
-</style>
