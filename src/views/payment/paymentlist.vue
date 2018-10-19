@@ -7,7 +7,7 @@
     </sticky>
 
     <el-form :model="paymentform" ref="ruleForm" label-width="80px" label-position="left" style="text-align:left">
-    <el-card class="simpleCard">
+    <el-card class="simpleCard" body-style="padding:12px" shadow="never">
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="付款单号" prop="payment.ticketno">

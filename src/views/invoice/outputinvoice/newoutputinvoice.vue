@@ -20,7 +20,7 @@
       <el-step title="核对金额填写剩余信息" ></el-step>
     </el-steps>
 </el-row>
-    <el-card class="simpleCard" style="margin-top: 20px" shadow="never">
+    <el-card class="simpleCard" shadow="never" body-style="padding:12px;margin-top: 20px;">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="68px" label-position="left">
       <el-row>
         <el-col :span="6">

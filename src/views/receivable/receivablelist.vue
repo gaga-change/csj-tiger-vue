@@ -6,7 +6,7 @@
       </template>
     </sticky>
     <el-form :model="receivableform" ref="ruleForm" label-width="68px" label-position="left">
-    <el-card class="simpleCard"> 
+    <el-card class="simpleCard" body-style="padding:12px" shadow="never"> 
 
       <el-row >
         <el-col :span="6">

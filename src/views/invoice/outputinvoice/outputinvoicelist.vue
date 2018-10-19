@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="app-container">
   <el-row>
-    <el-card class="simpleCard" shadow="never">
+    <el-card class="simpleCard" shadow="never" body-style="padding:12px" >
       <el-form :model="searchForm" ref="searchForm" label-width="48px" label-position="left">
         <el-row>
         <el-col :span="6">
