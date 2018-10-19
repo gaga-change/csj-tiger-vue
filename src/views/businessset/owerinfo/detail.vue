@@ -1,15 +1,20 @@
 <template>
   <div class="outgoing-quirydetail-container">
+    <div style="marginBottom:12px">
+     <item-title text="基本信息"/>
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
       <el-row>
-
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(config[item.value],item.type)}}</span>
+          <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(config[item.value],item.type)}}</span>
         </el-col>
-
-       <web-pagination-table 
-      :config="tableConfig" 
-      :allTableData="tableData"/>
     </el-row>
+    </el-card>
+  </div>
+  <item-title text="相关明细"/>
+    <web-pagination-table
+    :loading="loading"
+    :config="tableConfig" 
+    :allTableData="tableData"/>
   </div>
 </template>
 
@@ -27,51 +32,42 @@
         tableData:[],
         tableConfig:[],
         busiBillTypeConfig:[],
-        warehouseTypeConfig:[]
+        warehouseTypeConfig:[],
+        loading:false
       }
     },
 
     beforeMount(){
       this.tableConfig=[
-          { label:'序号',width:"50",fixed:true,type:'index'},
-          { label:'仓库编号',prop:'warehouseNo',width:"150",fixed:false,},
-          { label:'仓库名称',prop:'warehouseName',width:"180",fixed:false,},
-          { label:'仓库类型',prop:'warehouseType',width:"150",fixed:false,dom:(row, column, cellValue, index)=>this.formatter(cellValue,'warehouseType')},
-          { label:'负责人',prop:'warehouseLinkUser',width:"150",fixed:false,},
-          { label:'联系电话',prop:'warehouseLinkUserTel',width:"150",fixed:false,},
+          { label:'序号',fixed:true,type:'index'},
+          { label:'仓库编号',prop:'warehouseNo',fixed:false,},
+          { label:'仓库名称',prop:'warehouseName',fixed:false,},
+          { label:'仓库类型',prop:'warehouseType',fixed:false,dom:(row, column, cellValue, index)=>this.formatter(cellValue,'warehouseType')},
+          { label:'负责人',prop:'warehouseLinkUser',fixed:false,},
+          { label:'联系电话',prop:'warehouseLinkUserTel',fixed:false,},
       ];
 
       this.infoConfig=[
-        {title:'货主名称',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'负责人',value:'ownerLinkUser',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'联系电话',value:'ownerLinkUserTel',style:'minWidth:310px;marginBottom:16px',span:8},
-        {title:'地址',value:'ownerAddress',style:'minWidth:310px;marginBottom:16px',span:24},
+        {title:'货主名称',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'负责人',value:'ownerLinkUser',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'联系电话',value:'ownerLinkUserTel',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'地址',value:'ownerAddress',style:'minWidth:310px;marginBottom:16px',span:6},
       ]
     },
     mounted(){
       let { ownerCode,busiBillTypeConfig,warehouseTypeConfig}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
       this.busiBillTypeConfig=busiBillTypeConfig||[];
       this.warehouseTypeConfig=warehouseTypeConfig||[];
+      this.loading=true;
       owerInfoDetail({ownerCode}).then(res=>{
+        this.loading=false;
         if(res.success){
           let data=res.data;
           this.config=data;
           this.tableData=Array.isArray(data.warehouseOwnerDetailList)?data.warehouseOwnerDetailList:[]
-        } else{
-           console.log('busibill/select/detail',res)
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-           });
-        }
+        } 
       }).catch(err=>{
-         console.log('busibill/select/detail',err)
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+        this.loading=false;
       })
     },
 
@@ -94,13 +90,3 @@
  }
 
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quirydetail-container{
-    padding: 24px;
-    span{
-      color:#666;
-    }
-  }
-
-</style>

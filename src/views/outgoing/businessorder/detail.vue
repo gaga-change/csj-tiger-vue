@@ -50,8 +50,8 @@
    {title:'是否可分批',type:'boolean',value:'isBatch',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:16},
-   {title:'其他信息',value:'otherInfo',style:'minWidth:310px',span:24},
+   {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:12},
+   {title:'其他信息',value:'otherInfo',style:'minWidth:310px',span:12},
  ]
 
 
@@ -81,23 +81,9 @@
           this.config=data;
           this.tableData=data.busiBillDetails;
           this.loading=false;
-        } else{
-           console.log('busibill/select/detail',res)
-            this.loading=false;
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-           });
-        }
+        } 
       }).catch(err=>{
-         console.log('busibill/select/detail',err)
           this.loading=false;
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
       })
     },
 

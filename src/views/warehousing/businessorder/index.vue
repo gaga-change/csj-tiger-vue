@@ -142,19 +142,8 @@
        getBillType().then(res=>{
          if(res.success){
            this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('入库'))
-         } else{
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-            });
-         }
+         } 
        }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
       })
 
      outbusibillstate().then(res=>{
@@ -165,19 +154,9 @@
             arr.push({key:i,value:data[i]})
          }
          this.busiBillStateConfig=arr;
-       } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
+       } 
      }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+          
      }),
 
     this.getCurrentTableData();
@@ -263,22 +242,11 @@
           let data=res.data;
           this.tableData=data.list;
           this.total=data.total;
-       } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
+       } 
         this.loading=false;
 
      }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-           this.loading=false;
+          this.loading=false;
         })
       }
     }

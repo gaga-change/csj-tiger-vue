@@ -58,7 +58,7 @@ export default {
     },
     pageSizes:{
       type: Array,
-      default:()=> [5,10, 15, 20, 30]
+      default:()=> [10, 20, 50, 100]
     },
 
     layout:{
@@ -67,7 +67,7 @@ export default {
     },
     maxTotal:{
       type: Number,
-      default: 5
+      default: 10
     },
     elementLoadingText:{
       type: String,
@@ -96,7 +96,7 @@ export default {
     return {
       tableConfig:[],
       currentPage:1,
-      pageSize:5,
+      pageSize:10,
     }
   },
   
@@ -108,6 +108,7 @@ export default {
            case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;
            case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
            case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
+           case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>Number(cellValue).toFixed(2);break;
          }
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom

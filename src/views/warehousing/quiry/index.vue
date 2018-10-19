@@ -1,43 +1,44 @@
 <template>
   <div class="outgoing-quiry-container">
+  <div style="marginBottom:12px">
+   <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
-        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px">
-          <el-col :span="8" style="minWidth:310px">
+        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px" size="small"  label-position="left">
+          <el-col :span="8">
             <el-form-item label="入库类型"  prop="busiBillType">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType" style="width:210px"  placeholder="请选择入库类型">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择入库类型">
                 <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-
-          <el-col :span="8" style="minWidth:310px">
+          <el-col :span="8" >
             <el-form-item label="业务单号" prop="busiBillNo">
-              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入业务单号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="8" style="minWidth:310px">
+          <el-col :span="8" >
             <el-form-item label="计划单号" prop="planCode">
-              <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入计划单号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入计划单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:310px">
+          <el-col :span="8" >
             <el-form-item label="入库单号" prop="warehouseExeCode">
-              <el-input v-model.lazy.trim="ruleForm.warehouseExeCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入入库单号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.warehouseExeCode" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入入库单号"></el-input>
             </el-form-item>
           </el-col>
 
-           <el-col :span="8" style="minWidth:310px">
+           <el-col :span="8" >
              <el-form-item label="仓库"  prop="warehouseCode">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode" style="width:210px"  placeholder="请选择入库类型">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode"   placeholder="请选择入库类型">
                 <el-option   v-for="item in warehouseTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-          <el-col :span="16" style="minWidth:340px" >
+          <el-col :span="16" >
             <el-form-item label="入库日期" prop="time">
                  <el-date-picker
                     v-model="ruleForm.time"
@@ -52,27 +53,27 @@
 
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary" size="medium"  @click="submitForm('ruleForm')">查询</el-button>
+              <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" size="medium" @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-col>
       </el-form>
-
-      <base-table 
-        @sizeChange="handleSizeChange"
-        @currentChange="handleCurrentChange"
-        :loading="loading"
-        :config="tableConfig"  
-        :total="total" 
-        :maxTotal="7"
-        :pageSize="ruleForm.pageSize"
-        :currentPage="ruleForm.pageNum"
-        :tableData="tableData"/>
-
     </el-row>
+    </el-card>
+ </div>
+  <base-table 
+    @sizeChange="handleSizeChange"
+    @currentChange="handleCurrentChange"
+    :loading="loading"
+    :config="tableConfig"  
+    :total="total" 
+    :maxTotal="10"
+    :pageSize="ruleForm.pageSize"
+    :currentPage="ruleForm.pageNum"
+    :tableData="tableData"/>
   </div>
 </template>
 
@@ -94,7 +95,7 @@
             warehouseCode:'',
             time:'',
             pageNum: 1,
-            pageSize:7,
+            pageSize:10,
          },
         total:0,
         busiBillTypeConfig:[],
@@ -110,13 +111,13 @@
 
     beforeMount(){
       this.tableConfig=[
-        { label:'入库单号',fixed:true,prop:'warehouseExeCode',width:'200px',dom:this.formatter('linkTo')},
-        { label:'业务单号',prop:'busiBillNo',width:'180px' },
-        { label:'货主',prop:'ownerName',width:'180px'},
-        { label:'计划单号',prop:'planCode',width:'150px'},
-        { label:'仓库',prop:'warehouseName',width:'180px'},
-        { label:'入库日期',prop:'inWarehouseTime',type:'time',width:'180px'},
-        { label:'操作',width:'150px',fixed:'right',dom:this.formatter('linkTo','查看') },
+        { label:'入库单号',fixed:true,prop:'warehouseExeCode',dom:this.formatter('linkTo')},
+        { label:'业务单号',prop:'busiBillNo' },
+        { label:'货主',prop:'ownerName'},
+        { label:'计划单号',prop:'planCode'},
+        { label:'仓库',prop:'warehouseName'},
+        { label:'入库日期',prop:'inWarehouseTime',type:'time'},
+        { label:'操作',fixed:'right',dom:this.formatter('linkTo','查看') },
       ]
     },
 
@@ -129,37 +130,16 @@
         getWarehouse().then(res=>{
         if(res.success){
           this.warehouseTypeConfig=res.data;
-        } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
+        } 
        }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
        })
 
        getBillType().then(res=>{
          if(res.success){
            this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('入库'))
-         } else{
-            this.$message({
-              showClose: true,
-              message: '数据请求出错',
-              type: 'error'
-            });
-         }
+         } 
        }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
+         
       })
 
     this.getCurrentTableData();
@@ -188,7 +168,7 @@
         this.getCurrentTableData()
       },
        submitForm(formName) {
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.getCurrentTableData();
@@ -200,7 +180,7 @@
 
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.getCurrentTableData()
       },
 
@@ -241,31 +221,14 @@
           let data=res.data;
           this.tableData=data.list;
           this.total=data.total;
-       } else{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-       }
+       } 
         this.loading=false;
 
      }).catch(err=>{
-          this.$message({
-            showClose: true,
-            message: '数据请求出错',
-            type: 'error'
-          });
-           this.loading=false;
+          this.loading=false;
         })
       }
     }
  }
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quiry-container{
-    padding: 24px;
-  }
-</style>
 

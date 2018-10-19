@@ -11,7 +11,6 @@ const getters = {
   company: state => state.user.company,
   companyId: state => state.user.companyId,
   permission_codes: state => state.user.permissionCodes,
-
   // menu: state => {
   //   return asyncRouterMap
   // }
