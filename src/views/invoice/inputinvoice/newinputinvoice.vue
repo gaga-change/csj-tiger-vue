@@ -19,7 +19,7 @@
       <el-step title="核对金额填写剩余信息" ></el-step>
     </el-steps>
 
-    <el-card class="simpleCard" style="margin-top: 20px">
+    <el-card class="simpleCard" body-style="padding:12px;margin-top: 20px;">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="80px">
         <el-col :span="6">
           <el-form-item label="供应商" prop="servicer">
