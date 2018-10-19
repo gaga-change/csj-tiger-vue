@@ -10,9 +10,6 @@ export default {
 }
 </script>
 <style lang="scss">
-*{
-  font-size: 14px;
-}
 .simpleCard{
     padding-bottom: 0;
     margin-bottom: 20px;
