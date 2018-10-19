@@ -1,15 +1,19 @@
 <template>
   <div class="outgoing-quirydetail-container">
-      <el-row>
-
-        <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
-        </el-col>
-
-        <web-pagination-table 
-      :config="tableConfig" 
-      :allTableData="tableData"/>
-    </el-row>
+    <div style="marginBottom:12px">
+     <item-title text="基本信息"/>
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
+        <el-row>
+          <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
+              <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
+          </el-col>
+       </el-row>
+      </el-card>
+    </div>
+     <item-title text="相关计划单明细"/>
+      <web-pagination-table 
+        :config="tableConfig" 
+        :allTableData="tableData"/>
   </div>
 </template>
 
@@ -19,14 +23,14 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',width:"50",fixed:true,type:'index'},
-    { label:'SKU名称',prop:'skuName',width:"150",fixed:false,},
-    { label:'规格型号',prop:'skuFormat',width:"150",fixed:false,},
-    { label:'生产厂家',prop:'productFactory',width:"150",fixed:false,},
-    { label:'商品分类',prop:'skuCategoryName',width:"150",fixed:false,},
-    { label:'品牌名',prop:'skuBrandName',width:"150",fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',width:"80",fixed:false},
-    { label:'已出/应出(单位)',width:"150",fixed:false,dom:(row, column, cellValue, index)=>{
+    { label:'序号',fixed:true,type:'index'},
+    { label:'SKU名称',prop:'skuName',fixed:false,},
+    { label:'规格型号',prop:'skuFormat',fixed:false,},
+    { label:'生产厂家',prop:'productFactory',fixed:false,},
+    { label:'商品分类',prop:'skuCategoryName',fixed:false,},
+    { label:'品牌名',prop:'skuBrandName',fixed:false,},
+    { label:'转换比',prop:'skuUnitConvert',fixed:false},
+    { label:'已出/应出(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
     }},
  ];
@@ -58,6 +62,7 @@
         busiBillTypeConfig:[],
         issuedStateConfig:[],
         execStatuConfig:[],
+        loading:false
       }
     },
 
@@ -66,13 +71,15 @@
       this.busiBillTypeConfig=busiBillTypeConfig||[];
       this.issuedStateConfig=issuedStateConfig||[];
       this.execStatuConfig=execStatuConfig||[];
-
+      this.loading=true;
       outPlanDetail({id}).then(res=>{
         if(res.success){
           let data=res.data;
           this.config=data;
-          this.tableData=Array.isArray(data.itemList)?data.itemList:[]
+          this.tableData=Array.isArray(data.itemList)?data.itemList:[];
+          this.loading=false;
         } else{
+           this.loading=false;
            console.log('busibill/select/detail',res)
             this.$message({
               showClose: true,
@@ -81,6 +88,7 @@
            });
         }
       }).catch(err=>{
+         this.loading=false;
          console.log('busibill/select/detail',err)
           this.$message({
             showClose: true,
@@ -109,13 +117,3 @@
  }
 
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quirydetail-container{
-    padding: 24px;
-    span{
-      color:#666;
-    }
-  }
-
-</style>

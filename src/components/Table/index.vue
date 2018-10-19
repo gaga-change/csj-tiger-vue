@@ -6,6 +6,7 @@
         :element-loading-background="elementLoadingBackground"
         :data="tableData"
         :border="border"
+        size="small"
         :style="tableStyle">
 
         <el-table-column
@@ -26,6 +27,7 @@
         @current-change="handleCurrentChange"
         :current-page.sync="tableCurrentPage"
         :page-sizes="pageSizes"
+        size="small"
         :page-size="tablePageSize"
         :layout="layout"
         v-if="total>maxTotal"
@@ -44,7 +46,7 @@ export default {
    props: {
      loading: {
       type: Boolean,
-      default: false
+      default: false      
     },
     tableData: {
       type: Array,
@@ -60,11 +62,11 @@ export default {
     },
     pageSizes:{
       type: Array,
-      default:()=> [7,10, 15, 20, 30]
+      default:()=> [10, 50, 100, 500]
     },
     pageSize:{
       type: Number,
-      default: 7
+      default: 10
     },
     layout:{
       type: String,
@@ -169,5 +171,6 @@ export default {
   .ctabel{
     width: 100%;
   }
+  
 </style>
 

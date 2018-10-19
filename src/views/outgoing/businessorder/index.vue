@@ -1,64 +1,65 @@
 <template>
   <div class="outgoing-quiry-container">
-    <el-row :gutter="16" >
-        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="8" style="minWidth:310px">
-            <el-form-item label="业务类型"  prop="busiBillType">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType" style="width:210px"  placeholder="请选择业务类型">
-                <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="8" style="minWidth:310px">
-            <el-form-item label="业务单号" prop="busiBillNo">
-              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入业务单号"></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="8" style="minWidth:310px">
-              <el-form-item label="单据状态" prop="billState" >
-                <el-select v-model="ruleForm.billState"  @change="submitForm('ruleForm')"  style="width:210px"  placeholder="请选择单据状态">
-                  <el-option  v-for="item in busiBillStateConfig"  :key="item.key"  :label="item.value"   :value="item.key"></el-option>
+    <div style="marginBottom:12px">
+      <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
+      <el-row :gutter="16" >
+          <el-form :inline="true" :model="ruleForm"  size="small" label-width="70px"  label-position="left"  :rules="rules" ref="ruleForm"   class="demo-form-inline">
+            <el-col :span="6" >
+              <el-form-item label="业务类型"   prop="busiBillType">
+                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
+                  <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="6">
+              <el-form-item label="业务单号" prop="busiBillNo">
+                <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
+              </el-form-item>
+            </el-col>
 
-          <el-col :span="8" style="minWidth:310px">
-            <el-form-item label="货主名称" prop="ownerName">
-              <el-input v-model.lazy.trim="ruleForm.ownerName" style="width:210px"  @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
-            </el-form-item>
-          </el-col>
+            <el-col :span="6" >
+                <el-form-item label="单据状态" prop="billState" >
+                  <el-select v-model="ruleForm.billState"  @change="submitForm('ruleForm')"    placeholder="请选择单据状态">
+                    <el-option  v-for="item in busiBillStateConfig"  :key="item.key"  :label="item.value"   :value="item.key"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-          <el-col :span="8" style="minWidth:310px">
-            <el-form-item label="货主电话" prop="linkTel">
-              <el-input v-model.lazy.trim="ruleForm.linkTel" style="width:210px"  @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入货主电话"></el-input>
-            </el-form-item>
-          </el-col>
+            <el-col :span="6" >
+              <el-form-item label="货主名称" prop="ownerName">
+                <el-input v-model.lazy.trim="ruleForm.ownerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
+              </el-form-item>
+            </el-col>
 
-          <el-col :span="24">
-            <el-form-item>
-              <el-button type="primary" size="medium"  @click="submitForm('ruleForm')">查询</el-button>
-            </el-form-item>
+            <el-col :span="6" >
+              <el-form-item label="货主电话" prop="linkTel">
+                <el-input v-model.lazy.trim="ruleForm.linkTel"   @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入货主电话"></el-input>
+              </el-form-item>
+            </el-col>
 
-            <el-form-item>
-              <el-button type="primary" size="medium" @click="resetForm('ruleForm')">重置</el-button>
-            </el-form-item>
-          </el-col>
-      </el-form>
+            <el-col :span="24">
+              <el-form-item>
+                <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
+              </el-form-item>
 
+              <el-form-item>
+                <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
+              </el-form-item>
+            </el-col>
+        </el-form>
+      </el-row>
+      </el-card>
+     </div>
       <base-table 
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :loading="loading"
         :config="tableConfig"  
         :total="total" 
-        :maxTotal="7"
+        :maxTotal="10"
         :pageSize="ruleForm.pageSize"
         :currentPage="ruleForm.pageNum"
         :tableData="tableData"/>
-    </el-row>
-
   </div>
 </template>
 
@@ -87,7 +88,7 @@
           ownerName: '',
           linkTel: '',
           pageNum: 1,
-          pageSize:7,
+          pageSize:10,
         },
         total:0,
         busiBillTypeConfig:[],
@@ -187,7 +188,7 @@
        },
 
        submitForm(formName) {
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.getCurrentTableData();
@@ -199,7 +200,7 @@
 
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.getCurrentTableData()
       },
 
@@ -255,9 +256,4 @@
  }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quiry-container{
-    padding: 24px;
-  }
-</style>
 

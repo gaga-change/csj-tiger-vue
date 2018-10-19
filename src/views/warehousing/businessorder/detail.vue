@@ -1,15 +1,20 @@
 <template>
   <div class="outgoing-quirydetail-container">
+      <div style="marginBottom:12px">
+     <item-title text="基本信息"/>
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
       <el-row>
-
         <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            {{item.title}}: <span>{{formatter(item.type,config[item.value])}}</span>
+             <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
         </el-col>
-
-        <web-pagination-table 
-        :config="tableConfig" 
-        :allTableData="tableData"/>
     </el-row>
+      </el-card>
+    </div>
+
+      <item-title text="相关业务单明细"/>
+      <web-pagination-table 
+      :config="tableConfig" 
+      :allTableData="tableData"/>
   </div>
 </template>
 
@@ -61,6 +66,7 @@
         
         busiBillTypeConfig:[],
         busiBillStateConfig:[],
+        loading:false
        
       }
     },
@@ -69,13 +75,16 @@
       let { id,busiBillTypeConfig,busiBillStateConfig}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
       this.busiBillTypeConfig=busiBillTypeConfig||[];
       this.busiBillStateConfig=busiBillStateConfig||[];
+      this.loading=true;
       inBillDetail({id}).then(res=>{
         if(res.success){
           let data=res.data;
           this.config=data;
           this.tableData=data.items;
+          this.loading=false;
         } else{
            console.log('busibill/select/detail',res)
+            this.loading=false;
             this.$message({
               showClose: true,
               message: '数据请求出错',
@@ -84,6 +93,7 @@
         }
       }).catch(err=>{
          console.log('busibill/select/detail',err)
+          this.loading=false;
           this.$message({
             showClose: true,
             message: '数据请求出错',
@@ -110,13 +120,3 @@
  }
 
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quirydetail-container{
-    padding: 24px;
-    span{
-      color:#666;
-    }
-  }
-
-</style>

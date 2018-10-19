@@ -1,59 +1,61 @@
 <template>
   <div class="outgoing-quiry-container">
+  <div style="marginBottom:12px">
+   <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
-        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="100px">
-          <el-col :span="8" style="minWidth:340px">
-            <el-form-item label="出库类型"  prop="busiBillType">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType" style="width:210px"  placeholder="请选择出库类型">
+        <el-form :inline="true" :model="ruleForm"  size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline"  label-width="70px"  label-position="left">
+          <el-col :span="6" >
+            <el-form-item label="出库类型"   prop="busiBillType">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"  placeholder="请选择出库类型">
                 <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:340px">
+          <el-col :span="6" >
             <el-form-item label="业务单号" prop="busiBillNo">
-              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入业务单号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:340px">
+          <el-col :span="6" >
             <el-form-item label="制单人" prop="createrName">
-              <el-input v-model.lazy.trim="ruleForm.createrName" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入制单人"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.createrName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入制单人"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="8" style="minWidth:340px">
+          <el-col :span="6" >
             <el-form-item label="计划单号" prop="planCode">
-              <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入计划单号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入计划单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:340px">
+          <el-col :span="6" >
             <el-form-item label="计划仓库" prop="planWarehouseName">
-              <el-input v-model.lazy.trim="ruleForm.planWarehouseName" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请选择计划仓库"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.planWarehouseName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请选择计划仓库"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:340px">
+          <el-col :span="6" >
             <el-form-item label="下推状态"  prop="issuedState">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.issuedState" style="width:210px"  placeholder="请选择下推状态">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.issuedState"   placeholder="请选择下推状态">
                 <el-option   v-for="item in issuedStateConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" style="minWidth:340px">
+          <el-col :span="6" >
             <el-form-item label="执行状态"  prop="execStatus">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus" style="width:210px"  placeholder="请选择执行状态">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus"   placeholder="请选择执行状态">
                 <el-option   v-for="item in execStatuConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
  
 
-          <el-col :span="16" style="minWidth:340px" >
-            <el-form-item label="计划出库日期" prop="time">
+          <el-col :span="16" >
+            <el-form-item label="计划出库日期" prop="time" label-width="100px" >
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
@@ -68,25 +70,27 @@
 
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary" size="medium"  @click="submitForm('ruleForm')">查询</el-button>
+              <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" size="medium" @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-col>
       </el-form>
-        <base-table 
-          @sizeChange="handleSizeChange"
-          @currentChange="handleCurrentChange"
-          :loading="loading"
-          :config="tableConfig"  
-          :total="total" 
-          :maxTotal="7"
-          :pageSize="ruleForm.pageSize"
-          :currentPage="ruleForm.pageNum"
-          :tableData="tableData"/>
     </el-row>
+    </el-card>
+  </div>
+   <base-table 
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+      :loading="loading"
+      :config="tableConfig"  
+      :total="total" 
+      :maxTotal="10"
+      :pageSize="ruleForm.pageSize"
+      :currentPage="ruleForm.pageNum"
+      :tableData="tableData"/>
   </div>
 </template>
 
@@ -110,7 +114,7 @@
            issuedState:'',
            execStatus: '',
            pageNum: 1,
-           pageSize:7,
+           pageSize:10,
         },
         total:0,
         busiBillTypeConfig:[],
@@ -257,7 +261,7 @@
             }
        },
        submitForm(formName) {
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.getCurrentTableData();
@@ -269,7 +273,7 @@
 
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.ruleForm={...this.ruleForm,pageSize:7,pageNum:1}
+        this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.getCurrentTableData()
       },
 
@@ -338,8 +342,6 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .outgoing-quiry-container{
-    padding: 24px;
-  }
+
 </style>
 

@@ -3,7 +3,10 @@
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     <breadcrumb></breadcrumb>
     <div class="usercont">
+<<<<<<< HEAD
       <span><svg-icon icon-class="company" />{{userInfo.companyname}}</span>
+=======
+>>>>>>> origin/dev-optimization
       <span><svg-icon icon-class="user" />{{userInfo.truename}}</span>
     </div>
     <el-dropdown class="avatar-container" trigger="click">
