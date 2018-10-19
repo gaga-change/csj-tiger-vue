@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="app-container">
-    <el-form :model="paymentform" :rules="rules" ref="ruleForm" label-width="120px">
+    <el-form :model="paymentform" :rules="rules" ref="ruleForm"  align="left" label-width="120px">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="款项性质" prop="payment.fundnature">
-            <el-select v-model="paymentform.payment.fundnature" filterable clearable placeholder="请选择款项性质" prefix-icon="el-icon-search">
+            <el-select v-model="paymentform.payment.fundnature" filterable clearable placeholder="请选择款项性质" prefix-icon="el-icon-search" size="small">
               <el-option
                 v-for="item in fundnature"
                 :key="item.value"
@@ -14,9 +14,10 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-if="paymentform.payment.fundnature == 1">
+        <el-col :span="6" v-if="paymentform.payment.fundnature == 1">
           <el-form-item label="款项类型" prop="payment.fundtype">
-            <el-select v-model="paymentform.payment.fundtype" filterable clearable placeholder="请选择款项类型" prefix-icon="el-icon-search">
+            <el-select v-model="paymentform.payment.fundtype" filterable clearable placeholder="请选择款项类型" size="small"
+            prefix-icon="el-icon-search">
               <el-option
                 v-for="item in fundtype"
                 :key="item.value"
@@ -28,21 +29,21 @@
         </el-col>
       </el-row>
       <el-row :gutter="20" v-if="paymentform.payment.fundnature == 1">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="关联采购单" prop="payment.purchorder">
-            <el-input type="text"  prefix-icon="el-icon-search" @focus="purchorderFocus" v-model="paymentform.payment.purchorder"></el-input>
+            <el-input type="text"  prefix-icon="el-icon-search" @focus="purchorderFocus" size="small" v-model="paymentform.payment.purchorder"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="合同编号" prop="payment.contractno">
-            <el-input type="text" v-model="paymentform.payment.contractno"></el-input>
+            <el-input type="text" size="small" v-model="paymentform.payment.contractno"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="结算方式" prop="payment.settlementmethod">
-            <el-select v-model="paymentform.payment.settlementmethod" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
+            <el-select v-model="paymentform.payment.settlementmethod" filterable clearable placeholder="请选择结算方式" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in settlementmethod"
                 :key="item.value"
@@ -52,20 +53,21 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="付款日期" prop="payment.paydate">
             <el-date-picker
               v-model="paymentform.payment.paydate"
               type="datetime"
               :editable="false"
+              size="small" 
               placeholder="选择日期时间"
               align="right">
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="收款方" prop="payment.receivables">
-            <el-select v-model="paymentform.payment.receivables" filterable clearable placeholder="请选择收款客户" prefix-icon="el-icon-search">
+            <el-select v-model="paymentform.payment.receivables" filterable clearable placeholder="请选择收款客户" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in gridData"
                 :key="item.id"
@@ -77,9 +79,9 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="本次付款金额" prop="payment.payamount">
-            <el-input type="text" v-model="paymentform.payment.payamount" placeholder="请输入付款金额"></el-input>
+            <el-input type="text" v-model="paymentform.payment.payamount" size="small" placeholder="请输入付款金额"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="16">
@@ -95,29 +97,29 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="现金折扣" prop="payment.interestrate">
-            <el-input type="number" v-model="paymentform.payment.interestrate"  placeholder="请输入现金折扣"></el-input>
+            <el-input type="number" size="small" v-model="paymentform.payment.interestrate"  placeholder="请输入现金折扣"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="结算金额" prop="payment.settlementamount">
-            <el-input type="text" :value="settlementamount" disabled></el-input>
+            <el-input type="text" :value="settlementamount" size="small" disabled></el-input>
             <span v-if="paymentform.payment.fundnature == 1 && paymentform.payment.purchorder">该笔采购订单应付{{paymentform.payment.residualamount}}元</span>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="16">
+        <el-col :span="6">
           <el-form-item label="备注" prop="payment.memos">
-            <el-input type="textarea" v-model="paymentform.payment.memos" rows='5'></el-input>
+            <el-input type="textarea" v-model="paymentform.payment.memos" size="small" rows='5'></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-form-item >
-          <el-button type="primary" @click="onSubmit" v-loading="submitloading">新建付款单</el-button>
-          <el-button @click="onCancel">取消</el-button>
+          <el-button type="primary" @click="onSubmit" size="small" v-loading="submitloading">新建付款单</el-button>
+          <el-button @click="onCancel" size="small">取消</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -132,6 +134,7 @@
         ref="upload"
         :action="uploadUrl"
         :file-list = "fileList"
+        size="small"
         multiple
         :before-upload="beforeUpload"
         :on-exceed="handleExceed"

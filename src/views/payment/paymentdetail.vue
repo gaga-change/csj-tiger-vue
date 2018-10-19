@@ -27,84 +27,82 @@
     </sticky>
     <el-form :model="planform" ref="ruleForm" label-width="120px">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="付款单号" prop="payment.ticketno">
-            <el-input type="text" v-model="planform.payment.ticketno" disabled></el-input>
+            <el-input type="text" v-model="planform.payment.ticketno" size="small" disabled></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="付款方" prop="payment.payername">
-            <el-input type="text" v-model="planform.payment.payername" disabled></el-input>
+            <el-input type="text" v-model="planform.payment.payername" size="small" disabled></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="收款方" prop="payment.receivablesname">
-            <el-input type="text" :value="planform.payment.receivablesname" disabled></el-input>
+            <el-input type="text" :value="planform.payment.receivablesname" disabled size="small"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="款项性质" prop="payment.fundnature">
+            <el-input type="text" :value="planform.payment.fundnature|fundnatureFilter" disabled size="small"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="款项性质" prop="payment.fundnature">
-            <el-input type="text" :value="planform.payment.fundnature|fundnatureFilter" disabled></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-if="planform.payment.fundtype">
+        <el-col :span="6" v-if="planform.payment.fundtype">
           <el-form-item label="款项类型" >
-            <el-input type="text" :value="planform.payment.fundtype|fundtypeFilter" disabled></el-input>
+            <el-input type="text" size="small" :value="planform.payment.fundtype|fundtypeFilter" disabled></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="本次实付金额" prop="payment.payamount">
-            <el-input type="text" v-model="planform.payment.payamount" disabled></el-input>
+            <el-input type="text" v-model="planform.payment.payamount" disabled size="small"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="现金折扣" prop="payment.interestrate">
-            <el-input type="text" v-model="planform.payment.interestrate" disabled></el-input>
+            <el-input type="text" v-model="planform.payment.interestrate" disabled size="small"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="结算金额" >
-            <el-input type="text" v-model="planform.payment.settlementamount" disabled></el-input>
+            <el-input type="text" v-model="planform.payment.settlementamount" disabled size="small"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="结算方式" prop="payment.settlementmethod">
-            <el-input type="text" :value="planform.payment.settlementmethod|settlementmethodFilter"
+            <el-input type="text" :value="planform.payment.settlementmethod|settlementmethodFilter" size="small"
                       disabled></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="备注" prop="payment.memos">
-              <el-input type="text" v-model="planform.payment.memos" disabled></el-input>
+              <el-input type="text" v-model="planform.payment.memos" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="付款日期" prop="payment.paydate">
-              <el-input type="text"  :value="planform.payment.paydate" disabled></el-input>
+              <el-input type="text"  :value="planform.payment.paydate" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="关联采购单号" prop="payment.purchorder">
-              <el-input type="text"  :value="planform.payment.purchorder" disabled></el-input>
+              <el-input type="text"  :value="planform.payment.purchorder" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="制单人" prop="payment.createuser">
-              <el-input type="text" v-model="planform.payment.createuser" disabled></el-input>
+              <el-input type="text" v-model="planform.payment.createuser" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="制单日期" prop="payment.createdate">
-              <el-input type="text" :value="planform.payment.createdate" disabled></el-input>
+              <el-input type="text" :value="planform.payment.createdate" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="附件" >
               <template v-for="(enclosure, index) in enclosures" v-if="enclosures.length">
                 <a :href="`/webApi/download/file?pathUrl=${enclosure.url}&pathName=${enclosure.name}`" target="_blank" style="padding-right:4px;color:#128fe7;">{{enclosure.name}}</a><br/>
@@ -115,24 +113,24 @@
 
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="审核人" prop="payment.checkuser">
-              <el-input type="text" v-model="planform.payment.checkuser" disabled></el-input>
+              <el-input type="text" v-model="planform.payment.checkuser" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="审核日期" prop="payment.checkdate">
-              <el-input type="text" :value="planform.payment.checkdate" disabled></el-input>
+              <el-input type="text" :value="planform.payment.checkdate" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="审核结果" prop="payment.status">
-              <el-input type="text" :value="planform.payment.status|statusFilter" disabled></el-input>
+              <el-input type="text" :value="planform.payment.status|statusFilter" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label="业务板块" >
-              <el-input type="text" :value="planform.payment.businesstype|businesstypeFilter" disabled></el-input>
+              <el-input type="text" :value="planform.payment.businesstype|businesstypeFilter" disabled size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

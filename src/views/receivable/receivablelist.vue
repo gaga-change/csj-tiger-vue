@@ -6,6 +6,8 @@
       </template>
     </sticky>
     <el-form :model="receivableform" ref="ruleForm" label-width="80px">
+    <el-card class="simpleCard"> 
+
       <el-row >
         <el-col :span="8">
           <el-form-item label="收款单号" prop="receivable.ticketno">
@@ -100,12 +102,13 @@
         </el-col>
          <el-col :span="23" style="text-align:right">
 
-      <el-form-item>
+      <el-form-item class="simpleCardLastLine">
         <el-button type="primary" @click="onSubmit">查询</el-button>
         <el-button @click="onCancel">重置</el-button>
       </el-form-item>
               </el-col>
       </el-row>
+      </el-card> 
            
 
       <div class="itemscont">

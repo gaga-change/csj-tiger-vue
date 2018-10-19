@@ -2,18 +2,18 @@
   <div>
     <el-form :inline="true" :model="postForm" class="demo-form-inline" labelWidth="120px">
       <el-form-item label="合同编号">
-        <el-input v-model="postForm.contractno" placeholder="合同编号"></el-input>
+        <el-input v-model="postForm.contractno" placeholder="合同编号" size="small"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button type="text"  @click="onPuls" :icon="ispul ? 'el-icon-arrow-up' : 'el-icon-arrow-down'">{{ispul ? '收起' : '展开'}}条件</el-button>
+        <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
+        <el-button type="text" size="small" @click="onPuls" :icon="ispul ? 'el-icon-arrow-up' : 'el-icon-arrow-down'">{{ispul ? '收起' : '展开'}}条件</el-button>
       </el-form-item>
       <div v-show="ispul">
         <el-form-item label="来源计划单">
-          <el-input v-model="postForm.enquiryorder" placeholder="来源计划单号"></el-input>
+          <el-input v-model="postForm.enquiryorder" size="small" placeholder="来源计划单号"></el-input>
         </el-form-item>
         <el-form-item label="供应商">
-          <el-select v-model="postForm.servicer" filterable clearable placeholder="请选择供应商"  prefix-icon="el-icon-search">
+          <el-select v-model="postForm.servicer" filterable clearable size="small" placeholder="请选择供应商"  prefix-icon="el-icon-search">
             <el-option
               v-for="item in gridData"
               :key="item.id"
@@ -23,7 +23,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="付款方式">
-          <el-select v-model="postForm.paymethod" placeholder="请选择付款方式">
+          <el-select v-model="postForm.paymethod" size="small" placeholder="请选择付款方式">
             <el-option
               v-for="item in paymethod"
               :key="item.value"
@@ -35,7 +35,7 @@
       </div>
     </el-form>
     <div class="filter-container">
-      <el-checkbox-group v-model="checkboxVal">
+      <el-checkbox-group v-model="checkboxVal" size="small">
         <el-checkbox label="enquiryorder">来源计划单</el-checkbox>
         <el-checkbox label="contractno">合同编号</el-checkbox>
       </el-checkbox-group>
@@ -45,6 +45,7 @@
       @current-change="handleCurrentChange"
       highlight-current-row
       max-height="600"
+      size="small"
       :key='key'
       :data="orderList" :loading="loading">
       <el-table-column property="ticketno" label="采购单号" width="160"></el-table-column>
@@ -68,12 +69,13 @@
       :current-page="currentPage"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
+      size="small"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="onCancel">取 消</el-button>
-      <el-button type="primary" @click="onConfirm">确 定</el-button>
+      <el-button @click="onCancel" size="small">取 消</el-button>
+      <el-button type="primary" @click="onConfirm" size="small">确 定</el-button>
     </div>
     <div class="clearfix"></div>
   </div>
