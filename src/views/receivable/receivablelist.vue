@@ -295,7 +295,9 @@
             settlementmethod: '',
             status: '',
             ticketno: '',
-            postrecdate: null
+            postrecdate: null,
+            pagesize:10,
+            pageindex:1
           }
         },
         list: [],
@@ -368,11 +370,11 @@
         })
       },
       handleSizeChange(val) {
-        this.pagesize = val
+        this.receivableform.receivable.pagesize = this.pagesize = val
         this.getListData()
       },
       handleCurrentPageChange(val) {
-        this.pageindex = val
+        this.receivableform.receivable.pageindex = this.pageindex = val
         this.getListData()
       },
       getListData() {
@@ -395,7 +397,7 @@
           query:{data:JSON.stringify(this.receivableform.receivable)}
         })
         
-        getReceivableDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
+        getReceivableDetail({ ...pData }).then(res => {
           this.list = res.data.data
           this.total = res.data.total
           const { amount, interestrate, payamount } = res.data

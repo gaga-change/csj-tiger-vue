@@ -38,7 +38,7 @@ const user = {
           commit('SET_COMPANYID', data.companyid||'')
           resolve(response)
         }).catch(error => {
-          console.log(error)
+      
           reject(error)
         })
       })
