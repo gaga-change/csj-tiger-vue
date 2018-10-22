@@ -34,7 +34,7 @@ service.interceptors.response.use(
   error => {
     Notification({
       title:'错误信息',
-      message: `error`,
+      message: error.message||err.errorMsg,
       type: 'error',
       duration:5*1000,
       onClose:()=> Promise.reject(error)

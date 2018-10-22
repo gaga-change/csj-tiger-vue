@@ -88,7 +88,7 @@
              this.infoConfig=config;
           }
           let list=data.skuDetails&&data.skuDetails.list||[]
-          this.tableData=list
+          this.tableData=list||[]
         } 
       }).catch(err=>{
          this.loading=false

@@ -79,13 +79,13 @@
      this.infoConfig=[
         {title:'回单号',value:'signNo',style:'minWidth:310px;marginBottom:16px',span:6},
         {title:'出库计划单号',value:'outPlanCode',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'收货企业',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'货主',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:6},
         {title:'发货仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:6},
         {title:'签收人',value:'signName',style:'minWidth:310px;marginBottom:16px',span:6},
         {title:'签收人电话',value:'signTel',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'签收日期',value:'signCreateTime',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'签收日期',value:'signCreateTime', type:'time',style:'minWidth:310px;marginBottom:16px',span:6},
         {title:'审核人',value:'approveName',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'审核日期',value:'approveCreateTime',style:'minWidth:310px;marginBottom:16px',span:6},
+        {title:'审核日期',value:'approveCreateTime', type:'time',style:'minWidth:310px;marginBottom:16px',span:6},
       ];
      },
 
@@ -103,10 +103,10 @@
             let index=this.infoConfig.findIndex(v=>v.value=='signNo');
             this.infoConfig.splice(index,1)
           }
-          this.tableData=res.data.itemList
+          this.tableData=res.data.itemList||[]
         }
       }).catch(err=>{
-         
+           this.loading=false;
        })
    },
 
@@ -124,7 +124,7 @@
          return ''
        }
        switch(type){
-         case 'time': return moment(value).format('YYYY-MM-DD hh:mm:ss');
+         case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
          default : return value;
        }
      }
