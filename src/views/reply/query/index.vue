@@ -136,22 +136,21 @@
 
     beforeMount(){
       this.tableConfig=[
-        { label:'回单号',fixed:true,prop:'signNo',width:'200px',dom:this.formatter('linkTo')},
-        { label:'出库计划单号',prop:'outPlanCode',width:'180px' },
-        { label:'回单状态',prop:'approveStatus',width:'180px',dom:(row, column, cellValue, index)=>this.formatter('approveStatus',cellValue)},
+        { label:'回单号',fixed:true,prop:'signNo',width:'150px',dom:this.formatter('linkTo')},
+        { label:'出库计划单号',prop:'outPlanCode',width:'150px' },
+        { label:'回单状态',prop:'approveStatus',width:'80px',dom:(row, column, cellValue, index)=>this.formatter('approveStatus',cellValue)},
         // { label:'签收数量合计',prop:'planCode',width:'150px'},
         // { label:'签收金额合计',prop:'warehouseName',width:'180px'},
         { label:'货主',prop:'ownerName',width:'180px'},
         { label:'发货仓库',prop:'planWarehouseName',width:'180px'},
-        { label:'签收人',prop:'signName',width:'180px'},
-        { label:'签收人电话',prop:'signTel',width:'180px'},
-        { label:'签收日期',prop:'signCreateTime',type:'time',width:'180px'},
-        // { label:'附件',prop:'warehouseName',width:'180px'},
+        { label:'签收人',prop:'signName',width:'150px'},
+        { label:'附件',width:'180px',dom:this.formatter('files')},
+        { label:'签收人电话',prop:'signTel',width:'100px'},
+        { label:'签收日期',prop:'signCreateTime',type:'time',width:'150px'},
         { label:'制单人',prop:'createrName',width:'180px'},
-        { label:'制单时间',prop:'gmtCreate',type:'time',width:'180px'},
-        { label:'审核人',prop:'approveName',width:'180px'},
-        { label:'审核时间',prop:'approveCreateTime',type:'time',width:'180px'},
-        { label:'备注',prop:'remarkInfo',width:'180px'},
+        { label:'制单时间',prop:'gmtCreate',type:'time',width:'150px'},
+        { label:'审核人',prop:'approveName',width:'150px'},
+        { label:'审核时间',prop:'approveCreateTime',type:'time',width:'150px'},
         { label:'操作',fixed:'right',dom:this.formatter('linkTo','查看')},
       ]
     },
@@ -195,7 +194,24 @@
 
               case 'approveStatus': return this.approveStatusConfig.find(v=>v.key===value)?this.approveStatusConfig.find(v=>v.key===value).value:value;
 
-             
+              case 'files': return (row, column, cellValue, index)=>{
+                 let files=row.files;
+                 if(!files||files.length<1){
+                   return ''
+                 }
+                 return  <el-dropdown>
+                            <span class="el-dropdown-link">
+                              查看附件<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                               {
+                                 files.map((v,i)=><el-dropdown-item>
+                                   <a class="el-dropdown-link" href={v.path}>{v.name||`附件${i+1}`}</a>
+                                 </el-dropdown-item>)
+                               }
+                            </el-dropdown-menu>
+                         </el-dropdown>
+              } 
             }
        },
 
@@ -279,3 +295,13 @@
 </script>
 
 
+<style lang="scss">
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+    font-size: 12px;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+</style>
