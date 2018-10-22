@@ -85,32 +85,18 @@
 
                   <el-col :span="6">
                     <el-form-item label="发票日期:" class="postInfo-container-item" prop="inputInvoice.invoicedate">
-                      <el-date-picker size="small"  style="max-witdh=160px;" v-model="inputInvoiceform.inputInvoice.invoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                      <el-date-picker size="small"  style="max-width:160px;" v-model="inputInvoiceform.inputInvoice.invoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                       </el-date-picker>
                     </el-form-item>
                   </el-col>
 
                   <el-col :span="6">
                     <el-form-item label="到票日期:" class="postInfo-container-item" prop="inputInvoice.receivedate">
-                      <el-date-picker size="small" style="max-witdh=160px;" v-model="inputInvoiceform.inputInvoice.receivedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+                      <el-date-picker size="small" style="max-width:160px;" v-model="inputInvoiceform.inputInvoice.receivedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
                       </el-date-picker>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="6">
-                    <el-form-item label-width="110px" label="实际开票金额:" class="postInfo-container-item">
-                      <el-input-number size="small" :min="bakamount - 3 > 0 ? bakamount - 3 : 0" :max="bakamount + 3" v-model="invoiceamount" placeholder="请输入开票金额"  @change="setInvoiceamount($event)"></el-input-number>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="6">
-                    <el-form-item size="small" label="税额:" class="postInfo-container-item">
-                      <el-input placeholder="税额" style="max-witdh=160px;" :value="taxamount" disabled>
-                      </el-input>
-                    </el-form-item>
-                  </el-col>
-
-                  <el-col :span="6">
+                   <el-col :span="6">
                     <el-form-item  label="发票种类:" class="postInfo-container-item" prop="inputInvoice.invoicetype">
                       <el-select size="small" v-model="inputInvoiceform.inputInvoice.invoicetype" filterable clearable style="max-witdh=160px;" placeholder="请选择发票种类" prefix-icon="el-icon-search">
                         <el-option
@@ -122,19 +108,33 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-              
+                </el-row>
+                <el-row>
+                  <el-col :span="6">
+                    <el-form-item size="small" label="税额:" class="postInfo-container-item">
+                      <el-input placeholder="税额" 
+                        @change="reflashDataAmount" v-model.lazy.number="taxamount">
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="税前金额:" class="postInfo-container-item">
+                      <el-input size="small" placeholder="税前金额"
+                        @change="reflashDataAmount"  v-model.lazy.number="pretaxamount">
+                      </el-input>
+                    </el-form-item>
+                  </el-col> 
                   <el-col :span="6">
                     <el-form-item label-width="110px" label="计划开票金额:" class="postInfo-container-item">
                       <el-input type="text" size="small" :value="planinvoiceamount" placeholder="计划开票金额" disabled></el-input>
                     </el-form-item>
                   </el-col>
-
                   <el-col :span="6">
-                    <el-form-item label="税前金额:" class="postInfo-container-item">
-                      <el-input size="small" placeholder="税前金额" style='min-width:220px;' :value="pretaxamount" disabled>
-                      </el-input>
+                    <el-form-item label-width="110px" label="实际开票金额:" class="postInfo-container-item">
+                      <el-input size="small" v-model="invoiceamount" placeholder="请输入开票金额" disabled ></el-input>
                     </el-form-item>
                   </el-col>
+                 
                 </el-row>
 
               </div>
@@ -392,19 +392,12 @@ export default {
       planinvoiceamount: null,
       invoiceamount: null,
       pretaxamount: null, // 税前金额
-      taxamount: null // 税额合计
+      taxamount: null, // 税额合计
     }
   },
   computed: {
     contentShortLength() {
       return this.inputInvoiceform.inputInvoice.memos.length
-    },
-    bakamount() {
-      let invoiceamount = 0
-      this.inputInvoiceform.inputInvoiceItems.map(frow => {
-        invoiceamount = invoiceamount + frow.invoicenum * frow.price
-      })
-      return invoiceamount
     },
     ...mapGetters({
       company: 'company',
@@ -434,19 +427,42 @@ export default {
     reflashData() {
       this.$nextTick(() => {
         this.getPlaninvoiceamount()
-        // 计算开票金额
-        this.getInvoiceamount()
-        // 计算税前金额
+        // // 计算开票金额
         this.getPretaxamount()
         // 计算税额
         this.getTaxamount()
+        this.getInvoiceamount()
+        // 计算税前金额
+        
       })
     },
-    setInvoiceamount(e) {
-      if (e - this.bakamount < 3 && e > 0 && e - this.bakamount > -3) {
-        this.invoiceamount = e
-      }
+    reflashDataAmount(){
+      this.taxamount = this.taxamount ? Number(this.taxamount).toFixed(2) : 0;
+      this.pretaxamount = this.pretaxamount ? Number(this.pretaxamount).toFixed(2) : 0
+      
+       this.$nextTick(() => {
+        this.getPlaninvoiceamount()
+        // // 计算开票金额
+         this.getInvoiceamount()     
+      })
     },
+    // setInvoiceamount(e) {
+    //   if (e - this.bakamount < 3 && e > 0 && e - this.bakamount > -3) {
+    //     this.invoiceamount = e
+    //   }
+    // },
+    //  setInvoicePreTaxamount(e) {
+    //    console.log(e,'e');
+       
+    //   if (e - this.steppretaxamount < 3 && e > 0 && e - this.steppretaxamount > -3) {
+    //     this.pretaxamount = e
+    //   }
+    // },
+    // setInvoiceTaxamount(e) {
+    //   if (e - this.steptaxamount < 3 && e > 0 && e - this.steptaxamount > -3) {
+    //     this.steptaxamount = e
+    //   }
+    // },
     getPlaninvoiceamount() {
       let planinvoiceamount = 0
       this.multipleSelection.map(frow => {
@@ -463,17 +479,21 @@ export default {
     },
     getPretaxamount() {
       let pretaxamount = 0
+
       this.inputInvoiceform.inputInvoiceItems.map(frow => {
+        
         pretaxamount = pretaxamount + frow.invoicenum * frow.price / (1 + frow.taxrate / 100)
       })
       this.pretaxamount = pretaxamount.toFixed(2)
     },
     getInvoiceamount() {
-      let invoiceamount = 0
-      this.inputInvoiceform.inputInvoiceItems.map(frow => {
-        invoiceamount = invoiceamount + frow.invoicenum * frow.price
-      })
-      this.invoiceamount = invoiceamount.toFixed(2)
+      // let invoiceamount = 0
+      // this.inputInvoiceform.inputInvoiceItems.map(frow => {
+      //   invoiceamount = invoiceamount + frow.invoicenum * frow.price
+      // })
+      
+      // this.invoiceamount = Number(this.getTaxamount()) +Number( this.getPretaxamount())
+      this.invoiceamount = Number(this.pretaxamount) + Number(this.taxamount)
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -566,7 +586,7 @@ export default {
       this.contractList = []
       this.searchForm = Object.assign({}, searchForm)
     },
-    submitForm() {
+    submitForm() {    
       this.$refs['postForm'].validate((valid) => {
         if (valid) {
           if (Date.parse(this.inputInvoiceform.inputInvoice.receivedate) < Date.parse(this.inputInvoiceform.inputInvoice.invoicedate)) {
@@ -577,12 +597,14 @@ export default {
           const subitems = []
           postData.inputInvoice.servicer = this.searchForm.servicer
           postData.inputInvoice.servicername = this.searchForm.servicername
-          postData.inputInvoice.enterprise = this.companyId
-          postData.inputInvoice.enterprisename = this.company
+          postData.inputInvoice.enterprise = this.userInfo.companyid
+          postData.inputInvoice.enterprisename = this.userInfo.companyname
           postData.inputInvoice.createuser = this.userInfo.truename
           postData.inputInvoice.invoicedate = this.parseTime(postData.inputInvoice.invoicedate)
           postData.inputInvoice.receivedate = this.parseTime(postData.inputInvoice.receivedate)
           postData.inputInvoice.invoiceamount = this.invoiceamount
+          postData.inputInvoice.taxamount = this.taxamount
+          postData.inputInvoice.pretaxamount = this.pretaxamount
           postData.inputInvoiceItems.map(item => {
             this.multipleSelection.map(mulitem => {
               if (mulitem.index === item.index) {

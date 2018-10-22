@@ -295,7 +295,9 @@
             settlementmethod: '',
             status: '',
             ticketno: '',
-            postrecdate: null
+            postrecdate: null,
+            pagesize:10,
+            pageindex:1
           }
         },
         list: [],
@@ -327,7 +329,10 @@
       parseTime
     },
     created() {
-      
+      if(this.$route.query.data){
+          this.receivableform.receivable={...this.receivableform.receivable,...JSON.parse(this.$route.query.data)}
+       }
+       
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
       }
@@ -365,11 +370,11 @@
         })
       },
       handleSizeChange(val) {
-        this.pagesize = val
+        this.receivableform.receivable.pagesize = this.pagesize = val
         this.getListData()
       },
       handleCurrentPageChange(val) {
-        this.pageindex = val
+        this.receivableform.receivable.pageindex = this.pageindex = val
         this.getListData()
       },
       getListData() {
@@ -387,7 +392,12 @@
         }
         this.currentPostData = pData
         this.loading = true
-        getReceivableDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
+         this.$router.replace({
+          path:'/receivable/receivablelist',
+          query:{data:JSON.stringify(this.receivableform.receivable)}
+        })
+        
+        getReceivableDetail({ ...pData }).then(res => {
           this.list = res.data.data
           this.total = res.data.total
           const { amount, interestrate, payamount } = res.data
@@ -437,8 +447,39 @@
       },
       onCancel() {
         this.receivableform = {
-          receivable: {}
+          receivable: {
+            checkadvice: '',
+            checkdate: '',
+            checkuser: '',
+            contractno: '',
+            createdate: '',
+            createuser: '',
+            enclosure: '',
+            enterprise: '',
+            enterprisename: '',
+            fundnature: '',
+            interestrate: '',
+            isdelete: null,
+            memos: '',
+            payer: '',
+            payername: '',
+            recamount: null,
+            recdate: '',
+            receivables: '',
+            receivablesname: '',
+            saleorder: '',
+            settlementmethod: '',
+            status: '',
+            ticketno: '',
+            postrecdate: null
+          }
         }
+         this.$router.replace({
+          path:'/receivable/receivablelist',
+          query:{data:JSON.stringify(this.receivableform.receivable)}
+        })
+         this.pageindex = 1
+        this.getListData()
       }
     }
   }
