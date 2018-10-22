@@ -80,8 +80,8 @@
           let data=res.data;
           this.config=data;
           this.tableData=data.busiBillDetails;
-          this.loading=false;
         } 
+         this.loading=false;
       }).catch(err=>{
           this.loading=false;
       })

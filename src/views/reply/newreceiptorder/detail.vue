@@ -106,7 +106,7 @@
           this.tableData=res.data.itemList
         }
       }).catch(err=>{
-         
+           this.loading=false;
        })
    },
 

@@ -72,7 +72,6 @@
           let data=res.data;
           this.config=data;
           this.tableData=Array.isArray(data.owOrderDetailList)?data.owOrderDetailList:[];
-          this.loading=false;
         } 
         this.loading=false;
       }).catch(err=>{
