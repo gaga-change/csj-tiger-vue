@@ -277,14 +277,15 @@
       enclosure() {
         let url = []
         this.fileList.forEach(
-          file => {
-            if (file.response) {
-              url.push({ name: file.name, path: file.response.data&&file.response.data.filePath })
-            } else if (file.name && file.url) {
-              url.push({ name: file.name, path: file.url.filePath })
+          file =>
+           {
+              if (file.response) {
+                url.push({ name: file.name, path: file.response.data&&file.response.data.filePath })
+              } else if (file.name && file.url) {
+                url.push({ name: file.name, path: file.url.filePath })
+              }
             }
-          }
-        );
+          );
         return url
       },
     },
@@ -298,6 +299,13 @@
       if(modify){
           signDetail({signId:id}).then(res=>{
           this.loading=false;
+          let fileList=res.data&&res.data.files||[];
+          this.fileList=fileList.map((v,i)=>{
+              let json={};
+              json.name=v.name||`附件${i+1}`;
+              json.url=v.path;
+              return json;
+          })
           if(res.data&&Array.isArray(res.data.itemList)){
             data.saleSignReq={...data.saleSignReq,...res.data}
             data.saleSignReq.planCode=data.saleSignReq.outPlanCode
@@ -453,7 +461,6 @@
       },
 
       handelUploadChange(file, fileList) {
-        // 选择文件时显示上传按钮
         if (Object.keys(file).length && fileList.length) {
           this.uploadButtonVisible = true
         } else {
