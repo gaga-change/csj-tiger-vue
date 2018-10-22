@@ -103,7 +103,7 @@
             let index=this.infoConfig.findIndex(v=>v.value=='signNo');
             this.infoConfig.splice(index,1)
           }
-          this.tableData=res.data.itemList
+          this.tableData=res.data.itemList||[]
         }
       }).catch(err=>{
            this.loading=false;

@@ -66,7 +66,6 @@
         busiBillTypeConfig:[],
         busiBillStateConfig:[],
         loading:false
-       
       }
     },
 
@@ -76,12 +75,12 @@
       this.busiBillStateConfig=busiBillStateConfig||[];
       this.loading=true;
       outBillDetail({busiBillNo}).then(res=>{
+        this.loading=false;
         if(res.success){
           let data=res.data;
           this.config=data;
-          this.tableData=data.busiBillDetails;
+          this.tableData=data.busiBillDetails||[];
         } 
-         this.loading=false;
       }).catch(err=>{
           this.loading=false;
       })

@@ -172,7 +172,7 @@
        warehouseSelect(data).then(res=>{
        if(res.success){
           let data=res.data;
-          this.tableData=data.list;
+          this.tableData=data.list||[];
           this.total=data.total;
        } 
         this.loading=false;

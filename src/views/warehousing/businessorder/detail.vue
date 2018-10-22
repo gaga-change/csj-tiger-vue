@@ -80,7 +80,7 @@
         if(res.success){
           let data=res.data;
           this.config=data;
-          this.tableData=data.items;
+          this.tableData=data.items||[];
         } 
           this.loading=false;
       }).catch(err=>{
