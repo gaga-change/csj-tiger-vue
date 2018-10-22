@@ -81,7 +81,7 @@
           </el-form-item>
         </el-col>
 
-      <!-- <el-col :span="8">
+      <el-col :span="8">
         <el-form-item label="上传附件">
           <el-button
             size="mini"
@@ -91,7 +91,7 @@
           </el-button>
           <span v-show="enclosure.length">{{filelength}}个文件</span>
         </el-form-item>
-      </el-col> -->
+      </el-col>
 
           </el-row>
         </el-card>
@@ -257,7 +257,7 @@
         id:'',
 
         enclosureDialogVisible:false,
-        enclosureuploadUrl: '/planapi/api/fileupload/filetoserver',
+        enclosureuploadUrl: '/webApi/fileupload/common/filetoserver',
         uploadButtonVisible: false,
 
         reply:'',
@@ -273,17 +273,19 @@
       filelength() {
         return this.fileList.length
       },
+
       enclosure() {
-        const url = []
+        let url = []
         this.fileList.forEach(
-          file => {
-            if (file.response) {
-              url.push({ name: file.name, url: file.response.data })
-            } else if (file.name && file.url) {
-              url.push({ name: file.name, url: file.url })
+          file =>
+           {
+              if (file.response) {
+                url.push({ name: file.name, path: file.response.data&&file.response.data.filePath })
+              } else if (file.name && file.url) {
+                url.push({ name: file.name, path: file.url.filePath })
+              }
             }
-          }
-        );
+          );
         return url
       },
     },
@@ -297,6 +299,13 @@
       if(modify){
           signDetail({signId:id}).then(res=>{
           this.loading=false;
+          let fileList=res.data&&res.data.files||[];
+          this.fileList=fileList.map((v,i)=>{
+              let json={};
+              json.name=v.name||`附件${i+1}`;
+              json.url=v.path;
+              return json;
+          })
           if(res.data&&Array.isArray(res.data.itemList)){
             data.saleSignReq={...data.saleSignReq,...res.data}
             data.saleSignReq.planCode=data.saleSignReq.outPlanCode
@@ -346,11 +355,11 @@
           if (valid) {
             this.submitloading=true;
             let data=_.cloneDeep(this.planform);
-            data.saleSignReq.enclosure=JSON.stringify(this.enclosure)
+            data.saleSignReq.files=this.enclosure;
             data.saleSignReq.signCreateTime=moment(data.saleSignReq.signCreateTime).valueOf();
             let json={};
             for(let i in data['saleSignReq']){
-              if(['signName','signTel','signCreateTime'].includes(i)){
+              if(['signName','signTel','signCreateTime','files'].includes(i)){
                 json[i]=data['saleSignReq'][i]
               }
             }
@@ -452,7 +461,6 @@
       },
 
       handelUploadChange(file, fileList) {
-        // 选择文件时显示上传按钮
         if (Object.keys(file).length && fileList.length) {
           this.uploadButtonVisible = true
         } else {

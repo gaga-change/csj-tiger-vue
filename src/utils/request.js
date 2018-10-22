@@ -19,9 +19,13 @@ service.interceptors.response.use(
           location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
         })
       } else {
+        let message=res.message||res.errorMsg||'';
+        if(message=='用户未登录'){
+          location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+        }
         Notification({
           title:'错误信息',
-          message:res.message||res.errorMsg,
+          message:message,
           type: 'error',
           duration:5*1000
         })
@@ -32,9 +36,13 @@ service.interceptors.response.use(
     }
   },
   error => {
+    let message=error.message||err.errorMsg||''
+    if(message=='用户未登录'){
+      location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+    }
     Notification({
       title:'错误信息',
-      message: error.message||err.errorMsg,
+      message: message,
       type: 'error',
       duration:5*1000,
       onClose:()=> Promise.reject(error)
