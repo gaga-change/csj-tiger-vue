@@ -327,7 +327,10 @@
       parseTime
     },
     created() {
-      
+      if(this.$route.query.data){
+          this.receivableform.receivable={...this.receivableform.receivable,...JSON.parse(this.$route.query.data)}
+       }
+       
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
       }
@@ -387,6 +390,11 @@
         }
         this.currentPostData = pData
         this.loading = true
+         this.$router.replace({
+          path:'/receivable/receivablelist',
+          query:{data:JSON.stringify(this.receivableform.receivable)}
+        })
+        
         getReceivableDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
           this.list = res.data.data
           this.total = res.data.total
@@ -437,8 +445,39 @@
       },
       onCancel() {
         this.receivableform = {
-          receivable: {}
+          receivable: {
+            checkadvice: '',
+            checkdate: '',
+            checkuser: '',
+            contractno: '',
+            createdate: '',
+            createuser: '',
+            enclosure: '',
+            enterprise: '',
+            enterprisename: '',
+            fundnature: '',
+            interestrate: '',
+            isdelete: null,
+            memos: '',
+            payer: '',
+            payername: '',
+            recamount: null,
+            recdate: '',
+            receivables: '',
+            receivablesname: '',
+            saleorder: '',
+            settlementmethod: '',
+            status: '',
+            ticketno: '',
+            postrecdate: null
+          }
         }
+         this.$router.replace({
+          path:'/receivable/receivablelist',
+          query:{data:JSON.stringify(this.receivableform.receivable)}
+        })
+         this.pageindex = 1
+        this.getListData()
       }
     }
   }
