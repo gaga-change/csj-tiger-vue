@@ -76,17 +76,20 @@
       this.issuedStateConfig=issuedStateConfig||[];
       this.execStatuConfig=execStatuConfig||[];
       this.loading=true
-      inPlanDetail({planCode}).then(res=>{
+      inPlanDetail({
+        planCode,
+        pageSize:500
+        }).then(res=>{
         this.loading=false
         if(res.success){
           let data=res.data;
           this.config=data;
-          if(this.config.busiBillType==11){
-             let config=_.cloneDeep(this.infoConfig); 
-             config.find(v=>v.title=='货主编号').title='供应商编号';
-             config.find(v=>v.title=='货主名称').title='供应商名称';
-             this.infoConfig=config;
-          }
+          // if(this.config.busiBillType==11){
+          //    let config=_.cloneDeep(this.infoConfig); 
+          //    config.find(v=>v.title=='货主编号').title='供应商编号';
+          //    config.find(v=>v.title=='货主名称').title='供应商名称';
+          //    this.infoConfig=config;
+          // }
           let list=data.skuDetails&&data.skuDetails.list||[]
           this.tableData=list||[]
         } 
