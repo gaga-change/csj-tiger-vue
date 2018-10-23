@@ -49,6 +49,8 @@
    {title:'计划人',value:'busiBillCreater',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'计划仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'货主编号',value:'ownerCode',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'供应商名称',value:'providerName',style:'minWidth:310px;marginBottom:16px',span:6},
+   {title:'供应商编号',value:'providerCode',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'货主名称',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'联系电话',value:'linkTel',style:'minWidth:310px;marginBottom:16px',span:6},
    {title:'下推状态',value:'issuedState', type:'issuedState',style:'minWidth:310px;marginBottom:16px',span:6},
@@ -84,12 +86,6 @@
         if(res.success){
           let data=res.data;
           this.config=data;
-          // if(this.config.busiBillType==11){
-          //    let config=_.cloneDeep(this.infoConfig); 
-          //    config.find(v=>v.title=='货主编号').title='供应商编号';
-          //    config.find(v=>v.title=='货主名称').title='供应商名称';
-          //    this.infoConfig=config;
-          // }
           let list=data.skuDetails&&data.skuDetails.list||[]
           this.tableData=list||[]
         } 
