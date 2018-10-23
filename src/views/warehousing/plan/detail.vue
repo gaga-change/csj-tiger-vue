@@ -1,5 +1,5 @@
 <template>
-  <div class="outgoing-quirydetail-container">
+  <div class="warehousing-quirydetail-container">
      <div style="marginBottom:12px">
      <item-title text="基本信息"/>
       <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
@@ -10,21 +10,32 @@
      </el-row>
    </el-card>
   </div>
-   <item-title text="相关计划单明细"/>
-    <web-pagination-table 
-      :config="tableConfig" 
-      :allTableData="tableData"/>
+     <item-title text="相关明细"/>
+     <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
+        <el-tab-pane label="相关计划单" name="plan">
+          <web-pagination-table 
+            :loading="loading"
+            :config="tableConfig" 
+            :allTableData="tableData"/>
+          </el-tab-pane>
+        <el-tab-pane label="相关入库单" name="warehousing">
+             <web-pagination-table 
+            :loading="warehousingLoding"
+            :config="warehousingTableConfig" 
+            :allTableData="warehousingTableData"/> 
+        </el-tab-pane>
+     </el-tabs>
   </div>
 </template>
 
 <script>
  import moment from 'moment';
- import {inPlanDetail} from '@/api/warehousing'
+ import {inPlanDetail,inOrderSelect} from '@/api/warehousing'
  import _  from 'lodash';
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',fixed:true,type:'index'},
+    { label:'序号',fixed:true,type:'index',width:'50px'},
     { label:'SKU名称',prop:'skuName',fixed:false,},
     { label:'规格型号',prop:'skuFormat',fixed:false,},
     { label:'品牌',prop:'skuBrandName',fixed:false,},
@@ -68,8 +79,27 @@
         busiBillTypeConfig:[],
         issuedStateConfig:[],
         execStatuConfig:[],
-        loading:false
+        loading:false,
+
+        tabActive:'plan',
+        warehousingLoding:false,
+        warehousingTableConfig:[],
+        warehousingTableData:[],
+        planCode:''
+
       }
+    },
+
+    beforeMount(){
+      this.warehousingTableConfig=[
+        { label:'序号',fixed:true,type:'index',width:'50px'},
+        { label:'入库单号',fixed:true,prop:'warehouseExeCode'},
+        { label:'业务单号',prop:'busiBillNo' },
+        { label:'货主',prop:'ownerName'},
+        { label:'计划单号',prop:'planCode'},
+        { label:'仓库',prop:'warehouseName'},
+        { label:'入库日期',prop:'inWarehouseTime',type:'time'},
+      ]
     },
 
     mounted(){
@@ -77,6 +107,7 @@
       this.busiBillTypeConfig=busiBillTypeConfig||[];
       this.issuedStateConfig=issuedStateConfig||[];
       this.execStatuConfig=execStatuConfig||[];
+      this.planCode=planCode;
       this.loading=true
       inPlanDetail({
         planCode,
@@ -107,6 +138,26 @@
           }
         } else{
           return ''
+        }
+      },
+
+       activeChange(tab){
+        if(tab.name=='warehousing'){
+            if(!this.warehousingTableData.length){
+              this.warehousingLoding=true;
+              inOrderSelect({
+                  planCode:this.planCode,
+                  pageSize:500,
+                  pageNum:1
+                }).then(res=>{
+                if(res.success){
+                   this.warehousingTableData=res.data&&res.data.list||[]
+                }
+                 this.warehousingLoding=false;
+              }).catch(err=>{
+
+              })
+            }
         }
       }
     }

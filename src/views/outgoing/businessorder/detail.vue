@@ -92,7 +92,8 @@
         
         planTableData:[],
         planTableConfig:[],
-        planLoading:false
+        planLoading:false,
+        outgoingLoding:false
         
       }
     },
