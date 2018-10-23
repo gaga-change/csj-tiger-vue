@@ -282,7 +282,7 @@
               if (file.response) {
                 url.push({ name: file.name, path: file.response.data&&file.response.data.filePath })
               } else if (file.name && file.url) {
-                url.push({ name: file.name, path: file.url.filePath })
+                url.push({ name: file.name, path: file.url })
               }
             }
           );
