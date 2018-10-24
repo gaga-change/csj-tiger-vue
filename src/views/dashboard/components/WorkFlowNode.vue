@@ -64,30 +64,31 @@
     <el-tab-pane>
       <span slot="label"><i class="el-icon-date"></i> 我的在办 <el-badge :value="nownums" class="item"></el-badge></span>
       <el-row :gutter="10">
-        <el-col v-if="nowloading" :span="24">正在获取数据...</el-col>
+        <!-- <el-col v-if="nowloading" :span="24">正在获取数据...</el-col>
         <el-col v-else-if="loadingfail" :span="24">登录章鱼系统失败，请<el-button type="text" @click="retry">重试</el-button></el-col>
         <el-col
           :span="24"
           class="colclass"
           v-else
-        >
+        > -->
         <el-table :data="nowlist" :max-height="310" style="border-bottom:none">
           <el-table-column
             width="220"
             show-overflow-tooltip
+            prop="title"
             label="标题">
-            <template slot-scope="scope">
-              <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
-                {{scope.row.title}}
+            <!-- <template slot-scope="scope">
+              <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
+                {{scope.row.bussinessKey}}
               </a>
-              <router-link :to="{ name: 'distributedetail', params: { ticketno: scope.row.title } }" v-else-if="scope.row.urlflag === 1">
+              <router-link :to="{ name: 'distributedetail', params: { ticketno: scope.row.bussinessKey } }" v-else-if="scope.row.urlflag === 1">
                 {{scope.row.title}}
               </router-link>
-              <router-link :to="{ name: 'quotationorderdetail', params: { ticketno: scope.row.title } }" v-else-if="scope.row.urlflag === 2">
-                {{scope.row.title}}
+              <router-link :to="{ name: 'quotationorderdetail', params: { ticketno: scope.row.bussinessKey } }" v-else-if="scope.row.urlflag === 2">
+                {{scope.row.bussinessKey}}
               </router-link>
-              <span v-else>{{scope.row.title}}</span>
-            </template>
+              <span v-else>{{scope.row.bussinessKey}}</span> -->
+            <!-- </template> -->
           </el-table-column>
           <el-table-column
             show-overflow-tooltip
@@ -124,6 +125,8 @@
 
 <script>
 import { WorkFlowNode, ZyUser, bssLogin, NowWorkFlowNode } from '@/api/planorder'
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -140,39 +143,46 @@ export default {
   computed: {
     showlist() {
       return this.list
-    }
+    },
+     ...mapGetters({
+      userInfo: 'userInfo',
+    })
   },
   created() {
     this.getDefaultData()
-    this.getLoadingData()
+    // this.getLoadingData()
     this.getNowData()
   },
   methods: {
     retry() {
       this.$router.go(0)
     },
-    getLoadingData() {
-      this.loading = true
-      ZyUser().then(resa => {
-        bssLogin({ j_username: resa.data.longonname, j_password: resa.data.logonpass }).then(res => {
-          console.log(res)
-          this.loading = false
-        }).catch(err => {
-          // this.loadingfail = true
-          this.loading = false
-          console.log(err)
-        })
-      }).catch(erra => {
-        console.log(erra)
-        this.loading = false
-        // this.loadingfail = true
-      })
-    },
+    // getLoadingData() {
+    //   this.loading = true
+    //   ZyUser().then(resa => {
+    //     bssLogin({ j_username: resa.data.longonname, j_password: resa.data.logonpass }).then(res => {
+    //       console.log(res)
+    //       this.loading = false
+    //     }).catch(err => {
+    //       // this.loadingfail = true
+    //       this.loading = false
+    //       console.log(err)
+    //     })
+    //   }).catch(erra => {
+    //     console.log(erra)
+    //     this.loading = false
+    //     // this.loadingfail = true
+    //   })
+    // },
     getDefaultData() {
       this.loading = true
-      WorkFlowNode().then(res => {
-        this.list = res.data.myToDoTask || []
-        this.nums = res.data.total
+      WorkFlowNode(this.userInfo.truename).then(res => {
+        
+        if(res&&res.data){
+          this.list = res.data || []
+          this.nums = res.data.length
+        }
+
         this.loading = false
       }).catch(err => {
         console.log(err)
@@ -188,9 +198,11 @@ export default {
     },
     getNowData() {
       this.nowloading = true
-      NowWorkFlowNode().then(res => {
-        this.nowlist = res.data.myToDoneTask || []
-        this.nownums = res.data.total
+      NowWorkFlowNode(this.userInfo.truename).then(res => {
+        if(res&&res.data){
+          this.nowlist = res.data || []
+          this.nownums = res.data.length
+        }
         this.nowloading = false
       }).catch(err => {
         console.log(err)

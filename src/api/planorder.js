@@ -611,11 +611,10 @@ export function ZyUser(data) {
 // // }
 
 // POST /api/ContractWorkFlow/getWorkFlowNode 获取我的待办信息API
-export function WorkFlowNode(data) {
+export function WorkFlowNode(truename) {
   return request({
-    url: '/webApi/ContractWorkFlow/getWorkFlowNode',
-    method: 'post',
-    data: data
+    url: `/webApi/workflow/todo?truename=${truename}`,
+    method: 'get',
   })
 }
 
@@ -731,10 +730,9 @@ export function CategorySmall(data) {
 // }
 
 // POST /api/ContractWorkFlow/getNowWorkFlowNode 获取我的在办信息API
-export function NowWorkFlowNode(data) {
+export function NowWorkFlowNode(truename) {
   return request({
-    url: '/webApi/ContractWorkFlow/getNowWorkFlowNode',
-    method: 'post',
-    data: data
+    url: `/webApi/workflow/tobedone?truename=${truename}`,
+    method: 'get',
   })
 }
