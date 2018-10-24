@@ -361,7 +361,7 @@
           path:'/payment/paymentlist',
           query:{data:JSON.stringify(this.ruleForm)}
         })
-        getPaymentDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
+        getPaymentDetail({ ...pData }).then(res => {
           this.tableData = res.data.data
           this.total = res.data.total
           const { amount, interestrate, payamount } = res.data

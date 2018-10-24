@@ -110,6 +110,8 @@ const ruleForm = {
     invoiceuser: '',
     isdelete: '',
     memos: '',
+    pagesize: 10,
+    pageindex: 1,
     planinvoiceamount: '',
     planinvoicenum: '',
     postinvoicedate: null, 
@@ -247,7 +249,7 @@ export default {
        },
       
     getListData() {
-      const postData = this.ruleForm
+      const postData = _.cloneDeep(this.ruleForm)
       if (postData.postinvoicedate && postData.postinvoicedate.length) {
         postData.invoicestartdate = parseTime(postData.postinvoicedate[0])
         postData.invoiceenddate = parseTime(postData.postinvoicedate[1])
@@ -271,7 +273,11 @@ export default {
       }
       
       this.loading = true
-      getMainDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
+       this.$router.replace({
+          path:'/invoice/inputinvoice/inputinvoicelist',
+          query:{data:JSON.stringify(this.ruleForm)}
+        })
+      getMainDetail({ ...pData }).then(res => {
         
         this.tableData = res.data.data
         this.total = res.data.total
