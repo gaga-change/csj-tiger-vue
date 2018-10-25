@@ -29,7 +29,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item v-for="(v,i) in config[item.value]" :key="v.path" >
-                    <a class="el-dropdown-link"  targe="_blank"   :href="v.path">{{v.name||`附件${i+1}`}}</a>
+                    <a class="el-dropdown-link"  target="blank"   :href="v.path">{{v.name||`附件${i+1}`}}</a>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>

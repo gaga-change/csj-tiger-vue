@@ -206,7 +206,7 @@
                             <el-dropdown-menu slot="dropdown">
                                {
                                  files.map((v,i)=><el-dropdown-item>
-                                   <a class="el-dropdown-link"  targe="_blank"   href={v.path}>{v.name||`附件${i+1}`}</a>
+                                   <a class="el-dropdown-link"  target="blank"   href={v.path}>{v.name||`附件${i+1}`}</a>
                                  </el-dropdown-item>)
                                }
                             </el-dropdown-menu>
