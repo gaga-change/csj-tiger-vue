@@ -43,6 +43,7 @@ export default {
       total: 0,
       currentPage: 1,
       currentData: [],
+      searchData:[],
       loading: false
     }
   },
@@ -58,18 +59,20 @@ export default {
         console.log('this.gridData');
         
         this.loading = false
+        this.searchData = _.cloneDeep(this.gridData)
         this.getCurrentData()
       })
     } else {
+      this.searchData = _.cloneDeep(this.gridData)
       this.getCurrentData()
     }
   },
   methods: {
     onSubmit() {
-      const SearchData = this.gridData.filter(company => {
+       this.searchData = this.gridData.filter(company => {
         return company.name.includes(this.postForm.name) && company.code.includes(this.postForm.code)
       })
-      this.getCurrentData(SearchData)
+      this.getCurrentData()
     },
     onReset() {
       this.pageindex = 1
@@ -87,9 +90,9 @@ export default {
       }
     },
     getCurrentData(data) {
-      const CopyList = data || [...this.gridData]
+      const CopyList = data || [...this.searchData]
       this.currentData = CopyList.slice((this.pageindex - 1) * this.pagesize, this.pagesize * this.pageindex)
-      this.total = data ? data.length : this.gridData.length
+      this.total = data ? data.length : this.searchData.length
     },
     handleSizeChange(val) {
       this.pagesize = val
