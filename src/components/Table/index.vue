@@ -136,6 +136,10 @@ export default {
              return  <router-link  to={{path:'/outgoing/plan-detail',query:{id:row.id}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
             };break;
 
+            case 'outgoing-quiry':tableConfig[i].formatter=(row, column, cellValue, index)=>{
+             return  <router-link  to={{path:'/outgoing/quiry-detail',query:{id:row.id}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
+            };break;
+
             case 'outgoing-plan+reply':tableConfig[i].formatter=(row, column, cellValue, index)=>{
               if(row.isCreate){
                   return <div>

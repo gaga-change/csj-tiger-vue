@@ -184,7 +184,6 @@
             </el-table-column>
    
             <el-table-column
-              v-if="!($route.query.id)"
               label="操作"
               width="150">
               <template slot-scope="scope">
@@ -345,7 +344,7 @@
 
     methods:{
       submitOrder(formName){
-        let {modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+        let {modify}=this.$route.query||{};
         let Api=signBuildSale;
         if(modify){
            Api=signUpdate;
