@@ -5,7 +5,9 @@
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="tableData"
+        :summary-method="summaryMethod"
         :border="border"
+        :show-summary="showSummary"
         size="small"
         :style="tableStyle">
 
@@ -48,6 +50,14 @@ export default {
      loading: {
       type: Boolean,
       default: false      
+    },
+    showSummary:{
+      type:Boolean,
+      defalut:false
+    },
+    summaryMethod:{
+      type: Function,
+      default: ()=>{}    
     },
     tableData: {
       type: Array,
@@ -109,7 +119,9 @@ export default {
       tableConfig:[],
     }
   },
-  
+  created(){
+
+  },
   beforeMount(){
     let tableConfig=_.cloneDeep(this.config);
     for(let i in tableConfig){
@@ -159,7 +171,7 @@ export default {
        }
     }
     this.tableConfig=tableConfig;
-
+    console.log(this.showSummary);    
   },
 
    computed: {
@@ -189,8 +201,7 @@ export default {
   },
 
   mounted(){
-    
-    
+       
   },
 
   methods: { 

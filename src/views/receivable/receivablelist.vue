@@ -5,255 +5,128 @@
         <el-button style="margin-left: 10px;" type="primary" size="small"  @click="Export" :loading="downloadLoading" :disabled="downloadLoading">导出列表</el-button>
       </template>
     </sticky>
-    <el-form :model="receivableform" ref="ruleForm" label-width="68px" label-position="left">
-    <el-card class="simpleCard" body-style="padding:12px" shadow="never"> 
+    <el-form :model="ruleForm" ref="ruleForm" label-width="68px" label-position="left">
+      <el-card class="simpleCard" body-style="padding:12px" shadow="never"> 
 
-      <el-row >
-        <el-col :span="6">
-          <el-form-item label="收款单号" prop="receivable.ticketno">
-            <el-input type="text" size="small" style="max-width:199px;" v-model="receivableform.receivable.ticketno"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="销售单号" prop="receivable.saleorder">
-            <el-input type="text" size="small" style="max-width:199px;" v-model="receivableform.receivable.saleorder" ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="状态" prop="receivable.status">
-            <el-select v-model="receivableform.receivable.status" size="small" filterable clearable placeholder="请搜索或选择" prefix-icon="el-icon-search" >
-              <el-option
-                v-for="item in statusList"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="付款方" prop="receivable.payer">
-            <el-select v-model="receivableform.receivable.payer" size="small" filterable clearable placeholder="请选择客户" prefix-icon="el-icon-search" >
-              <el-option
-                v-for="item in gridData"
-                :key="item.id"
-                :label="item.name"
-                :value="item.requestid">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row >
-        <el-col :span="6">
-          <el-form-item label="款项性质" prop="receivable.fundnature">
-            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" >
-              <el-option
-                v-for="item in fundnature"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="结算方式" prop="receivable.settlementmethod">
-            <el-select v-model="receivableform.receivable.settlementmethod" filterable clearable placeholder="请选择结算方式" size="small" prefix-icon="el-icon-search">
-              <el-option
-                v-for="item in settlementmethod"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="合同编号" prop="receivable.contractno">
-            <el-input type="text" size="small" style="max-width:199px;" v-model="receivableform.receivable.contractno" ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="业务板块">
-            <el-select v-model="receivableform.receivable.businesstype" size="small" filterable clearable placeholder="请选择"  prefix-icon="el-icon-search" >
-              <el-option
-                v-for="item in businesstypeData"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row >
-        <el-col :span="6">
-          <el-form-item label="收款日期" prop="receivable.recdate">
-            <el-date-picker
-              v-model="receivableform.receivable.postrecdate"
-              type="datetimerange"
-              :editable="false"
-              size="small"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row >
-         <el-col :span="6">
+        <el-row >
+          <el-col :span="6">
+            <el-form-item label="收款单号" prop="ticketno">
+              <el-input type="text" size="small" style="max-width:199px;" v-model="ruleForm.ticketno"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="销售单号" prop="saleorder">
+              <el-input type="text" size="small" style="max-width:199px;" v-model="ruleForm.saleorder" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="状态" prop="status">
+              <el-select v-model="ruleForm.status" size="small" filterable clearable placeholder="请搜索或选择" prefix-icon="el-icon-search" >
+                <el-option
+                  v-for="item in statusList"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="付款方" prop="payer">
+              <el-select v-model="ruleForm.payer" size="small" filterable clearable placeholder="请选择客户" prefix-icon="el-icon-search" >
+                <el-option
+                  v-for="item in gridData"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.requestid">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row >
+          <el-col :span="6">
+            <el-form-item label="款项性质" prop="fundnature">
+              <el-select v-model="ruleForm.fundnature" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" >
+                <el-option
+                  v-for="item in fundnature"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="结算方式" prop="settlementmethod">
+              <el-select v-model="ruleForm.settlementmethod" filterable clearable placeholder="请选择结算方式" size="small" prefix-icon="el-icon-search">
+                <el-option
+                  v-for="item in settlementmethod"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="合同编号" prop="contractno">
+              <el-input type="text" size="small" style="max-width:199px;" v-model="ruleForm.contractno" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="业务板块">
+              <el-select v-model="ruleForm.businesstype" size="small" filterable clearable placeholder="请选择"  prefix-icon="el-icon-search" >
+                <el-option
+                  v-for="item in businesstypeData"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row >
+          <el-col :span="6">
+            <el-form-item label="收款日期" prop="recdate">
+              <el-date-picker
+                v-model="ruleForm.postrecdate"
+                type="datetimerange"
+                :editable="false"
+                size="small"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row >
+          <el-col :span="6">
 
-      <el-form-item class="simpleCardLastLine" label-width="0">
-        <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
-        <el-button @click="onCancel" size="small">重置</el-button>
-      </el-form-item>
-              </el-col>
-      </el-row>
+        <el-form-item class="simpleCardLastLine" label-width="0">
+          <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
+          <el-button @click="onCancel" size="small">重置</el-button>
+        </el-form-item>
+                </el-col>
+        </el-row>
       </el-card> 
-           
-
+    
       <div class="itemscont">
-        <el-table
-          :data="list"
-          v-loading="loading"
-          show-summary
-          size="small"
-          :summary-method="getSummaries"
-          style="width: 100%"
-          border>
-          <el-table-column
-            label="单号"
-            width="220">
-            <template slot-scope="scope">
-              <el-button type="text" size="small" @click="viewRow(scope.row)">{{scope.row.ticketno}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="来源销售订单"
-            prop="saleorder"
-            width="200">
-            <!-- <template slot-scope="scope">
-              <el-button type="text" @click="viewsalorderRow(scope.row)">{{scope.row.saleorder}}</el-button>
-            </template> -->
-          </el-table-column>
-          <el-table-column
-            label="合同编号"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.contractno }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="200"
-            label="付款方">
-            <template slot-scope="scope">
-              <span>{{ scope.row.payername }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="收款方"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.receivablesname}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="200"
-            label="收款日期">
-            <template slot-scope="scope">
-              <span>{{ scope.row.recdate }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="200"
-            label="款项性质">
-            <template slot-scope="scope">
-              <span>{{ scope.row.fundnature|fundnatureFilter}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="200"
-            label="款项类型">
-            <template slot-scope="scope">
-              <span>{{ scope.row.fundtype|fundtypeFilter}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="结算方式"
-            width="120">
-            <template slot-scope="scope">
-              <span >{{ scope.row.settlementmethod|settlementmethodFilter}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="本次实收金额"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.recamount }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="现金折扣"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.interestrate }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="结算金额"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.settlementamount }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="状态"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.status|statusFilter}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="业务板块"
-            width="150">
-            <template slot-scope="scope">
-              <span>{{ scope.row.businesstype|businesstypeFilter}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="审核结果"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.checkadvice }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="制单人"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.createuser }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="制单日期"
-            width="200">
-            <template slot-scope="scope">
-              <span>{{ scope.row.createdate}}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentPageChange"
-          :current-page="currentPage"
-          size="small"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
-        </el-pagination>
+        <base-table 
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+      :loading="loading"
+      :config="tableConfig"  
+      :total="total" 
+      :maxTotal="10"
+      :summaryMethod="getSummaries"
+      :totaldata="totaldata"
+      :showSummary="showSummary"
+      :pageSize="ruleForm.pagesize"
+      :currentPage="ruleForm.pageindex"
+      :tableData="tableData"/>
       </div>
     </el-form>
   </div>
@@ -265,13 +138,9 @@
   import { exportExcel } from '@/utils/exportexcel'
   import { parseTime, ReciveFundnature, SettlementMethod, Status, BusinessTypeData } from '@/utils'
   import Sticky from '@/components/Sticky' // 粘性header组件
-  export default {
-    name: 'receivablelist',
-    components: { Sticky },
-    data() {
-      return {
-        receivableform: {
-          receivable: {
+  import BaseTable from '@/components/Table' // table组件
+
+  const ruleForm = {
             checkadvice: '',
             checkdate: '',
             checkuser: '',
@@ -287,6 +156,8 @@
             memos: '',
             payer: '',
             payername: '',
+            pagesize:10,
+            pageindex:1,
             recamount: null,
             recdate: '',
             receivables: '',
@@ -295,24 +166,27 @@
             settlementmethod: '',
             status: '',
             ticketno: '',
-            postrecdate: null,
-            pagesize:10,
-            pageindex:1
-          }
-        },
-        list: [],
-        pagesize: 10,
-        pageindex: 1,
-        total: 0,
-        currentPage: 1,
-        totaldata:{},
+            postrecdate: null
+        }
+
+  export default {
+    name: 'receivablelist',
+    components: { Sticky, BaseTable },
+    data() {
+      return {
+        ruleForm:ruleForm,
         statusList: Status,
         fundnature: ReciveFundnature,
         settlementmethod: SettlementMethod,
         businesstypeData: BusinessTypeData,
         loading: false,
+        showSummary:true,
+        total:10,
         downloadLoading: false,
-        currentPostData: {}
+        currentPostData: {},
+        tableData:[],
+        totaldata:{ amount:0, interestrate:0, payamount:0 },
+        tableConfig:[],
       }
     },
     computed: {
@@ -330,14 +204,35 @@
     },
     created() {
       if(this.$route.query.data){
-          this.receivableform.receivable={...this.receivableform.receivable,...JSON.parse(this.$route.query.data)}
+          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
        
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
       }
+      this.tableConfig=[
+      { label:'单号',prop:'ticketno',dom:this.formatter('linkToreceivabledetailDelivery')},
+      { label:'来源销售订单',prop:'saleorder'},
+      { label:'付款方',prop:'payername'},
+      { label:'收款方',prop:'receivablesname'},
+      { label:'收款日期',prop:'recdate'},
+      { label:'款项性质',prop:'fundnature',dom:this.formatter('fundnatureFilter')},
+      { label:'款项类型',prop:'fundtype', dom:this.formatter('fundtypeFilter'),},
+      { label:'结算方式',prop:'settlementmethod',dom:this.formatter('settlementmethodFilter')},
+      { label:'本次实收金额',prop:'recamount'},
+      { label:'现金折扣',prop:'interestrate'},
+      { label:'结算金额',prop:'settlementamount'},
+      { label:'状态',prop:'status',dom:this.formatter('statusFilter')},
+      { label:'业务板块',prop:'businesstype',dom:this.formatter('businesstypeFilter')},
+      { label:'审核结果',prop:'checkadvice'},
+      { label:'制单人',prop:'createuser'},
+      { label:'制单日期',prop:'createdate'}
+     ]
       this.getListData()
     },
+    // beforeMount(){
+ 
+    // },
     activated(){
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
@@ -370,15 +265,45 @@
         })
       },
       handleSizeChange(val) {
-        this.receivableform.receivable.pagesize = this.pagesize = val
+        this.ruleForm={...this.ruleForm,pagesize:val,pageindex:1}
         this.getListData()
       },
-      handleCurrentPageChange(val) {
-        this.receivableform.receivable.pageindex = this.pageindex = val
+
+      handleCurrentChange(val) {
+        this.ruleForm={...this.ruleForm,pageindex:val}
         this.getListData()
       },
+      formatter(type,value){
+            switch(type){
+              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'暂无数据';
+              case 'fundnatureFilter':return (row, column, cellValue, index)=>{
+               return this.$options.filters['fundnatureFilter'](cellValue) 
+              };
+              case 'fundtypeFilter':return (row, column, cellValue, index)=>{
+               return this.$options.filters['fundtypeFilter'](cellValue) 
+              };
+               case 'settlementmethodFilter':return (row, column, cellValue, index)=>{
+                return this.$options.filters['settlementmethodFilter'](cellValue) 
+              };
+               case 'statusFilter':return (row, column, cellValue, index)=>{
+                return this.$options.filters['statusFilter'](cellValue) 
+              };
+              case 'businesstypeFilter':return (row, column, cellValue, index)=>{
+                return this.$options.filters['businesstypeFilter'](cellValue) 
+              };
+              case 'linkToreceivabledetailDelivery' :return  (row, column, cellValue, index)=>{
+              
+                let linkTo={
+                  path:`/receivable/receivabledetail/${row.ticketno}`,
+                }
+                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
+              };
+              default:return value
+            }
+         
+       },
       getListData() {
-        const postData = this.receivableform.receivable
+        const postData = this.ruleForm
         if (postData.postpaydate && postData.postpaydate.length) {
           postData.recstartdate = parseTime(postData.postrecdate[0])
           postData.recenddate = parseTime(postData.postrecdate[1])
@@ -394,11 +319,11 @@
         this.loading = true
          this.$router.replace({
           path:'/receivable/receivablelist',
-          query:{data:JSON.stringify(this.receivableform.receivable)}
+          query:{data:JSON.stringify(this.ruleForm)}
         })
         
         getReceivableDetail({ ...pData }).then(res => {
-          this.list = res.data.data
+          this.tableData = res.data.data
           this.total = res.data.total
           const { amount, interestrate, payamount } = res.data
           this.totaldata = { amount, interestrate, payamount }
@@ -411,6 +336,7 @@
         })
       },
       getSummaries(param) {
+
         const { columns } = param
         const sums = []
         sums[0] = '合计'
@@ -426,59 +352,12 @@
         return sums
       },
       onSubmit() {
-        this.pageindex = 1
+        this.ruleForm.pageindex = 1
         this.getListData()
       },
-      viewRow(row) {
-        this.$router.push({
-          name: 'receivabledetailDelivery',
-          params: {
-            ticketno: row.ticketno
-          }
-        })
-      },
-      viewsalorderRow(row) {
-        this.$router.push({
-          name: 'saleorderdetailDelivery',
-          params: {
-            ticketno: row.saleorder
-          }
-        })
-      },
+    
       onCancel() {
-        this.receivableform = {
-          receivable: {
-            checkadvice: '',
-            checkdate: '',
-            checkuser: '',
-            contractno: '',
-            createdate: '',
-            createuser: '',
-            enclosure: '',
-            enterprise: '',
-            enterprisename: '',
-            fundnature: '',
-            interestrate: '',
-            isdelete: null,
-            memos: '',
-            payer: '',
-            payername: '',
-            recamount: null,
-            recdate: '',
-            receivables: '',
-            receivablesname: '',
-            saleorder: '',
-            settlementmethod: '',
-            status: '',
-            ticketno: '',
-            postrecdate: null
-          }
-        }
-         this.$router.replace({
-          path:'/receivable/receivablelist',
-          query:{data:JSON.stringify(this.receivableform.receivable)}
-        })
-         this.pageindex = 1
+        this.ruleForm = ruleForm
         this.getListData()
       }
     }
