@@ -250,15 +250,15 @@ export default [
     path: '/purchasecontract',
     component: Layout,
     redirect: '/',
-    name: 'saleorder',
+    name: 'purchasecontract',
     alwaysShow: false,
     hidden: true,
     meta: { title: '采购合同', icon: 'sale', roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market'] }, // you can set roles in root nav
     children: [
       {
         path: 'purchasecontractdetail/:contractno/:workflowid',
-        component: _import('saleorder/saleorderdetail'),
-        name: 'saleorderdetail',
+        component: _import('purchasecontract/purchasecontractdetail'),
+        name: 'purchasecontractdetail',
         hidden: true,
         meta: {
           title: '采购合同详情',

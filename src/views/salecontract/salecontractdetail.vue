@@ -2,13 +2,13 @@
   <div class="createPost-container">
     <sticky :className="'sub-navbar published'" >
       <template v-if="fetchSuccess">
-        <template v-if="ruleForm.sstatus == 4">
-          <el-button  style="margin-left: 10px;" type="primary" size="small" @click="contractModify(1)" :disabled="$haspermission('inputInvoiceCheck')">审核</el-button>
-          <el-button  style="margin-left: 10px;" type="error" size="small"  @click="contractModify(0)" :disabled="$haspermission('inputInvoiceReject')">驳回</el-button>
-        </template>
+        <!-- <template v-if="ruleForm.sstatus == 4"> -->
+          <el-button  style="margin-left: 10px;" type="primary" size="small" @click="()=>{contractModify(1,{},refresh);this.buttonLoading=true}" :disabled="!$haspermission('saleContractCheckPass')||buttonLoading">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="error" size="small"  @click="()=>{contractModify(0,{},refresh);this.buttonLoading=true}" :disabled="!$haspermission('saleContractCheckPassNot')||this.buttonLoading">驳回</el-button>
+        <!-- </template>
         <template v-else>
-          <el-tag >暂无操作</el-tag>
-        </template>
+          <el-tag>暂无操作</el-tag>
+        </template> -->
 
       </template>
       <template v-else>
@@ -28,7 +28,7 @@
             <template v-else>
               <span class="card-title">{{item.title}}</span> : <span class="card-text">
 
-              <template v-for="enclosure in JSON.parse(config[item.value])">
+              <template v-for="enclosure in elecontract">
                 <a :href="`/webApi/download/file?pathUrl=${enclosure.url}&pathName=${enclosure.name}`" target="_blank" style="padding-right:4px;color:#128fe7;">{{enclosure.name}}</a><br/>
                 <!-- <a :href="link.url" target="_blank" style="color:blue">{{link.name}}</a> -->
               </template>
@@ -118,20 +118,21 @@ import moment from 'moment'
 const infoConfig=[
    {title:'合同档案编号',value:'contractno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
    {title:'合同名称',value:'contractname',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'客户合同编号',value:'cuscontractno',style:'minWidth:310px;marginBottom:16px',type:'time',span:8,nthShow:true},
+   {title:'客户合同编号',value:'cuscontractno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
    {title:'客户名称',value:'customname',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'业务负责人',value:'leader',type:'statusFilter',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'代签人',value:'proxy',style:'minWidth:310px;marginBottom:16px',type:'money',span:8,nthShow:true},
-   {title:'合同类型',type:'contracttype',type:'contractType',value:'taxamount',style:'minWidth:310px;marginBottom:16px',span:8},
-   {title:'业务板块',type:'businesstype',value:'invoiceamount',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'备注',value:'memos',type:'money',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'付款方式',value:'paymethod',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
+   {title:'业务负责人',value:'leader',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'代签人',value:'proxy',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'合同类型',type:'contractType',value:'contracttype',style:'minWidth:310px;marginBottom:16px',span:8},
+   {title:'业务板块',type:'businesstype',value:'businesstype',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'备注',value:'memos',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'付款方式',type:'paymethod',value:'paymethod',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
    {title:'付款方式说明',value:'instruction',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
    {title:'合同日期',value:'orderdate',type:'time',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
-   {title:'交货方式',value:'deliverway',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
+   {title:'交货方式',type:'deliverway',value:'deliverway',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
    {title:'合同扫描件',value:'elecontract',type:'json',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:false},
  ]
-
+const paymethodFormate = ['','货到付款','货到票到付款','先款后货']
+const deliverwayFormate = ['','库发','供应商直发','自提']
 
 export default {
   components: {
@@ -143,8 +144,9 @@ export default {
       contactItems: [],
       fetchSuccess: true,
       config:{},
-      contractCheckParam:{},
       loading:false,
+      buttonLoading:false,
+      elecontract:[],
       infoConfig
     }
   },
@@ -156,32 +158,45 @@ export default {
       visitedViews: 'visitedViews'
     })
   },
-  created() {
+  created() {  
     this.getDetail()
   },
   methods: {
     contractModify,
+    refresh(){
+      
+      this.$router.replace({
+        path:`/salecontract/salecontractdetail/${this.$route.params.contractno}/${this.$route.params.workflowid}`,
+      })
+      this.buttonLoading=false
+    },
     getDetail() {
+      this.buttonLoading = false
        CotractDetail(
         this.$route.params.contractno
       ).then(res => {
         this.ruleForm = res.data
         this.contactItems = res.data && res.data.itemList || []
+        this.elecontract = res.data && res.data.elecontract && JSON.parse(res.data.elecontract) || []
         this.config = res.data && _.cloneDeep(res.data) || {}
       }).catch(err => {
         console.log(err)
         this.fetchSuccess = false
       })
     },
+
     formatter(type,value){
         if(value!=undefined){
           switch(type){
             case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
             case 'statusFilter': return value || value ==0 ?this.$options.filters.statusFilter(value) :'';
-            case 'contractType':return value ==1 ? '销售合同':'采购合同';
+            case 'contractType':return value == 1 ? '销售合同' : '采购合同';
+            case 'businesstype': return value ==1 ? '汽车板块':'钢铁板块'
             case 'money': return `￥${value}`
             case 'boolean': return Number(value)?'是':'否';
-            case 'json': return JSON.parse(value)
+            case 'json': return JSON.parse(value);
+            case 'deliverway': return deliverwayFormate[value];
+            case 'paymethod': return paymethodFormate[value];
             default : return value
           }
         } 

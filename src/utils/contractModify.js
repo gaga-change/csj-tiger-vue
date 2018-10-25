@@ -1,3 +1,4 @@
+
 import { ContractCheck } from '@/api/planorder'
 export default function contractModify(type, params, needfresh, api) {
   const CotractCheck = api || CotractCheck
@@ -9,65 +10,100 @@ export default function contractModify(type, params, needfresh, api) {
       message: '审核失败，请刷新重试!'
     })
   }
-  // 0 审核
+  // 1 审核
   if (type === 1) {
     this.$prompt('请输入审核意见', '提示', {
-      confirmButtonText: '确定',
+      confirmButtonText: '确定', 
       cancelButtonText: '取消'
     }).then(({ value }) => {
       ContractCheck({
         workflowid: this.$route.params.workflowid,
         contractno: this.$route.params.contractno,
         checkFlag: type,
-        checkAdvice: value
+        checkAdvice: value,
+        userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.truename
       }).then(res => {
         console.log(res)
-        this.$message({
-          type: 'success',
-          message: '审核成功!'
-        })
-        if (needfresh) {
-          this.needfresh()
-        } else {
+       
+        if(res.code != 200){
           
+          this.$message({
+            type: 'warn',
+            message:  res.errorMsg || '审核失败!'
+          })
+          if (needfresh) {  
+            needfresh()
+          }
+        }else{
+          this.$message({
+            type: 'success',
+            message: '审核成功!'
+          })
+          if (needfresh) {  
+            
+            needfresh()
+          }
         }
       }).catch(err => {
-        console.log(err)
         this.$message({
           type: 'warn',
           message: '审核失败!'
         })
+        if (needfresh) {  
+          needfresh()
+        }
       })
+    }).catch(err=>{
+      if (needfresh) {  
+        needfresh()
+      }
     })
-  } else if (type === 1) {
+  } else if (type === 0) {//驳回
     this.$prompt('是否确定驳回?', '提示', {
       confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }).then(() => {
+      cancelButtonText: '取消'
+    }).then(({value}) => {
       ContractCheck({
         workflowid: this.$route.params.workflowid,
         contractno: this.$route.params.contractno,
         checkFlag: type,
-        checkAdvice: value
+        checkAdvice: value,
+        userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.truename
       }).then(res => {
-      
-        this.$message({
-          type: 'success',
-          message: '驳回成功!'
-        })
+        if(res.code == 200){
+          this.$message({
+            type: 'success',
+            message: '驳回成功!'
+          })
+        }else{
+          this.$message({
+            type: 'warn',
+            message:  res.errorMsg || '驳回失败!'
+          })
+        }
+        if (needfresh) {
+          needfresh()
+        }
       }).catch(err => {
         console.log(err)
         this.$message({
           type: 'error',
           message: '驳回失败'
         })
+        if (needfresh) {
+          needfresh()
+        }
       })
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err);
+      
       this.$message({
         type: 'info',
         message: '已取消驳回'
       })
+      if (needfresh) {
+        needfresh()
+      }
     })
   } else if (type === 3) {
     this.$confirm('是否确定删除?', '提示', {

@@ -78,10 +78,10 @@
               <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
                 {{scope.row.bussinessKey}}
               </a> -->
-               <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.ticketno}` }" v-if="scope.row.type === '采购合同'">
+              <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
                 {{scope.row.title}}
               </router-link>
-              <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.ticketno}` }" v-else-if="scope.row.type === '销售合同'">
+              <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                 {{scope.row.title}}
               </router-link>
               <span v-else>{{scope.row.title}}</span>
