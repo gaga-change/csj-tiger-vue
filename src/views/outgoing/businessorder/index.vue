@@ -7,20 +7,20 @@
             <el-col :span="6" >
               <el-form-item label="业务类型"   prop="busiBillType">
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
-                  <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                  <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="业务单号" prop="busiBillNo">
-                <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
+                <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入业务单号"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="6" >
                 <el-form-item label="单据状态" prop="billState" >
                   <el-select v-model="ruleForm.billState"  @change="submitForm('ruleForm')"    placeholder="请选择单据状态">
-                    <el-option  v-for="item in busiBillStateConfig"  :key="item.key"  :label="item.value"   :value="item.key"></el-option>
+                    <el-option  v-for="item in mapConfig['outbusibillstate']"  :key="item.key"  :label="item.value"  :value="item.key"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -64,10 +64,10 @@
 </template>
 
 <script>
-    import moment from 'moment';
-    import {outBillSelect} from '@/api/outgoing'
-    import {getBillType,outbusibillstate}  from '@/api/map'
+    import { outBillSelect } from '@/api/outgoing'
     import BaseTable from '@/components/Table'
+    import { mapGetters } from 'vuex'
+    import { indexTableConfig } from './config';
     
     const validatorLinkTel = (rule, value, callback) => {
       if (value==undefined||value==''||/^[1][3,4,5,7,8][0-9]{9}$/.test(value)) {
@@ -91,9 +91,7 @@
           pageSize:10,
         },
         total:0,
-        busiBillTypeConfig:[],
-        busiBillStateConfig:[],
-        tableConfig:[],
+        tableConfig:indexTableConfig,
         rules: {
           linkTel: [
             {  required: false, validator:validatorLinkTel,  message: '请输入正确的号码格式', trigger: 'blur' }
@@ -101,72 +99,22 @@
         },
          loading:false,
          tableData: [],
-         tableConfig:[],
       }
-    },
-
-    beforeMount(){
-
-     this.tableConfig=[
-        { label:'业务单号',prop:'busiBillNo',dom:this.formatter('linkTo')},
-        { label:'货主编号',prop:'ownerCode'},
-        { label:'货主名称',prop:'ownerName'},
-        { label:'制单人',prop:'busiBillCreater'},
-        { label:'制单时间',prop:'busiBillCreateTime',type:'time'},
-        { label:'是否越库',prop:'isCross',type:'Boolean'},
-        { label:'操作',dom:this.formatter('linkTo','查看')},
-      ]
     },
 
      mounted(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-
-       getBillType().then(res=>{
-         if(res.success){
-           this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('出库'));
-         } 
-       }).catch(err=>{
-
-      })
-
-      outbusibillstate().then(res=>{
-        if(res.success){
-         let data=res.data;
-         const arr=[];
-         for(let i in data){
-            arr.push({key:i,value:data[i]})
-         }
-         this.busiBillStateConfig=arr;
-       }
-     }).catch(err=>{
-       
-     }),
-
-     this.getCurrentTableData();
-     
+       this.getCurrentTableData();
     },
 
-    methods: { 
-      formatter(type,value){
-            switch(type){
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                let query={
-                  busiBillNo:row.busiBillNo,
-                  busiBillTypeConfig:this.busiBillTypeConfig,
-                  busiBillStateConfig:this.busiBillStateConfig,
-                }
-                let linkTo={
-                  path:'/outgoing/businessorder-detail',
-                  query:{data:JSON.stringify(query)}
-                }
-                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-                };
-            }
-        
-       },
+    computed: {
+    ...mapGetters([
+      'mapConfig',
+    ])},
 
+    methods: { 
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
@@ -207,19 +155,18 @@
             json[i]=this.ruleForm[i]
           }
         }
-
         let data={...json}
-       outBillSelect(data).then(res=>{
-       if(res.success){
+        outBillSelect(data).then(res=>{
+        if(res.success){
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-       } 
+        } 
         this.loading=false;
 
-     }).catch(err=>{
+      }).catch(err=>{
           this.loading=false;
-        })
+         })
       }
     }
  }

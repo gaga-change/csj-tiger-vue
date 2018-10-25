@@ -10,6 +10,7 @@ const getters = {
   visitedViews: state => state.tagsView.visitedViews,
   company: state => state.user.company,
   companyId: state => state.user.companyId,
+  mapConfig:state=>state.map.mapConfig,
   permission_codes: state => state.user.permissionCodes,
   // menu: state => {
   //   return asyncRouterMap
