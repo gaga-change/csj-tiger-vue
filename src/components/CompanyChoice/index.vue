@@ -19,7 +19,7 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentPageChange"
-      :current-page="currentPage"
+      :current-page="pageindex"
       size="small"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
@@ -41,7 +41,6 @@ export default {
       pagesize: 10,
       pageindex: 1,
       total: 0,
-      currentPage: 1,
       currentData: [],
       searchData:[],
       loading: false
@@ -56,8 +55,6 @@ export default {
     if (!this.gridData.length) {
       this.loading = true
       this.$store.dispatch('GetGysList').then(() => {
-        console.log('this.gridData');
-        
         this.loading = false
         this.searchData = _.cloneDeep(this.gridData)
         this.getCurrentData()
@@ -72,7 +69,7 @@ export default {
        this.searchData = this.gridData.filter(company => {
         return company.name.includes(this.postForm.name) && company.code.includes(this.postForm.code)
       })
-      this.getCurrentData()
+      this.handleCurrentPageChange(1)
     },
     onReset() {
       this.pageindex = 1
@@ -90,8 +87,10 @@ export default {
       }
     },
     getCurrentData(data) {
+      console.log(63);
+      
       const CopyList = data || [...this.searchData]
-      this.currentData = CopyList.slice((this.pageindex - 1) * this.pagesize, this.pagesize * this.pageindex)
+      this.currentData = CopyList.slice((this.pageindex - 1) * this.pagesize, this.pagesize * this.pageindex) 
       this.total = data ? data.length : this.searchData.length
     },
     handleSizeChange(val) {

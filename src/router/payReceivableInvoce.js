@@ -250,7 +250,7 @@ export default [
     path: '/purchasecontract',
     component: Layout,
     redirect: '/',
-    name: 'purchasecontract',
+    name: 'purchasecontractDelivery',
     alwaysShow: false,
     hidden: true,
     meta: { title: '采购合同', icon: 'sale', roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market'] }, // you can set roles in root nav
@@ -258,7 +258,7 @@ export default [
       {
         path: 'purchasecontractdetail/:contractno/:workflowid',
         component: _import('purchasecontract/purchasecontractdetail'),
-        name: 'purchasecontractdetail',
+        name: 'purchasecontractdetailDelivery',
         hidden: true,
         meta: {
           title: '采购合同详情',
@@ -273,7 +273,7 @@ export default [
     path: '/salecontract',
     component: Layout,
     redirect: '/',
-    name: 'salecontract',
+    name: 'salecontractDelivery',
     alwaysShow: false,
     hidden: true,
     meta: { title: '销售合同', icon: 'sale', roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market'] }, // you can set roles in root nav
@@ -281,7 +281,7 @@ export default [
       {
         path: 'salecontractdetail/:contractno/:workflowid',
         component: _import('salecontract/salecontractdetail'),
-        name: 'saleorderdetail',
+        name: 'salecontractdetailDelivery',
         hidden: true,
         meta: {
           title: '销售合同详情',
