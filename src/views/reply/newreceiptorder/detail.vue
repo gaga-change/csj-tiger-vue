@@ -102,7 +102,7 @@
      },
 
    mounted(){
-      let { id,approveStatus}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let { id,approveStatus}=this.$route.query||{};
       this.signId=id;
       this.approveStatus=approveStatus;
       this.loading=true;

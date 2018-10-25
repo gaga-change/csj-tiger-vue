@@ -404,10 +404,10 @@
                   this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                     this.$router.push({
                       path: '/reply/newreceiptorder-detail',
-                      query:{data:JSON.stringify({
+                      query:{
                         id:modify?this.id:this.replyid,
                         approveStatus:0,         
-                      })}
+                      }
                     })
                   })
                 }
