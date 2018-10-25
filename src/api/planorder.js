@@ -561,18 +561,18 @@ export function OrderOperate(data) {
 //   })
 // }
 
-// // http://newlit.csjscm.com/j_acegi_security_check
-// export function bssLogin(data) {
-//   return request({
-//     url: '/j_acegi_security_check',
-//     method: 'post',
-//     transformRequest: [TransFnc],
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded'
-//     },
-//     data: data
-//   })
-// }
+// http://newlit.csjscm.com/j_acegi_security_check
+export function bssLogin(data) {
+  return request({
+    url: '/j_acegi_security_check',
+    method: 'post',
+    transformRequest: [TransFnc],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data: data
+  })
+}
 
 // // POST /api/ContractWorkFlow/getItemContractType 获取子表合同类型API
 // export function ItemContractType(data) {
@@ -592,14 +592,14 @@ export function OrderOperate(data) {
 //   })
 // }
 
-// // POST /api/ContractWorkFlow/getZyUserPassword 获取章鱼系统的用户密码API
-// export function ZyUser(data) {
-//   return request({
-//     url: '/jqmapi/api/ContractWorkFlow/getZyUserPassword',
-//     method: 'post',
-//     data: data
-//   })
-// }
+// POST /api/ContractWorkFlow/getZyUserPassword 获取章鱼系统的用户密码API
+export function ZyUser(data) {
+  return request({
+    url: '/webApi/ContractWorkFlow/getZyUserPassword',
+    method: 'post',
+    data: data
+  })
+}
 
 // // POST /api/ContractWorkFlow/getContractMain 获取合同流程列表API
 // // export function ContractFlowList(data) {
@@ -610,14 +610,13 @@ export function OrderOperate(data) {
 // //   })
 // // }
 
-// // // POST /api/ContractWorkFlow/getWorkFlowNode 获取我的待办信息API
-// // export function WorkFlowNode(data) {
-// //   return request({
-// //     url: '/jqmapi/api/ContractWorkFlow/getWorkFlowNode',
-// //     method: 'post',
-// //     data: data
-// //   })
-// // }
+// POST /api/ContractWorkFlow/getWorkFlowNode 获取我的待办信息API
+export function WorkFlowNode(truename) {
+  return request({
+    url: `/webApi/workflow/todo?truename=${truename}`,
+    method: 'get',
+  })
+}
 
 // // // POST /api/ContractWorkFlow/getStaffs 获取章鱼系统员工API
 // // export function Staffs(data) {
@@ -730,11 +729,26 @@ export function CategorySmall(data) {
 //   })
 // }
 
-// // POST /api/ContractWorkFlow/getNowWorkFlowNode 获取我的在办信息API
-// export function NowWorkFlowNode(data) {
-//   return request({
-//     url: '/planapi/api/ContractWorkFlow/getNowWorkFlowNode',
-//     method: 'post',
-//     data: data
-//   })
-// }
+// POST /api/ContractWorkFlow/getNowWorkFlowNode 获取我的在办信息API
+export function NowWorkFlowNode(truename) {
+  return request({
+    url: `/webApi/workflow/tobedone?truename=${truename}`,
+    method: 'get',
+  })
+}
+
+export function CotractDetail(contractno){
+  
+  return request({
+    url: `/webApi/contract/detail?contractno=${contractno}`,
+    method: 'get',
+  })
+}
+export function ContractCheck(params){
+  
+  return request({
+    url: `/webApi/contract/check`,
+    method: 'post',
+    data:params
+  })
+}
