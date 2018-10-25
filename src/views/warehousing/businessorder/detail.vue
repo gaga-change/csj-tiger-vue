@@ -44,15 +44,15 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',fixed:true,type:'index',width:'50px'},
-    { label:'SKU名称',prop:'skuName',fixed:false,},
-    { label:'规格型号',prop:'skuFormat',fixed:false,},
-    { label:'生产厂家',prop:'productFactory',fixed:false,},
-    { label:'商品分类',prop:'skuCategoryno',fixed:false,},
-    { label:'品牌名',prop:'skuBrandName',fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',fixed:false},
-    { label:'出单价格',prop:'inPrice',fixed:false,},
-    { label:'已出/应出(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
+    { label:'序号',type:'index',width:50},
+    { label:'SKU名称',prop:'skuName'},
+    { label:'规格型号',prop:'skuFormat'},
+    { label:'生产厂家',prop:'productFactory'},
+    { label:'商品分类',prop:'skuCategoryno'},
+    { label:'品牌名',prop:'skuBrandName'},
+    { label:'转换比',prop:'skuUnitConvert'},
+    { label:'出单价格',prop:'inPrice'},
+    { label:'已入/应入(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
     }},
    
@@ -104,8 +104,8 @@
 
     beforeMount(){
       this.warehousingTableConfig=[
-        { label:'序号',fixed:true,type:'index',width:'50px'},
-        { label:'入库单号',fixed:true,prop:'warehouseExeCode'},
+        { label:'序号',type:'index',width:50},
+        { label:'入库单号',prop:'warehouseExeCode'},
         { label:'货主',prop:'ownerName'},
         { label:'计划单号',prop:'planCode'},
         { label:'仓库',prop:'warehouseName'},
@@ -113,15 +113,15 @@
       ];
 
       this.planTableConfig=[
-        { label:'序号',fixed:true,type:'index',width:'50px'},
-        { label:'计划单号',prop:'planCode',width:'150',fixed:true},
-        { label:'货主',prop:'ownerName',width:'150'},
-        { label:'制单人',prop:'createrName',width:'150'},
-        { label:'计划入库仓库',prop:'planWarehouseName',width:'150'},
-        { label:'制定时间',prop:'gmtCreate',type:'time',width:'150'},
-        { label:'计划入库日期',prop:'planTime',type:'time',width:'150'},
-        { label:'下推状态',prop:'issuedState',width:'150'},
-        { label:'执行状态',prop:'execStatus',width:'150'},
+        { label:'序号',type:'index',width:50},
+        { label:'计划单号',prop:'planCode'},
+        { label:'货主',prop:'ownerName'},
+        { label:'制单人',prop:'createrName'},
+        { label:'计划入库仓库',prop:'planWarehouseName'},
+        { label:'制定时间',prop:'gmtCreate',type:'time'},
+        { label:'计划入库日期',prop:'planTime',type:'time'},
+        { label:'下推状态',prop:'issuedState',type:'getIssuedState',useApi:true},
+        { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
      ]
     },
 

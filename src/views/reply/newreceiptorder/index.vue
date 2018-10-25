@@ -291,7 +291,7 @@
     },
 
     mounted(){
-      let {id,modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let {id,modify}=this.$route.query||{};
       this.id=id;
       let data=_.cloneDeep(this.planform); 
       this.planform=data;

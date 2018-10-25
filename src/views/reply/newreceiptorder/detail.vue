@@ -127,7 +127,7 @@
      Edit(){
       this.$router.push({
         path: '/reply/newreceiptorder',
-        query:{data:JSON.stringify({modify:true,id:this.signId})}
+        query:{modify:true,id:this.signId}
       })
      },
 

@@ -35,12 +35,12 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',fixed:true,type:'index',width:'50px'},
-    { label:'SKU名称',prop:'skuName',fixed:false,},
-    { label:'规格型号',prop:'skuFormat',fixed:false,},
-    { label:'品牌',prop:'skuBrandName',fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',fixed:false},
-    { label:'入库单价',prop:'inPrice',fixed:false,type:'toFixed'},
+    { label:'序号',type:'index',width:50},
+    { label:'SKU名称',prop:'skuName'},
+    { label:'规格型号',prop:'skuFormat'},
+    { label:'品牌',prop:'skuBrandName'},
+    { label:'转换比',prop:'skuUnitConvert'},
+    { label:'入库单价',prop:'inPrice',type:'toFixed'},
 
     { label:'已入/总数(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
         return `${row.realInQty&&Math.round(row.realInQty)}/${row.planInQty&&Math.round(row.planInQty)}(${row.skuUnitName})`
@@ -92,8 +92,8 @@
 
     beforeMount(){
       this.warehousingTableConfig=[
-        { label:'序号',fixed:true,type:'index',width:'50px'},
-        { label:'入库单号',fixed:true,prop:'warehouseExeCode'},
+        { label:'序号',type:'index',width:50},
+        { label:'入库单号',prop:'warehouseExeCode'},
         { label:'业务单号',prop:'busiBillNo' },
         { label:'货主',prop:'ownerName'},
         { label:'计划单号',prop:'planCode'},
