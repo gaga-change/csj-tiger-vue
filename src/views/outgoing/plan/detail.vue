@@ -10,20 +10,32 @@
        </el-row>
       </el-card>
     </div>
-     <item-title text="相关计划单明细"/>
-      <web-pagination-table 
-        :config="tableConfig" 
-        :allTableData="tableData"/>
+
+      <item-title text="相关明细"/>
+     <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
+        <el-tab-pane label="相关计划单" name="plan">
+          <web-pagination-table 
+            :loading="loading"
+            :config="tableConfig" 
+            :allTableData="tableData"/>
+          </el-tab-pane>
+        <el-tab-pane label="相关出库单" name="outgoing">
+             <web-pagination-table 
+            :loading="outgoingLoding"
+            :config="outgoingTableConfig" 
+            :allTableData="outgoingTableData"/> 
+        </el-tab-pane>
+     </el-tabs>
   </div>
 </template>
 
 <script>
  import moment from 'moment';
- import {outPlanDetail} from '@/api/outgoing';
+ import {outPlanDetail,outOrderSelect} from '@/api/outgoing';
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
  const tableConfig=[
-    { label:'序号',fixed:true,type:'index'},
+    { label:'序号',fixed:true,type:'index',width:'50px'},
     { label:'SKU名称',prop:'skuName',fixed:false,},
     { label:'规格型号',prop:'skuFormat',fixed:false,},
     { label:'生产厂家',prop:'productFactory',fixed:false,},
@@ -57,13 +69,36 @@
       return {
         config:{},
         infoConfig,
+        busiBillNo:'',
+
         tableData:[],
+        outgoingTableData:[],
+
         tableConfig:tableConfig,
+
+        outgoingTableConfig:[],
+        outgoingLoding:false,
+
         busiBillTypeConfig:[],
         issuedStateConfig:[],
         execStatuConfig:[],
-        loading:false
+        loading:false,
+        tabActive:'plan'
       }
+    },
+
+
+    beforeMount(){
+      this.outgoingTableConfig=[
+        { label:'序号',fixed:true,type:'index',width:'50px'},
+        { label:'出库单号',prop:'warehouseExeCode',width:'180px',fixed:true},
+        { label:'货主',prop:'ownerName',width:'180px'},
+        { label:'计划单号',prop:'planCode',width:'150px'},
+        { label:'出库仓库名称',prop:'warehouseName',width:'180px'},
+        { label:'出库仓库编号',prop:'warehouseCode',width:'150px'},
+        { label:'是否越库',prop:'isCross',width:'150px',type:'Boolean',},
+        { label:'出库日期',prop:'outStoreTime',type:'time',width:'160px'},
+      ]
     },
 
     mounted(){
@@ -76,6 +111,7 @@
         if(res.success){
           let data=res.data;
           this.config=data;
+          this.planCode=data.planCode;
           this.tableData=Array.isArray(data.itemList)?data.itemList:[];
         }
         this.loading=false;
@@ -97,10 +133,29 @@
             default : return value
           }
         } else{
-          return '---'
+          return ''
+        }
+      },
+      activeChange(tab){
+        if(tab.name=='outgoing'){
+            if(!this.outgoingTableData.length){
+              this.outgoingLoding=true;
+              outOrderSelect({
+                  planCode:this.planCode,
+                  pageSize:500,
+                  pageNum:1
+                }).then(res=>{
+                if(res.success){
+                   this.outgoingTableData=res.data&&res.data.list||[]
+                }
+                 this.outgoingLoding=false;
+              }).catch(err=>{
+
+              })
+            }
         }
       }
-    }
+    },
  }
 
 </script>

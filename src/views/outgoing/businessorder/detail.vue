@@ -10,22 +10,40 @@
     </el-row>
    </el-card>
     </div>
-      <item-title text="相关业务单明细"/>
-      <web-pagination-table 
-      :loading="loading"
-      :config="tableConfig" 
-      :allTableData="tableData"/>   
+
+    <item-title text="相关明细"/>
+     <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
+         <el-tab-pane label="相关业务单" name="businessorder">
+          <web-pagination-table 
+            :loading="loading"
+            :config="tableConfig" 
+            :allTableData="tableData"/>
+          </el-tab-pane>
+        <el-tab-pane label="相关计划单" name="plan">
+          <web-pagination-table 
+            :loading="planLoading"
+            :config="planTableConfig" 
+            :allTableData="planTableData"/>
+          </el-tab-pane>
+        <el-tab-pane label="相关出库单" name="outgoing">
+          <web-pagination-table 
+          :loading="outgoingLoding"
+          :config="outgoingTableConfig" 
+          :allTableData="outgoingTableData"/> 
+        </el-tab-pane>
+     </el-tabs> 
+
   </div>
 </template>
 
 <script>
  import moment from 'moment';
- import { outBillDetail} from '@/api/outgoing';
+ import { outBillDetail,outOrderSelect,outPlanSelect} from '@/api/outgoing';
  import webPaginationTable from '@/components/Table/webPaginationTable'
 
 
  const tableConfig=[
-    { label:'序号',fixed:true,type:'index'},
+    { label:'序号',fixed:true,type:'index',width:50},
     { label:'商品分类',prop:'skuSort',fixed:false,},
     { label:'SKU名称',prop:'skuName',fixed:false,},
     { label:'规格型号',prop:'skuFormat',fixed:false,},
@@ -65,14 +83,50 @@
         tableConfig:tableConfig,
         busiBillTypeConfig:[],
         busiBillStateConfig:[],
-        loading:false
+        loading:false,
+        tabActive:'businessorder',
+        busiBillNo:'',
+
+        outgoingTableData:[],
+        outgoingTableConfig:[],
+        
+        planTableData:[],
+        planTableConfig:[],
+        planLoading:false
+        
       }
+    },
+
+    beforeMount(){
+      this.outgoingTableConfig=[
+        { label:'序号',fixed:true,type:'index',width:'50px'},
+        { label:'出库单号',prop:'warehouseExeCode',width:'180px',fixed:true},
+        { label:'货主',prop:'ownerName',width:'180px'},
+        { label:'计划单号',prop:'planCode',width:'150px'},
+        { label:'出库仓库名称',prop:'warehouseName',width:'180px'},
+        { label:'出库仓库编号',prop:'warehouseCode',width:'150px'},
+        { label:'是否越库',prop:'isCross',width:'150px',type:'Boolean',},
+        { label:'出库日期',prop:'outStoreTime',type:'time',width:'160px'},
+      ],
+
+      this.planTableConfig=[
+        { label:'序号',fixed:true,type:'index',width:'50px'},
+        { label:'计划单号',prop:'planCode',width:'150px'},
+        { label:'货主',prop:'ownerName',width:'150px'},
+        { label:'计划出库仓库',prop:'planWarehouseName',width:'150px'},
+        { label:'制定时间',prop:'gmtCreate',type:'time',width:'150px'},
+        { label:'计划出库日期',prop:'planOutTime',type:'time',width:'150px'},
+        { label:'最晚出库日期',prop:'lastOutTime',type:'time',width:'150px'},
+        { label:'下推状态',prop:'issuedState',width:'150px',},
+        { label:'执行状态',prop:'execStatus',width:'150px'},
+      ]
     },
 
     mounted(){
       let { busiBillNo,busiBillTypeConfig,busiBillStateConfig}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
       this.busiBillTypeConfig=busiBillTypeConfig||[];
       this.busiBillStateConfig=busiBillStateConfig||[];
+      this.busiBillNo=busiBillNo;
       this.loading=true;
       outBillDetail({busiBillNo}).then(res=>{
         this.loading=false;
@@ -98,6 +152,39 @@
           }
         } else{
           return ''
+        }
+      },
+      activeChange(tab){
+          if(tab.name=='outgoing'){
+            if(!this.outgoingTableData.length){
+              this.outgoingLoding=true;
+              outOrderSelect({
+                  busiBillNo:this.busiBillNo,
+                  pageSize:500,
+                }).then(res=>{
+                if(res.success){
+                   this.outgoingTableData=res.data&&res.data.list||[]
+                }
+                 this.outgoingLoding=false;
+              }).catch(err=>{
+
+              })
+            }
+        } else if(tab.name=='plan'){
+          if(!this.planTableData.length){
+            this.planLoading=true;
+            outPlanSelect({
+              busiBillNo:this.busiBillNo,
+              pageSize:500,
+            }).then(res=>{
+              if(res.success){
+                 this.planTableData=res.data&&res.data.list||[]
+              }
+              this.planLoading=false;
+            }).catch(err=>{
+              this.planLoading=false;
+            })
+          }
         }
       }
     }
