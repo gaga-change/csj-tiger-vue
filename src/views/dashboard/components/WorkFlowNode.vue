@@ -7,7 +7,7 @@
       </span>
       <el-row :gutter="10">
         <el-col v-if="loading" :span="24">正在获取数据...</el-col>
-        <el-col v-else-if="loadingfail" :span="24">登录章鱼系统失败，请<el-button type="text" @click="retry">重试</el-button></el-col>
+        <!-- <el-col v-else-if="loadingfail" :span="24">登录章鱼系统失败，请<el-button type="text" @click="retry">重试</el-button></el-col> -->
         <el-col
           :span="24"
           class="colclass"
@@ -19,13 +19,13 @@
             show-overflow-tooltip
             label="标题">
             <template slot-scope="scope">
-              <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
+              <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
                 {{scope.row.title}}
-              </a>
-              <router-link :to="{ name: 'distributedetail', params: { ticketno: scope.row.title } }" v-else-if="scope.row.urlflag === 1">
+              </a> -->
+              <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
                 {{scope.row.title}}
               </router-link>
-              <router-link :to="{ name: 'quotationorderdetail', params: { ticketno: scope.row.title } }" v-else-if="scope.row.urlflag === 2">
+              <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                 {{scope.row.title}}
               </router-link>
               <span v-else>{{scope.row.title}}</span>
@@ -33,29 +33,26 @@
           </el-table-column>
           <el-table-column
             show-overflow-tooltip
-            label="类型">
-            <template slot-scope="scope">
-              <span >{{scope.row.type}}</span>
-            </template>
+            label="类型"
+            prop="type"
+            >
           </el-table-column>
           <el-table-column
-            label="操作节点">
-            <template slot-scope="scope">
-              <span >{{scope.row.nodename}}</span>
-            </template>
+            label="操作节点"
+            prop="nodename"
+            >
           </el-table-column>
           <el-table-column
-            label="操作人">
-            <template slot-scope="scope">
-              <span >{{scope.row.objname}}</span>
-            </template>
+            label="操作人"
+            prop="objname"
+            >
           </el-table-column>
           <el-table-column
             width="160"
+            prop="createdatetime"
+            :formatter="formatTime"
             label="创建时间">
-            <template slot-scope="scope">
-              <span >{{scope.row.createdatetime}}</span>
-            </template>
+           
           </el-table-column>
         </el-table>
         </el-col>
@@ -77,44 +74,41 @@
             show-overflow-tooltip
             prop="title"
             label="标题">
-            <!-- <template slot-scope="scope">
-              <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
+            <template slot-scope="scope">
+              <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
                 {{scope.row.bussinessKey}}
-              </a>
-              <router-link :to="{ name: 'distributedetail', params: { ticketno: scope.row.bussinessKey } }" v-else-if="scope.row.urlflag === 1">
+              </a> -->
+               <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.ticketno}` }" v-if="scope.row.type === '采购合同'">
                 {{scope.row.title}}
               </router-link>
-              <router-link :to="{ name: 'quotationorderdetail', params: { ticketno: scope.row.bussinessKey } }" v-else-if="scope.row.urlflag === 2">
-                {{scope.row.bussinessKey}}
+              <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.ticketno}` }" v-else-if="scope.row.type === '销售合同'">
+                {{scope.row.title}}
               </router-link>
-              <span v-else>{{scope.row.bussinessKey}}</span> -->
-            <!-- </template> -->
+              <span v-else>{{scope.row.title}}</span>
+             </template> 
           </el-table-column>
           <el-table-column
             show-overflow-tooltip
-            label="类型">
-            <template slot-scope="scope">
-              <span >{{scope.row.type}}</span>
-            </template>
+            label="类型"
+            prop="type"
+            >
           </el-table-column>
           <el-table-column
-            label="操作节点">
-            <template slot-scope="scope">
-              <span >{{scope.row.nodename}}</span>
-            </template>
+            label="操作节点"
+            prop="nodename"
+            >
           </el-table-column>
           <el-table-column
-            label="操作人">
-            <template slot-scope="scope">
-              <span >{{scope.row.objname}}</span>
-            </template>
+            label="操作人"
+            prop="objname"
+            >
           </el-table-column>
           <el-table-column
             width="160"
-            label="创建时间">
-            <template slot-scope="scope">
-              <span >{{scope.row.createdatetime}}</span>
-            </template>
+            label="创建时间"
+            prop="createdatetime"
+            :formatter="formatTime"
+            >
           </el-table-column>
         </el-table>
         </el-col>
@@ -126,6 +120,7 @@
 <script>
 import { WorkFlowNode, ZyUser, bssLogin, NowWorkFlowNode } from '@/api/planorder'
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 
 export default {
   data() {
@@ -154,6 +149,9 @@ export default {
     this.getNowData()
   },
   methods: {
+    formatTime(row, col, cellval, index){
+      return moment(cellval).format('YYYY-MM-DD')
+    },
     retry() {
       this.$router.go(0)
     },

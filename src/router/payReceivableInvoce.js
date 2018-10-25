@@ -246,5 +246,51 @@ export default [
       }
     ]
   },
+  {
+    path: '/purchasecontract',
+    component: Layout,
+    redirect: '/',
+    name: 'saleorder',
+    alwaysShow: false,
+    hidden: true,
+    meta: { title: '采购合同', icon: 'sale', roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market'] }, // you can set roles in root nav
+    children: [
+      {
+        path: 'purchasecontractdetail/:contractno/:workflowid',
+        component: _import('saleorder/saleorderdetail'),
+        name: 'saleorderdetail',
+        hidden: true,
+        meta: {
+          title: '采购合同详情',
+          icon: 'form',
+          noCache: true,
+          roles: ['service_business', 'service_business_verify', 'service_finance', 'service_market']
+        }
+      }
+    ]
+  },
+  {
+    path: '/salecontract',
+    component: Layout,
+    redirect: '/',
+    name: 'salecontract',
+    alwaysShow: false,
+    hidden: true,
+    meta: { title: '销售合同', icon: 'sale', roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market'] }, // you can set roles in root nav
+    children: [
+      {
+        path: 'salecontractdetail/:contractno/:workflowid',
+        component: _import('salecontract/salecontractdetail'),
+        name: 'saleorderdetail',
+        hidden: true,
+        meta: {
+          title: '销售合同详情',
+          icon: 'form',
+          noCache: true,
+          roles: ['service_business', 'service_business_verify', 'service_finance', 'service_market']
+        }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]

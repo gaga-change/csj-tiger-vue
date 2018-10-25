@@ -736,3 +736,19 @@ export function NowWorkFlowNode(truename) {
     method: 'get',
   })
 }
+
+export function CotractDetail(contractno){
+  
+  return request({
+    url: `/webApi/contract/detail?contractno=${contractno}`,
+    method: 'get',
+  })
+}
+export function ContractCheck(params){
+  
+  return request({
+    url: `/webApi/contract/check`,
+    method: 'post',
+    data:params
+  })
+}
