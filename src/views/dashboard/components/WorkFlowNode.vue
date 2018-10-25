@@ -15,8 +15,9 @@
         >
         <el-table :data="showlist" :max-height="310" style="border-bottom:none">
           <el-table-column
-            width="220"
             show-overflow-tooltip
+            align="center"
+
             label="标题">
             <template slot-scope="scope">
               <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
@@ -35,21 +36,27 @@
             show-overflow-tooltip
             label="类型"
             prop="type"
+            align="center"
+
             >
           </el-table-column>
           <el-table-column
             label="操作节点"
             prop="nodename"
+            align="center"
+
             >
           </el-table-column>
           <el-table-column
             label="操作人"
             prop="objname"
+            align="center"
+
             >
           </el-table-column>
           <el-table-column
-            width="160"
             prop="createdatetime"
+            align="center"
             :formatter="formatTime"
             label="创建时间">
            
@@ -70,9 +77,9 @@
         > -->
         <el-table :data="nowlist" :max-height="310" style="border-bottom:none">
           <el-table-column
-            width="220"
             show-overflow-tooltip
             prop="title"
+            align="center"
             label="标题">
             <template slot-scope="scope">
               <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
@@ -91,23 +98,26 @@
             show-overflow-tooltip
             label="类型"
             prop="type"
+            align="center"
             >
           </el-table-column>
           <el-table-column
             label="操作节点"
             prop="nodename"
+            align="center"
             >
           </el-table-column>
           <el-table-column
             label="操作人"
             prop="objname"
+            align="center"
             >
           </el-table-column>
           <el-table-column
-            width="160"
             label="创建时间"
             prop="createdatetime"
             :formatter="formatTime"
+            align="center"
             >
           </el-table-column>
         </el-table>
