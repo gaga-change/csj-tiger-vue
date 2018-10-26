@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import ItemTitle from '@/components/ItemTitle/index' 
+import ItemCard from '@/components/ItemCard/index' 
 
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 
@@ -27,6 +28,7 @@ Object.keys(filters).forEach(key => {
 Vue.use(ElementUI, { locale })
 Vue.use(EXTENDS)
 Vue.use(ItemTitle);  
+Vue.use(ItemCard);  
 
 Vue.config.productionTip = false
 

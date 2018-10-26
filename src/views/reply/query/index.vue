@@ -187,7 +187,7 @@
                   }
                   let linkTo={
                     path:'/reply/newreceiptorder-detail',
-                    query:{data:JSON.stringify(query)}
+                    query:query
                   }
                   return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
               };
@@ -206,7 +206,7 @@
                             <el-dropdown-menu slot="dropdown">
                                {
                                  files.map((v,i)=><el-dropdown-item>
-                                   <a class="el-dropdown-link"  targe="_blank"   href={v.path}>{v.name||`附件${i+1}`}</a>
+                                   <a class="el-dropdown-link"  target="blank"   href={v.path}>{v.name||`附件${i+1}`}</a>
                                  </el-dropdown-item>)
                                }
                             </el-dropdown-menu>

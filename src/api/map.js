@@ -18,7 +18,7 @@ export function getBillType() {
 }
 
 
-//单据状态枚举
+//单据状态枚举|执行状态
 export function outbusibillstate() {
   return request({
     url: '/webApi/out/bill/outbusibillstate',

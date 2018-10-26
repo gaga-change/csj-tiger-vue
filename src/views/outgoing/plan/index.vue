@@ -7,7 +7,7 @@
           <el-col :span="6" >
             <el-form-item label="出库类型"   prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"  placeholder="请选择出库类型">
-                <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -40,7 +40,7 @@
           <el-col :span="6" >
             <el-form-item label="下推状态"  prop="issuedState">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.issuedState"   placeholder="请选择下推状态">
-                <el-option   v-for="item in issuedStateConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getIssuedState']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -48,7 +48,7 @@
           <el-col :span="6" >
             <el-form-item label="执行状态"  prop="execStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus"   placeholder="请选择执行状态">
-                <el-option   v-for="item in execStatuConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['outbusibillstate']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -97,9 +97,9 @@
 <script>
     import moment from 'moment';
     import { outPlanSelect} from '@/api/outgoing'
-    import {getBillType,outbusibillstate,getIssuedState}  from '@/api/map'
     import BaseTable from '@/components/Table'
-
+    import { mapGetters } from 'vuex'
+    import {indexTableConfig } from './config';
     export default {
       components: { BaseTable },
       data() {
@@ -108,41 +108,20 @@
           busiBillType: '',
           busiBillNo: '',
           createrName:'',
-           planCode:'',
-           planWarehouseName:'',
-           time:[],
-           issuedState:'',
-           execStatus: '',
-           pageNum: 1,
-           pageSize:10,
+          planCode:'',
+          planWarehouseName:'',
+          time:[],
+          issuedState:'',
+          execStatus: '',
+          pageNum: 1,
+          pageSize:10,
         },
         total:0,
-        busiBillTypeConfig:[],
-        issuedStateConfig:[],
-        execStatuConfig:[],
-        
-        tableConfig:[],
-        rules: {
-         
-        },
-         loading:false,
-         tableData: []
+        rules: {},
+        loading:false,
+        tableData: [],
+        tableConfig:indexTableConfig,
       }
-    },
-
-    beforeMount(){
-      this.tableConfig=[
-      { label:'计划单号',prop:'planCode',width:'150px',fixed:true,dom:this.formatter('linkTo') },
-      { label:'业务单号',prop:'busiBillNo',width:'150px' },
-      { label:'货主',prop:'ownerName',width:'180px'},
-      { label:'计划出库仓库',prop:'planWarehouseName',width:'180px'},
-      { label:'制定时间',prop:'gmtCreate',type:'time',width:'160px'},
-      { label:'计划出库日期',prop:'planOutTime',type:'time',width:'160px'},
-      { label:'最晚出库日期',prop:'lastOutTime',type:'time',width:'160px'},
-      { label:'下推状态',prop:'issuedState',dom:(row, column, cellValue, index)=>this.formatter('issuedState',cellValue),width:'180px',},
-      { label:'执行状态',prop:'execStatus',dom:(row, column, cellValue, index)=>this.formatter('execStatus',cellValue),width:'150px'},
-      { label:'操作',width:'150px',fixed:'right',dom:this.formatter('linkTo','查看') },
-    ]
     },
 
      mounted(){
@@ -150,86 +129,16 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
-       getBillType().then(res=>{
-         if(res.success){
-           this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('出库'));
-         }
-       }).catch(err=>{
-         
-      })
-
-
-      getIssuedState().then(res=>{
-         if(res.success){
-           this.issuedStateConfig=res.data;
-         }
-      }).catch(err=>{
-       
-      })
-
-
-      outbusibillstate().then(res=>{
-        if(res.success){
-          let data=res.data;
-          const arr=[];
-          for(let i in data){
-              arr.push({key:i,value:data[i]})
-          }
-          this.execStatuConfig=arr;
-        } 
-      }).catch(err=>{
-       
-      })
-
       this.getCurrentTableData();
      
     },
 
+    computed: {
+    ...mapGetters([
+      'mapConfig',
+    ])},
+
     methods: {
-       formatter(type,value){
-            switch(type){
-              case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)?this.issuedStateConfig.find(v=>v.key==value).value:value;
-              case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)?this.execStatuConfig.find(v=>v.key==value).value:value;
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                 
-                 let query={
-                    id:row.id,
-                    busiBillTypeConfig:this.busiBillTypeConfig,
-                    issuedStateConfig:this.issuedStateConfig,
-                    execStatuConfig:this.execStatuConfig,
-                    row:row
-                  };
-
-                  let linkTo={
-                    path:'/outgoing/plan-detail',
-                    query:{data:JSON.stringify(query)}
-                  }
-                  
-                  let operationLink={
-                    path:'/reply/newreceiptorder',
-                    query:{data:JSON.stringify({id:row.id})}
-                  }
-
-                  if(value){
-                    if(row.isCreate){
-                      return <div>
-                       <router-link  to={linkTo} style={{color:'#3399ea',margin:'0 10px'}}>{value}</router-link>
-                       <router-link  to={operationLink} style={{color:'#3399ea'}}>创建回单</router-link>
-                     </div>
-                    } else{
-                       return <div>
-                       <router-link  to={linkTo} style={{color:'#3399ea',margin:'0 10px'}}>{value}</router-link>
-                     </div>
-                    }
-                  
-                  } else {
-                     return  <div>
-                       <router-link  to={linkTo} style={{color:'#3399ea'}}>{cellValue}</router-link>
-                   </div>
-                  }
-              };
-            }
-       },
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {

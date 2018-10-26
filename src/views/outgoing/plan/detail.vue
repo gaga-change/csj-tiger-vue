@@ -1,17 +1,10 @@
 <template>
   <div class="outgoing-quirydetail-container">
-    <div style="marginBottom:12px">
-     <item-title text="基本信息"/>
-      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
-        <el-row>
-          <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-              <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,config[item.value])}}</span>
-          </el-col>
-       </el-row>
-      </el-card>
-    </div>
 
-      <item-title text="相关明细"/>
+      <item-title text="基本信息"/>
+      <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
+
+     <item-title text="相关明细"/>
      <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
         <el-tab-pane label="相关计划单" name="plan">
           <web-pagination-table 
@@ -30,38 +23,9 @@
 </template>
 
 <script>
- import moment from 'moment';
  import {outPlanDetail,outOrderSelect} from '@/api/outgoing';
  import webPaginationTable from '@/components/Table/webPaginationTable'
-
- const tableConfig=[
-    { label:'序号',fixed:true,type:'index',width:'50px'},
-    { label:'SKU名称',prop:'skuName',fixed:false,},
-    { label:'规格型号',prop:'skuFormat',fixed:false,},
-    { label:'生产厂家',prop:'productFactory',fixed:false,},
-    { label:'商品分类',prop:'skuCategoryName',fixed:false,},
-    { label:'品牌名',prop:'skuBrandName',fixed:false,},
-    { label:'转换比',prop:'skuUnitConvert',fixed:false},
-    { label:'已出/应出(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
-        return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
-    }},
- ];
-
- const infoConfig=[
-   {title:'计划单号',value:'planCode',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'出库类型',type:'busiBillType',value:'busiBillType',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'业务单号',value:'busiBillNo',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'计划制定时间',type:'time',value:'planTime',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'计划人',value:'planName',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'计划仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'下推状态',type:'issuedState',value:'issuedState',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'执行状态',type:'execStatus',value:'execStatus',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'客户编号',value:'arrivalCode',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'客户名称',value:'arrivalName',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'联系电话',value:'arrivalLinkTel',style:'minWidth:310px;marginBottom:16px',span:6},
-   {title:'客户地址',value:'arrivalAddress',style:'minWidth:310px;marginBottom:16px',span:6},
- ]
-
+ import {tableConfig,infoConfig,outgoingTableConfig } from './config';
 
  export default {
     components: { webPaginationTable },
@@ -71,41 +35,20 @@
         infoConfig,
         busiBillNo:'',
 
+        tableConfig,
         tableData:[],
+
+        outgoingLoding:false, 
+        outgoingTableConfig,
         outgoingTableData:[],
 
-        tableConfig:tableConfig,
-
-        outgoingTableConfig:[],
-        outgoingLoding:false,
-
-        busiBillTypeConfig:[],
-        issuedStateConfig:[],
-        execStatuConfig:[],
         loading:false,
         tabActive:'plan'
       }
     },
 
-
-    beforeMount(){
-      this.outgoingTableConfig=[
-        { label:'序号',fixed:true,type:'index',width:'50px'},
-        { label:'出库单号',prop:'warehouseExeCode',width:'180px',fixed:true},
-        { label:'货主',prop:'ownerName',width:'180px'},
-        { label:'计划单号',prop:'planCode',width:'150px'},
-        { label:'出库仓库名称',prop:'warehouseName',width:'180px'},
-        { label:'出库仓库编号',prop:'warehouseCode',width:'150px'},
-        { label:'是否越库',prop:'isCross',width:'150px',type:'Boolean',},
-        { label:'出库日期',prop:'outStoreTime',type:'time',width:'160px'},
-      ]
-    },
-
     mounted(){
-      let { id,busiBillTypeConfig,issuedStateConfig,execStatuConfig}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
-      this.busiBillTypeConfig=busiBillTypeConfig||[];
-      this.issuedStateConfig=issuedStateConfig||[];
-      this.execStatuConfig=execStatuConfig||[];
+      let { id}=this.$route.query||{};
       this.loading=true;
       outPlanDetail({id}).then(res=>{
         if(res.success){
@@ -122,20 +65,6 @@
     },
 
     methods:{
-      formatter(type,value){
-        if(value!=undefined){
-          switch(type){
-            case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
-            case 'busiBillType': return this.busiBillTypeConfig.find(v=>v.key==value)&&this.busiBillTypeConfig.find(v=>v.key==value).value||'暂无数据';
-            case 'issuedState': return this.issuedStateConfig.find(v=>v.key==value)&&this.issuedStateConfig.find(v=>v.key==value).value||'暂无数据';
-            case 'execStatus': return this.execStatuConfig.find(v=>v.key==value)&&this.execStatuConfig.find(v=>v.key==value).value||'暂无数据';
-            case 'boolean': return Number(value)?'是':'否';
-            default : return value
-          }
-        } else{
-          return ''
-        }
-      },
       activeChange(tab){
         if(tab.name=='outgoing'){
             if(!this.outgoingTableData.length){

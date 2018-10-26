@@ -2,21 +2,21 @@
 <div class="app-container">
   <el-row>
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
-      <el-form :model="searchForm"  ref="searchForm" label-width="80px" label-postion="left">
+      <el-form :model="ruleForm"  ref="ruleForm" label-width="80px" label-postion="left">
         <el-row>
         <el-col :span="6">
           <el-form-item label="发票号码" >
-            <el-input type="text" v-model="searchForm.inputInvoice.invoiceno" size="small" placeholder="请输入发票号码"></el-input>
+            <el-input type="text" v-model="ruleForm.invoiceno" size="small" placeholder="请输入发票号码"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="供应商">
-            <el-input v-model="searchForm.inputInvoice.servicername" size="small" @focus="addServicer" prefix-icon="el-icon-search"></el-input>
+            <el-input v-model="ruleForm.servicername" size="small" @focus="addServicer" prefix-icon="el-icon-search"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="状态">
-            <el-select v-model="searchForm.inputInvoice.status" size="small" filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+            <el-select v-model="ruleForm.status" size="small" filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -28,13 +28,13 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="开票单号" >
-            <el-input type="text" size="small" v-model="searchForm.inputInvoice.ticketno" placeholder="请输入开票单号"></el-input>
+            <el-input type="text" size="small" v-model="ruleForm.ticketno" placeholder="请输入开票单号"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="发票日期">
             <el-date-picker
-              v-model="searchForm.inputInvoice.postinvoicedate"
+              v-model="ruleForm.postinvoicedate"
               type="datetimerange"
               :editable="false"
               size="small"
@@ -47,7 +47,7 @@
         <el-col :span="8">
           <el-form-item label="创建日期">
             <el-date-picker
-              v-model="searchForm.inputInvoice.createdate"
+              v-model="ruleForm.createdate"
               type="date"
               size="small"
               placeholder="创建日期"
@@ -57,7 +57,7 @@
         </el-col>
         <el-col :span="6" >
           <el-form-item label="创建人">
-            <el-input type="text" size="small" v-model="searchForm.inputInvoice.createuser" placeholder="请输入创建人"></el-input>
+            <el-input type="text" size="small" v-model="ruleForm.createuser" placeholder="请输入创建人"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="23" >
@@ -71,107 +71,17 @@
     </el-card>
   </el-row>
   <el-row>
-    <el-table
-      :data="list"
-      v-loading="loading"
-      size="small"
-      style="width: 100%;margin-top:20px;"
-      border>
-      <el-table-column
-        label="开票单号"
-        width="220">
-        <template slot-scope="scope">
-          <el-button type="text" @click="viewRow(scope.row)">{{scope.row.ticketno}}</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-        width="200"
-        label="发票号码">
-        <template slot-scope="scope">
-          <span>{{ scope.row.invoiceno }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        width="200"
-        label="供应商">
-        <template slot-scope="scope">
-          <span>{{ scope.row.servicername }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="应开票金额"
-        width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.planinvoiceamount}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        width="200"
-        label="实际开票金额">
-        <template slot-scope="scope">
-          <span>{{ scope.row.invoiceamount}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="状态"
-        width="120">
-        <template slot-scope="scope">
-          <span >{{ scope.row.status|statusFilter}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="发票日期"
-        width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.invoicedate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="票到日期"
-        width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.receivedate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="创建人"
-        width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createuser}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="创建日期"
-        width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createdate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="审核人"
-        width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.checkuser }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="审核日期"
-        width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.checkdate}}</span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentPageChange"
-      :current-page="currentPage"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="pagesize"
-      size="small"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+     <base-table 
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+      :loading="loading"
+      :config="tableConfig"  
+      :total="total" 
+      :maxTotal="10"
+      :totaldata="totaldata"
+      :pageSize="ruleForm.pagesize"
+      :currentPage="ruleForm.pageindex"
+      :tableData="tableData"/>
   </el-row>
   <el-dialog
     title="选择供应商"
@@ -184,8 +94,7 @@
 </template>
 
 <script>
-const InputInvoiceSearchForm = {
-  inputInvoice: {
+const ruleForm = {
     checkadvice: '',
     checkdate: '',
     checkuser: '',
@@ -201,8 +110,12 @@ const InputInvoiceSearchForm = {
     invoiceuser: '',
     isdelete: '',
     memos: '',
+    pagesize: 10,
+    pageindex: 1,
     planinvoiceamount: '',
     planinvoicenum: '',
+    postinvoicedate: null, 
+    postcreatedate: null,
     pretaxamount: '',
     receivedate: '',
     receiveuser: '',
@@ -211,20 +124,22 @@ const InputInvoiceSearchForm = {
     status: '',
     taxamount: '',
     ticketno: ''
-  }
 }
 import { parseTime, InvoiceType, Status } from '@/utils'
 import { getMainDetail } from '@/api/invoice'
 import { mapGetters } from 'vuex'
 import CompanyChoice from '@/components/CompanyChoice'
+import BaseTable from '@/components/Table' // table组件
+
 export default {
   name: 'inputinvoicelist',
   components: {
-    CompanyChoice
+    CompanyChoice,
+    BaseTable
   },
   data() {
     return {
-      searchForm: Object.assign({ postinvoicedate: null, postcreatedate: null }, InputInvoiceSearchForm),
+      ruleForm: ruleForm,
       invoicetype: InvoiceType,
       list: [],
       pagesize: 10,
@@ -233,7 +148,10 @@ export default {
       currentPage: 1,
       loading: false,
       status: Status,
-      addServicerShow: false
+      addServicerShow: false,
+      tableData:[],
+      totaldata:{ amount:0, interestrate:0, payamount:0 },
+      tableConfig:[],
     }
   },
   computed: {
@@ -247,10 +165,27 @@ export default {
     })
   },
   beforeMount() {
+    if(this.$route.query.data){
+        this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
+    }
+
     if (!this.gridData.length) {
       this.$store.dispatch('GetGysList')
     }
-    
+      this.tableConfig=[
+      { label:'开票单号',prop:'ticketno',dom:this.formatter('linkTo')},
+      { label:'发票号码',prop:'invoiceno'},
+      { label:'供应商',prop:'servicername'},
+      { label:'应开票金额',prop:'planinvoiceamount'},
+      { label:'实际开票金额',prop:'invoiceamount'},
+      { label:'状态',prop:'status',dom:this.formatter('statusFilter')},
+      { label:'发票日期',prop:'invoicedate'},
+      { label:'票到日期',prop:'receivedate'},
+      { label:'创建人',prop:'createuser'},
+      { label:'创建日期',prop:'createdate'},
+      { label:'审核人',prop:'checkuser'},
+      { label:'审核日期',prop:'checkdate'},
+     ]
     this.getListData()
   },
   activated(){
@@ -262,40 +197,17 @@ export default {
   methods: {
     parseTime,
     onSubmit() {
-      this.pageindex = 1
+      this.ruleForm.pageindex = 1
       this.getListData()
     },
     onCancel() {
-      this.pageindex = 1
-      this.searchForm = {
-        inputInvoice: {
-          checkadvice: '',
-          checkdate: '',
-          checkuser: '',
-          createdate: '',
-          createuser: '',
-          enterprise: '',
-          enterprisename: '',
-          invoiceamount: '',
-          invoicedate: '',
-          invoiceno: '',
-          invoicenum: '',
-          invoicetype: '',
-          invoiceuser: '',
-          isdelete: '',
-          memos: '',
-          planinvoiceamount: '',
-          planinvoicenum: '',
-          pretaxamount: '',
-          receivedate: '',
-          receiveuser: '',
-          servicer: '',
-          servicername: '',
-          status: '',
-          taxamount: '',
-          ticketno: ''
-        }
-      }
+      this.ruleForm = ruleForm
+       this.$router.replace({
+          path:'/invoice/inputinvoice/inputinvoicelist',
+          query:{data:JSON.stringify(this.ruleForm)}
+        })
+         this.pageindex = 1
+        this.getListData()
     },
     addServicer() {
       this.addServicerShow = true
@@ -304,11 +216,40 @@ export default {
       this.addServicerShow = false
     },
     subCompany(row) {
-      this.searchForm.inputInvoice.servicer = row.requestid
-      this.searchForm.inputInvoice.servicername = row.name
+      this.ruleForm.servicer = row.requestid
+      this.ruleForm.servicername = row.name
     },
+        formatter(type,value){
+            switch(type){
+              case 'fundnatureFilter':return (row, column, cellValue, index)=>{
+               return this.$options.filters['fundnatureFilter'](cellValue) 
+              };
+              case 'fundtypeFilter':return (row, column, cellValue, index)=>{
+               return this.$options.filters['fundtypeFilter'](cellValue) 
+              };
+               case 'settlementmethodFilter':return (row, column, cellValue, index)=>{
+                return this.$options.filters['settlementmethodFilter'](cellValue) 
+              };
+               case 'statusFilter':return (row, column, cellValue, index)=>{
+                return this.$options.filters['statusFilter'](cellValue) 
+              };
+              case 'businesstypeFilter':return (row, column, cellValue, index)=>{
+                return this.$options.filters['businesstypeFilter'](cellValue) 
+              };
+              case 'linkTo' :return  (row, column, cellValue, index)=>{
+              
+                let linkTo={
+                  path:`/invoice/inputinvoice/inputinvoicedetail/${row.ticketno}`,
+                }
+                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
+              };
+              default:return value
+            }
+         
+       },
+      
     getListData() {
-      const postData = this.searchForm.inputInvoice
+      const postData = _.cloneDeep(this.ruleForm)
       if (postData.postinvoicedate && postData.postinvoicedate.length) {
         postData.invoicestartdate = parseTime(postData.postinvoicedate[0])
         postData.invoiceenddate = parseTime(postData.postinvoicedate[1])
@@ -332,9 +273,13 @@ export default {
       }
       
       this.loading = true
-      getMainDetail({ pagesize: this.pagesize, pageindex: this.pageindex, ...pData }).then(res => {
+       this.$router.replace({
+          path:'/invoice/inputinvoice/inputinvoicelist',
+          query:{data:JSON.stringify(this.ruleForm)}
+        })
+      getMainDetail({ ...pData }).then(res => {
         
-        this.list = res.data.data
+        this.tableData = res.data.data
         this.total = res.data.total
         this.currentPage = res.data.currentPage
         this.loading = false
@@ -345,21 +290,14 @@ export default {
       })
     },
     handleSizeChange(val) {
-      this.pagesize = val
-      this.getListData()
-    },
-    handleCurrentPageChange(val) {
-      this.pageindex = val
-      this.getListData()
-    },
-    viewRow(row) {
-      this.$router.push({
-        name: 'inputinvoicedetailDelivery',
-        params: {
-          ticketno: row.ticketno
-        }
-      })
-    }
+        this.ruleForm={...this.ruleForm,pagesize:val,pageindex:1}
+        this.getListData()
+      },
+
+      handleCurrentChange(val) {
+        this.ruleForm={...this.ruleForm,pageindex:val}
+        this.getListData()
+      },
   }
 }
 </script>

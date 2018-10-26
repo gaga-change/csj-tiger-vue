@@ -14,8 +14,13 @@ router.beforeEach((to, from, next) => {
     next()
   } else if (store.getters.userInfo == null) {
       store.dispatch('GetInfo').then(res => { 
-        router.addRoutes(store.getters.menu)
-        next({ ...to, replace: true })
+        store.dispatch('gitMap').then(res=>{
+          router.addRoutes(store.getters.menu)
+          next({ ...to, replace: true })
+        }).catch(err=>{
+          router.addRoutes(store.getters.menu)
+          next({ ...to, replace: true })
+        })
       }).catch((err) => {
         // Message({
         //   showClose: true,

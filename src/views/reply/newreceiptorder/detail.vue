@@ -29,7 +29,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item v-for="(v,i) in config[item.value]" :key="v.path" >
-                    <a class="el-dropdown-link"  targe="_blank"   :href="v.path">{{v.name||`附件${i+1}`}}</a>
+                    <a class="el-dropdown-link"  target="blank"   :href="v.path">{{v.name||`附件${i+1}`}}</a>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -102,7 +102,7 @@
      },
 
    mounted(){
-      let { id,approveStatus}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let { id,approveStatus}=this.$route.query||{};
       this.signId=id;
       this.approveStatus=approveStatus;
       this.loading=true;
@@ -127,7 +127,7 @@
      Edit(){
       this.$router.push({
         path: '/reply/newreceiptorder',
-        query:{data:JSON.stringify({modify:true,id:this.signId})}
+        query:{modify:true,id:this.signId}
       })
      },
 

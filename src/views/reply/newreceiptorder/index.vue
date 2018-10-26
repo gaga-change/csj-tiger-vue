@@ -184,7 +184,6 @@
             </el-table-column>
    
             <el-table-column
-              v-if="!($route.query.id)"
               label="操作"
               width="150">
               <template slot-scope="scope">
@@ -291,7 +290,7 @@
     },
 
     mounted(){
-      let {id,modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let {id,modify}=this.$route.query||{};
       this.id=id;
       let data=_.cloneDeep(this.planform); 
       this.planform=data;
@@ -345,7 +344,7 @@
 
     methods:{
       submitOrder(formName){
-        let {modify}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+        let {modify}=this.$route.query||{};
         let Api=signBuildSale;
         if(modify){
            Api=signUpdate;
@@ -395,7 +394,7 @@
 
             Api(json).then(res=>{
                 this.submitloading=false;
-                this.replyid=res.data;
+                this.replyid=typeof res.data==="string"?res.data:res.data.id;
                 this.$confirm('操作成功！', '提示', {
                 confirmButtonText: '详情',
                 cancelButtonText: '关闭',
@@ -405,10 +404,10 @@
                   this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                     this.$router.push({
                       path: '/reply/newreceiptorder-detail',
-                      query:{data:JSON.stringify({
+                      query:{
                         id:modify?this.id:this.replyid,
                         approveStatus:0,         
-                      })}
+                      }
                     })
                   })
                 }

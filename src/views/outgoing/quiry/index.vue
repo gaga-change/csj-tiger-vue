@@ -7,7 +7,7 @@
           <el-col :span="6">
             <el-form-item label="出库类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"  placeholder="请选择出库类型">
-                <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -73,15 +73,15 @@
 <script>
     import moment from 'moment';
     import { outOrderSelect} from '@/api/outgoing'
-    import { getBillType }  from '@/api/map'
     import BaseTable from '@/components/Table'
+    import {indexTableConfig } from './config';
+    import { mapGetters } from 'vuex'
     
     export default {
       components: { BaseTable },
       data() {
       return {
         ruleForm: {
-
             busiBillType: '',
             busiBillNo: '',
             planCode:'',
@@ -91,8 +91,7 @@
             pageSize:10,
          },
         total:0,
-        busiBillTypeConfig:[],
-        tableConfig:[],
+        tableConfig:indexTableConfig,
         rules: {
          
         },
@@ -101,55 +100,21 @@
       }
     },
 
-    beforeMount(){
-      this.tableConfig=[
-        { label:'出库单号',prop:'warehouseExeCode',width:'180px',fixed:true,dom:this.formatter('linkTo')},
-        { label:'业务单号',prop:'busiBillNo',width:'150px' },
-        { label:'货主',prop:'ownerName',width:'180px'},
-        { label:'计划单号',prop:'planCode',width:'150px'},
-        { label:'出库仓库名称',prop:'warehouseName',width:'180px'},
-        { label:'出库仓库编号',prop:'warehouseCode',width:'150px'},
-        { label:'是否越库',prop:'isCross',width:'150px',type:'Boolean',},
-        { label:'出库日期',prop:'outStoreTime',type:'time',width:'160px'},
-        { label:'操作',width:'150px',fixed:'right',dom:this.formatter('linkTo','查看') },
-      ]
+    computed: {
+      ...mapGetters([
+        'mapConfig',
+      ])
     },
 
      mounted(){
 
-       if(this.$route.query.data){
-         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-       }
-
-       getBillType().then(res=>{
-         if(res.success){
-           this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('出库'));
-         } 
-       }).catch(err=>{
-         
-      })
-
-    this.getCurrentTableData();
-     
+      if(this.$route.query.data){
+        this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
+      }
+      this.getCurrentTableData();
     },
 
     methods: {
-        formatter(type,value){
-            switch(type){
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                  let query={
-                    id:row.id,
-                    busiBillTypeConfig:this.busiBillTypeConfig,
-                  }
-                  let linkTo={
-                    path:'/outgoing/quiry-detail',
-                    query:{data:JSON.stringify(query)}
-                  }
-                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-              };
-            }
-       },
-
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()

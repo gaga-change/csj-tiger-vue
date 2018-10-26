@@ -41,7 +41,7 @@
 
 import _  from 'lodash';
 import moment from 'moment';
-
+import { mapGetters } from 'vuex'
 export default {
    props: {
      loading: {
@@ -89,7 +89,6 @@ export default {
       type: String,
       default: "marginTop:16px"
     },
-   
   },
 
   data() {
@@ -104,14 +103,24 @@ export default {
     let tableConfig=_.cloneDeep(this.config);
     for(let i in tableConfig){
        if(tableConfig[i].type){
-         switch(tableConfig[i].type){
-           case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;
-           case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
-           case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
-           case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>Number(cellValue).toFixed(2);break;
+         if(tableConfig[i].useApi){
+            tableConfig[i].formatter=(row, column, cellValue, index)=>this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue)&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue).value||cellValue
+         } else{
+          switch(tableConfig[i].type){
+            case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;
+            case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
+            case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
+            case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>Number(cellValue).toFixed(2);break;
+           }
          }
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom
+       } else if(tableConfig[i].link){
+          switch(tableConfig[i].link){
+            case 'outgoing': tableConfig[i].formatter=(row, column, cellValue, index)=>{
+             return  <router-link  to={{path:'/outgoing/businessorder-detail',query:{busiBillNo:row.busiBillNo}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
+            };break
+          }
        } else{
           tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
        }
@@ -119,13 +128,11 @@ export default {
     this.tableConfig=tableConfig;
   },
 
-
-  mounted(){
-    
-    
-  },
-
   computed: {
+     ...mapGetters([
+      'mapConfig',
+    ]),
+
     total:{
       get: function () {
        return this.allTableData.length
