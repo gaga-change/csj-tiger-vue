@@ -36,7 +36,8 @@ export default {
     },
     cardData:{
       type: Object,
-      required:true
+      required:false,
+      default:{}
     },
     loading:{
       type:Boolean,
