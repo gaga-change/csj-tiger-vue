@@ -1,6 +1,6 @@
 <template>
   <div class="scroll-container" ref="scrollContainer" @wheel.prevent="handleScroll">
-    <div class="scroll-wrapper" ref="scrollWrapper" :style="{left: left + 'px'}">
+    <div class="scroll-wrapper" ref="scrollWrapper" :style="{right: left + 'px'}">
       <slot></slot>
     </div>
   </div>
@@ -13,7 +13,7 @@ export default {
   name: 'scrollPane',
   data() {
     return {
-      left: 0
+      left: 12
     }
   },
   methods: {

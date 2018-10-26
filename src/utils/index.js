@@ -439,3 +439,5 @@ export function downloadFile(file) {
     }
   }
 }
+
+export const TiggerUrl = process.env.NODE_ENV === 'production' ? 'http://scm.csjmro.com/csj_login' :  'http://testscm.csjmro.com/csj_login'

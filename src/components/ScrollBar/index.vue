@@ -22,7 +22,7 @@ export default {
       const $container = this.$refs.scrollContainer
       const $containerHeight = $container.offsetHeight
       const $wrapper = this.$refs.scrollWrapper
-      const $wrapperHeight = $wrapper.offsetHeight
+      const $wrapperHeight = $wrapper.offsetHeight+65
       if (eventDelta > 0) {
         this.top = Math.min(0, this.top + eventDelta)
       } else {
