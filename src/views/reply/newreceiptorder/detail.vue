@@ -1,6 +1,6 @@
 <template>
   <div>
-     <sticky :className="'sub-navbar published'">
+     <sticky :className="'sub-navbar published'"  >
     <template v-if="fetchSuccess">
       <template v-if="approveStatus == 2">
         <el-button  style="margin-left: 10px;"  size="small"  type="warning" @click="Prompt('delete')" >删除</el-button>
@@ -16,28 +16,10 @@
     </template>
   </sticky>
 
-  <div class="transfermanagement-container">
-   <div style="margin:8px 0 12px">
-     <item-title text="基本信息"/>
-     <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
-      <el-row>
-        <el-col  v-for="item in infoConfig"  :key="item.value"  :span="item.span" :style="item.style">
-            <span class="card-title">{{item.title}}</span> : <span class="card-text" v-if="item.value!='files'">{{formatter(config[item.value],item.type)}}</span><span v-else>
-               <el-dropdown v-if="config[item.value]&&config[item.value].length>0">
-                <span class="el-dropdown-link">
-                  查看附件<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item v-for="(v,i) in config[item.value]" :key="v.path" >
-                    <a class="el-dropdown-link"  target="blank"   :href="v.path">{{v.name||`附件${i+1}`}}</a>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </span>
-        </el-col>
-      </el-row>
-      </el-card>
-    </div>
+  <div class="transfermanagement-container" >
+
+     <item-title text="基本信息" />
+     <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
 
     <item-title text="相关明细"/>
     <web-pagination-table 
@@ -52,8 +34,8 @@
  import Sticky from '@/components/Sticky' 
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import {Prompt} from '@/utils/prompt'
- import { signDetail} from '@/api/reply'
- import moment from 'moment'
+ import { signDetail } from '@/api/reply'
+ import { tableConfig,infoConfig} from './config';
  export default {
   components: { 
     Sticky,
@@ -61,45 +43,16 @@
   },
    data(){
      return {
-       fetchSuccess:true,
+        fetchSuccess:true,
         approveStatus:1,
-        tableConfig:[],
+        tableConfig,
         tableData:[],
 
-        infoConfig:[],
-        config:[],
-        rules:{},
-        loading:false
+        loading:false,
+        infoConfig,
+        config:{},
      }
    },
-
-    beforeMount(){
-      this.tableConfig=[
-          { label:'序号',fixed:true,type:'index'},
-          { label:'商品编码',prop:'skuCode',fixed:false,},
-          { label:'商品名称',prop:'skuName',fixed:false,},
-          { label:'品牌',prop:'skuBrandName',fixed:false,},
-          { label:'规格',prop:'skuFormat',fixed:false,},
-          { label:'单位',prop:'skuUnitName',fixed:false,},
-          { label:'单价',prop:'skuPrice',fixed:false},
-          { label:'转换率',prop:'skuUnitConvert',fixed:false},
-          { label:'签收数量',prop:'signQty',fixed:false},
-          { label:'拒收数量',prop:'rejectQty',fixed:false},
-      ];
-
-     this.infoConfig=[
-        {title:'回单号',value:'signNo',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'出库计划单号',value:'outPlanCode',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'货主',value:'ownerName',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'发货仓库',value:'planWarehouseName',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'签收人',value:'signName',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'签收人电话',value:'signTel',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'签收日期',value:'signCreateTime', type:'time',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'审核人',value:'approveName',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'审核日期',value:'approveCreateTime', type:'time',style:'minWidth:310px;marginBottom:16px',span:6},
-        {title:'附件',value:'files',style:'minWidth:310px;marginBottom:16px',span:6},
-      ];
-     },
 
    mounted(){
       let { id,approveStatus}=this.$route.query||{};
@@ -129,31 +82,13 @@
         path: '/reply/newreceiptorder',
         query:{modify:true,id:this.signId}
       })
-     },
-
-     formatter(value,type='default'){
-       if(!value){
-         return ''
-       }
-       switch(type){
-         case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
-         default : return value;
-       }
      }
    }
  }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .el-form-item{
-    margin-bottom: 0;
-  }
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-    font-size: 12px;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
+  .transfermanagement-container{
+    padding-top: 12px;
   }
 </style>

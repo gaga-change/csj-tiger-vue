@@ -54,11 +54,11 @@ export const planTableConfig=[
 
 
 export const indexTableConfig=[
-  { label:'业务单号',prop:'busiBillNo',link:'outgoing'},
+  { label:'业务单号',prop:'busiBillNo',link:'/outgoing/businessorder-detail'},
   { label:'货主编号',prop:'ownerCode'},
   { label:'货主名称',prop:'ownerName'},
   { label:'制单人',prop:'busiBillCreater'},
   { label:'制单时间',prop:'busiBillCreateTime',type:'time'},
   { label:'是否越库',prop:'isCross',type:'Boolean'},
-  { label:'操作',link:'outgoing',linkText:'查看'},
+  { label:'操作',link:'/outgoing/businessorder-detail',linkText:'查看'},
 ]

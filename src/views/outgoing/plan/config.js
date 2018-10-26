@@ -39,7 +39,7 @@ export const outgoingTableConfig=[
 
 
 export const indexTableConfig=[
-  { label:'计划单号',prop:'planCode',width:'150px',fixed:true,link:'outgoing-plan' },
+  { label:'计划单号',prop:'planCode',width:'150px',fixed:true,link:'/outgoing/plan-detail' },
   { label:'业务单号',prop:'busiBillNo',width:'150px' },
   { label:'货主',prop:'ownerName',width:'180px'},
   { label:'计划出库仓库',prop:'planWarehouseName',width:'180px'},
@@ -48,5 +48,5 @@ export const indexTableConfig=[
   { label:'最晚出库日期',prop:'lastOutTime',type:'time',width:'160px'},
   { label:'下推状态',prop:'issuedState',width:'180px',type:'getIssuedState',useApi:true,},
   { label:'执行状态',prop:'execStatus',width:'150px',type:'outbusibillstate',useApi:true,},
-  { label:'操作',width:'150px',fixed:'right',link:'outgoing-plan+reply'},
+  { label:'操作',width:'150px',fixed:'right',link:'outgoing+reply'},
 ]

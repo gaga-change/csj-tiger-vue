@@ -48,3 +48,13 @@ export const planTableConfig=[
   { label:'下推状态',prop:'issuedState',type:'getIssuedState',useApi:true},
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
 ]
+
+export const indexTableConfig=[
+  { label:'业务单号',prop:'busiBillNo',link:'warehousing' },
+  { label:'货主编号',prop:'ownerCode'},
+  { label:'货主名称',prop:'ownerName'},
+  { label:'制单人',prop:'createrName'},
+  { label:'制单时间',prop:'gmtCreate',type:'time'},
+  { label:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
+  { label:'操作',link:'warehousing',linkText:'查看'},
+ ]

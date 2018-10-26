@@ -46,16 +46,14 @@
 </template>
 
 <script>
-    import moment from 'moment';
     import { stockSelect} from '@/api/inventory'
     import BaseTable from '@/components/Table'
-    import {getBillType,getStockDirectType}  from '@/api/map'
+    import { indexTableConfig } from './config';
     export default {
       components: { BaseTable },
       data() {
       return {
         ruleForm: {
-
             skuCode:'',
             skuName:'',
             hasLock:'',
@@ -64,33 +62,15 @@
             pageSize:10,
          },
         total:0,
-        busiBillTypeConfig:[],
-        stockDirectTypeConfig:[],
-        tableConfig:[],
         rules: {
          
         },
-         loading:false,
-         tableData: []
+        loading:false,
+        tableData: [],
+        tableConfig:indexTableConfig,
       }
     },
 
-    beforeMount(){
-      this.tableConfig=[
-        { label:'商品编号',prop:'skuCode',width:'180px',fixed:true,dom:this.formatter('linkTo')},
-        { label:'商品名称',prop:'skuName',width:'150px' },
-        { label:'仓库名称',prop:'warehouseName',width:'180px'},
-        { label:'规格型号',prop:'skuFormat',width:'180px'},
-        { label:'品牌',prop:'brandName',width:'180px'},
-        { label:'单位',prop:'skuUnitName',width:'150px'},
-        { label:'转换比',prop:'skuUnitConvert',width:'150px',},
-        { label:'商品分类',prop:'skuType',width:'150px',},
-        { label:'成本价',prop:'costPrice',width:'150px',},
-        { label:'总数量',prop:'skuQty',width:'150px',},
-        { label:'锁定数量',prop:'lockQty',width:'150px',},
-        { label:'操作',width:'150px',fixed:'right',dom:this.formatter('linkTo','查看') },
-      ]
-    },
 
      mounted(){
 
@@ -98,47 +78,10 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
-        getBillType().then(res=>{
-         if(res.success){
-           this.busiBillTypeConfig=res.data;
-         }
-       }).catch(err=>{
-     
-      })
-
-       getStockDirectType().then(res=>{
-         if(res.success){
-           this.stockDirectTypeConfig=res.data;
-         }
-       }).catch(err=>{
-      })
-
-
-     this.getCurrentTableData();
-     
+       this.getCurrentTableData();
     },
 
     methods: {
-        formatter(type,value){
-            switch(type){
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                  let query={
-                    warehouseCode:row.warehouseCode,
-                    skuCode:row.skuCode,
-                    busiBillTypeConfig:this.busiBillTypeConfig,
-                    stockDirectTypeConfig:this.stockDirectTypeConfig
-                  }
-                  let linkTo={
-                    path:'/inventory/quiry-detail',
-                    query:{data:JSON.stringify(query)}
-                  }
-                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-              };
-              default:return value
-            }
-       },
-
-
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
