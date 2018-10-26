@@ -102,8 +102,9 @@ export default {
     openMenu(tag, e) {
       this.visible = true
       this.selectedTag = tag
-      this.left = e.clientX
-      this.top = e.clientY
+      var sidebarStyle = document.querySelector('.menu-wrapper').getBoundingClientRect()  
+      this.left = e.clientX -sidebarStyle.width
+      this.top = e.clientY - sidebarStyle.top + 20
     },
     closeMenu() {
       this.visible = false
