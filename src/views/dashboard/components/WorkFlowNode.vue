@@ -1,6 +1,10 @@
 <template lang="html">
   <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
         <el-tab-pane label="我的待办" name="willtodo">
+           <span slot="label">
+            <i class="el-icon-date"></i> 我的待办
+            <el-badge :value="nums" class="item"></el-badge>
+          </span>
           <el-table :data="showlist" border>
             <el-table-column
               show-overflow-tooltip
@@ -52,6 +56,7 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="我的在办" name="tobedone">
+           <span slot="label"><i class="el-icon-date"></i> 我的在办 <el-badge :value="nownums" class="item"></el-badge></span>
             <el-table :data="nowlist" border>
               <el-table-column
                 show-overflow-tooltip

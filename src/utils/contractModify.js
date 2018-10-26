@@ -1,21 +1,31 @@
 
 import { ContractCheck } from '@/api/planorder'
-export default function contractModify(type, params, needfresh, api) {
-  const CotractCheck = api || CotractCheck
+export default function contractModify(type, params, needfresh, needValue) {
+  const CotractCheck = CotractCheck
   const checkUser = this.userInfo.truename
   const ticketNo = this.$route.params.ticketno
-  if(!this.$route.params){
-    this.$message({
-      type: 'warn',
-      message: '审核失败，请刷新重试!'
-    })
-  }
+  // if(!this.$route.params){
+  //   this.$message({
+  //     type: 'warn',
+  //     message: '审核失败，请刷新重试!'
+  //   })
+  // }
   // 1 审核
   if (type === 1) {
     this.$prompt('请输入审核意见', '提示', {
       confirmButtonText: '确定', 
       cancelButtonText: '取消'
     }).then(({ value }) => {
+      if(!value){
+        this.$message({
+          type: 'error',
+          message: '请输入审核意见,不能为空'
+        })
+        if(needValue){
+          needValue()
+        }
+        return false
+      }
       ContractCheck({
         workflowid: this.$route.params.workflowid,
         contractno: this.$route.params.contractno,
@@ -63,6 +73,16 @@ export default function contractModify(type, params, needfresh, api) {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(({value}) => {
+      if(!value){
+        this.$message({
+          type: 'error',
+          message: '请输入驳回意见，不能为空'
+        })
+        if(needValue){
+          needValue()
+        }
+        return false
+      }
       ContractCheck({
         workflowid: this.$route.params.workflowid,
         contractno: this.$route.params.contractno,
