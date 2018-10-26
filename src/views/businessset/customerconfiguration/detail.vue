@@ -9,6 +9,7 @@
       :loading="loading"
       :config="tableConfig" 
       :allTableData="tableData"/>
+
   </div>
 </template>
 
@@ -20,6 +21,7 @@
 
  export default {
     components: { webPaginationTable },
+
     data() {
       return {
         config:{},
@@ -31,7 +33,7 @@
     },
     
     mounted(){
-      let { warehouseNo}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let { warehouseNo }=this.$route.query||{};
       this.loading=true;
       warehouseDetail({warehouseNo}).then(res=>{
         this.loading=false;
