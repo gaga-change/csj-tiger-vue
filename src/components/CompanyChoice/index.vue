@@ -87,8 +87,6 @@ export default {
       }
     },
     getCurrentData(data) {
-      console.log(63);
-      
       const CopyList = data || [...this.searchData]
       this.currentData = CopyList.slice((this.pageindex - 1) * this.pagesize, this.pagesize * this.pageindex) 
       this.total = data ? data.length : this.searchData.length

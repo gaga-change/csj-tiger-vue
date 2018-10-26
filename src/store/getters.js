@@ -1,7 +1,11 @@
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 import Layout from '@/views/layout/Layout'
-import { reportCenterUrl } from '@/utils'
+import { reportCenterUrl} from '@/utils'
+// import { deepSortMenu, sortMenu }  from '@/utils/deepSortMenu'
+
 import { asyncRouterMap }  from '@/router'
+
+
 const getters = {
   sidebar: state => state.app.sidebar,
   userInfo: state => state.user.userInfo,
@@ -10,7 +14,6 @@ const getters = {
   visitedViews: state => state.tagsView.visitedViews,
   company: state => state.user.company,
   companyId: state => state.user.companyId,
-  mapConfig:state=>state.map.mapConfig,
   permission_codes: state => state.user.permissionCodes,
   // menu: state => {
   //   return asyncRouterMap
@@ -21,6 +24,8 @@ const getters = {
         if(Array.isArray(bakmenu)){
           bakmenu=bakmenu.filter(v=>localPathArr.includes(v.path))
         }
+   
+    // bakmenu = deepSortMenu(bakmenu, deepSort,)
     const menutemp = []
     bakmenu.map(item => {
       const subchildren = []

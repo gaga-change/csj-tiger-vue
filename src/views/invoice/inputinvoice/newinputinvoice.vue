@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="fetchSuccess">
 
-      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" :disabled="!multipleSelection.length" @click="submitForm()">提交
+      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" :disabled="!canSubmit" @click="submitForm()">提交
       </el-button>
 
     </template>
@@ -13,7 +13,7 @@
 
   </sticky>
   <el-row>
-    <el-steps :active="-1"  simple >
+    <el-steps :active="stepActive"  simple finish-status="success">
       <el-step title="查询相应入库单" ></el-step>
       <el-step title="勾选开票相应单据" ></el-step>
       <el-step title="核对金额填写剩余信息" ></el-step>
@@ -365,6 +365,7 @@ export default {
       fetchSuccess: true,
       invoicetype: InvoiceType,
       loading: false,
+      stepActive:0,
       rules: {
         inputInvoice: {
           invoicetype: [
@@ -406,7 +407,33 @@ export default {
       visitedViews: 'visitedViews',
       revstoreList: 'storeList',
       gridData: 'gysList'
-    })
+    }),
+    canSubmit(){
+       if(this.multipleSelection&&this.multipleSelection.length>0){
+          this.stepActive = 2
+        if(this.inputInvoiceform.inputInvoice.invoiceno&&this.inputInvoiceform.inputInvoice.invoicedate&&this.inputInvoiceform.inputInvoice.receivedate&&this.inputInvoiceform.inputInvoice.invoicetype){
+                  this.stepActive = 3
+                  return true
+              }else{
+                this.stepActive = 2
+                return false
+              }
+        }else{
+          return false
+        }
+      
+    }
+  },
+  watch:{
+    multipleSelection(){
+      if(this.multipleSelection&&this.multipleSelection.length>0){
+        this.stepActive = 2
+      }else{
+        if(this.stepActive!=0){
+          this.stepActive = 1
+        }  
+      }
+    }
   },
   created() {
     this.reflashData()
@@ -563,7 +590,9 @@ export default {
                   d.index = index
                 })
                 this.inputInvoiceform.inputInvoiceItems = res.data
+                this.stepActive = 1;
               } else {
+                this.stepActive = 0;
                 this.$message.warning('未查询到入库单,请选择其他供应商再试')
                 this.inputInvoiceform.inputInvoiceItems = []
               }

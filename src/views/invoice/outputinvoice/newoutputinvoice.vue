@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="fetchSuccess">
 
-      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" @click="submitForm()" :disabled="!multipleSelection.length">提交
+      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" @click="submitForm()" :disabled="!canSubmit">提交
       </el-button>
       <!-- <el-button v-loading="loading" type="warning" @click="draftForm">保存草稿</el-button> -->
 
@@ -14,7 +14,7 @@
 
   </sticky>
   <el-row>
-    <el-steps :active="-1"  simple >
+    <el-steps :active="stepActive"  simple finish-status="success">
       <el-step title="查询相应出库单" ></el-step>
       <el-step title="勾选开票相应单据" ></el-step>
       <el-step title="核对金额填写剩余信息" ></el-step>
@@ -350,6 +350,7 @@ export default {
       fetchSuccess: true,
       invoicetype: InvoiceType,
       loading: false,
+      stepActive:0,
       rules: {
         outputInvoice: {
           invoicetype: [
@@ -383,7 +384,34 @@ export default {
       visitedViews: 'visitedViews',
       revstoreList: 'storeList',
       gridData: 'gysList'
-    })
+    }),
+     canSubmit(){
+       if(this.multipleSelection&&this.multipleSelection.length>0){
+          this.stepActive = 2
+        if(this.outputInvoiceform.outputInvoice.invoicetype){
+                  this.stepActive = 3
+                  return true
+              }else{
+                this.stepActive = 2
+                return false
+              }
+        }else{
+          return false
+        }
+      
+    }
+  },
+  watch:{
+    multipleSelection(){
+      if(this.multipleSelection&&this.multipleSelection.length>0){
+        this.stepActive = 2
+      }else{
+        if(this.stepActive!=0){
+            this.stepActive = 1
+        }
+        
+      }
+    }
   },
   // watch: {
   //   multipleSelection(val, oldvalue) {
@@ -530,7 +558,10 @@ export default {
                   d.index = index
                 })
                 this.outputInvoiceform.outputInvoiceItems = res.data
+                this.stepActive = 1;
+                
               } else {
+                this.stepActive = 0;
                 this.$message({ message: '未查询到相关出库单', type: 'warning' })
                 this.outputInvoiceform.outputInvoiceItems = []
               }
