@@ -116,11 +116,7 @@ export default {
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom
        } else if(tableConfig[i].link){
-          switch(tableConfig[i].link){
-            case 'outgoing': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/outgoing/businessorder-detail',query:{busiBillNo:row.busiBillNo}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break
-          }
+
        } else{
           tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
        }

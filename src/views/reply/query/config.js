@@ -1,5 +1,5 @@
 export   const tableConfig=[
-  { label:'回单号',fixed:true,prop:'signNo',width:'150px',link:'reply-newreceiptorder'},
+  { label:'回单号',fixed:true,prop:'signNo',width:'150px',link:'/reply/newreceiptorder-detail'},
   { label:'出库计划单号',prop:'outPlanCode',width:'150px' },
   { label:'回单状态',prop:'approveStatus',width:'80px',type:'getApproveStatusMap',useApi:true},
   { label:'货主',prop:'ownerName',width:'180px'},
@@ -12,6 +12,6 @@ export   const tableConfig=[
   { label:'制单时间',prop:'gmtCreate',type:'time',width:'150px'},
   { label:'审核人',prop:'approveName',width:'150px'},
   { label:'审核时间',prop:'approveCreateTime',type:'time',width:'150px'},
-  { label:'操作',fixed:'right',link:'reply-newreceiptorder',linkText:'查看'},
+  { label:'操作',fixed:'right',link:'/reply/newreceiptorder-detail',linkText:'查看'},
 ]
 
