@@ -2,13 +2,13 @@
   <div class="createPost-container">
     <sticky :className="'sub-navbar published'" >
       <template v-if="fetchSuccess">
-        <!-- <template v-if="ruleForm.sstatus == 4"> -->
-          <el-button  style="margin-left: 10px;" type="primary" size="small" @click="()=>{contractModify(1,{},refresh);this.buttonLoading=true}" :disabled="!$haspermission('saleContractCheckPass')||buttonLoading">审核</el-button>
+        <template v-if="ruleForm.sstatus == 4">
+          <el-button  style="margin-left: 10px;" type="primary" size="small" @click="()=>{contractModify(1,{},refresh);this.buttonLoading=true}" :disabled="!$haspermission('saleContractCheckPass')||this.buttonLoading">审核</el-button>
           <el-button  style="margin-left: 10px;" type="error" size="small"  @click="()=>{contractModify(0,{},refresh);this.buttonLoading=true}" :disabled="!$haspermission('saleContractCheckPassNot')||this.buttonLoading">驳回</el-button>
-        <!-- </template>
+        </template>
         <template v-else>
           <el-tag>暂无操作</el-tag>
-        </template> -->
+        </template>
 
       </template>
       <template v-else>
