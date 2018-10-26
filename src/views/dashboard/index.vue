@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard-container">
-     <!-- 欢迎 {{userInfo.truename}} 进入交付中心管理平台 -->
+     <!-- 欢迎 {{userInfo.truename}} 进入交付中心管理平台s -->
      <el-row :gutter="24">
-      <el-col :span="15">
+      <el-col :span="24">
         <work-flow-node></work-flow-node>
       </el-col>
       <!-- <el-col :span="9">

@@ -1,130 +1,105 @@
 <template lang="html">
-  <el-tabs type="border-card" style="height:400px;" @tab-click="tabClick">
-    <el-tab-pane>
-      <span slot="label">
-        <i class="el-icon-date"></i> 我的待办
-        <el-badge :value="nums" class="item"></el-badge>
-      </span>
-      <el-row :gutter="10">
-        <el-col v-if="loading" :span="24">正在获取数据...</el-col>
-        <!-- <el-col v-else-if="loadingfail" :span="24">登录章鱼系统失败，请<el-button type="text" @click="retry">重试</el-button></el-col> -->
-        <el-col
-          :span="24"
-          class="colclass"
-          v-else
-        >
-        <el-table :data="showlist" :max-height="310" style="border-bottom:none">
-          <el-table-column
-            show-overflow-tooltip
-            align="center"
+  <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
+        <el-tab-pane label="我的待办" name="willtodo">
+          <el-table :data="showlist" border>
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
 
-            label="标题">
-            <template slot-scope="scope">
-              <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
-                {{scope.row.title}}
-              </a> -->
-              <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
-                {{scope.row.title}}
-              </router-link>
-              <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
-                {{scope.row.title}}
-              </router-link>
-              <span v-else>{{scope.row.title}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            show-overflow-tooltip
-            label="类型"
-            prop="type"
-            align="center"
+              label="标题">
+              <template slot-scope="scope">
+                <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
+                  {{scope.row.title}}
+                </a> -->
+                <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
+                  {{scope.row.title}}
+                </router-link>
+                <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
+                  {{scope.row.title}}
+                </router-link>
+                <span v-else>{{scope.row.title}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              show-overflow-tooltip
+              label="类型"
+              prop="type"
+              align="center"
 
-            >
-          </el-table-column>
-          <el-table-column
-            label="操作节点"
-            prop="nodename"
-            align="center"
+              >
+            </el-table-column>
+            <el-table-column
+              label="操作节点"
+              prop="nodename"
+              align="center"
 
-            >
-          </el-table-column>
-          <el-table-column
-            label="操作人"
-            prop="objname"
-            align="center"
+              >
+            </el-table-column>
+            <el-table-column
+              label="操作人"
+              prop="objname"
+              align="center"
 
-            >
-          </el-table-column>
-          <el-table-column
-            prop="createdatetime"
-            align="center"
-            :formatter="formatTime"
-            label="创建时间">
-           
-          </el-table-column>
-        </el-table>
-        </el-col>
-      </el-row>
-    </el-tab-pane>
-    <el-tab-pane>
-      <span slot="label"><i class="el-icon-date"></i> 我的在办 <el-badge :value="nownums" class="item"></el-badge></span>
-      <el-row :gutter="10">
-        <!-- <el-col v-if="nowloading" :span="24">正在获取数据...</el-col>
-        <el-col v-else-if="loadingfail" :span="24">登录章鱼系统失败，请<el-button type="text" @click="retry">重试</el-button></el-col>
-        <el-col
-          :span="24"
-          class="colclass"
-          v-else
-        > -->
-        <el-table :data="nowlist" :max-height="310" style="border-bottom:none">
-          <el-table-column
-            show-overflow-tooltip
-            prop="title"
-            align="center"
-            label="标题">
-            <template slot-scope="scope">
-              <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
-                {{scope.row.bussinessKey}}
-              </a> -->
-              <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
-                {{scope.row.title}}
-              </router-link>
-              <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
-                {{scope.row.title}}
-              </router-link>
-              <span v-else>{{scope.row.title}}</span>
-             </template> 
-          </el-table-column>
-          <el-table-column
-            show-overflow-tooltip
-            label="类型"
-            prop="type"
-            align="center"
-            >
-          </el-table-column>
-          <el-table-column
-            label="操作节点"
-            prop="nodename"
-            align="center"
-            >
-          </el-table-column>
-          <el-table-column
-            label="操作人"
-            prop="objname"
-            align="center"
-            >
-          </el-table-column>
-          <el-table-column
-            label="创建时间"
-            prop="createdatetime"
-            :formatter="formatTime"
-            align="center"
-            >
-          </el-table-column>
-        </el-table>
-        </el-col>
-      </el-row>
-    </el-tab-pane>
-  </el-tabs>
+              >
+            </el-table-column>
+            <el-table-column
+              prop="createdatetime"
+              align="center"
+              :formatter="formatTime"
+              label="创建时间">
+            
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="我的在办" name="tobedone">
+            <el-table :data="nowlist" border>
+              <el-table-column
+                show-overflow-tooltip
+                prop="title"
+                align="center"
+                label="标题">
+                <template slot-scope="scope">
+                  <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
+                    {{scope.row.bussinessKey}}
+                  </a> -->
+                  <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
+                    {{scope.row.title}}
+                  </router-link>
+                  <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
+                    {{scope.row.title}}
+                  </router-link>
+                  <span v-else>{{scope.row.title}}</span>
+                </template> 
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                label="类型"
+                prop="type"
+                align="center"
+                >
+              </el-table-column>
+              <el-table-column
+                label="操作节点"
+                prop="nodename"
+                align="center"
+                >
+              </el-table-column>
+              <el-table-column
+                label="操作人"
+                prop="objname"
+                align="center"
+                >
+              </el-table-column>
+              <el-table-column
+                label="创建时间"
+                prop="createdatetime"
+                :formatter="formatTime"
+                align="center"
+                >
+              </el-table-column>
+            </el-table>
+        </el-tab-pane>
+     </el-tabs>
 </template>
 
 <script>
@@ -142,7 +117,8 @@ export default {
       nownums: null,
       isclose: false,
       nowlist: [],
-      nowloading: false
+      nowloading: false,
+      tabActive:'willtodo',
     }
   },
   computed: {
@@ -197,13 +173,20 @@ export default {
         this.loading = false
       })
     },
-    tabClick(name) {
-      if (name.paneName === '1' && this.nowlist.length === 0) {
-        this.getNowData()
-      } else if (name.paneName === '0' && this.list.length === 0) {
-        this.getDefaultData()
-      }
-    },
+    // tabClick(name) {
+    //   if (name.paneName === '1' && this.nowlist.length === 0) {
+    //     this.getNowData()
+    //   } else if (name.paneName === '0' && this.list.length === 0) {
+    //     this.getDefaultData()
+    //   }
+    // },
+    activeChange(tab){
+        if (tab.name=='willtodo') {
+            this.getDefaultData()
+        } else if (tab.name=='tobedone'){
+            this.getNowData()
+        }
+      },
     getNowData() {
       this.nowloading = true
       NowWorkFlowNode(this.userInfo.truename).then(res => {
