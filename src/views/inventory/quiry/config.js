@@ -25,7 +25,7 @@ export   const infoConfig=[
 
 
 export const indexTableConfig=[
-  { label:'商品编号',prop:'skuCode',width:'180px',fixed:true,link:'inventory-quiry'},
+  { label:'商品编号',prop:'skuCode',width:'180px',fixed:true,link:'/inventory/quiry-detail'},
   { label:'商品名称',prop:'skuName',width:'150px' },
   { label:'仓库名称',prop:'warehouseName',width:'180px'},
   { label:'规格型号',prop:'skuFormat',width:'180px'},
@@ -36,7 +36,7 @@ export const indexTableConfig=[
   { label:'成本价',prop:'costPrice',width:'150px',},
   { label:'总数量',prop:'skuQty',width:'150px',},
   { label:'锁定数量',prop:'lockQty',width:'150px',},
-  { label:'操作',width:'150px',fixed:'right',link:'inventory-quiry',linkText:'查看' },
+  { label:'操作',width:'150px',fixed:'right',link:'/inventory/quiry-detail',linkText:'查看' },
 ]
 
 

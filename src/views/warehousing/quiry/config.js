@@ -24,12 +24,12 @@ export   const infoConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'入库单号',fixed:true,prop:'warehouseExeCode',link:'warehousing-quiry'},
+  { label:'入库单号',fixed:true,prop:'warehouseExeCode',link:'/warehousing/quiry-detail'},
   { label:'业务单号',prop:'busiBillNo' },
   { label:'货主',prop:'ownerName'},
   { label:'计划单号',prop:'planCode'},
   { label:'仓库',prop:'warehouseName'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time'},
-  { label:'操作',fixed:'right',link:'warehousing-quiry',linkText:'查看'},
+  { label:'操作',fixed:'right',link:'/warehousing/quiry-detail',linkText:'查看'},
 ]
 

@@ -44,7 +44,7 @@ export   const warehousingTableConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'计划单号',prop:'planCode',width:'150',fixed:true,link:'warehousing-plan'},
+  { label:'计划单号',prop:'planCode',width:'150',fixed:true,link:'/warehousing/plan-detail'},
   { label:'业务单号',prop:'busiBillNo',width:'150' },
   { label:'货主',prop:'ownerName',width:'180'},
   { label:'制单人',prop:'createrName',width:'180'},
@@ -53,5 +53,5 @@ export   const indexTableConfig=[
   { label:'计划入库日期',prop:'planTime',type:'time',width:'180'},
   { label:'下推状态',prop:'issuedState',width:'180'},
   { label:'执行状态',prop:'execStatus',width:'150'},
-  { label:'操作',width:'150px',fixed:'right',link:'warehousing-plan',linkText:'查看' },
+  { label:'操作',width:'150px',fixed:'right',link:'/warehousing/plan-detail',linkText:'查看' },
 ]
