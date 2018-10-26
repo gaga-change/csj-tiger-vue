@@ -64,7 +64,7 @@
 
 
     mounted(){
-      let { id}=this.$route.query.data&&JSON.parse(this.$route.query.data)||{};
+      let { id }=this.$route.query||{};
       this.loading=true;
       inBillDetail({id}).then(res=>{
         if(res.success){

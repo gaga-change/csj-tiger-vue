@@ -43,11 +43,9 @@
 </template>
 
 <script>
-
-    import moment from 'moment';
     import { owerInfo} from '@/api/owerinfo'
-    import { getWarehouseType } from '@/api/map';
     import BaseTable from '@/components/Table'
+    import { indexTableConfig} from './config';
     export default {
       components: { BaseTable },
       data() {
@@ -59,25 +57,13 @@
           pageSize:10,
         },
         total:0,
-        warehouseTypeConfig:[],
-        tableConfig:[],
         rules: {
         
         },
-         loading:false,
-         tableData: []
+        loading:false,
+        tableData: [],
+        tableConfig:indexTableConfig,
       }
-    },
-
-    beforeMount(){
-      this.tableConfig=[
-      { label:'货主编号',prop:'ownerCode',dom:this.formatter('linkTo')},
-      { label:'货主名称',prop:'ownerName'},
-      { label:'所在省/市',prop:'ownerAddress'},
-      { label:'负责人',prop:'ownerLinkUser',type:'time'},
-      { label:'联系电话',prop:'ownerLinkUserTel',type:'boolean'},
-      { label:'操作',dom:this.formatter('linkTo','查看')},
-     ]
     },
 
      mounted(){
@@ -85,37 +71,10 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
-       getWarehouseType().then(res=>{
-        if(res.success){
-          this.warehouseTypeConfig=res.data;
-        }
-       }).catch(err=>{
-         
-       })
-  
-
-    this.getCurrentTableData();
-     
-    },
+       this.getCurrentTableData();
+      },
 
     methods: { 
-      formatter(type,value){
-            switch(type){
-              case 'linkTo' :return (row, column, cellValue, index)=>{
-                let query={
-                  ownerCode:row.ownerCode,
-                  warehouseTypeConfig:this.warehouseTypeConfig
-                }
-                let linkTo={
-                  path:'/businessset/owerinfo-detail',
-                  query:{data:JSON.stringify(query)}
-                }
-                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-                };
-              default:return value
-            }
-       },
-
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {

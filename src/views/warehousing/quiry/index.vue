@@ -7,7 +7,7 @@
           <el-col :span="8">
             <el-form-item label="入库类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择入库类型">
-                <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -33,7 +33,7 @@
            <el-col :span="8" >
              <el-form-item label="仓库"  prop="warehouseCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode"   placeholder="请选择入库类型">
-                <el-option   v-for="item in warehouseTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -80,14 +80,14 @@
 <script>
     import moment from 'moment';
     import {inOrderSelect} from '@/api/warehousing'
-    import {getBillType,getWarehouse} from '@/api/map'
     import BaseTable from '@/components/Table'
+    import { mapGetters } from 'vuex'
+    import { indexTableConfig } from './config';
     export default {
       components: { BaseTable },
       data() {
       return {
         ruleForm: {
-
             busiBillType: '',
             busiBillNo: '',
             planCode:'',
@@ -98,28 +98,21 @@
             pageSize:10,
          },
         total:0,
-        busiBillTypeConfig:[],
-        warehouseTypeConfig:[],
-        tableConfig:[],
         rules: {
          
         },
-         loading:false,
-         tableData: []
+        loading:false,
+        tableData: [],
+        tableConfig:indexTableConfig,
       }
     },
-
-    beforeMount(){
-      this.tableConfig=[
-        { label:'入库单号',fixed:true,prop:'warehouseExeCode',dom:this.formatter('linkTo')},
-        { label:'业务单号',prop:'busiBillNo' },
-        { label:'货主',prop:'ownerName'},
-        { label:'计划单号',prop:'planCode'},
-        { label:'仓库',prop:'warehouseName'},
-        { label:'入库日期',prop:'inWarehouseTime',type:'time'},
-        { label:'操作',fixed:'right',dom:this.formatter('linkTo','查看') },
-      ]
+    
+    computed: {
+      ...mapGetters([
+        'mapConfig',
+      ])
     },
+
 
      mounted(){
 
@@ -127,41 +120,11 @@
           this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
-        getWarehouse().then(res=>{
-        if(res.success){
-          this.warehouseTypeConfig=res.data;
-        } 
-       }).catch(err=>{
-       })
-
-       getBillType().then(res=>{
-         if(res.success){
-           this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('入库'))
-         } 
-       }).catch(err=>{
-         
-      })
-
-    this.getCurrentTableData();
+       this.getCurrentTableData();
      
     },
 
     methods: {
-        formatter(type,value){
-            switch(type){
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                  let query={
-                    id:row.id,
-                    busiBillTypeConfig:this.busiBillTypeConfig,
-                  }
-                  let linkTo={
-                    path:'/warehousing/quiry-detail',
-                    query:{data:JSON.stringify(query)}
-                  }
-                  return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-              };
-            }
-       },
 
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};

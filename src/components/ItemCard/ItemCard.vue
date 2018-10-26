@@ -2,8 +2,23 @@
   <div :style="boxStyle">
   <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" :body-style="bodyStyle" >
    <el-row>
-      <el-col  class="card-list"  v-for="item in config" :key="item.value"  :span="item.span||6">
-          <span class="card-title">{{item.title}}</span> : <span class="card-text">{{formatter(item.type,cardData[item.prop],item.useApi)}}</span>
+     <el-col  class="card-list"  v-for="item in config"  :key="item.prop"  :span="item.span||6" >
+        <span class="card-title">{{item.title}}</span> : 
+        <span class="card-text" v-if="item.useIf!='files'">
+          {{formatter(item.type,cardData[item.prop],item.useApi)}}
+        </span>
+        <span v-else-if="item.useIf='files'">
+            <el-dropdown v-if="cardData[item.prop]&&cardData[item.prop].length>0">
+            <span class="el-dropdown-link">
+              查看附件<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="(v,i) in cardData[item.prop]" :key="v.path" >
+                <a class="el-dropdown-link"  target="blank"   :href="v.path">{{v.name||`附件${i+1}`}}</a>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </span>
       </el-col>
    </el-row>
   </el-card>   
@@ -72,6 +87,14 @@ export default {
     &:last-child{
       margin-bottom: 0;
     }
+  }
+   .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+    font-size: 12px;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
   }
 </style>
 

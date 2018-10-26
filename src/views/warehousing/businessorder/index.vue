@@ -7,7 +7,7 @@
           <el-col :span="6" >
             <el-form-item label="业务类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
-                <el-option   v-for="item in busiBillTypeConfig" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -21,7 +21,7 @@
           <el-col :span="6" >
               <el-form-item label="单据状态" prop="billState" >
                 <el-select v-model="ruleForm.billState"  @change="submitForm('ruleForm')"    placeholder="请选择单据状态">
-                  <el-option  v-for="item in busiBillStateConfig"  :key="item.key"  :label="item.value"   :value="item.key"></el-option>
+                  <el-option  v-for="item in mapConfig['outbusibillstate']"  :key="item.key"  :label="item.value"   :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -86,6 +86,8 @@
     import {inBillSelect} from '@/api/warehousing'
     import {getBillType,outbusibillstate} from '@/api/map'
     import BaseTable from '@/components/Table'
+    import { mapGetters } from 'vuex'
+    import {indexTableConfig } from './config';
     
     const validatorLinkTel = (rule, value, callback) => {
       if (value==undefined||value==''||/^[1][3,4,5,7,8][0-9]{9}$/.test(value)) {
@@ -110,84 +112,37 @@
           time:''
         },
         total:0,
-        busiBillTypeConfig:[],
-        busiBillStateConfig:[],
-        tableConfig:[],
         rules: {
           linkTel: [
             {  required: false, validator:validatorLinkTel,  message: '请输入正确的号码格式', trigger: 'blur' }
           ],
         },
-         loading:false,
-         tableData: []
+        loading:false,
+        tableData: [],
+        tableConfig:indexTableConfig,  
       }
-    },
-
-    beforeMount(){
-      this.tableConfig=[
-      { label:'业务单号',prop:'busiBillNo',dom:this.formatter('linkTo') },
-      { label:'货主编号',prop:'ownerCode'},
-      { label:'货主名称',prop:'ownerName'},
-      { label:'制单人',prop:'createrName'},
-      { label:'制单时间',prop:'gmtCreate',type:'time'},
-      { label:'状态',prop:'billState',dom:(row, column, cellValue, index)=>this.formatter('billState',cellValue)},
-      { label:'操作',dom:this.formatter('linkTo','查看')},
-     ]
     },
 
      mounted(){
        if(this.$route.query.data){
         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-       getBillType().then(res=>{
-         if(res.success){
-           this.busiBillTypeConfig=res.data.filter(v=>v.value.includes('入库'))
-         } 
-       }).catch(err=>{
-      })
 
-     outbusibillstate().then(res=>{
-        if(res.success){
-         let data=res.data;
-         const arr=[];
-         for(let i in data){
-            arr.push({key:i,value:data[i]})
-         }
-         this.busiBillStateConfig=arr;
-       } 
-     }).catch(err=>{
-          
-     }),
-
-    this.getCurrentTableData();
-     
+       this.getCurrentTableData();
     },
+
+    computed: {
+      ...mapGetters([
+        'mapConfig',
+      ])
+    },
+
 
     methods: { 
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()
       },
-
-      formatter(type,value){
-            switch(type){
-              case 'Boolean': return (row, column, cellValue, index)=>Number(cellValue)?'是':'否';
-              case 'billState': return this.busiBillStateConfig.find(v=>v.key==value)?this.busiBillStateConfig.find(v=>v.key==value).value:value;
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                let query={
-                  id:row.id,
-                  busiBillTypeConfig:this.busiBillTypeConfig,
-                  busiBillStateConfig:this.busiBillStateConfig,
-                }
-                let linkTo={
-                  path:'/warehousing/businessorder-detail',
-                  query:{data:JSON.stringify(query)}
-                }
-                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-                };
-              case 'time': return (row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'未记录'
-          }
-       },
 
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}

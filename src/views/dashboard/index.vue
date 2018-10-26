@@ -3,6 +3,7 @@
      <!-- 欢迎 {{userInfo.truename}} 进入交付中心管理平台s -->
      <el-row :gutter="24">
       <el-col :span="24">
+        <item-title text="待办事项"/>
         <work-flow-node></work-flow-node>
       </el-col>
       <!-- <el-col :span="9">
@@ -30,7 +31,5 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .dashboard-container{
-    padding: 24px;
-  }
+
 </style>

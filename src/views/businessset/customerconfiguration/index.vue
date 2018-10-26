@@ -52,8 +52,8 @@
 
     import moment from 'moment';
     import { warehouseSelect} from '@/api/customerconfiguration'
-    import { getWarehouseType } from '@/api/map';
     import BaseTable from '@/components/Table'
+    import {indexTableConfig} from './config';
 
     export default {
       components: { BaseTable },
@@ -67,68 +67,22 @@
           pageSize:10,
         },
         total:0,
-        warehouseTypeConfig:[],
-        tableConfig:[],
         rules: {
         
         },
-         loading:false,
-         tableData: []
+        loading:false,
+        tableData: [],
+        tableConfig:indexTableConfig,
       }
     },
-
-    beforeMount(){
-      this.tableConfig=[
-      { label:'仓库编号',prop:'warehouseNo',dom:this.formatter('linkTo')},
-      { label:'仓库名称',prop:'warehouseName'},
-      { label:'所在省/市',fixed:false,dom:(row, column, cellValue, index)=>{
-        return `${row.warehouseProvince||''} ${row.warehouseCity||''}`
-     }},
-      { label:'仓库类型',prop:'warehouseType',dom:(row, column, cellValue, index)=>this.formatter('warehouseType',cellValue)},
-      { label:'负责人',prop:'warehouseLinkName',},
-      { label:'联系电话',prop:'linkTel',},
-      { label:'操作',dom:this.formatter('linkTo','查看')},
-     ]
-    },
-
      mounted(){
        if(this.$route.query.data){
           this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-
-       getWarehouseType().then(res=>{
-        if(res.success){
-          this.warehouseTypeConfig=res.data;
-        } 
-       }).catch(err=>{
-
-       })
-  
-
-    this.getCurrentTableData();
-     
+       this.getCurrentTableData();
     },
 
     methods: { 
-      formatter(type,value){
-            switch(type){
-              case 'warehouseType': return this.warehouseTypeConfig.find(v=>v.key===value)&&this.warehouseTypeConfig.find(v=>v.key===value).value||'暂无数据';
-              case 'linkTo' :return  (row, column, cellValue, index)=>{
-                let query={
-                  warehouseNo:row.warehouseNo,
-                  warehouseTypeConfig:this.warehouseTypeConfig
-                }
-                let linkTo={
-                  path:'/businessset/customerconfiguration-detail',
-                  query:{data:JSON.stringify(query)}
-                }
-                return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
-                };
-              default:return value
-            }
-         
-       },
-
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
