@@ -394,7 +394,7 @@
 
             Api(json).then(res=>{
                 this.submitloading=false;
-                this.replyid=res.data;
+                this.replyid=typeof res.data==="string"?res.data:res.data.id;
                 this.$confirm('操作成功！', '提示', {
                 confirmButtonText: '详情',
                 cancelButtonText: '关闭',

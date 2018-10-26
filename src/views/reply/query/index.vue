@@ -187,7 +187,7 @@
                   }
                   let linkTo={
                     path:'/reply/newreceiptorder-detail',
-                    query:{data:JSON.stringify(query)}
+                    query:query
                   }
                   return  <router-link  to={linkTo} style={{color:'#3399ea'}}>{value?value:cellValue}</router-link>
               };
