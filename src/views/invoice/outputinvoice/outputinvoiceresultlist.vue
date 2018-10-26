@@ -169,7 +169,7 @@ export default {
       { label:'发票号',prop:'invoiceno',width:'150px'},
       { label:'开票金额',prop:'invoiceamount',width:'90px'},
       { label:'开票数量',prop:'invoicenum',width:'90px'},
-       { label:'发票类型',prop:'invoicetype',width:'90px',dom:this.formatter('invoicetypeFilter')},
+       { label:'发票类型',prop:'invoicetype',width:'150px',dom:this.formatter('invoicetypeFilter')},
       { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},
       { label:'最迟票日期',prop:'lastinvoicedate',width:'150px'},
       { label:'开票人',prop:'createuser',width:'120px'},

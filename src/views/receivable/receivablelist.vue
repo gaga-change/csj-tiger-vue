@@ -219,7 +219,7 @@
       { label:'款项性质',prop:'fundnature',width:'90px',dom:this.formatter('fundnatureFilter')},
       { label:'款项类型',prop:'fundtype',width:'90px', dom:this.formatter('fundtypeFilter'),},
       { label:'结算方式',prop:'settlementmethod',width:'90px',dom:this.formatter('settlementmethodFilter')},
-      { label:'本次实收金额',prop:'recamount',width:'90px'},
+      { label:'本次实收金额',prop:'recamount',width:'150px'},
       { label:'现金折扣',prop:'interestrate',width:'90px'},
       { label:'结算金额',prop:'settlementamount',width:'90px'},
       { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},

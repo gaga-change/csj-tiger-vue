@@ -177,7 +177,7 @@ export default {
       { label:'发票号码',prop:'invoiceno',width:'150px'},
       { label:'供应商',prop:'servicername',width:'150px'},
       { label:'应开票金额',prop:'planinvoiceamount',width:'90px'},
-      { label:'实际开票金额',prop:'invoiceamount',width:'90px'},
+      { label:'实际开票金额',prop:'invoiceamount',width:'150px'},
       { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},
       { label:'发票日期',prop:'invoicedate',width:'150px'},
       { label:'票到日期',prop:'receivedate',width:'150px'},
