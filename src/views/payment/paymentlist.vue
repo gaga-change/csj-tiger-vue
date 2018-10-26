@@ -239,23 +239,23 @@
         this.$store.dispatch('GetGysList')
       }
        this.tableConfig=[
-      { label:'单号',prop:'ticketno',dom:this.formatter('linkToPaymentdetail')},
-      { label:'来源采购订单',prop:'purchorder',dom:this.formatter('linkToPurchaseorderdetail')},
-      { label:'合同编号',prop:'contractno'},
-      { label:'付款方',prop:'enterprisename'},
-      { label:'收款方',prop:'receivablesname'},
-      { label:'付款日期',prop:'paydate',type:'time'},
-      { label:'款项性质',prop:'fundnature',dom:this.formatter('fundnatureFilter')},
-      { label:'款项类型',prop:'fundtype', dom:this.formatter('fundtypeFilter'),},
-      { label:'结算方式',prop:'settlementmethod',dom:this.formatter('settlementmethodFilter')},
-      { label:'本次实付金额',prop:'payamount'},
-      { label:'现金折扣',prop:'interestrate'},
+      { label:'单号',prop:'ticketno',width:'150px',fixed:true,dom:this.formatter('linkToPaymentdetail')},
+      { label:'来源采购订单',prop:'purchorder',width:'150px',dom:this.formatter('linkToPurchaseorderdetail')},
+      { label:'合同编号',width:'120px',prop:'contractno'},
+      { label:'付款方',prop:'enterprisename',width:'150px'},
+      { label:'收款方',width:'150px',prop:'receivablesname'},
+      { label:'付款日期',width:'150px',prop:'paydate',type:'time'},
+      { label:'款项性质',prop:'fundnature',width:'90px',dom:this.formatter('fundnatureFilter')},
+      { label:'款项类型',prop:'fundtype',width:'90px', dom:this.formatter('fundtypeFilter'),},
+      { label:'结算方式',prop:'settlementmethod',width:'90px',dom:this.formatter('settlementmethodFilter')},
+      { label:'本次实付金额',width:'90px',prop:'payamount'},
+      { label:'现金折扣',width:'90px',prop:'interestrate'},
       { label:'结算金额',prop:'settlementamount'},
-      { label:'状态',prop:'status',dom:this.formatter('statusFilter')},
-      { label:'业务板块',prop:'businesstype',dom:this.formatter('businesstypeFilter')},
-      { label:'审核结果',prop:'checkadvice'},
-      { label:'制单人',prop:'createuser'},
-      { label:'制单日期',prop:'createdate'}
+      { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},
+      { label:'业务板块',prop:'businesstype',width:'90px',dom:this.formatter('businesstypeFilter')},
+      { label:'审核结果',prop:'checkadvice',width:'90px'},
+      { label:'制单人',prop:'createuser',width:'90px'},
+      { label:'制单日期',prop:'createdate',width:'150px',}
      ]
       this.getListData()
     },

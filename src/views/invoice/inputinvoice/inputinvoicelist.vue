@@ -173,18 +173,18 @@ export default {
       this.$store.dispatch('GetGysList')
     }
       this.tableConfig=[
-      { label:'开票单号',prop:'ticketno',dom:this.formatter('linkTo')},
-      { label:'发票号码',prop:'invoiceno'},
-      { label:'供应商',prop:'servicername'},
-      { label:'应开票金额',prop:'planinvoiceamount'},
-      { label:'实际开票金额',prop:'invoiceamount'},
-      { label:'状态',prop:'status',dom:this.formatter('statusFilter')},
-      { label:'发票日期',prop:'invoicedate'},
-      { label:'票到日期',prop:'receivedate'},
-      { label:'创建人',prop:'createuser'},
-      { label:'创建日期',prop:'createdate'},
-      { label:'审核人',prop:'checkuser'},
-      { label:'审核日期',prop:'checkdate'},
+      { label:'开票单号',prop:'ticketno',width:'150px',fixed:true,dom:this.formatter('linkTo')},
+      { label:'发票号码',prop:'invoiceno',width:'150px'},
+      { label:'供应商',prop:'servicername',width:'150px'},
+      { label:'应开票金额',prop:'planinvoiceamount',width:'90px'},
+      { label:'实际开票金额',prop:'invoiceamount',width:'90px'},
+      { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},
+      { label:'发票日期',prop:'invoicedate',width:'150px'},
+      { label:'票到日期',prop:'receivedate',width:'150px'},
+      { label:'创建人',prop:'createuser',width:'90px'},
+      { label:'创建日期',prop:'createdate',width:'150px'},
+      { label:'审核人',prop:'checkuser',width:'90px'},
+      { label:'审核日期',prop:'checkdate',width:'150px'},
      ]
     this.getListData()
   },

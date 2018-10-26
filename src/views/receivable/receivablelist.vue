@@ -211,22 +211,22 @@
         this.$store.dispatch('GetGysList')
       }
       this.tableConfig=[
-      { label:'单号',prop:'ticketno',dom:this.formatter('linkToreceivabledetailDelivery')},
-      { label:'来源销售订单',prop:'saleorder'},
-      { label:'付款方',prop:'payername'},
-      { label:'收款方',prop:'receivablesname'},
-      { label:'收款日期',prop:'recdate'},
-      { label:'款项性质',prop:'fundnature',dom:this.formatter('fundnatureFilter')},
-      { label:'款项类型',prop:'fundtype', dom:this.formatter('fundtypeFilter'),},
-      { label:'结算方式',prop:'settlementmethod',dom:this.formatter('settlementmethodFilter')},
-      { label:'本次实收金额',prop:'recamount'},
-      { label:'现金折扣',prop:'interestrate'},
-      { label:'结算金额',prop:'settlementamount'},
-      { label:'状态',prop:'status',dom:this.formatter('statusFilter')},
-      { label:'业务板块',prop:'businesstype',dom:this.formatter('businesstypeFilter')},
-      { label:'审核结果',prop:'checkadvice'},
-      { label:'制单人',prop:'createuser'},
-      { label:'制单日期',prop:'createdate'}
+      { label:'单号',prop:'ticketno',width:'150px',fixed:true,dom:this.formatter('linkToreceivabledetailDelivery')},
+      { label:'来源销售订单',prop:'saleorder',width:'150px'},
+      { label:'付款方',prop:'payername',width:'150px'},
+      { label:'收款方',prop:'receivablesname',width:'150px'},
+      { label:'收款日期',prop:'recdate',width:'150px'},
+      { label:'款项性质',prop:'fundnature',width:'90px',dom:this.formatter('fundnatureFilter')},
+      { label:'款项类型',prop:'fundtype',width:'90px', dom:this.formatter('fundtypeFilter'),},
+      { label:'结算方式',prop:'settlementmethod',width:'90px',dom:this.formatter('settlementmethodFilter')},
+      { label:'本次实收金额',prop:'recamount',width:'90px'},
+      { label:'现金折扣',prop:'interestrate',width:'90px'},
+      { label:'结算金额',prop:'settlementamount',width:'90px'},
+      { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},
+      { label:'业务板块',prop:'businesstype',width:'90px',dom:this.formatter('businesstypeFilter')},
+      { label:'审核结果',prop:'checkadvice',width:'90px'},
+      { label:'制单人',prop:'createuser',width:'90px'},
+      { label:'制单日期',prop:'createdate',width:'150px'}
      ]
       this.getListData()
     },

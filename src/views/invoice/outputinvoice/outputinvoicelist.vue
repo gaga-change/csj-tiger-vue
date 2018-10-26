@@ -160,15 +160,15 @@ export default {
       this.$store.dispatch('GetGysList')
     }
      this.tableConfig=[
-      { label:'开票申请单号',prop:'ticketno',dom:this.formatter('linkTo')},
-      { label:'客户',prop:'customername'},
-      { label:'计划开票金额',prop:'planinvoiceamount'},
-      { label:'计划开票数量',prop:'planinvoicenum'},
-       { label:'发票类型',prop:'invoicetype',dom:this.formatter('invoicetypeFilter')},
-      { label:'状态',prop:'status',dom:this.formatter('statusFilter')},
-      { label:'最迟票日期',prop:'lastinvoicedate'},
-      { label:'申请日期',prop:'createdate'},
-      { label:'申请人',prop:'createuser'},
+      { label:'开票申请单号',prop:'ticketno',width:'150px',fixed:true,dom:this.formatter('linkTo')},
+      { label:'客户',prop:'customername',width:'150px'},
+      { label:'计划开票金额',prop:'planinvoiceamount',width:'90px'},
+      { label:'计划开票数量',prop:'planinvoicenum',width:'90px'},
+       { label:'发票类型',prop:'invoicetype',width:'90px',dom:this.formatter('invoicetypeFilter')},
+      { label:'状态',prop:'status',width:'90px',dom:this.formatter('statusFilter')},
+      { label:'最迟票日期',prop:'lastinvoicedate',width:'150px'},
+      { label:'申请日期',prop:'createdate',width:'150px'},
+      { label:'申请人',prop:'createuser',width:'120px'},
      ]
     this.getListData()
   },
