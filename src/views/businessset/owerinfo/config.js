@@ -1,10 +1,10 @@
 export   const tableConfig=[
   { label:'序号',fixed:true,type:'index'},
-  { label:'仓库编号',prop:'warehouseNo',fixed:false,},
-  { label:'仓库名称',prop:'warehouseName',fixed:false,},
-  { label:'仓库类型',prop:'warehouseType',fixed:false,type:'getWarehouseType',useApi:true},
-  { label:'负责人',prop:'warehouseLinkUser',fixed:false,},
-  { label:'联系电话',prop:'warehouseLinkUserTel',fixed:false,},
+  { label:'仓库编号',prop:'warehouseNo'},
+  { label:'仓库名称',prop:'warehouseName'},
+  { label:'仓库类型',prop:'warehouseType',type:'getWarehouseType',useApi:true},
+  { label:'负责人',prop:'warehouseLinkUser'},
+  { label:'联系电话',prop:'warehouseLinkUserTel'},
 ];
 
 export   const infoConfig=[

@@ -1,7 +1,7 @@
 export  const tableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'商品分类',prop:'skuSort',},
-  { label:'SKU名称',prop:'skuName',},
+  { label:'SKU名称',prop:'skuName',width:120},
   { label:'规格型号',prop:'skuFormat',},
   { label:'生产厂家',prop:'productFactory'},
   { label:'品牌名',prop:'skuBrandName',},
@@ -29,7 +29,6 @@ export const infoConfig=[
   {title:'客户编号',prop:'arrivalCode'},
   {title:'客户名称',prop:'arrivalName'},
   {title:'客户地址',prop:'arrivalAddress',span:12},
-  {title:'其他信息',prop:'otherInfo',span:12},
 ]
 
 export const outgoingTableConfig=[
@@ -49,9 +48,7 @@ export const planTableConfig=[
   { label:'计划单号',prop:'planCode'},
   { label:'货主',prop:'ownerName'},
   { label:'计划出库仓库',prop:'planWarehouseName'},
-  { label:'制定时间',prop:'gmtCreate',type:'time'},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
-  { label:'最晚出库日期',prop:'lastOutTime',type:'time'},
   { label:'下推状态',prop:'issuedState',type:'getIssuedState',useApi:true},
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
 ]

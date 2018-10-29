@@ -44,14 +44,13 @@ export   const warehousingTableConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'计划单号',prop:'planCode',width:'150',fixed:true,link:'/warehousing/plan-detail'},
-  { label:'业务单号',prop:'busiBillNo',width:'150' },
-  { label:'供应商名称',prop:'providerName',width:'150'},
-  { label:'供应商编号',prop:'providerCode',width:'150'},
-  { label:'货主',prop:'ownerName',width:'180'},
-  { label:'制单人',prop:'createrName',width:'180'},
-  { label:'计划入库仓库',prop:'planWarehouseName',width:'180'},
-  { label:'计划入库日期',prop:'planTime',type:'time',width:'180'},
-  { label:'执行状态',prop:'execStatus',width:'150',type:'outbusibillstate',useApi:true},
-  { label:'操作',width:'150px',fixed:'right',link:'/warehousing/plan-detail',linkText:'查看' },
+  { label:'计划单号',prop:'planCode',fixed:true,link:'/warehousing/plan-detail'},
+  { label:'业务单号',prop:'busiBillNo'},
+  { label:'供应商名称',prop:'providerName'},
+  { label:'货主',prop:'ownerName'},
+  { label:'制单人',prop:'createrName'},
+  { label:'计划入库仓库',prop:'planWarehouseName'},
+  { label:'计划入库日期',prop:'planTime',type:'time'},
+  { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
+  { label:'操作',fixed:'right',link:'/warehousing/plan-detail',linkText:'查看' },
 ]

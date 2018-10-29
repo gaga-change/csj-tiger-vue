@@ -6,6 +6,7 @@
 @import './btn.scss';
 
 body {
+  overflow-x: hidden;
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -217,4 +218,8 @@ body .el-table colgroup.gutter{
 }
 .el-select-dropdown__item{
   font-size: 12px;
+}
+
+.el-table th>.cell {
+  white-space: nowrap;
 }

@@ -18,24 +18,24 @@
        <item-title text="基本信息"/>
         <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
         <el-row >
-          <el-col :span="6" v-if="planform.saleSignReq.signNo">
-            <el-form-item label="回单号:" prop="saleSignReq.signNo">
-              {{planform.saleSignReq.signNo}}
+          <el-col :span="6" v-if="planform.signNo">
+            <el-form-item label="回单号:" prop="signNo">
+              {{planform.signNo}}
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出库计划单号:" label-width="100px"   prop="saleSignReq.planCode">
-              {{planform.saleSignReq.planCode}}
+            <el-form-item label="出库计划单号:" label-width="100px"   prop="planCode">
+              {{planform.planCode}}
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收货企业:" prop="saleSignReq.arrivalName">
-              {{planform.saleSignReq.arrivalName}}
+            <el-form-item label="收货企业:" prop="arrivalName">
+              {{planform.arrivalName}}
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="发货仓库" prop="saleSignReq.planWarehouseName">
-              {{planform.saleSignReq.planWarehouseName}}
+            <el-form-item label="发货仓库" prop="planWarehouseName">
+              {{planform.planWarehouseName}}
             </el-form-item>
           </el-col>
           
@@ -45,10 +45,11 @@
              :rules="[
                 { required: true, message: '该项为必填'},
               ]"
-              prop="saleSignReq.signName">
-              <el-input v-model="planform.saleSignReq.signName" style="width:180px"  placeholder="请输入签收人"></el-input>
+              prop="signName">
+              <el-input v-model="planform.signName" style="width:180px"  placeholder="请输入签收人"></el-input>
             </el-form-item>
           </el-col>
+
           <el-col :span="6">
             <el-form-item 
               label="签收人电话"
@@ -56,13 +57,14 @@
               :rules="[
                 { required: true,pattern:/^[1][3,4,5,7,8][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/,message: '请输入正确规则的手机号或电话号'},
               ]"
-             prop="saleSignReq.signTel">
+             prop="signTel">
               <el-input  
               style="width:180px" 
-              v-model="planform.saleSignReq.signTel"
+              v-model="planform.signTel"
                 placeholder="请输入签收人电话"></el-input>
             </el-form-item>
-        </el-col>
+          </el-col>
+
         <el-col :span="6">
           <el-form-item 
             label="签收日期" 
@@ -70,9 +72,9 @@
             :rules="[
                 { required: true, message: '该项为必填'},
               ]"
-              prop="saleSignReq.signCreateTime">
+              prop="signCreateTime">
               <el-date-picker
-                v-model="planform.saleSignReq.signCreateTime"
+                v-model="planform.signCreateTime"
                 type="datetime"
                 placeholder="选择日期时间"
                  align="right"
@@ -88,15 +90,16 @@
             size="mini"
             type="primary"
             @click="importFile">
-            {{enclosure.length ? '继续上传' : '上传附件'}}
+            {{files.length ? '继续上传' : '上传附件'}}
           </el-button>
-          <span v-show="enclosure.length">{{filelength}}个文件</span>
+          <span v-show="files.length">{{filelength}}个文件</span>
         </el-form-item>
-      </el-col>
-
-          </el-row>
-        </el-card>
+          <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:84px;position: absolute;"> 附件为必选</span>
+        </el-col>
+      </el-row>
+      </el-card>
       </div> 
+
        <item-title text="相关明细"/>
         <el-row >
           <el-form-item label-width="0" prop="details">
@@ -133,9 +136,6 @@
             <el-table-column
               label="出库数量"
               prop="realOutQty">
-              <template slot-scope="scope">
-                <span >{{ scope.row.realOutQty }}</span>
-              </template>
             </el-table-column>
             <el-table-column
               label="单价"
@@ -145,7 +145,6 @@
               label="转换率"
               prop="skuUnitConvert">
             </el-table-column>
-      
             <el-table-column
               label="签收数量"
                width="120">
@@ -156,7 +155,7 @@
                     :max="scope.row.realOutQty-scope.row.rejectQty" 
                     :min="0" 
                      style="width:100px"
-                    v-model="scope.row.signQty" >
+                     v-model="scope.row.signQty" >
                    </el-input-number>
                 </template>
                 <span v-else>
@@ -202,13 +201,13 @@
 
     <el-dialog
     title="提示"
-    :visible.sync="enclosureDialogVisible"
+    :visible.sync="filesDialogVisible"
     center
     width="50%">
     <el-upload
       class="upload-demo"
-      ref="enclosureupload"
-      :action="enclosureuploadUrl"
+      ref="filesupload"
+      :action="filesuploadUrl"
       :file-list = "fileList"
       multiple
       :before-upload="beforeUpload"
@@ -240,24 +239,23 @@
     data(){
       return {
         planform:{
-          saleSignReq:{
-             planCode:'',
-             ownerName:'',
-             planWarehouseName:'',
-             signName:'',
-             signTel:'',
-             signCreateTime:'',
-          },
+          planCode:'',
+          ownerName:'',
+          planWarehouseName:'',
+          signName:'',
+          signTel:'',
+          signCreateTime:'',
           details:[]
         },
+        filesRequired:false,
         fileList: [],
         fetchSuccess: true,
         submitloading: false,
         loading:false,
         id:'',
 
-        enclosureDialogVisible:false,
-        enclosureuploadUrl: '/webApi/fileupload/common/filetoserver',
+        filesDialogVisible:false,
+        filesuploadUrl: '/webApi/fileupload/common/filetoserver',
         uploadButtonVisible: false,
 
         reply:'',
@@ -274,7 +272,8 @@
         return this.fileList.length
       },
 
-      enclosure() {
+      files() {
+        this.filesRequired=false;
         let url = []
         this.fileList.forEach(
           file =>
@@ -307,8 +306,8 @@
               return json;
           })
           if(res.data&&Array.isArray(res.data.itemList)){
-            data.saleSignReq={...data.saleSignReq,...res.data}
-            data.saleSignReq.planCode=data.saleSignReq.outPlanCode
+            data={...data,...res.data}
+            data.planCode=data.outPlanCode
             let dataList=res.data.itemList;
             dataList=dataList.map(v=>{
                 let json=v;
@@ -326,7 +325,7 @@
         planDetail({id}).then(res=>{
           this.loading=false;
           if(res.data&&Array.isArray(res.data.itemList)){
-            data.saleSignReq={...data.saleSignReq,...res.data}
+            data={...data,...res.data}
             let dataList=res.data.itemList;
             dataList=dataList.map(v=>{
                 let json=v;
@@ -352,15 +351,15 @@
         }
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         this.$refs[formName].validate((valid) => {
-          if (valid) {
+          if (valid&&this.files.length>0) {
             this.submitloading=true;
             let data=_.cloneDeep(this.planform);
-            data.saleSignReq.files=this.enclosure;
-            data.saleSignReq.signCreateTime=moment(data.saleSignReq.signCreateTime).valueOf();
+            data.files=this.files;
+            data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
-            for(let i in data['saleSignReq']){
+            for(let i in data){
               if(['signName','signTel','signCreateTime','files'].includes(i)){
-                json[i]=data['saleSignReq'][i]
+                json[i]=data[i]
               }
             }
             if(modify){
@@ -419,6 +418,7 @@
               this.submitloading=false;
             })
           } else {
+            this.filesRequired=this.files.length>0?false:true;
             return false;
           }
         });
@@ -441,7 +441,7 @@
 
 
       importFile() {
-        this.enclosureDialogVisible = true
+        this.filesDialogVisible = true
       },
 
 
@@ -480,7 +480,7 @@
       },
 
      submitEnclosureUpload() {
-       this.$refs.enclosureupload.submit()
+       this.$refs.filesupload.submit()
      },
 
     }

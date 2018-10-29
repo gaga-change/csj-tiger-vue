@@ -38,12 +38,12 @@ export const outgoingTableConfig=[
 
 
 export const indexTableConfig=[
-  { label:'计划单号',prop:'planCode',width:'150px',fixed:true,link:'/outgoing/plan-detail' },
-  { label:'业务单号',prop:'busiBillNo',width:'150px' },
-  { label:'客户名称',prop:'arrivalName',width:'150px' },
-  { label:'货主',prop:'ownerName',width:'180px'},
-  { label:'计划出库仓库',prop:'planWarehouseName',width:'180px'},
-  { label:'计划出库日期',prop:'planOutTime',type:'time',width:'160px'},
-  { label:'执行状态',prop:'execStatus',width:'150px',type:'outbusibillstate',useApi:true,},
-  { label:'操作',width:'150px',fixed:'right',link:'outgoing+reply'},
+  { label:'计划单号',prop:'planCode',fixed:true,link:'/outgoing/plan-detail' },
+  { label:'业务单号',prop:'busiBillNo' },
+  { label:'客户名称',prop:'arrivalName'},
+  { label:'货主',prop:'ownerName'},
+  { label:'计划出库仓库',prop:'planWarehouseName'},
+  { label:'计划出库日期',prop:'planOutTime',type:'time'},
+  { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
+  { label:'操作',fixed:'right',link:'outgoing+reply'},
 ]
