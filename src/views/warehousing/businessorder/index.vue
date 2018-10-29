@@ -24,6 +24,12 @@
             </el-form-item>
           </el-col>
 
+           <el-col :span="6" >
+            <el-form-item label="供应商名称" label-width="78px" prop="providerName">
+              <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
+            </el-form-item>
+          </el-col>
+
          
           <el-col :span="6" >
             <el-form-item label="货主电话" prop="linkTel">
@@ -96,6 +102,7 @@
           busiBillType: '',
           busiBillNo: '',
           ownerName: '',
+          providerName:'',
           linkTel: '',
           pageNum: 1,
           pageSize:10,
