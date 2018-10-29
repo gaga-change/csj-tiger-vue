@@ -47,7 +47,7 @@ export const planTableConfig=[
 ]
 
 export const indexTableConfig=[
-  { label:'业务单号',prop:'busiBillNo',link:'/warehousing/businessorder-detail' },
+  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'id',value:'id'}] },
   { label:'货主编号',prop:'ownerCode'},
   { label:'货主名称',prop:'ownerName'},
   { label:'供应商名称',prop:'providerName'},
@@ -55,5 +55,5 @@ export const indexTableConfig=[
   { label:'制单人',prop:'createrName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
   { label:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
-  { label:'操作',link:'/warehousing/businessorder-detail',linkText:'查看'},
+  { label:'操作',linkTo:'/warehousing/businessorder-detail',query:[{key:'id',value:'id'}],linkText:'查看'},
  ]

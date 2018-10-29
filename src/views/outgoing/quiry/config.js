@@ -13,10 +13,10 @@ export const tableConfig=[
 
 export  const infoConfig=[
   {title:'出库单号',prop:'warehouseExeCode',},
+  {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
+  {title:'计划单号',prop:'planCode' },
   {title:'出库日期',prop:'outStoreTime',type:'time'},
-  {title:'计划单号',prop:'planCode'},
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
-  {title:'业务单号',prop:'busiBillNo'},
   {title:'客户编号',prop:'arrivalCode'},
   {title:'客户名称',prop:'arrivalName'},
   {title:'联系电话',prop:'arrivalLinkTel'},
@@ -24,7 +24,7 @@ export  const infoConfig=[
 ]
 
 export const indexTableConfig=[
-  { label:'出库单号',prop:'warehouseExeCode',fixed:true,link:'/outgoing/quiry-detail'},
+  { label:'出库单号',prop:'warehouseExeCode',fixed:true,linkTo:'/outgoing/quiry-detail',query:[{key:'id',value:'id'}]},
   { label:'业务单号',prop:'busiBillNo' },
   { label:'计划单号',prop:'planCode'},
   { label:'客户名称',prop:'arrivalName'},
@@ -32,5 +32,5 @@ export const indexTableConfig=[
   { label:'出库仓库名称',prop:'warehouseName'},
   { label:'是否越库',prop:'isCross',type:'Boolean',},
   { label:'出库日期',prop:'outStoreTime',type:'time'},
-  { label:'操作',fixed:'right',link:'/outgoing/quiry-detail',linkText:'查看' },
+  { label:'操作',fixed:'right',linkTo:'/outgoing/quiry-detail',query:[{key:'id',value:'id'}],linkText:'查看' },
 ]

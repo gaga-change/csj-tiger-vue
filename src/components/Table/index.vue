@@ -152,66 +152,34 @@ export default {
                             </el-dropdown-menu>
                          </el-dropdown>
             };break;
-           }
-         }
-       } else if(tableConfig[i].dom){
-         tableConfig[i].formatter=tableConfig[i].dom
-       } else if(tableConfig[i].link){
-          switch(tableConfig[i].link){
-            case '/outgoing/businessorder-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/outgoing/businessorder-detail',query:{busiBillNo:row.busiBillNo}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
 
-            case '/outgoing/plan-detail':tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/outgoing/plan-detail',query:{id:row.id}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/outgoing/quiry-detail':tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/outgoing/quiry-detail',query:{id:row.id}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case 'outgoing+reply':tableConfig[i].formatter=(row, column, cellValue, index)=>{
+             case 'outgoing+reply':tableConfig[i].formatter=(row, column, cellValue, index)=>{
               if(row.isCreate){
                   return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{id:row.id}}} style={{color:'#3399ea',margin:'0 10px'}}>查看</router-link>
+                    <router-link  to={{path:'/outgoing/plan-detail',query:{id:row.id}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
                     <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea'}}>创建回单</router-link>
                   </div>
                 } else{
                     return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{id:row.id}}} style={{color:'#3399ea',margin:'0 10px'}}>查看</router-link>
+                    <router-link  to={{path:'/outgoing/plan-detail',query:{id:row.id}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
                   </div>
                 }
           } ;break;
 
-           case '/warehousing/businessorder-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/warehousing/businessorder-detail',query:{id:row.id}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/warehousing/plan-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/warehousing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/warehousing/quiry-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/warehousing/quiry-detail',query:{id:row.id}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/inventory/quiry-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/inventory/quiry-detail',query:{ warehouseCode:row.warehouseCode,skuCode:row.skuCode}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/businessset/owerinfo-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/businessset/owerinfo-detail',query:{  ownerCode:row.ownerCode}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/businessset/customerconfiguration-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/businessset/customerconfiguration-detail',query:{   warehouseNo:row.warehouseNo, }}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
-
-            case '/reply/newreceiptorder-detail': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-             return  <router-link  to={{path:'/reply/newreceiptorder-detail',query:{id:row.id,approveStatus:row.approveStatus}}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-            };break;
+           }
+         }
+       } else if(tableConfig[i].dom){
+         tableConfig[i].formatter=tableConfig[i].dom
+       } else if(tableConfig[i].linkTo){
+          tableConfig[i].formatter=(row, column, cellValue, index)=>{
+            let json={};
+            tableConfig[i].query.forEach(item=>{
+                json[item.key]=row[item.value]
+            })
+            return  <router-link  to={{path:tableConfig[i].linkTo,query:json}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
           }
-       } else{
+          
+        } else{
           tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
        }
     }

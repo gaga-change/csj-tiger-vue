@@ -1,14 +1,14 @@
 export   const tableConfig=[
   { label:'序号',fixed:true,type:'index',width:50},
-  { label:'商品编码',prop:'skuCode',fixed:false,},
-  { label:'商品名称',prop:'skuName',fixed:false,},
-  { label:'品牌',prop:'skuBrandName',fixed:false,},
-  { label:'规格',prop:'skuFormat',fixed:false,},
-  { label:'单位',prop:'skuUnitName',fixed:false,},
-  { label:'单价',prop:'skuPrice',fixed:false},
-  { label:'转换率',prop:'skuUnitConvert',fixed:false},
-  { label:'签收数量',prop:'signQty',fixed:false},
-  { label:'拒收数量',prop:'rejectQty',fixed:false},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'品牌',prop:'skuBrandName'},
+  { label:'规格',prop:'skuFormat',},
+  { label:'单位',prop:'skuUnitName'},
+  { label:'单价',prop:'skuPrice'},
+  { label:'转换率',prop:'skuUnitConvert'},
+  { label:'签收数量',prop:'signQty'},
+  { label:'拒收数量',prop:'rejectQty'},
 ];
 
 

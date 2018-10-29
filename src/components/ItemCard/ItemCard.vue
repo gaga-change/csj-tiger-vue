@@ -4,10 +4,7 @@
    <el-row>
      <el-col  class="card-list"  v-for="item in config"  :key="item.prop"  :span="item.span||6" >
         <span class="card-title">{{item.title}}</span> : 
-        <span class="card-text" v-if="item.useIf!='files'">
-          {{formatter(item.type,cardData[item.prop],item.useApi)}}
-        </span>
-        <span v-else-if="item.useIf='files'">
+        <span v-if="item.useIf=='files'">
             <el-dropdown v-if="cardData[item.prop]&&cardData[item.prop].length>0">
             <span class="el-dropdown-link">
               查看附件<i class="el-icon-arrow-down el-icon--right"></i>
@@ -19,6 +16,15 @@
             </el-dropdown-menu>
           </el-dropdown>
         </span>
+        <span class="card-text" v-else-if="item.useIf=='link'">
+          <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea">{{cardData[item.prop]}}</router-link>
+        </span>
+        <span class="card-text" v-else>
+          {{
+             formatter(item.type,cardData[item.prop],item.useApi)
+          }}
+        </span>
+
       </el-col>
    </el-row>
   </el-card>   
@@ -61,7 +67,7 @@ export default {
         if(value!=undefined){
           if(useApi){
             return this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
-          } else{
+          }  else{
             switch(type){
               case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
               case 'boolean': return Number(value)?'是':'否';
@@ -71,6 +77,15 @@ export default {
         } else{
           return ''
         }
+      },
+      
+      mapFormatter(arr=[],data){
+        let json={}
+        arr.forEach(v=>{
+            json[v.key]=data[v.value]
+        })
+
+        return json;
       }
     },
 

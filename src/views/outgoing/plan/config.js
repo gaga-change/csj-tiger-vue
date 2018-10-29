@@ -13,7 +13,7 @@ export const tableConfig=[
 
 export  const infoConfig=[
   {title:'计划单号',prop:'planCode'},
-  {title:'业务单号',prop:'busiBillNo'},
+  {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划制定时间',prop:'planTime',type:'time'},
   {title:'计划人',prop:'planName'},
@@ -38,12 +38,12 @@ export const outgoingTableConfig=[
 
 
 export const indexTableConfig=[
-  { label:'计划单号',prop:'planCode',fixed:true,link:'/outgoing/plan-detail' },
+  { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/outgoing/plan-detail',query:[{key:'id',value:'id'}] },
   { label:'业务单号',prop:'busiBillNo' },
   { label:'客户名称',prop:'arrivalName'},
   { label:'货主',prop:'ownerName'},
   { label:'计划出库仓库',prop:'planWarehouseName'},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
-  { label:'操作',fixed:'right',link:'outgoing+reply'},
+  { label:'操作',fixed:'right',type:'outgoing+reply'},
 ]

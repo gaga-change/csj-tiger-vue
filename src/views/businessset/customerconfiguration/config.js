@@ -16,7 +16,7 @@ export  const infoConfig=[
   {title:'仓库地址',prop:'warehouseAddress'},
 ]
 export const indexTableConfig=[
-  { label:'仓库编号',prop:'warehouseNo',link:'/businessset/customerconfiguration-detail'},
+  { label:'仓库编号',prop:'warehouseNo',linkTo:'/businessset/customerconfiguration-detail',query:[{key:'warehouseNo',value:'warehouseNo'}]},
   { label:'仓库名称',prop:'warehouseName'},
   { label:'所在省/市',fixed:false,dom:(row, column, cellValue, index)=>{
     return `${row.warehouseProvince||''} ${row.warehouseCity||''}`
@@ -24,5 +24,5 @@ export const indexTableConfig=[
   { label:'仓库类型',prop:'warehouseType',type:'getWarehouseType',useApi:true},
   { label:'负责人',prop:'warehouseLinkName',},
   { label:'联系电话',prop:'linkTel',},
-  { label:'操作',link:'/businessset/customerconfiguration-detail',linkText:'查看'},
+  { label:'操作',linkTo:'/businessset/customerconfiguration-detail',query:[{key:'warehouseNo',value:'warehouseNo'}],linkText:'查看'},
  ]

@@ -15,10 +15,10 @@ export   const infoConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'货主编号',prop:'ownerCode',link:'/businessset/owerinfo-detail'},
+  { label:'货主编号',prop:'ownerCode',linkTo:'/businessset/owerinfo-detail',query:[{key:'ownerCode',value:'ownerCode'}]},
   { label:'货主名称',prop:'ownerName'},
   { label:'所在省/市',prop:'ownerAddress'},
   { label:'负责人',prop:'ownerLinkUser',type:'time'},
   { label:'联系电话',prop:'ownerLinkUserTel',type:'boolean'},
-  { label:'操作',link:'/businessset/owerinfo-detail',linkText:'查看'},
+  { label:'操作',linkTo:'/businessset/owerinfo-detail',query:[{key:'ownerCode',value:'ownerCode'}],linkText:'查看'},
  ]
