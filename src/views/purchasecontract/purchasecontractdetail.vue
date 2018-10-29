@@ -3,8 +3,8 @@
     <sticky :className="'sub-navbar published'" >
       <template v-if="fetchSuccess">
         <template v-if="ruleForm.pstatus == 4">
-          <el-button  style="margin-left: 10px;" type="primary" size="small"  @click="()=>{contractModify(1,{},refresh);this.buttonLoading=true}":disabled="!$haspermission('purchaseContractCheckPass')||this.buttonLoading">审核</el-button>
-          <el-button  style="margin-left: 10px;" type="error" size="small"   @click="()=>{contractModify(0,{},refresh);this.buttonLoading=true}" :disabled="!$haspermission('purchaseContractCheckPassNot')||this.buttonLoading">驳回</el-button>
+          <el-button  style="margin-left: 10px;" type="primary" size="small"  @click="()=>{contractModify(1,{},refresh,needValue);this.buttonLoading=true}":disabled="!$haspermission('purchaseContractCheckPass')||this.buttonLoading">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="error" size="small"   @click="()=>{contractModify(0,{},refresh,needValue);this.buttonLoading=true}" :disabled="!$haspermission('purchaseContractCheckPassNot')||this.buttonLoading">驳回</el-button>
         </template>
         <template v-else>
           <el-tag>暂无操作</el-tag>
@@ -164,10 +164,7 @@ export default {
   methods: {
     contractModify,
     refresh(){
-      this.$router.replace({
-        path:`/purchasecontract/purchasecontractdetail/${this.$route.params.contractno}/${this.$route.params.workflowid}`,
-      })
-      this.buttonLoading = false
+      this.getDetail();
     },
     getDetail() {
        CotractDetail(
@@ -177,12 +174,17 @@ export default {
         this.contactItems = res.data && res.data.itemList || []
         this.elecontract = res.data && res.data.elecontract && JSON.parse(res.data.elecontract) || []
         this.config = res.data && _.cloneDeep(res.data) || {}
+        this.buttonLoading = false
+
       }).catch(err => {
         console.log(err)
         this.fetchSuccess = false
+        this.buttonLoading = false
       })
     },
-
+    needValue(){
+      this.buttonLoading=false
+    },
     formatter(type,value){
         if(value!=undefined){
           switch(type){

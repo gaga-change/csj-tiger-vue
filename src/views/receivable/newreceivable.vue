@@ -118,7 +118,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" size="small" v-loading="submitloading">新建收款单</el-button>
+          <el-button type="primary" @click="onSubmit" size="small" :disabled="submitloading" v-loading="submitloading">新建收款单</el-button>
           <el-button @click="onCancel" size="small">取消</el-button>
         </el-form-item>
       </el-row>
@@ -395,11 +395,11 @@
             postData.receivable.settlementamount = this.settlementamount
             postData.receivable.enclosure = JSON.stringify(this.enclosure)
             console.log('send data: ' + JSON.stringify(postData))
-             if(this.receivableform.receivable.fundnature === '1' && this.receivableform.receivable.residualamount<this.settlementamount){
-            this.$message.error('结算金额不能大于该采购订单应付金额')
-            this.submitloading = false
-            return false
-          }
+            if(this.receivableform.receivable.fundnature === '1' && this.receivableform.receivable.residualamount<this.settlementamount){
+              this.$message.error('结算金额不能大于该采购订单应付金额')
+              this.submitloading = false
+              return false
+            }
             addOrUpdateReceivable(postData.receivable).then(
               res => {
                 console.log(res)
@@ -433,6 +433,7 @@
             })
           } else {
             console.log('error submit!!')
+            this.submitloading = false
             return false
           }
         })

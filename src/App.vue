@@ -20,7 +20,7 @@ export default {
     .el-form-item{
       margin-bottom: 10px;
       .el-input{
-max-width:200px;
+        max-width:200px;
       }
     }
     .simpleCardLastLine{
