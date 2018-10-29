@@ -38,7 +38,7 @@
           </el-col>
 
           <el-col :span="6" >
-            <el-form-item label="审核状态"  prop="approveStatus">
+            <el-form-item label="单据状态"  prop="approveStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.approveStatus"   placeholder="请选择审核状态">
                 <el-option   v-for="item in mapConfig['getApproveStatusMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
@@ -57,21 +57,6 @@
                  </el-date-picker>
               </el-form-item>
           </el-col>
-
-
-          <el-col :span="10"  >
-            <el-form-item label="制单时间" prop="makeTime">
-                 <el-date-picker
-                    v-model="ruleForm.makeTime"
-                    @change="makeTimeChange"
-                    type="datetimerange"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :default-time="['12:00:00']">
-                 </el-date-picker>
-              </el-form-item>
-          </el-col>
-
 
           <el-col :span="24">
             <el-form-item>
@@ -119,7 +104,6 @@
             approveStatus:'',
 
             time:'',
-            makeTime:'',
             pageNum: 1,
             pageSize:10,
          },
@@ -151,10 +135,6 @@
     methods: {
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
-        this.getCurrentTableData()
-      },
-      makeTimeChange(value){
-        this.ruleForm={...this.ruleForm, makeTime:value};
         this.getCurrentTableData()
       },
        submitForm(formName) {
@@ -198,12 +178,6 @@
                if(arr.every(v=>v)){
                  json['signBeginDate']=arr[0];
                  json['signEndDate']=arr[1];
-               } 
-            } else if(i==='makeTime'){
-               let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
-               if(arr.every(v=>v)){
-                 json['createBeginDate']=arr[0];
-                 json['createEndDate']=arr[1];
                } 
             } else{
                json[i]=this.ruleForm[i]

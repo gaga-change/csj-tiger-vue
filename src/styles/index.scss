@@ -198,20 +198,23 @@ body .el-table colgroup.gutter{
 }
 
 .card-title{
-  font-size: 13px;
+  font-size: 12px;
   color:#606266;
   font-weight: 600;
 }
 .card-text{
-  font-size: 13px;
+  font-size: 12px;
   color:#606266;
 }
 
 .el-form-item__label{
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .el-form-item__content{
-  font-size: 13px;
+  font-size: 12px;
+}
+.el-select-dropdown__item{
+  font-size: 12px;
 }

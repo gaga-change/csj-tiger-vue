@@ -19,13 +19,6 @@
           </el-col>
 
           <el-col :span="6" >
-            <el-form-item label="制单人" prop="createrName">
-              <el-input v-model.lazy.trim="ruleForm.createrName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入制单人"></el-input>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :span="6" >
             <el-form-item label="计划单号" prop="planCode">
               <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入计划单号"></el-input>
             </el-form-item>
@@ -37,11 +30,9 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
-            <el-form-item label="下推状态"  prop="issuedState">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.issuedState"   placeholder="请选择下推状态">
-                <el-option   v-for="item in mapConfig['getIssuedState']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
-              </el-select>
+           <el-col :span="6" >
+            <el-form-item label="客户名称" prop="arrivalName">
+              <el-input v-model.lazy.trim="ruleForm.arrivalName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入客户名称"></el-input>
             </el-form-item>
           </el-col>
 
@@ -107,11 +98,10 @@
         ruleForm: {
           busiBillType: '',
           busiBillNo: '',
-          createrName:'',
           planCode:'',
+          arrivalName:'',
           planWarehouseName:'',
           time:[],
-          issuedState:'',
           execStatus: '',
           pageNum: 1,
           pageSize:10,

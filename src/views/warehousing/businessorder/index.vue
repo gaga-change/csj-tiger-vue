@@ -19,15 +19,6 @@
           </el-col>
 
           <el-col :span="6" >
-              <el-form-item label="单据状态" prop="billState" >
-                <el-select v-model="ruleForm.billState"  @change="submitForm('ruleForm')"    placeholder="请选择单据状态">
-                  <el-option  v-for="item in mapConfig['outbusibillstate']"  :key="item.key"  :label="item.value"   :value="item.key"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-
-          <el-col :span="6" >
             <el-form-item label="货主名称" prop="ownerName">
               <el-input v-model.lazy.trim="ruleForm.ownerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
             </el-form-item>
@@ -104,7 +95,6 @@
         ruleForm: {
           busiBillType: '',
           busiBillNo: '',
-          billState: '',
           ownerName: '',
           linkTel: '',
           pageNum: 1,

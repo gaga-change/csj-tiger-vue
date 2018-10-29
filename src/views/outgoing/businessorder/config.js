@@ -7,7 +7,11 @@ export  const tableConfig=[
   { label:'品牌名',prop:'skuBrandName',},
   { label:'单位',prop:'skuUnitName',},
   { label:'出单价格',prop:'outStorePrice',},
-  { label:'已出/应出(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
+  { label:'签收量',prop:''},
+  { label:'拒收量',prop:''},
+  { label:'回收量',prop:''},
+  { label:'待回收量',prop:''},
+  { label:'已出/应出',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
   }},
   { label:'转换比',prop:'skuUnitConvert',width:"80"},
@@ -55,6 +59,8 @@ export const planTableConfig=[
 
 export const indexTableConfig=[
   { label:'业务单号',prop:'busiBillNo',link:'/outgoing/businessorder-detail'},
+  { label:'客户编号',prop:'arrivalCode'},
+  { label:'客户名称',prop:'arrivalName'},
   { label:'货主编号',prop:'ownerCode'},
   { label:'货主名称',prop:'ownerName'},
   { label:'制单人',prop:'busiBillCreater'},

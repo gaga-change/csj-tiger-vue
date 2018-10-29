@@ -26,10 +26,10 @@ export  const infoConfig=[
 export const indexTableConfig=[
   { label:'出库单号',prop:'warehouseExeCode',width:'180px',fixed:true,link:'/outgoing/quiry-detail'},
   { label:'业务单号',prop:'busiBillNo',width:'150px' },
-  { label:'货主',prop:'ownerName',width:'180px'},
   { label:'计划单号',prop:'planCode',width:'150px'},
+  { label:'客户名称',prop:'arrivalName',width:'150px' },
+  { label:'货主',prop:'ownerName',width:'180px'},
   { label:'出库仓库名称',prop:'warehouseName',width:'180px'},
-  { label:'出库仓库编号',prop:'warehouseCode',width:'150px'},
   { label:'是否越库',prop:'isCross',width:'150px',type:'Boolean',},
   { label:'出库日期',prop:'outStoreTime',type:'time',width:'160px'},
   { label:'操作',width:'150px',fixed:'right',link:'/outgoing/quiry-detail',linkText:'查看' },

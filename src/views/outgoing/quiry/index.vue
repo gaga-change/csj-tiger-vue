@@ -31,6 +31,12 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6" style="minWidth:310px">
+            <el-form-item label="客户名称" prop="arrivalName">
+              <el-input v-model.lazy.trim="ruleForm.arrivalName" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入客户名称"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="16" style="minWidth:340px" >
             <el-form-item label="出库日期" prop="time">
                  <el-date-picker
@@ -84,6 +90,7 @@
         ruleForm: {
             busiBillType: '',
             busiBillNo: '',
+            arrivalName:'',
             planCode:'',
             warehouseExeCode:'',
             time:'',

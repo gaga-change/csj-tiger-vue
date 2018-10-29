@@ -38,6 +38,12 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="8" >
+            <el-form-item label="供应商名称" prop="warehouseName"   label-width="78px">
+              <el-input v-model.lazy.trim="ruleForm.warehouseName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入入库单号"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="16" >
             <el-form-item label="入库日期" prop="time">
                  <el-date-picker
@@ -92,6 +98,7 @@
             busiBillNo: '',
             planCode:'',
             warehouseExeCode:'',
+            warehouseName:'',
             warehouseCode:'',
             time:'',
             pageNum: 1,

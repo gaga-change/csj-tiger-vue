@@ -39,18 +39,17 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
-            <el-form-item label="下推状态"  prop="issuedState">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.issuedState"   placeholder="请选择下推状态">
-                <el-option   v-for="item in mapConfig['getIssuedState']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="6" >
             <el-form-item label="执行状态"  prop="execStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus"  placeholder="请选择执行状态">
                 <el-option   v-for="item in mapConfig['outbusibillstate']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6" >
+            <el-form-item label="供应商名称" label-width="78px" prop="providerName">
+              <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>
           </el-col>
  
@@ -111,8 +110,8 @@
            busiBillCreater:'',
            planCode:'',
            planWarehouseCode:'',
+           providerName:'',
            time:'',
-           issuedState:'',
            execStatus: '',
            pageNum: 1,
            pageSize:10,

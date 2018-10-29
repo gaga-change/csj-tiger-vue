@@ -1,5 +1,5 @@
 export   const tableConfig=[
-  { label:'序号',fixed:true,type:'index'},
+  { label:'序号',fixed:true,type:'index',width:50},
   { label:'商品编码',prop:'skuCode',fixed:false,},
   { label:'商品名称',prop:'skuName',fixed:false,},
   { label:'品牌',prop:'skuBrandName',fixed:false,},
@@ -15,6 +15,7 @@ export   const tableConfig=[
 export   const infoConfig=[
   {title:'回单号',prop:'signNo'},
   {title:'出库计划单号',prop:'outPlanCode'},
+  {title:'客户名称',prop:''},
   {title:'货主',prop:'ownerName'},
   {title:'发货仓库',prop:'planWarehouseName'},
   {title:'签收人',prop:'signName'},

@@ -6,7 +6,7 @@ export   const tableConfig=[
   { label:'转换比',prop:'skuUnitConvert'},
   { label:'入库单价',prop:'inPrice',type:'toFixed'},
 
-  { label:'已入/总数(单位)',fixed:false,dom:(row, column, cellValue, index)=>{
+  { label:'已入/总数',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.realInQty&&Math.round(row.realInQty)}/${row.planInQty&&Math.round(row.planInQty)}(${row.skuUnitName})`
   }},
 
@@ -46,12 +46,12 @@ export   const warehousingTableConfig=[
 export   const indexTableConfig=[
   { label:'计划单号',prop:'planCode',width:'150',fixed:true,link:'/warehousing/plan-detail'},
   { label:'业务单号',prop:'busiBillNo',width:'150' },
+  { label:'供应商名称',prop:'providerName',width:'150'},
+  { label:'供应商编号',prop:'providerCode',width:'150'},
   { label:'货主',prop:'ownerName',width:'180'},
   { label:'制单人',prop:'createrName',width:'180'},
   { label:'计划入库仓库',prop:'planWarehouseName',width:'180'},
-  { label:'制定时间',prop:'gmtCreate',type:'time',width:'180'},
   { label:'计划入库日期',prop:'planTime',type:'time',width:'180'},
-  { label:'下推状态',prop:'issuedState',width:'180'},
-  { label:'执行状态',prop:'execStatus',width:'150'},
+  { label:'执行状态',prop:'execStatus',width:'150',type:'outbusibillstate',useApi:true},
   { label:'操作',width:'150px',fixed:'right',link:'/warehousing/plan-detail',linkText:'查看' },
 ]

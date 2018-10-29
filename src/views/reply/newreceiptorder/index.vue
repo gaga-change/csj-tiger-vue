@@ -29,8 +29,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收货企业:" prop="saleSignReq.ownerName">
-              {{planform.saleSignReq.ownerName}}
+            <el-form-item label="收货企业:" prop="saleSignReq.arrivalName">
+              {{planform.saleSignReq.arrivalName}}
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -82,7 +82,8 @@
         </el-col>
 
       <el-col :span="8">
-        <el-form-item label="上传附件">
+        <el-form-item 
+          label="上传附件">
           <el-button
             size="mini"
             type="primary"
@@ -245,7 +246,7 @@
              planWarehouseName:'',
              signName:'',
              signTel:'',
-             signCreateTime:''
+             signCreateTime:'',
           },
           details:[]
         },
