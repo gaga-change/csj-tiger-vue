@@ -9,7 +9,7 @@
           <!-- <el-button  style="margin-left: 10px;" type="primary"  @click="Edit">修改</el-button> -->
         </template>
         <template v-else-if="planform.OutputInvoice.status == 0">
-          <el-button  style="margin-left: 10px;" type="primary"  size="small"@click="Modify(0, 'OutputInvoice', true)" :disabled="!$haspermission('outputInvoiceResultCheck')">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="primary"  size="small" @click="Modify(0, 'OutputInvoice', true)" :disabled="!$haspermission('outputInvoiceResultCheck')">审核</el-button>
           <el-button size="small"  style="margin-left: 10px;" type="error"  @click="Modify(1, 'OutputInvoice', true)" :disabled="!$haspermission('outputInvoiceResultReject')">驳回</el-button>
         </template>
         <template v-else>

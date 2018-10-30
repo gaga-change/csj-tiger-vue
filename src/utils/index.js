@@ -424,6 +424,23 @@ export const DistributeStatus = [
   }
 ]
 
+export const NatureInvoice = [
+  
+  {
+    name: '篮字发票',
+    value: 0
+  },
+
+  {
+    name: '红字发票',
+    value: 1
+  },
+
+]
+
+
+
+
 export function downloadFile(file) {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
     if (file.includes('/file')) {
