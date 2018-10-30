@@ -245,8 +245,10 @@
           signName:'',
           signTel:'',
           signCreateTime:'',
-          details:[]
+          details:[],
+          deleteSignDetailIds:[],
         },
+       
         filesRequired:false,
         fileList: [],
         fetchSuccess: true,
@@ -364,6 +366,7 @@
             }
             if(modify){
               json['saleSignId']=this.id;
+              json['deleteSignDetailIds']=this.planform.deleteSignDetailIds;
             }
 
             json['details']=data['details'].map(v=>{
@@ -430,11 +433,12 @@
       },
 
       handleDelete(index, row) {
+        let {modify}=this.$route.query||{};
         this.planform.details.splice(index, 1)
-        this.$message({
-          message: '成功删除一条记录！',
-          type: 'success'
-        })
+        if(modify){
+          this.planform.deleteSignDetailIds.push(row.id)
+        }
+        
       },
 
 
