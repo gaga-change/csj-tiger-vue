@@ -259,7 +259,12 @@ export default {
         ContractNumber:'',
         ticket:'',
         details:[
-         
+         {
+           skuSort:'23323',
+         },
+         {
+           skuSort:'23323',
+         }
         ]
       },
       searchRules: { 
