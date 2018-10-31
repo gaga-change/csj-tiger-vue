@@ -115,9 +115,16 @@ export default {
          }
        } else if(tableConfig[i].dom){
          tableConfig[i].formatter=tableConfig[i].dom
-       } else if(tableConfig[i].link){
-
-       } else{
+       } else if(tableConfig[i].linkTo){
+          tableConfig[i].formatter=(row, column, cellValue, index)=>{
+            let json={};
+            tableConfig[i].query.forEach(item=>{
+                json[item.key]=row[item.value]
+            })
+            return  <router-link  to={{path:tableConfig[i].linkTo,query:json}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
+          }
+          
+        } else{
           tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
        }
     }

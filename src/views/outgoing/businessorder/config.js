@@ -33,9 +33,9 @@ export const infoConfig=[
 
 export const outgoingTableConfig=[
   { label:'序号',type:'index',width:50},
-  { label:'出库单号',prop:'warehouseExeCode'},
+  { label:'出库单号',prop:'warehouseExeCode',linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
   { label:'货主',prop:'ownerName'},
-  { label:'计划单号',prop:'planCode'},
+  { label:'计划单号',prop:'planCode',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'出库仓库名称',prop:'warehouseName'},
   { label:'出库仓库编号',prop:'warehouseCode',},
   { label:'是否越库',prop:'isCross',type:'Boolean',},
@@ -45,7 +45,7 @@ export const outgoingTableConfig=[
 
 export const planTableConfig=[
   { label:'序号',type:'index',width:50},
-  { label:'计划单号',prop:'planCode'},
+  { label:'计划单号',prop:'planCode',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
   { label:'货主',prop:'ownerName'},
   { label:'计划出库仓库',prop:'planWarehouseName'},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
@@ -55,9 +55,7 @@ export const planTableConfig=[
 
 export const indexTableConfig=[
   { label:'业务单号',prop:'busiBillNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
-  { label:'客户编号',prop:'arrivalCode'},
   { label:'客户名称',prop:'arrivalName'},
-  { label:'货主编号',prop:'ownerCode'},
   { label:'货主名称',prop:'ownerName'},
   { label:'制单人',prop:'busiBillCreater'},
   { label:'制单时间',prop:'busiBillCreateTime',type:'time'},

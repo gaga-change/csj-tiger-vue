@@ -1,9 +1,8 @@
 <template lang="html">
 <div class="app-container">
-  <el-row>
+  <el-row gutter="10">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
-      <el-form :model="ruleForm"  ref="ruleForm" label-width="80px" label-postion="left">
-        <el-row>
+      <el-form :model="ruleForm"  ref="ruleForm" label-width="60px" label-postion="left">
         <el-col :span="6">
           <el-form-item label="发票号码" >
             <el-input type="text" v-model="ruleForm.invoiceno" size="small" placeholder="请输入发票号码"></el-input>
@@ -66,7 +65,6 @@
             <el-button size="small" @click="onCancel">重置</el-button>
           </el-form-item>
         </el-col>
-        </el-row>
       </el-form>
     </el-card>
   </el-row>

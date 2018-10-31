@@ -8,7 +8,7 @@
 
     <el-form :model="ruleForm" ref="ruleForm" label-width="80px" label-position="left" style="text-align:left">
     <el-card class="simpleCard" body-style="padding:12px" shadow="never">
-      <el-row :gutter="20">
+      <el-row gutter="10">
         <el-col :span="6">
           <el-form-item label="付款单号" prop="ticketno">
             <el-input type="text" size="small" v-model="ruleForm.ticketno"></el-input>
@@ -81,7 +81,7 @@
           </el-form-item>
         </el-col>
         </el-row>
-        <el-row>
+        <el-row gutter="10">
         <el-col :span="6">
           <el-form-item label="合同编号" prop="contractno">
             <el-input type="text" size="small" style="max-width:200px" v-model="ruleForm.contractno"></el-input>

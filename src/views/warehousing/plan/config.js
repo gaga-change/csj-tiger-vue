@@ -19,8 +19,8 @@ export   const tableConfig=[
 
 export   const infoConfig=[
   {title:'计划单号',prop:'planCode'},
+  {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
   {title:'入库类型',prop:'busiBillType',type:'getBillType',useApi:true},
-  {title:'业务单号',prop:'busiBillNo'},
   {title:'计划制定时间',prop:'busiBillCreaterTime',type:'time'},
   {title:'计划人',prop:'busiBillCreater'},
   {title:'计划仓库',prop:'planWarehouseName'},
@@ -35,22 +35,21 @@ export   const infoConfig=[
 
 export   const warehousingTableConfig=[
   { label:'序号',type:'index',width:50},
-  { label:'入库单号',prop:'warehouseExeCode'},
-  { label:'业务单号',prop:'busiBillNo' },
+  { label:'入库单号',prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'业务单号',prop:'busiBillNo' ,linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   { label:'货主',prop:'ownerName'},
-  { label:'计划单号',prop:'planCode'},
   { label:'仓库',prop:'warehouseName'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time'},
 ]
 
 export   const indexTableConfig=[
   { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
-  { label:'业务单号',prop:'busiBillNo'},
+  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
   { label:'供应商名称',prop:'providerName'},
   { label:'货主',prop:'ownerName'},
   { label:'制单人',prop:'createrName'},
   { label:'计划入库仓库',prop:'planWarehouseName'},
   { label:'计划入库日期',prop:'planTime',type:'time'},
-  { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
-  { label:'操作',fixed:'right',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}],linkText:'查看' },
+  { label:'执行状态',width:100,prop:'execStatus',type:'outbusibillstate',useApi:true},
+  { label:'操作',width:50,fixed:'right',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}],linkText:'查看' },
 ]

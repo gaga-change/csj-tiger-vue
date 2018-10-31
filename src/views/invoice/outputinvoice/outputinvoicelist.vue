@@ -1,9 +1,8 @@
 <template lang="html">
 <div class="app-container">
-  <el-row>
+  <el-row gutter="10">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px" >
       <el-form :model="ruleForm" ref="ruleForm" label-width="48px" label-position="left">
-        <el-row>
         <el-col :span="6">
           <el-form-item label="客户">
             <el-input v-model="ruleForm.customername" size="small" @focus="addServicer" placeholder="请选择客户" prefix-icon="el-icon-search"></el-input>
@@ -63,7 +62,6 @@
             <el-button @click="onCancel" size="small">重置</el-button>
           </el-form-item>
         </el-col>
-        </el-row>
       </el-form>
     </el-card>
   </el-row>

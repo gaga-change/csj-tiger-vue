@@ -27,16 +27,16 @@ export  const infoConfig=[
 
 export const warehousingTableConfig=[
   { label:'序号',type:'index',width:50},
-  { label:'入库单号',prop:'warehouseExeCode'},
+  { label:'入库单号',prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
   { label:'货主',prop:'ownerName'},
-  { label:'计划单号',prop:'planCode'},
+  { label:'计划单号',prop:'planCode',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'仓库',prop:'warehouseName'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time'},
 ];
 
 export const planTableConfig=[
   { label:'序号',type:'index',width:50},
-  { label:'计划单号',prop:'planCode'},
+  { label:'计划单号',prop:'planCode',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'货主',prop:'ownerName'},
   { label:'制单人',prop:'createrName'},
   { label:'计划入库仓库',prop:'planWarehouseName'},
@@ -47,13 +47,11 @@ export const planTableConfig=[
 ]
 
 export const indexTableConfig=[
-  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'id',value:'id'}] },
-  { label:'货主编号',prop:'ownerCode'},
+  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
   { label:'货主名称',prop:'ownerName'},
   { label:'供应商名称',prop:'providerName'},
-  { label:'供应商编号',prop:'providerCode'},
   { label:'制单人',prop:'createrName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
   { label:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
-  { label:'操作',linkTo:'/warehousing/businessorder-detail',query:[{key:'id',value:'id'}],linkText:'查看'},
+  { label:'操作',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}],linkText:'查看'},
  ]

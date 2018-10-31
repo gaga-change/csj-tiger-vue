@@ -13,9 +13,9 @@ export   const tableConfig=[
 
 
 export   const infoConfig=[
-  {title:'回单号',prop:'signNo'},
-  {title:'出库计划单号',prop:'outPlanCode'},
-  {title:'客户名称',prop:''},
+  {title:'回单号',prop:'signNo',useIf:'linkDom',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'signNo'}],linkText:'查看入库详情'},
+  {title:'出库计划单号',prop:'outPlanCode',useIf:'link',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'outPlanCode'}]},
+  {title:'客户名称',prop:'arrivalName'},
   {title:'货主',prop:'ownerName'},
   {title:'发货仓库',prop:'planWarehouseName'},
   {title:'签收人',prop:'signName'},

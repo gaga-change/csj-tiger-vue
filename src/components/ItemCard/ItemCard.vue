@@ -19,6 +19,12 @@
         <span class="card-text" v-else-if="item.useIf=='link'">
           <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea">{{cardData[item.prop]}}</router-link>
         </span>
+        <span class="card-text" v-else-if="item.useIf=='linkDom'">
+          {{
+             formatter(item.type,cardData[item.prop],item.useApi)
+          }}
+          <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea;margin-left:8px">{{item.linkText}}</router-link>
+        </span>
         <span class="card-text" v-else>
           {{
              formatter(item.type,cardData[item.prop],item.useApi)

@@ -360,13 +360,12 @@
             data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
             for(let i in data){
-              if(['signName','signTel','signCreateTime','files'].includes(i)){
+              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds'].includes(i)){
                 json[i]=data[i]
               }
             }
             if(modify){
               json['saleSignId']=this.id;
-              json['deleteSignDetailIds']=this.planform.deleteSignDetailIds;
             }
 
             json['details']=data['details'].map(v=>{
@@ -435,10 +434,7 @@
       handleDelete(index, row) {
         let {modify}=this.$route.query||{};
         this.planform.details.splice(index, 1)
-        if(modify){
-          this.planform.deleteSignDetailIds.push(row.id)
-        }
-        
+        this.planform.deleteSignDetailIds.push(row.id) 
       },
 
 
