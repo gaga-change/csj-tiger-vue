@@ -431,10 +431,6 @@
 
       handleDelete(index, row) {
         this.planform.details.splice(index, 1)
-        this.$message({
-          message: '成功删除一条记录！',
-          type: 'success'
-        })
       },
 
 

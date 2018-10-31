@@ -9,9 +9,8 @@
       <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
     </template>
   </sticky>
-
-    <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
+      <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-row>
         <el-col :span="6">
           <el-form-item label="客户名称">
@@ -129,11 +128,111 @@
            <el-form-item label-width="0px">
             <el-button type="primary" size="small" >选择签收单下商品明细</el-button> </el-form-item>
          </el-col>
-
         </el-row>
+      </el-card>
+
+       <el-row >
+          <item-title text="签收单下商品明细"/>
+          <el-table
+            :show-header="false"
+            :data="searchForm.details"
+            :default-expand-all="true"
+             style="width: 100%">
+            <el-table-column type="expand" >
+              <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+
+                  <el-form-item label="商品分类">
+                    <span>{{ props.row.skuSort }}</span>
+                  </el-form-item>
+
+                   <el-form-item label="商品编码">
+                    <span>{{ props.row.skuCode }}</span>
+                  </el-form-item>
+
+                   <el-form-item label="商品名称">
+                    <el-input
+                      v-if="props.row.edit"
+                      size="mini"
+                      v-model="props.row.skuName" >
+                    </el-input>
+                    <span v-else>{{ props.row.skuName }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="税务编码">
+                    <el-input
+                      v-if="props.row.edit"
+                      size="mini"
+                      v-model="props.row.code" >
+                    </el-input>
+                    <span v-else>{{ props.row.code }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="规格型号">
+                    <el-input
+                      v-if="props.row.edit"
+                      size="mini"
+                      v-model="props.row.skuFormat" >
+                    </el-input>
+                    <span v-else>{{ props.row.skuFormat }}</span>
+                  </el-form-item>
+
+                   <el-form-item label="单位">
+                    <el-input
+                      v-if="props.row.edit"
+                      size="mini"
+                      v-model="props.row.skuUnitName" >
+                    </el-input>
+                    <span v-else>{{ props.row.skuUnitName }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="签收数量">
+                    <span>{{ props.row.signQty }}</span>
+                  </el-form-item>
+
+                   <el-form-item label="单价">
+                    <span>{{ props.row.skuPrice }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="税率">
+                    <span>{{ props.row.shuilv }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="含税金额">
+                    <span>{{ props.row.hshuie }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="税额">
+                    <el-input
+                      v-if="props.row.edit"
+                      size="mini"
+                      v-model="props.row.shuie" >
+                    </el-input>
+                    <span v-else>{{ props.row.shuie }}</span>
+                  </el-form-item>
+
+                </el-form>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="序号"
+              type="index">
+            </el-table-column>
+
+            <el-table-column
+              label="操作">
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index)" size="mini" >确定</el-button>
+                <el-button v-else @click="goeditrow(scope.$index)" size="mini" >编辑</el-button>
+                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+
+          </el-table>
+          </el-form-item>
+        </el-row>   
       </el-form>
-    </el-card>
-</div>
+    </div>
 </template>
 
 <script>
@@ -158,7 +257,10 @@ export default {
         saleorder:'',
         noticketNo:'',
         ContractNumber:'',
-        ticket:''
+        ticket:'',
+        details:[
+         
+        ]
       },
       searchRules: { 
 
@@ -166,7 +268,7 @@ export default {
       invoicetype,
       NatureInvoice,
       customerConfig:[],
-      codeConfig:[]
+      codeConfig:[],
     }
   },
   mounted(){
@@ -187,12 +289,14 @@ export default {
            if(valid){
              console.log({...this.searchForm})
            } else{
-
            }
         })
     },
     
     customerChange(value){
+      let searchForm=_.cloneDeep(this.searchForm);
+      searchForm.saleorder='';
+      this.searchForm=searchForm;
       this.createOutputInvoiceApi({customer:value})
     },
 
@@ -208,13 +312,26 @@ export default {
        }).catch(err=>{
 
        })
-    }
+    },
+
+    goeditrow(index) {
+      let searchForm=_.cloneDeep(this.searchForm);
+      searchForm.details[index].edit = !searchForm.details[index].edit
+      this.searchForm=searchForm;
+    },
+
+     handleDelete(index, row) {
+        let searchForm=_.cloneDeep(this.searchForm);
+        searchForm.details.splice(index, 1)
+        this.searchForm=searchForm;
+    },
   }
 
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+
   .codeNoStyle{
     float: left; 
     color: #8492a6; 
@@ -223,6 +340,21 @@ export default {
     &:last-child{
       float: right;
     }
-    
   }
+
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 25%;
+  }
+
+
+
 </style>
