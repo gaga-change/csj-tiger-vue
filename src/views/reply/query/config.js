@@ -1,6 +1,6 @@
 export   const tableConfig=[
   { label:'回单号',fixed:true,prop:'signNo',width:'150px',linkTo:'/reply/newreceiptorder-detail',query:[{key:'id',value:'id'},{key:'approveStatus',value:'approveStatus'},]},
-  { label:'出库计划单号',prop:'outPlanCode',width:'150px' },
+  { label:'出库计划单号',prop:'outPlanCode',width:'150px',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'outPlanCode'}] },
   { label:'客户',prop:'arrivalName',width:'150px'},
   { label:'货主',prop:'ownerName',width:'180px'},
   { label:'发货仓库',prop:'planWarehouseName',width:'180px'},
