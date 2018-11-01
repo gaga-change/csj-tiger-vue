@@ -14,22 +14,24 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="客户名称">
-            <el-select v-model="searchForm.customer" :clearable="true"   filterable placeholder="请选择客户名称" @change="customerChange"  >
+            <el-select v-model="searchForm.cusCode"
+              :filter-method="cusCodeFilter" 
+              filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
                 value=""
                :disabled="true"
-               v-if="customerConfig.length>0" >
+               v-if="nowCustomerConfig.length>0" >
                 <span  class="codeNoStyle">企业编号</span>
                 <span  class="codeNoStyle" style="width:260px">企业名称</span>
               </el-option>
 
               <el-option
-                v-for="item in customerConfig"
-                :key="item.id"
-                :label="item.name"
-                :value="item.requestid">
-                <span class="codeNoStyle" >{{ item.code }}</span>
-                <span class="codeNoStyle" style="width:260px">{{ item.name }}</span>
+                v-for="item in nowCustomerConfig"
+                :key="item.entNumber"
+                :label="item.entName"
+                :value="item.entNumber">
+                <span class="codeNoStyle" >{{ item.entNumber }}</span>
+                <span class="codeNoStyle" style="width:260px">{{ item.entName }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -62,23 +64,22 @@
          <el-row>
         <el-col :span="6">
           <el-form-item label="订单编号" >
-             <el-select v-model="searchForm.saleorder" :clearable="true"   filterable placeholder="请选择订单编号"   @change="saleorderChange" >
+             <el-select v-model="searchForm.orderNo" 
+             :filter-method="orderNoFilter" filterable placeholder="请选择订单编号"   @change="saleorderChange" >
               <el-option 
                 value=""
                 :disabled="true" 
-                v-if="codeConfig.length>0" >
+                v-if="nowOrderNoConfig.length>0" >
                 <span  class="codeNoStyle">销售订单号</span>
                 <span  class="codeNoStyle">销售合同号</span>
-                <span  class="codeNoStyle" >物料名称</span>
               </el-option>
               <el-option
-                v-for="item in codeConfig"
+                v-for="item in nowOrderNoConfig"
                 :key="item.saleorder"
-                :label="item.saleorder"
-                :value="item.saleorder">
-                <span class="codeNoStyle">{{ item.saleorder }}</span>
-                <span class="codeNoStyle">{{ item.contractno }}</span>
-                <span class="codeNoStyle">{{ item.materialname}}</span>
+                :label="item.busiBillNo"
+                :value="item.busiBillNo">
+                <span class="codeNoStyle">{{ item.busiBillNo }}</span>
+                <span class="codeNoStyle">{{ item.contractNo }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -86,7 +87,7 @@
 
         <el-col :span="6">
           <el-form-item label="合同编号" >
-            <el-input type="text" size="small" :disabled="true"  v-model="searchForm.ContractNumber" ></el-input>
+            <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -126,7 +127,7 @@
 
          <el-col :span="6">
            <el-form-item label-width="0px">
-            <el-button type="primary" size="small" >选择签收单下商品明细</el-button> </el-form-item>
+            <el-button type="primary" size="small"  @click="shouDetails = true" >选择签收单下商品明细</el-button> </el-form-item>
          </el-col>
         </el-row>
       </el-card>
@@ -141,10 +142,6 @@
             <el-table-column type="expand" >
               <template slot-scope="props">
                 <el-form label-position="left" inline class="demo-table-expand">
-
-                  <el-form-item label="商品分类">
-                    <span>{{ props.row.skuSort }}</span>
-                  </el-form-item>
 
                    <el-form-item label="商品编码">
                     <span>{{ props.row.skuCode }}</span>
@@ -227,116 +224,44 @@
                 <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
-
           </el-table>
           </el-form-item>
         </el-row>   
       </el-form>
+
+       <el-dialog
+          title="签收明细选择"
+          :visible.sync="shouDetails"
+          width="60%"
+          :before-close="handleClose">
+            <el-row>
+               <el-col :span="6" style="min-width:300px;margin-bottom:12px">
+                  <span>签收单号 :</span>
+                  <el-select v-model="id" :clearable="true"  filterable placeholder="请选择签收单号"  @change="signNoChange" >
+                    <el-option
+                      v-for="item in signNoConfig"
+                      :key="item.id"
+                      :label="item.signNo"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+              </el-col>
+            </el-row>
+           <web-pagination-table 
+            :loading="alertLoding"
+            :config="tableConfig" 
+            :allTableData="tableData"/>
+          </el-tab-pane>
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="shouDetails = false">取 消</el-button>
+          <el-button type="primary" @click="handleSuccess">确 定</el-button>
+          </span>
+       </el-dialog>
+
     </div>
 </template>
-
-<script>
-import Sticky from '@/components/Sticky' 
-import {  InvoiceType  as invoicetype ,NatureInvoice } from '@/utils'
-import { getGys } from '@/api/planorder';
-import { createOutputInvoice } from '@/api/invoice';
-import _  from 'lodash';
-
-export default {
-  name: 'newoutputinvoice',
-  components: { Sticky},
-  data() {
-    return {
-      fetchSuccess:true,
-      loading:false,
-      searchForm:{
-        customer:'',
-        invoicetype:'',
-        lastinvoicedate:'',
-        aplaydate:'',
-        saleorder:'',
-        noticketNo:'',
-        ContractNumber:'',
-        ticket:'',
-        details:[
-         {
-           skuSort:'23323',
-         },
-         {
-           skuSort:'23323',
-         }
-        ]
-      },
-      searchRules: { 
-
-      },
-      invoicetype,
-      NatureInvoice,
-      customerConfig:[],
-      codeConfig:[],
-    }
-  },
-  mounted(){
-     getGys().then(res=>{
-       this.customerConfig=res.data
-     }).catch(err=>{
-
-     })
-  },
-
-  computed: {
-
-  },
-  
-  methods:{
-    submitForm(formName){
-        this.$refs[formName].validate((valid) => { 
-           if(valid){
-             console.log({...this.searchForm})
-           } else{
-           }
-        })
-    },
-    
-    customerChange(value){
-      let searchForm=_.cloneDeep(this.searchForm);
-      searchForm.saleorder='';
-      this.searchForm=searchForm;
-      this.createOutputInvoiceApi({customer:value})
-    },
-
-    saleorderChange(value){
-      let searchForm=_.cloneDeep(this.searchForm);
-      searchForm.ContractNumber=this.codeConfig.find(v=>v.saleorder==value)&&this.codeConfig.find(v=>v.saleorder==value).contractno;
-      this.searchForm=searchForm;
-    },
-    
-    createOutputInvoiceApi(data){
-       createOutputInvoice(data).then(res=>{
-          this.codeConfig=res.data;
-       }).catch(err=>{
-
-       })
-    },
-
-    goeditrow(index) {
-      let searchForm=_.cloneDeep(this.searchForm);
-      searchForm.details[index].edit = !searchForm.details[index].edit
-      this.searchForm=searchForm;
-    },
-
-     handleDelete(index, row) {
-        let searchForm=_.cloneDeep(this.searchForm);
-        searchForm.details.splice(index, 1)
-        this.searchForm=searchForm;
-    },
-  }
-
-}
-</script>
-
+<script src="./newoutputinvoice.js"></script>
 <style rel="stylesheet/scss" lang="scss" scoped>
-
   .codeNoStyle{
     float: left; 
     color: #8492a6; 
@@ -346,7 +271,6 @@ export default {
       float: right;
     }
   }
-
   .demo-table-expand {
     font-size: 0;
   }
@@ -359,7 +283,4 @@ export default {
     margin-bottom: 0;
     width: 25%;
   }
-
-
-
 </style>

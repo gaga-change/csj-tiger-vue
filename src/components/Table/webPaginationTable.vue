@@ -7,18 +7,19 @@
         :data="tableData"
          size="small"
         :border="border"
+        @selection-change="handleSelectionChange"
         :style="tableStyle">
 
         <el-table-column
           v-for="item in tableConfig"
           :formatter="item.formatter"
           :key="item.lable"
+          :type="item.columnType"
           :fixed="item.fixed"
           :width="item.width"
           :prop="item.prop"
           :label="item.label">
         </el-table-column>
-
       </el-table>
 
       <el-pagination
@@ -33,7 +34,6 @@
         v-if="total>maxTotal"
         :total="total">
       </el-pagination>
-
   </div>
 </template>
 
@@ -156,6 +156,10 @@ export default {
      
      handleCurrentChange(val){
        this.currentPage=val
+     },
+
+     handleSelectionChange(val){
+       this.$emit('SelectionChange', val); 
      }
   }
 }
