@@ -21,7 +21,7 @@
         </span>
         <span class="card-text" v-else>
           {{
-             formatter(item.type,cardData[item.prop],item.useApi)
+             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter)
           }}
         </span>
 
@@ -63,10 +63,12 @@ export default {
   },
 
     methods:{
-      formatter(type,value,useApi){
+      formatter(type,value,useApi,userFormatter){
         if(value!=undefined){
           if(useApi){
             return this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
+          }else if(typeof userFormatter=='function'){
+              return userFormatter(value)
           }  else{
             switch(type){
               case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
