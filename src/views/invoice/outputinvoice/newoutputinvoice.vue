@@ -222,7 +222,6 @@ export default {
     width:150px;
     &:last-child{
       float: right;
-    }
-    
+    } 
   }
 </style>

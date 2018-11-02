@@ -129,10 +129,73 @@ export default [
   {
     path: '/invoice/outputinvoice',
     component: Layout,
-    redirect: '/invoice/outputinvoice/newoutputinvoice',
+    redirect: '/invoice/outputinvoice/invoiceapply',
     name: 'outputinvoiceDelivery',
     meta: { title: '销项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
+      {
+        path: 'invoiceapply',
+        component: _import('invoice/outputinvoice/invoiceapply/index'),
+        name: 'invoiceapply',
+        meta: {
+          title: '发票申请',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceapply/detail',
+        component: _import('invoice/outputinvoice/invoiceapply/detail'),
+        name: 'invoiceapplydetail',
+        meta: {
+          title: '发票申请详情',
+          hidden: true,
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceapply/billing',
+        component: _import('invoice/outputinvoice/invoiceapply/billing'),
+        name: 'invoiceapplybilling',
+        hidden: true,
+        meta: {
+          title: '财务开票',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceregistration',
+        component: _import('invoice/outputinvoice/invoiceregistration/index'),
+        name: 'invoiceregistration',
+        meta: {
+          title: '发票登记',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceregistration/detail',
+        component: _import('invoice/outputinvoice/invoiceregistration/detail'),
+        name: 'invoiceregistrationdetail',
+        hidden: true,
+        meta: {
+          title: '发票登记详情',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceinvalid',
+        component: _import('invoice/outputinvoice/invoiceinvalid/index'),
+        name: 'invoiceinvalid',
+        meta: {
+          title: '发票作废',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
       {
         path: 'newoutputinvoice',
         component: _import('invoice/outputinvoice/newoutputinvoice'),
