@@ -36,8 +36,31 @@ export function getSigningDetail(data={}) {
 }
 
 
+//查看税务编码
+export function infoTaxno(data={}) {
+  return request({
+    url: `/webApi/base/info/taxno?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+//新建发票申请接口
+export function saveFinaSaleInvoice(data) {
+  return request({
+    url: '/webApi/sale/invoice/saveFinaSaleInvoice',
+    method: 'post',
+    data: data
+  })
+}
 
 
+//查询蓝字发票接口
+export function billingTypeDetails(data) {
+  return request({
+    url: `/webApi/sale/invoice/billingTypeDetails?${stringify(data)}`,
+    method: 'get',
+  })
+}
 
 
 

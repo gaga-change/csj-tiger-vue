@@ -2,7 +2,9 @@
 <div class="app-container">
   <sticky :className="'sub-navbar published'" style="margin-bottom: 8px">
     <template v-if="fetchSuccess">
-      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" @click="submitForm('searchForm')" >提交
+       <el-button v-loading="loading" style="margin-left: 10px;" size="small"  @click="submitForm('searchForm','save')">保存
+      </el-button>
+      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" @click="submitForm('searchForm','submit')" >提交
       </el-button>
     </template>
     <template v-else>
@@ -12,10 +14,11 @@
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
       <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-row>
-        <el-col :span="6">
-          <el-form-item label="客户名称">
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label="客户名称"  prop="cusName">
             <el-select v-model="searchForm.cusCode"
               :filter-method="cusCodeFilter" 
+              clearable
               filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
                 value=""
@@ -37,35 +40,40 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
-            <el-form-item label-width="70px" label="发票种类:" class="postInfo-container-item" >
-              <el-select v-model="searchForm.invoicetype"  :clearable="true" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票种类" prefix-icon="el-icon-search">
-                <el-option v-for="item in invoicetype" :key="item.value" :label="item.name" :value="item.value">
+        <el-col :span="6" style="margin-bottom:16px;">
+            <el-form-item label-width="80px" label="发票种类:"  prop="invoiceType"  class="postInfo-container-item" >
+              <el-select v-model="searchForm.invoiceType"  :clearable="true" 
+              size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
+                <el-option v-for="item in InvoiceType" :key="item.value" :label="item.name" :value="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
         </el-col>
 
-        <el-col :span="6">
-          <el-form-item label-width="90px" label="最迟开票日期:"  class="postInfo-container-item"   >
-            <el-date-picker size="small" v-model="searchForm.lastinvoicedate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label-width="100px" label="最迟开票日期:"  prop="applyLastAllowTime"   class="postInfo-container-item"   >
+            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime"  placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
-          <el-form-item label-width="70px" label="申请日期:" class="postInfo-container-item" >
-            <el-date-picker size="small" v-model="searchForm.aplaydate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label-width="80px" label="申请日期:" prop="applyTime"   class="postInfo-container-item" >
+            <el-date-picker size="small" v-model="searchForm.applyTime"  placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
          </el-row>
          <el-row>
-        <el-col :span="6">
-          <el-form-item label="订单编号" >
+
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label="订单编号"  prop="orderNo" >
              <el-select v-model="searchForm.orderNo" 
-             :filter-method="orderNoFilter" filterable placeholder="请选择订单编号"   @change="saleorderChange" >
+              clearable
+              :filter-method="orderNoFilter" 
+              filterable placeholder="请选择订单编号" 
+              @focus="isHasCusName"
+              @change="saleorderChange" >
               <el-option 
                 value=""
                 :disabled="true" 
@@ -85,36 +93,44 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
-          <el-form-item label="合同编号" >
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label="合同编号"  prop="contractNo" >
             <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
-          <el-form-item label="含税发票金额" label-width="90px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="searchForm.ticketNo" ></el-input>
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label="含税发票金额"    label-width="90px" >
+            <el-input type="text" size="small"  :disabled="true" v-model="Number(searchForm.allTaxAmount).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
-          <el-form-item label="不含税发票金额" label-width="100px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="searchForm.noticketNo" ></el-input>
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label="不含税发票金额"   label-width="100px" >
+            <el-input type="text" size="small"  :disabled="true" 
+            v-model="Number(searchForm.allNotTaxAmount).toFixed(2)"></el-input>
           </el-form-item>
         </el-col>
+        
       </el-row>
-
-      <el-row>
-        <el-col :span="6">
+        <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="税额" label-width="70px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="searchForm.ticket" ></el-input>
+            <el-input type="text" size="small"   :disabled="true" v-model="Number(searchForm.allActualTicketTax).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
-          <el-col :span="6">
-            <el-form-item label-width="70px" label="发票性质:" class="postInfo-container-item" prop="invoicetype">
-              <el-select v-model="searchForm.invoicetype" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票种类" prefix-icon="el-icon-search">
+          <el-col :span="6" style="margin-bottom:16px;">
+            <el-form-item 
+            prop="invoiceNature"
+             label-width="80px" 
+             label="发票性质:"
+             class="postInfo-container-item"  >
+              <el-select 
+              v-model="searchForm.invoiceNature" 
+              size="small" 
+              style='min-width:220px;' 
+              placeholder="请选择发票种类"
+               prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in NatureInvoice"
                   :key="item.value"
@@ -125,19 +141,35 @@
             </el-form-item>
          </el-col>
 
-         <el-col :span="6">
-           <el-form-item label-width="0px">
-            <el-button type="primary" size="small"  @click="shouDetails = true" >选择签收单下商品明细</el-button> </el-form-item>
-         </el-col>
-        </el-row>
+          <el-col :span="6" style="margin-bottom:16px;"  v-if="searchForm.invoiceNature=='CREDIT_NOTE'">
+            <el-form-item label="原蓝字发票票号"  label-width="100px" >
+                  <el-select 
+                  v-model="searchForm.oldInvoiceCode" 
+                  :clearable="true" 
+                   @change="oldInvoiceCodeChange"
+                  size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
+                    <el-option
+                     v-for="item in outBusiBillNoConfig" 
+                     :key="item.id" 
+                     :label="item.invoiceCode" 
+                     :value="item.invoiceCode">
+                    </el-option>
+                  </el-select>
+            </el-form-item>
+          </el-col>
       </el-card>
-
        <el-row >
-          <item-title text="签收单下商品明细"/>
+          <div style="display:flex;align-items:center;">
+             <item-title text="签收单下商品明细"/>
+             <el-form-item label-width="0px" >
+             <el-button type="primary" size="mini"  @click="isShouDetails" >选择签收单下商品明细</el-button> </el-form-item>
+           </div> 
           <el-table
-            :show-header="false"
-            :data="searchForm.details"
-            :default-expand-all="true"
+             size="small"
+             :border="true"
+             :row-key="rowKey"
+             :expand-row-keys="expandRowKeysArr"
+             :data="searchForm.productBreakdown"
              style="width: 100%">
             <el-table-column type="expand" >
               <template slot-scope="props">
@@ -148,7 +180,7 @@
                   </el-form-item>
 
                    <el-form-item label="商品名称">
-                    <el-input
+                    <el-input 
                       v-if="props.row.edit"
                       size="mini"
                       v-model="props.row.skuName" >
@@ -156,14 +188,30 @@
                     <span v-else>{{ props.row.skuName }}</span>
                   </el-form-item>
 
-                  <el-form-item label="税务编码">
-                    <el-input
+                  <el-form-item label="税务编码" >
+                    <el-input 
                       v-if="props.row.edit"
                       size="mini"
-                      v-model="props.row.code" >
+                      v-model="props.row.taxCode" >
                     </el-input>
-                    <span v-else>{{ props.row.code }}</span>
+                    <span v-else>{{ props.row.taxCode }}</span>
                   </el-form-item>
+
+                   <!-- <el-form-item label="税务编码">
+                    <el-select v-model="props.row.taxCode"
+                     @focus="taxCodeSelect(props.row.skuName,props.row.taxCode)"
+                     size="small" style='min-width:220px;'
+                     placeholder="请选择税务编码" 
+                     prefix-icon="el-icon-search">
+                      <el-option
+                        v-for="item in taxCodeConfig[props.row.taxCode]||[]"
+                        :key="item.taxCode"
+                        :label="item.taxCode"
+                        :value="item.taxCode">
+                      </el-option>
+                    </el-select>
+                  </el-form-item> -->
+
 
                   <el-form-item label="规格型号">
                     <el-input
@@ -183,29 +231,33 @@
                     <span v-else>{{ props.row.skuUnitName }}</span>
                   </el-form-item>
 
-                  <el-form-item label="签收数量">
-                    <span>{{ props.row.signQty }}</span>
+                   <el-form-item label="本次开票数量">
+                    <span>{{ props.row.invoicedQty }}</span>
                   </el-form-item>
 
-                   <el-form-item label="单价">
-                    <span>{{ props.row.skuPrice }}</span>
+                   <el-form-item label="签收数量">
+                    <span>{{ props.row.invoicedQty }}</span>
+                  </el-form-item>
+
+                  <el-form-item label="单价">
+                    <span > {{ Number(props.row.skuPrice).toFixed(2) }} </span>
                   </el-form-item>
 
                   <el-form-item label="税率">
-                    <span>{{ props.row.shuilv }}</span>
+                    <span>{{ Number(props.row.taxRate).toFixed(2) }}</span>
                   </el-form-item>
 
                   <el-form-item label="含税金额">
-                    <span>{{ props.row.hshuie }}</span>
+                    <span>{{ Number(props.row.taxAmount).toFixed(2) }}</span>
                   </el-form-item>
 
                   <el-form-item label="税额">
                     <el-input
                       v-if="props.row.edit"
                       size="mini"
-                      v-model="props.row.shuie" >
+                      v-model="props.row.actualTicketTax" >
                     </el-input>
-                    <span v-else>{{ props.row.shuie }}</span>
+                    <span v-else> {{ Number(props.row.actualTicketTax).toFixed(2) }} </span>
                   </el-form-item>
 
                 </el-form>
@@ -216,11 +268,43 @@
               type="index">
             </el-table-column>
 
+             <el-table-column
+              label="商品编码"
+              prop="skuCode">
+            </el-table-column>
+
+            <el-table-column
+              label="商品名称"
+              prop="skuName">
+            </el-table-column>
+
+            <el-table-column
+              label="规格型号"
+              prop="skuFormat">
+            </el-table-column>
+
+              <el-table-column
+              label="签收数量"
+              prop="invoicedQty">
+            </el-table-column>
+
+            <el-table-column
+              label="单价"
+              prop="skuPrice">
+            </el-table-column>
+
+             <el-table-column
+              label="单位"
+              prop="skuUnitName">
+            </el-table-column>
+
+
+
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index)" size="mini" >确定</el-button>
-                <el-button v-else @click="goeditrow(scope.$index)" size="mini" >编辑</el-button>
+                <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index,scope.row)" size="mini" >确定</el-button>
+                <el-button v-else @click="goeditrow(scope.$index,scope.row)" size="mini" >编辑</el-button>
                 <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
@@ -236,7 +320,7 @@
           :before-close="handleClose">
             <el-row>
                <el-col :span="6" style="min-width:300px;margin-bottom:12px">
-                  <span>签收单号 :</span>
+                  <span style="font-size:12px;color:#606266">签收单号 :</span>
                   <el-select v-model="id" :clearable="true"  filterable placeholder="请选择签收单号"  @change="signNoChange" >
                     <el-option
                       v-for="item in signNoConfig"
@@ -248,6 +332,7 @@
               </el-col>
             </el-row>
            <web-pagination-table 
+           @SelectionChange="handleSelectionChange"
             :loading="alertLoding"
             :config="tableConfig" 
             :allTableData="tableData"/>
