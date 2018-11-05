@@ -105,22 +105,26 @@ import _ from 'lodash'
         default:()=> [] 
       },
     },
-
+    watch:{
+      cardData(){
+        let {invoiceCode} = this.cardData
+        this.searchForm = {invoiceCode, invoiceDate:this.cardData.ticketTime, remark:this.cardData.ticketRemark}
+      }
+    },
 
     created(){
      
       this.getBillingData()
       // this.configInit()
     },
-    beforeUpdate(){       
-      // this.configInit()  
-      this.getBillingData()
-    },
+    // beforeUpdate(){       
+    //   // this.configInit()  
+    //   this.getBillingData()
+    // },
     methods:{
       getBillingData(){
         let {invoiceCode} = this.cardData
         this.searchForm = {invoiceCode, invoiceDate:this.cardData.ticketTime, remark:this.cardData.ticketRemark}
-        
       }
     }
  }

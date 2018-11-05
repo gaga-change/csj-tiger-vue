@@ -5,7 +5,8 @@
         <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
             @click="linkToInvoice()">复制 
         </el-button>
-        <el-button  style="margin-left: 10px;" size="small" v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+        <el-button  style="margin-left: 10px;" size="small" 
+        v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
             @click="submitBilling" >提交
             <!-- :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')" -->
         </el-button>
