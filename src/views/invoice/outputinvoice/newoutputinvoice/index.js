@@ -92,6 +92,7 @@ export default {
     let { from,id }=this.$route.query||{};
     if(from){
       getSalesInvoiceDetails({id}).then(res=>{
+        console.log('res.data',res.data)
         if(res.success){
           let data=_.cloneDeep(this.searchForm);
           if(res.data&&res.data.cusCode){
@@ -139,7 +140,6 @@ export default {
             return json;
           })
           this.searchForm=data;
-          console.log({...this.searchForm})
         }
       }).catch(err=>{
          console.log(err)
@@ -261,25 +261,21 @@ export default {
                  return json;
               });
               
-              let  invoiceStatus,ticketStatus;
-              if(!from){
-                 invoiceStatus=data.oldInvoiceId!==''?1:0;
-                 ticketStatus=type=="save"?'SAVING':'SUBMIT_FOR_REVIEW';
-              } else{
-                 invoiceStatus=data.invoiceStatus;
-                 ticketStatus=data.ticketStatus;
-                 data.id=id;
-              }
-             
-              if(invoiceStatus){
+              let invoiceStatus=0;
+              let ticketStatus=type=="save"?'SAVING':'SUBMIT_FOR_REVIEW';
+              data.id=id;
+              if(data.invoiceNature==='CREDIT_NOTE'){
                  if(!this.searchForm.oldInvoiceCode){
                    this.$message.error('红字发票不能为空');
                    return 
                  }
+                 invoiceStatus=1;
               }
 
+              console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
               const view = this.visitedViews.filter(v => v.path === this.$route.path)  
               saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus}).then(res=>{
+              
                 if(res.success){
                   this.$confirm('操作成功！', '提示', {
                     confirmButtonText: '详情',

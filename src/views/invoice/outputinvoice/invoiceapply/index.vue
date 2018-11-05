@@ -2,9 +2,8 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-
-       <el-button  style="margin-left: 10px;" type="success" size="small"
-            @click="linkToInvoice()" :disabled="!$haspermission('salseinvoicecreate')">新建发票申请</el-button>
+    <el-button  style="margin-left: 10px;" type="success" size="small"
+        @click="linkToInvoice()" :disabled="!$haspermission('salseinvoicecreate')">新建发票申请</el-button>
   </sticky>
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
@@ -94,7 +93,7 @@
       linkToInvoice(){
         if(this.$haspermission('salseinvoicecreate')){
           this.$router.push({
-            path:'/invoice/outputinvoice/newoutputinvoice/index',
+            path:'/invoice/outputinvoice/newoutputinvoice',
           })
         }else{
           this.$message({type:'info',message:'您无法新建发票，请联系管理员',duration:2000})

@@ -1,17 +1,17 @@
 import { NatureInvoice, InvoiceStatus, TicketStatus, InvoiceType} from '@/utils/enum'
 import Moment  from 'moment'
 export const indexTableConfigApply=[//申请列表
-  { label:'开票申请单号',prop:'applyCode',fixed:true, width:120 ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
-  { label:'客户名称',prop:'cusName', width:120 },
-  { label:'计划开票金额',prop:'realInvoiceAmt',type:'money', width:120},
-  { label:'计划开票数量',prop:'numberOfInvoices', width:120},
-  { label:'发票类型',prop:'invoiceType', width:120, dom: (row, column, cellValue, index)=>{
+  { label:'开票申请单号',prop:'applyCode',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+  { label:'客户名称',prop:'cusName' },
+  { label:'计划开票金额',prop:'realInvoiceAmt',type:'money', },
+  { label:'计划开票数量',prop:'numberOfInvoices', },
+  { label:'发票类型',prop:'invoiceType', dom: (row, column, cellValue, index)=>{
       let type = ''
       InvoiceType.map(item => {if(item.value == cellValue){type = item.name}})
       return type
     }
   },
-  { label:'发票性质',prop:'invoiceNature', width:120, dom: (row, column, cellValue, index)=>{
+  { label:'发票性质',prop:'invoiceNature', dom: (row, column, cellValue, index)=>{
       let nature = ''
       NatureInvoice.map(item => {if(item.value == cellValue){nature = item.name}})
       return nature
@@ -23,14 +23,14 @@ export const indexTableConfigApply=[//申请列表
   //     return status
   //   }
   // },
-  { label:'单据状态',prop:'ticketStatus', width:120, dom: (row, column, cellValue, index)=>{
+  { label:'单据状态',prop:'ticketStatus',  dom: (row, column, cellValue, index)=>{
       let status = ''
       TicketStatus.map(item => {if(item.value == cellValue){status = item.name}})
       return status
     }
   },
   { label:'申请人',prop:'issuer', width:90},
-  { label:'操作',fixed:'right',userLink:true},
+  { label:'操作',width:150,fixed:'right',userLink:true},
 ]
 export const indexTableConfigRegistration=[//登记列表
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceregistration/detail',query:[{key:'id',value:'id'}] },
