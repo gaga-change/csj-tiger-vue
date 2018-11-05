@@ -3,12 +3,8 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
 
-       <!-- <el-button  style="margin-left: 10px;" type="success" size="small"
-            @click="linkToInvoice()" :disabled="!$haspermission('salseinvoicecreate')">新建发票申请</el-button> -->
-
-             <el-button  style="margin-left: 10px;" type="success" size="small"
-            @click="linkToInvoice()" >新建发票申请</el-button>
-
+       <el-button  style="margin-left: 10px;" type="success" size="small"
+            @click="linkToInvoice()" :disabled="!$haspermission('salseinvoicecreate')">新建发票申请</el-button>
   </sticky>
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
@@ -83,11 +79,11 @@
        formatter(type,value){
             switch(type){
               case 'operate' :return  (row, column, cellValue, index)=>{
-                let id = this.$route.id
+                let id = row.id
                 let status = Number(row.ticketStatus)
                 switch(status){
                     case 0: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/newoutputinvoice`,query:{id:id,from:'rebuild'}}} style={{color:'#3399ea'}}>提交</router-link></div>
-                    case 1: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/inputinvoice/inputinvoicedetail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
+                    case 1: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
                     default: return <router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
                 }
               };
@@ -96,11 +92,9 @@
          
        },
       linkToInvoice(){
-        // if(this.$haspermission('createInvoice')){
-        if(true){
-          this.$router.replace({
-            path:'/invoice/outputinvoice/newoutputinvoice',
-            query:{data:JSON.stringify(this.ruleForm)}
+        if(this.$haspermission('salseinvoicecreate')){
+          this.$router.push({
+            path:'/invoice/outputinvoice/newoutputinvoice/index',
           })
         }else{
           this.$message({type:'info',message:'您无法新建发票，请联系管理员',duration:2000})

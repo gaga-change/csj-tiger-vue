@@ -30,6 +30,8 @@
     import { mapGetters } from 'vuex'
     import { indexTableConfigRegistration } from '../components/tableConfig';
     import SearchInvoice from '../components/search'
+    
+
     export default {
       components: { BaseTable, SearchInvoice},
       data() {
@@ -39,7 +41,7 @@
         rules: {},
         loading:false,
         tableData: [],
-        tableConfig:indexTableConfigRegistration,
+        tableConfig:[],
       }
     },
 
@@ -49,7 +51,14 @@
          console.log(this.ruleForm,'rule');
          
        }
-
+      let tableConfig = []
+      indexTableConfigRegistration.map(item=>{
+        if(item.userLink){
+          item.dom = this.formatter('operate');
+        }
+        tableConfig.push(item)
+      })
+      this.tableConfig = tableConfig;
       this.getCurrentTableData();
      
     },
@@ -60,7 +69,17 @@
     ])},
 
     methods: {
-      
+      formatter(type,value){
+        switch(type){
+          case 'operate' :return  (row, column, cellValue, index)=>{
+           let id = row.id
+            return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+                
+         };
+         default:return value
+        }
+         
+       },
        submitForm(ruleForm) {
                   
         this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'register'}

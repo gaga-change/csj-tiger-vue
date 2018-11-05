@@ -48,7 +48,7 @@
               <el-select v-model="searchForm.ticketNatureEnum" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票性质" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in NatureInvoice"
+                  v-for="item in NatureInvoiceEnum"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value">
@@ -61,7 +61,7 @@
       <el-row :gutter="10">  
         <el-col :span="6">
           <el-form-item label="订单编号" >
-             <el-select v-model="searchForm.outBusiBillNo" :clearable="true"   filterable placeholder="请选择订单编号"   @change="saleorderChange" >
+             <el-select v-model="searchForm.outBusiBillNo" :clearable="true"   filterable placeholder="请选择订单编号"   @change="saleorderChange" @focus="checkCustom" >
               <el-option 
                 value=""
                 :disabled="true" 
@@ -94,7 +94,7 @@
         </el-col>
         <el-col :span="6" v-if="searchForm.searchItem!='invalid'">
             <el-form-item label-width="70px" label="发票状态:" class="postInfo-container-item" prop="invoicetype">
-              <el-select v-model="searchForm.ticketStatusEnum" 
+              <el-select v-model="searchForm.invoiceStatus" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in InvoiceStatus"
@@ -105,9 +105,24 @@
               </el-select>
             </el-form-item>
         </el-col>
-        <!-- <el-col :span="6">
+        <el-col :span="6">
           <el-form-item label="单据状态">
             <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择单据状态">
+              <el-option
+                v-for="item in TicketStatus"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <template v-if="searchForm.searchItem=='register'">
+        <el-row :gutter="10">
+         <!-- <el-col :span="6">
+          <el-form-item label="业务板块">
+            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择业务板块">
               <el-option
                 v-for="item in statusConfig"
                 :key="item.key"
@@ -117,7 +132,33 @@
             </el-select>
           </el-form-item>
         </el-col> -->
-      </el-row>
+         <el-col :span="9">
+            <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
+              <el-date-picker size="small" v-model="searchForm.invoiceApplicationTimeRange" 
+               format="yyyy-MM-dd" 
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label-width="120px" label="发票开具日期:"  class="postInfo-container-item">
+              <el-date-picker size="small" v-model="searchForm.invoiceIssueTimeRange" 
+               format="yyyy-MM-dd" 
+               default-value="new Date('201-01-01')"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </template>
       <el-row :gutter="10">
         <el-col :span="6">
             <el-form-item label-width="0">
@@ -132,7 +173,7 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { NatureInvoice, InvoiceStatus, InvoiceType  as invoicetype } from '@/utils/enum'
+import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype } from '@/utils/enum'
 import { getGys } from '@/api/planorder';
 import { createOutputInvoice } from '@/api/invoice';
 import _  from 'lodash';
@@ -147,6 +188,8 @@ export default {
       invoicetype,
       InvoiceStatus,
       NatureInvoice,
+      NatureInvoiceEnum,
+      TicketStatus,
       customerConfig:[],
       codeConfig:[],
     }
@@ -173,14 +216,14 @@ export default {
         type: String,
         default: ''
       },
-      ticketStatusEnum:{//单据状态.发票状态
+      ticketStatusEnum:{//发票状态.发票状态
         type: String,
         default: ''
       },
-      // statusInvoice:{//发票状态
-      //   type: String,
-      //   default: ''
-      // },
+      invoiceStatus:{//单据状态
+        type: String,
+        default: ''
+      },
       invoiceCode:{//发票号码
         type: String,
         default: ''
@@ -198,8 +241,6 @@ export default {
   created(){
     
     this.searchForm = _.cloneDeep(this.searchForms)
-    console.log(this.searchForms,this.searchForm,'123333dd');
-
      getGys().then(res=>{
        this.customerConfig=res.data
      }).catch(err=>{
@@ -216,7 +257,11 @@ export default {
     customerChange(value){
       this.createOutputInvoiceApi({customer:value})
     },
-
+    checkCustom(e){    
+      if(!this.searchForm.cusName){
+        this.$message({type:'error',message:'请先选择客户',duration:2000})
+      }
+    },
     saleorderChange(value){//订单编号
       let searchForm=_.cloneDeep(this.searchForm);
       searchForm.ContractNumber=this.codeConfig.find(v=>v.saleorder==value)&&this.codeConfig.find(v=>v.saleorder==value).contractno;//合同编号
@@ -231,6 +276,14 @@ export default {
        })
     },
     submitIt(){//查询
+      if(this.searchForm.invoiceApplicationTimeRange&&this.searchForm.invoiceApplicationTimeRange[0]){
+        this.searchForm.invoiceApplicationTime = +(new Date(this.searchForm.invoiceApplicationTimeRange[0]))
+        this.searchForm.invoiceApplicationTimeEnd = +(new Date(this.searchForm.invoiceApplicationTimeRange[1]))
+      }
+      if(this.searchForm. invoiceIssueTimeRange&&this.searchForm.invoiceIssueTimeRange[0]){
+        this.searchForm. invoiceIssueTime = +(new Date(this.searchForm.invoiceIssueTimeRange[0]))
+        this.searchForm. invoiceIssueTimeEnd = +(new Date(this.searchForm.invoiceIssueTimeRange[1]))
+      }
       this.$emit('searchTrigger',this.searchForm)
     },
     resetForm(){//重置

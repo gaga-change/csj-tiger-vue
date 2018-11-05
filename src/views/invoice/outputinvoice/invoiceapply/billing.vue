@@ -2,10 +2,10 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-        <el-button  style="margin-left: 10px;" size="small" v-if="cardData.invoiceNature==1" :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+        <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
             @click="linkToInvoice()">复制 
         </el-button>
-        <el-button  style="margin-left: 10px;" size="small" v-if="cardData.ticketStatus==2" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+        <el-button  style="margin-left: 10px;" size="small" v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
             @click="submitBilling" >提交
             <!-- :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')" -->
         </el-button>
@@ -68,39 +68,44 @@
 
     methods: {
       submitBilling(){
-        let {contractNo, applyLastAllowTime,notice} = this.$refs.billings.searchForm
-        let params = {contractNo, applyLastAllowTime,notice,id:this.$route.query.id}
-        if(!contractNo){
+        let {invoiceDate, invoiceCode, remark} = this.$refs.billings.searchForm
+        if(!invoiceCode){
           this.$message({type:'error',message:'请填写发票号'})
           return false
         }
-        if(!applyLastAllowTime){
+        if(!invoiceDate){
           
           this.$message({type:'error',message:'请选择发票日期'})
           return false
         }
-        applyLastAllowTime= +(new Date(applyLastAllowTime))
+        invoiceDate= +(new Date(invoiceDate))
+        let params = {invoiceDate, invoiceCode, remark,id:this.$route.query.id}
+        let msg = '财务开票'
+        if(this.cardData.ticketStatus == 2){
+          msg = '财务开票'
+        }else if(this.cardData.ticketStatus == 3){
+          msg = '修改财务开票'
+        }
         getSalesInvoiceFinancialBilling(params).then(res=>{
-          this.$message({type:'success',message:'财务开票成功'})
+          
+          this.$message({type:'success',message:msg + '成功'})
           this.needfresh()
         }).catch(err=> {
-          this.$message({type:'error',message:'财务开票失败，请重试'})
+          this.$message({type:'error',message:msg + '失败，请重试'})
           console.log(err);
         })
       },
       Modify,
       needfresh() {
-        console.log(63336);
-        this.buttonDisabled = false
-        this.getDetail()
+        this.getCurrentTableData()
       },
       linkToInvoice(){
-        this.$confirm('去新建发票页修改', '提示', {
+        this.$confirm('去新建发票页创建', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         }).then(({ value }) => {
           this.$router.push({
-            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from="copy"`,
+            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy`,
           })
         }).catch(err => {
           this.$message({
@@ -126,9 +131,11 @@
           this.detailConfig.name = 'apply'
        }
         this.loading=false;
+        this.buttonDisabled = false
 
      }).catch(err=>{
          this.loading=false;
+         this.buttonDisabled = false
      })
       }
     }

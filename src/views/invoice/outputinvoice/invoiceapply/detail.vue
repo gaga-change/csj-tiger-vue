@@ -3,19 +3,19 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template>  
-       <el-button  style="margin-left: 10px;" size="small" v-if="cardData.invoiceNature==1" 
+        <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
             @click="linkToInvoice()">复制 
         </el-button>
         <template v-if="cardData.ticketStatus == 1">
           <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheck')"
-              @click="()=>{this.buttonDisabled=true;Modify(2, 'inputInvoice',needfresh)}" >审核
+              @click="()=>{this.buttonDisabled=true;Modify(2)}" >审核
               <!-- :disabled="buttonDisabled||!$haspermission('invoiceCheck')" -->
           </el-button>
           <el-button  style="margin-left: 10px;" type="warning" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicereject')"
-              @click="()=>{this.buttonDisabled=true;Modify(0, 'inputInvoice',needfresh)}">驳回
+              @click="()=>{this.buttonDisabled=true;Modify(0)}">驳回
           </el-button>
         </template>
-        <template v-if="cardData.ticketStatus == 2">
+        <template v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3">
            <a :href="printUrl('supply_invoice_export', cardData.contractNo)" target="_blank">
             <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
@@ -42,6 +42,7 @@
     import Sticky from '@/components/Sticky' // 粘性header组件
     import { detailtableConfig, applyinfoConfig, detailinfoConfig, recordConfig} from '../components/tableConfig';
     import InvoiceDetail from '../components/detail'
+    import Modify from '../components/modify'
 
 
     const name = "apply"
@@ -86,62 +87,11 @@
 
     methods: {
       printUrl,
-      Modify(type, name) {
-        // 0 驳回
-        if (type === 0) {
-          this.$confirm('是否确定驳回', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消'
-          }).then(({ value }) => {
-            getSalesInvoiceBillingReview({
-              id: this.$route.query.id,
-              ticketStatusEnum: type,
-            }).then(res => {
-              this.$message({
-                type: 'success',
-                message: '驳回成功!'
-              })
-              this.needfresh()
-            }).catch(err => {
-              this.$message({
-                type: 'warn',
-                message: '驳回失败!'
-              })
-            })
-          }).catch(()=>{
-             this.$message({
-                type: 'info',
-                message: '驳回取消'
-              })
-          })
-        } else if (type === 2) {
-          this.$confirm('是否确定审核通过?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            getSalesInvoiceBillingReview({
-              id: this.$route.query.id,
-              ticketStatusEnum: type,
-            }).then(res => {
-              this.$message({
-                type: 'success',
-                message: '审核成功!'
-              })
-              this.needfresh()
-            }).catch(err => {
-              console.log(err)
-              this.$message({
-                type: 'error',
-                message: '审核失败'
-              })
-            })
-          }).catch(()=>{})
-        }
-      },
+      Modify,
       needfresh() {
         this.buttonDisabled = false
-        this.getDetail()
+        
+        this.getCurrentTableData()
       },
       goToBilling(){
           this.$router.push({
@@ -149,17 +99,12 @@
           })
       },
       linkToInvoice(){
-        this.$confirm('去新建发票页修改', '提示', {
+        this.$confirm('去新建发票页创建', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         }).then(({ value }) => {
           this.$router.push({
-            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from="copy"`,
-          })
-        }).catch(err => {
-          this.$message({
-            type: 'warn',
-            message: '审核失败!'
+            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy`,
           })
         })
          

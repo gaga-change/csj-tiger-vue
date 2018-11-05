@@ -25,7 +25,7 @@
 
 
     import moment from 'moment';
-    import { outPlanSelect} from '@/api/outgoing'
+    import { getSalesInvoiceInquiry } from '@/api/invoice'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfigInvalid } from '../components/tableConfig';
@@ -40,7 +40,7 @@
         rules: {},
         loading:false,
         tableData: [],
-        tableConfig:indexTableConfigInvalid,
+        tableConfig:[],
       }
     },
 
@@ -48,7 +48,14 @@
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-
+      let tableConfig = []
+      indexTableConfigInvalid.map(item=>{
+        if(item.userLink){
+          item.dom = this.formatter('operate');
+        }
+        tableConfig.push(item)
+      })
+      this.tableConfig = tableConfig;
       this.getCurrentTableData();
      
     },
@@ -59,7 +66,17 @@
     ])},
 
     methods: {
-      
+       formatter(type,value){
+        switch(type){
+          case 'operate' :return  (row, column, cellValue, index)=>{
+           let id = row.id
+            return <router-link  to={{path:`/invoice/outputinvoice/invoiceinvalid/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+                
+         };
+         default:return value
+        }
+         
+       },
       searchTrigger(ruleForm){
         console.log(ruleForm);
       },
@@ -119,7 +136,7 @@
           }
         }
         let data={...json}
-       outPlanSelect(data).then(res=>{
+       getSalesInvoiceInquiry(data).then(res=>{
        if(res.success){
           let data=res.data;
           this.tableData=data.list||[];
