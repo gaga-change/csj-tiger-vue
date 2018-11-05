@@ -263,7 +263,10 @@ export default {
               
               let invoiceStatus=0;
               let ticketStatus=type=="save"?'SAVING':'SUBMIT_FOR_REVIEW';
-              data.id=id;
+              if(from==='rebuild'){
+                data.id=id;
+              }
+              
               if(data.invoiceNature==='CREDIT_NOTE'){
                  if(!this.searchForm.oldInvoiceCode){
                    this.$message.error('红字发票不能为空');
@@ -320,6 +323,7 @@ export default {
       searchForm.orderNo='';
       this.id='';
       this.tableData=[];
+      searchForm.productBreakdown=[];
       this.searchForm=searchForm;
       this.ordernoandcontractnoApi({entNumber:value})
     },
@@ -330,6 +334,7 @@ export default {
       }
       let searchForm=_.cloneDeep(this.searchForm);
       searchForm.contractNo=this.orderNoConfig.find(v=>v.busiBillNo==value)&&this.orderNoConfig.find(v=>v.busiBillNo==value).contractNo;
+      searchForm.productBreakdown=[];
       this.searchForm=searchForm;
       this.id='';
       this.tableData=[];

@@ -69,31 +69,31 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'操作',fixed:'right',userLink:true},
 ]
 export const indexTableConfigInvalid=[//待改
-  { label:'开票单号',prop:'invoiceNo', width:120,fixed:true,linkTo:'/invoice/outputinvoice/invoiceinvalid/detail',query:[{key:'id',value:'id'}] },
-  { label:'开票申请单号',prop:'applyCode', width:120 },
-  { label:'客户名称',prop:'cusName', width:120 },
-  { label:'开票金额',prop:'realInvoiceAmt',type:'money', width:90},
-  { label:'开票数量',prop:'numberOfInvoices', width:90},
-  { label:'发票类型',prop:'invoiceType', width:120, dom: (row, column, cellValue, index)=>{
+  { label:'开票单号',prop:'invoiceNo',fixed:true,linkTo:'/invoice/outputinvoice/invoiceinvalid/detail',query:[{key:'id',value:'id'}] },
+  { label:'开票申请单号',prop:'applyCode',},
+  { label:'客户名称',prop:'cusName',  },
+  { label:'开票金额',prop:'realInvoiceAmt',type:'money'},
+  { label:'开票数量',prop:'numberOfInvoices', },
+  { label:'发票类型',prop:'invoiceType',  dom: (row, column, cellValue, index)=>{
       let type = ''
       InvoiceType.map(item => {if(item.value == cellValue){type = item.name}})
       return type
     }
   },
-  { label:'发票性质',prop:'invoiceNature', width:80, dom: (row, column, cellValue, index)=>{
+  { label:'发票性质',prop:'invoiceNature',  dom: (row, column, cellValue, index)=>{
       let nature = ''
       NatureInvoice.map(item => {if(item.value == cellValue){nature = item.name}})
       return nature
     }
   },
-  { label:'单据状态',prop:'ticketStatus', width:120, dom: (row, column, cellValue, index)=>{
+  { label:'单据状态',prop:'ticketStatus',  dom: (row, column, cellValue, index)=>{
       let status = ''
       TicketStatus.map(item => {if(item.value == cellValue){status = item.name}})
       return status
     }
   },
-  { label:'开票人',prop:'issuer', width:90},
-  { label:'操作',fixed:'right',userLink:true},
+  { label:'开票人',prop:'issuer', },
+  { label:'操作', width:150,fixed:'right',userLink:true},
 ]
 
 //detailtableConfig,applyinfoConfig, detailinfoConfig, recordConfig
