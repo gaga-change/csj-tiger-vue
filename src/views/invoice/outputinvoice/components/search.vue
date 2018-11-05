@@ -118,6 +118,46 @@
           </el-form-item>
         </el-col> -->
       </el-row>
+      <template v-if="searchForm.searchItem=='register'">
+        <el-row :gutter="10">
+         <!-- <el-col :span="6">
+          <el-form-item label="业务板块">
+            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择业务板块">
+              <el-option
+                v-for="item in statusConfig"
+                :key="item.key"
+                :label="item.value"
+                :value="item.key">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col> -->
+         <el-col :span="9">
+            <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
+              <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" 
+              default-value="2018-01-01" format="yyyy-MM-dd" 
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label-width="120px" label="发票开具日期:"  class="postInfo-container-item">
+              <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" 
+              default-value="2018-01-01" format="yyyy-MM-dd" 
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </template>
       <el-row :gutter="10">
         <el-col :span="6">
             <el-form-item label-width="0">
