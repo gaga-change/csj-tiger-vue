@@ -1,6 +1,19 @@
 <template>
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
+    <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">  
+       <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="linkToInvoice()">复制 
+        </el-button>  
+        <template v-if="cardData.ticketStatus == 3">
+          <el-button  style="margin-left: 10px;" type="success" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+              @click="goToBilling">修改财务开票
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
+              @click="()=>{this.buttonDisabled=true;Modify(4)}" >复核
+          </el-button>
+        </template>
+  </sticky>
     <invoice-detail :applyinfoConfig="applyinfoConfigDetail" :detailinfoConfig="detailinfoConfigDetail"  :cardData="cardData"  :finaSaleInvoiceDetailDOList="finaSaleInvoiceDetailDOList" :cardConfig="cardConfig" :name="name"/>
   </div>
   
@@ -28,7 +41,7 @@
         })
 
     import InvoiceDetail from '../components/detail'
-    import Modify from '@/utils/modify'
+    import Modify from '../components/modify'
     export default {
       components: { InvoiceDetail, Sticky },
       data() {
@@ -58,18 +71,23 @@
 
     methods: {
       Modify,
+      goToBilling(){
+        this.$router.push({
+          path:`/invoice/outputinvoice/invoiceapply/billing?id=${this.$route.query.id}`,
+        })
+      },
       needfresh() {
         console.log(63336);
         this.buttonDisabled = false
-        this.getDetail()
+        this.getCurrentTableData()
       },
       linkToInvoice(){
-          this.$prompt('去新建发票页修改', '提示', {
+          this.$prompt('去新建发票页创建', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(({ value }) => {
        this.$router.push({
-            path:'/invoice/outputinvoice/newoutputinvoice',
+            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy`,
           })
      }).catch(err => {
         this.$message({

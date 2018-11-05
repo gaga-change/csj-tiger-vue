@@ -3,7 +3,7 @@
 
   <item-title text="发票申请信息"/>
   <item-card :config="applyinfoConfig" :loading="loading"   :cardData="cardData"  />
-  <template v-if="name!='billing'&&name!='apply'">
+  <template v-if="name!='billing'&&name!='apply'&&cardData.ticketStatus > 1">
     <item-title text="发票详情信息"/>
     <item-card :config="detailinfoConfig" :loading="loading"   :cardData="cardData"  />
   </template>
@@ -11,26 +11,26 @@
     <item-title text="发票详情信息"/>
     <item-card :config="detailinfoConfig" :loading="loading"   :cardData="cardData"  />
   </template>
-  <template v-else-if="cardData.ticketStatus==2">
+  <template v-else-if="name == 'billing'&&(cardData.ticketStatus == 2 || cardData.ticketStatus == 3)">
     <item-title text="财务开票"/>
      <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="searchForm" ref="searchForm" label-width="70px" label-position="left">
       <el-row :gutter="10">
         <el-col :span="6">
           <el-form-item label="发票号" >
-            <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
+            <el-input type="text" size="small" v-model="searchForm.invoiceCode" ></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="8">
           <el-form-item label-width="120px" label="发票日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+            <el-date-picker size="small" v-model="searchForm.invoiceDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="备注" >
-            <el-input type="text" size="small"  v-model="searchForm.notice" ></el-input>
+            <el-input type="text" size="small"  v-model="searchForm.remark" ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -108,15 +108,20 @@ import _ from 'lodash'
 
 
     created(){
-      console.log(this.name,this.cardData.ticketStatus,1233);
-      
+     
+      this.getBillingData()
       // this.configInit()
     },
-    updated(){       
+    beforeUpdate(){       
       // this.configInit()  
+      this.getBillingData()
     },
     methods:{
-
+      getBillingData(){
+        let {invoiceCode} = this.cardData
+        this.searchForm = {invoiceCode, invoiceDate:this.cardData.ticketTime, remark:this.cardData.ticketRemark}
+        
+      }
     }
  }
 

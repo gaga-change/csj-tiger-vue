@@ -198,6 +198,17 @@ export default [
         }
       },
       {
+        path: 'invoiceinvalid/detail',
+        component: _import('invoice/outputinvoice/invoiceinvalid/detail'),
+        name: 'invoiceinvalid',
+        hidden:true,
+        meta: {
+          title: '发票作废详情',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
         path: 'newoutputinvoice',
         component: _import('invoice/outputinvoice/newoutputinvoice/index'),
         name: 'newoutputinvoiceDelivery',

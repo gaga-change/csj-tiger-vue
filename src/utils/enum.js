@@ -26,29 +26,43 @@ export const NatureInvoiceEnum = [
   },
 ]
 
-
-
-//发票状态
-export const InvoiceStatus = [
+//单据状态
+export const TicketStatus = [
   {
     name: '保存',
     value: 0
   },
   {
-    name: '提交待审',
+    name: '待审核',
     value: 1
   },
   {
-    name: '已审待开票',
+    name: '待登记',
     value: 2
   },
   {
-    name: '已开票登记',
+    name: '待复核',
     value: 3
   },
   {
-    name: '作废',
+    name: '已复核',
     value: 4
+  },
+]
+
+//发票状态
+export const InvoiceStatus = [
+  {
+    name: '正常',
+    value: 0
+  },
+  {
+    name: '被红冲',
+    value: 1
+  },
+  {
+    name: '作废',
+    value: 2
   },
 ]
 //发票类型
