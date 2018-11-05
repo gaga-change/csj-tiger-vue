@@ -17,7 +17,8 @@
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="客户名称"  prop="cusName">
             <el-select v-model="searchForm.cusCode"
-              :filter-method="cusCodeFilter" 
+              :filter-method="cusCodeFilter"
+              @clear="cusCodeFilter" 
               clearable
               filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
@@ -42,7 +43,7 @@
 
         <el-col :span="6" style="margin-bottom:16px;">
             <el-form-item label-width="80px" label="发票种类:"  prop="invoiceType"  class="postInfo-container-item" >
-              <el-select v-model="searchForm.invoiceType"  :clearable="true" 
+              <el-select v-model="searchForm.invoiceType"    :clearable="true" 
               size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
                 <el-option v-for="item in InvoiceType" :key="item.value" :label="item.name" :value="item.value">
                 </el-option>
@@ -71,6 +72,7 @@
              <el-select v-model="searchForm.orderNo" 
               clearable
               :filter-method="orderNoFilter" 
+               @clear="orderNoFilter" 
               filterable placeholder="请选择订单编号" 
               @focus="isHasCusName"
               @change="saleorderChange" >
@@ -101,21 +103,21 @@
 
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="含税发票金额"    label-width="90px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="Number(searchForm.allTaxAmount).toFixed(2)" ></el-input>
+            <el-input type="text" size="small"  :disabled="true" v-model="Number(allTaxAmount).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="不含税发票金额"   label-width="100px" >
             <el-input type="text" size="small"  :disabled="true" 
-            v-model="Number(searchForm.allNotTaxAmount).toFixed(2)"></el-input>
+            v-model="Number(allNotTaxAmount).toFixed(2)"></el-input>
           </el-form-item>
         </el-col>
         
       </el-row>
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="税额" label-width="70px" >
-            <el-input type="text" size="small"   :disabled="true" v-model="Number(searchForm.allActualTicketTax).toFixed(2)" ></el-input>
+            <el-input type="text" size="small"   :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -132,7 +134,7 @@
               placeholder="请选择发票种类"
                prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in NatureInvoice"
+                  v-for="item in NatureInvoiceEnum"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value">
@@ -192,9 +194,9 @@
                     <el-input 
                       v-if="props.row.edit"
                       size="mini"
-                      v-model="props.row.taxCode" >
+                      v-model="props.row.taxNoByWares" >
                     </el-input>
-                    <span v-else>{{ props.row.taxCode }}</span>
+                    <span v-else>{{ props.row.taxNoByWares }}</span>
                   </el-form-item>
 
                    <!-- <el-form-item label="税务编码">
@@ -240,7 +242,12 @@
                   </el-form-item>
 
                   <el-form-item label="单价">
-                    <span > {{ Number(props.row.skuPrice).toFixed(2) }} </span>
+                     <el-input
+                      v-if="props.row.edit"
+                      size="mini"
+                      v-model="props.row.skuPrice" >
+                    </el-input>
+                    <span v-else > {{ Number(props.row.skuPrice).toFixed(2) }} </span>
                   </el-form-item>
 
                   <el-form-item label="税率">
@@ -248,7 +255,7 @@
                   </el-form-item>
 
                   <el-form-item label="含税金额">
-                    <span>{{ Number(props.row.taxAmount).toFixed(2) }}</span>
+                    <span>{{ Number(props.row.skuPrice*props.row.invoicedQty).toFixed(2) }}</span>
                   </el-form-item>
 
                   <el-form-item label="税额">
@@ -276,6 +283,11 @@
             <el-table-column
               label="商品名称"
               prop="skuName">
+            </el-table-column>
+
+            <el-table-column
+              label="税务编码"
+              prop="taxNoByWares">
             </el-table-column>
 
             <el-table-column
@@ -345,7 +357,7 @@
 
     </div>
 </template>
-<script src="./newoutputinvoice.js"></script>
+<script src="./index.js"></script>
 <style rel="stylesheet/scss" lang="scss" scoped>
   .codeNoStyle{
     float: left; 

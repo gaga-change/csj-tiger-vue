@@ -55,18 +55,18 @@ export const InvoiceStatus = [
 export const InvoiceType = [
   {
     name: '增值税专用发票',
-    value: '1'
+    value: 1
   },
   {
     name: '增值税普通发票',
-    value: '2'
+    value: 2
   },
   {
     name: '普通发票',
-    value: '3'
+    value: 3
   },
   {
     name: '无票收入',
-    value: '4'
+    value: 4
   }
 ]
