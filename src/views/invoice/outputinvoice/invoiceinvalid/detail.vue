@@ -82,7 +82,7 @@
         this.getCurrentTableData()
       },
       linkToInvoice(){
-          this.$prompt('去新建发票页创建', '提示', {
+          this.$confirm('去新建发票页创建', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(({ value }) => {
