@@ -134,8 +134,8 @@ export const applyinfoConfig=[//发票申请信息
 export const detailinfoConfig=[//发票详情信息
   { title:'发票登记号',prop:'applyCode', show:'apply', width:120 },
   { title:'发票号',prop:'invoiceCode', show:'apply+register+invalid', width:120 },
-  { title:'发票日期',prop:'cusName',type:'time', show:'register+invalid', width:120 },
-  { title:'备注',prop:'applyRemark', show:'register+invalid'},
+  { title:'发票日期',prop:'ticketTime',type:'time', show:'register+invalid', width:120 },
+  { title:'备注',prop:'ticketRemark', show:'register+invalid'},
 ]
 export const detailtableConfig=[//详情表格
   // { label:'序号',prop:'invoiceNo',},
