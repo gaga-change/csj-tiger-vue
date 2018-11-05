@@ -152,7 +152,8 @@ export default [
           hidden: true,
           icon: 'form',
           roles: ['service_finance']
-        }
+        },
+        hidden: true
       },
       {
         path: 'invoiceapply/billing',
@@ -198,68 +199,14 @@ export default [
       },
       {
         path: 'newoutputinvoice',
-        component: _import('invoice/outputinvoice/newoutputinvoice'),
+        component: _import('invoice/outputinvoice/newoutputinvoice/index'),
         name: 'newoutputinvoiceDelivery',
         meta: {
           title: '申请销项发票',
           icon: 'form',
           roles: ['service_finance']
-        }
-      },
-      {
-        path: 'outputinvoicelist',
-        component: _import('invoice/outputinvoice/outputinvoicelist'),
-        name: 'outputinvoicelistDelivery',
-        meta: {
-          title: '开票申请查询',
-          icon: 'search',
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'outputinvoiceresultlist',
-        component: _import('invoice/outputinvoice/outputinvoiceresultlist'),
-        name: 'outputinvoiceresultlistDelivery',
-        meta: {
-          title: '开票结果查询',
-          icon: 'search',
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'outputinvoicedetail/:ticketno',
-        component: _import('invoice/outputinvoice/outputinvoicedetail'),
-        hidden: true,
-        name: 'outputinvoicedetailDelivery',
-        meta: {
-          title: '销项开票申请详情',
-          icon: 'form',
-          noCache: true,
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'outputinvoiceresultdetail/:ticketno',
-        component: _import('invoice/outputinvoice/outputinvoiceresultdetail'),
-        hidden: true,
-        name: 'outputinvoiceresultdetailDelivery',
-        meta: {
-          title: '销项开票详情',
-          icon: 'form',
-          noCache: true,
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'makeoutinvoice/:ticketno',
-        component: _import('invoice/outputinvoice/makeoutinvoice'),
-        hidden: true,
-        name: 'makeoutinvoiceDelivery',
-        meta: {
-          title: '财务开票',
-          icon: 'form',
-          roles: ['service_finance']
-        }
+        },
+        hidden: true
       }
     ]
   },
