@@ -108,7 +108,7 @@
         }else{
           msg = '提交'
         }
-        this.$confirm('去新建发票页'+msg, '提示', {
+        this.$confirm('去申请销项发票页'+msg, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         }).then(({ value }) => {
