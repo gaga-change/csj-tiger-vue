@@ -2,9 +2,12 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">  
-       <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="linkToInvoice()">复制 
-        </el-button>  
+         <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="linkToInvoice(0)">复制 
+        </el-button>
+        <el-button  style="margin-left: 10px;" type="success" v-if="cardData.ticketStatus == 0" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="linkToInvoice(1)">提交 
+        </el-button>
         <template v-if="cardData.ticketStatus == 3">
           <el-button  style="margin-left: 10px;" type="success" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
               @click="goToBilling">修改财务开票
@@ -81,21 +84,21 @@
         this.buttonDisabled = false
         this.getCurrentTableData()
       },
-      linkToInvoice(){
-          this.$confirm('去新建发票页创建', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消'
-    }).then(({ value }) => {
-       this.$router.push({
-            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy`,
+      linkToInvoice(type){
+        let msg = '创建'
+        if(type=='0'){
+          msg = '创建'
+        }else{
+          msg = '提交'
+        }
+        this.$confirm('去新建发票页'+msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(({ value }) => {
+          this.$router.push({
+            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=${type?'rebuild':'copy'}`,
           })
-     }).catch(err => {
-        this.$message({
-          type: 'warn',
-          message: '审核失败!'
-        })
-      })
-         
+        }) 
       },
       getCurrentTableData(){
         this.loading=true;

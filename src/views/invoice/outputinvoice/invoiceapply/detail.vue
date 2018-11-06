@@ -4,7 +4,10 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template>  
         <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="linkToInvoice()">复制 
+            @click="linkToInvoice(0)">复制 
+        </el-button>
+        <el-button  style="margin-left: 10px;" type="success" size="small" v-if="cardData.ticketStatus == 0" :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="linkToInvoice(1)">提交 
         </el-button>
         <template v-if="cardData.ticketStatus == 1">
           <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheck')"
@@ -98,13 +101,19 @@
             path:`/invoice/outputinvoice/invoiceapply/billing?id=${this.$route.query.id}`,
           })
       },
-      linkToInvoice(){
-        this.$confirm('去新建发票页创建', '提示', {
+      linkToInvoice(type){
+        let msg = '创建'
+        if(type=='0'){
+          msg = '创建'
+        }else{
+          msg = '提交'
+        }
+        this.$confirm('去新建发票页'+msg, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         }).then(({ value }) => {
           this.$router.push({
-            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy`,
+            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=${type?'rebuild':'copy'}`,
           })
         })
          
