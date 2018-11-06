@@ -31,7 +31,7 @@ export default {
         oldInvoiceId:'',// 蓝票Id
         contractNo:'',//合同编号
 
-        
+
         allActualTicketTax:'',//总税额提交值
         allTaxAmount:'',//总含税发票金额提交值
         allNotTaxAmount:'',//总不含税发票金额提交值
@@ -59,9 +59,10 @@ export default {
       tableConfig, //明细table配置
       tableData:[],//明细数据
 
-      taxCodeConfig:{},//税务编码配置,
+      restaurants:[],//税务编码配置,
 
       expandRowKeysArr:[],//table展开的数组
+      taxNoByWaresId:'',
 
 
       searchRules: { 
@@ -171,14 +172,15 @@ export default {
 
     allActualTicketTax:{
       get: function () { 
-        let data=_.cloneDeep(this.searchForm.productBreakdown)||[];
+        let data=this.searchForm.productBreakdown||[];
+      
         if(data.length===0){
           return 0
         } else if(data.length===1){
           return data[0].actualTicketTax
         } else{
            let resData=data.reduce((a,b)=>{
-            return a.actualTicketTax+b.actualTicketTax
+            return Number(a.actualTicketTax)+Number(b.actualTicketTax)
            });
            return resData;
         }
@@ -193,7 +195,7 @@ export default {
 
     allTaxAmount:{
       get: function () { 
-        let data=_.cloneDeep(this.searchForm.productBreakdown)||[];
+        let data=this.searchForm.productBreakdown||[];
         if(data.length===0){
           return 0
         } else if(data.length===1){
@@ -254,7 +256,7 @@ export default {
               data.applyTime=moment(data.applyTime).valueOf();
               data.allActualTicketTax=this.allActualTicketTax;
               data.allTaxAmount=this.allTaxAmount;
-              data.allNotTaxAmount=this.allNotTaxAmount;
+              data.allNotTaxAmount=this.allNotTkrgnklaxAmount;
               data.productBreakdown.map(v=>{
                  let json=v;
                  json.invoicedQuantity=json.skuPrice*json.invoicedQty;
@@ -395,7 +397,7 @@ export default {
       searchForm.productBreakdown=this.details.map(v=>{
         let json=v;
         json.saleSignDetailId=v.id;
-        json.actualTicketTax=json.taxRate*(json.skuPrice+json.invoicedQty)/(1+json.taxRate)||0
+        json.actualTicketTax=(json.taxRate/100)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate/100)||0
         return json;
       });
       this.searchForm=searchForm;
@@ -467,25 +469,39 @@ export default {
 
     rowKey(row){
       return row.id
+    },
+
+    querySearchAsync(id,queryString,cb){
+      this.taxNoByWaresId=id;
+      if(!queryString){
+        cb([])
+        return 
+      }
+      infoTaxno({
+        taxCode:queryString,
+        pageSize:1000,
+        pageNum:1
+      }).then(res=>{
+        if(res.success){
+          let data=res.data.list.map(v=>{
+            return {value:v.taxCode}
+          })
+          cb(data)
+        } else{  
+          cb([])
+        }
+      }).catch(err=>{
+        console.log(err)
+        cb([])
+      })
+    },
+
+    taxNoByWaresSelect(item){
+      let id=this.taxNoByWaresId;
+      let searchForm=_.cloneDeep(this.searchForm);  
+      searchForm.productBreakdown.find(v=>v.id==id).taxNoByWares=item.value;
+      this.searchForm=searchForm;
     }
 
-   //税务编码下拉数据
-    // taxCodeSelect(skuName,taxCode){
-    //   let taxCodeConfig=_.cloneDeep(this.taxCodeConfig);
-    //   if(taxCodeConfig[taxCode]&&taxCodeConfig[taxCode].length>0){
-    //     return ''
-    //   } else{
-    //     infoTaxno({
-    //       customerPdName:skuName
-    //     }).then(res=>{
-    //       if(res.success){
-    //         taxCodeConfig[taxCode]=res.data;
-    //         this.taxCodeConfig=taxCodeConfig;
-    //       }
-    //     }).catch(err=>{
-
-    //     })
-    //   } 
-    // }
   }
 }
