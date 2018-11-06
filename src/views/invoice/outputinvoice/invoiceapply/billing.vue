@@ -20,11 +20,11 @@
 
 <script>
     import moment from 'moment';
-    import { getSalesInvoiceDetails, getSalesInvoiceFinancialBilling } from '@/api/invoice'
+    import { getSalesInvoiceDetails, getSalesInvoiceFinancialBilling } from '@/api/invoicetigger/invoice'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
-    import { detailtableConfig, applyinfoConfig, detailinfoConfig, recordConfig} from '../components/tableConfig';
+    import { detailtableConfig, applyinfoConfig, detailinfoConfig, recordConfig} from '../components/config';
     const name = "billing"
     const detailinfoConfigDetail = [], applyinfoConfigDetail = []
         applyinfoConfig.map(item=>{

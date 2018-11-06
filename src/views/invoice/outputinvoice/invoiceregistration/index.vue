@@ -25,10 +25,10 @@
 
 
     import moment from 'moment';
-    import { getSalesInvoiceInquiry } from '@/api/invoice'
+    import { getSalesInvoiceInquiry } from '@/api/invoicetigger/invoice'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import { indexTableConfigRegistration } from '../components/tableConfig';
+    import { indexTableConfigRegistration } from '../components/config';
     import SearchInvoice from '../components/search'
     
 

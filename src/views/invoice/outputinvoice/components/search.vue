@@ -136,7 +136,7 @@
             </el-select>
           </el-form-item>
         </el-col> -->
-         <el-col :span="9">
+          <el-col :span="9">
             <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
               <el-date-picker size="small" v-model="searchForm.invoiceApplicationTimeRange" 
                format="yyyy-MM-dd" 
@@ -178,7 +178,7 @@
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
 import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype } from '@/utils/enum'
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
 
 export default {
@@ -372,6 +372,9 @@ export default {
     },
     resetForm(){//重置
       this.searchForm = {searchItem:this.searchForm.searchItem}
+      if(this.searchForm.searchItem=="invalid"){
+        this.searchForm.invoiceStatus = 2
+      }
       this.$emit('resetSearch',this.searchForm)
     }
   }

@@ -19,16 +19,17 @@
 <script>
     const ruleForm = {
       searchItem:'invalid',
+      invoiceStatus: 2,
       pageNum: 1,
       pageSize:10,
     }
 
 
     import moment from 'moment';
-    import { getSalesInvoiceInquiry } from '@/api/invoice'
+    import { getSalesInvoiceInquiry } from '@/api/invoicetigger/invoice'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import {indexTableConfigInvalid } from '../components/tableConfig';
+    import {indexTableConfigInvalid } from '../components/config';
     import Sticky from '@/components/Sticky' // 粘性header组件
     import SearchInvoice from '../components/search'
     export default {

@@ -1,4 +1,5 @@
 
+
 export  const tableConfig=[
   { label:'序号',type:'index',columnType:'selection',width:50},
   { label:'商品编码',prop:'skuCode',},

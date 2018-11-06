@@ -4,31 +4,11 @@ export const indexTableConfigApply=[//申请列表
   { label:'开票申请单号',prop:'applyCode',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
   { label:'客户名称',prop:'cusName' },
   { label:'计划开票金额',prop:'realInvoiceAmt',type:'money', },
-  { label:'计划开票数量',prop:'numberOfInvoices', },
-  { label:'发票类型',prop:'invoiceType', dom: (row, column, cellValue, index)=>{
-      let type = ''
-      InvoiceType.map(item => {if(item.value == cellValue){type = item.name}})
-      return type
-    }
-  },
-  { label:'发票性质',prop:'invoiceNature', dom: (row, column, cellValue, index)=>{
-      let nature = ''
-      NatureInvoice.map(item => {if(item.value == cellValue){nature = item.name}})
-      return nature
-    }
-  },
-  // { label:'发票状态',prop:'invoiceStatus', width:120, dom: (row, column, cellValue, index)=>{
-  //     let status = ''
-  //     InvoiceStatus.map(item => {if(item.value == cellValue){status = item.name}})
-  //     return status
-  //   }
-  // },
-  { label:'单据状态',prop:'ticketStatus',  dom: (row, column, cellValue, index)=>{
-      let status = ''
-      TicketStatus.map(item => {if(item.value == cellValue){status = item.name}})
-      return status
-    }
-  },
+  { label:'计划开票数量',prop:'numberOfInvoices' },
+  { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true },
+  { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true},
+  // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
+  { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true },
   { label:'申请人',prop:'issuer', width:90},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
@@ -47,24 +27,10 @@ export const indexTableConfigRegistration=[//登记列表
   }},
   { label:'开票金额',prop:'realInvoiceAmt',type:'money'},
   { label:'开票数量',prop:'numberOfInvoices'},
-  { label:'发票类型',prop:'invoiceType', width:120, dom: (row, column, cellValue, index)=>{
-      let type = ''
-      InvoiceType.map(item => {if(item.value == cellValue){type = item.name}})
-      return type
-    }
-  },
-  { label:'发票性质',prop:'invoiceNature', width:120, dom: (row, column, cellValue, index)=>{
-      let nature = ''
-      NatureInvoice.map(item => {if(item.value == cellValue){nature = item.name}})
-      return nature
-    }
-  },
-  { label:'单据状态',prop:'ticketStatus', width:120, dom: (row, column, cellValue, index)=>{
-      let status = ''
-      TicketStatus.map(item => {if(item.value == cellValue){status = item.name}})
-      return status
-    }
-  },
+  { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true },
+  { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true},
+  // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
+  { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true },
   { label:'开票人',prop:'issuer', width:90,type:'outbusibillstate',useApi:true,},
   { label:'操作',fixed:'right',userLink:true},
 ]
@@ -74,24 +40,10 @@ export const indexTableConfigInvalid=[//待改
   { label:'客户名称',prop:'cusName',  },
   { label:'开票金额',prop:'realInvoiceAmt',type:'money'},
   { label:'开票数量',prop:'numberOfInvoices', },
-  { label:'发票类型',prop:'invoiceType',  dom: (row, column, cellValue, index)=>{
-      let type = ''
-      InvoiceType.map(item => {if(item.value == cellValue){type = item.name}})
-      return type
-    }
-  },
-  { label:'发票性质',prop:'invoiceNature',  dom: (row, column, cellValue, index)=>{
-      let nature = ''
-      NatureInvoice.map(item => {if(item.value == cellValue){nature = item.name}})
-      return nature
-    }
-  },
-  { label:'单据状态',prop:'ticketStatus',  dom: (row, column, cellValue, index)=>{
-      let status = ''
-      TicketStatus.map(item => {if(item.value == cellValue){status = item.name}})
-      return status
-    }
-  },
+  { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true },
+  { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true},
+  // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
+  { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true },
   { label:'开票人',prop:'issuer', },
   { label:'操作', width:150,fixed:'right',userLink:true},
 ]
@@ -99,7 +51,7 @@ export const indexTableConfigInvalid=[//待改
 //detailtableConfig,applyinfoConfig, detailinfoConfig, recordConfig
 export const applyinfoConfig=[//发票申请信息
   { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing' },
-  { title:'订单编号',prop:'outBusiBillNo', show:'apply+register+invalid+billing' },
+  { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing' },
   { title:'合同编号',prop:'contractNo', show:'apply+register+invalid+billing' },
   { title:'发票种类',prop:'invoiceType', userFormatter: (cellValue)=>{
     let invoice = ''

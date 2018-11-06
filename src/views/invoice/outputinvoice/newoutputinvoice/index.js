@@ -1,8 +1,8 @@
 import _  from 'lodash';
 import Sticky from '@/components/Sticky' 
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
-import { getSalesInvoiceDetails  } from '@/api/invoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
+import { getSalesInvoiceDetails  } from '@/api/invoicetigger/invoice';  
 import { tableConfig } from './config';
 import {NatureInvoiceEnum , InvoiceType ,NatureInvoice } from "@/utils/enum.js"
 import moment from 'moment';
@@ -421,11 +421,20 @@ export default {
       this.searchForm.saleSignId=id;
       getSigningDetail({id}).then(res=>{
         if(res.success){
-           this.tableData=res.data.filter(v=>!v.whetherToInvoice).map(v=>{
-             let json=v;
-             json.taxRate=Number(json.taxRate/100);
-             return json;
-           });
+           if(this.searchForm.invoiceNature==='CREDIT_NOTE'){
+            this.tableData=res.data.filter(v=>v.whetherToInvoice).map(v=>{
+              let json=v;
+              json.taxRate=Number(json.taxRate/100);
+              return json;
+            });
+           } else{
+            this.tableData=res.data.filter(v=>!v.whetherToInvoice).map(v=>{
+              let json=v;
+              json.taxRate=Number(json.taxRate/100);
+              return json;
+            });
+           }
+       
         }
         this.alertLoding=false
       }).catch(err=>{
