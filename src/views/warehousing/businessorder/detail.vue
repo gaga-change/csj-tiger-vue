@@ -64,9 +64,9 @@
 
 
     mounted(){
-      let { id }=this.$route.query||{};
+      let { busiBillNo }=this.$route.query||{};
       this.loading=true;
-      inBillDetail({id}).then(res=>{
+      inBillDetail({busiBillNo}).then(res=>{
         if(res.success){
           let data=res.data;
           this.config=data;

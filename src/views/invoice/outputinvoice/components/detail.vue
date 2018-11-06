@@ -1,6 +1,5 @@
 <template>
   <div class="outgoing-quirydetail-container">
-
   <item-title text="发票申请信息"/>
   <item-card :config="applyinfoConfig" :loading="loading"   :cardData="cardData"  />
   <template v-if="name!='billing'&&name!='apply'&&cardData.ticketStatus > 1">
@@ -28,11 +27,13 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
+
         <el-col :span="6">
           <el-form-item label="备注" >
             <el-input type="text" size="small"  v-model="searchForm.remark" ></el-input>
           </el-form-item>
         </el-col>
+
       </el-row>
       </el-form>
      </el-card>
@@ -43,12 +44,11 @@
       :config="detailtableConfig" 
       :allTableData="finaSaleInvoiceDetailDOList"/>
       <!-- 操作记录暂无 -->
-  <!-- <item-title text="操作记录"/>
-
-    <web-pagination-table 
-      :loading="loading"
-      :config="recordConfig" 
-      :allTableData="finaSaleInvoiceDetailDOList"/> -->
+      <!-- <item-title text="操作记录"/>
+      <web-pagination-table 
+        :loading="loading"
+        :config="recordConfig" 
+        :allTableData="finaSaleInvoiceDetailDOList"/> -->
   </div>
 </template>
 
@@ -116,10 +116,10 @@
       this.getBillingData()
       // this.configInit()
     },
-    // beforeUpdate(){       
-    //   // this.configInit()  
-    //   this.getBillingData()
-    // },
+     // beforeUpdate(){       
+     // this.configInit()  
+     // this.getBillingData()
+     // },
     methods:{
       getBillingData(){
         let {invoiceCode} = this.cardData

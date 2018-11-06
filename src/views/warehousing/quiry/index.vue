@@ -4,47 +4,47 @@
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
         <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px" size="small"  label-position="left">
-          <el-col :span="8">
+          <el-col :span="6" style="min-width:300px">
             <el-form-item label="入库类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择入库类型">
                 <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8" >
+          <el-col :span="6" >
             <el-form-item label="业务单号" prop="busiBillNo">
               <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="8" >
+          <el-col :span="6" >
             <el-form-item label="计划单号" prop="planCode">
               <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入计划单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" >
+          <el-col :span="6" >
             <el-form-item label="入库单号" prop="warehouseExeCode">
               <el-input v-model.lazy.trim="ruleForm.warehouseExeCode" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入入库单号"></el-input>
             </el-form-item>
           </el-col>
 
-           <el-col :span="8" >
-             <el-form-item label="仓库"  prop="warehouseCode">
+           <el-col :span="6" style="min-width:250px" >
+             <el-form-item label="仓库" label-width="40px"  prop="warehouseCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode"   placeholder="请选择入库类型">
                 <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" >
-            <el-form-item label="供应商名称" prop="warehouseName"   label-width="78px">
-              <el-input v-model.lazy.trim="ruleForm.warehouseName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入入库单号"></el-input>
+          <el-col :span="6" style="min-width:300px" >
+            <el-form-item label="供应商名称" prop="providerName"   label-width="78px">
+              <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入入库单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="16" >
+          <el-col :span="12" >
             <el-form-item label="入库日期" prop="time">
                  <el-date-picker
                     v-model="ruleForm.time"
@@ -100,6 +100,7 @@
             warehouseExeCode:'',
             warehouseName:'',
             warehouseCode:'',
+            providerName:'',
             time:'',
             pageNum: 1,
             pageSize:10,

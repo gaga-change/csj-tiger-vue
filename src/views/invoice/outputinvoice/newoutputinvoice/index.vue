@@ -2,16 +2,18 @@
 <div class="app-container">
   <sticky :className="'sub-navbar published'" style="margin-bottom: 8px">
     <template v-if="fetchSuccess">
-       <el-button v-loading="loading" style="margin-left: 10px;" size="small"  @click="submitForm('searchForm','save')">保存
+       <el-button v-loading="loading"  style="margin-left: 10px;"  size="small"  @click="submitForm('searchForm','save')">保存
       </el-button>
-      <el-button v-loading="loading" style="margin-left: 10px;" size="small" type="success" @click="submitForm('searchForm','submit')" >提交
+      <el-button v-loading="loading"   style="margin-left: 10px;"   size="small"  type="success"  @click="submitForm('searchForm','submit')">提交
       </el-button>
     </template>
+
     <template v-else>
       <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
     </template>
   </sticky>
-      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
+
+  <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
       <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-row>
         <el-col :span="6" style="margin-bottom:16px;">
@@ -117,7 +119,7 @@
       </el-row>
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="税额" label-width="70px" >
-            <el-input type="text" size="small"   :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
+            <el-input type="text" size="small"  :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -160,6 +162,7 @@
             </el-form-item>
           </el-col>
       </el-card>
+
        <el-row >
           <div style="display:flex;align-items:center;">
              <item-title text="签收单下商品明细"/>
@@ -190,29 +193,17 @@
                     <span v-else>{{ props.row.skuName }}</span>
                   </el-form-item>
 
-                  <el-form-item label="税务编码" >
-                    <el-input 
+                  <el-form-item label="税务编码"  >
+                    <el-autocomplete
+                      style="width:200px"
+                      v-model="props.row.taxNoByWares "
                       v-if="props.row.edit"
-                      size="mini"
-                      v-model="props.row.taxNoByWares" >
-                    </el-input>
+                      :fetch-suggestions="querySearchAsync.bind(this,props.row.id)"
+                      placeholder="请输入内容"
+                      @select="taxNoByWaresSelect"
+                    ></el-autocomplete>
                     <span v-else>{{ props.row.taxNoByWares }}</span>
                   </el-form-item>
-
-                   <!-- <el-form-item label="税务编码">
-                    <el-select v-model="props.row.taxCode"
-                     @focus="taxCodeSelect(props.row.skuName,props.row.taxCode)"
-                     size="small" style='min-width:220px;'
-                     placeholder="请选择税务编码" 
-                     prefix-icon="el-icon-search">
-                      <el-option
-                        v-for="item in taxCodeConfig[props.row.taxCode]||[]"
-                        :key="item.taxCode"
-                        :label="item.taxCode"
-                        :value="item.taxCode">
-                      </el-option>
-                    </el-select>
-                  </el-form-item> -->
 
 
                   <el-form-item label="规格型号">
@@ -242,12 +233,7 @@
                   </el-form-item>
 
                   <el-form-item label="单价">
-                     <el-input
-                      v-if="props.row.edit"
-                      size="mini"
-                      v-model="props.row.skuPrice" >
-                    </el-input>
-                    <span v-else > {{ Number(props.row.skuPrice).toFixed(2) }} </span>
+                    <span > {{ Number(props.row.skuPrice).toFixed(2) }} </span>
                   </el-form-item>
 
                   <el-form-item label="税率">
@@ -262,7 +248,7 @@
                     <el-input
                       v-if="props.row.edit"
                       size="mini"
-                      v-model="props.row.actualTicketTax" >
+                      v-model.Number="props.row.actualTicketTax" >
                     </el-input>
                     <span v-else> {{ Number(props.row.actualTicketTax).toFixed(2) }} </span>
                   </el-form-item>
@@ -380,4 +366,5 @@
     margin-bottom: 0;
     width: 25%;
   }
+
 </style>

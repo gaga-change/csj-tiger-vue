@@ -4,19 +4,19 @@
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
         <el-form :inline="true" :model="ruleForm" size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="8" >
+          <el-col :span="6" >
             <el-form-item label="仓库编号" prop="warehouseNo">
               <el-input v-model.lazy.trim="ruleForm.warehouseNo"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主编号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" >
+          <el-col :span="6" >
             <el-form-item label="仓库名称" prop="warehouseName">
               <el-input v-model.lazy.trim="ruleForm.warehouseName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8" >
+          <el-col :span="6"  style="min-width:300px">
             <el-form-item label="服务客户名称" prop="customerName">
               <el-input v-model.lazy.trim="ruleForm.customerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
             </el-form-item>

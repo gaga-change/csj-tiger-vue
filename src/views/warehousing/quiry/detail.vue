@@ -32,9 +32,9 @@
     },
 
     mounted(){
-      let { id}=this.$route.query||{};
+      let { warehouseExeCode}=this.$route.query||{};
       this.loading=true;
-      inOrderDetail({orderId:id}).then(res=>{
+      inOrderDetail({warehouseExeCode}).then(res=>{
         if(res.success){
           let data=res.data;
           this.config=data;
