@@ -11,15 +11,21 @@
         size="small"
         :style="tableStyle">
 
-        <el-table-column
-          v-for="item in tableConfig"
-          :formatter="item.formatter"
-          :fixed="item.fixed"
-          :width="item.width"
-          :key="item.lable"
-          :prop="item.prop"
-          :label="item.label">
-        </el-table-column>
+         <el-table-column  v-if="useRadio"  label="" width="50">
+            <template slot-scope="scope">
+              <el-radio :label="scope.$index" v-model="radio" @change.native="handelRadio(scope.row)"></el-radio>
+            </template>
+         </el-table-column>
+
+          <el-table-column
+            v-for="item in tableConfig"
+            :formatter="item.formatter"
+            :fixed="item.fixed"
+            :width="item.width"
+            :key="item.lable"
+            :prop="item.prop"
+            :label="item.label">
+          </el-table-column>
 
       </el-table>
 
@@ -32,10 +38,9 @@
         size="small"
         :page-size="tablePageSize"
         :layout="layout"
-        v-if="total>maxTotal"
+         v-if="total>maxTotal"
         :total="total">
       </el-pagination>
-
   </div>
 </template>
 
@@ -49,6 +54,10 @@ import  * as Enum from "@/utils/enum.js";
 export default {
    props: {
      loading: {
+      type: Boolean,
+      default: false      
+    },
+    useRadio:{
       type: Boolean,
       default: false      
     },
@@ -118,6 +127,7 @@ export default {
   data() {
     return {
       tableConfig:[],
+      radio:''
     }
   },
   created(){
@@ -167,7 +177,7 @@ export default {
                     <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
                   </div>
                 }
-          } ;break;
+           };break;
 
            }
          }
@@ -187,7 +197,7 @@ export default {
        }
     }
     this.tableConfig=tableConfig;
-    console.log(this.showSummary);    
+ 
   },
 
    computed: {
@@ -216,10 +226,6 @@ export default {
 
   },
 
-  mounted(){
-       
-  },
-
   methods: { 
     
      handleSizeChange(val){
@@ -228,15 +234,23 @@ export default {
      
      handleCurrentChange(val){
         this.$emit('currentChange', val); 
+     },
+
+     handelRadio(value){
+       this.$emit('changeRadio', value); 
      }
+
+
   }
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
   .ctabel{
     width: 100%;
+    .el-radio__label{
+      display: none;
+    }
   }
-  
 </style>
 

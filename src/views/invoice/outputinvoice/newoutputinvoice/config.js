@@ -13,3 +13,8 @@ export  const tableConfig=[
   { label:'已开票数量',prop:'invoicedQuantity'},
 ];
 
+export  const alertConfig=[
+  { label:'税务编码',prop:'taxCode'},
+  { label:'税务分类',prop:'taxCategoryName'},
+];
+
