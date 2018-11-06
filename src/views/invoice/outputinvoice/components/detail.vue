@@ -53,10 +53,9 @@
 </template>
 
 <script>
-import _ from 'lodash'
- import { warehouseDetail} from '@/api/customerconfiguration'
+  import _ from 'lodash'
  import webPaginationTable from '@/components/Table/webPaginationTable'
- import { detailtableConfig, recordConfig} from './tableConfig';
+ import { detailtableConfig, recordConfig} from './config';
 
  export default {
     name: 'InvoiceDetail', 

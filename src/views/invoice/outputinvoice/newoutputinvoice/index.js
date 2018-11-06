@@ -1,8 +1,8 @@
 import _  from 'lodash';
 import Sticky from '@/components/Sticky' 
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
-import { getSalesInvoiceDetails  } from '@/api/invoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
+import { getSalesInvoiceDetails  } from '@/api/invoicetigger/invoice';  
 import { tableConfig } from './config';
 import {NatureInvoiceEnum , InvoiceType ,NatureInvoice } from "@/utils/enum.js"
 import moment from 'moment';

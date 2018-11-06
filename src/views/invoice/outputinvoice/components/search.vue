@@ -33,20 +33,18 @@
             <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col> -->
-
-        <el-col :span="6" v-if="searchForm.searchItem=='apply'" style="margin-right:12px">
-          <el-form-item label-width="120px" label="发票最迟开票日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
-            </el-date-picker>
+        <el-col :span="6">
+          <el-form-item label="单据状态">
+            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择单据状态">
+              <el-option
+                v-for="item in TicketStatus"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-        </el-col>
-
-        <el-col :span="6" v-else>
-          <el-form-item label="发票号码" >
-            <el-input type="text" size="small"  v-model="searchForm.invoiceCode" ></el-input>
-          </el-form-item>
-        </el-col>
-        
+        </el-col> 
         <el-col :span="6" v-if="searchForm.searchItem!='invalid'">
             <el-form-item label-width="70px" label="发票性质:" class="postInfo-container-item">
               <el-select v-model="searchForm.ticketNatureEnum" 
@@ -60,7 +58,17 @@
               </el-select>
             </el-form-item>
         </el-col>
-      
+        <el-col :span="6" v-if="searchForm.searchItem=='apply'">
+          <el-form-item label-width="120px" label="发票最迟开票日期:"  class="postInfo-container-item">
+            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6" v-else>
+          <el-form-item label="发票号码" >
+            <el-input type="text" size="small"  v-model="searchForm.invoiceCode" ></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row :gutter="10">  
         <el-col :span="6">
@@ -112,18 +120,7 @@
               </el-select>
             </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="单据状态">
-            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择单据状态">
-              <el-option
-                v-for="item in TicketStatus"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+        
       </el-row>
       <template v-if="searchForm.searchItem=='register'">
         <el-row :gutter="10">
@@ -139,7 +136,7 @@
             </el-select>
           </el-form-item>
         </el-col> -->
-         <el-col :span="9">
+          <el-col :span="9">
             <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
               <el-date-picker size="small" v-model="searchForm.invoiceApplicationTimeRange" 
                format="yyyy-MM-dd" 
@@ -181,9 +178,7 @@
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
 import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype } from '@/utils/enum'
-import { getGys } from '@/api/planorder';
-import { createOutputInvoice } from '@/api/invoice';
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
 
 export default {
@@ -376,7 +371,11 @@ export default {
       this.$emit('searchTrigger',this.searchForm)
     },
     resetForm(){//重置
-      this.$emit('resetSearch',this.submitForm)
+      this.searchForm = {searchItem:this.searchForm.searchItem}
+      if(this.searchForm.searchItem=="invalid"){
+        this.searchForm.invoiceStatus = 2
+      }
+      this.$emit('resetSearch',this.searchForm)
     }
   }
 

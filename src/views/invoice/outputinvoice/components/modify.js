@@ -1,5 +1,5 @@
 
-import { getSalesInvoiceBillingReview } from '@/api/invoice'
+import { getSalesInvoiceBillingReview } from '@/api/invoicetigger/invoice'
 
 export default function Modify(type, name, needfresh, api) {
   // 0 驳回
