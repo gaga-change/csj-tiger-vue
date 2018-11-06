@@ -276,7 +276,6 @@ export default {
                  }
                  invoiceStatus=1;
               }
-
               console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
               const view = this.visitedViews.filter(v => v.path === this.$route.path)  
               saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus}).then(res=>{
@@ -397,7 +396,7 @@ export default {
       searchForm.productBreakdown=this.details.map(v=>{
         let json=v;
         json.saleSignDetailId=v.id;
-        json.actualTicketTax=(json.taxRate/100)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate/100)||0
+        json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0
         return json;
       });
       this.searchForm=searchForm;
