@@ -245,8 +245,10 @@
           signName:'',
           signTel:'',
           signCreateTime:'',
-          details:[]
+          details:[],
+          deleteSignDetailIds:[],
         },
+       
         filesRequired:false,
         fileList: [],
         fetchSuccess: true,
@@ -358,7 +360,7 @@
             data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
             for(let i in data){
-              if(['signName','signTel','signCreateTime','files'].includes(i)){
+              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds'].includes(i)){
                 json[i]=data[i]
               }
             }
@@ -430,7 +432,9 @@
       },
 
       handleDelete(index, row) {
+        let {modify}=this.$route.query||{};
         this.planform.details.splice(index, 1)
+        this.planform.deleteSignDetailIds.push(row.id) 
       },
 
 

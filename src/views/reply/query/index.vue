@@ -3,21 +3,21 @@
   <div style="marginBottom:12px">
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
-        <el-form :inline="true" :model="ruleForm"  size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline"  label-width="70px"  label-position="left">
-            <el-col :span="6" >
+        <el-form :inline="true" :model="ruleForm"  size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline"  label-width="50px"  label-position="left">
+            <el-col :span="6"  style="min-width:300px"   >
             <el-form-item label="回单号" prop="signNo">
               <el-input v-model.lazy.trim="ruleForm.signNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入回单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
-            <el-form-item label="出库计划单号" label-width="100px" prop="outPlanCode">
+          <el-col :span="6"  style="min-width:300px" >
+            <el-form-item label="出库计划单号" label-width="90px" prop="outPlanCode">
               <el-input v-model.lazy.trim="ruleForm.outPlanCode" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入出库计划单号"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="6" >
+          <el-col :span="6"  style="min-width:300px" >
             <el-form-item label="货主"  prop="ownerCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.ownerCode"  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -31,22 +31,22 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6"  >
             <el-form-item label="制单人" prop="createrName">
               <el-input v-model.lazy.trim="ruleForm.createrName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入制单人"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
-            <el-form-item label="单据状态"  prop="approveStatus">
+          <el-col :span="6" style="min-width:300px" >
+            <el-form-item label="单据状态" label-width="60px"  prop="approveStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.approveStatus"   placeholder="请选择审核状态">
                 <el-option   v-for="item in mapConfig['getApproveStatusMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-          <el-col :span="10"  >
-            <el-form-item label="签收日期" prop="time">
+          <el-col :span="12"   >
+            <el-form-item label="签收日期" label-width="60px" prop="time">
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"

@@ -4,7 +4,7 @@
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
         <el-form :inline="true" :model="ruleForm" size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px"  label-position="left">
-          <el-col :span="6" >
+          <el-col :span="6"  style="min-width:300px">
             <el-form-item label="入库类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择入库类型">
                 <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -31,7 +31,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6" style="min-width:300px" >
             <el-form-item label="入库仓库"  prop="planWarehouseCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.planWarehouseCode"  placeholder="请选择下推状态">
                 <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -39,7 +39,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6" style="min-width:300px" >
             <el-form-item label="执行状态"  prop="execStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus"  placeholder="请选择执行状态">
                 <el-option   v-for="item in mapConfig['outbusibillstate']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -47,7 +47,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6"  style="min-width:300px">
             <el-form-item label="供应商名称" label-width="78px" prop="providerName">
               <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>

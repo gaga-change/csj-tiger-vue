@@ -48,9 +48,9 @@
     },
 
     mounted(){
-      let { id}=this.$route.query||{};
+      let {planCode}=this.$route.query||{};
       this.loading=true;
-      outPlanDetail({id}).then(res=>{
+      outPlanDetail({planCode}).then(res=>{
         if(res.success){
           let data=res.data;
           this.config=data;

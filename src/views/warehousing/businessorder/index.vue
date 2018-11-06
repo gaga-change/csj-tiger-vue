@@ -4,7 +4,7 @@
     <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
         <el-form :inline="true" :model="ruleForm" size="small"  :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="6" >
+          <el-col :span="6"   style="min-width:300px" >
             <el-form-item label="业务类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
                 <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -24,8 +24,8 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" >
-            <el-form-item label="供应商名称" label-width="78px" prop="providerName">
+           <el-col :span="6"   style="min-width:300px" >
+            <el-form-item label="供应商名称" label-width="72px" prop="providerName">
               <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>
           </el-col>
