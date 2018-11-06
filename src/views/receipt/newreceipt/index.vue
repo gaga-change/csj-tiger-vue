@@ -1,50 +1,19 @@
 <template lang="html">
   <div class="app-container">
-    <el-form :model="receivableform" :rules="rules" ref="ruleForm" label-width="120px">
+    <el-form :model="receipt" :rules="rules" ref="ruleForm" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="款项性质" prop="receivable.fundnature">
-            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
-              <el-option
-                v-for="item in fundnature"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6" v-if="receivableform.receivable.fundnature == 1">
-          <el-form-item label="款项类型" prop="receivable.fundtype">
-            <el-select v-model="receivableform.receivable.fundtype" filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
-              <el-option
-                v-for="item in fundtype"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20" v-if="receivableform.receivable.fundnature == 1">
-        <el-col :span="6">
-          <el-form-item label="关联销售单" prop="receivable.saleorder">
-            <el-input type="text"  prefix-icon="el-icon-search" size="small" @focus="saleorderFocus" v-model="receivableform.receivable.saleorder"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="合同编号" prop="receivable.contractno">
-            <el-input type="text" size="small" v-model="receivableform.receivable.contractno"></el-input>
+          <el-form-item label="收款单号">
+            <div>{{receipt.receiptNo}}</div>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="结算方式" prop="receivable.settlementmethod">
-            <el-select v-model="receivableform.receivable.settlementmethod" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
+          <el-form-item label="付款方" prop="fundnature">
+            <el-select v-model="receipt.cusName" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
               <el-option
-                v-for="item in settlementmethod"
+                v-for="item in cusName"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value">
@@ -53,9 +22,28 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="收款日期" prop="receivable.recdate">
-            <el-date-picker
-              v-model="receivableform.receivable.recdate"
+          <el-form-item label="金额" prop="mount">
+            <el-input type="text" size="small" v-model="receipt.mount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="付款方式" prop="fundnature">
+            <el-select v-model="receipt.cusName" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
+              <el-option
+                v-for="item in cusName"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="日期" prop="mount">
+              <el-date-picker
+              v-model="receipt.recdate"
               type="datetime"
               size="small"
               :editable="false"
@@ -64,49 +52,35 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-       
       </el-row>
-      <el-row :gutter="20">
+       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="本次收款金额" prop="receivable.recamount">
-            <el-input type="number" size="small" v-model="receivableform.receivable.recamount"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="付款方" prop="receivable.payer">
-            <el-select v-model="receivableform.receivable.payer" filterable clearable placeholder="请选择付款客户" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="付款方银行" prop="fundnature">
+            <el-select v-model="receipt.cusName" filterable clearable placeholder="请选择" size="small" prefix-icon="el-icon-search">
               <el-option
-                v-for="item in gridData"
-                :key="item.id"
+                v-for="item in cusName"
+                :key="item.value"
                 :label="item.name"
-                :value="item.requestid">
+                :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="现金折扣" prop="receivable.interestrate">
-            <el-input type="number" size="small" v-model="receivableform.receivable.interestrate"  placeholder="请输入现金折扣"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="结算金额" prop="receivable.settlementamount">
-            <el-input type="text" :value="settlementamount" size="small" disabled></el-input>
-            <span v-if="receivableform.receivable.fundnature == 1 && receivableform.receivable.saleorder">该笔销售订单应收{{receivableform.receivable.residualamount}}元</span>
+          <el-form-item label="交易流水" prop="mount">
+            <el-input type="text" size="small" v-model="receipt.mount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
+       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="备注" prop="receivable.memos">
-            <el-input type="textarea" size="small" v-model="receivableform.receivable.memos" rows='5'></el-input>
+          <el-form-item label="付款方账户" prop="fundnature">
+            <el-input type="text" size="small" v-model="receipt.mount"></el-input>
           </el-form-item>
         </el-col>
-         <el-col :span="16">
-          <el-form-item label="上传附件">
-            <el-button
+        <el-col :span="6">
+          <el-form-item label="附件">
+             <el-button
               size="mini"
               type="primary"
               @click="importFile">
@@ -116,9 +90,17 @@
           </el-form-item>
         </el-col>
       </el-row>
+       <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="备注" prop="memos">
+            <el-input type="textarea" size="small" v-model="receipt.memos" rows='5'></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" size="small" :disabled="submitloading" v-loading="submitloading">新建收款单</el-button>
+          <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
           <el-button @click="onCancel" size="small">取消</el-button>
         </el-form-item>
       </el-row>
@@ -147,42 +129,32 @@
         <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
     </el-dialog>
-    <el-dialog
-      title="选择销售单"
-      :visible.sync="orderchoiceshow"
-      center
-      width="80%">
-      <orderchoice @subOrder="subOrder" @diClose="diClose"></orderchoice>
-    </el-dialog>
-  </div>
+  </div>  
 </template>
+  
 
 <script>
   import { addOrUpdateReceivable, getReceivableDetail } from '@/api/receivable'
   import { mapGetters } from 'vuex'
-  import { parseTime, ReciveFundnature, SettlementMethod, ReciveFundtype, BusinessTypeData } from '@/utils'
-  import orderchoice from './Component/orderchoice'
+  import {  ReciveFundnature, SettlementMethod, ReciveFundtype, BusinessTypeData } from '@/utils'
+  // import orderchoice from './Component/orderchoice'
   export default {
     name: 'newreceivable',
-    components: {
-      orderchoice
-    },
+    // components: {
+    //   orderchoice
+    // },
     data() {
       var checkDetail = (rule, value, callback) => {
-        if (value.length > 15) {
-          return callback(new Error('长度不能大于15'))
+        if (value.length > 20) {
+          return callback(new Error('长度不能大于20'))
         }
-        if (!parseFloat(value)) {
+        if (!Number(value)) {
           return callback(new Error('请输入数字'))
-        }
-        if (this.receivableform.receivable.fundnature === '1' && parseFloat(value) > this.receivableform.receivable.residualamount) {
-          return callback(new Error('收款金额不能超过应收金额'))
         }
         callback()
       }
       return {
-        receivableform: {
-          receivable: {
+        receipt: {
             checkadvice: '',
             checkdate: '',
             checkuser: '',
@@ -206,10 +178,8 @@
             settlementmethod: '',
             status: 0,
             ticketno: ''
-          }
         },
         rules: {
-          receivable: {
             paydate: [
               { required: true, message: '请选择付款日期', trigger: 'change' }
             ],
@@ -237,20 +207,17 @@
             settlementmethod: [
               { required: true, message: '请选择结算方式', trigger: 'change' }
             ]
-          }
         },
         dialogVisible: false,
         uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
         fileList: [],
         uploadButtonVisible: false,
         dialogTableVisible: false,
-        multipleSelection: [],
         submitloading: false,
         fundnature: ReciveFundnature,
         fundtype: ReciveFundtype,
         settlementmethod: SettlementMethod,
         businesstypeData: BusinessTypeData,
-        orderchoiceshow: false
       }
     },
     computed: {
@@ -302,9 +269,6 @@
         gridData: 'gysList'
       })
     },
-    filters: {
-      parseTime
-    },
     created() {
       if (!this.gridData.length) {
         this.$store.dispatch('GetGysList')
@@ -347,12 +311,7 @@
         this.receivableform.receivable.enterprise = currow.enterprise
         this.receivableform.receivable.enterprisename = currow.enterprisename
       },
-      saleorderFocus() {
-        this.orderchoiceshow = true
-      },
-      diClose() {
-        this.orderchoiceshow = false
-      },
+      
       importFile() {
         this.dialogVisible = true
       },
@@ -372,9 +331,12 @@
       },
       handleUploadSuccess(res, file, fileList) {
         console.log(res, file, fileList);
-        
+        this.filenamelist = []
+        fileList.map(item => {
+          this.filenamelist.push({name:item.name})
+        })
         if (res.code === '200') {
-          this.fileList = fileList
+          this.fileList.push(fileList)
         } else {
           this.$message({
             message: res.message,
