@@ -105,6 +105,8 @@ export default {
        if(tableConfig[i].type){
          if(tableConfig[i].useApi){
             tableConfig[i].formatter=(row, column, cellValue, index)=>this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue)&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue).value||cellValue
+         }  else if(tableConfig[i].useLocalEnum){
+            tableConfig[i].formatter=(row, column, cellValue, index)=>Enum[tableConfig[i].type].find(v=>v.value==cellValue)&&Enum[tableConfig[i].type].find(v=>v.value==cellValue).name||cellValue
          } else{
           switch(tableConfig[i].type){
             case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;

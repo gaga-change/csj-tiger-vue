@@ -34,12 +34,13 @@
           </el-form-item>
         </el-col> -->
 
-        <el-col :span="6" v-if="searchForm.searchItem=='apply'">
+        <el-col :span="6" v-if="searchForm.searchItem=='apply'" style="margin-right:12px">
           <el-form-item label-width="120px" label="发票最迟开票日期:"  class="postInfo-container-item">
             <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
+
         <el-col :span="6" v-else>
           <el-form-item label="发票号码" >
             <el-input type="text" size="small"  v-model="searchForm.invoiceCode" ></el-input>

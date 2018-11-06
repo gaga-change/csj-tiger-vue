@@ -421,11 +421,20 @@ export default {
       this.searchForm.saleSignId=id;
       getSigningDetail({id}).then(res=>{
         if(res.success){
-           this.tableData=res.data.filter(v=>!v.whetherToInvoice).map(v=>{
-             let json=v;
-             json.taxRate=Number(json.taxRate/100);
-             return json;
-           });
+           if(this.searchForm.invoiceNature==='CREDIT_NOTE'){
+            this.tableData=res.data.filter(v=>v.whetherToInvoice).map(v=>{
+              let json=v;
+              json.taxRate=Number(json.taxRate/100);
+              return json;
+            });
+           } else{
+            this.tableData=res.data.filter(v=>!v.whetherToInvoice).map(v=>{
+              let json=v;
+              json.taxRate=Number(json.taxRate/100);
+              return json;
+            });
+           }
+       
         }
         this.alertLoding=false
       }).catch(err=>{
