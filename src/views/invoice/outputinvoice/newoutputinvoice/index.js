@@ -31,8 +31,10 @@ export default {
         invoiceNature:'',//发票性质
         productBreakdown:[],//明细数组
         saleSignId:'',//回单id
+
         oldInvoiceCode:'',//蓝票   invoice_no
         oldInvoiceId:'',// 蓝票Id
+
         contractNo:'',//合同编号
 
 
@@ -124,7 +126,7 @@ export default {
                 this.signNoConfig=res.data;
               }
             }).catch(err=>{
-              
+              console.log(err)
             });
       
             billingTypeDetails({
@@ -134,7 +136,7 @@ export default {
                 this.outBusiBillNoConfig=res.data;
               }
             }).catch(err=>{
-      
+               console.log(err)
             })
           }
 
@@ -168,7 +170,7 @@ export default {
           this.customerConfig=res.data||[]
         }
      }).catch(err=>{
-
+      console.log(err)
      })
   },
 
@@ -342,7 +344,7 @@ export default {
                   this.$message.error('操作失败');
                 }
               }).catch(err=>{
-              
+                console.log(err)
               })
     
            } else{
@@ -397,7 +399,7 @@ export default {
           this.signNoConfig=res.data;
         }
       }).catch(err=>{
-        
+        console.log(err)
       });
 
       billingTypeDetails({
@@ -407,7 +409,7 @@ export default {
           this.outBusiBillNoConfig=res.data;
         }
       }).catch(err=>{
-
+        console.log(err)
       })
     },
     
@@ -417,7 +419,7 @@ export default {
           this.orderNoConfig=res.data;
          }
        }).catch(err=>{
-
+        console.log(err)  
        })
     },
 
@@ -449,7 +451,9 @@ export default {
 
     handleSuccess(){
       let searchForm=_.cloneDeep(this.searchForm);
-      searchForm.productBreakdown=this.details.map(v=>{
+      let configArr=searchForm.productBreakdown.map(v=>v.id);
+      let details=this.details.filter(v=>!configArr.includes(v.id));
+      searchForm.productBreakdown=[...searchForm.productBreakdown,...details].map(v=>{
         let json=v;
         json.saleSignDetailId=v.id;
         json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0
@@ -468,12 +472,27 @@ export default {
     },
 
     oldInvoiceCodeChange(invoiceCode){
-      let searchForm=_.cloneDeep(this.searchForm);  
-      searchForm.oldInvoiceId=this.outBusiBillNoConfig.find(v=>v.invoiceCode==invoiceCode)&&this.outBusiBillNoConfig.find(v=>v.invoiceCode==invoiceCode).id;
+      let searchForm=_.cloneDeep(this.searchForm); 
+      let data=this.outBusiBillNoConfig.find(v=>v.invoiceCode==invoiceCode);
+      if(data){
+        searchForm.oldInvoiceId=data.id;
+        searchForm.saleSignId=data.saleSignId;
+        searchForm.productBreakdown=data.saleSignDetailVOList&&data.saleSignDetailVOList.map(v=>{
+           let json=v;
+           json.taxRate=Number(json.taxRate/100);
+           json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0;
+           json.invoicedQuantity=json.invoicedQty;
+           return json;    
+        })
+      } 
       this.searchForm=searchForm;
     },
 
     signNoChange(id){
+      if(!id){
+        this.tableData=[];
+        return ''
+      };
       this.alertLoding=true;
       this.searchForm.saleSignId=id;
       getSigningDetail({id}).then(res=>{
@@ -482,28 +501,27 @@ export default {
             this.tableData=res.data.filter(v=>v.whetherToInvoice).map(v=>{
               let json=v;
               json.taxRate=Number(json.taxRate/100);
+              json.invoicedQuantity= json.invoicedQty
               return json;
             });
            } else{
             this.tableData=res.data.filter(v=>!v.whetherToInvoice).map(v=>{
               let json=v;
               json.taxRate=Number(json.taxRate/100);
+              json.invoicedQuantity= json.invoicedQty
               return json;
             });
            }
-       
         }
         this.alertLoding=false
       }).catch(err=>{
+        console.log(err)
         this.alertLoding=false
       })
     },
 
     handleSelectionChange(value){
       this.details=value;
-      let searchForm=_.cloneDeep(this.searchForm);  
-      searchForm.productBreakdown=[];
-      this.searchForm=searchForm;
     },
 
     isHasCusName(){
@@ -573,6 +591,7 @@ export default {
         }
         this.taxNoByWaresLoading=false;
       }).catch(err=>{
+        console.log(err)
         this.taxNoByWaresLoading=false;
       })
     },

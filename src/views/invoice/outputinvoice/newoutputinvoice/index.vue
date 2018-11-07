@@ -224,7 +224,14 @@
                   </el-form-item>
 
                    <el-form-item label="本次开票数量">
-                    <span>{{ props.row.invoicedQty }}</span>
+                     <el-input-number 
+                      v-if="props.row.edit&&searchForm.invoiceNature==='CREDIT_NOTE'"
+                      size="mini"
+                      :max="props.row.invoicedQty" 
+                      :min="0" 
+                      v-model="props.row.invoicedQuantity" >
+                    </el-input-number >
+                    <span v-else>{{ props.row.invoicedQuantity }}</span>
                   </el-form-item>
 
                    <el-form-item label="签收数量">
@@ -272,7 +279,7 @@
 
             <el-table-column
               label="税务编码"
-              prop="taxNoByWares">
+              prop="taxCode">
             </el-table-column>
 
             <el-table-column

@@ -16,13 +16,13 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceregistration/detail',query:[{key:'id',value:'id'}] },
   { label:'开票申请单号',prop:'applyCode', width:120 },
   { label:'客户名称',prop:'cusName', minWidth:90 },
-  { label:'订单编号',prop:'outBusiBillNo', width:120 },
+  { label:'订单编号',prop:'outBusiBillNo', width:150 },
   // { label:'业务板块',prop:'cusName2', width:80 },
   { label:'发票号',prop:'invoiceCode', width:120 },
-  { label:'发票申请日期',prop:'applyTime', minWidth:120, dom: (row, column, cellValue, index)=>{
+  { label:'发票申请日期',prop:'applyTime', width:100, dom: (row, column, cellValue, index)=>{
     return cellValue ? Moment(cellValue).format('YYYY-MM-DD') : ''
   } },
-  { label:'发票开具日期',prop:'ticketTime', minWidth:120,dom: (row, column, cellValue, index)=>{
+  { label:'发票开具日期',prop:'ticketTime',width:100,dom: (row, column, cellValue, index)=>{
     return cellValue ? Moment(cellValue).format('YYYY-MM-DD') : ''
   }},
   { label:'开票金额',prop:'realInvoiceAmt',type:'money', minWidth:90},
@@ -50,6 +50,8 @@ export const indexTableConfigInvalid=[//待改
 
 //detailtableConfig,applyinfoConfig, detailinfoConfig, recordConfig
 export const applyinfoConfig=[//发票申请信息
+  { title:'开票单号',prop:'invoiceNo', show:'register+invalid+billing' },
+  { title:'发票申请单号',prop:'applyCode', show:'apply+register+invalid+billing' },
   { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing' },
   { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing' },
   { title:'合同编号',prop:'contractNo', show:'apply+register+invalid+billing' },
@@ -84,7 +86,7 @@ export const applyinfoConfig=[//发票申请信息
   { title:'申请人',prop:'applicantName', show:'register+invalid+billing'},
 ]
 export const detailinfoConfig=[//发票详情信息
-  { title:'发票登记号',prop:'applyCode', show:'apply', minWidth:120 },
+  { title:'发票登记号',prop:'invoiceNo', show:'apply', minWidth:120 },
   { title:'发票号',prop:'invoiceCode', show:'apply+register+invalid', minWidth:120 },
   { title:'发票日期',prop:'ticketTime',type:'time', show:'register+invalid', minWidth:120 },
   { title:'备注',prop:'ticketRemark', show:'register+invalid'},

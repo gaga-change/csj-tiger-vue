@@ -13,7 +13,13 @@
               @click="()=>{this.buttonDisabled=true;Modify(4)}" >复核
           </el-button>
         </template>
-       <template v-else>
+        <template v-if="cardData.ticketStatus>1">
+           <a :href="printUrl('supply_invoice_export', cardData.contractNo)" target="_blank">
+            <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
+          </a>
+         
+        </template>
+       <template v-if="cardData.ticketStatus==1">
         <el-tag >暂无操作</el-tag>
       </template>
   </sticky>
@@ -25,6 +31,7 @@
 
 <script>
     import moment from 'moment';
+    import { printUrl } from '@/utils'
     import { getSalesInvoiceDetails } from '@/api/invoicetigger/invoice'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
@@ -74,6 +81,7 @@
 
     methods: {
       Modify,
+      printUrl,
       goToBilling(){
         this.$router.push({
           path:`/invoice/outputinvoice/invoiceapply/billing?id=${this.$route.query.id}`,

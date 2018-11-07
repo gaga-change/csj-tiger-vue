@@ -24,17 +24,18 @@
               @click="()=>{this.buttonDisabled=true;Modify(0)}">驳回
           </el-button>
         </template>
-        <template v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3">
+         <el-button  style="margin-left: 10px;" type="success" size="small" v-else-if="cardData.ticketStatus == 2" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+              @click="goToBilling">财务开票
+          </el-button>
+        <template v-if="cardData.ticketStatus>1">
            <a :href="printUrl('supply_invoice_export', cardData.contractNo)" target="_blank">
             <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
-          <el-button  style="margin-left: 10px;" type="success" size="small" v-if="cardData.ticketStatus == 2" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
-              @click="goToBilling">财务开票
-          </el-button>
+         
         </template>
-         <template v-if="cardData.ticketStatus > 3">
+         <!-- <template v-if="cardData.ticketStatus > 3">
           <el-tag >暂无操作</el-tag>
-        </template>
+        </template> -->
       </template>
 
   </sticky>
