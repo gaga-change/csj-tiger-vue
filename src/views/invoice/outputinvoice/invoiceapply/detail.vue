@@ -1,15 +1,21 @@
 <template>
   <div class="outgoing-quiry-container">
-  <div style="margin:12px">
+  <div style="margin:12px" v-loading="loading">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template>  
-        <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+        <el-button  style="margin-left: 10px;" size="small" v-if="cardData.invoiceCancelStatus == 2"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
             @click="linkToInvoice(0)">复制 
         </el-button>
-        <el-button  style="margin-left: 10px;" type="success" size="small" v-if="cardData.ticketStatus == 0" :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="linkToInvoice(1)">提交 
-        </el-button>
-        <template v-if="cardData.ticketStatus == 1">
+        <template v-if="cardData.ticketStatus == 0">
+          <el-button  style="margin-left: 10px;" type="success" size="small" v-if="cardData.ticketStatus == 0" :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+              @click="linkToInvoice(1)">编辑 
+          </el-button>
+          <el-button  style="margin-left: 10px;" type="success" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+              @click="submitInvoice">提交 
+          </el-button>
+        </template>
+      
+        <template v-else-if="cardData.ticketStatus == 1">
           <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheck')"
               @click="()=>{this.buttonDisabled=true;Modify(2)}" >审核
               <!-- :disabled="buttonDisabled||!$haspermission('invoiceCheck')" -->
@@ -22,9 +28,12 @@
            <a :href="printUrl('supply_invoice_export', cardData.contractNo)" target="_blank">
             <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
-          <el-button  style="margin-left: 10px;" type="success" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+          <el-button  style="margin-left: 10px;" type="success" size="small" v-if="cardData.ticketStatus == 2" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
               @click="goToBilling">财务开票
           </el-button>
+        </template>
+         <template v-if="cardData.ticketStatus > 3">
+          <el-tag >暂无操作</el-tag>
         </template>
       </template>
 
@@ -37,7 +46,7 @@
 
 <script>
     import moment from 'moment';
-    import { getSalesInvoiceDetails, getSalesInvoiceBillingReview } from '@/api/invoicetigger/invoice'
+    import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit } from '@/api/invoicetigger/invoice'
     import { printUrl } from '@/utils'
 
     // import BaseTable from '@/components/Table'
@@ -96,6 +105,22 @@
         
         this.getCurrentTableData()
       },
+      submitInvoice(){
+        getSalesInvoiceSubmit({id:this.$route.query.id}).then((res)=>{
+          if(res.success){
+              this.$message({type:'success',message:'提交成功',duration:2000})
+          }else{
+              this.$message({type:'err',message:'提交失败',duration:2000})
+          }
+           
+            this.needfresh()
+        }).catch((err)=>{
+          this.$message({type:'err',message:'提交失败,'+err.msg,duration:2000})
+          this.needfresh()
+        })
+        
+        
+      },
       goToBilling(){
           this.$router.push({
             path:`/invoice/outputinvoice/invoiceapply/billing?id=${this.$route.query.id}`,
@@ -106,7 +131,7 @@
         if(type=='0'){
           msg = '创建'
         }else{
-          msg = '提交'
+          msg = '编辑'
         }
         this.$confirm('去申请销项发票页'+msg, '提示', {
           confirmButtonText: '确定',
@@ -125,7 +150,9 @@
           let data=res.data;
           
           this.finaSaleInvoiceDetailDOList = res.data && res.data.finaSaleInvoiceDetailDOList || []
-          this.cardData = res.data
+          this.cardData = {...res.data}
+          console.log(this.cardData);
+          
           
           this.cardData.finaSaleInvoiceDetailDOList = []
        }

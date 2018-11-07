@@ -6,7 +6,7 @@
     <item-title text="发票详情信息"/>
     <item-card :config="detailinfoConfig" :loading="loading"   :cardData="cardData"  />
   </template>
-  <template v-else-if="name=='apply'&&cardData.ticketStatus<2">
+  <template v-else-if="name=='apply'&&cardData.ticketStatus==1">
     <item-title text="发票详情信息"/>
     <item-card :config="detailinfoConfig" :loading="loading"   :cardData="cardData"  />
   </template>

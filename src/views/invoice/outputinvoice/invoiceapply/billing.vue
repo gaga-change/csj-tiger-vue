@@ -2,15 +2,14 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-        <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="linkToInvoice()">复制 
-        </el-button>
         <el-button  style="margin-left: 10px;" size="small" 
         v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
             @click="submitBilling" >提交
             <!-- :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')" -->
         </el-button>
-
+        <template v-else>
+          <el-tag >暂无操作</el-tag>
+        </template>
   </sticky>
     <invoice-detail :applyinfoConfig="applyinfoConfigDetail" :detailinfoConfig="detailinfoConfigDetail"  :cardData="cardData"  :finaSaleInvoiceDetailDOList="finaSaleInvoiceDetailDOList" :cardConfig="cardConfig" :name="name" ref="billings"/>
   </div>
@@ -81,15 +80,21 @@
         }
         invoiceDate= +(new Date(invoiceDate))
         let params = {invoiceDate, invoiceCode, remark,id:this.$route.query.id}
-        let msg = '财务开票'
+        let msg = '财务开票',page='', path = ''
         if(this.cardData.ticketStatus == 2){
           msg = '财务开票'
+          path = 'invoiceapply'
+          page = ',去发票申请详情页'
         }else if(this.cardData.ticketStatus == 3){
           msg = '修改财务开票'
+          path = 'invoiceregistration'
+          page = ',去发票登记详情页'
         }
         getSalesInvoiceFinancialBilling(params).then(res=>{
-          
-          this.$message({type:'success',message:msg + '成功'})
+          // invoice/outputinvoice/invoiceregistration/detail+invoice/outputinvoice/invoiceapply/detail
+          this.$message({type:'success', message:msg + '成功' + page,duration:2000, onClose: ()=> {
+            this.$router.push({path:`/invoice/outputinvoice/${path}/detail`,query:{id:this.$route.query.id}})
+          }})
           this.needfresh()
         }).catch(err=> {
           this.$message({type:'error',message:msg + '失败，请重试'})
