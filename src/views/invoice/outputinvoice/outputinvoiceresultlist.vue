@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="app-container">
-  <el-row gutter="10">
+  <el-row :gutter="10">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px" >
       <el-form :model="ruleForm" ref="searchForm" label-width="68px" label-position="left">
         <el-col :span="6">
@@ -69,7 +69,7 @@
       </el-form>
     </el-card>
   </el-row>
-  <el-row gutter="10">
+  <el-row :gutter="10">
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"

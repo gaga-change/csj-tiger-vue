@@ -1,5 +1,5 @@
 
-import { getSalesInvoiceBillingReview } from '@/api/invoicetigger/invoice'
+import { getSalesInvoiceBillingReview, getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
 
 export default function Modify(type, name, needfresh, api) {
   // 0 驳回
@@ -63,7 +63,7 @@ export default function Modify(type, name, needfresh, api) {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
-      getSalesInvoiceBillingReview({
+      getSalesInvoiceComplex({
         id: this.$route.query.id,
         ticketStatusEnum: type,
       }).then(res => {

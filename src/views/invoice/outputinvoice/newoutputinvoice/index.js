@@ -289,8 +289,10 @@ export default {
                   }).then(
                     _ => {
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                        console.log(111);
+                        
                         this.$router.push({
-                          path: '/invoice/outputinvoice/invoiceregistration/detail',
+                          path: '/invoice/outputinvoice/invoiceapply/detail',
                           query:{
                             id:res.data.id,
                           }

@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="app-container">
-  <el-row gutter="10">
+  <el-row :gutter="10">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="ruleForm"  ref="ruleForm" label-width="60px" label-postion="left">
         <el-col :span="6">
