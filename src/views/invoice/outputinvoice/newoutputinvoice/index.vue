@@ -247,7 +247,7 @@
                   </el-form-item>
 
                   <el-form-item label="含税金额">
-                    <span>{{ Number(props.row.skuPrice*props.row.invoicedQty).toFixed(2) }}</span>
+                    <span>{{ Number(props.row.skuPrice*props.row.invoicedQuantity).toFixed(2) }}</span>
                   </el-form-item>
 
                   <el-form-item label="税额">

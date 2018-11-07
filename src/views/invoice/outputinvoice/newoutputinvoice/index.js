@@ -146,7 +146,7 @@ export default {
             } else if(i==='invoiceNature'){
               let name=NatureInvoice&&NatureInvoice.find(v=>v.value===res.data['invoiceNature']).name;
               data[i]=NatureInvoiceEnum&&NatureInvoiceEnum.find(item=>item.name===name).value
-            } else{
+            }   else{
               data[i]=res.data[i];
             }
           }
@@ -154,6 +154,8 @@ export default {
           data['productBreakdown']=res.data['finaSaleInvoiceDetailDOList'].map(v=>{
             let json=v;
             json['invoicedQty']=json['numberOfReceipts'];
+            json['invoicedQuantity']=json['actualInvoiceNumber']; 
+
             json['skuPrice']=json['taxPrice'];
             json['actualTicketTax']=json['invoiceTax'];
             return json;
@@ -217,10 +219,10 @@ export default {
         if(data.length===0){
           return 0
         } else if(data.length===1){
-          return data[0].skuPrice*data[0].invoicedQty
+          return data[0].skuPrice*data[0].invoicedQuantity
         } else{
            let resData=data.reduce((a,b)=>{
-            return a.skuPrice*a.invoicedQty+b.skuPrice*b.invoicedQty
+            return a.skuPrice*a.invoicedQuantity+b.skuPrice*b.invoicedQuantity
            });
            return resData;
         }
@@ -285,18 +287,20 @@ export default {
               data.allActualTicketTax=this.allActualTicketTax;
               data.allTaxAmount=this.allTaxAmount;
               data.allNotTaxAmount=this.allNotTaxAmount;
-              data.productBreakdown.map(v=>{
-                 let json=v;
-                 json.invoicedQuantity=json.skuPrice*json.invoicedQty;
-                 return json;
-              });
 
               if(data.productBreakdown.some(v=>!v.taxCode)){
                 this.$message.error('税务编码必填');
                 return ''
               }
+
+              data.productBreakdown=data.productBreakdown.map(v=>{
+                 let json=v;
+                 json.taxAmount=v.taxPrice*v.invoicedQuantity;
+                 return json;
+              })
               
-              let invoiceStatus=0;
+              
+              // let invoiceStatus=0;
               let ticketStatus=type=="save"?'SAVING':'SUBMIT_FOR_REVIEW';
 
               if(from==='rebuild'){
@@ -310,12 +314,12 @@ export default {
                    this.$message.error('红字发票不能为空');
                    return 
                  }
-                 invoiceStatus=1;
+                //  invoiceStatus=1;
               }
-              console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
+              // console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
 
               const view = this.visitedViews.filter(v => v.path === this.$route.path)  
-              saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus}).then(res=>{
+              saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:0}).then(res=>{
                 if(res.success){
                   this.$confirm('操作成功！', '提示', {
                     confirmButtonText: '详情',

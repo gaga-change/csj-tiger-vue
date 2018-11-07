@@ -50,7 +50,7 @@ export const indexTableConfigInvalid=[//待改
 
 //detailtableConfig,applyinfoConfig, detailinfoConfig, recordConfig
 export const applyinfoConfig=[//发票申请信息
-  { title:'开票单号',prop:'invoiceNo', show:'register+invalid+billing' },
+  { title:'开票单号',prop:'invoiceNo', show:'register+invalid' },
   { title:'发票申请单号',prop:'applyCode', show:'apply+register+invalid+billing' },
   { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing' },
   { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing' },
