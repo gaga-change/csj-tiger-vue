@@ -3,11 +3,10 @@ export const tableConfig=[
   { label:'商品编码',prop:'skuCode'},
   { label:'商品名称',prop:'skuName'},
   { label:'规格型号',prop:'skuFormat'},
-  { label:'生产厂家',prop:'productFactory'},
   { label:'品牌',prop:'skuBrandName'},
   { label:'单位',prop:'skuUnitName'},
-  { label:'转换比',prop:'skuUnitConvert'},
   { label:'单价',prop:'skuOutPrice'},
+  { label:'转换比',prop:'skuUnitConvert'},
   { label:'出库数量',prop:'outStoreQty'},
 ];
 

@@ -3,14 +3,15 @@ import Sticky from '@/components/Sticky'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import { getSalesInvoiceDetails  } from '@/api/invoicetigger/invoice';  
-import { tableConfig } from './config';
+import { tableConfig,alertConfig } from './config';
 import {NatureInvoiceEnum , InvoiceType ,NatureInvoice } from "@/utils/enum.js"
+import BaseTable from '@/components/Table'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'newoutputinvoice',
-  components: { Sticky ,webPaginationTable},
+  components: { Sticky ,webPaginationTable,BaseTable},
   data() {
     return {
       fetchSuccess:true,
@@ -62,8 +63,22 @@ export default {
       restaurants:[],//税务编码配置,
 
       expandRowKeysArr:[],//table展开的数组
-      taxNoByWaresId:'',
 
+      alertConfig,//弹框表格配置
+      alertData:[],//弹框数据
+
+      taxNoByWaresId:'',//税务编码表格行数id
+      shouTaxNoByWares:true, //弹框是否显示
+    
+      taxNoByWaresIdSeach:{
+        pageNum: 1,
+        pageSize:10,
+        taxCode:'',
+        taxCategoryName :''
+      }, //弹框搜索
+
+      taxNoByWaresLoading:false,
+      taxNoByWaresTotal:0,
 
       searchRules: { 
         cusName: [
@@ -246,6 +261,16 @@ export default {
   
 
   methods:{
+
+    handleSizeChange(val) {
+      this.taxNoByWaresIdSeach={...this.taxNoByWaresIdSeach,pageSize:val,pageNum:1}
+      this.infoTaxnoSesct()
+    },
+
+    handleCurrentChange(val) {
+      this.taxNoByWaresIdSeach={...this.taxNoByWaresIdSeach,pageNum:val}
+      this.infoTaxnoSesct()
+    },
     
     submitForm(formName,type){
         let { from,id }=this.$route.query||{};
@@ -276,7 +301,6 @@ export default {
                  }
                  invoiceStatus=1;
               }
-
               console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
               const view = this.visitedViews.filter(v => v.path === this.$route.path)  
               saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus}).then(res=>{
@@ -391,7 +415,11 @@ export default {
     },
 
     handleClose(){
-      this.shouDetails = false
+      this.shouDetails = false;
+      this.shouTaxNoByWares=false;
+    },
+    shouTaxNoByWaresSuccess(){
+      this.shouTaxNoByWares=false;
     },
 
     handleSuccess(){
@@ -399,7 +427,7 @@ export default {
       searchForm.productBreakdown=this.details.map(v=>{
         let json=v;
         json.saleSignDetailId=v.id;
-        json.actualTicketTax=(json.taxRate/100)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate/100)||0
+        json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0
         return json;
       });
       this.searchForm=searchForm;
@@ -473,37 +501,53 @@ export default {
       return row.id
     },
 
-    querySearchAsync(id,queryString,cb){
+    selectTaxNoByWares(id){
+      this.shouTaxNoByWares=true;
       this.taxNoByWaresId=id;
-      if(!queryString){
-        cb([])
-        return 
-      }
-      infoTaxno({
-        taxCode:queryString,
-        pageSize:1000,
-        pageNum:1
-      }).then(res=>{
-        if(res.success){
-          let data=res.data.list.map(v=>{
-            return {value:v.taxCode}
-          })
-          cb(data)
-        } else{  
-          cb([])
+      this.infoTaxnoSesct();
+    },
+
+    infoTaxnoSesct(){
+      this.taxNoByWaresLoading=true;
+      let data=_.cloneDeep(this.taxNoByWaresIdSeach);
+      for(let i in data){
+        if(data[i]===undefined||data[i]===''){
+          delete data[i]
         }
+      }
+      infoTaxno(data).then(res=>{
+        if(res.success){
+           this.alertData=res.data.list;
+           this.taxNoByWaresTotal=res.data.total
+        }
+        this.taxNoByWaresLoading=false;
       }).catch(err=>{
-        console.log(err)
-        cb([])
+        this.taxNoByWaresLoading=false;
       })
     },
 
-    taxNoByWaresSelect(item){
-      let id=this.taxNoByWaresId;
-      let searchForm=_.cloneDeep(this.searchForm);  
-      searchForm.productBreakdown.find(v=>v.id==id).taxNoByWares=item.value;
+    taxNoByWaresIdSeachSubmitForm(){
+      this.infoTaxnoSesct();
+    },
+
+    taxNoByWaresIdSeachCancel(){
+      this.taxNoByWaresIdSeach={
+        pageNum: 1,
+        pageSize:10,
+        taxCode:'',
+        taxCategoryName :''
+      };
+      this.infoTaxnoSesct();
+    },
+
+    changeRadio(value){
+      let searchForm=_.cloneDeep(this.searchForm);
+      if(this.taxNoByWaresId){
+        searchForm.productBreakdown.find(v=>v.id===this.taxNoByWaresId).taxNoByWares=value.taxCode;
+      }
       this.searchForm=searchForm;
     }
 
+  
   }
 }

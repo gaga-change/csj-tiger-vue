@@ -193,15 +193,13 @@
                     <span v-else>{{ props.row.skuName }}</span>
                   </el-form-item>
 
-                  <el-form-item label="税务编码"  >
-                    <el-autocomplete
-                      style="width:200px"
-                      v-model="props.row.taxNoByWares "
+                  <el-form-item label="税务编码">
+                    <el-input
                       v-if="props.row.edit"
-                      :fetch-suggestions="querySearchAsync.bind(this,props.row.id)"
-                      placeholder="请输入内容"
-                      @select="taxNoByWaresSelect"
-                    ></el-autocomplete>
+                      size="mini"
+                      @focus="selectTaxNoByWares(props.row.id)"
+                      v-model="props.row.taxNoByWares" >
+                    </el-input>
                     <span v-else>{{ props.row.taxNoByWares }}</span>
                   </el-form-item>
 
@@ -340,6 +338,64 @@
           <el-button type="primary" @click="handleSuccess">确 定</el-button>
           </span>
        </el-dialog>
+
+
+       <el-dialog
+          title="税务编码选择"
+          :visible.sync="shouTaxNoByWares"
+          width="60%"
+          :before-close="handleClose">
+            <el-row>
+              <el-form 
+               :inline="true" 
+               :model="taxNoByWaresIdSeach"  
+               size="small"
+               label-width="60px" 
+               label-position="left"  
+               ref="taxNoByWaresIdSeach" >
+              <el-col :span="6"  style="min-width:260px">
+                <el-form-item label="税务编码">
+                  <el-input v-model.lazy.trim="taxNoByWaresIdSeach.taxCode"   placeholder="请输入税务编码"></el-input>
+                </el-form-item>
+              </el-col>
+
+               <el-col :span="6"  style="min-width:260px">
+                <el-form-item label="税务分类">
+                  <el-input v-model.lazy.trim="taxNoByWaresIdSeach.taxCategoryName"   @keyup.enter.native="taxNoByWaresIdSeachSubmitForm()"  placeholder="请输入税务分类"></el-input>
+                </el-form-item>
+              </el-col>
+
+               <el-col :span="6"  style="min-width:260px">
+                  <el-form-item>
+                  <el-button type="primary" size="small"  @click="taxNoByWaresIdSeachSubmitForm()">查询</el-button>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" size="small" @click="taxNoByWaresIdSeachCancel()">重置</el-button>
+                </el-form-item>
+              </el-col>
+
+              </el-form>
+            </el-row>
+
+            <base-table 
+              @sizeChange="handleSizeChange"
+              @currentChange="handleCurrentChange"
+              @changeRadio="changeRadio"
+              :loading="taxNoByWaresLoading"
+              :config="alertConfig"  
+              :total="taxNoByWaresTotal" 
+              :useRadio="true"
+              :pageSize="taxNoByWaresIdSeach.pageSize"
+              :currentPage="taxNoByWaresIdSeach.pageNum"
+              :tableData="alertData"/>
+
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="handleClose">取 消</el-button>
+          <el-button type="primary" @click="shouTaxNoByWaresSuccess">确 定</el-button>
+          </span>
+       </el-dialog>
+
 
     </div>
 </template>
