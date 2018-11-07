@@ -4,7 +4,7 @@
     <template v-if="fetchSuccess">
        <el-button v-loading="loading"  style="margin-left: 10px;"  size="small"  @click="submitForm('searchForm','save')">保存
       </el-button>
-      <el-button v-loading="loading"   style="margin-left: 10px;"   size="small"  type="success"  @click="submitForm('searchForm','submit')">提交
+      <el-button v-loading="loading"   style="margin-left: 10px;"   size="small"  type="success"  @click="submitForm('searchForm','submit')">保存并提交
       </el-button>
     </template>
 
@@ -24,7 +24,7 @@
               clearable
               filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
-                value=""
+               value=""
                :disabled="true"
                v-if="nowCustomerConfig.length>0" >
                 <span  class="codeNoStyle">企业编号</span>
@@ -134,6 +134,7 @@
               size="small" 
               style='min-width:220px;' 
               placeholder="请选择发票种类"
+               @change="invoiceChange" 
                prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in NatureInvoiceEnum"
@@ -151,7 +152,7 @@
                   v-model="searchForm.oldInvoiceCode" 
                   :clearable="true" 
                    @change="oldInvoiceCodeChange"
-                  size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
+                  size="small" style='min-width:220px;' placeholder="请选择蓝票" prefix-icon="el-icon-search">
                     <el-option
                      v-for="item in outBusiBillNoConfig" 
                      :key="item.id" 
@@ -167,7 +168,7 @@
           <div style="display:flex;align-items:center;">
              <item-title text="签收单下商品明细"/>
              <el-form-item label-width="0px" >
-             <el-button type="primary" size="mini"  @click="isShouDetails" >选择签收单下商品明细</el-button> </el-form-item>
+             <el-button type="primary" size="mini"  @click="isShouDetails" :disabled="searchForm.invoiceNature==='CREDIT_NOTE'"    >选择签收单下商品明细</el-button> </el-form-item>
            </div> 
           <el-table
              size="small"
@@ -198,9 +199,9 @@
                       v-if="props.row.edit"
                       size="mini"
                       @focus="selectTaxNoByWares(props.row.id)"
-                      v-model="props.row.taxNoByWares" >
+                      v-model="props.row.taxCode" >
                     </el-input>
-                    <span v-else>{{ props.row.taxNoByWares }}</span>
+                    <span v-else>{{ props.row.taxCode }}</span>
                   </el-form-item>
 
 
@@ -312,6 +313,8 @@
        <el-dialog
           title="签收明细选择"
           :visible.sync="shouDetails"
+          top="6vh"
+          custom-class="shouDetailsDialog"
           width="60%"
           :before-close="handleClose">
             <el-row>
@@ -334,8 +337,8 @@
             :allTableData="tableData"/>
           </el-tab-pane>
           <span slot="footer" class="dialog-footer">
-          <el-button @click="shouDetails = false">取 消</el-button>
-          <el-button type="primary" @click="handleSuccess">确 定</el-button>
+          <el-button  size="mini"  @click="shouDetails = false">取 消</el-button>
+          <el-button  size="mini"   type="primary" @click="handleSuccess">确 定</el-button>
           </span>
        </el-dialog>
 
@@ -343,7 +346,9 @@
        <el-dialog
           title="税务编码选择"
           :visible.sync="shouTaxNoByWares"
+          top="6vh"
           width="60%"
+          custom-class="TaxNoByWaresDialog"
           :before-close="handleClose">
             <el-row>
               <el-form 
@@ -355,7 +360,7 @@
                ref="taxNoByWaresIdSeach" >
               <el-col :span="6"  style="min-width:260px">
                 <el-form-item label="税务编码">
-                  <el-input v-model.lazy.trim="taxNoByWaresIdSeach.taxCode"   placeholder="请输入税务编码"></el-input>
+                  <el-input v-model.lazy.trim="taxNoByWaresIdSeach.taxCode"  @keyup.enter.native="taxNoByWaresIdSeachSubmitForm()"  placeholder="请输入税务编码"></el-input>
                 </el-form-item>
               </el-col>
 
@@ -367,11 +372,11 @@
 
                <el-col :span="6"  style="min-width:260px">
                   <el-form-item>
-                  <el-button type="primary" size="small"  @click="taxNoByWaresIdSeachSubmitForm()">查询</el-button>
+                  <el-button type="primary" size="mini"  @click="taxNoByWaresIdSeachSubmitForm()">查询</el-button>
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" size="small" @click="taxNoByWaresIdSeachCancel()">重置</el-button>
+                  <el-button type="primary" size="mini" @click="taxNoByWaresIdSeachCancel()">重置</el-button>
                 </el-form-item>
               </el-col>
 
@@ -381,18 +386,18 @@
             <base-table 
               @sizeChange="handleSizeChange"
               @currentChange="handleCurrentChange"
-              @changeRadio="changeRadio"
               :loading="taxNoByWaresLoading"
               :config="alertConfig"  
+              :highlightCurrentRow="true"
+              @currentRedioChange="currentRedioChange"
               :total="taxNoByWaresTotal" 
-              :useRadio="true"
               :pageSize="taxNoByWaresIdSeach.pageSize"
               :currentPage="taxNoByWaresIdSeach.pageNum"
               :tableData="alertData"/>
 
           <span slot="footer" class="dialog-footer">
-          <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="shouTaxNoByWaresSuccess">确 定</el-button>
+          <el-button size="mini"   @click="handleClose">取 消</el-button>
+          <el-button size="mini" type="primary" @click="shouTaxNoByWaresSuccess">确 定</el-button>
           </span>
        </el-dialog>
 
@@ -400,7 +405,7 @@
     </div>
 </template>
 <script src="./index.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
   .codeNoStyle{
     float: left; 
     color: #8492a6; 
@@ -422,5 +427,19 @@
     margin-bottom: 0;
     width: 25%;
   }
+
+  .TaxNoByWaresDialog{
+    .el-dialog__body{
+      padding: 0 20px;
+    }
+  }
+  .shouDetailsDialog{
+     .el-dialog__body{
+      padding: 0 20px;
+    }
+  }
+
+
+
 
 </style>

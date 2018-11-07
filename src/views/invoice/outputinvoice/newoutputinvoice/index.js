@@ -1,12 +1,14 @@
 import _  from 'lodash';
 import Sticky from '@/components/Sticky' 
+import moment from 'moment';
+
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import { getSalesInvoiceDetails  } from '@/api/invoicetigger/invoice';  
 import { tableConfig,alertConfig } from './config';
 import {NatureInvoiceEnum , InvoiceType ,NatureInvoice } from "@/utils/enum.js"
 import BaseTable from '@/components/Table'
-import moment from 'moment';
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -14,6 +16,7 @@ export default {
   components: { Sticky ,webPaginationTable,BaseTable},
   data() {
     return {
+      radioState:'',
       fetchSuccess:true,
       loading:false,
       searchForm:{
@@ -68,7 +71,7 @@ export default {
       alertData:[],//弹框数据
 
       taxNoByWaresId:'',//税务编码表格行数id
-      shouTaxNoByWares:true, //弹框是否显示
+      shouTaxNoByWares:false, //弹框是否显示
     
       taxNoByWaresIdSeach:{
         pageNum: 1,
@@ -108,7 +111,6 @@ export default {
     let { from,id }=this.$route.query||{};
     if(from){
       getSalesInvoiceDetails({id}).then(res=>{
-        console.log('res.data',res.data)
         if(res.success){
           let data=_.cloneDeep(this.searchForm);
           if(res.data&&res.data.cusCode){
@@ -152,7 +154,6 @@ export default {
             json['invoicedQty']=json['numberOfReceipts'];
             json['skuPrice']=json['taxPrice'];
             json['actualTicketTax']=json['invoiceTax'];
-            json['taxNoByWares']=json['taxCode']
             return json;
           })
           this.searchForm=data;
@@ -281,17 +282,25 @@ export default {
               data.applyTime=moment(data.applyTime).valueOf();
               data.allActualTicketTax=this.allActualTicketTax;
               data.allTaxAmount=this.allTaxAmount;
-              data.allNotTaxAmount=this.allNotTkrgnklaxAmount;
+              data.allNotTaxAmount=this.allNotTaxAmount;
               data.productBreakdown.map(v=>{
                  let json=v;
                  json.invoicedQuantity=json.skuPrice*json.invoicedQty;
                  return json;
               });
+
+              if(data.productBreakdown.some(v=>!v.taxCode)){
+                this.$message.error('税务编码必填');
+                return ''
+              }
               
               let invoiceStatus=0;
               let ticketStatus=type=="save"?'SAVING':'SUBMIT_FOR_REVIEW';
+
               if(from==='rebuild'){
                 data.id=id;
+              } else{
+                delete  data.id
               }
               
               if(data.invoiceNature==='CREDIT_NOTE'){
@@ -302,9 +311,9 @@ export default {
                  invoiceStatus=1;
               }
               console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
+
               const view = this.visitedViews.filter(v => v.path === this.$route.path)  
               saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus}).then(res=>{
-              
                 if(res.success){
                   this.$confirm('操作成功！', '提示', {
                     confirmButtonText: '详情',
@@ -350,8 +359,19 @@ export default {
       this.id='';
       this.tableData=[];
       searchForm.productBreakdown=[];
+      searchForm.oldInvoiceCode='';
+      searchForm.oldInvoiceId='';
       this.searchForm=searchForm;
+      this.outBusiBillNoConfig=[];
+
       this.ordernoandcontractnoApi({entNumber:value})
+    },
+
+    invoiceChange(){
+      let searchForm=_.cloneDeep(this.searchForm);
+      searchForm.oldInvoiceCode='';
+      searchForm.oldInvoiceId='';
+      this.searchForm=searchForm;
     },
 
     saleorderChange(value){
@@ -361,6 +381,8 @@ export default {
       let searchForm=_.cloneDeep(this.searchForm);
       searchForm.contractNo=this.orderNoConfig.find(v=>v.busiBillNo==value)&&this.orderNoConfig.find(v=>v.busiBillNo==value).contractNo;
       searchForm.productBreakdown=[];
+      searchForm.oldInvoiceCode='';
+      searchForm.oldInvoiceId='';
       this.searchForm=searchForm;
       this.id='';
       this.tableData=[];
@@ -413,10 +435,13 @@ export default {
     },
 
     handleClose(){
+      this.taxNoByWaresIdSeach={
+        pageNum: 1,
+        pageSize:10,
+        taxCode:'',
+        taxCategoryName :''
+      };
       this.shouDetails = false;
-      this.shouTaxNoByWares=false;
-    },
-    shouTaxNoByWaresSuccess(){
       this.shouTaxNoByWares=false;
     },
 
@@ -502,8 +527,34 @@ export default {
     selectTaxNoByWares(id){
       this.shouTaxNoByWares=true;
       this.taxNoByWaresId=id;
+      this.taxNoByWaresIdSeach={
+        pageNum: 1,
+        pageSize:10,
+        taxCode:'',
+        taxCategoryName :''
+      };
       this.infoTaxnoSesct();
     },
+
+    currentRedioChange(value){
+      if(value){
+        let searchForm=_.cloneDeep(this.searchForm);
+        this.taxNoByWaresIdSeach.taxCode=value.taxCode;
+        this.taxNoByWaresIdSeach.taxCategoryName=value.taxCategoryName;
+      }
+    },
+
+
+    shouTaxNoByWaresSuccess(){
+      let searchForm=_.cloneDeep(this.searchForm);
+      if(this.taxNoByWaresId){
+        searchForm.productBreakdown.find(v=>v.id===this.taxNoByWaresId).taxCode=this.taxNoByWaresIdSeach.taxCode;
+      }
+      this.searchForm=searchForm;
+      this.shouTaxNoByWares=false;
+    },
+
+
 
     infoTaxnoSesct(){
       this.taxNoByWaresLoading=true;
@@ -538,13 +589,18 @@ export default {
       this.infoTaxnoSesct();
     },
 
-    changeRadio(value){
-      let searchForm=_.cloneDeep(this.searchForm);
-      if(this.taxNoByWaresId){
-        searchForm.productBreakdown.find(v=>v.id===this.taxNoByWaresId).taxNoByWares=value.taxCode;
-      }
+
+
+
+    taxNoByWaresChange(value){
       this.searchForm=searchForm;
-    }
+      this.infoTaxnoSesct();
+    },
+
+
+
+ 
+
 
   
   }

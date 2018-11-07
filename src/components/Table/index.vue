@@ -5,17 +5,13 @@
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="tableData"
+        :highlight-current-row="highlightCurrentRow"
+        @current-change="handleCurrentRedioChange"
         :summary-method="summaryMethod"
         :border="border"
         :show-summary="showSummary"
         size="small"
         :style="tableStyle">
-
-         <el-table-column  v-if="useRadio"  label="" width="50">
-            <template slot-scope="scope">
-              <el-radio :label="scope.$index" v-model="radio" @change.native="handelRadio(scope.row)"></el-radio>
-            </template>
-         </el-table-column>
 
           <el-table-column
             v-for="item in tableConfig"
@@ -56,6 +52,10 @@ export default {
      loading: {
       type: Boolean,
       default: false      
+    },
+    highlightCurrentRow:{
+       type: Boolean,
+       default: false    
     },
     useRadio:{
       type: Boolean,
@@ -120,14 +120,13 @@ export default {
     total:{
       type: Number,
       default: 0
-    }
+    },
    
   },
 
   data() {
     return {
       tableConfig:[],
-      radio:''
     }
   },
   created(){
@@ -236,9 +235,10 @@ export default {
         this.$emit('currentChange', val); 
      },
 
-     handelRadio(value){
-       this.$emit('changeRadio', value); 
+     handleCurrentRedioChange(currentRow, oldCurrentRow){
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
      }
+
 
 
   }
