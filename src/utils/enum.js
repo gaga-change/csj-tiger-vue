@@ -103,3 +103,19 @@ export const InvoiceType = [
     value: 4
   }
 ]
+
+//付款方式
+export const PaymentMode = [
+  {
+    name: '转账',
+    value: 1
+  },
+  {
+    name: '支票',
+    value: 2
+  },
+  {
+    name: '现金',
+    value: 3
+  },
+]

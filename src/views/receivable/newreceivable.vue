@@ -371,6 +371,8 @@
         }
       },
       handleUploadSuccess(res, file, fileList) {
+        console.log(res, file, fileList);
+        
         if (res.code === '200') {
           this.fileList = fileList
         } else {
