@@ -229,6 +229,7 @@
                       size="mini"
                       :max="props.row.invoicedQty" 
                       :min="0" 
+                      @change="invoicedQtyChange(props.row)"
                       v-model="props.row.invoicedQuantity" >
                     </el-input-number >
                     <span v-else>{{ props.row.invoicedQuantity }}</span>
@@ -322,7 +323,7 @@
           :visible.sync="shouDetails"
           top="6vh"
           custom-class="shouDetailsDialog"
-          width="60%"
+          width="70%"
           :before-close="handleClose">
             <el-row>
                <el-col :span="6" style="min-width:300px;margin-bottom:12px">

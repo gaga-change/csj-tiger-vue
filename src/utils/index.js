@@ -58,13 +58,15 @@ export function formatTime(time, option) {
   }
 }
 
-export function printUrl(name, ticketno) {
+export function printUrl(name, id) {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/' + name + '.cpt&ticketno=' + ticketno
+    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/' + name + '.cpt&id=' + id
   } else if (process.env.NODE_ENV === 'production') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL/' + name + '.cpt&ticketno=' + ticketno
+    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL/' + name + '.cpt&id=' + id
   }
 }
+
+// http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/supply_invoice_export.cpt&id=3
 
 export function reportCenterUrl(name) {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {

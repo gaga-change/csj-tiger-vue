@@ -12,6 +12,21 @@ export const NatureInvoice = [
   },
 ];
 
+//业务板块
+export const busiPlateConfig = [
+  
+  {
+    name: '钢铁',
+    value: 0
+  },
+
+  {
+    name: '汽车',
+    value: 1
+  },
+];
+
+
 //发票性质枚举类型
 export const NatureInvoiceEnum = [
   
@@ -47,6 +62,10 @@ export const TicketStatus = [
   {
     name: '已复核',
     value: 4
+  },
+  {
+    name: '已驳回',
+    value: 5
   },
 ]
 

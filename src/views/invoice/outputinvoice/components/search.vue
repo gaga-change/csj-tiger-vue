@@ -124,18 +124,20 @@
       </el-row>
       <template v-if="searchForm.searchItem=='register'">
         <el-row :gutter="10">
-         <!-- <el-col :span="6">
+
+         <el-col :span="6">
           <el-form-item label="业务板块">
-            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择业务板块">
+            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
               <el-option
-                v-for="item in statusConfig"
-                :key="item.key"
-                :label="item.value"
-                :value="item.key">
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col> -->
+        </el-col>
+
           <el-col :span="9">
             <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
               <el-date-picker size="small" v-model="searchForm.invoiceApplicationTimeRange" 
@@ -177,7 +179,7 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype } from '@/utils/enum'
+import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype ,busiPlateConfig} from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
 
@@ -192,6 +194,7 @@ export default {
       InvoiceStatus,
       NatureInvoice,
       NatureInvoiceEnum,
+      busiPlateConfig,//业务板块配置
       TicketStatus,
       codeConfig:[],
       customerConfig:[], //客户名称下拉配置
@@ -243,6 +246,10 @@ export default {
         default: ''
       },
       invoiceNo:{//开票单号
+        type: String,
+        default: ''
+      },
+      busiPlate:{ //业务板块
         type: String,
         default: ''
       }

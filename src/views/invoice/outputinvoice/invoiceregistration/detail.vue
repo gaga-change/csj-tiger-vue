@@ -14,7 +14,7 @@
           </el-button>
         </template>
         <template v-if="cardData.ticketStatus>1">
-           <a :href="printUrl('supply_invoice_export', cardData.contractNo)" target="_blank">
+           <a :href="printUrl('supply_invoice_export', cardData.id)" target="_blank">
             <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
          

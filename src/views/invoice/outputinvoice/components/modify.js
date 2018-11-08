@@ -1,16 +1,17 @@
 
-import { getSalesInvoiceBillingReview, getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
+import { getSalesInvoiceBillingReview, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
 
-export default function Modify(type, name, needfresh, api) {
+export default function Modify(type, name, needfresh, api,tips) {
   // 0 驳回
-  if (type === 0) {
-    this.$confirm('是否确定驳回', '提示', {
+  if (type === 5) {
+    this.$prompt('请输入驳回意见', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(({ value }) => {
-      getSalesInvoiceBillingReview({
+      getSalesInvoiceBillingReject({
         id: this.$route.query.id,
         ticketStatusEnum: type,
+        remarkInfo:value
       }).then(res => {
         this.$message({
           type: 'success',

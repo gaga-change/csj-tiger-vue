@@ -484,11 +484,20 @@ export default {
         searchForm.productBreakdown=data.saleSignDetailVOList&&data.saleSignDetailVOList.map(v=>{
            let json=v;
            json.taxRate=Number(json.taxRate/100);
-           json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0;
            json.invoicedQuantity=json.invoicedQty;
+           json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQuantity)/(1+json.taxRate)||0;
            return json;    
         })
       } 
+      this.searchForm=searchForm;
+    },
+
+
+    invoicedQtyChange(row){
+      let id=row.id;
+      let actualTicketTax=(row.taxRate)*(row.skuPrice*row.invoicedQuantity)/(1+row.taxRate)||0;
+      let searchForm=_.cloneDeep(this.searchForm); 
+      searchForm.productBreakdown.find(v=>v.id===id).actualTicketTax=actualTicketTax;
       this.searchForm=searchForm;
     },
 
@@ -621,6 +630,8 @@ export default {
       this.searchForm=searchForm;
       this.infoTaxnoSesct();
     },
+
+ 
 
 
 

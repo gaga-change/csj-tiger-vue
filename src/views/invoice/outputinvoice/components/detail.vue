@@ -104,6 +104,7 @@
         default:()=> [] 
       },
     },
+    
     watch:{
       cardData(){
         let {invoiceCode} = this.cardData

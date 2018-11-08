@@ -32,7 +32,7 @@ export const indexTableConfigRegistration=[//登记列表
   // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
   { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true , minWidth:90},
   { label:'开票人',prop:'issuer', width:90,type:'outbusibillstate',useApi:true, minWidth:90},
-  { label:'操作',fixed:'right',userLink:true, width:90},
+  { label:'操作',fixed:'right',userLink:true, width:100},
 ]
 export const indexTableConfigInvalid=[//待改
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceinvalid/detail',query:[{key:'id',value:'id'}] },
@@ -82,8 +82,8 @@ export const applyinfoConfig=[//发票申请信息
     return status
     }, show:'apply+register+invalid+billing'
   },
-  { title:'开票人',prop:'drawerName', show:'apply' },
-  { title:'申请人',prop:'applicantName', show:'register+invalid+billing'},
+  // { title:'开票人',prop:'drawerName', show:'apply' },
+  { title:'申请人',prop:'applicantName', show:'apply+register+invalid+billing'},
 ]
 export const detailinfoConfig=[//发票详情信息
   { title:'发票登记号',prop:'invoiceNo', show:'apply', minWidth:120 },

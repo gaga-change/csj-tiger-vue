@@ -49,7 +49,6 @@
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
          console.log(this.ruleForm,'rule');
-         
        }
       let tableConfig = []
       indexTableConfigRegistration.map(item=>{
@@ -72,8 +71,16 @@
       formatter(type,value){
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
-           let id = row.id
+            let id = row.id
+            let status = Number(row.ticketStatus)
             return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+            
+            // if(status==4){
+            //   return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link> <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>作废申请</router-link></div>
+            // } else{
+            //   return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+            // }
+          
                 
          };
          default:return value

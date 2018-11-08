@@ -25,6 +25,16 @@ export function getSalesInvoiceBillingReview(data) {
     data: data
   })
 }
+
+// /webApi/sale/invoice/billingReview开票驳回
+export function getSalesInvoiceBillingReject(data) {
+  return request({
+    url: `/webApi/sale/invoice/reject`,
+    method: 'post',
+    data: data
+  })
+}
+
 //post /salesInvoiceInquiry销项开票接口
 export function getSalesInvoiceInquiry(data) {
   return request({
