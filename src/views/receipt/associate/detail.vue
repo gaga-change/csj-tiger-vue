@@ -1,29 +1,151 @@
 <template>
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
-    <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">  
-       <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="aa()">增加关联订单
-        </el-button> 
-        <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="linkToInvoice()">保存
-        </el-button> 
-        <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
-            @click="linkToInvoice()">保存并提交
+    <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+      <template  v-if="cardData.ticketStatus == 0">
+         <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="salesman()">关联业务单
         </el-button>  
-        <!-- <template v-if="cardData.ticketStatus == 3">
-          <el-button  style="margin-left: 10px;" type="success" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
-              @click="goToBilling">修改财务开票
-          </el-button>
-          <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
-              @click="()=>{this.buttonDisabled=true;Modify(4)}" >复核
-          </el-button>
-        </template> -->
+         <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="salesman()">关联业务单保存
+        </el-button>  
+         <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="salesman()">关联业务单提交
+        </el-button>  
+      </template> 
+      <template v-else-if="cardData.ticketStatus == 1">
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="salesman()">审核
+          </el-button>  
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+              @click="salesman()">驳回
+          </el-button>  
+        </template>
+       <el-button  style="margin-left: 10px;" v-else-if="cardData.ticketStatus == 2&&!cardData.isInvalid" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+            @click="salesman()">作废 
+        </el-button>  
+        <e-tag v-else>
+          暂无操作
+        </e-tag>
   </sticky>
     <invoice-detail :cardData="cardData"  
     :detailtableConfig="detailtableConfigDetail"
     :tableData="finaSaleInvoiceDetailDOList"  :name="name"/>
+      <el-dialog
+          title="签收明细选择"
+          :visible.sync="shouDetails"
+          width="60%"
+          :before-close="handleClose">
+          <el-form v-model="searchForm">
+            <el-row :gutter="20">
+               <el-col :span="6">
+                <el-form-item label="订单编号" >
+                  <el-input type="text" size="small" :disabled="true"  v-model="searchForm.orderNo" ></el-input>
+                </el-form-item>
+              </el-col>
+               <el-col :span="6">
+                <el-form-item label="合同编号" >
+                  <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-button @click="searchOrder" :span="3" type="primary">查询</el-button>
+              <el-button @click="searchReset" :span="3" type="primary">重置</el-button>
+            </el-row>
+          </el-form>
+          <el-table
+              :data="planform.details"
+              size="small"
+              v-loading="loading"
+              
+              max-height="600">
+              <el-table-column
+                label="序号"
+                type="index">
+              </el-table-column>
+              <el-table-column
+                label="商品编码"
+                prop="skuCode" >
+              </el-table-column>
+            <el-table-column
+              label="商品名称"
+              prop="skuName">
+            </el-table-column>
+            <el-table-column
+              label="品牌"
+              prop="skuBrandName">
+            </el-table-column>
+            <el-table-column
+              label="规格"
+              prop="skuFormat">
+            </el-table-column>
+            <el-table-column
+              label="单位"
+              prop="skuUnitName">
+            </el-table-column>
+            <el-table-column
+              label="出库数量"
+              prop="realOutQty">
+            </el-table-column>
+            <el-table-column
+              label="单价"
+              prop="skuPrice">
+            </el-table-column>
+            <el-table-column
+              label="转换率"
+              prop="skuUnitConvert">
+            </el-table-column>
+            <el-table-column
+              label="签收数量"
+               width="120">
+              <template slot-scope="scope">
+                <template v-if="scope.row.edit">
+                  <el-input-number 
+                    size="mini"
+                    :max="scope.row.realOutQty-scope.row.rejectQty" 
+                    :min="0" 
+                     style="width:100px"
+                     v-model="scope.row.signQty" >
+                   </el-input-number>
+                </template>
+                <span v-else>
+                  {{scope.row.signQty}}
+                </span>
+              </template>
+            </el-table-column>
 
+             <el-table-column
+              label="拒收数量"
+              width="120">
+              <template slot-scope="scope">
+                <template v-if="scope.row.edit">
+                  <el-input-number 
+                  :max="scope.row.realOutQty-scope.row.signQty" 
+                  :min="0" 
+                  size="mini"
+                  style="width:100px"
+                   v-model="scope.row.rejectQty" >
+                   </el-input-number>
+                </template>
+                <span v-else>
+                  {{scope.row.rejectQty}}
+                </span>
+              </template>
+            </el-table-column>
+   
+            <el-table-column
+              label="操作"
+              width="150">
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index)" size="mini" >确定</el-button>
+                <el-button v-else @click="goeditrow(scope.$index)" size="mini" >编辑</el-button>
+                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="shouDetails = false">关闭</el-button>
+          </span>
+       </el-dialog>
   </div>
   
   </div>
@@ -44,7 +166,10 @@
             detailtableConfigDetail.push(item)
           }
         })
-
+    let searchForm = {
+      orderNo:'',
+      contractNo:''
+    }
     import InvoiceDetail from '../components/detail'
     import Modify from '../components/modify'
     export default {
@@ -60,6 +185,9 @@
           finaSaleInvoiceDetailDOList:[],
           detailtableConfig:detailtableConfigDetail,
           name,
+          searchForm,
+          orderTableData:[],
+          filterOrderTableData:[]
         }
       },
 
@@ -74,6 +202,15 @@
 
     methods: {
       Modify,
+      searchOrder(){
+        this.filterOrderTableData = this.orderTableData.filter(company => {
+          return company.orderNo.includes(this.searchForm.orderNo) && company.contractNo.includes(this.searchForm.contractNo)
+        })
+      },
+      searchReset(){
+        this.searchForm = searchForm
+        this.filterOrderTableData = [...this.orderTableData]
+      },
       goToBilling(){
         this.$router.push({
           path:`/invoice/outputinvoice/invoiceapply/billing?id=${this.$route.query.id}`,

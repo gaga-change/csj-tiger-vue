@@ -25,7 +25,7 @@
 
 
     import moment from 'moment';
-    import { getSalesInvoiceInquiry } from '@/api/invoicetigger/invoice'
+    import { getReceiptList } from '@/api/receipt'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { receiptTableConfig } from '../components/config';
@@ -106,7 +106,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/invoice/outputinvoice/invoiceinvalid',
+          path:'/receipt/register/index',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -129,7 +129,7 @@
           }
         }
         let data={...json}
-       getSalesInvoiceInquiry(data).then(res=>{
+       getReceiptList(data).then(res=>{
        if(res.success){
           let data=res.data;
           this.tableData=data.list||[];

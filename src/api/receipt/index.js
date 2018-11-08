@@ -10,34 +10,25 @@ export function addOrUpdateReceipt(data) {
   })
 }
 // /webApi/receive/relate/salesman 关联业务员
-export function getsalesman(data) {
+export function relateSalesMan(data) {
   return request({
     url: `/webApi/receive/relate/salesman`,
     method: 'post',
     data: data
   })
 }
-// /webApi/sale/invoice/financialBilling财务开票
-export function getSalesInvoiceFinancialBilling(data) {
+// /webApi/receive/list 查询付款单列表
+export function getReceiptList(data) {
   return request({
-    url: `/webApi/sale/invoice/financialBilling`,
+    url: `/webApi/receive/list`,
     method: 'post',
     data: data
   })
 }
-// /webApi/sale/invoice/billingReview开票审核
-export function getSalesInvoiceBillingReview(data) {
+// /webApi/receive/detail 查询付款单详情
+export function getReceiptDetail(data) {
   return request({
-    url: `/webApi/sale/invoice/billingReview`,
-    method: 'post',
-    data: data
-  })
-}
-//get /salesInvoiceInquiry销项开票接口
-export function getSalesInvoiceInquiry(data) {
-  return request({
-    url: `/webApi/sale/invoice/salesInvoiceInquiry`,
-    method: 'post',
-    data: data
+    url: `/webApi/receive/detail?id=${data}`,
+    method: 'get',
   })
 }
