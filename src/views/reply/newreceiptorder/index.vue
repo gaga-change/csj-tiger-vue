@@ -103,7 +103,7 @@
        <item-title text="相关明细"/>
         <el-row >
           <el-form-item label-width="0" prop="details">
-            <el-table
+          <el-table
               :data="planform.details"
               size="small"
               v-loading="loading"

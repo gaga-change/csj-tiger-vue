@@ -2,16 +2,16 @@
   <div class="app-container">
     <el-form :model="receipt" :rules="rules" ref="ruleForm" label-width="120px">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="6" v-if="receipt.id">
           <el-form-item label="收款单号">
-            <div>{{receipt.receiptNo}}</div>
+            <div>{{receipt.id}}</div>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="付款方" prop="fundnature">
-            <el-select v-model="receipt.cusName" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="付款方" prop="paymentName">
+            <el-select v-model="receipt.paymentName" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in cusName"
                 :key="item.value"
@@ -22,17 +22,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="金额" prop="mount">
-            <el-input type="text" size="small" v-model="receipt.mount"></el-input>
+          <el-form-item label="金额" prop="paymentAmt">
+            <el-input type="text" size="small" v-model="receipt.paymentAmt"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="付款方式" prop="fundnature">
-            <el-select v-model="receipt.cusName" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="付款方式" prop="paymentMode">
+            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
               <el-option
-                v-for="item in cusName"
+                v-for="item in paymentModeItem"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value">
@@ -43,7 +43,7 @@
         <el-col :span="6">
           <el-form-item label="日期" prop="mount">
               <el-date-picker
-              v-model="receipt.recdate"
+              v-model="receipt.paymentDate"
               type="datetime"
               size="small"
               :editable="false"
@@ -55,8 +55,8 @@
       </el-row>
        <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="付款方银行" prop="fundnature">
-            <el-select v-model="receipt.cusName" filterable clearable placeholder="请选择" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="付款方银行" prop="paymentBank">
+            <el-select v-model="receipt.paymentBank" filterable clearable placeholder="请选择" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in cusName"
                 :key="item.value"
@@ -67,15 +67,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="交易流水" prop="mount">
-            <el-input type="text" size="small" v-model="receipt.mount"></el-input>
+          <el-form-item label="交易流水" prop="paymentRecordNo">
+            <el-input type="text" size="small" v-model="receipt.paymentRecordNo"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
        <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="付款方账户" prop="fundnature">
-            <el-input type="text" size="small" v-model="receipt.mount"></el-input>
+          <el-form-item label="付款方账户" prop="paymentAccount">
+            <el-input type="text" size="small" v-model="receipt.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -92,8 +92,8 @@
       </el-row>
        <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="备注" prop="memos">
-            <el-input type="textarea" size="small" v-model="receipt.memos" rows='5'></el-input>
+          <el-form-item label="付款摘要" prop="paymentAbstract">
+            <el-input type="textarea" size="small" v-model="receipt.paymentAbstract" rows='5'></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -134,9 +134,9 @@
   
 
 <script>
-  import { addOrUpdateReceivable, getReceivableDetail } from '@/api/receivable'
+  import { addOrUpdateReceipt } from '@/api/receipt'
   import { mapGetters } from 'vuex'
-  import {  ReciveFundnature, SettlementMethod, ReciveFundtype, BusinessTypeData } from '@/utils'
+  import { PaymentMode } from '@/utils/enum'
   // import orderchoice from './Component/orderchoice'
   export default {
     name: 'newreceivable',
@@ -153,60 +153,47 @@
         }
         callback()
       }
+      var checkAmt = (rule, value, callback) => {
+        
+        if (!Number(value)) {
+          return callback(new Error('请输入数字'))
+        }
+        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+          return callback(new Error('金额最多两位小数'))
+        }
+        callback()
+      }
       return {
         receipt: {
-            checkadvice: '',
-            checkdate: '',
-            checkuser: '',
-            contractno: '',
-            createdate: '',
-            createuser: '',
-            enclosure: '',
-            enterprise: '',
-            enterprisename: '',
-            fundnature: '',
-            interestrate: '',
-            isdelete: 0,
-            memos: '',
-            payer: '',
-            payername: '',
-            recamount: 0,
-            recdate: '',
-            receivables: '',
-            receivablesname: '',
-            saleorder: '',
-            settlementmethod: '',
-            status: 0,
-            ticketno: ''
+           id:'',
+           receiveNo:'',
+           paymentName:'',
+           paymentMode:'',
+           paymentBank:'',
+           paymentAccount:'',
+           paymentAmt:'',
+           paymentDate:'',
+           paymentRecordNo:'',
+           paymentAbstract:'',
+           filePath:[],
         },
         rules: {
-            paydate: [
-              { required: true, message: '请选择付款日期', trigger: 'change' }
-            ],
-            recdate: [
-              { required: true, message: '请选择收款日期', trigger: 'change' }
-            ],
-            fundnature: [
-              { required: true, message: '请选择款项性质', trigger: 'blur' }
-            ],
-            fundtype: [
-              { required: true, message: '请选择款项类型', trigger: 'blur' }
-            ],
-            recamount: [
-              { validator: checkDetail, required: true, trigger: 'blur' }
-            ],
-            contractno: [
-              { required: true, message: '请输入合同编号', trigger: 'blur' }
-            ],
-            payer: [
+            paymentName: [
               { required: true, message: '请选择付款方', trigger: 'change' }
             ],
-            saleorder: [
-              { required: true, message: '请输入销售单', trigger: 'change' }
+            paymentAmt: [
+              { validator: checkAmt, required: true, trigger: 'blur' }
             ],
-            settlementmethod: [
-              { required: true, message: '请选择结算方式', trigger: 'change' }
-            ]
+            paymentMode: [
+              { required: true, message: '请选择付款方式', trigger: 'blur' }
+            ],
+            paymentDate: [
+              { required: true, message: '付款日期', trigger: 'blur' }
+            ],
+            paymentAccount: [
+              { validator: checkDetail, required: true, trigger: 'blur' }
+            ],
+          
         },
         dialogVisible: false,
         uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
@@ -214,10 +201,7 @@
         uploadButtonVisible: false,
         dialogTableVisible: false,
         submitloading: false,
-        fundnature: ReciveFundnature,
-        fundtype: ReciveFundtype,
-        settlementmethod: SettlementMethod,
-        businesstypeData: BusinessTypeData,
+        paymentModeItem:PaymentMode,
       }
     },
     computed: {
@@ -235,31 +219,8 @@
         )
         return url
       },
-      settlementamount() {
-        return (parseFloat(this.receivableform.receivable.recamount) + (parseFloat(this.receivableform.receivable.interestrate) || 0)).toFixed(2)
-      },
-      getEntName() {
-        let tname = ''
-        if (this.gridData.length) {
-          this.gridData.map(d => {
-            if (d.requestid === this.receivableform.receivable.enterprise) {
-              tname = d.name
-            }
-          })
-        }
-        return tname
-      },
-      getCusname() {
-        let tname = ''
-        if (this.gridData.length) {
-          this.gridData.map(d => {
-            if (d.requestid === this.receivableform.receivable.payer) {
-              tname = d.name
-            }
-          })
-        }
-        return tname
-      },
+     
+     
       ...mapGetters({
         company: 'company',
         companyId: 'companyId',
@@ -299,18 +260,6 @@
           console.log(err)
         })
       },
-      subOrder(row) {
-        let currow = {}
-        if (row && Object.keys(row).length) {
-          currow = row
-        }
-        this.receivableform.receivable.saleorder = currow.ticketno
-        this.receivableform.receivable.contractno = currow.contractno
-        this.receivableform.receivable.payer = currow.customer
-        this.receivableform.receivable.residualamount = currow.residualamount
-        this.receivableform.receivable.enterprise = currow.enterprise
-        this.receivableform.receivable.enterprisename = currow.enterprisename
-      },
       
       importFile() {
         this.dialogVisible = true
@@ -344,49 +293,34 @@
           })
         }
       },
-      onSubmit() {
+      onSubmit(type) {
         this.$refs['ruleForm'].validate((valid) => {
-          console.log(valid)
           if (valid) {
             this.submitloading = true
-            const view = this.visitedViews.filter(v => v.path === this.$route.path)
-            const postData = JSON.parse(JSON.stringify(this.receivableform))
-            postData.receivable.payername = this.getCusname
-            postData.receivable.receivables = this.companyId
-            postData.receivable.receivablesname = this.company
-            postData.receivable.recdate = parseTime(this.receivableform.receivable.recdate)
-            postData.receivable.createuser = this.userInfo.truename
-            postData.receivable.settlementamount = this.settlementamount
-            postData.receivable.enclosure = JSON.stringify(this.enclosure)
-            console.log('send data: ' + JSON.stringify(postData))
-            if(this.receivableform.receivable.fundnature === '1' && this.receivableform.receivable.residualamount<this.settlementamount){
-              this.$message.error('结算金额不能大于该采购订单应付金额')
-              this.submitloading = false
-              return false
-            }
-            addOrUpdateReceivable(postData.receivable).then(
+            let postData = {...this.receipt}
+            postData.filePath = this.fileList.join(',')
+            post.isSubmit = type ? true : false
+            let msg = '新建'
+            msg = postData.id ? '修改' : '新建' 
+            addOrUpdateReceipt(postData.receivable).then(
               res => {
                 console.log(res)
                 if (res.code === '200' && res.data) {
-                  this.$confirm('新建收款单成功！', '提示', {
+                  this.$confirm(msg + '收款单成功！', '提示', {
                     confirmButtonText: '详情',
                     cancelButtonText: '关闭',
                     type: 'success'
                   }).then(
                     _ => {
-                      this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                      
                         this.$router.push({
-                          name: 'receivabledetailDelivery',
+                          path: '/receipt/receivabledetailDelivery',
                           params: {
                             ticketno: res.data
                           }
                         })
-                      })
                     }
                   ).catch(_ => {
-                    this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                      this.$router.push('/')
-                    })
                   })
                 }
                 this.submitloading = false
@@ -403,8 +337,7 @@
         })
       },
       onCancel() {
-        this.receivableform = {
-          receivable: {}
+        this.receipt = {
         }
       }
     }
