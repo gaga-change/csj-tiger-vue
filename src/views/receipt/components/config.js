@@ -1,12 +1,12 @@
 import { RelationStatus, PaymentMode, ApproveStatus, MoneyState } from '@/utils/enum'
 export const receiptTableConfig=[// 收款列表
-  { label:'收款单号',prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
-  { label:'客户名称',prop:'paymentName' },
-  { label:'收款金额',prop:'paymentAmt',type:'money', },
-  { label:'款项性质',prop:'moneyState',type:'MoneyState', },
-  { label:'财务登记人',prop:'inputUserName' },
-  { label:'单据状态',prop:'approveStatus', type:'ApproveStatus', useLocalEnum:true },
-  { label:'执行状态',prop:'relationStatus', type:'RelationStatus', useLocalEnum:true },
+  { label:'收款单号', width:120, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+  { label:'客户名称',prop:'paymentName', width:120 },
+  { label:'收款金额',prop:'paymentAmt',type:'money', width:120 },
+  { label:'款项性质',prop:'moneyState',type:'MoneyState', width:120 },
+  { label:'财务登记人',prop:'inputUserName', minWidth:90 },
+  { label:'单据状态',prop:'approveStatus', type:'ApproveStatus', width:120},
+  { label:'执行状态',prop:'relationStatus', type:'RelationStatus', width:120 },
   { label:'指定业务员',prop:'relationUserName', width:90},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]

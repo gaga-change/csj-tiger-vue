@@ -7,29 +7,40 @@ export default [
     path: '/receipt',
     component: Layout,
     redirect: '/receipt/newreceipt',
-    name: 'paymentDelivery',
+    name: 'receipt',
     meta: { title: '收款新', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newreceipt',
         component: _import('receipt/newreceipt/index'),
-        name: 'newpaymentDelivery',
+        name: 'newreceipt',
         meta: {
           title: '新建收款单',
           icon: 'form',
           roles: ['service_finance']
         }
       },
-      // {
-      //   path: 'paymentlist',
-      //   component: _import('payment/paymentlist'),
-      //   name: 'paymentlistDelivery',
-      //   meta: {
-      //     title: '付款单查询',
-      //     icon: 'search',
-      //     roles: ['service_finance']
-      //   }
-      // },
+      {
+        path: 'register',
+        component: _import('receipt/register/index'),
+        name: 'register',
+        meta: {
+          title: '收款单列表',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'register/detail',
+        component: _import('receipt/register/detail'),
+        name: 'registerDetail',
+        hidden: true,
+        meta: {
+          title: '收款单详情',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
       // {
       //   path: 'paymentdetail/:ticketno',
       //   component: _import('payment/paymentdetail'),

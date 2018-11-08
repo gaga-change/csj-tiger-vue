@@ -53,9 +53,14 @@
         if(item.userLink){
           item.dom = this.formatter('operate');
         }
+        if(item.prop=='receiveNo'){
+          item.linkTo = '/receipt/register/detail'
+        }
         tableConfig.push(item)
       })
       this.tableConfig = tableConfig;
+      console.log(this.tableConfig,1111);
+      
       this.getCurrentTableData();
      
     },
@@ -81,8 +86,6 @@
         } 
       },
        submitForm(ruleForm) {
-         console.log(ruleForm,'invalid');
-                  
         this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'register'}
         this.getCurrentTableData();
           
@@ -106,7 +109,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/receipt/register/index',
+          path:'/receipt/register',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -129,17 +132,19 @@
           }
         }
         let data={...json}
-       getReceiptList(data).then(res=>{
-       if(res.success){
-          let data=res.data;
-          this.tableData=data.list||[];
-          this.total=data.total;
-       }
-        this.loading=false;
+        getReceiptList(data).then(res=>{
+          if(res.success){
+              let data=res.data;
+              this.tableData=data.list||[];
+              this.total=data.total;
+          }
+          console.log(res,123232);
+          
+            this.loading=false;
 
-     }).catch(err=>{
-         this.loading=false;
-     })
+        }).catch(err=>{
+            this.loading=false;
+        })
       }
     }
  }

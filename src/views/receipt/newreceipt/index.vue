@@ -155,7 +155,7 @@
   
 
 <script>
-  import { addOrUpdateReceipt } from '@/api/receipt'
+  import { addOrUpdateReceipt, getReceiptDetail } from '@/api/receipt'
   import { mapGetters } from 'vuex'
   import { PaymentMode } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
@@ -269,10 +269,12 @@
       },
     },
     created() {
-      if (!this.gridData.length) {
-        this.$store.dispatch('GetGysList')
-      }
+      // if (!this.gridData.length) {
+      //   this.$store.dispatch('GetGysList')
+      // }
       if (this.$route.query.id) {
+        console.log(222);
+        
         this.getDetail()
       }
       this.getCustomInfo()
@@ -312,9 +314,9 @@
         this.fileList = fileList
       },
       getDetail() {
-        getReceivableDetail({
-          ticketno: this.$route.query.id
-        }).then(res => {
+        getReceiptDetail(
+         this.$route.query.id
+        ).then(res => {
           this.receivableform.receivable = res.data.data[0]
           this.fileList = JSON.parse(res.data.data[0].enclosure)
           console.log(res)
@@ -378,7 +380,7 @@
                     _ => {
                       
                         this.$router.push({
-                          path: '/receipt/register/index',
+                          path: '/receipt/register',
                           query: {
                             ticketno: res.data
                           }

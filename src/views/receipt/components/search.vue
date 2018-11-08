@@ -66,7 +66,7 @@
       </el-row>
       <el-row :gutter="10">  
          <el-col :span="6">
-          <el-form-item label="业务员" label-width="90px" v-if="searchForm.searchItem == 'register'">
+          <el-form-item label="业务员" label-width="70px" v-if="searchForm.searchItem == 'register'">
             <el-input type="text" size="small"  v-model="searchForm.applyCode" ></el-input>
           </el-form-item>
         </el-col>
@@ -89,7 +89,7 @@
             </el-form-item>
         </el-col>  
         <el-col :span="6">
-          <el-form-item label-width="120px" label="收款日期:"  class="postInfo-container-item">
+          <el-form-item label-width="70px" label="收款日期:"  class="postInfo-container-item">
             <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>

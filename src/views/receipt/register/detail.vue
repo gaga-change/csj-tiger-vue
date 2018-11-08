@@ -46,7 +46,7 @@
 
 <script>
     import moment from 'moment';
-    import { relateSalesMan } from '@/api/receipt'
+    import { relateSalesMan, getReceiptDetail } from '@/api/receipt'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -137,16 +137,15 @@
       },
       getCurrentTableData(){
         this.loading=true;
-       getSalesInvoiceDetails({id:this.$route.query.id}).then(res=>{
+       getReceiptDetail(this.$route.query.id).then(res=>{
        if(res.success){
           let data=res.data;
           
           
           this.tableData=data.list||[];
           this.finaSaleInvoiceDetailDOList = res.data && res.data.finaSaleInvoiceDetailDOList || []
-          this.cardData = res.data
+          this.cardData = res.data.finaReceiveDO
           
-          this.cardData.finaSaleInvoiceDetailDOList = []
         
        }
         this.loading=false;
