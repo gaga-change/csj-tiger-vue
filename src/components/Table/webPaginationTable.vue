@@ -7,18 +7,19 @@
         :data="tableData"
          size="small"
         :border="border"
+        @selection-change="handleSelectionChange"
         :style="tableStyle">
 
         <el-table-column
           v-for="item in tableConfig"
           :formatter="item.formatter"
           :key="item.lable"
+          :type="item.columnType"
           :fixed="item.fixed"
           :width="item.width"
           :prop="item.prop"
           :label="item.label">
         </el-table-column>
-
       </el-table>
 
       <el-pagination
@@ -33,7 +34,6 @@
         v-if="total>maxTotal"
         :total="total">
       </el-pagination>
-
   </div>
 </template>
 
@@ -105,12 +105,15 @@ export default {
        if(tableConfig[i].type){
          if(tableConfig[i].useApi){
             tableConfig[i].formatter=(row, column, cellValue, index)=>this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue)&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue).value||cellValue
+         }  else if(tableConfig[i].useLocalEnum){
+            tableConfig[i].formatter=(row, column, cellValue, index)=>Enum[tableConfig[i].type].find(v=>v.value==cellValue)&&Enum[tableConfig[i].type].find(v=>v.value==cellValue).name||cellValue
          } else{
           switch(tableConfig[i].type){
             case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;
+            case 'rate':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue+'%';break;
             case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
             case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
-            case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>Number(cellValue).toFixed(2);break;
+            case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue&&Number(Number(cellValue).toFixed(2));break;
            }
          }
        } else if(tableConfig[i].dom){
@@ -163,6 +166,10 @@ export default {
      
      handleCurrentChange(val){
        this.currentPage=val
+     },
+
+     handleSelectionChange(val){
+       this.$emit('SelectionChange', val); 
      }
   }
 }

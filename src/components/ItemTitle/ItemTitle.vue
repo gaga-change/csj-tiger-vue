@@ -1,5 +1,5 @@
 <template>
-   <div class="item-title">
+   <div class="item-title"  :style="boxStyle" >
         <div class="icon"></div>
         <div class="text">{{text}}</div>
      </div>
@@ -13,13 +13,17 @@ export default {
       type: String,
       required:true
     },
+     boxStyle:{
+      type: String,
+      required:false,
+      default:"width:100%"
+    }
   },
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .item-title{
-      width: 100%;
       height: 24px;
       display: flex;
       margin-bottom: 12px;

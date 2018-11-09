@@ -129,74 +129,95 @@ export default [
   {
     path: '/invoice/outputinvoice',
     component: Layout,
-    redirect: '/invoice/outputinvoice/newoutputinvoice',
+    redirect: '/invoice/outputinvoice/invoiceapply',
     name: 'outputinvoiceDelivery',
     meta: { title: '销项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
-        path: 'newoutputinvoice',
-        component: _import('invoice/outputinvoice/newoutputinvoice'),
-        name: 'newoutputinvoiceDelivery',
+        path: 'invoiceapply',
+        component: _import('invoice/outputinvoice/invoiceapply/index'),
+        name: 'invoiceapply',
         meta: {
-          title: '申请销项发票',
+          title: '发票申请',
           icon: 'form',
           roles: ['service_finance']
         }
       },
       {
-        path: 'outputinvoicelist',
-        component: _import('invoice/outputinvoice/outputinvoicelist'),
-        name: 'outputinvoicelistDelivery',
+        path: 'invoiceapply/detail',
+        component: _import('invoice/outputinvoice/invoiceapply/detail'),
+        name: 'invoiceapplydetail',
         meta: {
-          title: '开票申请查询',
-          icon: 'search',
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'outputinvoiceresultlist',
-        component: _import('invoice/outputinvoice/outputinvoiceresultlist'),
-        name: 'outputinvoiceresultlistDelivery',
-        meta: {
-          title: '开票结果查询',
-          icon: 'search',
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'outputinvoicedetail/:ticketno',
-        component: _import('invoice/outputinvoice/outputinvoicedetail'),
-        hidden: true,
-        name: 'outputinvoicedetailDelivery',
-        meta: {
-          title: '销项开票申请详情',
+          title: '发票申请详情',
+          hidden: true,
           icon: 'form',
-          noCache: true,
           roles: ['service_finance']
-        }
+        },
+        hidden: true
       },
       {
-        path: 'outputinvoiceresultdetail/:ticketno',
-        component: _import('invoice/outputinvoice/outputinvoiceresultdetail'),
+        path: 'invoiceapply/billing',
+        component: _import('invoice/outputinvoice/invoiceapply/billing'),
+        name: 'invoiceapplybilling',
         hidden: true,
-        name: 'outputinvoiceresultdetailDelivery',
-        meta: {
-          title: '销项开票详情',
-          icon: 'form',
-          noCache: true,
-          roles: ['service_finance']
-        }
-      },
-      {
-        path: 'makeoutinvoice/:ticketno',
-        component: _import('invoice/outputinvoice/makeoutinvoice'),
-        hidden: true,
-        name: 'makeoutinvoiceDelivery',
         meta: {
           title: '财务开票',
           icon: 'form',
           roles: ['service_finance']
         }
+      },
+      {
+        path: 'invoiceregistration',
+        component: _import('invoice/outputinvoice/invoiceregistration/index'),
+        name: 'invoiceregistration',
+        meta: {
+          title: '发票登记',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceregistration/detail',
+        component: _import('invoice/outputinvoice/invoiceregistration/detail'),
+        name: 'invoiceregistrationdetail',
+        hidden: true,
+        meta: {
+          title: '发票登记详情',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceinvalid',
+        component: _import('invoice/outputinvoice/invoiceinvalid/index'),
+        name: 'invoiceinvalid',
+        meta: {
+          title: '发票作废',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'invoiceinvalid/detail',
+        component: _import('invoice/outputinvoice/invoiceinvalid/detail'),
+        name: 'invoiceinvalid',
+        hidden:true,
+        meta: {
+          title: '发票作废详情',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'newoutputinvoice',
+        component: _import('invoice/outputinvoice/newoutputinvoice/index'),
+        name: 'newoutputinvoiceDelivery',
+        meta: {
+          title: '申请销项发票',
+          icon: 'form',
+          roles: ['service_finance']
+        },
+        hidden: true
       }
     ]
   },

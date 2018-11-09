@@ -1,6 +1,6 @@
 <template>
   <div class="outgoing-quiry-container">
-  <div style="margin:12px">
+  <div style="marginBottom:12px">
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
    <base-table 
@@ -18,7 +18,8 @@
 
 <script>
     const ruleForm = {
-      searchItem:'register',
+      searchItem:'invalid',
+      invoiceStatus: 2,
       pageNum: 1,
       pageSize:10,
     }
@@ -28,12 +29,11 @@
     import { getSalesInvoiceInquiry } from '@/api/invoicetigger/invoice'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import { indexTableConfigRegistration } from '../components/config';
+    import {indexTableConfigInvalid } from '../components/config';
+    import Sticky from '@/components/Sticky' // 粘性header组件
     import SearchInvoice from '../components/search'
-    
-
     export default {
-      components: { BaseTable, SearchInvoice},
+      components: { BaseTable, SearchInvoice, Sticky},
       data() {
       return {
         ruleForm: ruleForm,
@@ -48,10 +48,9 @@
      created(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-         console.log(this.ruleForm,'rule');
        }
       let tableConfig = []
-      indexTableConfigRegistration.map(item=>{
+      indexTableConfigInvalid.map(item=>{
         if(item.userLink){
           item.dom = this.formatter('operate');
         }
@@ -68,25 +67,27 @@
     ])},
 
     methods: {
-      formatter(type,value){
+       formatter(type,value){
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
-            let id = row.id
-            let status = Number(row.ticketStatus)
-            return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
-            // if(status==4){
-            //   return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link> <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>作废申请</router-link></div>
-            // } else{
-            //   return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
-            // }     
+           let id = row.id
+            return <router-link  to={{path:`/invoice/outputinvoice/invoiceinvalid/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+                
          };
          default:return value
         }
          
        },
+      searchTrigger(ruleForm){
+        console.log(ruleForm);
+      },
+      resetSearch(ruleForm){
+        console.log(ruleForm);    
+      },
        submitForm(ruleForm) {
+         console.log(ruleForm,'invalid');
                   
-        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'register'}
+        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'invalid'}
         this.getCurrentTableData();
           
       },
@@ -113,7 +114,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/invoice/outputinvoice/invoiceregistration',
+          path:'/invoice/outputinvoice/invoiceinvalid',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -127,7 +128,7 @@
                  json['planTimeTo']=arr[1];
                } 
             } else{
-               if(i=="searchItem"){
+              if(i=="searchItem"){
                 continue
               }
                json[i]=this.ruleForm[i]

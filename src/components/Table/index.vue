@@ -5,21 +5,23 @@
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="tableData"
+        :highlight-current-row="highlightCurrentRow"
+        @current-change="handleCurrentRedioChange"
         :summary-method="summaryMethod"
         :border="border"
         :show-summary="showSummary"
         size="small"
         :style="tableStyle">
 
-        <el-table-column
-          v-for="item in tableConfig"
-          :formatter="item.formatter"
-          :fixed="item.fixed"
-          :width="item.width"
-          :key="item.lable"
-          :prop="item.prop"
-          :label="item.label">
-        </el-table-column>
+          <el-table-column
+            v-for="item in tableConfig"
+            :formatter="item.formatter"
+            :fixed="item.fixed"
+            :width="item.width"
+            :key="item.lable"
+            :prop="item.prop"
+            :label="item.label">
+          </el-table-column>
 
       </el-table>
 
@@ -32,10 +34,9 @@
         size="small"
         :page-size="tablePageSize"
         :layout="layout"
-        v-if="total>maxTotal"
+         v-if="total>maxTotal"
         :total="total">
       </el-pagination>
-
   </div>
 </template>
 
@@ -44,10 +45,19 @@
 import _  from 'lodash';
 import moment from 'moment';
 import { mapGetters } from 'vuex'
+import  * as Enum from "@/utils/enum.js";
 
 export default {
    props: {
      loading: {
+      type: Boolean,
+      default: false      
+    },
+    highlightCurrentRow:{
+       type: Boolean,
+       default: false    
+    },
+    useRadio:{
       type: Boolean,
       default: false      
     },
@@ -110,7 +120,7 @@ export default {
     total:{
       type: Number,
       default: 0
-    }
+    },
    
   },
 
@@ -128,12 +138,14 @@ export default {
        if(tableConfig[i].type){
          if(tableConfig[i].useApi){
             tableConfig[i].formatter=(row, column, cellValue, index)=>this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue)&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue).value||cellValue
+         } else if(tableConfig[i].useLocalEnum){
+            tableConfig[i].formatter=(row, column, cellValue, index)=>Enum[tableConfig[i].type].find(v=>v.value==cellValue)&&Enum[tableConfig[i].type].find(v=>v.value==cellValue).name||cellValue
          } else{
           switch(tableConfig[i].type){
             case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format('YYYY-MM-DD HH:mm:ss'):'';break;
             case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
             case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
-            case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>Number(cellValue).toFixed(2);break;
+            case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue&&Number(Number(cellValue).toFixed(2));break;
             case 'files': tableConfig[i].formatter=(row, column, cellValue, index)=>{
                  let files=row.files;
                  if(!files||files.length<1){
@@ -164,7 +176,7 @@ export default {
                     <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
                   </div>
                 }
-          } ;break;
+           };break;
 
            }
          }
@@ -184,7 +196,7 @@ export default {
        }
     }
     this.tableConfig=tableConfig;
-    console.log(this.showSummary);    
+ 
   },
 
    computed: {
@@ -213,10 +225,6 @@ export default {
 
   },
 
-  mounted(){
-       
-  },
-
   methods: { 
     
      handleSizeChange(val){
@@ -225,15 +233,24 @@ export default {
      
      handleCurrentChange(val){
         this.$emit('currentChange', val); 
+     },
+
+     handleCurrentRedioChange(currentRow, oldCurrentRow){
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
      }
+
+
+
   }
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
   .ctabel{
     width: 100%;
+    .el-radio__label{
+      display: none;
+    }
   }
-  
 </style>
 

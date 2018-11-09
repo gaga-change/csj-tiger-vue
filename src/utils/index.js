@@ -58,13 +58,12 @@ export function formatTime(time, option) {
   }
 }
 
-export function printUrl(name, ticketno) {
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/' + name + '.cpt&ticketno=' + ticketno
-  } else if (process.env.NODE_ENV === 'production') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL/' + name + '.cpt&ticketno=' + ticketno
-  }
+
+export function printUrl(url,name, id) {
+    return url + name + '.cpt&id=' + id
 }
+
+// http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/supply_invoice_export.cpt&id=3
 
 export function reportCenterUrl(name) {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
@@ -423,6 +422,23 @@ export const DistributeStatus = [
     value: 3
   }
 ]
+
+export const NatureInvoice = [
+  
+  {
+    name: '篮字发票',
+    value: 0
+  },
+
+  {
+    name: '红字发票',
+    value: 1
+  },
+
+]
+
+
+
 
 export function downloadFile(file) {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
