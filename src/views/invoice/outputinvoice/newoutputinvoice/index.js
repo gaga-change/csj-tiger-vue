@@ -457,12 +457,14 @@ export default {
       let searchForm=_.cloneDeep(this.searchForm);
       let configArr=searchForm.productBreakdown.map(v=>v.id);
       let details=this.details.filter(v=>!configArr.includes(v.id));
+
       searchForm.productBreakdown=[...searchForm.productBreakdown,...details].map(v=>{
         let json=v;
         json.saleSignDetailId=v.id;
         json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0
         return json;
       });
+      console.log(searchForm.productBreakdown.map(v=>v.id))
       this.searchForm=searchForm;
       this.shouDetails = false
     },

@@ -84,5 +84,18 @@ export default function Modify(type, name, needfresh, api,tips) {
     }).catch(()=>{
       this.needfresh()
     })
-  }
+  } else if(type===-1){
+    this.$confirm('是否确定要作废', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+       console.log(this.$route.query.id)
+      this.$router.push({
+        path:`/invoice/outputinvoice/invoiceinvalid/detail?id=${this.$route.query.id}`,
+      })
+    }).catch(()=>{
+    
+    })
+  } 
 }

@@ -86,13 +86,12 @@ export const applyinfoConfig=[//发票申请信息
   { title:'申请人',prop:'applicantName', show:'apply+register+invalid+billing'},
 ]
 export const detailinfoConfig=[//发票详情信息
-  { title:'发票登记号',prop:'invoiceNo', show:'apply', minWidth:120 },
-  { title:'发票号',prop:'invoiceCode', show:'apply+register+invalid', minWidth:120 },
-  { title:'发票日期',prop:'ticketTime',type:'time', show:'register+invalid', minWidth:120 },
-  { title:'备注',prop:'ticketRemark', show:'register+invalid'},
+  { title:'发票登记号',prop:'invoiceNo', show:'apply', span:6 },
+  { title:'发票号',prop:'invoiceCode', show:'apply+register+invalid', span:6 },
+  { title:'发票日期',prop:'ticketTime',type:'time', show:'register+invalid', span:6 },
+  { title:'备注',prop:'ticketRemark', show:'register+invalid',span:10},
 ]
 export const detailtableConfig=[//详情表格
-  // { label:'序号',prop:'invoiceNo',},
   { label:'商品分类',prop:'skuCategoryno', minWidth:120 },
   { label:'商品编码',prop:'skuCode', minWidth:120 },
   { label:'商品名称',prop:'skuName', minWidth:160},

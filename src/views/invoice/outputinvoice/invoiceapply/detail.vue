@@ -28,7 +28,7 @@
               @click="goToBilling">财务开票
           </el-button>
         <template v-if="cardData.ticketStatus>1 && cardData.ticketStatus<5">
-           <a :href="printUrl('supply_invoice_export', cardData.id)" target="_blank">
+           <a :href="printUrl(url,'supply_invoice_export', cardData.id)" target="_blank">
             <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
         </template>
@@ -48,6 +48,7 @@
     import moment from 'moment';
     import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit } from '@/api/invoicetigger/invoice'
     import { printUrl } from '@/utils'
+    import { finaReportService  } from '@/api/public';
 
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
@@ -85,6 +86,7 @@
           detailinfoConfigDetail,
           cardConfig:{},
           name,
+          url:''
         }
       },
 
@@ -96,6 +98,16 @@
     ...mapGetters([
       'mapConfig',
     ])},
+
+    mounted(){
+      finaReportService().then(res=>{
+        if(res.success){
+           this.url=res.data
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
 
     methods: {
       printUrl,

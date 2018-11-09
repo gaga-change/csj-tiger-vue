@@ -2,15 +2,12 @@
   <div class="outgoing-quirydetail-container">
   <item-title text="发票申请信息"/>
   <item-card :config="applyinfoConfig" :loading="loading"   :cardData="cardData"  />
-  <template v-if="name!='billing'&&name!='apply'&&cardData.ticketStatus > 1">
+  <template>
     <item-title text="发票详情信息"/>
     <item-card :config="detailinfoConfig" :loading="loading"   :cardData="cardData"  />
   </template>
-  <template v-else-if="name=='apply'&&cardData.ticketStatus==1">
-    <item-title text="发票详情信息"/>
-    <item-card :config="detailinfoConfig" :loading="loading"   :cardData="cardData"  />
-  </template>
-  <template v-else-if="name == 'billing'&&(cardData.ticketStatus == 2 || cardData.ticketStatus == 3)">
+  
+  <template v-if="name == 'billing'&&(cardData.ticketStatus == 2 || cardData.ticketStatus == 3)">
     <item-title text="财务开票"/>
      <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="searchForm" ref="searchForm" label-width="70px" label-position="left">
