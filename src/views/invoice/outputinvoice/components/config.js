@@ -42,7 +42,7 @@ export const indexTableConfigInvalid=[//待改
   { label:'开票数量',prop:'numberOfInvoices', minWidth:90 },
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
   { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true, minWidth:90},
-  // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
+  { label:'申请发票状态',prop:'invoiceCancelStatus', width:120, type:'invoiceCancelStatusConfig', useLocalEnum:true},
   { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true, minWidth:90 },
   { label:'开票人',prop:'issuer', minWidth:120 },
   { label:'操作', width:90,fixed:'right',userLink:true},

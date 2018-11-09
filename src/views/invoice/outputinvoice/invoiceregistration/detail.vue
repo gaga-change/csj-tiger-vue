@@ -20,11 +20,11 @@
           </a>
         </template>
 
-        <!-- <template v-if="cardData.ticketStatus==4">
+        <template v-if="cardData.ticketStatus==4">
           <el-button  style="margin-left: 10px;" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
               @click="()=>{this.buttonDisabled=true;this.Modify(-1)}" >作废申请
           </el-button>
-        </template> -->
+        </template>
 
        <template v-if="cardData.ticketStatus==1">
         <el-tag >暂无操作</el-tag>

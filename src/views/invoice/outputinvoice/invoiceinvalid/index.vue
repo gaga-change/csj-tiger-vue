@@ -19,17 +19,17 @@
 <script>
     const ruleForm = {
       searchItem:'invalid',
-      invoiceStatus: 2,
+      // invoiceStatus: 2,
       pageNum: 1,
       pageSize:10,
     }
 
 
     import moment from 'moment';
-    import { getSalesInvoiceInquiry } from '@/api/invoicetigger/invoice'
+    import { obsoleteList } from '@/api/invoicetigger/invoice'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import {indexTableConfigInvalid } from '../components/config';
+    import { indexTableConfigInvalid } from '../components/config';
     import Sticky from '@/components/Sticky' // 粘性header组件
     import SearchInvoice from '../components/search'
     export default {
@@ -71,8 +71,7 @@
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
            let id = row.id
-            return <router-link  to={{path:`/invoice/outputinvoice/invoiceinvalid/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
-                
+            return <router-link  to={{path:`/invoice/outputinvoice/invoiceinvalid/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>   
          };
          default:return value
         }
@@ -137,7 +136,7 @@
           }
         }
         let data={...json}
-       getSalesInvoiceInquiry(data).then(res=>{
+       obsoleteList(data).then(res=>{
        if(res.success){
           let data=res.data;
           this.tableData=data.list||[];

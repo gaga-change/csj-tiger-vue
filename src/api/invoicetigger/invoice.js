@@ -51,6 +51,8 @@ export function getSalesInvoiceSubmit(data) {
     data: data
   })
 }
+
+
 //post /webApi/sale/invoice/complex 一键提交 id开票id  ticketStatusEnum;
 export function getSalesInvoiceComplex(data) {
   return request({
@@ -59,3 +61,22 @@ export function getSalesInvoiceComplex(data) {
     data: data
   })
 }
+
+//发票作废接口
+export function obsoleteList(data) {
+  return request({
+    url: `/webApi/sale/invoice/obsoleteList`,
+    method: 'post',
+    data: data
+  })
+}
+
+//作废申请接口
+export function obsoleteApplication(data) {
+  return request({
+    url: `/webApi/sale/invoice/obsoleteApplication`,
+    method: 'post',
+    data: data
+  })
+}
+

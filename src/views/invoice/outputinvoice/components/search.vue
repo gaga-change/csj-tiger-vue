@@ -1,7 +1,7 @@
 <template lang="html">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
-      <el-row :gutter="10">
+      <el-row :gutter="6">
         <el-col :span="6">
           <el-form-item label="客户名称"  prop="cusName">
             <el-select v-model="searchForm.cusCode"
@@ -120,12 +120,8 @@
               </el-select>
             </el-form-item>
         </el-col>
-        
-      </el-row>
-      <template v-if="searchForm.searchItem=='register'">
-        <el-row :gutter="10">
 
-         <el-col :span="6">
+        <el-col :span="6" v-if="searchForm.searchItem=='register'||searchForm.searchItem=='invalid'">
           <el-form-item label="业务板块">
             <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
               <el-option
@@ -138,6 +134,22 @@
           </el-form-item>
         </el-col>
 
+        <el-col :span="6" v-if="searchForm.searchItem=='invalid'">
+          <el-form-item label="申请作废状态" label-width="90px">
+            <el-select v-model="searchForm.invoiceCancelStatus" :clearable="true"   filterable placeholder="请选择申请作废状态">
+              <el-option
+                v-for="item in invoiceCancelStatusConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        
+      </el-row>
+      <template v-if="searchForm.searchItem=='register'">
+        <el-row :gutter="10">
           <el-col :span="9">
             <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
               <el-date-picker size="small" v-model="searchForm.invoiceApplicationTimeRange" 
@@ -179,7 +191,7 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype ,busiPlateConfig} from '@/utils/enum'
+import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype ,busiPlateConfig,invoiceCancelStatusConfig} from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
 
@@ -195,6 +207,7 @@ export default {
       NatureInvoice,
       NatureInvoiceEnum,
       busiPlateConfig,//业务板块配置
+      invoiceCancelStatusConfig,
       TicketStatus,
       codeConfig:[],
       customerConfig:[], //客户名称下拉配置

@@ -1,5 +1,5 @@
 
-import { getSalesInvoiceBillingReview, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
+import { getSalesInvoiceBillingReview,obsoleteApplication, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
 
 export default function Modify(type, name, needfresh, api,tips) {
   // 0 驳回
@@ -90,12 +90,17 @@ export default function Modify(type, name, needfresh, api,tips) {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
-       console.log(this.$route.query.id)
-      this.$router.push({
-        path:`/invoice/outputinvoice/invoiceinvalid/detail?id=${this.$route.query.id}`,
+      obsoleteApplication({
+        id:this.$route.query.id
+      }).then(res=>{
+        this.$router.push({
+          path:`/invoice/outputinvoice/invoiceinvalid/detail?id=${this.$route.query.id}`,
+        })
+      }).catch(err=>{
+         console.log(err)
       })
-    }).catch(()=>{
-    
+    }).catch((err)=>{
+      console.log(err)
     })
   } 
 }
