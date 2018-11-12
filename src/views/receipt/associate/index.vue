@@ -25,7 +25,7 @@
 
 
     import moment from 'moment';
-    import { getSalesInvoiceInquiry } from '@/api/invoicetigger/invoice'
+    import { getReceiptList } from '@/api/receipt'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { receiptTableConfig } from '../components/config';
@@ -53,9 +53,13 @@
         if(item.userLink){
           item.dom = this.formatter('operate');
         }
+        if(item.prop=='receiveNo'){
+          item.linkTo = '/receipt/associate/detail'
+        }
         tableConfig.push(item)
       })
       this.tableConfig = tableConfig;
+      
       this.getCurrentTableData();
      
     },
@@ -70,19 +74,19 @@
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
             let id = row.id
-            let status = Number(row.ticketStatus)
+            let status = Number(row.relationStatus)
             switch(status){
-              case 0: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>分配业务员</router-link></div>
-              case 1: return <router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
-              default: return <router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+              case 0: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
+              case 1: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>关联业务单</router-link></div>
+              case 2: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
+              case 3: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
+              default: return <router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };
           default:return value
         } 
       },
        submitForm(ruleForm) {
-         console.log(ruleForm,'invalid');
-                  
         this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'associate'}
         this.getCurrentTableData();
           
@@ -106,7 +110,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/invoice/outputinvoice/invoiceinvalid',
+          path:'/receipt/associate',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -129,17 +133,18 @@
           }
         }
         let data={...json}
-       getSalesInvoiceInquiry(data).then(res=>{
-       if(res.success){
-          let data=res.data;
-          this.tableData=data.list||[];
-          this.total=data.total;
-       }
-        this.loading=false;
+        getReceiptList(data).then(res=>{
+          if(res.success){
+              let data=res.data;
+              this.tableData=data.list||[];
+              this.total=data.total;
+          }
+          
+            this.loading=false;
 
-     }).catch(err=>{
-         this.loading=false;
-     })
+        }).catch(err=>{
+            this.loading=false;
+        })
       }
     }
  }

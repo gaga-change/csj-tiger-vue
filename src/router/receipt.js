@@ -8,12 +8,13 @@ export default [
     component: Layout,
     redirect: '/receipt/newreceipt',
     name: 'receipt',
-    meta: { title: '收款新', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
+    meta: { title: '收款新', icon: 'sale', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newreceipt',
         component: _import('receipt/newreceipt/index'),
         name: 'newreceipt',
+        hidden:true,
         meta: {
           title: '新建收款单',
           icon: 'form',
@@ -37,6 +38,27 @@ export default [
         hidden: true,
         meta: {
           title: '收款单详情',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'associate',
+        component: _import('receipt/associate/index'),
+        name: 'associate',
+        meta: {
+          title: '收款单列表业务',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'associate/detail',
+        component: _import('receipt/associate/detail'),
+        name: 'associateDetail',
+        hidden: true,
+        meta: {
+          title: '收款单业务详情',
           icon: 'search',
           roles: ['service_finance']
         }

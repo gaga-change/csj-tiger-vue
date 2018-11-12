@@ -45,7 +45,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="付款方式" prop="paymentMode">
-            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择客户" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择付款方式" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -121,7 +121,7 @@
       <el-row :gutter="20">
         <el-form-item>
           <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
-          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">保存并提交</el-button>
           <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button>
         </el-form-item>
       </el-row>
@@ -157,11 +157,11 @@
 <script>
   import { addOrUpdateReceipt, getReceiptDetail } from '@/api/receipt'
   import { mapGetters } from 'vuex'
-  import { PaymentMode } from '@/utils/enum'
+  import { PaymentModeEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
   // import orderchoice from './Component/orderchoice'
   export default {
-    name: 'newreceivable',
+    name: 'newreceipt',
     // components: {
     //   orderchoice
     // },
@@ -224,7 +224,7 @@
         uploadButtonVisible: false,
         dialogTableVisible: false,
         submitloading: false,
-        paymentModeItem:PaymentMode,
+        paymentModeItem:PaymentModeEnum,
         customerConfig:[],
         customerFilterMark:'',//客户名称过滤标识
       }
@@ -272,8 +272,8 @@
       // if (!this.gridData.length) {
       //   this.$store.dispatch('GetGysList')
       // }
-      if (this.$route.query.id) {
-        console.log(222);
+      if (this.$route.query.id&&this.$route.query.from=='rebuild') {
+        console.log(636);
         
         this.getDetail()
       }
@@ -288,7 +288,6 @@
             this.receipt.paymenterName = item.entName
           }
         })
-        console.log(this.receipt.paymenterName,21111);
       },
 
       getCustomInfo(){
@@ -317,8 +316,38 @@
         getReceiptDetail(
          this.$route.query.id
         ).then(res => {
-          this.receivableform.receivable = res.data.data[0]
-          this.fileList = JSON.parse(res.data.data[0].enclosure)
+          if(res.success){
+            let {
+              id,
+              receiveNo,//收款单号
+              paymenterId,//付款方id
+              paymenterName,//付款方名称（客户姓名）
+              paymentMode,//付款方式
+              paymentBank,//付款方银行
+              paymentAccount,//付款方账号
+              paymentAmt,//付款金额
+              paymentDate,//付款日期
+              paymentRecordNo,//交易流水号
+              paymentAbstract,
+            } = res.data.finaReceiveDO
+            this.receipt =  {
+              id,
+              receiveNo,//收款单号
+              paymenterId,//付款方id
+              paymenterName,//付款方名称（客户姓名）
+              paymentMode,//付款方式
+              paymentBank,//付款方银行
+              paymentAccount,//付款方账号
+              paymentAmt,//付款金额
+              paymentDate,//付款日期
+              paymentRecordNo,//交易流水号
+              paymentAbstract,
+            }
+            this.fileList = JSON.parse(res.data.fileInfos)
+            this.receipt.filePath = JSON.parse(res.data.fileInfos)
+            
+          }
+        
           console.log(res)
         }).catch(err => {
           console.log(err)
@@ -370,19 +399,17 @@
             msg = postData.id ? '修改' : '新建' 
             addOrUpdateReceipt(postData).then(
               res => {
-                console.log(res)
-                if (res.code === '200' && res.data) {
+                if (res.success&&res.data&&res.data.id) {
                   this.$confirm(msg + '收款单成功！', '提示', {
                     confirmButtonText: '详情',
                     cancelButtonText: '关闭',
                     type: 'success'
                   }).then(
                     _ => {
-                      
                         this.$router.push({
-                          path: '/receipt/register',
+                          path: '/receipt/register/detail',
                           query: {
-                            ticketno: res.data
+                            id: res.data.id
                           }
                         })
                     }

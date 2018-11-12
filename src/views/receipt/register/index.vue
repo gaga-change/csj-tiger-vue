@@ -1,5 +1,10 @@
 <template>
   <div class="outgoing-quiry-container">
+      <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('receiptcreate')"
+            @click="linkToCreate">新建付款单
+        </el-button>
+      </sticky>
   <div style="marginBottom:12px">
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
@@ -59,7 +64,6 @@
         tableConfig.push(item)
       })
       this.tableConfig = tableConfig;
-      console.log(this.tableConfig,1111);
       
       this.getCurrentTableData();
      
@@ -71,6 +75,13 @@
     ])},
 
     methods: {
+      linkToCreate(type){
+        
+        this.$router.push({
+              path:`/receipt/newreceipt`,
+            })
+         
+      },
       formatter(type,value){
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
@@ -138,7 +149,6 @@
               this.tableData=data.list||[];
               this.total=data.total;
           }
-          console.log(res,123232);
           
             this.loading=false;
 

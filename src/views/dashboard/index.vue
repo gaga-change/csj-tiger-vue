@@ -11,7 +11,7 @@
       </el-col> -->
     </el-row> 
 
-  <template>
+  <!-- <template>
   <div>
     <el-table :data="tableData6" :span-method="objectSpanMethod" border 
     align="center" style="width: 100%; margin-top: 20px">
@@ -27,7 +27,7 @@
       </el-table-column>
     </el-table>
   </div>
-</template>
+</template> -->
 
 
   </div>
@@ -82,41 +82,41 @@ let count = 0
     created(){
       count = 0
     },
-     methods: {
-      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        console.log(row, column, rowIndex, columnIndex);
-        let tableData6 = this.tableData6
-        let equalRow = 0
-        tableData6.map(item=>{
-          if(item.id == row.id){
-            ++equalRow
-          }
-        })
-        count += equalRow
-        if (/0|1/.test(columnIndex)) {
-          if ((rowIndex-count) % equalRow === 0) {
-            return {
-              rowspan: equalRow,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
-            };
-          }
-        }
+    //  methods: {
+      // objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      //   console.log(row, column, rowIndex, columnIndex);
+      //   let tableData6 = this.tableData6
+      //   let equalRow = 0
+      //   tableData6.map(item=>{
+      //     if(item.id == row.id){
+      //       ++equalRow
+      //     }
+      //   })
+      //   count += equalRow
+      //   if (/0|1/.test(columnIndex)) {
+      //     if ((rowIndex-count) % equalRow === 0) {
+      //       return {
+      //         rowspan: equalRow,
+      //         colspan: 1
+      //       };
+      //     } else {
+      //       return {
+      //         rowspan: 0,
+      //         colspan: 0
+      //       };
+      //     }
+      //   }
         
         
-      },
+      // },
   
-     computed: {
+  computed: {
      ...mapGetters([
       'userInfo'
     ])
   },
  }
- }
+
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

@@ -16,12 +16,12 @@ service.interceptors.response.use(
     if (res.code !== '200' && !res.success) {
       if (res.code === '512') {
         MessageBox.alert('验证失败,请重新登录').then(_ => {
-          location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+          location.href = `/csj_login`
         })
       } else {
         let message=res.message||res.errorMsg||'';
         if(message=='用户未登录'){
-          location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+          location.href = `/csj_login`
         }
         Notification({
           title:'错误信息',
@@ -38,7 +38,7 @@ service.interceptors.response.use(
   error => {
     let message=error.message||err.errorMsg||''
     if(message=='用户未登录'){
-      location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+      location.href = `/csj_login`
     }
     Notification({
       title:'错误信息',

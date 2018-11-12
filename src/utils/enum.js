@@ -105,7 +105,7 @@ export const InvoiceType = [
 ]
 
 //付款方式
-export const PaymentMode = [
+export const PaymentModeEnum = [
   {
     name: '转账',
     value: 1
@@ -118,4 +118,88 @@ export const PaymentMode = [
     name: '现金',
     value: 3
   },
+]
+
+//收款审核状态
+export const ApproveStatusEnum = [
+  {
+    name: '未审核',
+    value: 0
+  },
+  {
+    name: '保存',
+    value: 1
+  },
+  {
+    name: '审核通过',
+    value: 2
+  },
+  {
+    name: '驳回',
+    value: 3
+  },
+]
+
+//收款销售单关联状态
+export const RelationStatusEnum = [
+  {
+    name: '待分配业务员',
+    value: 0
+  },
+  {
+    name: '未关联',
+    value: 1
+  },
+  {
+    name: '保存',
+    value: 2
+  },
+  {
+    name: '待审核',
+    value: 3
+  },
+  {
+    name: '已审核',
+    value: 4
+  },
+  {
+    name: '已驳回',
+    value: 5
+  },
+]
+
+//收款款项性质
+export const MoneyStateEnum = [
+  {
+    name: '货款',
+    value: 0
+  },
+  {
+    name: '质保金',
+    value: 1
+  },
+  {
+    name: '服务费',
+    value: 2
+  },
+  {
+    name: ' ',
+    value: 99
+  },
+]
+
+//收款款项类型
+export const MoneyTypeEnum = [
+  {
+    name: '预付款',
+    value: 0
+  },
+  {
+    name: '提货款',
+    value: 1
+  },
+  {
+    name: '保证金',
+    value: 2
+  }
 ]
