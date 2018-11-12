@@ -222,7 +222,7 @@
           size="small"
           v-loading="loading"  
           @selection-change="handleSelectionChange"
-          max-height="350">
+          max-height="300">
           <el-table-column
             type="selection"
             width="55">

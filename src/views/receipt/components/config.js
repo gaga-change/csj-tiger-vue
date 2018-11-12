@@ -1,11 +1,11 @@
 import { ApproveStatusEnum, MoneyStateEnum, MoneyTypeEnum, RelationStatusEnum, PaymentModeEnum } from '@/utils/enum'
 export const receiptTableConfig=[// 收款列表
-  { label:'收款单号', width:120, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
-  { label:'客户名称',prop:'paymenterName', width:120 },
-  { label:'收款金额',prop:'paymentAmt',type:'money', width:120 },
-  { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, width:120 },
+  { label:'收款单号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+  { label:'客户名称',prop:'paymenterName', width:210 },
+  { label:'收款金额',prop:'paymentAmt',type:'money', minWidth:120 },
+  { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
   { label:'财务登记人',prop:'inputUserName', minWidth:90 },
-  { label:'单据状态',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', width:120, userFormatter: (cellValue)=>{
+  { label:'单据状态',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, userFormatter: (cellValue)=>{
     let value = ''
     ApproveStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value}},
@@ -13,7 +13,7 @@ export const receiptTableConfig=[// 收款列表
     let value = ''
     RelationStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value} },
-  { label:'指定业务员',prop:'relationUserName', width:90},
+  { label:'指定业务员',prop:'relationUserName', minWidth:90},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
 export const receiptInfoConfig=[//收款单详情
