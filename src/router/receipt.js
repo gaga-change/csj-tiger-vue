@@ -8,7 +8,7 @@ export default [
     component: Layout,
     redirect: '/receipt/newreceipt',
     name: 'receipt',
-    meta: { title: '收款新', icon: 'sale', roles: ['service_finance'] }, // you can set roles in root nav
+    meta: { title: '收款管理', icon: 'sale', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newreceipt',
@@ -63,18 +63,6 @@ export default [
           roles: ['service_finance']
         }
       },
-      // {
-      //   path: 'paymentdetail/:ticketno',
-      //   component: _import('payment/paymentdetail'),
-      //   hidden: true,
-      //   name: 'paymentdetailDelivery',
-      //   meta: {
-      //     title: '付款单详情',
-      //     icon: 'form',
-      //     noCache: true,
-      //     roles: ['service_finance']
-      //   }
-      // }
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
