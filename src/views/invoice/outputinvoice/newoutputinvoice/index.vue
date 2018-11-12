@@ -43,32 +43,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="6" style="margin-bottom:16px;">
-            <el-form-item label-width="80px" label="发票种类:"  prop="invoiceType"  class="postInfo-container-item" >
-              <el-select v-model="searchForm.invoiceType"    :clearable="true" 
-              size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
-                <el-option v-for="item in InvoiceType" :key="item.value" :label="item.name" :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-col>
-
-        <el-col :span="6" style="margin-bottom:16px;">
-          <el-form-item label-width="100px" label="最迟开票日期:"  prop="applyLastAllowTime"   class="postInfo-container-item"   >
-            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime"  placeholder="选择日期时间">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="6" style="margin-bottom:16px;">
-          <el-form-item label-width="80px" label="申请日期:" prop="applyTime"   class="postInfo-container-item" >
-            <el-date-picker size="small" v-model="searchForm.applyTime"  placeholder="选择日期时间">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-         </el-row>
-         <el-row>
-
+      
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="订单编号"  prop="orderNo" >
              <el-select v-model="searchForm.orderNo" 
@@ -103,27 +78,17 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="6" style="margin-bottom:16px;">
-          <el-form-item label="含税发票金额"    label-width="90px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="Number(allTaxAmount).toFixed(2)" ></el-input>
-          </el-form-item>
+         <el-col :span="6" style="margin-bottom:16px;">
+            <el-form-item label-width="80px" label="发票种类:"  prop="invoiceType"  class="postInfo-container-item" >
+              <el-select v-model="searchForm.invoiceType"    :clearable="true" 
+              size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
+                <el-option v-for="item in InvoiceType" :key="item.value" :label="item.name" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
         </el-col>
 
         <el-col :span="6" style="margin-bottom:16px;">
-          <el-form-item label="不含税发票金额"   label-width="100px" >
-            <el-input type="text" size="small"  :disabled="true" 
-            v-model="Number(allNotTaxAmount).toFixed(2)"></el-input>
-          </el-form-item>
-        </el-col>
-        
-      </el-row>
-        <el-col :span="6" style="margin-bottom:16px;">
-          <el-form-item label="税额" label-width="70px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
-          </el-form-item>
-        </el-col>
-
-          <el-col :span="6" style="margin-bottom:16px;">
             <el-form-item 
             prop="invoiceNature"
              label-width="80px" 
@@ -146,7 +111,7 @@
             </el-form-item>
          </el-col>
 
-          <el-col :span="6" style="margin-bottom:16px;"  v-if="searchForm.invoiceNature=='CREDIT_NOTE'">
+            <el-col :span="6" style="margin-bottom:16px;margin-left:20px;minWidth:300px"  v-if="searchForm.invoiceNature=='CREDIT_NOTE'">
             <el-form-item label="原蓝字发票票号"  label-width="100px" >
                   <el-select 
                   v-model="searchForm.oldInvoiceCode" 
@@ -161,7 +126,46 @@
                     </el-option>
                   </el-select>
             </el-form-item>
-          </el-col>
+          </el-col>  
+          
+          <el-col :span="6" style="margin-bottom:16px;margin-left:20px;minWidth:360px">
+          <el-form-item label-width="80px" label="申请日期:" prop="applyTime"   class="postInfo-container-item" >
+            <el-date-picker size="small" v-model="searchForm.applyTime"  placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+
+           <el-col :span="6" style="margin-bottom:16px;minWidth:300px">
+          <el-form-item label-width="100px" label="最迟开票日期:"  prop="applyLastAllowTime"   class="postInfo-container-item"   >
+            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime"  placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+
+
+
+        <el-col :span="6" style="margin-bottom:16px;margin-left:20px">
+          <el-form-item label="含税发票金额"    label-width="90px" >
+            <el-input type="text" size="small"  :disabled="true" v-model="Number(allTaxAmount).toFixed(2)" ></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="7" style="margin-bottom:16px;margin-left:20px">
+          <el-form-item label="不含税发票金额"   label-width="100px" >
+            <el-input type="text" size="small"  :disabled="true" 
+            v-model="Number(allNotTaxAmount).toFixed(2)"></el-input>
+          </el-form-item>
+        </el-col>
+        
+        <el-col :span="6" style="margin-bottom:16px;">
+          <el-form-item label="税额" label-width="40px" >
+            <el-input type="text" size="small"  :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
+          </el-form-item>
+        </el-col>
+
+      
+    
+           </el-row>
       </el-card>
 
        <el-row >
@@ -445,6 +449,11 @@
      .el-dialog__body{
       padding: 0 20px;
     }
+  }
+
+  .el-form-item{
+    height:30px;
+    margin-bottom: 20px;
   }
 
 

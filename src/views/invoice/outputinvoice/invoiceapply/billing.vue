@@ -83,8 +83,8 @@
         let msg = '财务开票',page='', path = ''
         if(this.cardData.ticketStatus == 2){
           msg = '财务开票'
-          path = 'invoiceapply'
-          page = ',去发票申请详情页'
+          path = 'invoiceregistration'
+          page = ',去发票登记详情页'
         }else if(this.cardData.ticketStatus == 3){
           msg = '修改财务开票'
           path = 'invoiceregistration'

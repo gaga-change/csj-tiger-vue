@@ -13,12 +13,19 @@
               @click="()=>{this.buttonDisabled=true;Modify(4)}" >复核
           </el-button>
         </template>
+        
         <template v-if="cardData.ticketStatus>1">
-           <a :href="printUrl('supply_invoice_export', cardData.id)" target="_blank">
+           <a :href="printUrl(url,'supply_invoice_export', cardData.id)" target="_blank">
             <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
-         
         </template>
+
+        <template v-if="cardData.invoiceCancelStatus==0&&cardData.ticketStatus==4">
+          <el-button  style="margin-left: 10px;" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
+              @click="()=>{this.buttonDisabled=true;this.Modify(-1)}" >作废申请
+          </el-button>
+        </template>
+
        <template v-if="cardData.ticketStatus==1">
         <el-tag >暂无操作</el-tag>
       </template>
@@ -35,6 +42,7 @@
     import { getSalesInvoiceDetails } from '@/api/invoicetigger/invoice'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
+    import { finaReportService  } from '@/api/public';
     import Sticky from '@/components/Sticky' // 粘性header组件
     import { detailtableConfig, applyinfoConfig, detailinfoConfig, recordConfig} from '../components/config';
     const name = "register"
@@ -78,6 +86,21 @@
     ...mapGetters([
       'mapConfig',
     ])},
+
+    mounted(){
+      finaReportService().then(res=>{
+        if(res.success){
+           let url=res.data
+           if(url.slice(-1).includes('/')){
+             this.url=url;
+           } else{
+             this.url=url+'/'; 
+           }
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
 
     methods: {
       Modify,

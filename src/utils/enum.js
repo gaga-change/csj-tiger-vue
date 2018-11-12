@@ -203,3 +203,18 @@ export const MoneyTypeEnum = [
     value: 2
   }
 ]
+//作废状态
+export const invoiceCancelStatusConfig = [
+  {
+    name: '申请中',
+    value: 1
+  },
+  {
+    name: '申请通过',
+    value: 2
+  },
+  {
+    name: '被驳回',
+    value: 3
+  },
+]
