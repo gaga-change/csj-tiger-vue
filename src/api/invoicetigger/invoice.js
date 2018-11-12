@@ -80,3 +80,11 @@ export function obsoleteApplication(data) {
   })
 }
 
+//确认作废接口
+export function obsoleteDocument(data) {
+  return request({
+    url: `/webApi/sale/invoice/obsoleteDocument`,
+    method: 'post',
+    data: data
+  })
+}

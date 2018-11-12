@@ -43,6 +43,11 @@ export default {
         allNotTaxAmount:'',//总不含税发票金额提交值
       },
 
+      blueTicketstate:{
+        invoiceStatus:0,
+        invoiceCancelStatus:0
+      },
+
       NatureInvoiceEnum,//发票性质
       InvoiceType,//发票种类
 
@@ -267,6 +272,10 @@ export default {
 
   methods:{
 
+    cusCodeFilter(value){
+      this.customerFilterMark=value;
+    },
+
     handleSizeChange(val) {
       this.taxNoByWaresIdSeach={...this.taxNoByWaresIdSeach,pageSize:val,pageNum:1}
       this.infoTaxnoSesct()
@@ -314,7 +323,12 @@ export default {
                    this.$message.error('红字发票不能为空');
                    return 
                  }
-                //  invoiceStatus=1;
+
+                console.log({...this.blueTicketstate})   
+               if(this.blueTicketstate.invoiceCancelStatus>0&&this.blueTicketstate.invoiceCancelStatus<3||this.blueTicketstate.invoiceStatus===2){
+                this.$message.error('对应蓝票存在作废状态,无法开具相应红票');
+                 return ''
+               }
               }
               // console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
 
@@ -469,10 +483,6 @@ export default {
       this.shouDetails = false
     },
 
-    cusCodeFilter(value){
-       this.customerFilterMark=value;
-    },
-
     orderNoFilter(value){
       this.orderNoFilterMark=value;
     },
@@ -480,6 +490,8 @@ export default {
     oldInvoiceCodeChange(invoiceCode){
       let searchForm=_.cloneDeep(this.searchForm); 
       let data=this.outBusiBillNoConfig.find(v=>v.invoiceCode==invoiceCode);
+      this.blueTicketstate.invoiceStatus=data.invoiceStatus;
+      this.blueTicketstate.invoiceCancelStatus=data.invoiceCancelStatus;
       if(data){
         searchForm.oldInvoiceId=data.id;
         searchForm.saleSignId=data.saleSignId;

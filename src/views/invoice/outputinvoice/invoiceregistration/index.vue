@@ -72,9 +72,9 @@
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
             let id = row.id
-            let status = Number(row.ticketStatus)
-            // return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
-            if(status==4){
+            let status = Number(row.invoiceCancelStatus)
+            let ticketStatus=Number(row.ticketStatus)
+            if(status==0&&ticketStatus==4){
               return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link> <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>作废申请</router-link></div>
             } else{
               return <router-link  to={{path:`/invoice/outputinvoice/invoiceregistration/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
@@ -153,6 +153,6 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-
+ 
 </style>
 

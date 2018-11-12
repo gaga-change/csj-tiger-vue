@@ -2,9 +2,17 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">  
-       <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+       <el-button  style="margin-left: 10px;" size="small" 
             @click="linkToInvoice(0)">复制 
         </el-button>  
+        <template v-if="cardData.invoiceCancelStatus==1">
+          <el-button  style="margin-left: 10px;" size="" :disabled="buttonDisabled"
+              @click="()=>{this.buttonDisabled=true;this.Modify(-2)}" >确认作废
+          </el-button>
+           <el-button  style="margin-left: 10px;" size="small" :disabled="buttonDisabled"
+              @click="()=>{this.buttonDisabled=true;this.Modify(-3)}" >作废驳回
+          </el-button>
+        </template>
   </sticky>
     <invoice-detail :applyinfoConfig="applyinfoConfigDetail" :detailinfoConfig="detailinfoConfigDetail"  :cardData="cardData"  :finaSaleInvoiceDetailDOList="finaSaleInvoiceDetailDOList" :cardConfig="cardConfig" :name="name"/>
   </div>

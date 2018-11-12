@@ -7,7 +7,7 @@ export const indexTableConfigApply=[//申请列表
   { label:'计划开票数量',prop:'numberOfInvoices', width:120 },
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
   { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true, minWidth:90},
-  // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
+  { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
   { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true, minWidth:90 },
   { label:'申请人',prop:'issuer', minWidth:90},
   { label:'操作',width:150,fixed:'right',userLink:true},
@@ -16,7 +16,7 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceregistration/detail',query:[{key:'id',value:'id'}] },
   { label:'开票申请单号',prop:'applyCode', width:120 },
   { label:'客户名称',prop:'cusName', minWidth:90 },
-  { label:'订单编号',prop:'outBusiBillNo', width:150 },
+  { label:'订单编号',prop:'outBusiBillNo', width:150  },
   // { label:'业务板块',prop:'cusName2', width:80 },
   { label:'发票号',prop:'invoiceCode', width:120 },
   { label:'发票申请日期',prop:'applyTime', width:100, dom: (row, column, cellValue, index)=>{
@@ -29,7 +29,7 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'开票数量',prop:'numberOfInvoices', minWidth:90},
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
   { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true, minWidth:90},
-  // { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
+  { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
   { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true , minWidth:90},
   { label:'开票人',prop:'issuer', width:90,type:'outbusibillstate',useApi:true, minWidth:90},
   { label:'操作',fixed:'right',userLink:true, width:100},
@@ -42,10 +42,10 @@ export const indexTableConfigInvalid=[//待改
   { label:'开票数量',prop:'numberOfInvoices', minWidth:90 },
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
   { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true, minWidth:90},
-  { label:'申请发票状态',prop:'invoiceCancelStatus', width:120, type:'invoiceCancelStatusConfig', useLocalEnum:true},
+  { label:'申请作废状态',prop:'invoiceCancelStatus', width:120, type:'invoiceCancelStatusConfig', useLocalEnum:true},
   { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true, minWidth:90 },
   { label:'开票人',prop:'issuer', minWidth:120 },
-  { label:'操作', width:90,fixed:'right',userLink:true},
+  { label:'操作', width:100,fixed:'right',userLink:true},
 ]
 
 //detailtableConfig,applyinfoConfig, detailinfoConfig, recordConfig
@@ -53,7 +53,7 @@ export const applyinfoConfig=[//发票申请信息
   { title:'开票单号',prop:'invoiceNo', show:'register+invalid' },
   { title:'发票申请单号',prop:'applyCode', show:'apply+register+invalid+billing' },
   { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing' },
-  { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing' },
+  { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'outBusiBillNo'}]  },
   { title:'合同编号',prop:'contractNo', show:'apply+register+invalid+billing' },
   { title:'发票种类',prop:'invoiceType', userFormatter: (cellValue)=>{
     let invoice = ''

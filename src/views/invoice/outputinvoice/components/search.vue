@@ -1,7 +1,9 @@
 <template lang="html">
+
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
       <el-row :gutter="6">
+
         <el-col :span="6">
           <el-form-item label="客户名称"  prop="cusName">
             <el-select v-model="searchForm.cusCode"
@@ -33,6 +35,7 @@
             <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col> -->
+
         <el-col :span="6">
           <el-form-item label="单据状态">
             <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择单据状态">
@@ -45,6 +48,7 @@
             </el-select>
           </el-form-item>
         </el-col> 
+
         <el-col :span="6" v-if="searchForm.searchItem!='invalid'">
             <el-form-item label-width="70px" label="发票性质:" class="postInfo-container-item">
               <el-select v-model="searchForm.ticketNatureEnum" 
@@ -58,19 +62,28 @@
               </el-select>
             </el-form-item>
         </el-col>
-        <el-col :span="6" v-if="searchForm.searchItem=='apply'">
-          <el-form-item label-width="120px" label="发票最迟开票日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
-            </el-date-picker>
-          </el-form-item>
+
+          <el-col :span="6" v-if="searchForm.searchItem!='invalid'">
+            <el-form-item label-width="70px" label="发票状态:" class="postInfo-container-item" prop="invoicetype">
+              <el-select v-model="searchForm.invoiceStatus" 
+              size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
+                <el-option
+                  v-for="item in InvoiceStatus"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
         </el-col>
+
+
         <el-col :span="6" v-else>
           <el-form-item label="发票号码" >
             <el-input type="text" size="small"  v-model="searchForm.invoiceCode" ></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="10">  
+
         <el-col :span="6">
           <el-form-item label="订单编号"  prop="orderNo" >
              <el-select v-model="searchForm.orderNo" 
@@ -97,6 +110,8 @@
             </el-select>
           </el-form-item>
         </el-col>
+
+
          <el-col :span="6" v-if="searchForm.searchItem=='apply'">
           <el-form-item label="开票申请单号" label-width="90px">
             <el-input type="text" size="small"  v-model="searchForm.applyCode" ></el-input>
@@ -107,20 +122,7 @@
             <el-input type="text" size="small" :disabled="true"  v-model="searchForm.invoiceNo" ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6" v-if="searchForm.searchItem!='invalid'">
-            <el-form-item label-width="70px" label="发票状态:" class="postInfo-container-item" prop="invoicetype">
-              <el-select v-model="searchForm.invoiceStatus" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
-                <el-option
-                  v-for="item in InvoiceStatus"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-col>
-
+   
         <el-col :span="6" v-if="searchForm.searchItem=='register'||searchForm.searchItem=='invalid'">
           <el-form-item label="业务板块">
             <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
@@ -146,11 +148,17 @@
             </el-select>
           </el-form-item>
         </el-col>
-        
-      </el-row>
+
+         <el-col :span="12" v-if="searchForm.searchItem=='apply'">
+          <el-form-item label-width="120px" label="发票最迟开票日期:"  class="postInfo-container-item">
+            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+
+ 
       <template v-if="searchForm.searchItem=='register'">
-        <el-row :gutter="10">
-          <el-col :span="9">
+          <el-col :span="12">
             <el-form-item label-width="120px" label="发票申请日期:"  class="postInfo-container-item">
               <el-date-picker size="small" v-model="searchForm.invoiceApplicationTimeRange" 
                format="yyyy-MM-dd" 
@@ -162,7 +170,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="12">
             <el-form-item label-width="120px" label="发票开具日期:"  class="postInfo-container-item">
               <el-date-picker size="small" v-model="searchForm.invoiceIssueTimeRange" 
                format="yyyy-MM-dd" 
@@ -175,10 +183,9 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-        </el-row>
+
       </template>
-      <el-row :gutter="10">
-        <el-col :span="6">
+           <el-col :span="24">
             <el-form-item label-width="0">
               <el-button type="primary"  size="small"  @click="submitIt">查询</el-button>
               <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
@@ -411,5 +418,9 @@ export default {
     &:last-child{
       float: right;
     } 
+  }
+  .el-form-item{
+    height:30px;
+    margin-bottom: 20px;
   }
 </style>
