@@ -107,7 +107,7 @@ export const InvoiceType = [
 //付款方式
 export const PaymentModeEnum = [
   {
-    name: '转账',
+    name: '银行转账',
     value: 1
   },
   {
@@ -117,6 +117,10 @@ export const PaymentModeEnum = [
   {
     name: '现金',
     value: 3
+  },
+  {
+    name: '承兑',
+    value: 4
   },
 ]
 
