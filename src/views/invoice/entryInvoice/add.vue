@@ -15,6 +15,7 @@
       :before-close="()=>dialogVisible=false">
         
        <web-pagination-table 
+        @SelectionChange="handleSelectionChange"
         :loading="false"
         :config="addAlertTableConfig" 
         :allTableData="alertTableData"/>
@@ -24,8 +25,7 @@
           <el-button type="primary" @click="handleSuccess">确 定</el-button>
         </span>
      </el-dialog>
-
-
+     
 
   </div> 
 </template>
@@ -52,12 +52,18 @@ export default {
         oldInvoiceId:''
       },
       dialogVisible:false,
-      alertTableData:[],
+      alertTableData:[
+        {},
+        {}
+      ],
       addAlertTableConfig
     }
   },
 
   methods:{
+    handleSelectionChange(value){
+     console.log(value)
+    },
     handleSuccess(){
       this.dialogVisible=false;
     },
