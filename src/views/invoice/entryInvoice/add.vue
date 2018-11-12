@@ -1,11 +1,13 @@
 <template>
   <div class="entryInvoice-list">
      <search-invoice   :searchForm="searchForm"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
-     <div class="add-buttom">
+     <div class="add-buttom" >
         <item-title text="商品发票明细" />
         <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="dialogVisible=true"  >选择签收单下商品明细</el-button>
      </div>
-     
+
+     <edit-table :tableData="editTableData"/>
+
      <el-dialog
       title="选择签收明细"
       custom-class="shouDetailsDialog"
@@ -32,11 +34,12 @@
 
 <script>
 import SearchInvoice from './components/search'
+import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 export default {
-  components: { SearchInvoice,webPaginationTable},
+  components: { SearchInvoice,webPaginationTable,EditTable},
    data() {
     return {
       searchForm:{
@@ -52,10 +55,8 @@ export default {
         oldInvoiceId:''
       },
       dialogVisible:false,
-      alertTableData:[
-        {},
-        {}
-      ],
+      alertTableData:[],
+      editTableData:[],
       addAlertTableConfig
     }
   },
@@ -86,6 +87,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 16px;
     }
   }
 
