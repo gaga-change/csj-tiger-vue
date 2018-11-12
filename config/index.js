@@ -14,8 +14,9 @@ module.exports = {
         // target: 'http://192.168.1.195:7979',//交付测试服务器
         // target: 'http://192.168.2.139:7878', //陈姐
         // target: 'http://172.16.80.83:7878',//志强
-        target: 'http://172.16.80.138:7878', //亚雷
+        // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://172.16.81.130:7878', //红兵
+        target: 'http://192.168.2.172:7878', //修号
         changeOrigin: true
       },
 
@@ -23,16 +24,17 @@ module.exports = {
         // target: 'http://192.168.1.195:7979',//v1.4测试服务器
         // target: 'http://192.168.1.195:2222',//v1.3测试服务器
         // target: 'http://172.16.80.83:7878',//志强
-        target: 'http://172.16.80.138:7878', //亚雷
+        // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://172.16.81.130:7878', //红兵
         // target: 'http://192.168.2.139:7878', //陈姐
         // target: 'http://172.16.81.26:7878', //苗哥
+        target: 'http://192.168.2.172:7878', //修号
         changeOrigin: true
       },
     },
 
     // Various Dev Server settings
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: '172.16.81.3', // can be overwritten by process.env.HOST
     port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

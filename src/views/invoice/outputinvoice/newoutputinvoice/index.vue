@@ -172,7 +172,8 @@
           <div style="display:flex;align-items:center;">
              <item-title text="签收单下商品明细"/>
              <el-form-item label-width="0px" >
-             <el-button type="primary" size="mini"  @click="isShouDetails" :disabled="searchForm.invoiceNature==='CREDIT_NOTE'"    >选择签收单下商品明细</el-button> </el-form-item>
+               <el-button type="primary" size="mini"  @click="isShouDetails" :disabled="searchForm.invoiceNature==='CREDIT_NOTE'"    >选择签收单下商品明细</el-button>
+              </el-form-item>
            </div> 
           <el-table
              size="small"

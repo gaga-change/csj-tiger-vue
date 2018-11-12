@@ -86,44 +86,53 @@ export default [
     ]
   },
   {
-    path: '/invoice/inputinvoice',
+    path: '/invoice/entryInvoice',
     component: Layout,
-    redirect: '/invoice/inputinvoice/newinputinvoice',
-    name: 'inputinvoiceDelivery',
-    meta: { title: '进项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
+    redirect: '/invoice/entryInvoice/registrationList',
+    name: 'entryInvoice',
+    meta: { title: '进项发票', icon: 'tree' }, 
     children: [
       {
-        path: 'newinputinvoice',
-        component: _import('invoice/inputinvoice/newinputinvoice'),
-        name: 'newinputinvoiceDelivery',
+        path: 'registrationList',
+        component: _import('invoice/entryInvoice/list'),
+        name: 'registrationList',
         meta: {
-          title: '新建进项发票',
+          title: '发票登记列表',
           icon: 'form',
-          roles: ['service_finance']
         }
       },
+
       {
-        path: 'inputinvoicelist',
-        component: _import('invoice/inputinvoice/inputinvoicelist'),
-        name: 'inputinvoicelistDelivery',
+        path: 'registrationAdd',
+        component: _import('invoice/entryInvoice/add'),
+        name: 'registrationAdd',
         meta: {
-          title: '进项发票查询',
-          icon: 'search',
-          roles: ['service_finance']
+          title: '新增发票页面',
+          icon: 'form',
         }
       },
+
+
       {
-        path: 'inputinvoicedetail/:ticketno',
-        component: _import('invoice/inputinvoice/inputinvoicedetail'),
-        hidden: true,
-        name: 'inputinvoicedetailDelivery',
+        path: 'registrationVoid',
+        component: _import('invoice/entryInvoice/void'),
+        name: 'registrationVoid',
         meta: {
-          title: '进项发票详情',
-          noCache: true,
+          title: '发票作废列表',
           icon: 'form',
-          roles: ['service_finance']
         }
-      }
+      },
+
+      {
+        path: 'registrationDetail',
+        component: _import('invoice/entryInvoice/detail'),
+        name: 'registrationDetail',
+        meta: {
+          title: '发票详情页面',
+          icon: 'form',
+        }
+      },
+
     ]
   },
   {

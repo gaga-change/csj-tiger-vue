@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-
 // /webApi/sale/invoice/billingDetails开票详情
 export function getSalesInvoiceDetails(data) {
   return request({
