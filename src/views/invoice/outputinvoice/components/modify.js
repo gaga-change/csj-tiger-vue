@@ -1,5 +1,5 @@
 
-import { getSalesInvoiceBillingReview, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
+import { getSalesInvoiceBillingReview,obsoleteApplication,obsoleteDocument, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
 
 export default function Modify(type, name, needfresh, api,tips) {
   // 0 驳回
@@ -90,12 +90,64 @@ export default function Modify(type, name, needfresh, api,tips) {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
-       console.log(this.$route.query.id)
-      this.$router.push({
-        path:`/invoice/outputinvoice/invoiceinvalid/detail?id=${this.$route.query.id}`,
+      obsoleteApplication({
+        id:this.$route.query.id
+      }).then(res=>{
+        this.$message({
+          type: 'success',
+          message: '操作成功'
+        })
+        this.$router.push({
+          path:`/invoice/outputinvoice/invoiceinvalid/detail?id=${this.$route.query.id}`,
+        })
+      }).catch(err=>{
+         console.log(err)
       })
-    }).catch(()=>{
-    
+    }).catch((err)=>{
+      console.log(err)
     })
-  } 
+  } else if(type===-2){
+    this.$confirm('是否确定要作废', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      obsoleteDocument({
+        id:this.$route.query.id,
+        invoiceCancelStatus:2
+      }).then(res=>{
+         this.$message({
+          type: 'success',
+          message: '作废成功!'
+        })
+         this.getCurrentTableData()
+      }).catch(err=>{
+        console.log(err)
+      })
+    }).catch(err=>{
+
+    })
+  } else if(type===-3){
+    this.$confirm('是否确定要驳回', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      obsoleteDocument({
+        id:this.$route.query.id,
+        invoiceCancelStatus:3
+      }).then(res=>{
+        this.$message({
+          type: 'success',
+          message: '驳回成功!'
+        })
+        this.getCurrentTableData()
+      }).catch(err=>{
+        console.log(err)
+      }) 
+    }).catch(err=>{
+
+    })
+
+  }
 }

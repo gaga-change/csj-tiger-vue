@@ -102,7 +102,12 @@
     mounted(){
       finaReportService().then(res=>{
         if(res.success){
-           this.url=res.data
+           let url=res.data
+           if(url.slice(-1).includes('/')){
+             this.url=url;
+           } else{
+             this.url=url+'/'; 
+           }
         }
       }).catch(err=>{
         console.log(err)
