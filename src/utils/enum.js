@@ -127,11 +127,11 @@ export const PaymentModeEnum = [
 //收款审核状态
 export const ApproveStatusEnum = [
   {
-    name: '未审核',
+    name: '草稿',
     value: 0
   },
   {
-    name: '保存',
+    name: '未审核',
     value: 1
   },
   {

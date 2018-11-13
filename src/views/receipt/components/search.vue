@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="6">
           <el-form-item label="客户名称"  prop="cusName">
-            <el-select v-model="searchForm.cusCode"
+            <el-select v-model="searchForm.paymenterId"
               :filter-method="cusCodeFilter" 
               clearable
               filterable placeholder="请选择客户名称" @change="customerChange"  >
@@ -35,9 +35,9 @@
         </el-col> -->
         <el-col :span="6">
           <el-form-item label="款项性质">
-            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择款项性质">
+            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
-                v-for="item in TicketStatus"
+                v-for="item in MoneyStateEnum"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value">
@@ -47,10 +47,10 @@
         </el-col> 
         <el-col :span="6" v-if="searchForm.searchItem == 'register'">
             <el-form-item label-width="70px" label="执行状态:" class="postInfo-container-item">
-              <el-select v-model="searchForm.ticketNatureEnum" 
+              <el-select v-model="searchForm.RelationStatusEnum" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择执行状态" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in NatureInvoiceEnum"
+                  v-for="item in RelationStatusEnum"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value">
@@ -60,27 +60,27 @@
         </el-col>
         <el-col :span="6" v-if="searchForm.searchItem == 'associate'">
           <el-form-item label="收款单号" label-width="90px">
-            <el-input type="text" size="small"  v-model="searchForm.applyCode" ></el-input>
+            <el-input type="text" size="small"  v-model="searchForm.receiveNo" ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="10">  
          <el-col :span="6">
           <el-form-item label="业务员" label-width="70px" v-if="searchForm.searchItem == 'register'">
-            <el-input type="text" size="small"  v-model="searchForm.applyCode" ></el-input>
+            <el-input type="text" size="small"  v-model="searchForm.salesman" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="searchForm.searchItem == 'associate'">
           <el-form-item label="财务登记人" label-width="90px">
-            <el-input type="text" size="small"  v-model="searchForm.applyCode" ></el-input>
+            <el-input type="text" size="small"  v-model="searchForm.inputUserName" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
             <el-form-item label-width="70px" label="单据状态:" class="postInfo-container-item" prop="invoicetype">
-              <el-select v-model="searchForm.invoiceStatus" 
+              <el-select v-model="searchForm.approveStatus" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in InvoiceStatus"
+                  v-for="item in ApproveStatusEnum"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value">
@@ -90,7 +90,8 @@
         </el-col>  
         <el-col :span="6">
           <el-form-item label-width="70px" label="收款日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+            <el-date-picker size="small" v-model="searchForm.paymentDate" type="daterange" format="yyyy-MM-dd"start-placeholder="开始日期"
+      end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -109,7 +110,7 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype } from '@/utils/enum'
+import { MoneyStateEnum,RelationStatusEnum,ApproveStatusEnum } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
 
@@ -120,11 +121,9 @@ export default {
       searchRules: { 
       },
       searchForm:{},
-      invoicetype,
-      InvoiceStatus,
-      NatureInvoice,
-      NatureInvoiceEnum,
-      TicketStatus,
+      MoneyStateEnum,
+      RelationStatusEnum,
+      ApproveStatusEnum,
       codeConfig:[],
       customerConfig:[], //客户名称下拉配置
       customerFilterMark:'',//客户名称过滤标识
@@ -138,51 +137,44 @@ export default {
   },
   props:{
     searchForms:{
-      cusName:{//客户名称.
+      paymenterId:{//客户名称.
         type: String,
         default: ''
       },
-      ticketNatureEnum:{//发票性质.
+      moneyState:{//款项性质.
         type: String,
         default: ''
       },
-      applyLastAllowTime:{//发票最迟开票日期.
+      receiveNo:{//收款单号.
         type: String,
         default: ''
       },
-      outBusiBillNo:{//订单编号.
+      inputUserName:{//财务登记人.
         type: String,
         default: ''
       },
-      contractNo:{//合同编号.
+      salesman:{//业务员.
         type: String,
         default: ''
       },
-      ticketStatusEnum:{//发票状态.发票状态
+      approveStatus:{//单据状态。
         type: String,
         default: ''
       },
-      invoiceStatus:{//单据状态
+      paymentStartDate:{//收款开始
         type: String,
         default: ''
       },
-      invoiceCode:{//发票号码
+      paymentEndDate:{//收款结束
         type: String,
         default: ''
       },
-      applyCode:{//开票申请单号
-        type: String,
-        default: ''
-      },
-      invoiceNo:{//开票单号
-        type: String,
-        default: ''
-      }
     },
   },
   created(){
     
     this.searchForm = _.cloneDeep(this.searchForms)
+    // this.searchForm.paymentDate = [];
      infoCustomerInfo().then(res=>{
         if(res.success){
           this.customerConfig=res.data
@@ -292,21 +284,14 @@ export default {
        })
     },
     submitIt(){//查询
-      if(this.searchForm.invoiceApplicationTimeRange&&this.searchForm.invoiceApplicationTimeRange[0]){
-        this.searchForm.invoiceApplicationTime = +(new Date(this.searchForm.invoiceApplicationTimeRange[0]))
-        this.searchForm.invoiceApplicationTimeEnd = +(new Date(this.searchForm.invoiceApplicationTimeRange[1]))
-      }
-      if(this.searchForm. invoiceIssueTimeRange&&this.searchForm.invoiceIssueTimeRange[0]){
-        this.searchForm. invoiceIssueTime = +(new Date(this.searchForm.invoiceIssueTimeRange[0]))
-        this.searchForm. invoiceIssueTimeEnd = +(new Date(this.searchForm.invoiceIssueTimeRange[1]))
+      if(this.searchForm.paymentDate&&this.searchForm.paymentDate[0]){
+        this.searchForm.paymentStartDate = +(new Date(this.searchForm.paymentDate[0]))
+        this.searchForm.paymentEndDate = +(new Date(this.searchForm.paymentDate[1]))
       }
       this.$emit('searchTrigger',this.searchForm)
     },
     resetForm(){//重置
       this.searchForm = {searchItem:this.searchForm.searchItem}
-      if(this.searchForm.searchItem=="invalid"){
-        this.searchForm.invoiceStatus = 2
-      }
       this.$emit('resetSearch',this.searchForm)
     }
   }

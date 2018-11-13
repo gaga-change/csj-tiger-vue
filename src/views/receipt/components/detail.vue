@@ -6,7 +6,7 @@
   <template v-if="name=='register'&&cardData.approveStatus==2&&cardData.relationStatus>0">
     <item-title text="收款单执行情况"/>
     <item-card :config="execInfoConfig" :loading="loading"   :cardData="cardData"  />
-    <template v-if="cardData.relationStatus>1&&cardData.relationStatus<5">	
+    <template v-if="cardData.moneyState==0&&cardData.relationStatus>1&&cardData.relationStatus<5">	
      <item-title text="收款单相关订单"/>
     <web-pagination-table 
       :loading="loading"
