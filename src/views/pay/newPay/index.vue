@@ -2,15 +2,8 @@
   <div class="app-container">
     <el-form :model="receipt" :rules="rules" ref="ruleForm" label-width="120px">
       <el-row :gutter="20">
-        <el-col :span="8" v-if="receipt.id">
-          <el-form-item label="收款单号">
-            <div>{{receipt.id}}</div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="付款方" prop="paymenterId">
+        <el-col :span="6">
+          <el-form-item label="收款方" prop="paymenterId">
             <el-select v-model="receipt.paymenterId"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
@@ -36,16 +29,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="金额" prop="paymentAmt">
-            <el-input type="text" size="small" v-model="receipt.paymentAmt"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="付款方式" prop="paymentMode">
-            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择付款方式" size="small" prefix-icon="el-icon-search">
+        <el-col :span="6">
+          <el-form-item label="款项性质" prop="paymentMode">
+            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -55,8 +41,67 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="日期" prop="mount">
+        <el-col :span="6">
+          <el-form-item label="款项类型" prop="paymentMode">
+            <el-select v-model="receipt.paymentMode" :disabled="xingzhi!==0"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
+              <el-option
+                v-for="item in paymentModeItem"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+       
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="采购订单" prop="paymentMode">
+            <el-select v-model="receipt.paymentMode" :disabled="xingzhi!==0" filterable clearable placeholder="请选择采购订单" size="small" prefix-icon="el-icon-search">
+              <el-option
+                v-for="item in paymentModeItem"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="采购合同" prop="paymentAmt">
+             <el-input type="text" size="small" disabled v-model="receipt.paymentAccount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentAmt">
+             <el-input type="text" size="small" disabled v-model="receipt.paymentAccount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6" v-if="xingzhi==0">
+          <el-form-item label="已付货款" prop="paymentAmt">
+             <el-input type="text" size="small" disabled v-model="receipt.paymentAccount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+       <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="申请金额" prop="paymentAmt">
+             <el-input type="text" size="small" :disabled="xingzhi==0" v-model="receipt.paymentAccount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="其中:货款" label-width="90px" prop="paymentAmt">
+             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="receipt.paymentAccount"></el-input>
+          </el-form-item>
+        </el-col>
+         <el-form-item label="其中:货款" label-width="90px" prop="paymentAmt">
+             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="receipt.paymentAccount"></el-input>
+          </el-form-item>
+        </el-col>
+       
+         <el-col :span="8">
+          <el-form-item label="要求付款日期" prop="mount">
               <el-date-picker
               v-model="receipt.paymentDate"
               type="datetime"
@@ -69,25 +114,18 @@
         </el-col>
       </el-row>
        <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="付款方银行" prop="paymentBank">
+          <el-col :span="6">
+          <el-form-item label="收款方银行账户" prop="paymentBank">
              <el-input type="text" size="small" v-model="receipt.paymentBank"></el-input>
           </el-form-item>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="交易流水" prop="paymentRecordNo">
-            <el-input type="text" size="small" v-model="receipt.paymentRecordNo"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="付款方账户" prop="paymentAccount">
+        <el-col :span="6">
+          <el-form-item label="收款方收款银行" prop="paymentAccount">
             <el-input type="text" size="small" v-model="receipt.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="附件">
              <el-button
               size="mini"
@@ -111,18 +149,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="付款摘要" prop="paymentAbstract">
-            <el-input type="textarea" size="small" v-model="receipt.paymentAbstract" rows='5'></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      
       <el-row :gutter="20">
         <el-form-item>
           <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
           <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">保存并提交</el-button>
-          <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button>
         </el-form-item>
       </el-row>
     </el-form>
