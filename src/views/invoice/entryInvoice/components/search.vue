@@ -251,6 +251,7 @@ import _  from 'lodash';
 import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType } from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
 import { infoCustomerInfo,ordernoandcontractno} from '@/api/invoicetigger/newoutputinvoice'
+import { queryInWarehouseBillDetailList } from '@/api/void/list'
 export default {
   components: { Sticky},
   data() {
@@ -286,6 +287,7 @@ export default {
   },
           
   methods:{
+
     busiBillNoChange(value){
       this.addFrom.contractNo=this.orderNoConfig.find(v=>v.busiBillNo==value)&&this.orderNoConfig.find(v=>v.busiBillNo==value).contractNo;
       this.$emit('busiBillNoChange',value,this.addFrom.contractNo)
@@ -293,7 +295,7 @@ export default {
 
     customerChange(value){
       this.addFrom.providerName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
-      this.getOrdernoandcontractno({entNumber:value});
+      this.queryInWarehouseBillDetailListApi({providerCode:value});
     },
 
     getInfoCustomerInfo(){
@@ -306,8 +308,8 @@ export default {
       })
     },
 
-    getOrdernoandcontractno(data){
-      ordernoandcontractno(data).then(res=>{
+    queryInWarehouseBillDetailListApi(data){
+      queryInWarehouseBillDetailList(data).then(res=>{
         if(res.success){
           this.orderNoConfig=res.data;
         }

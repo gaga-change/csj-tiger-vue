@@ -44,7 +44,6 @@
         </span>
      </el-dialog>
      
-
   </div> 
 </template>
 
@@ -53,6 +52,7 @@ import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { getSigningInformation,billingTypeDetails,getSigningDetail} from '@/api/invoicetigger/newoutputinvoice'
+import { saveFinaPurchaseInvoice } from '@/api/void/list'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 import moment from 'moment';
@@ -98,6 +98,7 @@ export default {
           }
           this.alertTableData=data.map(v=>{
             return {
+               billDetailId:v.id,
                skuCode:v.skuCode,
                skuName:v.skuName,
                skuFormat:v.skuFormat,
@@ -157,11 +158,14 @@ export default {
           json[i]=data[i]
         }
       }
-
       json.arriveDate=moment(json.arriveDate).valueOf()
       json.makeDate=moment(json.makeDate).valueOf()
-      json.FinaPurchaseInvoiceDetailBO=this.editTableData;
-      console.log(type,json)
+      json.finaPurchaseInvoiceDetailBOList=this.editTableData;
+      saveFinaPurchaseInvoice(json).then(res=>{
+        console.log(res)
+      }).catch(err=>{
+
+      })
     },
 
     goeditrow(index){

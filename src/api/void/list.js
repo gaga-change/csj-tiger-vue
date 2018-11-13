@@ -8,3 +8,23 @@ export function finaPurchaseInvoiceList(data) {
     method: 'get',
   })
 }
+
+
+//进项发票订单查询
+export function queryInWarehouseBillDetailList(data) {
+  return request({
+    url: `/webApi/in/invoice/register/queryInWarehouseBillList?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+
+//新增进项发票
+export function saveFinaPurchaseInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/saveFinaPurchaseInvoice`,
+    method: 'post',
+    data:data
+  })
+}
