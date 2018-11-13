@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名">
       </el-table-column>
-      <el-table-column prop="amount1" label="数值 1（元）">
+      <el-table-column prop="amount1" label="数值 1（元）" :formatter="addTotal">
       </el-table-column>
       <el-table-column prop="amount2" label="数值 2（元）">
       </el-table-column>
@@ -71,13 +71,13 @@ let count = 0
           amount2: '2.2',
           amount3: 17
         },{
-          id: '12987128',
+          id: '12987125',
           name: '王小虎',
           amount1: '621',
           amount2: '2.2',
           amount3: 17
         }, {
-          id: '12987125',
+          id: '12987128',
           name: '王小虎',
           amount1: '539',
           amount2: '4.1',
@@ -97,9 +97,7 @@ let count = 0
         tableData6.map(item=>{
           if(item.id == row.id){
             ++equalRow
-            total += Number(row.amount1)
-            console.log(row.id,item.id,row.amount1,total,'aaaaaaa');
-            
+            total += Number(item.amount1)
           }
         })
         
@@ -119,10 +117,7 @@ let count = 0
         }
         if(columnIndex==2){
           if (rowIndex-count === 0) {
-               count += equalRow
-              //  this.tableData6[count-1].amount1 = total
-         console.log(this.tableData6[count-1],total,equalRow,count,'adaddadasssd');
-            
+               count += equalRow       
             return {
               rowspan: equalRow,
               colspan: 1,
@@ -134,8 +129,16 @@ let count = 0
             };
           }
         }
+      },
+      addTotal({...params}) {          
+        let total=0
+        this.tableData6.map(item=>{
+          if(item.id == params.id){
+            total += Number(item.amount1)
+          }
+        })
+        return total
       }
-      
         
       },
   

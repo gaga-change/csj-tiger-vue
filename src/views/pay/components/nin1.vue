@@ -12,108 +12,72 @@
           :span-method="nInOne"
           max-height="600">
           <el-table-column
-            label="序号"
-            width="55">
-            <template slot-scope="scope">
-              <span >{{ scope.$index+1 }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
             label="商品编码"
+            :prop="aa"
             width="120">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.custommaterialno"></el-input>
-              </template>
-              <span v-else>{{ scope.row.custommaterialno }}</span>
-            </template>
           </el-table-column>
           <el-table-column
             label="商品名称"
+            :prop="aa"
             width="120">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.materialname"></el-input>
-              </template>
-              <span v-else>{{ scope.row.materialname }}</span>
-            </template>
+          </el-table-column>
+           <el-table-column
+            label="规格型号"
+            :prop="aa"
+            width="200">
           </el-table-column>
           <el-table-column
             label="品牌"
+            :prop="aa"
             width="120">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.materialtag"></el-input>
-              </template>
-              <span v-else>{{ scope.row.materialtag }}</span>
-            </template>
           </el-table-column>
-          <el-table-column
-            label="规格"
-            width="200">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.materialrule"></el-input>
-              </template>
-              <span v-else>{{ scope.row.materialrule }}</span>
-            </template>
-          </el-table-column>
+         
           <el-table-column
             label="数量"
+            :prop="aa"
             width="80">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.ordernum"></el-input>
-              </template>
-              <span v-else>{{ scope.row.ordernum }}</span>
-            </template>
           </el-table-column>
           <el-table-column
             label="单位"
+            :prop="aa"
             width="80">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.orderunit"></el-input>
-              </template>
-              <span v-else>{{ scope.row.orderunit }}</span>
-            </template>
           </el-table-column>
           <el-table-column
-            label="采购单价"
+            label="单价"
+            :prop="aa"
             width="100">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.orderprice"></el-input>
-              </template>
-              <span v-else>{{ scope.row.orderprice }}</span>
-            </template>
           </el-table-column>
           <el-table-column
-            label="采购金额"
+            label="采购数量"
+            :prop="aa"
             width="100">
-            <template slot-scope="scope">
-              <span>{{ scope.row.orderprice*scope.row.ordernum }}</span>
-            </template>
           </el-table-column>
           <el-table-column
-            label="税率"
+            label="入库总量"
+            :prop="aa"
             width="100">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.taxrate"></el-input>
-              </template>
-              <span v-else>{{ scope.row.taxrate }}</span>
-            </template>
           </el-table-column>
-          <el-table-column
-            label="备注">
-            <template slot-scope="scope">
-              <template v-if="scope.row.edit">
-                <el-input class="edit-input" size="small" v-model="scope.row.memos"></el-input>
-              </template>
-              <span v-else>{{ scope.row.memos }}</span>
-            </template>
+           <el-table-column
+            label="入库单号"
+            :prop="aa"
+            width="100">
           </el-table-column>
+           <el-table-column
+            label="入库日期"
+            :prop="aa"
+            width="100">
+          </el-table-column>
+           <el-table-column
+            label="入库数量"
+            :prop="aa"
+            width="100">
+          </el-table-column>
+           <el-table-column
+            label="入库金额"
+            :prop="aa"
+            width="100">
+          </el-table-column>
+         
         </el-table>
   </div>
 </template>
@@ -163,18 +127,20 @@
       },
     },
     methods:{
-      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        console.log(row, column, rowIndex, columnIndex);
+      nInOne({ row, column, rowIndex, columnIndex }) {
+      
+            
         let tableData = this.tableData
-        let equalRow = 0,inNumber = 0
+        let equalRow = 0
         tableData.map(item=>{
           if(item.id == row.id){
             ++equalRow
           }
         })
-        count += equalRow
+        
         if (/0|1/.test(columnIndex)) {
-          if ((rowIndex-count) % equalRow === 0) {
+          if (rowIndex-count === 0) {
+         
             return {
               rowspan: equalRow,
               colspan: 1
@@ -186,9 +152,30 @@
             };
           }
         }
-        
-        
+        if(columnIndex==2){
+          if (rowIndex-count === 0) {
+               count += equalRow       
+            return {
+              rowspan: equalRow,
+              colspan: 1,
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
       },
+      addTotal({...params}) {          
+        let total=0
+        this.tableData.map(item=>{
+          if(item.id == params.id){
+            total += Number(item.amount1)
+          }
+        })
+        return total
+      }
     }
  }
 
