@@ -14,6 +14,7 @@
             <el-select v-model="receipt.paymenterId"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
+              @blur="clearCustomerFilterMark"
               @change="customerChange"
               clearable
               filterable placeholder="请选择客户名称">
@@ -275,7 +276,6 @@
       // if (!this.gridData.length) {
       //   this.$store.dispatch('GetGysList')
       // }
-      console.log(this.$route.query.id,this.$route.query.from,'cr');
       
       
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
@@ -286,10 +286,8 @@
       this.getCustomInfo()
     },
     activated(){
-      console.log(this.$route.query.id,this.$route.query.from,'ac');
 
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        console.log(666);
         
         this.getDetail()
       }else{
@@ -319,6 +317,9 @@
       },
       cusCodeFilter(value){
         this.customerFilterMark=value;
+      },
+      clearCustomerFilterMark(){
+        this.customerFilterMark = ''
       },
       beforeUpload(file) {
         // 如果上传文件大于5M
