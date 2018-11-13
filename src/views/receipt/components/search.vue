@@ -47,7 +47,7 @@
         </el-col> 
         <el-col :span="6" v-if="searchForm.searchItem == 'register'">
             <el-form-item label-width="70px" label="执行状态:" class="postInfo-container-item">
-              <el-select v-model="searchForm.RelationStatusEnum" 
+              <el-select v-model="searchForm.relationStatus" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择执行状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in RelationStatusEnum"
