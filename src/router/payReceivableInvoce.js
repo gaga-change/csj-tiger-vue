@@ -45,6 +45,48 @@ export default [
     ]
   },
   {
+    path: '/receivable',
+    component: Layout,
+    redirect: '/receivable/newreceivable',
+    name: 'receivableDelivery',
+    meta: { title: '收款管理', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
+    children: [
+      {
+        path: 'newreceivable',
+        component: _import('receivable/newreceivable'),
+        name: 'newreceivableDelivery',
+        meta: {
+          title: '新建收款单',
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'receivablelist',
+        component: _import('receivable/receivablelist'),
+        name: 'receivablelistDelivery',
+        meta: {
+          title: '收款单查询',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'receivabledetail/:ticketno',
+        component: _import('receivable/receivabledetail'),
+        hidden: true,
+        name: 'receivabledetailDelivery',
+        meta: {
+          title: '收款单详情',
+          noCache: true,
+          icon: 'form',
+          roles: ['service_finance']
+        }
+      }
+    ]
+  },
+
+  {
     path: '/invoice/inputinvoice',
     component: Layout,
     redirect: '/invoice/inputinvoice/newinputinvoice',
