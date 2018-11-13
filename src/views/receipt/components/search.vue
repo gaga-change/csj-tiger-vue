@@ -7,7 +7,7 @@
             <el-select v-model="searchForm.paymenterId"
               :filter-method="cusCodeFilter" 
               clearable
-              filterable placeholder="请选择客户名称" @blur="clearCustomerFilterMark" @change="customerChange"  >
+              filterable placeholder="请选择客户名称" @focus="clearCustomerFilterMark" @change="customerChange"  >
               <el-option 
                 value=""
                :disabled="true"
@@ -47,7 +47,7 @@
         </el-col> 
         <el-col :span="6" v-if="searchForm.searchItem == 'register'">
             <el-form-item label-width="70px" label="执行状态:" class="postInfo-container-item">
-              <el-select v-model="searchForm.RelationStatusEnum" 
+              <el-select v-model="searchForm.relationStatus" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择执行状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in RelationStatusEnum"
@@ -227,7 +227,8 @@ export default {
       }
     },
     clearCustomerFilterMark(){
-      this.customerFilterMark = ''
+      this.customerChange()
+      
     },
     isShouDetails(){
       if(this.searchForm.cusName==''){
@@ -246,6 +247,7 @@ export default {
       this.tableData=[];
       this.searchForm=searchForm;
       this.ordernoandcontractnoApi({entNumber:value})
+      this.customerFilterMark = ''
     },
 
     saleorderChange(value){

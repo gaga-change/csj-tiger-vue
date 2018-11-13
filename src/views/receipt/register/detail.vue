@@ -33,10 +33,10 @@
     :detailtableConfig="detailtableConfigDetail"
     :tableData="relateOrderData"  :name="name"/>
       <el-card class="simpleCard" shadow="never" body-style="padding:12px" v-if="cardData.approveStatus==2&&cardData.relationStatus==0">
-      <el-form :model="searchForm" label-width="100px" label-position="left">
+      <el-form :model="searchForm" :rule="rules" label-width="100px" label-position="left">
       <el-row :gutter="10">
         <el-col :span="6">
-          <el-form-item label="分配业务员" >
+          <el-form-item label="分配业务员" prop="username">
             <el-input type="text" size="small" v-model="searchForm.username" ></el-input>
           </el-form-item>
         </el-col>
@@ -82,7 +82,7 @@
       data() {
         return {
           total:0,
-          rules: {},
+          // rules: {},
           loading:false,
           buttonDisabled:false,
           tableData: [],
@@ -93,6 +93,11 @@
           name,
           searchForm:{
             name:''
+          },
+          rules:{
+             username: [
+            { required: true, message: '请输入业务员', trigger: 'blur' }
+          ],
           }
         }
       },
