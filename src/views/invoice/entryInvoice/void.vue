@@ -1,6 +1,6 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
+     <search-invoice   :searchForm="searchForm"   @busiBillNoChange="busiBillNoChange"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -24,10 +24,10 @@ export default {
    data() {
     return {
       searchForm:{
-        providerName:'',
-        contractnNo:'' ,
+        providerCode:'',
+        contractNo:'' ,
         invoiceNo:'',
-        orderNo:'',
+        busiBillNo:'',
         ticketStatus:''
       },
       pageSize:10,
@@ -40,6 +40,13 @@ export default {
   },
 
   methods:{
+
+    busiBillNoChange(busiBillNo,contractNo){
+      let data = _.cloneDeep(this.searchForm);
+      data.contractNo=contractNo;
+      this.searchForm=data;
+    },
+
     handleSizeChange(val) {
       this.pageSize=val;
       this.pageNum=1;

@@ -1,10 +1,12 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice  :searchForm="searchForm"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
-    <el-button type="primary"  
-     size="small" 
-     style="float:right;margin-bottom:16px"
-     @click="toadd">新建发票</el-button>
+     <sticky  :className="'sub-navbar published'" style="margin-bottom: 8px">
+        <template >
+          <el-button style="margin-left: 10px;"  size="small" type="success"  @click="toadd">新建发票
+          </el-button>
+        </template> 
+      </sticky>
+     <search-invoice  :searchForm="searchForm"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -23,18 +25,19 @@ import SearchInvoice from './components/search'
 import BaseTable from '@/components/Table'
 import { listIndexConfig } from './components/config';
 import { finaPurchaseInvoiceList } from '@/api/void/list'
+import Sticky from '@/components/Sticky' 
 import _  from 'lodash';
 
 export default {
-  components: { SearchInvoice,BaseTable},
+  components: { SearchInvoice,BaseTable,Sticky},
    data() {
     return {
       searchForm:{
-        providerName:'',
-        contractnNo:'' ,
+        providerCode:'',
+        contractNo:'' ,
         invoiceNo:'',
         invoiceStatus:'',
-        orderNo:'',
+        busiBillNo:'',
         ticketStatus:'',
         invoiceNature:'',
         invoiceNature:'',
@@ -53,6 +56,13 @@ export default {
   },
 
   methods:{
+
+    busiBillNoChange(busiBillNo,contractNo){
+      let data = _.cloneDeep(this.searchForm);
+      data.contractNo=contractNo;
+      this.searchForm=data;
+    },
+
     handleSizeChange(val) {
       this.pageSize=val;
       this.pageNum=1;
@@ -97,7 +107,8 @@ export default {
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       finaPurchaseInvoiceList(json).then(res=>{
           if(res.success){
-            this.tableData=res.data.items||[]
+            let data=res.data.list||[];
+            this.tableData=data.filter(v=>v);
           }
           this.loading=false
       }).catch(err=>{

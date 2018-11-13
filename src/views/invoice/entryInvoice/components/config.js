@@ -61,16 +61,24 @@ export  const listDetailConfig=[
   //签收明细弹框表格配置
   export  const addAlertTableConfig=[
     { label:'序号',type:'index',columnType:'selection'},
-    { label:'商品编码',prop:'',},
-    { label:'商品名称',prop:'',},
-    { label:'规格型号',prop:'',},
-    { label:'单价',prop:'',},
-    { label:'已入库数量',prop:'',},
-    { label:'已出库金额',prop:'',},
-    { label:'已开票金额',prop:'',},
+    { label:'商品编码',prop:'skuCode',},
+    { label:'商品名称',prop:'skuName',},
+    { label:'规格型号',prop:'skuFormat',},
+    { label:'单价',prop:'taxPrice',},
+    { label:'已入库数量',prop:'realInQty',},
+    { label:'已开票数量',prop:'invoicedQty',},
+    { label:'已入库金额',dom:formatter(1)},
+    { label:'已开票金额',dom:formatter(2),},
   ]
 
  
-
+  function formatter(type){
+    return (row, column, cellValue, index)=>{
+      switch(type){
+        case 1:return row.realInQty*row.taxPrice;break;
+        case 2:return row.invoicedQty*row.taxPrice;break;
+      }
+    }
+  }
 
  

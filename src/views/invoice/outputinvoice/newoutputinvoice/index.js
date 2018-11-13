@@ -22,7 +22,9 @@ export default {
       searchForm:{
         cusName:'',//客户名称    
         cusCode:'',//客户编号
+        
         orderNo:'',//订单编号  
+
         applyLastAllowTime:'',//最迟开票日期
         applyTime:'',//发票申请日期
 

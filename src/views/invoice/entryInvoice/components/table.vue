@@ -11,6 +11,11 @@
     </el-table-column>
 
     <el-table-column
+      prop="skuName"
+      label="商品名称">
+    </el-table-column>
+
+    <el-table-column
       prop="skuFormat"
       label="规格型号">
     </el-table-column>
@@ -62,7 +67,7 @@
               size="mini"
               :max="scope.row.realInQty-scope.row.invoicedQty" 
               :min="0" 
-              style="width:100px"
+              style="width:80px"
               v-model="scope.row.invoiceQty" >
               </el-input-number>
           </template>

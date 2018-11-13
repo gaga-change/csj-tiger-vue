@@ -12,27 +12,72 @@
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form   :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
         <el-row :gutter="6"
-          <el-col :span="6" v-if="searchForm.providerName!==undefined">
+          <el-col :span="6" v-if="searchForm.providerCode!==undefined">
             <el-form-item 
             label="供应商名称" 
             label-width="90px"
-            prop="providerName"
+            prop="providerCode"
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  placeholder="请选择供应商名称"   v-model="searchForm.providerName" ></el-input>
+              <el-select v-model="searchForm.providerCode"
+               filterable
+               placeholder="请选择供应商名称" @change="customerChange" >
+              <el-option 
+               value=""
+               :disabled="true">
+                <div class="providerList">
+                  <span>企业编号</span>
+                  <span >企业名称</span>
+                </div>
+              </el-option>
+              <el-option
+                v-for="item in customerConfig"
+                :key="item.entNumber"
+                :label="item.entName"
+                :value="item.entNumber">
+                 <div class="providerList">
+                   <span >{{ item.entNumber }}</span>
+                   <span >{{ item.entName }}</span>
+                 </div>
+              </el-option>
+            </el-select>
+           
             </el-form-item>
           </el-col>
 
           <el-col :span="6" v-if="searchForm.busiBillNo!==undefined">
             <el-form-item 
-            label="采购订单" 
-            label-width="80px"
-            prop="busiBillNo"
-            :rules="isDisplaySubmit?[]:[
+             label="订单编号" 
+             label-width="80px"
+             prop="busiBillNo"
+             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
-            ]">
-              <el-input type="text" size="small"   v-model="searchForm.busiBillNo" ></el-input>
+             ]">
+
+            <el-select v-model="searchForm.busiBillNo"
+               filterable
+               placeholder="请选择订单" @change="busiBillNoChange" >
+              <el-option 
+                value=""
+               :disabled="true">
+                <div class="providerList">
+                  <span>订单编号</span>
+                  <span >合同编号</span>
+                </div>
+              </el-option>
+              <el-option
+                v-for="item in orderNoConfig"
+                :key="item.saleorder"
+                :label="item.busiBillNo"
+                :value="item.busiBillNo">
+                 <div class="providerList">
+                   <span >{{ item.busiBillNo }}</span>
+                   <span >{{ item.contractNo }}</span>
+                 </div>
+              </el-option>
+            </el-select>
+
             </el-form-item>
           </el-col>
 
@@ -56,9 +101,9 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" v-if="searchForm.contractnNo!==undefined">
+          <el-col :span="6" v-if="searchForm.contractNo!==undefined">
             <el-form-item label="合同编号" >
-              <el-input type="text" size="small" placeholder="请选择合同编号"    v-model="searchForm.contractnNo" ></el-input>
+              <el-input type="text" size="small" placeholder="请选择合同编号"    v-model="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -142,13 +187,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6"  v-if="searchForm.orderNo!==undefined">
-            <el-form-item label="订单编号" >
-              <el-input type="text" size="small"  placeholder="请选择订单编号"   v-model="searchForm.orderNo" ></el-input>
-            </el-form-item>
-          </el-col>
-
-        
+    
           <el-col :span="6"  v-if="searchForm.ticketStatus!==undefined">
             <el-form-item label="单据状态" >
               <el-select v-model="searchForm.ticketStatus" 
@@ -211,6 +250,7 @@
 import _  from 'lodash';
 import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType } from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
+import { infoCustomerInfo,ordernoandcontractno} from '@/api/invoicetigger/newoutputinvoice'
 export default {
   components: { Sticky},
   data() {
@@ -218,7 +258,13 @@ export default {
      InvoiceStatus,
      entryInvoiceTicketStatus,
      NatureInvoice,
-     InvoiceType
+     InvoiceType,
+
+     customerConfig:[],//供应商下拉配置
+     orderNoConfig:[],//订单编号下拉配置
+     addFrom:{
+
+     }
     }
   },
   props:{
@@ -233,11 +279,52 @@ export default {
   },
 
 
+  mounted(){
+    if(this.searchForm.providerCode!==undefined){
+       this.getInfoCustomerInfo()
+    }
+  },
+          
   methods:{
+    busiBillNoChange(value){
+      this.addFrom.contractNo=this.orderNoConfig.find(v=>v.busiBillNo==value)&&this.orderNoConfig.find(v=>v.busiBillNo==value).contractNo;
+      this.$emit('busiBillNoChange',value,this.addFrom.contractNo)
+    },
+
+    customerChange(value){
+      this.addFrom.providerName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
+      this.getOrdernoandcontractno({entNumber:value});
+    },
+
+    getInfoCustomerInfo(){
+      infoCustomerInfo().then(res=>{
+        if(res.success){
+          this.customerConfig=res.data;
+        }
+      }).catch(err=>{
+
+      })
+    },
+
+    getOrdernoandcontractno(data){
+      ordernoandcontractno(data).then(res=>{
+        if(res.success){
+          this.orderNoConfig=res.data;
+        }
+      }).catch(err=>{
+
+      })
+    },
+
     submit(type){
        this.$refs['searchForm'].validate((valid) => {
           if (valid) {
-            this.$emit('submit',type)
+            if(type){
+              this.$emit('submit',type,this.addFrom)
+            } else{
+              this.$emit('submit')
+            }
+            
           } else{
             return false;
           }
@@ -254,7 +341,18 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
   .entryInvoice-form{
      .el-form-item{
-       margin-bottom: 20px
+       height:30px;
+       margin-bottom: 36px
      }
   }
+    .providerList{
+      display: flex;
+      justify-content: space-between;
+      >span{
+        &:first-child{
+          min-width: 150px;
+        }
+      }
+    }
+
 </style>

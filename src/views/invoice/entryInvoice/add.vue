@@ -1,6 +1,6 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
+     <search-invoice   :searchForm="searchForm"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
      <div class="add-buttom" >
         <item-title text="商品发票明细" />
         <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="dialogVisible=true"  >选择签收单下商品明细</el-button>
@@ -19,7 +19,19 @@
       top="6vh"
       width="70%"
       :before-close="()=>dialogVisible=false">
-        
+      <el-row>
+        <el-col :span="6" style="min-width:300px;margin-bottom:12px">
+          <span style="font-size:12px;color:#606266">签收单号 :</span>
+          <el-select v-model="signNo" :clearable="true"  filterable placeholder="请选择签收单号"  @change="signNoChange" >
+            <el-option
+              v-for="item in signNoConfig"
+              :key="item.id"
+              :label="item.signNo"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
        <web-pagination-table 
         @SelectionChange="handleSelectionChange"
         :loading="false"
@@ -40,14 +52,17 @@
 import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
+import { getSigningInformation,billingTypeDetails,getSigningDetail} from '@/api/invoicetigger/newoutputinvoice'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
+import moment from 'moment';
+
 export default {
   components: { SearchInvoice,webPaginationTable,EditTable},
    data() {
     return {
       searchForm:{
-        providerName:'',
+        providerCode:'',
         busiBillNo:'',
         invoiceType:'',
         invoiceNature:'',
@@ -60,25 +75,92 @@ export default {
       },
       dialogVisible:false,
       alertTableData:[],
+      alertTableDataSelect:[],
       editTableData:[],
-      addAlertTableConfig
+      signNoConfig:[],
+      addAlertTableConfig,
+      
+      signNo:''//回单id
     }
   },
 
   methods:{
-    handleSelectionChange(value){
-     console.log(value)
+
+    signNoChange(id){
+      this.signNo=id;
+      getSigningDetail({id}).then(res=>{
+        if(res.success){
+          let data=res.data||[];
+          if(this.searchForm.invoiceNature===2){
+            data=data.filter(v=>v.whetherToInvoice)
+          } else{
+            data=data.filter(v=>!v.whetherToInvoice)
+          }
+          this.alertTableData=data.map(v=>{
+            return {
+               skuCode:v.skuCode,
+               skuName:v.skuName,
+               skuFormat:v.skuFormat,
+               skuUnitName:v.skuUnitName,
+               taxPrice:v.skuPrice,
+               realInQty:v.invoicedQty,
+               invoicedQty:v.invoicedQuantity,
+               taxCode:v.taxRate/100,
+               invoiceQty:v.invoicedQty-v.invoicedQuantity,
+            }
+          }); 
+        }
+      }).catch(err=>{
+         console.log(err)
+      })
     },
+
+    busiBillNoChange(busiBillNo,contractNo){
+      
+      getSigningInformation({
+        signatureNumber:busiBillNo
+      }).then(res=>{
+        if(res.success){
+           this.signNoConfig=res.data;
+        }
+      }).catch(err=>{
+        console.log(err)
+      });
+
+      billingTypeDetails({
+        outBusiBillNo:busiBillNo
+      }).then(res=>{
+        if(res.success){
+           console.log(res)
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+
+    },
+
+    handleSelectionChange(value){
+      let idArr=this.alertTableDataSelect.map(v=>v.id);
+      this.alertTableDataSelect=[...this.alertTableDataSelect,...value.filter(v=>!idArr.includes(v.id))];
+    },
+
     handleSuccess(){
       this.dialogVisible=false;
+      this.editTableData=this.alertTableDataSelect;
     },
-    submit(type){
+
+    submit(type,value){
+      let data={...this.searchForm,...value };
       let json={};
-      for(let i in this.searchForm){
-        if(this.searchForm[i]!==''){
-          json[i]=this.searchForm[i]
+      for(let i in data){
+        if(data[i]!==''){
+          json[i]=data[i]
         }
       }
+
+      json.arriveDate=moment(json.arriveDate).valueOf()
+      json.makeDate=moment(json.makeDate).valueOf()
+      json.FinaPurchaseInvoiceDetailBO=this.editTableData;
       console.log(type,json)
     },
 
