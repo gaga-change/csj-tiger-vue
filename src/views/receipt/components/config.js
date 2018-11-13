@@ -18,6 +18,7 @@ export const receiptTableConfig=[// 收款列表
 ]
 export const receiptInfoConfig=[//收款单详情
   { title:'付款方', prop:'paymenterName' },
+  { title:'收款单号', prop:'receiveNo' },
   { title:'金额', prop:'paymentAmt',type:'money' },
   { title:'日期', prop:'paymentDate', type:'time' },
   { title:'上传附件', prop:'fileInfos', useIf:'files' },
@@ -28,7 +29,7 @@ export const receiptInfoConfig=[//收款单详情
   { title:'付款银行', prop:'paymentBank', },
   { title:' 付款方账户', prop:'paymentAccount', },
   { title:'交易流水', prop:'paymentRecordNo', },
-  { title:'付款摘要 ', prop:'paymentAbstract',span:24 },
+  { title:'付款摘要 ', prop:'paymentAbstract',span:18 },
 ]
 export const execInfoConfig=[//收款单执行情况
   { title:'执行状态', prop:'relationStatus',type:'RelationStatusEnum', useLocalEnum:true,userFormatter: (cellValue)=>{
@@ -49,7 +50,7 @@ export const execInfoConfig=[//收款单执行情况
 ]
 export const detailtableConfig=[//详情表格
   // { label:'序号',prop:'invoiceNo',},
-  { label:'订单编号',prop:'busiBillNo', width:150,show:'register+associate' },
+  { label:'订单编号',prop:'busiBillNo', width:180,show:'register+associate' },
   { label:'订单金额',prop:'orderAmt', minWidth:90,show:'register+associate' },
   { label:'签收数量',prop:'signQty', minWidth:90,show:'register+associate'},
   { label:'签收金额',prop:'signAmt', minWidth:90,show:'register+associate'},

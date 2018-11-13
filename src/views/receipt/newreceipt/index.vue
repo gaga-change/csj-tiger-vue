@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="8" v-if="receipt.id">
           <el-form-item label="收款单号">
-            <div>{{receipt.id}}</div>
+            <div>{{receipt.receiveNo}}</div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -216,9 +216,9 @@
             paymentDate: [
               { required: true, message: '付款日期', trigger: 'blur' }
             ],
-            paymentAccount: [
-              { validator: checkDetail, required: true, trigger: 'blur' }
-            ],
+            // paymentAccount: [
+            //   { validator: checkDetail, required: true, trigger: 'blur' }
+            // ],
           
         },
         dialogVisible: false,
