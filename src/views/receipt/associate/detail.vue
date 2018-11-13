@@ -128,7 +128,7 @@
           </el-table-column> -->
           <el-table-column
             label="订单编号"
-            width="120"
+            width="180"
             prop="busiBillNo" >
           </el-table-column>
           <el-table-column
@@ -234,7 +234,7 @@
             </el-table-column> -->
             <el-table-column
               label="订单编号"
-              width="120"
+              width="180"
               prop="busiBillNo" >
             </el-table-column>
              <el-table-column
@@ -445,6 +445,7 @@
                  this.buttonDisabled = false
               });
             } else {
+              this.buttonDisabled = false
               return false;
             }
           });
@@ -457,9 +458,7 @@
               }else{
                 this.$message({type:'error',message:'提交失败'})
                 this.buttonDisabled = false
-              }
-              
-              
+              }            
         }).catch(()=>{
           this.$message({type:'error',message:'提交失败'})
           this.buttonDisabled = false
