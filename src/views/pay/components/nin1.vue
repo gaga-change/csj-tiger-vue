@@ -13,47 +13,47 @@
           max-height="600">
           <el-table-column
             label="商品编码"
-            :prop="aa"
+            :prop="aa1"
             width="120">
           </el-table-column>
           <el-table-column
             label="商品名称"
-            :prop="aa"
+            :prop="aa2"
             width="120">
           </el-table-column>
            <el-table-column
             label="规格型号"
-            :prop="aa"
+            :prop="aa3"
             width="200">
           </el-table-column>
           <el-table-column
             label="品牌"
-            :prop="aa"
+            :prop="aa4"
             width="120">
           </el-table-column>
          
           <el-table-column
             label="数量"
-            :prop="aa"
+            :prop="aa5"
             width="80">
           </el-table-column>
           <el-table-column
             label="单位"
-            :prop="aa"
+            :prop="aa6"
             width="80">
           </el-table-column>
           <el-table-column
             label="单价"
-            :prop="aa"
+            :prop="aa7"
             width="100">
           </el-table-column>
           <el-table-column
             label="采购数量"
-            :prop="aa"
+            :prop="aa8"
             width="100">
           </el-table-column>
           <el-table-column
-            label="入库总量"
+            label="入库总量9"
             :prop="aa"
             width="100">
           </el-table-column>
@@ -138,7 +138,7 @@
           }
         })
         
-        if (/0|1/.test(columnIndex)) {
+        if (/0|1|2|3|4|5|6|7|8/.test(columnIndex)) {
           if (rowIndex-count === 0) {
          
             return {
@@ -152,7 +152,7 @@
             };
           }
         }
-        if(columnIndex==2){
+        if(columnIndex==9){
           if (rowIndex-count === 0) {
                count += equalRow       
             return {

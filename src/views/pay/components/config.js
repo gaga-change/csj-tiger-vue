@@ -1,8 +1,8 @@
 import { ApproveStatusEnum, MoneyStateEnum, MoneyTypeEnum, RelationStatusEnum, PaymentModeEnum } from '@/utils/enum'
-export const receiptTableConfig=[// 收款列表
-  { label:'收款单号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
-  { label:'客户名称',prop:'paymenterName', width:210 },
-  { label:'收款金额',prop:'paymentAmt',type:'money', minWidth:120 },
+export const receiptTableConfig=[// 付款申请列表
+  { label:'付款申请号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+  { label:'标题',prop:'paymenterName', width:210 },
+  { label:'供应商',prop:'paymentAmt',type:'money', minWidth:120 },
   { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
   { label:'财务登记人',prop:'inputUserName', minWidth:90 },
   { label:'单据状态',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, userFormatter: (cellValue)=>{
