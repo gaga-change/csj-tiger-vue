@@ -3,11 +3,11 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template  v-if="cardData.relationStatus == 1">
-         <el-button v-if="submitForm.moneyState===0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
+         <el-button v-if="submitForm.moneyState===0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
             @click="choosesalesman()">关联业务单
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="saveOrder(0,'submitForm')">业务单保存
+            @click="saveOrder(0,'submitForm')">保存
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(1,'submitForm')">保存并提交
@@ -23,11 +23,11 @@
           </el-button>  
         </template>
         <template v-else>
-            <el-button v-if="submitForm.moneyState===0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
+            <el-button v-if="submitForm.moneyState===0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
             @click="choosesalesman()">关联业务单
           </el-button>  
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-              @click="saveOrder(0,'submitForm')">业务单保存
+              @click="saveOrder(0,'submitForm')">保存
           </el-button>  
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
               @click="saveOrder(1,'submitForm')">保存并提交
@@ -44,14 +44,14 @@
           </el-button>  
         </template>
          <template  v-else-if="cardData.relationStatus == 5">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="small"  type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="choosesalesman()">关联业务单
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="saveOrder(0,'submitForm')">业务单保存
+            @click="saveOrder(0,'submitForm')">保存
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="saveOrder(1,'submitForm')">业务单提交
+            @click="saveOrder(1,'submitForm')">保存并提交
         </el-button>  
       </template>
        <el-button  style="margin-left: 10px;" v-else-if="cardData.relationStatus == 4" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
@@ -105,7 +105,7 @@
       </el-row>
       </el-form>
        <el-card class="simpleCard" shadow="never" body-style="padding:12px" v-if="cardData.relationStatus==5">
-      <el-form  label-width="120px" label-position="left">
+      <el-form  label-width="140px" label-position="left">
       <el-row :gutter="10">
         <el-col :span="6">
           <el-form-item label="上次审核/驳回建议：" >
@@ -121,11 +121,11 @@
           size="small"
           v-loading="loading"  
           max-height="600">
-          <el-table-column
+          <!-- <el-table-column
             label="订单ID"
             prop="id"
           >
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             label="订单编号"
             width="120"
@@ -227,11 +227,11 @@
             type="selection"
             width="55">
           </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               label="订单ID"
               prop="id"
             >
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
               label="订单编号"
               width="120"
@@ -328,7 +328,7 @@
 
      created(){
       this.getCurrentTableData();  
-      this.getAllBusiOrder()
+      
     },
 
     computed: {
@@ -422,7 +422,7 @@
               if(this.submitForm.moneyState ===0){
                 params.orderRelationVoList = [...this.relateOrderData]
                 if(this.totalLoan-this.totalDiscount!==this.cardData.paymentAmt){
-                  this.$message({type:'error',message:'贷款合计减去贴息合计必须等于金额'})
+                  this.$message({type:'error',message:'货款合计减去贴息合计必须等于金额'})
                   return false
                 }
               }
@@ -502,8 +502,8 @@
         this.getCurrentTableData()
       },
      
-      getAllBusiOrder(){
-        getReceiptBusiOrder({}).then(res=>{
+      getAllBusiOrder(paymenterId){
+        getReceiptBusiOrder({entNumber:paymenterId}).then(res=>{
           this.orderTableData = res.data
           this.filterOrderTableData = res.data
         })
@@ -547,6 +547,8 @@
                 this.totalDiscount = totalDiscount
               }
               if(this.cardData.relationStatus==2){this.editable = false}
+            this.getAllBusiOrder(res.data.finaReceiveDO.paymenterId)
+
           }
           this.loading=false;
           this.buttonDisabled = false

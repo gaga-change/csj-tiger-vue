@@ -178,7 +178,10 @@
       var checkAmt = (rule, value, callback) => {
         
         if (!Number(value)) {
-          return callback(new Error('请输入数字'))
+          return callback(new Error('金额请输入数字'))
+        }
+        if(value<0){
+          return callback(new Error('金额请输入正数'))
         }
         if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
           return callback(new Error('金额最多两位小数'))
@@ -272,10 +275,25 @@
       // if (!this.gridData.length) {
       //   this.$store.dispatch('GetGysList')
       // }
+      console.log(this.$route.query.id,this.$route.query.from,'cr');
+      
+      
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        console.log(636);
+        this.getDetail()
+      }else{
+        this.receipt={}
+      }
+      this.getCustomInfo()
+    },
+    activated(){
+      console.log(this.$route.query.id,this.$route.query.from,'ac');
+
+       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
+        console.log(666);
         
         this.getDetail()
+      }else{
+        this.receipt={}
       }
       this.getCustomInfo()
     },
@@ -330,6 +348,8 @@
               paymentRecordNo,//交易流水号
               paymentAbstract,
             } = res.data.finaReceiveDO
+            console.log(id,123123123213123);
+            
             this.receipt =  {
               id,
               receiveNo,//收款单号
@@ -343,14 +363,16 @@
               paymentRecordNo,//交易流水号
               paymentAbstract,
             }
-            this.fileList = JSON.parse(res.data.fileInfos)
-            this.receipt.filePath = JSON.parse(res.data.fileInfos)
+            if(res.data.fileInfos&&res.data.fileInfos.length>0){
+              this.fileList = res.data.fileInfos
+              this.receipt.filePath = res.data.fileInfos
+            }
+            
             
           }
         
-          console.log(res)
         }).catch(err => {
-          console.log(err)
+          console.log(err,1111)
         })
       },
       

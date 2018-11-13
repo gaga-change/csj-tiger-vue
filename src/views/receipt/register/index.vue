@@ -87,6 +87,12 @@
           case 'operate' :return  (row, column, cellValue, index)=>{
             let id = row.id
             let status = Number(row.approveStatus)
+            let relateStatus = Number(row.relationStatus)
+            if(status==2){
+              if(relateStatus!=0){
+                status = 111
+              }
+            }
             switch(status){
               case 0: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
               case 1: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>

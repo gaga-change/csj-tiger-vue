@@ -20,7 +20,7 @@
           </el-button>  
         </template>
        <el-button  style="margin-left: 10px;" v-else-if="cardData.approveStatus == 2 && cardData.relationStatus==0" size="small" type="primary"  :disabled="buttonDisabled||!$haspermission('receiptSalesman')" v-loading="buttonDisabled"
-            @click="salesman()">关联务员提交 
+            @click="salesman()">提交 
         </el-button>  
           <el-button  style="margin-left: 10px;" size="small"  v-else-if="cardData.approveStatus==3" type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="linkToCreate('rebulid')">编辑
@@ -31,7 +31,7 @@
   </sticky>
     <invoice-detail :cardData="cardData"  
     :detailtableConfig="detailtableConfigDetail"
-    :tableData="finaSaleInvoiceDetailDOList"  :name="name"/>
+    :tableData="relateOrderData"  :name="name"/>
       <el-card class="simpleCard" shadow="never" body-style="padding:12px" v-if="cardData.approveStatus==2&&cardData.relationStatus==0">
       <el-form :model="searchForm" label-width="100px" label-position="left">
       <el-row :gutter="10">
@@ -44,7 +44,7 @@
       </el-form>
      </el-card>
       <el-card class="simpleCard" shadow="never" body-style="padding:12px" v-if="cardData.approveStatus==3">
-      <el-form  label-width="120px" label-position="left">
+      <el-form  label-width="140px" label-position="left">
       <el-row :gutter="10">
         <el-col :span="6">
           <el-form-item label="上次审核/驳回建议：" >
@@ -86,6 +86,7 @@
           loading:false,
           buttonDisabled:false,
           tableData: [],
+          relateOrderData:[],
           cardData:{},
           finaSaleInvoiceDetailDOList:[],
           detailtableConfigDetail,
@@ -162,7 +163,7 @@
           if(res.success){
               let data=res.data;
               this.tableData=data.list||[];
-              this.finaSaleInvoiceDetailDOList = res.data && res.data.finaSaleInvoiceDetailDOList || []
+              this.relateOrderData = res.data && res.data.relationVos || []
               this.cardData = res.data.finaReceiveDO
               this.cardData.fileInfos = res.data.fileInfos
           }
