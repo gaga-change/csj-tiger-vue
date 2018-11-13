@@ -78,19 +78,19 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="款项类型" prop="moneyType">
-            <el-select v-model="submitForm.moneyType" :disabled="!editable" size="small" filterable  clearable placeholder="款项类型" prefix-icon="el-icon-search">
-              <el-option
-                v-for="item in MoneyTypeEnum"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
         <template v-if="submitForm.moneyState===0">
+          <el-col :span="6">
+            <el-form-item label="款项类型" prop="moneyType">
+              <el-select v-model="submitForm.moneyType" :disabled="!editable" size="small" filterable  clearable placeholder="款项类型" prefix-icon="el-icon-search">
+                <el-option
+                  v-for="item in MoneyTypeEnum"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
            <el-col :span="6">
           <el-form-item label="货款合计">
            <span>{{totalLoan}}</span>
@@ -260,6 +260,7 @@
           </el-table>
           <span slot="footer" class="dialog-footer">
           <el-button @click="showDetails = false">关闭</el-button>
+          <el-button @click="confirmInfo" type="primary">确定</el-button>
           </span>
        </el-dialog>
   </div>
@@ -364,18 +365,22 @@
 
     methods: {
       Modify,
-      handleSelectionChange(val) {
-        this.multipleSelection = val
-        console.log(val,'val');
+      confirmInfo(){
         
+        this.showDetails = false
+          
         let relateOrderArr = [],relateOrderData = []
-        val.map(item=>{
+        this.multipleSelection.map(item=>{
           if(this.relateOrderArr.indexOf(item.id)==-1){
             this.relateOrderArr.push(item.id)
             this.relateOrderData.push(item)
           }
           // relateOrderArr.push(item.id)
         }) 
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      
         // this.relateOrderArr = [...relateOrderArr]
         // this.relateOrderData = [...val]   跟随选择框删除
       },
@@ -431,16 +436,16 @@
               params.id = this.$route.query.id
               receiptRelateOrderApi(params).then(res=>{
                 if(res.success){
-                  this.$message({type:'success',message:'关联订单成功'})
+                  this.$message({type:'success',message:'操作成功'})
                   this.needfresh()
                 }else{
-                  this.$message({type:'error',message:'关联订单失败'})
+                  this.$message({type:'error',message:'操作失败'})
                    this.buttonDisabled = false
                 }
                
               }).catch(err=>{
                 
-                  this.$message({type:'error',message:'关联订单失败'})
+                  this.$message({type:'error',message:'操作失败'})
                 
                  this.buttonDisabled = false
               });
