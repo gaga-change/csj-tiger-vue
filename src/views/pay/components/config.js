@@ -3,32 +3,44 @@ export const receiptTableConfig=[// 付款申请列表
   { label:'付款申请号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
   { label:'标题',prop:'paymenterName', width:210 },
   { label:'供应商',prop:'paymentAmt',type:'money', minWidth:120 },
-  { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
-  { label:'财务登记人',prop:'inputUserName', minWidth:90 },
-  { label:'单据状态',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, userFormatter: (cellValue)=>{
+  { label:'合同号',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
+  { label:'订单编号',prop:'inputUserName', minWidth:90 },
+  { label:'申请金额',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, userFormatter: (cellValue)=>{
     let value = ''
     ApproveStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value}},
-  { label:'执行状态',prop:'relationStatus',useLocalEnum:true, type:'RelationStatusEnum', width:120, userFormatter: (cellValue)=>{
+  { label:'单据状态',prop:'relationStatus',useLocalEnum:true, type:'RelationStatusEnum', width:120, userFormatter: (cellValue)=>{
     let value = ''
     RelationStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value} },
-  { label:'指定业务员',prop:'relationUserName', minWidth:90},
+  { label:'申请人',prop:'relationUserName', minWidth:90},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
-export const receiptInfoConfig=[//收款单详情
-  { title:'付款方', prop:'paymenterName' },
-  { title:'金额', prop:'paymentAmt',type:'money' },
-  { title:'日期', prop:'paymentDate', type:'time' },
-  { title:'上传附件', prop:'fileInfos', useIf:'files' },
-  { title:'付款方式', prop:'paymentMode',type:'PaymentModeEnum', useLocalEnum:true, userFormatter: (cellValue)=>{
+export const receiptsTableConfig=[// 付款申请列表
+  { label:'付款登记号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+  { label:'付款申请号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+  { label:'供应商',prop:'paymentAmt',type:'money', minWidth:120 },
+  { label:'合同编号',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
+  { label:'订单编号',prop:'inputUserName', minWidth:90 },
+  { label:'申请金额',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, },
+  { label:'实付金额',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, },
+  { label:'付款金额',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, },
+  { label:'单据状态',prop:'relationStatus',useLocalEnum:true, type:'RelationStatusEnum', width:120, userFormatter: (cellValue)=>{
     let value = ''
-    PaymentModeEnum.map(item => {if(item.value == cellValue){value = item.name}})
+    RelationStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value} },
-  { title:'付款银行', prop:'paymentBank', },
-  { title:' 付款方账户', prop:'paymentAccount', },
-  { title:'交易流水', prop:'paymentRecordNo', },
-  { title:'付款摘要 ', prop:'paymentAbstract',span:24 },
+  { label:'申请人',prop:'relationUserName', minWidth:90},
+  { label:'操作',width:150,fixed:'right',userLink:true},
+]
+
+export const receiptInfoConfig=[//信息查看
+  { title:'采购订单', prop:'paymenterName' },
+  { title:'采购合同', prop:'paymentAmt',type:'money' },
+  { title:'供应商', prop:'paymentDate', type:'time' },
+  { title:'已付货款', prop:'fileInfos', useIf:'files' },
+  { title:'本次申请付款', prop:'paymentMode',type:'PaymentModeEnum', useLocalEnum:true, },
+  { title:'入库金额', prop:'paymentBank', },
+  { title:' 已开发票金额', prop:'paymentAccount', },
 ]
 export const execInfoConfig=[//收款单执行情况
   { title:'执行状态', prop:'relationStatus',type:'RelationStatusEnum', useLocalEnum:true,userFormatter: (cellValue)=>{
@@ -47,17 +59,61 @@ export const execInfoConfig=[//收款单执行情况
   { title:'货款合计', prop:'sumPayableAmt'},
   { title:'贴息合计', prop:'sumInterestAmt'},
 ]
-export const detailtableConfig=[//详情表格
-  // { label:'序号',prop:'invoiceNo',},
-  { label:'订单编号',prop:'busiBillNo', width:150,show:'register+associate' },
-  { label:'订单金额',prop:'orderAmt', minWidth:90,show:'register+associate' },
-  { label:'签收数量',prop:'signQty', minWidth:90,show:'register+associate'},
-  { label:'签收金额',prop:'signAmt', minWidth:90,show:'register+associate'},
-  { label:'已开票货款',prop:'invoicedAmt', width:120,show:'register+associate'},
-  { label:'本次收到货款',prop:'payableAmt', width:120,show:'register+associate'}, 
-  { label:' 本次收到贴息',prop:'interestAmt', width:120,show:'register+associate'},
-  { label:'订单收到货款合计',prop:'totalOrderPayableAmt', width:120,show:'register'},
-  { label:'订单收到贴息合计 ',prop:'totalOrderInterestAmt', width:120,show:'register'},
+export const detailInfo = [
+  { title:'收款方', prop:'paymenterName' },
+  { title:'款项性质', prop:'paymentAmt',type:'money' },
+  { title:'款项类型', prop:'paymentDate', type:'time' },
+  { title:'采购订单', prop:'fileInfos', useIf:'files' },
+  { title:'采购合同', prop:'paymentMode',type:'PaymentModeEnum', useLocalEnum:true, },
+  { title:'合同约定付款方式 ', prop:'paymentBank', },
+  { title:' 已付货款 ', prop:'paymentAccount', },
+  { title:'申请付款金额', prop:'paymenterName' },
+
+  { title:'其中：货款', prop:'paymentAmt',type:'money' },
+  { title:'其中：贴息', prop:'paymentDate', type:'time' },
+  { title:'要求付款日期', prop:'fileInfos', useIf:'files' },
+  { title:'收款方银行账户', prop:'paymentMode',type:'PaymentModeEnum', useLocalEnum:true, },
+  { title:'收款方收款银行 ', prop:'paymentBank', },
+  { title:' 附件 ', prop:'paymentAccount', },
+  { title:' 付款相关信息 ', prop:'paymentAccount', },
+]
+export const contractInfo = [
+  { title:'合同档案编号', prop:'paymenterName' },
+  { title:'合同名称', prop:'paymentAmt',type:'money' },
+  { title:'供应商合同编号', prop:'paymentDate', type:'time' },
+  { title:'供应商名称', prop:'fileInfos', useIf:'files' },
+  { title:'业务负责人', prop:'paymentMode',type:'PaymentModeEnum', useLocalEnum:true, },
+  { title:'代签人 ', prop:'paymentBank', },
+  { title:' 合同类型 ', prop:'paymentAccount', },
+  { title:'业务板块', prop:'paymenterName' },
+
+  { title:'备注', prop:'paymentAmt',type:'money' },
+  { title:'付款方式', prop:'paymentDate', type:'time' },
+  { title:'付款方式说明', prop:'fileInfos', useIf:'files' },
+  { title:'合同日期', prop:'paymentMode',type:'PaymentModeEnum', useLocalEnum:true, },
+  { title:'交货方式 ', prop:'paymentBank', },
+  { title:' 合同扫描件', prop:'paymentAccount', },
+]
+export const configTableConfig=[//合同商品明细
+  { label:'序号',prop:'invoiceNo'},
+  { label:'客户商品编号',prop:'applyCode'},
+  { label:'商品名称',prop:'applyCode'},
+  { label:'规格',prop:'cusName',type:'time',},
+
+  { label:'数量',prop:'invoiceNo'},
+  { label:'单位',prop:'applyCode'},
+  { label:'单价',prop:'applyCode'},
+  { label:'金额',prop:'cusName',type:'time',},
+
+  { label:'使用单位',prop:'invoiceNo'},
+
+]
+
+export const realPay=[//操作记录
+  { title:'付款日期',prop:'invoiceNo'},
+  { title:'付款人',prop:'applyCode'},
+  { title:'付款金额 ',prop:'applyCode'},
+  { title:'备注',prop:'cusName',type:'time',}
 ]
 export const recordConfig=[//操作记录
   { label:'序号',prop:'invoiceNo'},
