@@ -7,7 +7,7 @@
             <el-select v-model="searchForm.paymenterId"
               :filter-method="cusCodeFilter" 
               clearable
-              filterable placeholder="请选择客户名称" @blur="clearCustomerFilterMark" @change="customerChange"  >
+              filterable placeholder="请选择客户名称" @focus="clearCustomerFilterMark" @change="customerChange"  >
               <el-option 
                 value=""
                :disabled="true"
@@ -227,7 +227,8 @@ export default {
       }
     },
     clearCustomerFilterMark(){
-      this.customerFilterMark = ''
+      this.customerChange()
+      
     },
     isShouDetails(){
       if(this.searchForm.cusName==''){
@@ -246,6 +247,7 @@ export default {
       this.tableData=[];
       this.searchForm=searchForm;
       this.ordernoandcontractnoApi({entNumber:value})
+      this.customerFilterMark = ''
     },
 
     saleorderChange(value){

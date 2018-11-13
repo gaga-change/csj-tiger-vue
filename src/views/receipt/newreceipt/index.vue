@@ -14,7 +14,7 @@
             <el-select v-model="receipt.paymenterId"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
-              @blur="clearCustomerFilterMark"
+              @focus="clearCustomerFilterMark"
               @change="customerChange"
               clearable
               filterable placeholder="请选择客户名称">
