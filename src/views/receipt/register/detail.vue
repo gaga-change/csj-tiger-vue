@@ -149,11 +149,6 @@
         this.$router.push({
               path:`/receipt/newreceipt?id=${this.$route.query.id}&from=rebuild`,
             })
-        }).catch(err => {
-          this.$message({
-            type: 'warn',
-            message: '审核失败!'
-          })
         })
          
       },

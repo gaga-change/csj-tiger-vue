@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="8" v-if="receipt.id">
           <el-form-item label="收款单号">
-            <div>{{receipt.id}}</div>
+            <div>{{receipt.receiveNo}}</div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -14,6 +14,7 @@
             <el-select v-model="receipt.paymenterId"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
+              @blur="clearCustomerFilterMark"
               @change="customerChange"
               clearable
               filterable placeholder="请选择客户名称">
@@ -216,9 +217,9 @@
             paymentDate: [
               { required: true, message: '付款日期', trigger: 'blur' }
             ],
-            paymentAccount: [
-              { validator: checkDetail, required: true, trigger: 'blur' }
-            ],
+            // paymentAccount: [
+            //   { validator: checkDetail, required: true, trigger: 'blur' }
+            // ],
           
         },
         dialogVisible: false,
@@ -275,7 +276,6 @@
       // if (!this.gridData.length) {
       //   this.$store.dispatch('GetGysList')
       // }
-      console.log(this.$route.query.id,this.$route.query.from,'cr');
       
       
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
@@ -286,10 +286,8 @@
       this.getCustomInfo()
     },
     activated(){
-      console.log(this.$route.query.id,this.$route.query.from,'ac');
 
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        console.log(666);
         
         this.getDetail()
       }else{
@@ -319,6 +317,9 @@
       },
       cusCodeFilter(value){
         this.customerFilterMark=value;
+      },
+      clearCustomerFilterMark(){
+        this.customerFilterMark = ''
       },
       beforeUpload(file) {
         // 如果上传文件大于5M

@@ -7,7 +7,7 @@
             <el-select v-model="searchForm.paymenterId"
               :filter-method="cusCodeFilter" 
               clearable
-              filterable placeholder="请选择客户名称" @change="customerChange"  >
+              filterable placeholder="请选择客户名称" @blur="clearCustomerFilterMark" @change="customerChange"  >
               <el-option 
                 value=""
                :disabled="true"
@@ -188,7 +188,7 @@ export default {
     nowCustomerConfig:{
        get: function () {
         let value=this.customerFilterMark;
-        if(value==''||!this.customerConfig.length){
+        if(value==''||!this.customerConfig.length){          
           return this.customerConfig
         } else{
           return this.customerConfig.filter(v=>v.entNumber.includes(value)||v.entName.includes(value))
@@ -226,7 +226,9 @@ export default {
         this.$message.error('请先选择客户名称');
       }
     },
-
+    clearCustomerFilterMark(){
+      this.customerFilterMark = ''
+    },
     isShouDetails(){
       if(this.searchForm.cusName==''){
         this.$message.error('请先选择客户名称');
@@ -236,7 +238,7 @@ export default {
          this.shouDetails=true;
       }
     },
-     customerChange(value){
+     customerChange(value){ 
       let searchForm=_.cloneDeep(this.searchForm);
       searchForm.cusName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
       searchForm.orderNo='';
