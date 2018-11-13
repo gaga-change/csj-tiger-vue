@@ -20,7 +20,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.providerName" ></el-input>
+              <el-input type="text" size="small"  placeholder="请选择供应商名称"   v-model="searchForm.providerName" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -32,7 +32,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.busiBillNo" ></el-input>
+              <el-input type="text" size="small"   v-model="searchForm.busiBillNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -58,7 +58,7 @@
 
           <el-col :span="6" v-if="searchForm.contractnNo!==undefined">
             <el-form-item label="合同编号" >
-              <el-input type="text" size="small"   v-model="searchForm.contractnNo" ></el-input>
+              <el-input type="text" size="small" placeholder="请选择合同编号"    v-model="searchForm.contractnNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -69,7 +69,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.invoiceNo" ></el-input>
+              <el-input type="text" size="small"  placeholder="请输入发票号码"   v-model="searchForm.invoiceNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -144,7 +144,7 @@
 
            <el-col :span="6"  v-if="searchForm.orderNo!==undefined">
             <el-form-item label="订单编号" >
-              <el-input type="text" size="small"   v-model="searchForm.orderNo" ></el-input>
+              <el-input type="text" size="small"  placeholder="请选择订单编号"   v-model="searchForm.orderNo" ></el-input>
             </el-form-item>
           </el-col>
 

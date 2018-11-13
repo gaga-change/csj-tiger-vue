@@ -106,6 +106,7 @@ export default [
         path: 'registrationAdd',
         component: _import('invoice/entryInvoice/add'),
         name: 'registrationAdd',
+        hidden: true,
         meta: {
           title: '新增发票页面',
           icon: 'form',

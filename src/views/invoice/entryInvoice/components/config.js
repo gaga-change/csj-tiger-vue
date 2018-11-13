@@ -1,17 +1,17 @@
 //发票登记列表页面 表格配置
 export  const listIndexConfig=[
-  { label:'收票单号',prop:'',},
-  { label:'客户',prop:'',},
+  { label:'收票单号',prop:'finaPurchaseInvoiceId',},
+  { label:'客户',prop:'ownerName',},
   { label:'订单编号',prop:'',},
   { label:'业务板块',prop:'',},
   { label:'发票号',prop:'',},
-  { label:'开票金额',prop:'',},
+  { label:'开票金额',prop:'invoiceAmt',},
   { label:'开票数量',prop:'',},
-  { label:'发票收到日期',prop:'',},
-  { label:'发票开具日期',prop:'',},
-  { label:'发票类型',prop:'',},
-  { label:'发票状态',prop:'',},
-  { label:'单据状态',prop:'',},
+  { label:'发票收到日期',prop:''},
+  { label:'发票开具日期',prop:''},
+  { label:'发票类型',prop:'invoiceType',useLocalEnum:true,type:'InvoiceType'},
+  { label:'发票状态',prop:'invoiceStatus',useLocalEnum:true,type:'InvoiceStatus'},
+  { label:'单据状态',prop:'ticketStatus',useLocalEnum:true,type:'entryInvoiceTicketStatus'},
   { label:'操作',prop:'',},
 ]
 
@@ -57,7 +57,6 @@ export  const listDetailConfig=[
     { label:'本次开票数量',prop:'',},
     { label:'本次开票金额',prop:'',}
   ]
-
 
   //签收明细弹框表格配置
   export  const addAlertTableConfig=[

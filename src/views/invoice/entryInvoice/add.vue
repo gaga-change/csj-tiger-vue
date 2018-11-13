@@ -6,7 +6,11 @@
         <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="dialogVisible=true"  >选择签收单下商品明细</el-button>
      </div>
 
-     <edit-table :tableData="editTableData"/>
+     <edit-table 
+     :tableData="editTableData"
+     :labelMak="searchForm.invoiceNature===2"
+     @goeditrow="goeditrow"
+     @handleDelete="handleDelete"/>
 
      <el-dialog
       title="选择签收明细"
@@ -77,6 +81,20 @@ export default {
       }
       console.log(type,json)
     },
+
+    goeditrow(index){
+      let data= _.cloneDeep(this.editTableData);
+      data[index].edit=!data[index].edit;
+      this.editTableData=data;
+      console.log(this.editTableData)
+    },
+    handleDelete(index,row){
+     let data= _.cloneDeep(this.editTableData);
+     data.splice(index,1);
+     this.editTableData=data;
+     console.log(this.editTableData)
+    }
+
   }
 }
 </script>

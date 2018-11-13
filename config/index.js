@@ -16,7 +16,7 @@ module.exports = {
         // target: 'http://172.16.80.83:7878',//志强
         // target: 'http://172.16.80.138:7878', //亚雷
         // target: 'http://172.16.81.130:7878', //红兵
-        target: 'http://192.168.2.172:7878', //浩浩
+        target: 'http://172.16.81.162:7878', //浩浩
         changeOrigin: true
       },
 
@@ -28,7 +28,7 @@ module.exports = {
         // target: 'http://172.16.81.130:7878', //红兵
         // target: 'http://192.168.2.139:7878', //陈姐
         // target: 'http://172.16.81.26:7878', //苗哥
-        target: 'http://192.168.2.172:7878', //浩浩
+        target: 'http://172.16.81.162:7878', //浩浩
         changeOrigin: true
       },
     },

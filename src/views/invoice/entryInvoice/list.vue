@@ -1,6 +1,10 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
+     <search-invoice  :searchForm="searchForm"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
+    <el-button type="primary"  
+     size="small" 
+     style="float:right;margin-bottom:16px"
+     @click="toadd">新建发票</el-button>
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -20,6 +24,7 @@ import BaseTable from '@/components/Table'
 import { listIndexConfig } from './components/config';
 import { finaPurchaseInvoiceList } from '@/api/void/list'
 import _  from 'lodash';
+
 export default {
   components: { SearchInvoice,BaseTable},
    data() {
@@ -41,6 +46,10 @@ export default {
       listIndexConfig,
       tableData:[]
     }
+  },
+
+  mounted(){
+    this.getCurrentTableData();
   },
 
   methods:{
@@ -70,21 +79,30 @@ export default {
       this.submit({})
     },
 
+    toadd(){
+      this.$router.push({
+        path:'/invoice/entryInvoice/registrationAdd',
+      })
+    },
+
     getCurrentTableData(){
+      this.loading=true;
       let json={};
       for(let i in this.searchForm){
         if(this.searchForm[i]!==''){
           json[i]=this.searchForm[i]
         }
       }
-
+      
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       finaPurchaseInvoiceList(json).then(res=>{
-        console.log(res)
+          if(res.success){
+            this.tableData=res.data.items||[]
+          }
+          this.loading=false
       }).catch(err=>{
-
+          this.loading=false
       })
-     
     }
   }
 }
