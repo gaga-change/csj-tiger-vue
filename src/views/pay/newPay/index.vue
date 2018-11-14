@@ -221,13 +221,21 @@
       }
       return {
         payment: {
-           id:'',
-           receiveNo:'',//收款单号
-           paymenterId:'',//付款方id
-           paymenterName:'',//付款方名称（客户姓名）
-           paymentMode:'',//付款方式
-           paymentBank:'',//付款方银行
-           paymentAccount:'',//付款方账号
+          id:'',//付款申请id.
+          applyTitle:'',//申请标题.
+          paymenterId:'',//收款方id.
+          paymenterName:'',//付款方名称（客户姓名）.
+          moneyState:'',//款项性质.
+          moneyType:'',//款项类型.
+          receiveNo:'',//收款单号.
+          busiBillNo:'',//采购单号编号.
+          contractNo:'',//合同号.
+          paymentMode:'',//付款方式.
+          realPaymentAmt:'',//已付货款.
+          applyPaymentAmt:'',//申请付款金额.
+          applyPaymentDate:'',//申请付款日期
+           receiveBank:'',//收款银行.
+           receiveAccount:'',//收款账号.
            paymentAmt:'',//付款金额
            paymentDate:'',//付款日期
            paymentRecordNo:'',//交易流水号
