@@ -1,5 +1,10 @@
 <template>
   <div class="outgoing-quiry-container">
+      <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('receiptcreate')"
+            @click="linkToCreate">新建付款单
+        </el-button>
+      </sticky>
   <div style="marginBottom:12px">
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
@@ -18,14 +23,14 @@
 
 <script>
     const ruleForm = {
-      searchItem:'associate',
+      searchItem:'apply',
       pageNum: 1,
       pageSize:10,
     }
 
 
     import moment from 'moment';
-    import { getReceiptList } from '@/api/receipt'
+    import { getPaymentListAndDetail } from '@/api/pay'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { receiptTableConfig } from '../components/config';
@@ -54,7 +59,7 @@
           item.dom = this.formatter('operate');
         }
         if(item.prop=='receiveNo'){
-          item.linkTo = '/receipt/associate/detail'
+          item.linkTo = '/payment/apply/detail'
         }
         tableConfig.push(item)
       })
@@ -70,24 +75,36 @@
     ])},
 
     methods: {
+      linkToCreate(type){
+        
+        this.$router.push({
+              path:`/payment/newpayment`,
+            })
+         
+      },
       formatter(type,value){
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
             let id = row.id
-            let status = Number(row.relationStatus)
+            let status = Number(row.approveStatus)
+            let relateStatus = Number(row.relationStatus)
+            if(status==2){
+              if(relateStatus!=0){
+                status = 111
+              }
+            }
             switch(status){
-              case 0: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
-              case 1: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>关联业务单</router-link></div>
-              case 2: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
-              case 3: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
-              default: return <router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+              case 0: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
+              case 1: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
+               case 2: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>分配业务员</router-link></div>
+              default: return <router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };
           default:return value
         } 
       },
        submitForm(ruleForm) {
-        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'associate'}
+        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'apply'}
         this.getCurrentTableData();
           
       },
@@ -110,7 +127,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/receipt/associate',
+          path:'/payment/apply',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -133,7 +150,7 @@
           }
         }
         let data={...json}
-        getReceiptList(data).then(res=>{
+        getPaymentListAndDetail(data).then(res=>{
           if(res.success){
               let data=res.data;
               this.tableData=data.list||[];

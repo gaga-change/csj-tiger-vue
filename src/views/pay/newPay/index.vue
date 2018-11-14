@@ -1,12 +1,21 @@
 <template lang="html">
   <div class="app-container">
-    <el-form :model="payment" :rules="rules" ref="ruleForm" label-width="120px">
+    <el-form :model="payment" :rules="rules" ref="ruleForm" label-width="70px" label-position="left">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="收款方" prop="paymenterId">
-            <el-select v-model="payment.paymenterId"
+          <el-form-item label="申请标题" prop="applyTitle">
+            <el-input type="text" size="small" v-model="payment.applyTitle"/>
+          </el-form-item>
+        </el-col>
+      <!-- </el-row>
+      <el-row :gutter="20"> -->
+        <el-col :span="6">
+          <el-form-item label="收款方" prop="paymenterCode">
+            <el-select v-model="payment.paymenterCode"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
+              size="small"
+              @focus="clearMark"
               @change="customerChange"
               clearable
               filterable placeholder="请选择客户名称">
@@ -30,23 +39,23 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="款项性质" prop="paymentMode">
-            <!-- <el-select v-model="payment.paymentMode" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="款项性质" prop="moneyState">
+            <el-select v-model="payment.moneyState" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
               <el-option
-                v-for="item in paymentModeItem"
+                v-for="item in MoneyStateEnum"
                 :key="item.value"
                 :label="item.name"
+                :disabled="item.disabled"
                 :value="item.value">
               </el-option>
-            </el-select> -->
-            <span>货款</span>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="款项类型" prop="paymentMode">
-            <el-select v-model="payment.paymentMode" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="款项类型" prop="moneyType">
+            <el-select v-model="payment.moneyType" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
-                v-for="item in paymentModeItem"
+                v-for="item in MoneyTypeEnum"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value">
@@ -58,53 +67,56 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="采购订单" prop="paymentMode">
-            <el-select v-model="payment.paymentMode" :disabled="xingzhi!==0" filterable clearable placeholder="请选择采购订单" size="small" prefix-icon="el-icon-search">
+          <el-form-item label="采购订单" prop="busiBillNo">
+            <el-select v-model="payment.busiBillNo" :disabled="false" 
+            :filter-method="cusBillFilter" 
+            @focus="clearMark"
+            @change="selectBusiBillNo" filterable  clearable placeholder="请选择采购订单" size="small" prefix-icon="el-icon-search">
               <el-option
-                v-for="item in paymentModeItem"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
+                v-for="item in newBusiBillNoAll"
+                :key="item.busiBillNo"
+                :label="item.busiBillNo"
+                :value="item.busiBillNo">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="采购合同" prop="paymentAmt">
-             <el-input type="text" size="small" disabled v-model="payment.paymentAccount"></el-input>
+          <el-form-item label="采购合同" prop="contractNo">
+             <el-input type="text" size="small" disabled v-model="payment.contractNo" />
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentAmt">
-             <el-input type="text" size="small" disabled v-model="payment.paymentAccount"></el-input>
+          <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentMode">
+             <el-input type="text" size="small" disabled v-model="payment.paymentMode"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6" v-if="xingzhi==0">
-          <el-form-item label="已付货款" prop="paymentAmt">
-             <el-input type="text" size="small" disabled v-model="payment.paymentAccount"></el-input>
+        <el-col :span="6" v-if="true">
+          <el-form-item label="已付货款" prop="realPaymentAmt">
+             <el-input type="text" size="small" disabled v-model="payment.realPaymentAmt"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
        <el-row :gutter="20">
-        <el-col :span="6">
+        <!-- <el-col :span="6">
           <el-form-item label="申请金额" prop="paymentAmt">
              <el-input type="text" size="small" :disabled="xingzhi==0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="6">
-          <el-form-item label="其中:货款" label-width="90px" prop="paymentAmt">
-             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="payment.paymentAccount"></el-input>
+          <el-form-item label="货款" prop="applyPaymentAmt">
+             <el-input type="text" size="small" :disabled="false" v-model="payment.applyPaymentAmt"></el-input>
           </el-form-item>
         </el-col>
-         <el-form-item label="其中:货款" label-width="90px" prop="paymentAmt">
+         <!-- <el-form-item label="其中:贴息" label-width="90px" prop="paymentAmt">
              <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
        
          <el-col :span="8">
-          <el-form-item label="要求付款日期" prop="mount">
+          <el-form-item label="要求付款日期" label-width="120px" prop="mount">
               <el-date-picker
-              v-model="payment.paymentDate"
+              v-model="payment.applyPaymentDate"
               type="datetime"
               size="small"
               :editable="false"
@@ -113,20 +125,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-      </el-row>
-       <el-row :gutter="20">
-          <el-col :span="6">
-          <el-form-item label="收款方银行账户" prop="paymentBank">
-             <el-input type="text" size="small" v-model="payment.paymentBank"></el-input>
-          </el-form-item>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="收款方收款银行" prop="paymentAccount">
-            <el-input type="text" size="small" v-model="payment.paymentAccount"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
+                <el-col :span="6">
           <el-form-item label="附件">
              <el-button
               size="mini"
@@ -149,6 +148,20 @@
           </span>
           </el-form-item>
         </el-col>
+      </el-row>
+       <el-row :gutter="20">
+          <el-col :span="6">
+          <el-form-item label="收款方银行账户" label-width="120px" prop="receiveAccount">
+             <el-input type="text" size="small" v-model="payment.receiveAccount"></el-input>
+          </el-form-item>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="收款方收款银行" label-width="120px" prop="receiveBank">
+            <el-input type="text" size="small" v-model="payment.receiveBank"></el-input>
+          </el-form-item>
+        </el-col>
+
       </el-row>
       
       <el-row :gutter="20">
@@ -187,9 +200,9 @@
   
 
 <script>
-  import { addOrUpdatePayment, getPaymentDetail } from '@/api/payment'
+  import { addOrUpdatePayment, getPaymentListAndDetail,BusibillNoSelect } from '@/api/pay'
   import { mapGetters } from 'vuex'
-  import { PaymentModeEnum } from '@/utils/enum'
+  import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
   // import orderchoice from './Component/orderchoice'
   export default {
@@ -221,6 +234,9 @@
         callback()
       }
       return {
+        MoneyStateEnum,
+        MoneyTypeEnum,
+        busiBillNoAll:[],
         payment: {
           id:'',//付款申请id.
           applyTitle:'',//申请标题.  
@@ -228,7 +244,6 @@
           paymenterName:'',//付款方名称（客户姓名）.
           moneyState:'',//款项性质.
           moneyType:'',//款项类型.
-          receiveNo:'',//收款单号.
           busiBillNo:'',//采购单号编号.
           contractNo:'',//合同号.
           paymentMode:'',//付款方式.
@@ -240,6 +255,9 @@
           filePath:[],
         },
         rules: {
+          applyTitle:[
+              { required: true, message: '请输入申请标题', trigger: 'blur' }
+            ],
             paymenterCode: [
               { required: true, message: '请选择付款方', trigger: 'change' }
             ],
@@ -268,7 +286,9 @@
         submitloading: false,
         paymentModeItem:PaymentModeEnum,
         customerConfig:[],
+        busiBillNoAll:[],
         customerFilterMark:'',//客户名称过滤标识
+        billFilterMark:'',//订单筛选
       }
     },
     computed: {
@@ -309,14 +329,21 @@
  
        }
       },
+      newBusiBillNoAll:{
+       get: function () {
+        let value=this.billFilterMark;
+        if((value!==0&&!value)||!this.busiBillNoAll.length){
+          return this.busiBillNoAll
+        } else{
+          return this.busiBillNoAll.filter(v=>v.busiBillNo.includes(value)||v.contractNo.includes(value))
+        }
+       },
+       set:function(){
+ 
+       }
+      },
     },
     created() {
-      // if (!this.gridData.length) {
-      //   this.$store.dispatch('GetGysList')
-      // }
-      console.log(this.$route.query.id,this.$route.query.from,'cr');
-      
-      
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
       }else{
@@ -325,10 +352,7 @@
       this.getCustomInfo()
     },
     activated(){
-      console.log(this.$route.query.id,this.$route.query.from,'ac');
-
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        console.log(666);
         
         this.getDetail()
       }else{
@@ -337,6 +361,10 @@
       this.getCustomInfo()
     },
     methods: {
+      clearMark(){
+        this.customerFilterMark=''
+        this.billFilterMark=''
+      },
       customerChange(e){
         this.customerConfig.map(item=>{
           
@@ -345,6 +373,14 @@
             this.payment.paymenterName = item.entName
           }
         })
+        if(this.payment.paymenterCode){
+          BusibillNoSelect({paymenterCode:this.payment.paymenterCode}).then(res=>{
+            if(res.success){
+              this.busiBillNoAll = res.data || []
+            }
+          })
+        }
+        
       },
 
       getCustomInfo(){
@@ -359,6 +395,10 @@
       cusCodeFilter(value){
         this.customerFilterMark=value;
       },
+      selectBusiBillNo(){},
+      cusBillFilter(value){
+        this.billFilterMark=value;
+      },
       beforeUpload(file) {
         // 如果上传文件大于5M
         if (file.size > 5 * 1024 * 1024) {
@@ -370,37 +410,16 @@
         this.fileList = fileList
       },
       getDetail() {
-        getpaymentDetail(
-         this.$route.query.id
+        getPaymentListAndDetail(
+         {id:this.$route.query.id}
         ).then(res => {
           if(res.success){
-            let {
-              id,
-              receiveNo,//收款单号
-              paymenterId,//付款方id
-              paymenterName,//付款方名称（客户姓名）
-              paymentMode,//付款方式
-              paymentBank,//付款方银行
-              paymentAccount,//付款方账号
-              paymentAmt,//付款金额
-              paymentDate,//付款日期
-              paymentRecordNo,//交易流水号
-              paymentAbstract,
-            } = res.data.finaReceiveDO
-            console.log(id,123123123213123);
+            // let {
+             
+            // } = res.data.finaReceiveDO
             
             this.payment =  {
-              id,
-              receiveNo,//收款单号
-              paymenterId,//付款方id
-              paymenterName,//付款方名称（客户姓名）
-              paymentMode,//付款方式
-              paymentBank,//付款方银行
-              paymentAccount,//付款方账号
-              paymentAmt,//付款金额
-              paymentDate,//付款日期
-              paymentRecordNo,//交易流水号
-              paymentAbstract,
+             
             }
             if(res.data.fileInfos&&res.data.fileInfos.length>0){
               this.fileList = res.data.fileInfos
@@ -455,27 +474,20 @@
             this.submitloading = true
             let postData = {...this.payment}
             postData.filePath = this.enclosure
-            postData.isSubmit = type ? true : false
+            postData.flag = type ? false : true
             let msg = '新建'
             msg = postData.id ? '修改' : '新建' 
-            addOrUpdatepayment(postData).then(
+            addOrUpdatePayment(postData).then(
               res => {
                 if (res.success&&res.data&&res.data.id) {
-                  this.$confirm(msg + '收款单成功！', '提示', {
-                    confirmButtonText: '详情',
-                    cancelButtonText: '关闭',
-                    type: 'success'
-                  }).then(
-                    _ => {
-                        this.$router.push({
-                          path: '/payment/register/detail',
+                  this.$message({type:'success',message:`${msg}付款申请成功`,duration:2000,onClose:()=>{
+                     this.$router.push({
+                          path: '/payment/apply/detail',
                           query: {
                             id: res.data.id
                           }
                         })
-                    }
-                  ).catch(_ => {
-                  })
+                  }})
                 }
                 this.submitloading = false
               }

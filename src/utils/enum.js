@@ -225,3 +225,42 @@ export const invoiceCancelStatusConfig = [
     value: 3
   },
 ]
+//付款单据状态
+export const paymentStatusEnum = [
+  {
+    name: '保存',
+    value: 0
+  },
+  {
+    name: '提交待审',
+    value: 1
+  },
+  {
+    name: '采购审核',
+    value: 2
+  },
+  {
+    name: '财务审核',
+    value: 3
+  },
+  {
+    name: '总经理审核',
+    value: 4
+  },
+  {
+    name: '已付款',
+    value: 5
+  },
+  {
+    name: '付款已确认',
+    value: 6
+  },
+  {
+    name: '已驳回',
+    value: 7
+  },
+  {
+    name: '已取消',
+    value: 19
+  },
+]

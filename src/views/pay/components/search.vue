@@ -1,12 +1,14 @@
 <template lang="html">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
-      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
+      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="90px" label-position="left">
       <el-row :gutter="10">
         <el-col :span="6">
-          <el-form-item label="客户名称"  prop="cusName">
-            <el-select v-model="searchForm.paymenterId"
+          <el-form-item label="供应商名称"  prop="cusName">
+            <el-select v-model="searchForm.paymenterCode"
               :filter-method="cusCodeFilter" 
               clearable
+              size="small"
+              @foucs="clearMark"
               filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
                 value=""
@@ -27,15 +29,19 @@
             </el-select>
           </el-form-item>
         </el-col>
-
-        <!-- <el-col :span="6">
-          <el-form-item label="合同编号" >
-            <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
-          </el-form-item>
-        </el-col> -->
         <el-col :span="6">
-          <el-form-item label="款项性质">
-            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择款项性质">
+          <el-form-item label="订单编号" prop="busiBillNo">
+            <el-input type="text" size="small" v-model="searchForm.busiBillNo" ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="合同编号" >
+            <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
+          </el-form-item>
+        </el-col>
+        <!-- <el-col :span="6">
+          <el-form-item label="付款状态">
+            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择付款状态">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -44,43 +50,17 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col> 
-        <el-col :span="6" v-if="searchForm.searchItem == 'register'">
-            <el-form-item label-width="70px" label="执行状态:" class="postInfo-container-item">
-              <el-select v-model="searchForm.RelationStatusEnum" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择执行状态" prefix-icon="el-icon-search">
-                <el-option
-                  v-for="item in RelationStatusEnum"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-col>
-        <el-col :span="6" v-if="searchForm.searchItem == 'associate'">
-          <el-form-item label="收款单号" label-width="90px">
-            <el-input type="text" size="small"  v-model="searchForm.receiveNo" ></el-input>
-          </el-form-item>
-        </el-col>
+        </el-col>   -->
       </el-row>
       <el-row :gutter="10">  
-         <el-col :span="6">
-          <el-form-item label="业务员" label-width="70px" v-if="searchForm.searchItem == 'register'">
-            <el-input type="text" size="small"  v-model="searchForm.salesman" ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6" v-if="searchForm.searchItem == 'associate'">
-          <el-form-item label="财务登记人" label-width="90px">
-            <el-input type="text" size="small"  v-model="searchForm.inputUserName" ></el-input>
-          </el-form-item>
-        </el-col>
+
+ 
         <el-col :span="6">
             <el-form-item label-width="70px" label="单据状态:" class="postInfo-container-item" prop="invoicetype">
               <el-select v-model="searchForm.approveStatus" 
               size="small" style='min-width:220px;' filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in ApproveStatusEnum"
+                  v-for="item in paymentStatusEnum"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value">
@@ -89,10 +69,8 @@
             </el-form-item>
         </el-col>  
         <el-col :span="6">
-          <el-form-item label-width="70px" label="收款日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.paymentDate" type="daterange" format="yyyy-MM-dd"start-placeholder="开始日期"
-      end-placeholder="结束日期">
-            </el-date-picker>
+          <el-form-item label="付款申请号" >
+            <el-input type="text" size="small" v-model="searchForm.id" ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -110,7 +88,7 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { MoneyStateEnum,RelationStatusEnum,ApproveStatusEnum } from '@/utils/enum'
+import { paymentStatusEnum } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
 
@@ -121,9 +99,7 @@ export default {
       searchRules: { 
       },
       searchForm:{},
-      MoneyStateEnum,
-      RelationStatusEnum,
-      ApproveStatusEnum,
+      paymentStatusEnum,
       codeConfig:[],
       customerConfig:[], //客户名称下拉配置
       customerFilterMark:'',//客户名称过滤标识
@@ -137,35 +113,19 @@ export default {
   },
   props:{
     searchForms:{
-      paymenterId:{//客户名称.
+      paymenterCode:{//客户名称
         type: String,
         default: ''
       },
-      moneyState:{//款项性质.
+      paymentStatus:{//单据状态
         type: String,
         default: ''
       },
-      receiveNo:{//收款单号.
+      busiBillNo:{//订单编号
         type: String,
         default: ''
       },
-      inputUserName:{//财务登记人.
-        type: String,
-        default: ''
-      },
-      salesman:{//业务员.
-        type: String,
-        default: ''
-      },
-      approveStatus:{//单据状态。
-        type: String,
-        default: ''
-      },
-      paymentStartDate:{//收款开始
-        type: String,
-        default: ''
-      },
-      paymentEndDate:{//收款结束
+      contractNo:{//合同编号
         type: String,
         default: ''
       },
@@ -215,6 +175,10 @@ export default {
    },
   
   methods:{
+    clearMark(){
+      this.customerFilterMark=''
+      this.orderNoFilterMark=''
+    },
     cusCodeFilter(value){
        this.customerFilterMark=value;
     },

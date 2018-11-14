@@ -1,6 +1,6 @@
 import { ApproveStatusEnum, MoneyStateEnum, MoneyTypeEnum, RelationStatusEnum, PaymentModeEnum } from '@/utils/enum'
-export const receiptTableConfig=[// 付款申请列表
-  { label:'付款申请号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
+export const applyTableConfig=[// 付款申请列表
+  { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/apply/detail',query:[{key:'id',value:'id'}] },
   { label:'标题',prop:'paymenterName', width:210 },
   { label:'供应商',prop:'paymentAmt',type:'money', minWidth:120 },
   { label:'合同号',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
@@ -16,7 +16,7 @@ export const receiptTableConfig=[// 付款申请列表
   { label:'申请人',prop:'relationUserName', minWidth:90},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
-export const receiptsTableConfig=[// 付款申请列表
+export const regesterTableConfig=[// 付款登记列表
   { label:'付款登记号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
   { label:'付款申请号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
   { label:'供应商',prop:'paymentAmt',type:'money', minWidth:120 },
