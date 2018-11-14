@@ -46,9 +46,9 @@
           </el-form-item>
         </el-col> 
         <el-col :span="6" v-if="searchForm.searchItem == 'register'">
-            <el-form-item label-width="70px" label="执行状态:" class="postInfo-container-item">
+            <el-form-item label-width="70px" label="关联状态:" class="postInfo-container-item">
               <el-select v-model="searchForm.relationStatus" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择执行状态" prefix-icon="el-icon-search">
+              size="small" style='min-width:220px;' filterable clearable placeholder="请选择关联状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in RelationStatusEnum"
                   :key="item.value"
@@ -76,9 +76,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label-width="70px" label="单据状态:" class="postInfo-container-item" prop="invoicetype">
+            <el-form-item label-width="70px" label="登记状态:" class="postInfo-container-item" prop="invoicetype">
               <el-select v-model="searchForm.approveStatus" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+              size="small" style='min-width:220px;' filterable clearable placeholder="请选择登记状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in ApproveStatusEnum"
                   :key="item.value"
@@ -113,7 +113,9 @@
 import { MoneyStateEnum,RelationStatusEnum,ApproveStatusEnum } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
-
+let RelationStatusEnumFilter = RelationStatusEnum.filter(item=>{
+  return item.value!=2
+})
 export default {
   name: 'SearchInvoice',
   data() {
@@ -122,7 +124,7 @@ export default {
       },
       searchForm:{},
       MoneyStateEnum,
-      RelationStatusEnum,
+      RelationStatusEnum:RelationStatusEnumFilter,
       ApproveStatusEnum,
       codeConfig:[],
       customerConfig:[], //客户名称下拉配置
@@ -157,7 +159,7 @@ export default {
         type: String,
         default: ''
       },
-      approveStatus:{//单据状态。
+      approveStatus:{//登记状态。
         type: String,
         default: ''
       },

@@ -131,15 +131,15 @@ export const ApproveStatusEnum = [
     value: 0
   },
   {
-    name: '未审核',
+    name: '登记待审',
     value: 1
   },
   {
-    name: '审核通过',
+    name: '登记已审',
     value: 2
   },
   {
-    name: '驳回',
+    name: '登记驳回',
     value: 3
   },
 ]
@@ -155,36 +155,39 @@ export const RelationStatusEnum = [
     value: 1
   },
   {
-    name: '保存',
+    name: '草稿',//保存
     value: 2
   },
   {
-    name: '待审核',
+    name: '关联待审',
     value: 3
   },
   {
-    name: '已审核',
+    name: '关联已审',
     value: 4
   },
-  {
-    name: '已驳回',
-    value: 5
-  },
+  // {
+  //   name: '已驳回',
+  //   value: 5
+  // },
 ]
 
 //收款款项性质
 export const MoneyStateEnum = [
   {
     name: '货款',
-    value: 0
+    value: 0,
+    disabled:false,
   },
   {
     name: '质保金',
-    value: 1
+    value: 1,
+    disabled:true,
   },
   {
     name: '服务费',
-    value: 2
+    value: 2,
+    disabled:true,
   },
   {
     name: ' ',

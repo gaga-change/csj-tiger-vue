@@ -5,11 +5,11 @@ export const receiptTableConfig=[// 收款列表
   { label:'收款金额',prop:'paymentAmt',type:'money', minWidth:120 },
   { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
   { label:'财务登记人',prop:'inputUserName', minWidth:90 },
-  { label:'单据状态',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, userFormatter: (cellValue)=>{
+  { label:'登记状态',prop:'approveStatus',useLocalEnum:true, type:'ApproveStatusEnum', minWidth:120, userFormatter: (cellValue)=>{
     let value = ''
     ApproveStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value}},
-  { label:'执行状态',prop:'relationStatus',useLocalEnum:true, type:'RelationStatusEnum', width:120, userFormatter: (cellValue)=>{
+  { label:'关联状态',prop:'relationStatus',useLocalEnum:true, type:'RelationStatusEnum', width:120, userFormatter: (cellValue)=>{
     let value = ''
     RelationStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value} },
@@ -31,8 +31,8 @@ export const receiptInfoConfig=[//收款单详情
   { title:'交易流水', prop:'paymentRecordNo', },
   { title:'付款摘要 ', prop:'paymentAbstract',span:18 },
 ]
-export const execInfoConfig=[//收款单执行情况
-  { title:'执行状态', prop:'relationStatus',type:'RelationStatusEnum', useLocalEnum:true,userFormatter: (cellValue)=>{
+export const execInfoConfig=[//收款单关联情况
+  { title:'关联状态', prop:'relationStatus',type:'RelationStatusEnum', useLocalEnum:true,userFormatter: (cellValue)=>{
     let value = ''
     RelationStatusEnum.map(item => {if(item.value == cellValue){value = item.name}})
     return value} },

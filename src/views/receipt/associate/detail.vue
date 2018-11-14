@@ -10,7 +10,7 @@
             @click="saveOrder(0,'submitForm')">保存
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="saveOrder(1,'submitForm')">保存并提交
+            @click="saveOrder(1,'submitForm')">提交
         </el-button>
       </template> 
       <template v-else-if="cardData.relationStatus == 2">
@@ -30,7 +30,7 @@
               @click="saveOrder(0,'submitForm')">保存
           </el-button>  
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-              @click="saveOrder(1,'submitForm')">保存并提交
+              @click="saveOrder(1,'submitForm')">提交
           </el-button>
         </template>
       </template> 
@@ -51,7 +51,7 @@
             @click="saveOrder(0,'submitForm')">保存
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="saveOrder(1,'submitForm')">保存并提交
+            @click="saveOrder(1,'submitForm')">提交
         </el-button>  
       </template>
        <el-button  style="margin-left: 10px;" v-else-if="cardData.relationStatus == 4" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
@@ -73,6 +73,7 @@
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
                 :label="item.name"
+                :disabled="item.disabled"
                 :value="item.value">
               </el-option>
             </el-select>

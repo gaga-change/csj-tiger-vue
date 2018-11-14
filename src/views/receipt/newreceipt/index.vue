@@ -122,8 +122,8 @@
       <el-row :gutter="20">
         <el-form-item>
           <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
-          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">保存并提交</el-button>
-          <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
+          <!-- <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button> -->
         </el-form-item>
       </el-row>
     </el-form>
