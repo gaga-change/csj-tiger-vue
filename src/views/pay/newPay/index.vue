@@ -154,7 +154,7 @@
       <el-row :gutter="20">
         <el-form-item>
           <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
-          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">保存并提交</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -233,7 +233,7 @@
           contractNo:'',//合同号.
           paymentMode:'',//付款方式.
           realPaymentAmt:'',//已付货款.
-          applyPaymentAmt:'',//申请付款金额.
+          applyPaymentAmt:'',//货款.
           applyPaymentDate:'',//申请付款日期
           receiveBank:'',//收款银行.
           receiveAccount:'',//收款账号.
@@ -243,17 +243,20 @@
             paymenterCode: [
               { required: true, message: '请选择付款方', trigger: 'change' }
             ],
-            paymentAmt: [
+            applyPaymentAmt: [
               { validator: checkAmt, required: true, trigger: 'blur' }
             ],
             moneyState: [
               { required: true, message: '请选择款项性质', trigger: 'blur' }
             ],
-            paymentDate: [
-              { required: true, message: '付款日期', trigger: 'blur' }
+            moneyType: [
+               { required: true, message: '请选择款项类型', trigger: 'blur' }
             ],
-            paymentAccount: [
-              { validator: checkDetail, required: true, trigger: 'blur' }
+            busiBillNo: [
+              { required: true, message: '请选择采购订单', trigger: 'blur' }
+            ],
+            applyPaymentDate: [
+              {  required: true, message: '请选择付款日期', trigger: 'blur' }
             ],
           
         },
