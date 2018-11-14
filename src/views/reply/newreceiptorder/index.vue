@@ -98,19 +98,19 @@
         </el-col>
         <el-col :span="6">
             <el-form-item
-             label="签收人"
+             label="签收依据"
              :rules="[
                 { required: true, message: '该项为必选'},
               ]"
               prop="signName">
               <!-- demodemo -->
-              <el-select v-model="planform.signName" style="width:180px"  placeholder="请输入签收人">
+              <el-select v-model="planform.type" style="width:180px"  placeholder="请选择签收依据">
               <el-option
-                v-for="item in paymentModeItem"
-                :key="item.value"
-                :label="item.name"
-                :disabled="item.flag"
-                :value="item.value">
+                v-for="item in signTypes"
+                :key="item.type"
+                :label="item.desc"
+                :disabled="!item.hisData"
+                :value="item.type">
               </el-option>
               </el-select>
             </el-form-item>
@@ -266,8 +266,9 @@
           signCreateTime:'',
           details:[],
           deleteSignDetailIds:[],
+          type:'',
         },
-       
+        signTypes:[],
         filesRequired:false,
         fileList: [],
         fetchSuccess: true,
@@ -354,6 +355,8 @@
                 json['rejectQty']=0;
                 return json;
             })
+          this.signTypes = res.data&&res.data.signTypes || []
+
             data.details=dataList;
             this.planform=data;
           }
@@ -379,7 +382,7 @@
             data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
             for(let i in data){
-              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds'].includes(i)){
+              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds', 'type'].includes(i)){
                 json[i]=data[i]
               }
             }
