@@ -94,7 +94,7 @@ export const contractInfo = [
   { title:'交货方式 ', prop:'paymentBank', },
   { title:' 合同扫描件', prop:'paymentAccount', },
 ]
-export const configTableConfig=[//合同商品明细
+export const contractTableConfig=[//合同商品明细
   { label:'序号',prop:'invoiceNo'},
   { label:'客户商品编号',prop:'applyCode'},
   { label:'商品名称',prop:'applyCode'},

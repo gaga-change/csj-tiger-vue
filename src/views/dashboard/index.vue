@@ -11,7 +11,7 @@
       </el-col> -->
     </el-row> 
 
-  <template>
+  <!-- <template>
   <div>
     <el-table :data="tableData6" :span-method="objectSpanMethod" border 
     align="center" style="width: 100%; margin-top: 20px">
@@ -27,7 +27,7 @@
       </el-table-column>
     </el-table>
   </div>
-</template>
+</template> -->
 
 
   </div>

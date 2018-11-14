@@ -65,11 +65,11 @@
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
-    import { detailtableConfig } from '../components/config';
+    import { contractTableConfig } from '../components/config';
     const name = "register"
     const detailtableConfigDetail = []
        
-        detailtableConfig.map(item=>{
+        contractTableConfig.map(item=>{
           if(name&&(item.show.indexOf(name)!=-1)){
             detailtableConfigDetail.push(item)
           }

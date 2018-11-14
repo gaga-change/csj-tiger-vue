@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="app-container">
-    <el-form :model="receipt" :rules="rules" ref="ruleForm" label-width="120px">
+    <el-form :model="payment" :rules="rules" ref="ruleForm" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="收款方" prop="paymenterId">
-            <el-select v-model="receipt.paymenterId"
+            <el-select v-model="payment.paymenterId"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
               @change="customerChange"
@@ -31,7 +31,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项性质" prop="paymentMode">
-            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="payment.paymentMode" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -43,7 +43,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项类型" prop="paymentMode">
-            <el-select v-model="receipt.paymentMode" :disabled="xingzhi!==0"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="payment.paymentMode" :disabled="xingzhi!==0"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -58,7 +58,7 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="采购订单" prop="paymentMode">
-            <el-select v-model="receipt.paymentMode" :disabled="xingzhi!==0" filterable clearable placeholder="请选择采购订单" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="payment.paymentMode" :disabled="xingzhi!==0" filterable clearable placeholder="请选择采购订单" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -70,40 +70,40 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="采购合同" prop="paymentAmt">
-             <el-input type="text" size="small" disabled v-model="receipt.paymentAccount"></el-input>
+             <el-input type="text" size="small" disabled v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentAmt">
-             <el-input type="text" size="small" disabled v-model="receipt.paymentAccount"></el-input>
+             <el-input type="text" size="small" disabled v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="xingzhi==0">
           <el-form-item label="已付货款" prop="paymentAmt">
-             <el-input type="text" size="small" disabled v-model="receipt.paymentAccount"></el-input>
+             <el-input type="text" size="small" disabled v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
        <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="申请金额" prop="paymentAmt">
-             <el-input type="text" size="small" :disabled="xingzhi==0" v-model="receipt.paymentAccount"></el-input>
+             <el-input type="text" size="small" :disabled="xingzhi==0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="其中:货款" label-width="90px" prop="paymentAmt">
-             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="receipt.paymentAccount"></el-input>
+             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
          <el-form-item label="其中:货款" label-width="90px" prop="paymentAmt">
-             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="receipt.paymentAccount"></el-input>
+             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
        
          <el-col :span="8">
           <el-form-item label="要求付款日期" prop="mount">
               <el-date-picker
-              v-model="receipt.paymentDate"
+              v-model="payment.paymentDate"
               type="datetime"
               size="small"
               :editable="false"
@@ -116,13 +116,13 @@
        <el-row :gutter="20">
           <el-col :span="6">
           <el-form-item label="收款方银行账户" prop="paymentBank">
-             <el-input type="text" size="small" v-model="receipt.paymentBank"></el-input>
+             <el-input type="text" size="small" v-model="payment.paymentBank"></el-input>
           </el-form-item>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="收款方收款银行" prop="paymentAccount">
-            <el-input type="text" size="small" v-model="receipt.paymentAccount"></el-input>
+            <el-input type="text" size="small" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -186,13 +186,13 @@
   
 
 <script>
-  import { addOrUpdateReceipt, getReceiptDetail } from '@/api/receipt'
+  import { addOrUpdatePayment, getPaymentDetail } from '@/api/payment'
   import { mapGetters } from 'vuex'
   import { PaymentModeEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
   // import orderchoice from './Component/orderchoice'
   export default {
-    name: 'newreceipt',
+    name: 'newpayment',
     // components: {
     //   orderchoice
     // },
@@ -220,7 +220,7 @@
         callback()
       }
       return {
-        receipt: {
+        payment: {
            id:'',
            receiveNo:'',//收款单号
            paymenterId:'',//付款方id
@@ -312,7 +312,7 @@
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
       }else{
-        this.receipt={}
+        this.payment={}
       }
       this.getCustomInfo()
     },
@@ -324,7 +324,7 @@
         
         this.getDetail()
       }else{
-        this.receipt={}
+        this.payment={}
       }
       this.getCustomInfo()
     },
@@ -334,7 +334,7 @@
           
           
           if(item.entNumber==e){
-            this.receipt.paymenterName = item.entName
+            this.payment.paymenterName = item.entName
           }
         })
       },
@@ -362,7 +362,7 @@
         this.fileList = fileList
       },
       getDetail() {
-        getReceiptDetail(
+        getpaymentDetail(
          this.$route.query.id
         ).then(res => {
           if(res.success){
@@ -381,7 +381,7 @@
             } = res.data.finaReceiveDO
             console.log(id,123123123213123);
             
-            this.receipt =  {
+            this.payment =  {
               id,
               receiveNo,//收款单号
               paymenterId,//付款方id
@@ -396,7 +396,7 @@
             }
             if(res.data.fileInfos&&res.data.fileInfos.length>0){
               this.fileList = res.data.fileInfos
-              this.receipt.filePath = res.data.fileInfos
+              this.payment.filePath = res.data.fileInfos
             }
             
             
@@ -445,12 +445,12 @@
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             this.submitloading = true
-            let postData = {...this.receipt}
+            let postData = {...this.payment}
             postData.filePath = this.enclosure
             postData.isSubmit = type ? true : false
             let msg = '新建'
             msg = postData.id ? '修改' : '新建' 
-            addOrUpdateReceipt(postData).then(
+            addOrUpdatepayment(postData).then(
               res => {
                 if (res.success&&res.data&&res.data.id) {
                   this.$confirm(msg + '收款单成功！', '提示', {
@@ -460,7 +460,7 @@
                   }).then(
                     _ => {
                         this.$router.push({
-                          path: '/receipt/register/detail',
+                          path: '/payment/register/detail',
                           query: {
                             id: res.data.id
                           }
@@ -483,7 +483,7 @@
         })
       },
       onCancel() {
-        this.receipt = {
+        this.payment = {
         }
       }
     }
