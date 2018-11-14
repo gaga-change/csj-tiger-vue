@@ -13,14 +13,17 @@
       :config="detailtableConfig" 
       :allTableData="tableData"/></template>
   </template>
-   <template v-if="name=='associate'&&cardData.moneyState==0&&cardData.relationStatus>2&&cardData.relationStatus<5">
+   <template v-if="name=='associate'&&cardData.relationStatus>2&&cardData.relationStatus<5">
     <item-title text="收款单执行情况"/>
     <item-card :config="execInfoConfig" :loading="loading"   :cardData="cardData"  />
-     <item-title text="收款单相关订单"/>
-    <web-pagination-table 
-      :loading="loading"
-      :config="detailtableConfig" 
-      :allTableData="tableData"/>
+    <template v-if="cardData.moneyState==0">
+      <item-title text="收款单相关订单"/>
+      <web-pagination-table 
+        :loading="loading"
+        :config="detailtableConfig" 
+        :allTableData="tableData"/>
+    </template>
+    
   </template>
   </div>
 </template>

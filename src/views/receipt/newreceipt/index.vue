@@ -14,6 +14,7 @@
             <el-select v-model="receipt.paymenterId"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
+              @focus="clearCustomerFilterMark"
               @change="customerChange"
               clearable
               filterable placeholder="请选择客户名称">
@@ -121,8 +122,8 @@
       <el-row :gutter="20">
         <el-form-item>
           <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
-          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">保存并提交</el-button>
-          <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
+          <!-- <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button> -->
         </el-form-item>
       </el-row>
     </el-form>
@@ -275,7 +276,6 @@
       // if (!this.gridData.length) {
       //   this.$store.dispatch('GetGysList')
       // }
-      console.log(this.$route.query.id,this.$route.query.from,'cr');
       
       
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
@@ -286,10 +286,8 @@
       this.getCustomInfo()
     },
     activated(){
-      console.log(this.$route.query.id,this.$route.query.from,'ac');
 
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        console.log(666);
         
         this.getDetail()
       }else{
@@ -319,6 +317,9 @@
       },
       cusCodeFilter(value){
         this.customerFilterMark=value;
+      },
+      clearCustomerFilterMark(){
+        this.customerFilterMark = ''
       },
       beforeUpload(file) {
         // 如果上传文件大于5M
@@ -436,6 +437,12 @@
                         })
                     }
                   ).catch(_ => {
+                    this.$router.push({
+                      path: '/receipt/register/detail',
+                      query: {
+                       id: res.data.id
+                      }
+                    })
                   })
                 }
                 this.submitloading = false
