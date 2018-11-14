@@ -100,16 +100,16 @@
             <el-form-item
              label="签收依据"
              :rules="[
-                { required: true, message: '该项为必选'},
+                { required: true,pattern:/^(\d+)|(\w+)$/, message: '该项为必选'},
               ]"
-              prop="signName">
+              prop="type">
               <!-- demodemo -->
               <el-select v-model="planform.type" style="width:180px"  placeholder="请选择签收依据">
               <el-option
                 v-for="item in signTypes"
                 :key="item.type"
                 :label="item.desc"
-                :disabled="!item.hisData"
+                :disabled="!item.showFlag"
                 :value="item.type">
               </el-option>
               </el-select>
@@ -389,7 +389,7 @@
             if(modify){
               json['saleSignId']=this.id;
             }
-
+          
             json['details']=data['details'].map(v=>{
               if(modify){
                 return {
