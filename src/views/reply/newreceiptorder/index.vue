@@ -83,7 +83,7 @@
           </el-form-item>
         </el-col>
 
-      <el-col :span="8">
+      <el-col :span="6">
         <el-form-item 
           label="上传附件">
           <el-button
@@ -96,6 +96,25 @@
         </el-form-item>
           <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:84px;position: absolute;"> 附件为必选</span>
         </el-col>
+        <el-col :span="6">
+            <el-form-item
+             label="签收人"
+             :rules="[
+                { required: true, message: '该项为必选'},
+              ]"
+              prop="signName">
+              <!-- demodemo -->
+              <el-select v-model="planform.signName" style="width:180px"  placeholder="请输入签收人">
+              <el-option
+                v-for="item in paymentModeItem"
+                :key="item.value"
+                :label="item.name"
+                :disabled="item.flag"
+                :value="item.value">
+              </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
       </el-row>
       </el-card>
       </div> 
