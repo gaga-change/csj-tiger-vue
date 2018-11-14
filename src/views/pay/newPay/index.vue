@@ -31,19 +31,20 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项性质" prop="paymentMode">
-            <el-select v-model="payment.paymentMode" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+            <!-- <el-select v-model="payment.paymentMode" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value">
               </el-option>
-            </el-select>
+            </el-select> -->
+            <span>货款</span>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项类型" prop="paymentMode">
-            <el-select v-model="payment.paymentMode" :disabled="xingzhi!==0"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="payment.paymentMode" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -222,8 +223,8 @@
       return {
         payment: {
           id:'',//付款申请id.
-          applyTitle:'',//申请标题.
-          paymenterId:'',//收款方id.
+          applyTitle:'',//申请标题.  
+          paymenterCode:'',//收款方id.
           paymenterName:'',//付款方名称（客户姓名）.
           moneyState:'',//款项性质.
           moneyType:'',//款项类型.
@@ -234,23 +235,19 @@
           realPaymentAmt:'',//已付货款.
           applyPaymentAmt:'',//申请付款金额.
           applyPaymentDate:'',//申请付款日期
-           receiveBank:'',//收款银行.
-           receiveAccount:'',//收款账号.
-           paymentAmt:'',//付款金额
-           paymentDate:'',//付款日期
-           paymentRecordNo:'',//交易流水号
-           paymentAbstract:'',
-           filePath:[],
+          receiveBank:'',//收款银行.
+          receiveAccount:'',//收款账号.
+          filePath:[],
         },
         rules: {
-            paymenterId: [
+            paymenterCode: [
               { required: true, message: '请选择付款方', trigger: 'change' }
             ],
             paymentAmt: [
               { validator: checkAmt, required: true, trigger: 'blur' }
             ],
-            paymentMode: [
-              { required: true, message: '请选择付款方式', trigger: 'blur' }
+            moneyState: [
+              { required: true, message: '请选择款项性质', trigger: 'blur' }
             ],
             paymentDate: [
               { required: true, message: '付款日期', trigger: 'blur' }
