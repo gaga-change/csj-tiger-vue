@@ -1,19 +1,25 @@
 <template>
-<div><sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+  <div>
+  <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template  v-if="cardData.paymentStatus == 0">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
             @click="linkToCreate">编辑
         </el-button>
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
             @click="saveOrder">提交
         </el-button>
       </template> 
-      <template v-else-if="$route.query.from=='needWork'">
-         <template v-if="/(1|2|3|4)/.test(cardData.paymentStatus)">
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled" type="primary"
+      <template  v-else-if="cardData.paymentStatus == 9">
+         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+            @click="linkToCreate">编辑
+        </el-button>
+      </template> 
+      <template v-else-if="true||$route.query.from=='needWork'">
+         <template v-if="/(1|2|3)/.test(cardData.paymentStatus)">
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled" type="primary"
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
               @click="Modify('payReject')">驳回
           </el-button>  
         </template>
@@ -115,13 +121,13 @@
         }})
       },
       saveOrder(){
-        console.log(122222222222,this.userInfo);
         
         let params = {
           id:this.$route.query.id,
           operator:this.userInfo.id,
           operatorName:this.userInfo.truename,
-          fromSystemCode: 'CSJSCM'
+          fromSystemCode: 'CSJSCM',
+          flag:false
         }
           paymentSubmit(params).then(res=>{
             console.log(res);

@@ -74,12 +74,10 @@
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
             let id = row.id
-            let status = Number(row.relationStatus)
+            let status = Number(row.paymentStatus)
             switch(status){
-              case 0: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
-              case 1: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>关联业务单</router-link></div>
-              case 2: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
-              case 3: return <div><router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
+              case 4: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>付款登记</router-link></div>
+              case 5: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
               default: return <router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };

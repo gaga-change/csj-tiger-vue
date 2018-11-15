@@ -248,7 +248,7 @@ export const paymentStatusEnum = [
     value: 4
   },
   {
-    name: '已付款',
+    name: '付款待确认',
     value: 5
   },
   {
@@ -257,7 +257,7 @@ export const paymentStatusEnum = [
   },
   {
     name: '已驳回',
-    value: 7
+    value: 9
   },
   {
     name: '已取消',

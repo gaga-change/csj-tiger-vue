@@ -44,8 +44,8 @@ export const paymentInfoConfig = [//付款单详情
 ]
 export const realPayInfoConfig = [//实付详情
   { title:'付款日期', prop:'realPaymentDate',type:'time' },
-  { title:'结算方式', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true },
-  { title:'付款人', prop:'paymentMode', type:'PaymentModeEnum',useLocalEnum:true },
+  { title:'结算方式', prop:'paymentMode',type:'PaymentModeEnum',useLocalEnum:true },
+  { title:'付款人', prop:'applyUserName', },
   { title:'货款', prop:'realPaymentAmt', },
   { title:'贴息', prop:'realInterestAmt',},
   { title:'实付金额', prop:'realPay',},
