@@ -33,7 +33,7 @@
     import { getPaymentListAndDetail } from '@/api/pay'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import { receiptTableConfig } from '../components/config';
+    import { applyTableConfig } from '../components/config';
     import Sticky from '@/components/Sticky' // 粘性header组件
     import SearchInvoice from '../components/search'
     export default {
@@ -54,13 +54,13 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
       let tableConfig = []
-      receiptTableConfig.map(item=>{
+      applyTableConfig.map(item=>{
         if(item.userLink){
           item.dom = this.formatter('operate');
         }
-        if(item.prop=='receiveNo'){
-          item.linkTo = '/payment/apply/detail'
-        }
+        // if(item.prop=='applyNo'){
+        //   item.linkTo = '/payment/apply/detail'
+        // }
         tableConfig.push(item)
       })
       this.tableConfig = tableConfig;
@@ -86,18 +86,12 @@
         switch(type){
           case 'operate' :return  (row, column, cellValue, index)=>{
             let id = row.id
-            let status = Number(row.approveStatus)
-            let relateStatus = Number(row.relationStatus)
-            if(status==2){
-              if(relateStatus!=0){
-                status = 111
-              }
-            }
+            let status = Number(row.paymentStatus)
             switch(status){
-              case 0: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
-              case 1: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
-               case 2: return <div><router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>分配业务员</router-link></div>
-              default: return <router-link  to={{path:`/receipt/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+              case 0: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
+              case 1: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
+               case 2: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>分配业务员</router-link></div>
+              default: return <router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };
           default:return value
@@ -151,10 +145,11 @@
         }
         let data={...json}
         getPaymentListAndDetail(data).then(res=>{
+          
           if(res.success){
               let data=res.data;
-              this.tableData=data.list||[];
-              this.total=data.total;
+              this.tableData=res.list||[];
+              this.total=res.total;
           }
           
             this.loading=false;

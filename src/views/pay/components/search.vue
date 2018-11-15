@@ -1,9 +1,9 @@
 <template lang="html">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
-      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="90px" label-position="left">
+      <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
       <el-row :gutter="10">
         <el-col :span="6">
-          <el-form-item label="供应商名称"  prop="cusName">
+          <el-form-item label="供应商名称" label-width="85px"  prop="cusName">
             <el-select v-model="searchForm.paymenterCode"
               :filter-method="cusCodeFilter" 
               clearable
@@ -54,11 +54,16 @@
       </el-row>
       <el-row :gutter="10">  
 
- 
+        <el-col :span="6">
+          <el-form-item label="付款申请号" label-width="85px"  >
+            <el-input type="text" size="small" v-model="searchForm.id" ></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="6">
             <el-form-item label-width="70px" label="单据状态:" class="postInfo-container-item" prop="invoicetype">
               <el-select v-model="searchForm.approveStatus" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+               filterable clearable placeholder="请选择单据状态" 
+              size="small" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in paymentStatusEnum"
                   :key="item.value"
@@ -68,11 +73,7 @@
               </el-select>
             </el-form-item>
         </el-col>  
-        <el-col :span="6">
-          <el-form-item label="付款申请号" >
-            <el-input type="text" size="small" v-model="searchForm.id" ></el-input>
-          </el-form-item>
-        </el-col>
+        
       </el-row>
       <el-row :gutter="10">
         <el-col :span="6">

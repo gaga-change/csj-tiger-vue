@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
 
   <item-title :text='infoName'/>
-  <item-card :config="receiptInfoConfig" :loading="loading"   :cardData="cardData"  />
+  <item-card :config="realPayInfoConfig" :loading="loading"   :cardData="cardData"  />
  
 
      <item-title :text='tableName'/>
@@ -86,15 +86,14 @@
   import _ from 'lodash'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  let count = 0
-  import { receiptInfoConfig,  execInfoConfig} from './config'
+  import { realPayInfoConfig,  } from './config'
  export default {
     name: 'InvoiceDetail', 
     components: { webPaginationTable },
     data() {
       return {
         config:{},
-        receiptInfoConfig,
-        execInfoConfig,
+        realPayInfoConfig,
         
         searchForm:{},
         recordData:[],

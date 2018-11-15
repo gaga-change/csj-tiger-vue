@@ -28,7 +28,7 @@
     import { getReceiptList } from '@/api/receipt'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import { receiptTableConfig } from '../components/config';
+    import { reisterTableConfig } from '../components/config';
     import Sticky from '@/components/Sticky' // 粘性header组件
     import SearchInvoice from '../components/search'
     export default {
@@ -49,13 +49,13 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
       let tableConfig = []
-      receiptTableConfig.map(item=>{
+      reisterTableConfig.map(item=>{
         if(item.userLink){
           item.dom = this.formatter('operate');
         }
-        if(item.prop=='receiveNo'){
-          item.linkTo = '/receipt/associate/detail'
-        }
+        // if(item.prop=='receiveNo'){
+        //   item.linkTo = '/receipt/associate/detail'
+        // }
         tableConfig.push(item)
       })
       this.tableConfig = tableConfig;

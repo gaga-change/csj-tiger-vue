@@ -88,7 +88,14 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentMode">
-             <el-input type="text" size="small" disabled v-model="payment.paymentMode"></el-input>
+              <el-select v-model="payment.paymentMode" disabled filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+              <el-option
+                v-for="item in PaymentModeEnum"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="true">
@@ -265,16 +272,16 @@
               { validator: checkAmt, required: true, trigger: 'blur' }
             ],
             moneyState: [
-              { required: true, message: '请选择款项性质', trigger: 'blur' }
+              { required: true, message: '请选择款项性质', trigger: 'change' }
             ],
             moneyType: [
-               { required: true, message: '请选择款项类型', trigger: 'blur' }
+               { required: true, message: '请选择款项类型', trigger: 'change' }
             ],
             busiBillNo: [
-              { required: true, message: '请选择采购订单', trigger: 'blur' }
+              { required: true, message: '请选择采购订单', trigger: 'change' }
             ],
             applyPaymentDate: [
-              {  required: true, message: '请选择付款日期', trigger: 'blur' }
+              {  required: true, message: '请选择付款日期', trigger: 'change' }
             ],
           
         },
@@ -284,7 +291,7 @@
         uploadButtonVisible: false,
         dialogTableVisible: false,
         submitloading: false,
-        paymentModeItem:PaymentModeEnum,
+        PaymentModeEnum,
         customerConfig:[],
         busiBillNoAll:[],
         customerFilterMark:'',//客户名称过滤标识
@@ -350,6 +357,8 @@
         this.payment={}
       }
       this.getCustomInfo()
+      
+      
     },
     activated(){
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
@@ -395,7 +404,18 @@
       cusCodeFilter(value){
         this.customerFilterMark=value;
       },
-      selectBusiBillNo(){},
+      selectBusiBillNo(){
+        let busiBillNo = this.payment.busiBillNo
+        let newBusiBillNo = [...this.newBusiBillNoAll]
+        newBusiBillNo.map(item=>{
+          if(item.busiBillNo == busiBillNo){
+            this.payment.contractNo = item.contractNo
+            // this.payment.paymentMode = item.paymentMode
+            this.payment.realPaymentAmt = item.paymentAmt
+          }
+          
+        })
+      },
       cusBillFilter(value){
         this.billFilterMark=value;
       },
@@ -477,9 +497,12 @@
             postData.flag = type ? false : true
             let msg = '新建'
             msg = postData.id ? '修改' : '新建' 
+            postData.operatorName = this.userInfo.truename
+            postData.operator = this.userInfo.id
+            postData.fromSystemCode = 'CSJSCM'
             addOrUpdatePayment(postData).then(
               res => {
-                if (res.success&&res.data&&res.data.id) {
+                if (res.success&&res.data) {
                   this.$message({type:'success',message:`${msg}付款申请成功`,duration:2000,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
@@ -488,6 +511,9 @@
                           }
                         })
                   }})
+                }else{
+                   this.$message({type:'success',message:`${msg}付款申请失败`,duration:2000
+                  })
                 }
                 this.submitloading = false
               }
