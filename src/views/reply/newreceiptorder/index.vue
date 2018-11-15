@@ -100,7 +100,7 @@
             <el-form-item
              label="签收依据"
              :rules="[
-                { required: true,pattern:/^(\d+)|(\w+)$/, message: '该项为必选'},
+                { required: true, message: '该项为必选'},
               ]"
               prop="type">
               <!-- demodemo -->
@@ -331,6 +331,7 @@
               json.url=v.path;
               return json;
           })
+          this.signTypes=res.data.signTypes;
           if(res.data&&Array.isArray(res.data.itemList)){
             data={...data,...res.data}
             data.planCode=data.outPlanCode
