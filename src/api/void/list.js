@@ -40,10 +40,36 @@ export function saveFinaPurchaseInvoice(data) {
 
 
 //进项发票详情  
-
 export function findFinaPurchaseInvoice(data) {
   return request({
     url: `/webApi/in/invoice/register/findFinaPurchaseInvoice?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+//进项发票提交  
+export function commitFinaPurchaseInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/commitFinaPurchaseInvoice?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+//进项发票审核、驳回
+export function checkFinaPurchaseInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/checkFinaPurchaseInvoice?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+//进项发票作废登记
+export function invalidFinaPurchaseInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/invalidFinaPurchaseInvoice?${stringify(data)}`,
     method: 'get',
   })
 }

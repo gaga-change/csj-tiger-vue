@@ -187,6 +187,20 @@
             </el-form-item>
           </el-col>
 
+           <el-col :span="6" v-if="searchForm.cancelApplyStatus!==undefined">
+            <el-form-item label="作废状态" >
+               <el-select v-model="searchForm.cancelApplyStatus" 
+              size="small"  filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
+                <el-option
+                  v-for="item in invoiceCancelStatusConfig"
+                  :key="item.value"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
     
           <el-col :span="6"  v-if="searchForm.ticketStatus!==undefined">
             <el-form-item label="单据状态" >
@@ -248,7 +262,7 @@
 
 <script>
 import _  from 'lodash';
-import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType } from '@/utils/enum'
+import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType ,invoiceCancelStatusConfig} from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
 import { infoCustomerInfo,ordernoandcontractno} from '@/api/invoicetigger/newoutputinvoice'
 import { queryInWarehouseBillList } from '@/api/void/list'
@@ -260,6 +274,7 @@ export default {
      entryInvoiceTicketStatus,
      NatureInvoice,
      InvoiceType,
+     invoiceCancelStatusConfig,
 
      customerConfig:[],//供应商下拉配置
      orderNoConfig:[],//订单编号下拉配置

@@ -18,6 +18,7 @@
 import SearchInvoice from './components/search'
 import BaseTable from '@/components/Table'
 import { voidIndexConfig } from './components/config';
+import { finaPurchaseInvoiceList } from '@/api/void/list'
 import _  from 'lodash';
 export default {
   components: { SearchInvoice,BaseTable},
@@ -28,7 +29,7 @@ export default {
         contractNo:'' ,
         invoiceNo:'',
         busiBillNo:'',
-        ticketStatus:''
+        cancelApplyStatus:''
       },
       pageSize:10,
       pageNum:1,
@@ -39,8 +40,11 @@ export default {
     }
   },
 
+  mounted(){
+    this.getCurrentTableData();
+  },
+  
   methods:{
-
     busiBillNoChange(busiBillNo,contractNo){
       let data = _.cloneDeep(this.searchForm);
       data.contractNo=contractNo;
@@ -74,13 +78,24 @@ export default {
     },
 
     getCurrentTableData(){
+      this.loading=true;
       let json={};
       for(let i in this.searchForm){
         if(this.searchForm[i]!==''){
           json[i]=this.searchForm[i]
         }
       }
+      json.ticketStatus=3;
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
+      finaPurchaseInvoiceList(json).then(res=>{
+          if(res.success){
+            let data=res.data.list||[];
+            this.tableData=data.filter(v=>v);
+          }
+          this.loading=false
+       }).catch(err=>{
+          this.loading=false
+       })
     }
   }
 }

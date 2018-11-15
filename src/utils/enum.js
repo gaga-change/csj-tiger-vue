@@ -108,6 +108,10 @@ export const InvoiceType = [
 //作废状态
 export const invoiceCancelStatusConfig = [
   {
+    name: '正常',
+    value: 0
+  },
+  {
     name: '申请中',
     value: 1
   },

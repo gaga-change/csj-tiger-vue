@@ -40,7 +40,7 @@ import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { billingTypeDetails} from '@/api/invoicetigger/newoutputinvoice'
-import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList} from '@/api/void/list'
+import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice} from '@/api/void/list'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 import moment from 'moment';
@@ -78,7 +78,6 @@ export default {
     },
 
   methods:{
-
   
     busiBillNoChange(busiBillNo,contractNo){
     
@@ -151,23 +150,44 @@ export default {
                     query:{ finaPurchaseInvoiceId:res.data}
                   })
               }).catch(err=>{ 
-
+                console.log(err)
               })
             }).catch(err=>{
-
+              console.log(err)
             })
           }).catch(err=>{
-
+             console.log(err) 
         })
       } else if(type==='submit') {
          saveFinaPurchaseInvoice(json).then(res=>{
            if(res.success){
-
+              commitFinaPurchaseInvoice({
+                finaPurchaseInvoiceId:res.data
+              }).then(result=>{
+                  this.$confirm('操作成功！', '提示', {
+                    confirmButtonText: '详情',
+                    cancelButtonText: '关闭',
+                    type: 'success'
+                 }).then( _ => {
+                      this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                        this.$router.push({
+                          path:'/invoice/entryInvoice/registrationDetail',
+                          query:{ finaPurchaseInvoiceId:res.data}
+                        })
+                      }).catch(err=>{
+                         console.log(err)
+                      })
+                 }).catch(err=>{
+                     console.log(err)
+                 })
+              }).catch(err=>{
+                    console.log(err)
+              })
            } else{
-             
+             this.$message.error('保存失败');
            }
          }).catch(err=>{
-
+            console.log(err)
          }) 
       } 
   },

@@ -128,6 +128,7 @@ export default [
         path: 'registrationDetail',
         component: _import('invoice/entryInvoice/detail'),
         name: 'registrationDetail',
+        hidden: true,
         meta: {
           title: '发票详情页面',
           icon: 'form',
