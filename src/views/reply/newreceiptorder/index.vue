@@ -509,3 +509,11 @@
  }
 </script>
 
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .el-form-item{
+    height:30px;
+    margin-bottom: 26px;
+  }
+</style>
+
