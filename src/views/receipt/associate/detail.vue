@@ -3,7 +3,7 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template  v-if="cardData.relationStatus == 1">
-         <el-button v-if="submitForm.moneyState===0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
+         <el-button v-if="submitForm.moneyState==0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
             @click="choosesalesman()">关联业务单
         </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
@@ -23,7 +23,7 @@
           </el-button>  
         </template>
         <template v-else>
-            <el-button v-if="submitForm.moneyState===0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
+            <el-button v-if="submitForm.moneyState==0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
             @click="choosesalesman()">关联业务单
           </el-button>  
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
@@ -153,12 +153,13 @@
             width="120">
             <template slot-scope="scope">
               <template v-if="scope.row.edit">
-                <el-input-number 
+                <el-input
                   size="mini"  
                   :min="0" 
+                  type="number"
                   style="width:100px"
                    v-model="scope.row.payableAmt" >
-                </el-input-number>
+                </el-input>
               </template>
               <span v-else>
                 {{scope.row.payableAmt}}
@@ -171,12 +172,13 @@
             width="120">
             <template slot-scope="scope">
               <template v-if="scope.row.edit&&editable">
-                <el-input-number 
+                <el-input 
                   :min="0" 
                   size="mini"
+                  type="number"
                   style="width:100px"
                    v-model="scope.row.interestAmt" >
-                </el-input-number>
+                </el-input>
               </template>
               <span v-else>
                 {{scope.row.interestAmt}}
@@ -425,9 +427,11 @@
               }else{
                 params.isSubmit = false
               }
-              if(this.submitForm.moneyState ===0){
+              if(this.submitForm.moneyState ==0){
                 params.orderRelationVoList = [...this.relateOrderData]
-                if(this.totalLoan-this.totalDiscount!==this.cardData.paymentAmt){
+                console.log((this.totalLoan-this.totalDiscount).toFixed(2),this.cardData.paymentAmt);
+                
+                if((this.totalLoan-this.totalDiscount).toFixed(2)!=this.cardData.paymentAmt){
                   this.$message({type:'error',message:'货款合计减去贴息合计必须等于金额'})
                   return false
                 }
@@ -471,7 +475,11 @@
         })
       },
       goeditrow(index) {
+
         let data=[...this.relateOrderData];
+        
+        data[index].payableAmt = (data[index].payableAmt-0).toFixed(2) || 0
+        data[index].interestAmt = (data[index].interestAmt - 0).toFixed(2) || 0
         data[index].edit = !data[index].edit
         this.relateOrderData=data;
       },
