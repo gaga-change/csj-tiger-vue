@@ -83,7 +83,7 @@
           </el-form-item>
         </el-col>
 
-      <el-col :span="8">
+      <el-col :span="6">
         <el-form-item 
           label="上传附件">
           <el-button
@@ -96,6 +96,25 @@
         </el-form-item>
           <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:84px;position: absolute;"> 附件为必选</span>
         </el-col>
+        <el-col :span="6">
+            <el-form-item
+             label="签收依据"
+             :rules="[
+                { required: true,pattern:/^(\d+)|(\w+)$/, message: '该项为必选'},
+              ]"
+              prop="type">
+              <!-- demodemo -->
+              <el-select v-model="planform.type" style="width:180px"  placeholder="请选择签收依据">
+              <el-option
+                v-for="item in signTypes"
+                :key="item.type"
+                :label="item.desc"
+                :disabled="!item.showFlag"
+                :value="item.type">
+              </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
       </el-row>
       </el-card>
       </div> 
@@ -247,8 +266,9 @@
           signCreateTime:'',
           details:[],
           deleteSignDetailIds:[],
+          type:'',
         },
-       
+        signTypes:[],
         filesRequired:false,
         fileList: [],
         fetchSuccess: true,
@@ -335,6 +355,8 @@
                 json['rejectQty']=0;
                 return json;
             })
+          this.signTypes = res.data&&res.data.signTypes || []
+
             data.details=dataList;
             this.planform=data;
           }
@@ -360,14 +382,14 @@
             data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
             for(let i in data){
-              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds'].includes(i)){
+              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds', 'type'].includes(i)){
                 json[i]=data[i]
               }
             }
             if(modify){
               json['saleSignId']=this.id;
             }
-
+          
             json['details']=data['details'].map(v=>{
               if(modify){
                 return {
