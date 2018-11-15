@@ -437,6 +437,12 @@
                         })
                     }
                   ).catch(_ => {
+                    this.$router.push({
+                      path: '/receipt/register/detail',
+                      query: {
+                       id: res.data.id
+                      }
+                    })
                   })
                 }
                 this.submitloading = false
