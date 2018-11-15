@@ -152,8 +152,12 @@
               label="单位"
               prop="skuUnitName">
             </el-table-column>
+             <el-table-column
+              label="计划出库量"
+              prop="planOutQty">
+            </el-table-column>
             <el-table-column
-              label="出库数量"
+              label="已出库量"
               prop="realOutQty">
             </el-table-column>
             <el-table-column
@@ -166,14 +170,14 @@
             </el-table-column>
             <el-table-column
               label="签收数量"
-               width="120">
+               width="100">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
                     size="mini"
-                    :max="scope.row.realOutQty-scope.row.rejectQty" 
+                    :max="planform.type===0?scope.row.realOutQty-scope.row.rejectQty:scope.row.planOutQty-scope.row.rejectQty" 
                     :min="0" 
-                     style="width:100px"
+                     style="width:90px"
                      v-model="scope.row.signQty" >
                    </el-input-number>
                 </template>
@@ -185,14 +189,14 @@
 
              <el-table-column
               label="拒收数量"
-              width="120">
+              width="100">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
-                  :max="scope.row.realOutQty-scope.row.signQty" 
+                  :max="planform.type===0?scope.row.realOutQty-scope.row.signQty:scope.row.planOutQty-scope.row.signQty" 
                   :min="0" 
                   size="mini"
-                  style="width:100px"
+                  style="width:90px"
                    v-model="scope.row.rejectQty" >
                    </el-input-number>
                 </template>
@@ -266,7 +270,7 @@
           signCreateTime:'',
           details:[],
           deleteSignDetailIds:[],
-          type:'',
+          type:0,
         },
         signTypes:[],
         filesRequired:false,
