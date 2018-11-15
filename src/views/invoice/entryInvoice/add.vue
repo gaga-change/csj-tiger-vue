@@ -39,8 +39,7 @@
 import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { billingTypeDetails} from '@/api/invoicetigger/newoutputinvoice'
-import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice} from '@/api/void/list'
+import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice,queryListByFinaPurchaseInvoiceReq } from '@/api/void/list'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 import moment from 'moment';
@@ -95,18 +94,17 @@ export default {
         }
       }).catch(err=>{
 
-      })
+      });
 
-      billingTypeDetails({
-        outBusiBillNo:busiBillNo
+      queryListByFinaPurchaseInvoiceReq({
+         busiBillNo:busiBillNo
       }).then(res=>{
         if(res.success){
            console.log(res)
         }
       }).catch(err=>{
-        console.log(err)
-      })
 
+      })
     },
 
     handleSelectionChange(value){

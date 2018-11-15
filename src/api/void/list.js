@@ -73,3 +73,11 @@ export function invalidFinaPurchaseInvoice(data) {
     method: 'get',
   })
 }
+
+//进项发票下面蓝票
+export function queryListByFinaPurchaseInvoiceReq(data) {
+  return request({
+    url: `/webApi/in/invoice/register/queryListByFinaPurchaseInvoiceReq?${stringify(data)}`,
+    method: 'get',
+  })
+}
