@@ -132,7 +132,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-                <el-col :span="6">
+                <el-col :span="10">
           <el-form-item label="附件">
              <el-button
               size="mini"
@@ -212,6 +212,23 @@
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
   // import orderchoice from './Component/orderchoice'
+  const  payment = {
+          id:'',//付款申请id.
+          applyTitle:'',//申请标题.  
+          paymenterCode:'',//收款方id.
+          paymenterName:'',//付款方名称（客户姓名）.
+          moneyState:'',//款项性质.
+          moneyType:'',//款项类型.
+          busiBillNo:'',//采购单号编号.
+          contractNo:'',//合同号.
+          paymentMode:'',//付款方式.
+          realPaymentAmt:'',//已付货款.
+          applyPaymentAmt:'',//货款.
+          applyPaymentDate:'',//申请付款日期
+          receiveBank:'',//收款银行.
+          receiveAccount:'',//收款账号.
+          filePath:[],
+        }
   export default {
     name: 'newpayment',
     // components: {
@@ -244,23 +261,7 @@
         MoneyStateEnum,
         MoneyTypeEnum,
         busiBillNoAll:[],
-        payment: {
-          id:'',//付款申请id.
-          applyTitle:'',//申请标题.  
-          paymenterCode:'',//收款方id.
-          paymenterName:'',//付款方名称（客户姓名）.
-          moneyState:'',//款项性质.
-          moneyType:'',//款项类型.
-          busiBillNo:'',//采购单号编号.
-          contractNo:'',//合同号.
-          paymentMode:'',//付款方式.
-          realPaymentAmt:'',//已付货款.
-          applyPaymentAmt:'',//货款.
-          applyPaymentDate:'',//申请付款日期
-          receiveBank:'',//收款银行.
-          receiveAccount:'',//收款账号.
-          filePath:[],
-        },
+        payment,
         rules: {
           applyTitle:[
               { required: true, message: '请输入申请标题', trigger: 'blur' }
@@ -434,16 +435,16 @@
          {id:this.$route.query.id}
         ).then(res => {
           if(res.success){
-            // let {
-             
-            // } = res.data.finaReceiveDO
+            let {...payment} = res.list[0]
             
             this.payment =  {
-             
+             ...payment
             }
-            if(res.data.fileInfos&&res.data.fileInfos.length>0){
-              this.fileList = res.data.fileInfos
-              this.payment.filePath = res.data.fileInfos
+            console.log(this.payment,'pay');
+            
+            if(res.list[0].fileInfos&&res.list[0].fileInfos.length>0){
+              this.fileList = res.list[0].fileInfos
+              this.payment.filePath = res.list[0].fileInfos
             }
             
             
@@ -502,7 +503,7 @@
             postData.fromSystemCode = 'CSJSCM'
             addOrUpdatePayment(postData).then(
               res => {
-                if (res.success&&res.data) {
+                if (res.success&&res.data&&res.data.id) {
                   this.$message({type:'success',message:`${msg}付款申请成功`,duration:2000,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
@@ -512,7 +513,7 @@
                         })
                   }})
                 }else{
-                   this.$message({type:'success',message:`${msg}付款申请失败`,duration:2000
+                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:2000
                   })
                 }
                 this.submitloading = false

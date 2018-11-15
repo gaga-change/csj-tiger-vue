@@ -9,7 +9,14 @@ export function addOrUpdatePayment(data) {
     data: data
   })
 }
-
+// 提交
+export function paymentSubmit(data) {
+  return request({
+    url: `/api/payment/submitPayment`,
+    method: 'post',
+    data: data
+  })
+}
 // 查询 列表、付款单详情
 export function getPaymentListAndDetail(data) {
   return request({

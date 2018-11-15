@@ -5,16 +5,18 @@
             @click="linkToCreate">编辑
         </el-button>
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="saveOrder(1,'submitForm')">提交
+            @click="saveOrder">提交
         </el-button>
       </template> 
-      <template v-else-if="cardData.paymentStatus == 2">
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
+      <template v-else-if="$route.query.from=='needWork'">
+         <template v-if="/(1|2|3|4)/.test(cardData.paymentStatus)">
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled" type="primary"
               @click="Modify('payReject')">驳回
           </el-button>  
+        </template>
       </template>
       <el-tag v-else>
         暂无操作
@@ -23,14 +25,14 @@
    <invoice-detail :cardData="cardData"  
     :tableData="[]"  :name="name">
     <item-title text="实付信息"/>
-  <item-card :config="tableConfig" :loading="loading"   :cardData="cardData"  />
+  <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
     </invoice-detail>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail } from '@/api/pay'
+    import { getPaymentListAndDetail,paymentSubmit } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -79,6 +81,7 @@
     computed: {
     ...mapGetters([
       'mapConfig',
+      'userInfo'
     ])},
 
     methods: {
@@ -105,10 +108,34 @@
            this.$router.push({
             path: '/payment/newPayment',
             query: {
-              id: this.$route.query.id
+              id: this.$route.query.id,
+              from:'rebuild'
             }
           })
         }})
+      },
+      saveOrder(){
+        console.log(122222222222,this.userInfo);
+        
+        let params = {
+          id:this.$route.query.id,
+          operator:this.userInfo.id,
+          operatorName:this.userInfo.truename,
+          fromSystemCode: 'CSJSCM'
+        }
+          paymentSubmit(params).then(res=>{
+            console.log(res);
+            if(res.success){
+               this.$message({type:'success',message:'提交成功', })
+            }else{
+              this.$message({type:'success',message:'提交失败', })
+            }
+            this.needfresh()
+          }).catch(err=>{
+            console.log(err);
+             this.$message({type:'success',message:'提交失败', })
+             this.needfresh()
+          })
       },
       needfresh() {
         this.buttonDisabled = false
