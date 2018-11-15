@@ -11,9 +11,18 @@ export function finaPurchaseInvoiceList(data) {
 
 
 //进项发票订单查询
-export function queryInWarehouseBillDetailList(data) {
+export function queryInWarehouseBillList(data) {
   return request({
     url: `/webApi/in/invoice/register/queryInWarehouseBillList?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+//发票商品明细
+export function queryInWarehouseBillDetailList(data) {
+  return request({
+    url: `/webApi/in/invoice/register/queryInWarehouseBillDetailList?${stringify(data)}`,
     method: 'get',
   })
 }
@@ -26,5 +35,15 @@ export function saveFinaPurchaseInvoice(data) {
     url: `/webApi/in/invoice/register/saveFinaPurchaseInvoice`,
     method: 'post',
     data:data
+  })
+}
+
+
+//进项发票详情  
+
+export function findFinaPurchaseInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/findFinaPurchaseInvoice?${stringify(data)}`,
+    method: 'get',
   })
 }

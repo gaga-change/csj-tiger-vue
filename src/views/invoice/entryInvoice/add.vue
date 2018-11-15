@@ -13,25 +13,13 @@
      @handleDelete="handleDelete"/>
 
      <el-dialog
-      title="选择签收明细"
+      title="选择发票商品明细"
       custom-class="shouDetailsDialog"
       :visible.sync="dialogVisible"
       top="6vh"
       width="70%"
       :before-close="()=>dialogVisible=false">
-      <el-row>
-        <el-col :span="6" style="min-width:300px;margin-bottom:12px">
-          <span style="font-size:12px;color:#606266">签收单号 :</span>
-          <el-select v-model="signNo" :clearable="true"  filterable placeholder="请选择签收单号"  @change="signNoChange" >
-            <el-option
-              v-for="item in signNoConfig"
-              :key="item.id"
-              :label="item.signNo"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+
        <web-pagination-table 
         @SelectionChange="handleSelectionChange"
         :loading="false"
@@ -51,11 +39,12 @@
 import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { getSigningInformation,billingTypeDetails,getSigningDetail} from '@/api/invoicetigger/newoutputinvoice'
-import { saveFinaPurchaseInvoice } from '@/api/void/list'
+import { billingTypeDetails} from '@/api/invoicetigger/newoutputinvoice'
+import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList} from '@/api/void/list'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 import moment from 'moment';
+import { mapGetters } from 'vuex'
 
 export default {
   components: { SearchInvoice,webPaginationTable,EditTable},
@@ -77,56 +66,37 @@ export default {
       alertTableData:[],
       alertTableDataSelect:[],
       editTableData:[],
-      signNoConfig:[],
       addAlertTableConfig,
       
-      signNo:''//回单id
     }
   },
 
-  methods:{
-
-    signNoChange(id){
-      this.signNo=id;
-      getSigningDetail({id}).then(res=>{
-        if(res.success){
-          let data=res.data||[];
-          if(this.searchForm.invoiceNature===2){
-            data=data.filter(v=>v.whetherToInvoice)
-          } else{
-            data=data.filter(v=>!v.whetherToInvoice)
-          }
-          this.alertTableData=data.map(v=>{
-            return {
-               billDetailId:v.id,
-               skuCode:v.skuCode,
-               skuName:v.skuName,
-               skuFormat:v.skuFormat,
-               skuUnitName:v.skuUnitName,
-               taxPrice:v.skuPrice,
-               realInQty:v.invoicedQty,
-               invoicedQty:v.invoicedQuantity,
-               taxCode:v.taxRate/100,
-               invoiceQty:v.invoicedQty-v.invoicedQuantity,
-            }
-          }); 
-        }
-      }).catch(err=>{
-         console.log(err)
-      })
+    computed: {
+      ...mapGetters({
+        visitedViews: 'visitedViews',
+      }),
     },
 
+  methods:{
+
+  
     busiBillNoChange(busiBillNo,contractNo){
-      
-      getSigningInformation({
-        signatureNumber:busiBillNo
+    
+      queryInWarehouseBillDetailList({
+        busiBillNo,contractNo
       }).then(res=>{
         if(res.success){
-           this.signNoConfig=res.data;
+          this.alertTableData=res.data.map(v=>{
+            let json=v;
+            json.taxRate=v.taxRate/100;
+            json.billDetailId=v.busiBillNo;
+            json.invoiceQty=isNaN(v.invoicedQty)?v.realInQty:v.realInQty-v.invoicedQty
+            return json;
+          });;
         }
       }).catch(err=>{
-        console.log(err)
-      });
+
+      })
 
       billingTypeDetails({
         outBusiBillNo:busiBillNo
@@ -141,8 +111,8 @@ export default {
     },
 
     handleSelectionChange(value){
-      let idArr=this.alertTableDataSelect.map(v=>v.id);
-      this.alertTableDataSelect=[...this.alertTableDataSelect,...value.filter(v=>!idArr.includes(v.id))];
+      let idArr=this.alertTableDataSelect.map(v=>v.busiBillNo);
+      this.alertTableDataSelect=[...this.alertTableDataSelect,...value.filter(v=>!idArr.includes(v.busiBillNo))];
     },
 
     handleSuccess(){
@@ -161,12 +131,46 @@ export default {
       json.arriveDate=moment(json.arriveDate).valueOf()
       json.makeDate=moment(json.makeDate).valueOf()
       json.finaPurchaseInvoiceDetailBOList=this.editTableData;
-      saveFinaPurchaseInvoice(json).then(res=>{
-        console.log(res)
-      }).catch(err=>{
+      
+      //以下为测试数据
+      json.providerCode='EP201810250001'
+       //以上为测试数据
 
-      })
-    },
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
+      if(type==='save'){
+        saveFinaPurchaseInvoice(json).then(res=>{
+          this.$confirm('操作成功！', '提示', {
+            confirmButtonText: '详情',
+            cancelButtonText: '关闭',
+            type: 'success'
+          }).then(
+            _ => {
+              this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                  this.$router.push({
+                    path:'/invoice/entryInvoice/registrationDetail',
+                    query:{ finaPurchaseInvoiceId:res.data}
+                  })
+              }).catch(err=>{ 
+
+              })
+            }).catch(err=>{
+
+            })
+          }).catch(err=>{
+
+        })
+      } else if(type==='submit') {
+         saveFinaPurchaseInvoice(json).then(res=>{
+           if(res.success){
+
+           } else{
+             
+           }
+         }).catch(err=>{
+
+         }) 
+      } 
+  },
 
     goeditrow(index){
       let data= _.cloneDeep(this.editTableData);

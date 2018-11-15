@@ -26,7 +26,7 @@
     </el-table-column>
 
      <el-table-column
-      prop="taxPrice"
+      prop="inPrice"
       label="单价" >
     </el-table-column>
 
@@ -38,24 +38,26 @@
      <el-table-column
       label="已入库金额" >
        <template slot-scope="scope">
-          <span >{{scope.row.realInQty*scope.row.taxPrice}}</span>
+          <span >{{scope.row.realInQty*scope.row.inPrice}}</span>
         </template>
     </el-table-column>
 
      <el-table-column
-      prop="invoicedQty"
       label="已开票数量" >
+       <template slot-scope="scope">
+          <span >{{scope.row.invoicedQty||0}}</span>
+        </template>
     </el-table-column>
 
       <el-table-column
       label="已开票金额" >
        <template slot-scope="scope">
-          <span >{{scope.row.invoicedQty*scope.row.taxPrice}}</span>
+          <span >{{scope.row.invoicedQty*scope.row.inPrice||0}}</span>
         </template>
     </el-table-column>
 
      <el-table-column
-      prop="taxCode"
+      prop="taxRate"
       label="税率" >
     </el-table-column>
 
@@ -65,7 +67,7 @@
           <template v-if="scope.row.edit">
             <el-input-number 
               size="mini"
-              :max="scope.row.realInQty-scope.row.invoicedQty" 
+              :max="isNaN(scope.row.realInQty-scope.row.invoicedQty)?scope.row.realInQty:scope.row.realInQty-scope.row.invoicedQty" 
               :min="0" 
               style="width:80px"
               v-model="scope.row.invoiceQty" >
@@ -80,7 +82,7 @@
      <el-table-column
       label="本次开票金额" >
        <template slot-scope="scope">
-          <span >{{scope.row.invoiceQty*scope.row.taxPrice}}</span>
+          <span >{{scope.row.invoiceQty*scope.row.inPrice}}</span>
         </template>
     </el-table-column>
 

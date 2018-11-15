@@ -2,7 +2,7 @@
    <div class="entryInvoice-form">
     <sticky  v-if="!isDisplaySubmit"  :className="'sub-navbar published'" style="margin-bottom: 8px">
         <template >
-          <el-button   style="margin-left: 10px;"  size="small"  @click="submit('save')">保存
+          <el-button  style="margin-left: 10px;"  size="small"   @click="submit('save')">保存
           </el-button>
           <el-button   style="margin-left: 10px;"   size="small"  type="success"  @click="submit('submit')">保存并提交
           </el-button>
@@ -251,7 +251,7 @@ import _  from 'lodash';
 import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType } from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
 import { infoCustomerInfo,ordernoandcontractno} from '@/api/invoicetigger/newoutputinvoice'
-import { queryInWarehouseBillDetailList } from '@/api/void/list'
+import { queryInWarehouseBillList } from '@/api/void/list'
 export default {
   components: { Sticky},
   data() {
@@ -294,8 +294,15 @@ export default {
     },
 
     customerChange(value){
-      this.addFrom.providerName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
-      this.queryInWarehouseBillDetailListApi({providerCode:value});
+      //以下为正式数据
+      // this.addFrom.providerName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
+      // this.queryInWarehouseBillListApi({providerCode:value});
+      //以上为正式数据
+
+      //以下为测试数据
+      this.addFrom.providerName="供应商003";
+      this.queryInWarehouseBillListApi({providerCode:'EP201810250001'});
+      //以上为测试数据
     },
 
     getInfoCustomerInfo(){
@@ -308,10 +315,10 @@ export default {
       })
     },
 
-    queryInWarehouseBillDetailListApi(data){
-      queryInWarehouseBillDetailList(data).then(res=>{
+    queryInWarehouseBillListApi(data){
+      queryInWarehouseBillList(data).then(res=>{
         if(res.success){
-          this.orderNoConfig=res.data;
+          this.orderNoConfig=res.data
         }
       }).catch(err=>{
 
@@ -353,6 +360,9 @@ export default {
       >span{
         &:first-child{
           min-width: 150px;
+        }
+        &:nth-child(2){
+          min-width: 100px;
         }
       }
     }

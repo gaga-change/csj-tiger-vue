@@ -21,13 +21,13 @@
         </span>
         <span class="card-text" v-else-if="item.useIf=='linkDom'">
           {{
-             formatter(item.type,cardData[item.prop],item.useApi)
+             formatter(item.type,cardData[item.prop],item.useApi,item.useApi, item.userFormatter,item.useLocalEnum)
           }}
           <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea;margin-left:8px">{{item.linkText}}</router-link>
         </span>
         <span class="card-text" v-else>
           {{
-             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter)
+             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum)
           }}
         </span>
 
@@ -40,6 +40,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment';
+import  * as Enum from "@/utils/enum.js";
 export default {
    props: {
     config:{
@@ -69,10 +70,12 @@ export default {
   },
 
     methods:{
-      formatter(type,value,useApi,userFormatter){
+      formatter(type,value,useApi,userFormatter,useLocalEnum){
         if(value!=undefined){
           if(useApi){
             return this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
+          } else if(useLocalEnum){
+            return Enum[type].find(v=>v.value==value)&&Enum[type].find(v=>v.value==value).name||''
           }else if(typeof userFormatter=='function'){
               return userFormatter(value)
           }  else{

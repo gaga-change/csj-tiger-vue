@@ -25,6 +25,7 @@
 <script>
 import { listDetailConfig,listDetailTableConfig } from './components/config';
 import webPaginationTable from '@/components/Table/webPaginationTable'
+import { findFinaPurchaseInvoice } from '@/api/void/list'
 import Sticky from '@/components/Sticky' 
 export default {
   components: { webPaginationTable,Sticky},
@@ -35,8 +36,22 @@ export default {
       cardData:{},
       listDetailTableConfig,
       tableData:[]
-
     }
+  },
+  mounted(){
+    let { finaPurchaseInvoiceId }=this.$route.query||{};
+    this.loading=true;
+    findFinaPurchaseInvoice({
+      finaPurchaseInvoiceId
+    }).then(res=>{
+       if(res.success){
+        this.tableData=res.data&&res.data.finaPurchaseInvoiceDetailBOList;
+        this.cardData=res.data;
+       }
+        this.loading=false;
+    }).catch(err=>{
+        this.loading=false;
+    })
   }
 }
 </script>
