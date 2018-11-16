@@ -1,23 +1,39 @@
 <template>
 <div>
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-      <template  v-if="true||cardData.paymentStatus == 4">
+      <template  v-if="cardData.paymentStatus == 4">
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="saveOrder">保存
+            @click="saveOrder(0,'ruleForm')">保存
         </el-button>
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="saveOrder">提交
+            @click="saveOrder(1,'ruleForm')">提交
         </el-button>
       </template> 
-      <template v-else-if="true||$route.query.from=='needWork'">
-         <template v-if="cardData.paymentStatus==5">
+       <template  v-else-if="false&&cardData.paymentStatus == 5">
+         <template v-if="!editable">
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="()=>{this.editable = true;this.buttonDisabled=false}">编辑
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="submitOrder">提交
+          </el-button>
+        </template>
+          <template  v-else>
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="saveOrder(0,'ruleForm')">保存
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="saveOrder(1,'ruleForm')">提交
+          </el-button>
+        </template> 
+      </template> 
+      <template v-else-if="true||$route.query.from=='needWork'&&cardData.paymentStatus==6">
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
               @click="Modify('payReject')">驳回
           </el-button>  
-        </template>
       </template>
       <el-tag v-else>
         暂无操作
@@ -33,9 +49,9 @@
           <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
              <el-row :gutter="10">
              <el-col :span="6">
-              <el-form-item label="付款日期" prop="applyPaymentDate">
+              <el-form-item label="付款日期" prop="realPaymentDate">
                 <el-date-picker
-                  v-model="ruleForm.applyPaymentDate"
+                  v-model="ruleForm.realPaymentDate"
                   type="date"
                   size="small"
                   placeholder="付款日期"
@@ -90,7 +106,7 @@
         </el-card>
       
     </template>
-    <template >
+    <template v-else>
       <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
     </template>
  
@@ -100,7 +116,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail } from '@/api/pay'
+    import { getPaymentListAndDetail, payRegister,payRegisterCommit } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -123,7 +139,7 @@
         return {
           total:0,
           rules: {
-             applyPaymentDate: [
+             realPaymentDate: [
             { required: true, message: '请选择付款日期', trigger: 'change' }
             ],
             paymentMode: [
@@ -136,7 +152,7 @@
           cardConfig:[],
           cardData:{},
           ruleForm:{
-            applyPaymentDate:'',//付款日期
+            realPaymentDate:'',//付款日期
             paymentMode:'',//结算方式,
             applyPaymentAmt:'',//货款金额
             realPaymentAmt:'',//实付金额
@@ -165,10 +181,19 @@
       this.getCurrentTableData();  
       
     },
-
+    watch:{
+      ruleForm:{//深度监听，可监听到对象、数组的变化
+            handler(val, oldVal){
+              // this.ruleForm.realInterestAmt = (val.realInterestAmt-0).toFixed(1)
+              val.realPaymentAmt = (val.applyPaymentAmt - val.realInterestAmt)||0
+            },
+            deep:true
+        }
+    },
     computed: {
     ...mapGetters([
       'mapConfig',
+      'userInfo'
     ])},
 
     methods: {
@@ -188,25 +213,70 @@
       },
       needfresh() {
         this.buttonDisabled = false
+        this.editable = false
         this.getCurrentTableData()
       },
-      saveOrder(){
-
+      saveOrder(type,formName){
+      
+         this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params = {...this.ruleForm}
+            params.id = this.$route.query.id
+            params.taskId=this.$route.query.taskId
+            params.taskName=this.$route.query.taskName
+            params.operator=this.userInfo.id
+            params.operatorName=this.userInfo.truename
+            params.fromSystemCode='CSJSCM'
+            params.applyNo = this.cardData.applyNo
+            if(type){
+              params.flag = false
+            }else{
+              params.flag = true
+            }
+            this.buttonDisabled=true
+            payRegister(params).then(res=>{
+              console.log(res);
+              
+              this.needfresh()
+            })
+          } else {
+            return false;
+          }
+        });
+      
+      },
+      submitOrder(){
+        this.buttonDisabled = true
+           let params = {...this.ruleForm}
+            params.id = this.$route.query.id
+            params.taskId=this.$route.query.taskId
+            params.taskName=this.$route.query.taskName
+            params.operator=this.userInfo.id
+            params.operatorName=this.userInfo.truename
+            params.fromSystemCode='CSJSCM'
+            params.applyNo = this.cardData.applyNo
+            payRegisterCommit(params).then(res=>{
+              this.needfresh()
+            }).catch(err=>{
+              this.needfresh();
+            })
       },
       getCurrentTableData(){
         this.loading=true;
+        
         getPaymentListAndDetail({id:this.$route.query.id}).then(res=>{
           if(res.success){
+        
            
-              this.cardData = res.list[0]
-              let fileInfos = res.list[0].fileInfos || {}
-              fileInfos.map(item=>{
+            this.cardData = res.list[0]
+            let fileInfos = res.list[0].fileInfos || []
+            fileInfos.map(item=>{
                 if(item.url){
                   item.path = item.url//itemCard组件，文件下载的参数为path
-                }
-                
-              })
-            let { applyPaymentDate,
+                }        
+            })
+            console.log(6333);
+            let { realPaymentDate,
             paymentMode,//结算方式,
             applyPaymentAmt,//货款金额
             realPaymentAmt,//实付金额
@@ -214,7 +284,8 @@
             remarkInfo,//备注
             paymentRecordNo,//交易流水号
             } = this.cardData
-            this.ruleForm = { applyPaymentDate,
+console.log(this.ruleForm,123123);
+            this.ruleForm = { realPaymentDate,
             paymentMode,//结算方式,
             applyPaymentAmt,//货款金额
             realPaymentAmt,//实付金额
@@ -222,6 +293,8 @@
             remarkInfo,//备注
             paymentRecordNo,//交易流水号
             }
+            console.log(this.ruleForm,123123);
+            
               this.cardData.fileInfos = fileInfos
           }
           this.loading=false;

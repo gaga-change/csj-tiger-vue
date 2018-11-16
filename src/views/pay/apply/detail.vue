@@ -30,7 +30,7 @@
   </sticky>
    <invoice-detail :cardData="cardData" 
     :tableData="tableData"  :name="name">
-    <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" >
+    <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px">
    <el-row>
      <el-col  class="card-list"     :span="24" >
         <span class="card-title">付款相关信息</span> : 
@@ -98,7 +98,7 @@
         }
         cardConfig.push(item)
       })
-  
+      this.cardConfig = cardConfig
       this.getCurrentTableData();  
       
     },
@@ -181,11 +181,21 @@
             this.loading=false;
             this.buttonDisabled = false
         })
-        paymentRecord({id:this.$route.query.id}).then(res=>{
-          console.log(res);
-          this.tableData = res.data
-          
-        })
+        
+        if(this.$route.query.id&&this.$route.query.taskId){
+          paymentRecord({id:this.$route.query.id,taskId:this.$route.query.taskId}).then(res=>{
+                console.log(res);
+                this.tableData = res.data
+                
+          })
+        }else{
+          this.tableData = []
+        }
+       paymentRecord({id:this.$route.query.id,instanceId:'123'}).then(res=>{
+                console.log(res);
+                // this.tableData = res.data
+                
+          })
       }
     }
  }

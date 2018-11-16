@@ -58,10 +58,26 @@ export function inOrderSelect(data) {
     data:data
   })
 }
-// /webApi/payment/operationRecord 操作记录
+//  操作记录
 export function paymentRecord(data) {
   return request({
     url: ` /api/payment/operationRecord`,
+    method: 'post',
+    data:data
+  })
+}
+// 付款登记
+export function payRegister(data) {
+  return request({
+    url: ` /api/payment/payRegister`,
+    method: 'post',
+    data:data
+  })
+}
+// 付款登记提交
+export function payRegisterCommit(data) {
+  return request({
+    url: ` /api/payment/payRegisterCommit`,
     method: 'post',
     data:data
   })

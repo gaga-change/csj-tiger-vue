@@ -89,8 +89,8 @@
             let status = Number(row.paymentStatus)
             switch(status){
               case 0: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
-              case 1: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
-               case 2: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>分配业务员</router-link></div>
+              case 1: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
+               case 2: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
               default: return <router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };
