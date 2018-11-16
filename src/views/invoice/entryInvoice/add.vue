@@ -1,6 +1,6 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
+     <search-invoice   :searchForm="searchForm"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
      <div class="add-buttom" >
         <item-title text="商品发票明细" />
         <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="dialogVisible=true"  >选择签收单下商品明细</el-button>
@@ -39,7 +39,7 @@
 import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice,queryListByFinaPurchaseInvoiceReq } from '@/api/void/list'
+import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice ,findFinaPurchaseInvoice} from '@/api/void/list'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 import moment from 'moment';
@@ -76,10 +76,38 @@ export default {
       }),
     },
 
+    watch:{
+      editTableData:{
+        handler: function (val, oldVal) {
+          if(JSON.stringify(val)!==JSON.stringify(oldVal)){
+             let invoiceAmt=val.reduce(function(a,b){
+               console.log(a,b)
+             })
+          }
+        },
+        deep: true
+      } 
+    },
+
   methods:{
-  
+    oldInvoiceIdChange(value){
+      findFinaPurchaseInvoice({
+        finaPurchaseInvoiceId:value
+      }).then(res=>{
+        if(res.success){
+           this.editTableData=res.data&&res.data.finaPurchaseInvoiceDetailBOList.map(v=>{
+              let json=v;
+              json.inPrice=v.taxPrice;
+              json.taxRate=v.taxRate/100;
+              return json;
+           });
+        }
+      }).catch(err=>{
+
+      })
+    },
+
     busiBillNoChange(busiBillNo,contractNo){
-    
       queryInWarehouseBillDetailList({
         busiBillNo,contractNo
       }).then(res=>{
@@ -95,16 +123,6 @@ export default {
       }).catch(err=>{
 
       });
-
-      queryListByFinaPurchaseInvoiceReq({
-         busiBillNo:busiBillNo
-      }).then(res=>{
-        if(res.success){
-           console.log(res)
-        }
-      }).catch(err=>{
-
-      })
     },
 
     handleSelectionChange(value){

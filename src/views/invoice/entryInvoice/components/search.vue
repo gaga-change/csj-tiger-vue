@@ -243,7 +243,21 @@
             :rules="!isDisplaySubmit&&searchForm.invoiceNature===2?[
               { required: true, message: '该项为必填'},
             ]:[]">
-              <el-input type="text" size="small"   v-model="searchForm.oldInvoiceId" ></el-input>
+
+              <el-select v-model="searchForm.oldInvoiceId" 
+                size="small"  
+                filterable 
+                clearable 
+                placeholder="请选择发票性质" 
+                prefix-icon="el-icon-search"
+                @change="oldInvoiceIdChange" >
+                <el-option
+                  v-for="item in oldInvoiceIdConfig"
+                  :key="item.id"
+                  :label="item.invoiceNo"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
@@ -265,7 +279,7 @@ import _  from 'lodash';
 import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType ,invoiceCancelStatusConfig} from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
 import { infoCustomerInfo,ordernoandcontractno} from '@/api/invoicetigger/newoutputinvoice'
-import { queryInWarehouseBillList } from '@/api/void/list'
+import { queryInWarehouseBillList,queryListByFinaPurchaseInvoiceReq } from '@/api/void/list'
 export default {
   components: { Sticky},
   data() {
@@ -276,6 +290,7 @@ export default {
      InvoiceType,
      invoiceCancelStatusConfig,
 
+     oldInvoiceIdConfig:[],
      customerConfig:[],//供应商下拉配置
      orderNoConfig:[],//订单编号下拉配置
      addFrom:{
@@ -302,10 +317,22 @@ export default {
   },
           
   methods:{
-
+    oldInvoiceIdChange(value){
+       this.$emit('oldInvoiceIdChange',value)
+    },
     busiBillNoChange(value){
+      queryListByFinaPurchaseInvoiceReq({
+         busiBillNo:value
+      }).then(res=>{
+        if(res.success){
+           this.oldInvoiceIdConfig=res.data;
+        }
+      }).catch(err=>{
+
+      })
       this.addFrom.contractNo=this.orderNoConfig.find(v=>v.busiBillNo==value)&&this.orderNoConfig.find(v=>v.busiBillNo==value).contractNo;
       this.$emit('busiBillNoChange',value,this.addFrom.contractNo)
+
     },
 
     customerChange(value){
