@@ -112,7 +112,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row :gutter="20">
+       <el-row :gutter="20" style="height:120px">
         <el-col :span="8">
           <el-form-item label="付款摘要" prop="paymentAbstract">
             <el-input type="textarea" size="small" v-model="receipt.paymentAbstract" rows='5'></el-input>
