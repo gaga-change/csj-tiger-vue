@@ -617,7 +617,13 @@ export function WorkFlowNode(truename) {
     method: 'get',
   })
 }
-
+// export function WorkFlowNodeTigger(data) {
+//   return request({
+//     url: `/api/payment/myNeedToDo`,
+//     method: 'post',
+//     data:data
+//   })
+// }
 // // // POST /api/ContractWorkFlow/getStaffs 获取章鱼系统员工API
 // // export function Staffs(data) {
 // //   return request({

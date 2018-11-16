@@ -14,7 +14,7 @@
             @click="linkToCreate">编辑
         </el-button>
       </template> 
-      <template v-else-if="true||$route.query.from=='needWork'">
+      <template v-else-if="$route.query.from=='needWork'">
          <template v-if="/(1|2|3)/.test(cardData.paymentStatus)">
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
@@ -28,8 +28,27 @@
         暂无操作
       </el-tag>
   </sticky>
-   <invoice-detail :cardData="cardData"  
-    :tableData="[]"  :name="name">
+   <invoice-detail :cardData="cardData" 
+    :tableData="tableData"  :name="name">
+    <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" >
+   <el-row>
+     <el-col  class="card-list"     :span="24" >
+        <span class="card-title">付款相关信息</span> : 
+      
+        <div class="card-text" style="display:inline-block">
+          <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${this.cardData.contractNo}/${this.cardData.taskId}` }" style="color:#3399ea">
+                  合同信息查看
+          </router-link>
+          <router-link :to="{ path: `/payment/apply/inOrder`, query:{id:this.cardData.id,busiBillNo:this.cardData.busiBillNo}}" style="color:#3399ea">
+                  订单入库信息查看
+          </router-link>
+          <router-link :to="{ path: `/payment/apply/invoice`,query:{id:this.cardData.id,busiBillNo:this.cardData.busiBillNo} }" style="color:#3399ea">
+                  订单发票信息查看
+          </router-link>
+        </div>
+      </el-col>
+   </el-row>
+  </el-card>   
     <item-title text="实付信息"/>
   <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
     </invoice-detail>
@@ -38,7 +57,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail,paymentSubmit } from '@/api/pay'
+    import { getPaymentListAndDetail,paymentSubmit, paymentRecord } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -72,14 +91,14 @@
       },
 
      created(){
-       let cardConfig =[];
+       let cardConfig =[], paymentInfoConfigFilter=[];
       realPayInfoConfig.map(item=>{
         if(item.prop=='realPay'){
           item.dom = this.formatter('realPay')
         }
         cardConfig.push(item)
       })
-      this.cardConfig = cardConfig
+  
       this.getCurrentTableData();  
       
     },
@@ -94,13 +113,6 @@
       Modify,
         formatter(type,value){
             switch(type){
-              case 'operate' :return  (row, column, cellValue, index)=>{
-                let id = row.id
-                let status = Number(row.ticketStatus)
-                switch(status){
-                    default: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link></div>
-                }
-              };
               case 'realPay': return  (row, column, cellValue, index)=>{
                 
                 return ((row.realPaymentAmt||0)-(row.realInterestAmt||0)).toFixed(2)
@@ -168,6 +180,11 @@
         }).catch(err=>{
             this.loading=false;
             this.buttonDisabled = false
+        })
+        paymentRecord({id:this.$route.query.id}).then(res=>{
+          console.log(res);
+          this.tableData = res.data
+          
         })
       }
     }

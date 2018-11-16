@@ -31,17 +31,17 @@ export default [
           roles: ['service_finance']
         }
       },
-      // {
-      //   path: 'register/detail',
-      //   component: _import('pay/register/detail'),
-      //   name: 'registerDetail',
-      //   hidden: true,
-      //   meta: {
-      //     title: '付款登记详情',
-      //     icon: 'search',
-      //     roles: ['service_finance']
-      //   }
-      // },
+      {
+        path: 'register/detail',
+        component: _import('pay/register/detail'),
+        name: 'registerDetail',
+        hidden: true,
+        meta: {
+          title: '付款登记详情',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
       {
         path: 'apply',
         component: _import('pay/apply/index'),
@@ -59,6 +59,28 @@ export default [
         hidden: true,
         meta: {
           title: '付款申请详情',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'apply/inOrder',
+        component: _import('pay/apply/inOrder'),
+        name: 'applyInOrder',
+        hidden: true,
+        meta: {
+          title: '订单入库信息',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
+        path: 'apply/invoice',
+        component: _import('pay/apply/invoice'),
+        name: 'applyInvoice',
+        hidden: true,
+        meta: {
+          title: '订单发票信息',
           icon: 'search',
           roles: ['service_finance']
         }

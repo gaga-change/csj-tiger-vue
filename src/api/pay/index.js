@@ -42,3 +42,27 @@ export function PaymentPurchaseAudit(data) {
     data:data
   })
 }
+// 订单发票信息查看
+export function invoiceSelect(data) {
+  return request({
+    url: ` /api/payment/invoiceSelect`,
+    method: 'post',
+    data:data
+  })
+}
+// 订单入库信息查询
+export function inOrderSelect(data) {
+  return request({
+    url: ` /api/payment/inOrderSelect`,
+    method: 'post',
+    data:data
+  })
+}
+// /webApi/payment/operationRecord 操作记录
+export function paymentRecord(data) {
+  return request({
+    url: ` /api/payment/operationRecord`,
+    method: 'post',
+    data:data
+  })
+}

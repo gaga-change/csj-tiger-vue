@@ -53,7 +53,7 @@ export default function Modify(type, name, needfresh, api) {
       cancelButtonText: '取消',
     }).then(({value}) => {
       
-      receiptFinaCheck({
+      PaymentPurchaseAudit({
         isPass: true,
         opinion :value,
         ...params

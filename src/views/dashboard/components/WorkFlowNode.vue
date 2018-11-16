@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { WorkFlowNode, ZyUser, bssLogin, NowWorkFlowNode } from '@/api/planorder'
+import { WorkFlowNode,WorkFlowNodeTigger, ZyUser, bssLogin, NowWorkFlowNode } from '@/api/planorder'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -177,7 +177,10 @@ export default {
         console.log(err)
         this.loading = false
       })
+     
     },
+    
+    
     // tabClick(name) {
     //   if (name.paneName === '1' && this.nowlist.length === 0) {
     //     this.getNowData()

@@ -1,11 +1,7 @@
 <template>
   <div class="outgoing-quirydetail-container">
-
-  <item-title :text='infoName'/>
-  <item-card :config="realPayInfoConfig" :loading="loading"   :cardData="cardData"  />
- 
-
-     <item-title :text='tableName'/>
+  <item-title :text='"订单发票信息"'/>
+  <item-card :config="config" :loading="loading"   :cardData="cardData"  />
       <el-table
           :data="tableData"
           border
@@ -13,87 +9,68 @@
           max-height="600">
           <el-table-column
             label="商品编码"
-            :prop="skuCode"
+            prop="skuCode"
             width="120">
           </el-table-column>
           <el-table-column
             label="商品名称"
-            :prop="skuName"
+            prop="skuName"
             width="120">
           </el-table-column>
            <el-table-column
             label="规格型号"
-            :prop="skuFormat"
-            width="200">
+            prop="skuFormat"
+            minWidth="80">
           </el-table-column>
           <el-table-column
             label="品牌"
-            :prop="skuBrandName"
+            prop="skuBrandName"
             width="120">
           </el-table-column>
          
           <el-table-column
             label="单位"
-            :prop="skuUnitName"
+            prop="skuUnitName"
             width="80">
           </el-table-column>
           <el-table-column
             label="单价"
-            :prop="taxPrice"
+            prop="taxPrice"
             width="100">
           </el-table-column>
           <el-table-column
             label="采购数量"
-            :prop="purchaseQtySum"
+            prop="purchaseQtySum"
             width="100">
           </el-table-column>
           <el-table-column
             label="入库总量"
-            :prop="inStoreQtySum"
+            prop="inStoreQtySum"
             :formatter="addTotal"
             width="100">
           </el-table-column>
           <el-table-column
             label="发票收到日期"
-            :prop="arriveDate"
-            width="100">
+            prop="arriveDate"
+            :formatter="timeChange"
+            width="120">
           </el-table-column>
           <el-table-column
             label="发票号"
-            :prop="invoiceNo"
-            width="100">
+            prop="invoiceNo"
+            width="120">
           </el-table-column>
           <el-table-column
             label="开票数量"
-            :prop="invoiceQty"
-            width="100">
+            prop="invoiceQty"
+            minWidth="100">
           </el-table-column>
           <el-table-column
             label="开票金额"
-            :prop="invoiceAmt"
-            width="100">
+            prop="invoiceAmt"
+            minWidth="100">
           </el-table-column>
-           <!-- <el-table-column
-            label="入库单号"
-            
-            :prop="warehouseExeCode"
-            width="100">
-          </el-table-column>
-           <el-table-column
-            label="入库日期"
-            :prop="inWarehouseTime"
-            width="100">
-          </el-table-column>
-           <el-table-column
-            label="入库数量"
-            :prop="inStoreQty"
-            width="100">
-          </el-table-column>
-           <el-table-column
-            label="入库金额"
-            :prop="inStoreAmt"
-            width="100">
-          </el-table-column> -->
+          
          
         </el-table>
   </div>
@@ -101,46 +78,29 @@
 
 <script>
   import _ from 'lodash'
+  import moment from 'moment'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  let count = 0
-  import { realPayInfoConfig,  } from './config'
+  import { titleInfo } from '../components/config'
+  import { invoiceSelect } from '@/api/pay'
  export default {
-    name: 'InvoiceDetail', 
+    name: 'invoice', 
     components: { webPaginationTable },
     data() {
       return {
-        config:{},
-        realPayInfoConfig,
+        config:titleInfo,
         
         searchForm:{},
         recordData:[],
         loading:false,
-
+        cardData:{},
+        tableData:[],
         card:{},
         deConfig:{}        
       }
     },
-    props:{
-      name:{
-        type:String,
-        default:''
-      },
-      detailtableConfig:{
-        type:Array,
-        required:false,
-        default:()=>[]
-      },
-      cardData:{
-        type: Object,
-        required:false,
-        default:()=>{}
-      },
-
-      tableData:{
-        type: Array,
-        required:false,
-        default:()=> [] 
-      },
+    created(){
+      this.getInfo()
     },
     methods:{
       nInOne({ row, column, rowIndex, columnIndex }) {
@@ -187,13 +147,23 @@
         let total=0
         this.tableData.map(item=>{
           if(item.skuCode == params.skuCode){
-            total += Number(item.amount1)
+            total += Number(item.amount1||0)
           }
         })
         return total
+      },
+       timeChange(a,b,c,d){
+          return moment(c).format('YYYY-MM-DD')
+      },
+      getInfo(){
+        invoiceSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
+          if(res.success&&res.data){
+            this.tableData = res.data.items || []
+            this.cardData = res.data
+          }
+        })
       }
     }
  }
 
 </script>
-

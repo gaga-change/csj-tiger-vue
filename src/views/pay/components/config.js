@@ -40,7 +40,7 @@ export const paymentInfoConfig = [//付款单详情
   { title:'收款方银行账户', prop:'receiveAccount'},
   { title:'收款方收款银行 ', prop:'receiveBank', },
   { title:' 附件 ', prop:'fileInfos', useIf:'files', },
-  { title:' 付款相关信息 ', prop:'aaaa', },
+  
 ]
 export const realPayInfoConfig = [//实付详情
   { title:'付款日期', prop:'realPaymentDate',type:'time' },
@@ -84,6 +84,16 @@ export const contractTableConfig=[//合同商品明细
 
 ]
 
+export const titleInfo = [
+  { title:'采购订单',prop:'busiBillNo'},
+  { title:'采购合同',prop:'contractNo'},
+  { title:'供应商',prop:'paymenterName'},
+  { title:'已付货款',prop:'paymentAmt',type:'money',},
+
+  { title:'本次申请付款',prop:'applyPaymentAmt',type:'money'},
+  { title:'入库金额',prop:'inWarehouseAmt',type:'money'},
+  { title:'已开发票金额',prop:'invoiceAmtSum',type:'money',show:'invoice'},
+]
 export const realPay=[//操作记录
   { title:'付款日期',prop:'invoiceNo'},
   { title:'付款人',prop:'applyCode'},

@@ -25,7 +25,7 @@
 
 
     import moment from 'moment';
-    import { getReceiptList } from '@/api/receipt'
+    import { getPaymentListAndDetail } from '@/api/pay'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { reisterTableConfig } from '../components/config';
@@ -108,7 +108,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/receipt/associate',
+          path:'/payment/register',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -131,11 +131,12 @@
           }
         }
         let data={...json}
-        getReceiptList(data).then(res=>{
+         getPaymentListAndDetail(data).then(res=>{
+          
           if(res.success){
               let data=res.data;
-              this.tableData=data.list||[];
-              this.total=data.total;
+              this.tableData=res.list||[];
+              this.total=res.total;
           }
           
             this.loading=false;
