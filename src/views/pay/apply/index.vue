@@ -1,8 +1,8 @@
 <template>
   <div class="outgoing-quiry-container">
       <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('receiptcreate')"
-            @click="linkToCreate">新建付款单
+         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('paycreate')"
+            @click="linkToCreate">创建付款申请
         </el-button>
       </sticky>
   <div style="marginBottom:12px">
@@ -52,7 +52,7 @@
      created(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-       }
+       } 
       let tableConfig = []
       applyTableConfig.map(item=>{
         if(item.userLink){
