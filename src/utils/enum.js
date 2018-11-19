@@ -119,8 +119,12 @@ export const PaymentModeEnum = [
     value: 3
   },
   {
-    name: '承兑',
+    name: '银行承兑',
     value: 4
+  },
+  {
+    name: '商业承兑',
+    value: 5
   },
 ]
 

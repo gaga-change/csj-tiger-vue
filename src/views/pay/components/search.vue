@@ -20,11 +20,11 @@
 
               <el-option
                 v-for="item in nowCustomerConfig"
-                :key="item.entNumber"
-                :label="item.entName"
-                :value="item.entNumber">
-                <span class="codeNoStyle" >{{ item.entNumber }}</span>
-                <span class="codeNoStyle" style="width:260px">{{ item.entName }}</span>
+                :key="item.paymenterCode"
+                :label="item.paymenterName"
+                :value="item.paymenterCode">
+                <span class="codeNoStyle" >{{ item.paymenterCode }}</span>
+                <span class="codeNoStyle" style="width:260px">{{ item.paymenterName }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -91,6 +91,7 @@
 // import {  InvoiceType  as invoicetype  } from '@/utils'
 import { paymentStatusEnum } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
+import { getProvider } from '@/api/pay'
 import _  from 'lodash';
 
 export default {
@@ -136,7 +137,14 @@ export default {
     
     this.searchForm = _.cloneDeep(this.searchForms)
     // this.searchForm.paymentDate = [];
-     infoCustomerInfo().then(res=>{
+    //  infoCustomerInfo().then(res=>{
+    //     if(res.success){
+    //       this.customerConfig=res.data
+    //     }
+    //  }).catch(err=>{
+
+    //  })
+     getProvider().then(res=>{
         if(res.success){
           this.customerConfig=res.data
         }
@@ -152,7 +160,7 @@ export default {
         if(value==''||!this.customerConfig.length){
           return this.customerConfig
         } else{
-          return this.customerConfig.filter(v=>v.entNumber.includes(value)||v.entName.includes(value))
+          return this.customerConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
         }
        },
        set:function(){

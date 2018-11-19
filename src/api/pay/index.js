@@ -82,3 +82,10 @@ export function payRegisterCommit(data) {
     data:data
   })
 }
+ // 客户查询
+ export function getProvider(data) {
+  return request({
+    url: ` /webApi/base/info/getProvider`,
+    method: 'get',
+  })
+}

@@ -26,6 +26,9 @@
           }}
           <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea;margin-left:8px">{{item.linkText}}</router-link>
         </span>
+         <span class="card-text" v-else-if="item.useIf=='linkParam'">
+          <router-link  :to="{path:item.linkTo}" style="color:#3399ea">12313123123{{item.name}}</router-link>
+        </span>
         <span class="card-text" v-else>
           {{
              formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter)

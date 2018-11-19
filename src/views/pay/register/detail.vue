@@ -9,7 +9,7 @@
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
       </template> 
-       <template  v-else-if="false&&cardData.paymentStatus == 5">
+       <!-- <template  v-else-if="cardData.paymentStatus == 5">
          <template v-if="!editable">
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="()=>{this.editable = true;this.buttonDisabled=false}">编辑
@@ -26,8 +26,8 @@
               @click="saveOrder(1,'ruleForm')">提交
           </el-button>
         </template> 
-      </template> 
-      <template v-else-if="true||$route.query.from=='needWork'&&cardData.paymentStatus==6">
+      </template>  -->
+      <template v-else-if="true||$route.query.from=='needWork'&&cardData.paymentStatus==5">
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
@@ -41,9 +41,9 @@
   </sticky>
 
    <invoice-detail :cardData="cardData"
-    :tableData="[]"  :name="name">
+    :tableData="tableData"  :name="name">
     <item-title text="实付信息"/>
-    <template v-if="true||cardData.paymentStatus == 4&&$route.query.from=='needWork'">
+    <template v-if="(cardData.paymentStatus == 4||editable)&&$route.query.from=='needWork'">
       
         <el-card class="simpleCard" shadow="never" body-style="padding:12px">
           <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
@@ -116,7 +116,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail, payRegister,payRegisterCommit } from '@/api/pay'
+    import { getPaymentListAndDetail, payRegister,payRegisterCommit, paymentRecord } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -263,13 +263,19 @@
       },
       getCurrentTableData(){
         this.loading=true;
-        
-        getPaymentListAndDetail({id:this.$route.query.id}).then(res=>{
+        let params = {}
+        if(this.$route.query.id){
+          params.id = this.$route.query.id
+        }
+         if(this.$route.query.processInstanceId){
+          params.processInstanceId = this.$route.query.processInstanceId
+        }
+        getPaymentListAndDetail(params).then(res=>{
           if(res.success){
         
            
             this.cardData = res.list[0]
-            let fileInfos = res.list[0].fileInfos || []
+            let fileInfos = res.list[0].filePath || []
             fileInfos.map(item=>{
                 if(item.url){
                   item.path = item.url//itemCard组件，文件下载的参数为path
@@ -293,9 +299,15 @@ console.log(this.ruleForm,123123);
             remarkInfo,//备注
             paymentRecordNo,//交易流水号
             }
-            console.log(this.ruleForm,123123);
             
-              this.cardData.fileInfos = fileInfos
+              this.cardData.filePath   = fileInfos
+              if(this.cardData.id&&this.cardData.processInstanceId){
+                paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
+                      this.tableData = res.data            
+                })
+              }else{
+                this.tableData = []
+              }
           }
           this.loading=false;
           this.buttonDisabled = false

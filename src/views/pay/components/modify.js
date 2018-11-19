@@ -4,9 +4,9 @@ import { PaymentPurchaseAudit} from '@/api/pay'
 export default function Modify(type, name, needfresh, api) {
   // 0 驳回
   let params = {
-    taskId:this.$route.query.taskId,
+    taskId:this.$route.query.taskId,//这种写法贼不好，数据来源不统一
     taskName:this.$route.query.taskName,
-    id: this.$route.query.id,
+    id: this.cardData.id,
     operator:this.userInfo.id,
     operatorName:this.userInfo.truename,
     fromSystemCode:'CSJSCM'
@@ -17,7 +17,7 @@ export default function Modify(type, name, needfresh, api) {
       cancelButtonText: '取消'
     }).then(({ value }) => {
       PaymentPurchaseAudit({
-        isPass: false,
+        isPass: 0,
         opinion :value,
         ...params
       }).then(res => {
@@ -54,7 +54,7 @@ export default function Modify(type, name, needfresh, api) {
     }).then(({value}) => {
       
       PaymentPurchaseAudit({
-        isPass: true,
+        isPass: 1,
         opinion :value,
         ...params
       }).then(res => {

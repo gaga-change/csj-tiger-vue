@@ -611,9 +611,9 @@ export function ZyUser(data) {
 // // }
 
 // POST /api/ContractWorkFlow/getWorkFlowNode 获取我的待办信息API
-export function WorkFlowNode(truename) {
+export function WorkFlowNode(data) {
   return request({
-    url: `/webApi/workflow/todo?truename=${truename}`,
+    url: `/webApi/workflow/todo?truename=${data.truename}&userId=${data.userId}`,
     method: 'get',
   })
 }

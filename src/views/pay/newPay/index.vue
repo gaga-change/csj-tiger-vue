@@ -29,11 +29,11 @@
 
               <el-option
                 v-for="item in nowCustomerConfig"
-                :key="item.entNumber"
-                :label="item.entName"
-                :value="item.entNumber">
-                <span class="codeNoStyle" >{{ item.entNumber }}</span>
-                <span class="codeNoStyle" style="width:260px">{{ item.entName }}</span>
+                :key="item.paymenterCode"
+                :label="item.paymenterName"
+                :value="item.paymenterCode">
+                <span class="codeNoStyle" >{{ item.paymenterCode }}</span>
+                <span class="codeNoStyle" style="width:260px">{{ item.paymenterName }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -211,6 +211,7 @@
   import { mapGetters } from 'vuex'
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
+  import { getProvider } from '@/api/pay'
   // import orderchoice from './Component/orderchoice'
   const  payment = {
           id:'',//付款申请id.
@@ -260,6 +261,7 @@
       return {
         MoneyStateEnum,
         MoneyTypeEnum,
+        PaymentModeEnum,
         busiBillNoAll:[],
         payment,
         rules: {
@@ -292,7 +294,6 @@
         uploadButtonVisible: false,
         dialogTableVisible: false,
         submitloading: false,
-        PaymentModeEnum,
         customerConfig:[],
         busiBillNoAll:[],
         customerFilterMark:'',//客户名称过滤标识
@@ -330,7 +331,7 @@
         if((value!==0&&!value)||!this.customerConfig.length){
           return this.customerConfig
         } else{
-          return this.customerConfig.filter(v=>v.entNumber.includes(value)||v.entName.includes(value))
+          return this.customerConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
         }
        },
        set:function(){
@@ -357,9 +358,7 @@
       }else{
         this.payment={}
       }
-      this.getCustomInfo()
-      
-      
+      this.getCustomInfo()  
     },
     activated(){
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
@@ -394,7 +393,14 @@
       },
 
       getCustomInfo(){
-        infoCustomerInfo().then(res=>{
+        // infoCustomerInfo().then(res=>{
+        //   if(res.success){
+        //     this.customerConfig=res.data||[]
+        //   }
+        // }).catch(err=>{
+
+        // })
+        getProvider().then(res=>{
           if(res.success){
             this.customerConfig=res.data||[]
           }

@@ -9,7 +9,7 @@
     <web-pagination-table 
       :loading="loading"
       :config="recordConfig" 
-      :allTableData="tableData"/>
+      :allTableData="recordData"/>
   </div>
 </template>
 
@@ -32,6 +32,15 @@
         card:{},
         deConfig:{}        
       }
+    },
+    watch:{
+      tableData(){
+        console.log(this.tableData,123);
+        this.recordData = [...this.tableData]
+      }
+    },
+    created(){
+      this.recordData = [...this.tableData]
     },
     props:{
       name:{
