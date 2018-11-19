@@ -1,6 +1,6 @@
 //发票登记列表页面 表格配置
 export  const listIndexConfig=[
-  { label:'收票单号',prop:'registerCode',fixed:true,width:120,linkTo:'/invoice/entryInvoice/registrationDetail',query:[{key:'finaPurchaseInvoiceId',value:'finaPurchaseInvoiceId'}]},
+  { label:'收票单号',prop:'registerCode',fixed:true,width:150,linkTo:'/invoice/entryInvoice/registrationDetail',query:[{key:'finaPurchaseInvoiceId',value:'finaPurchaseInvoiceId'}]},
   { label:'供应商',prop:'providerName',width:150},
   { label:'订单编号',prop:'busiBillNo',width:150},
   { label:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig',},
@@ -18,8 +18,8 @@ export  const listIndexConfig=[
 
 //发票作废列表页面 表格配置
 export  const voidIndexConfig=[
-  { label:'作废申请单号',prop:'registerCode',width:120,fixed:true,linkTo:'/invoice/entryInvoice/registrationDetail',query:[{key:'finaPurchaseInvoiceId',value:'finaPurchaseInvoiceId'}]},
-  { label:'作废发票号',prop:'invoiceNo',width:120},
+  { label:'作废申请单号',prop:'registerCode',width:150,fixed:true,linkTo:'/invoice/entryInvoice/registrationDetail',query:[{key:'finaPurchaseInvoiceId',value:'finaPurchaseInvoiceId'}]},
+  { label:'作废发票号',prop:'invoiceNo',width:150},
   { label:'供应商',prop:'providerName',width:150},
   { label:'订单编号',prop:'busiBillNo',width:150},
   { label:'发票金额',prop:'invoiceAmt',},
