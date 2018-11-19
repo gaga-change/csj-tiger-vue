@@ -2,10 +2,10 @@
   <div :style="boxStyle">
   <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" :body-style="bodyStyle" >
    <el-row>
-     <el-col  class="card-list"  v-for="item in config"  :key="item.prop"  :span="item.span||6" >
+     <el-col  class="card-list"  v-for="item in config"  :key="item.prop||item.title"  :span="item.span||6" >
         <span class="card-title">{{item.title}}</span> : 
         <span v-if="item.useIf=='files'">
-            <el-dropdown v-if="cardData[item.prop]&&cardData[item.prop].length>0">
+            <el-dropdown v-if="item.prop&&cardData[item.prop]&&cardData[item.prop].length>0">
             <span class="el-dropdown-link">
               查看附件<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
@@ -21,13 +21,13 @@
         </span>
         <span class="card-text" v-else-if="item.useIf=='linkDom'">
           {{
-             formatter(item.type,cardData[item.prop],item.useApi)
+             formatter(item.type,cardData[item.prop],item.useApi,item.useApi, item.userFormatter,item.useLocalEnum,item.format)
           }}
           <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea;margin-left:8px">{{item.linkText}}</router-link>
         </span>
         <span class="card-text" v-else>
           {{
-             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter)
+             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum,item.format)
           }}
         </span>
 
@@ -40,6 +40,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment';
+import  * as Enum from "@/utils/enum.js";
 export default {
    props: {
     config:{
@@ -69,15 +70,17 @@ export default {
   },
 
     methods:{
-      formatter(type,value,useApi,userFormatter){
+      formatter(type,value,useApi,userFormatter,useLocalEnum,format){
         if(value!=undefined){
           if(useApi){
             return this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
+          } else if(useLocalEnum){
+            return Enum[type].find(v=>v.value==value)&&Enum[type].find(v=>v.value==value).name||''
           }else if(typeof userFormatter=='function'){
               return userFormatter(value)
           }  else{
             switch(type){
-              case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
+              case 'time': return moment(value).format(format||'YYYY-MM-DD HH:mm:ss');
               case 'boolean': return Number(value)?'是':'否';
               default : return value
             }

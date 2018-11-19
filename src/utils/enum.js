@@ -213,6 +213,10 @@ export const MoneyTypeEnum = [
 //作废状态
 export const invoiceCancelStatusConfig = [
   {
+    name: '未申请',
+    value: 0
+  },
+  {
     name: '申请中',
     value: 1
   },
@@ -224,4 +228,27 @@ export const invoiceCancelStatusConfig = [
     name: '被驳回',
     value: 3
   },
+]
+
+
+//进项发票页面枚举
+//单据状态
+export  const entryInvoiceTicketStatus=[
+  {
+    name: '保存',
+    value: 0
+  },
+  {
+    name: '待审核',
+    value: 1
+  },
+  {
+    name: '已驳回',
+    value: 2
+  },
+  {
+    name: '已审核',
+    value: 3
+  },
+ 
 ]
