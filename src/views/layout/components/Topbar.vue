@@ -146,8 +146,8 @@ export default {
         cancelButtonText: '取消'
       }).then(action => {
         if (action === 'confirm') {
-          //location.href = `/csj_logout`
-          location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+          location.href = `${location.origin}/csj_logout`
+          // location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
         }
       })
     }
