@@ -83,7 +83,7 @@
           </el-form-item>
         </el-col>
 
-      <el-col :span="8">
+      <el-col :span="6">
         <el-form-item 
           label="上传附件">
           <el-button
@@ -96,6 +96,25 @@
         </el-form-item>
           <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:84px;position: absolute;"> 附件为必选</span>
         </el-col>
+        <el-col :span="6">
+            <el-form-item
+             label="签收依据"
+             :rules="[
+                { required: true, message: '该项为必选'},
+              ]"
+              prop="type">
+              <!-- demodemo -->
+              <el-select v-model="planform.type" style="width:180px"  placeholder="请选择签收依据">
+              <el-option
+                v-for="item in signTypes"
+                :key="item.type"
+                :label="item.desc"
+                :disabled="!item.showFlag"
+                :value="item.type">
+              </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
       </el-row>
       </el-card>
       </div> 
@@ -133,8 +152,12 @@
               label="单位"
               prop="skuUnitName">
             </el-table-column>
+             <el-table-column
+              label="计划出库量"
+              prop="planOutQty">
+            </el-table-column>
             <el-table-column
-              label="出库数量"
+              label="已出库量"
               prop="realOutQty">
             </el-table-column>
             <el-table-column
@@ -147,14 +170,14 @@
             </el-table-column>
             <el-table-column
               label="签收数量"
-               width="120">
+               width="100">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
                     size="mini"
-                    :max="scope.row.realOutQty-scope.row.rejectQty" 
+                    :max="planform.type===0?scope.row.realOutQty-scope.row.rejectQty:scope.row.planOutQty-scope.row.rejectQty" 
                     :min="0" 
-                     style="width:100px"
+                     style="width:90px"
                      v-model="scope.row.signQty" >
                    </el-input-number>
                 </template>
@@ -166,14 +189,14 @@
 
              <el-table-column
               label="拒收数量"
-              width="120">
+              width="100">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
-                  :max="scope.row.realOutQty-scope.row.signQty" 
+                  :max="planform.type===0?scope.row.realOutQty-scope.row.signQty:scope.row.planOutQty-scope.row.signQty" 
                   :min="0" 
                   size="mini"
-                  style="width:100px"
+                  style="width:90px"
                    v-model="scope.row.rejectQty" >
                    </el-input-number>
                 </template>
@@ -247,8 +270,9 @@
           signCreateTime:'',
           details:[],
           deleteSignDetailIds:[],
+          type:0,
         },
-       
+        signTypes:[],
         filesRequired:false,
         fileList: [],
         fetchSuccess: true,
@@ -307,6 +331,7 @@
               json.url=v.path;
               return json;
           })
+          this.signTypes=res.data.signTypes;
           if(res.data&&Array.isArray(res.data.itemList)){
             data={...data,...res.data}
             data.planCode=data.outPlanCode
@@ -335,6 +360,8 @@
                 json['rejectQty']=0;
                 return json;
             })
+          this.signTypes = res.data&&res.data.signTypes || []
+
             data.details=dataList;
             this.planform=data;
           }
@@ -360,14 +387,14 @@
             data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
             for(let i in data){
-              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds'].includes(i)){
+              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds', 'type'].includes(i)){
                 json[i]=data[i]
               }
             }
             if(modify){
               json['saleSignId']=this.id;
             }
-
+          
             json['details']=data['details'].map(v=>{
               if(modify){
                 return {
@@ -486,4 +513,12 @@
     }
  }
 </script>
+
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .el-form-item{
+    height:30px;
+    margin-bottom: 26px;
+  }
+</style>
 
