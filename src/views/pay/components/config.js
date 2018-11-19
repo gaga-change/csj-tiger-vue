@@ -102,7 +102,7 @@ export const realPay=[//操作记录
 ]
 export const recordConfig=[//操作记录
   { label:'操作',prop:'taskName'},
-  { label:'操作者',prop:'operationName'},
+  { label:'操作者',prop:'assignee'},
   { label:'操作日期',prop:'endTime',type:'time',},
   { label:'说明',prop:'suggestion'},
 

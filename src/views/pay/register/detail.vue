@@ -221,7 +221,7 @@
          this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {...this.ruleForm}
-            params.id = this.$route.query.id
+            params.id = this.cardData.id
             params.taskId=this.$route.query.taskId
             params.taskName=this.$route.query.taskName
             params.operator=this.userInfo.id
@@ -248,7 +248,7 @@
       submitOrder(){
         this.buttonDisabled = true
            let params = {...this.ruleForm}
-            params.id = this.$route.query.id
+            params.id = this.cardData.id
             params.taskId=this.$route.query.taskId
             params.taskName=this.$route.query.taskName
             params.operator=this.userInfo.id

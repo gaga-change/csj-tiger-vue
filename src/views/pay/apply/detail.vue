@@ -151,7 +151,7 @@
       saveOrder(){
         
         let params = {
-          id:this.$route.query.id,
+          id:this.cardData.id,
           operator:this.userInfo.id,
           operatorName:this.userInfo.truename,
           fromSystemCode: 'CSJSCM',
