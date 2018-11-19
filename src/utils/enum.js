@@ -240,7 +240,7 @@ export const invoiceCancelStatusConfig = [
 //单据状态
 export  const entryInvoiceTicketStatus=[
   {
-    name: '保存',
+    name: '草稿 ',
     value: 0
   },
   {
@@ -260,7 +260,7 @@ export  const entryInvoiceTicketStatus=[
 //付款单据状态
 export const paymentStatusEnum = [
   {
-    name: '保存',
+    name: '草稿',
     value: 0
   },
   {

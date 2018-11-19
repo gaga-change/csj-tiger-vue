@@ -147,8 +147,8 @@
                 查看附件<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(v,i) in enclosure" :key="v.url" >
-                  <a class="el-dropdown-link"  target="blank"   :href="v.url" :download="v.name||`附件${i+1}`">{{v.name||`附件${i+1}`}}</a>
+                <el-dropdown-item v-for="(v,i) in enclosure" :key="v.filePath" >
+                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.name||`附件${i+1}`">{{v.name||`附件${i+1}`}}</a>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -189,7 +189,7 @@
         ref="upload"
         :action="uploadUrl"
         multiple
-        :file-list = "fileList"
+        :file-list = "filePathList"
         :on-remove="handleRemove"
         :on-exceed="handleExceed"
         :before-upload="beforeUpload"
@@ -228,7 +228,7 @@
           applyPaymentDate:'',//申请付款日期
           receiveBank:'',//收款银行.
           receiveAccount:'',//收款账号.
-          filePath:[],
+          filePathList:[],
         }
   export default {
     name: 'newpayment',
@@ -290,7 +290,7 @@
         },
         dialogVisible: false,
         uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
-        fileList: [],
+        filePathList: [],
         uploadButtonVisible: false,
         dialogTableVisible: false,
         submitloading: false,
@@ -303,13 +303,13 @@
     computed: {
       enclosure() {
         const url = []
-        this.fileList.map(
+        this.filePathList.map(
           file => {
             console.log(file,file.response,file.name && file.url,'item')
             if (file.response) {
-              url.push({ name: file.name, url: file.response.data })
+              url.push({ fileName: file.name, filePath: file.response.data })
             } else if (file.name && file.url) {
-              url.push({ name: file.name, url: file.url })
+              url.push({ fileName: file.name, filePath: file.url })
             }
           }
         )
@@ -448,8 +448,8 @@
             console.log(this.payment,'pay');
             
             if(res.list[0].fileInfos&&res.list[0].fileInfos.length>0){
-              this.fileList = res.list[0].fileInfos
-              this.payment.filePath = res.list[0].fileInfos
+              this.fileList = res.list[0].filePathList
+              this.payment.filePathList = res.list[0].fileInfos
             }
             
             
@@ -484,7 +484,7 @@
         //   this.filenamelist.push({name:item.name})
         // })
         if (res.code === '200') {
-          this.fileList=fileList
+          this.filePathList=fileList
         } else {
           this.$message({
             message: res.message,

@@ -17,7 +17,7 @@ export const reisterTableConfig=[// 付款登记列表
   { label:'订单编号',prop:'busiBillNo', width:150 },
   { label:'申请金额',prop:'applyPaymentAmt'},
   { label:'实付金额',prop:'realPaymentAmt'},
-  { label:'付款状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
+  // { label:'付款状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
   { label:'单据状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
   { label:'申请人',prop:'applyUserName', width:130},
   { label:'操作',width:150,fixed:'right',userLink:true},
@@ -39,7 +39,7 @@ export const paymentInfoConfig = [//付款单详情
   { title:'要求付款日期', prop:'applyPaymentDate', type:'time' },
   { title:'收款方银行账户', prop:'receiveAccount'},
   { title:'收款方收款银行 ', prop:'receiveBank', },
-  { title:' 附件 ', prop:'filePath', useIf:'files', },
+  { title:' 附件 ', prop:'filePathList', useIf:'files', },
   // { title:'测试1 ', prop:'linkParam',linkTo:'/',useIf:'linkParam',name:'fuck' },
 ]
 export const realPayInfoConfig = [//实付详情

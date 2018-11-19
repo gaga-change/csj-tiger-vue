@@ -190,15 +190,16 @@
            this.dataSuccess = true
               this.cardData = res.list[0]
             
-              let fileInfos = res.list[0].filePath || []
+              let fileInfos = res.list[0].filePathList || []
               
               fileInfos.map(item=>{
-                if(item.url){
-                  item.path = item.url//itemCard组件，文件下载的参数为path
+                if(item.filePath){
+                  item.path = item.filePath//itemCard组件，文件下载的参数为path
+                  item.name = item.fileName
                 }
                 
               })
-              this.cardData.filePath = fileInfos
+              this.cardData.filePathList = fileInfos
               
               if(this.cardData.id&&this.cardData.processInstanceId){
                 paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{

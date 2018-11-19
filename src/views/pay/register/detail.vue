@@ -275,12 +275,15 @@
         
            
             this.cardData = res.list[0]
-            let fileInfos = res.list[0].filePath || []
-            fileInfos.map(item=>{
-                if(item.url){
-                  item.path = item.url//itemCard组件，文件下载的参数为path
-                }        
-            })
+             let fileInfos = res.list[0].filePathList || []
+              
+              fileInfos.map(item=>{
+                if(item.filePath){
+                  item.path = item.filePath//itemCard组件，文件下载的参数为path
+                  item.name = item.fileName
+                }
+                
+              })
             console.log(6333);
             let { realPaymentDate,
             paymentMode,//结算方式,
@@ -290,7 +293,6 @@
             remarkInfo,//备注
             paymentRecordNo,//交易流水号
             } = this.cardData
-console.log(this.ruleForm,123123);
             this.ruleForm = { realPaymentDate,
             paymentMode,//结算方式,
             applyPaymentAmt,//货款金额
@@ -300,7 +302,7 @@ console.log(this.ruleForm,123123);
             paymentRecordNo,//交易流水号
             }
             
-              this.cardData.filePath   = fileInfos
+              this.cardData.filePathList   = fileInfos
               if(this.cardData.id&&this.cardData.processInstanceId){
                 paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
                       this.tableData = res.data            
