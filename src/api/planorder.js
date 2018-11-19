@@ -611,13 +611,19 @@ export function ZyUser(data) {
 // // }
 
 // POST /api/ContractWorkFlow/getWorkFlowNode 获取我的待办信息API
-export function WorkFlowNode(truename) {
+export function WorkFlowNode(data) {
   return request({
-    url: `/webApi/workflow/todo?truename=${truename}`,
+    url: `/webApi/workflow/todo?truename=${data.truename}&userId=${data.userId}`,
     method: 'get',
   })
 }
-
+// export function WorkFlowNodeTigger(data) {
+//   return request({
+//     url: `/api/payment/myNeedToDo`,
+//     method: 'post',
+//     data:data
+//   })
+// }
 // // // POST /api/ContractWorkFlow/getStaffs 获取章鱼系统员工API
 // // export function Staffs(data) {
 // //   return request({

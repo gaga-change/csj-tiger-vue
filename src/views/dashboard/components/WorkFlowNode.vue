@@ -5,7 +5,7 @@
             <i class="el-icon-date"></i> 我的待办
             <el-badge :value="nums" class="item"></el-badge>
           </span>
-          <el-table :data="showlist" border>
+          <el-table :data="showlist" border style="height:500px;overflow-y:auto">
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -21,6 +21,15 @@
                 <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                   {{scope.row.title}}
                 </router-link>
+                <template v-else-if="scope.row.type === '财务付款'">
+                <router-link :to="{ path: `/payment/apply/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-if="!scope.row.nodename.includes('总经理审')" >
+                    {{scope.row.title}}
+                </router-link>
+                <router-link :to="{ path: `/payment/register/detail?id=${scope.row.title}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-else>
+                  {{scope.row.title}}
+                </router-link>
+                </template>
+               
                 <span v-else>{{scope.row.title}}</span>
               </template>
             </el-table-column>
@@ -57,7 +66,7 @@
         </el-tab-pane>
         <el-tab-pane label="我的在办" name="tobedone">
            <span slot="label"><i class="el-icon-date"></i> 我的在办 <el-badge :value="nownums" class="item"></el-badge></span>
-            <el-table :data="nowlist" border>
+            <el-table :data="nowlist" border style="height:500px;overflow-y:auto">
               <el-table-column
                 show-overflow-tooltip
                 prop="title"
@@ -108,7 +117,7 @@
 </template>
 
 <script>
-import { WorkFlowNode, ZyUser, bssLogin, NowWorkFlowNode } from '@/api/planorder'
+import { WorkFlowNode,WorkFlowNodeTigger, ZyUser, bssLogin, NowWorkFlowNode } from '@/api/planorder'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -165,7 +174,7 @@ export default {
     // },
     getDefaultData() {
       this.loading = true
-      WorkFlowNode(this.userInfo.truename).then(res => {
+      WorkFlowNode({truename:this.userInfo.truename,userId:this.userInfo.id}).then(res => {
         
         if(res&&res.data){
           this.list = res.data || []
@@ -177,7 +186,10 @@ export default {
         console.log(err)
         this.loading = false
       })
+     
     },
+    
+    
     // tabClick(name) {
     //   if (name.paneName === '1' && this.nowlist.length === 0) {
     //     this.getNowData()
