@@ -119,7 +119,7 @@
           }
         })
         
-        if (/0|1|2|3|4|5|6/.test(columnIndex)) {
+        if (columnIndex==0||columnIndex==1||columnIndex==2||columnIndex==3||columnIndex==4||columnIndex==5||columnIndex==6) {
           if (rowIndex-count === 0) {
          
             return {
@@ -132,8 +132,7 @@
               colspan: 0
             };
           }
-        }
-        if(columnIndex==7){
+        }else if(columnIndex==7){
           if (rowIndex-count === 0) {
                count += equalRow       
             return {
@@ -146,6 +145,11 @@
               colspan: 0
             };
           }
+        }else{
+          return {
+              rowspan: 1,
+              colspan: 1
+            };
         }
       },
       addTotal({...params}) {          

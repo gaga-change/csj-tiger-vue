@@ -214,6 +214,7 @@ export const MoneyTypeEnum = [
     value: 2
   }
 ]
+
 //作废状态
 export const invoiceCancelStatusConfig = [
   {
