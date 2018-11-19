@@ -30,8 +30,8 @@ export const paymentInfoConfig = [//付款单详情
   { title:'款项类型', prop:'moneyType', type:'MoneyTypeEnum',useLocalEnum:true },
   { title:'采购订单', prop:'busiBillNo', },
   { title:'采购合同', prop:'contractNo',},
-  { title:'合同约定付款方式 ', prop:'paymentMode',
-  useLocalEnum:true, type:'PaymentModeEnum' },
+  // { title:'合同约定付款方式 ', prop:'paymentMode',
+  // useLocalEnum:true, type:'PaymentModeEnum' },
   { title:' 已付货款 ', prop:'realPaymentAmt',type:'money' },
   { title:'申请付款金额', prop:'applyPaymentAmt',type:"money" },
 

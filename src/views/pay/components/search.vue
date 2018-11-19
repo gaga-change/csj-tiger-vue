@@ -194,29 +194,14 @@ export default {
     orderNoFilter(value){
       this.orderNoFilterMark=value;
     },
-    isHasCusName(){
-      if(this.searchForm.cusName==''){
-        this.$message.error('请先选择客户名称');
-      }
-    },
 
-    isShouDetails(){
-      if(this.searchForm.cusName==''){
-        this.$message.error('请先选择客户名称');
-      }else if(this.searchForm.orderNo==''){
-        this.$message.error('请先选择订单编号');
-      } else{
-         this.shouDetails=true;
-      }
-    },
      customerChange(value){
       let searchForm=_.cloneDeep(this.searchForm);
-      searchForm.cusName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
-      searchForm.orderNo='';
+      searchForm.paymenterName=this.customerConfig.find(v=>v.paymenterCode==value).paymenterName;
+      searchForm.paymenterCode=value;
       this.id='';
       this.tableData=[];
       this.searchForm=searchForm;
-      this.ordernoandcontractnoApi({entNumber:value})
     },
 
     saleorderChange(value){
@@ -247,15 +232,6 @@ export default {
       })
     },
     
-    ordernoandcontractnoApi(data){
-      ordernoandcontractno(data).then(res=>{
-        if(res.success){
-          this.orderNoConfig=res.data;
-         }
-       }).catch(err=>{
-
-       })
-    },
     submitIt(){//查询
       if(this.searchForm.paymentDate&&this.searchForm.paymentDate[0]){
         this.searchForm.paymentStartDate = +(new Date(this.searchForm.paymentDate[0]))

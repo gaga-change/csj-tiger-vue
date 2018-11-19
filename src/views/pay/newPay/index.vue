@@ -86,7 +86,7 @@
              <el-input type="text" size="small" disabled v-model="payment.contractNo" />
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <!-- <el-col :span="6">
           <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentMode">
               <el-select v-model="payment.paymentMode" disabled filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
               <el-option
@@ -97,7 +97,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="6" v-if="true">
           <el-form-item label="已付货款" prop="realPaymentAmt">
              <el-input type="text" size="small" disabled v-model="payment.realPaymentAmt"></el-input>
@@ -248,13 +248,13 @@
       var checkAmt = (rule, value, callback) => {
         
         if (!Number(value)) {
-          return callback(new Error('金额请输入数字'))
+          return callback(new Error('请输入货款'))
         }
         if(value<0){
-          return callback(new Error('金额请输入正数'))
+          return callback(new Error('货款为正数'))
         }
         if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
-          return callback(new Error('金额最多两位小数'))
+          return callback(new Error('货款最多两位小数'))
         }
         callback()
       }
@@ -269,7 +269,7 @@
               { required: true, message: '请输入申请标题', trigger: 'blur' }
             ],
             paymenterCode: [
-              { required: true, message: '请选择付款方', trigger: 'change' }
+              { required: true, message: '请选择收款方', trigger: 'change' }
             ],
             applyPaymentAmt: [
               { validator: checkAmt, required: true, trigger: 'blur' }
@@ -377,9 +377,8 @@
       customerChange(e){
         this.customerConfig.map(item=>{
           
-          
-          if(item.entNumber==e){
-            this.payment.paymenterName = item.entName
+          if(item.paymenterCode==e){
+            this.payment.paymenterName = item.paymenterName
           }
         })
         if(this.payment.paymenterCode){
@@ -509,12 +508,13 @@
             postData.fromSystemCode = 'CSJSCM'
             addOrUpdatePayment(postData).then(
               res => {
-                if (res.success&&res.data&&res.data.id) {
+                
+                if (res.success&&res.data) {
                   this.$message({type:'success',message:`${msg}付款申请成功`,duration:2000,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
                           query: {
-                            id: res.data.id
+                            id: res.data
                           }
                         })
                   }})

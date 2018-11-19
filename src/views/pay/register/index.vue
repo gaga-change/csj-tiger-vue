@@ -18,7 +18,7 @@
 
 <script>
     const ruleForm = {
-      searchItem:'associate',
+      searchItem:'register',
       pageNum: 1,
       pageSize:10,
     }
@@ -78,7 +78,7 @@
             switch(status){
               case 4: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>付款登记</router-link></div>
               case 5: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
-              default: return <router-link  to={{path:`/receipt/associate/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
+              default: return <router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };
           default:return value
