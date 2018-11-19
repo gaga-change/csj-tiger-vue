@@ -1,22 +1,43 @@
 <template>
   <div>
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+    
     <template v-if="dataSuccess">
-       <template  v-if="cardData.paymentStatus == 0">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="linkToCreate">编辑
-        </el-button>
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="saveOrder">提交
-        </el-button>
-      </template> 
-      <template  v-else-if="cardData.paymentStatus == 9">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="linkToCreate">编辑
-        </el-button>
-      </template> 
+        <template  v-if="userInfo.roles.includes('purchase')&&cardData.paymentStatus == 0">
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="linkToCreate">编辑
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="saveOrder">提交
+          </el-button>
+        </template> 
+         <template  v-else-if="cardData.paymentStatus == 9">
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="linkToCreate">编辑
+          </el-button>
+      </template>	
       <template v-else-if="$route.query.from=='needWork'">
-         <template v-if="/(1|2|3)/.test(cardData.paymentStatus)">
+        <template v-if="userInfo.roles.includes('purchaseAdmin')&&cardData.paymentStatus == 1">
+          <!-- 采购负责人审核 -->
+
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+            @click="Modify('payCheck')">审核
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+              @click="Modify('payReject')">驳回
+          </el-button>  
+        </template>
+         <template v-if="userInfo.roles.includes('finance')&&cardData.paymentStatus==2">
+           <!-- 财务 -->
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+            @click="Modify('payCheck')">审核
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+              @click="Modify('payReject')">驳回
+          </el-button>  
+        </template>
+         <template v-if="userInfo.roles.includes('manager')&&cardData.paymentStatus==3">
+           <!-- 财务 -->
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
