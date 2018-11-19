@@ -38,6 +38,15 @@ export function saveFinaPurchaseInvoice(data) {
   })
 }
 
+//修改进项发票
+export function updateFinaPurchaseInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/updateFinaPurchaseInvoice`,
+    method:'post',
+    data:data
+  })
+}
+
 
 //进项发票详情  
 export function findFinaPurchaseInvoice(data) {
@@ -77,8 +86,16 @@ export function invalidFinaPurchaseInvoice(data) {
 //进项发票下面蓝票
 export function queryListByFinaPurchaseInvoiceReq(data) {
   return request({
-    url: `/webApi/in/invoice/register/queryListByFinaPurchaseInvoiceReq`,
-    method: 'post',
-    data:data
+    url: `/webApi/in/invoice/register/queryBlueInvoiceListByBusiBillNo?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+//进项发票供应商查询
+export function getProvider() {
+  return request({
+    url: `/webApi/base/info/getProvider`,
+    method: 'get',
   })
 }

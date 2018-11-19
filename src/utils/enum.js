@@ -134,15 +134,15 @@ export  const entryInvoiceTicketStatus=[
     value: 0
   },
   {
-    name: '提交',
+    name: '待审核',
     value: 1
   },
   {
-    name: '驳回',
+    name: '已驳回',
     value: 2
   },
   {
-    name: '审核',
+    name: '已审核',
     value: 3
   },
  

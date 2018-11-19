@@ -11,6 +11,7 @@
     </el-table-column>
 
     <el-table-column
+      width="120px"
       prop="skuName"
       label="商品名称">
     </el-table-column>
@@ -28,6 +29,9 @@
      <el-table-column
       prop="inPrice"
       label="单价" >
+       <template slot-scope="scope">
+          <span >{{Number(scope.row.inPrice).toFixed(2)}}</span>
+        </template>
     </el-table-column>
 
      <el-table-column
@@ -38,21 +42,14 @@
      <el-table-column
       label="已入库金额" >
        <template slot-scope="scope">
-          <span >{{scope.row.realInQty*scope.row.inPrice}}</span>
+          <span >{{Number(scope.row.realInQty*scope.row.inPrice).toFixed(2)}}</span>
         </template>
     </el-table-column>
 
      <el-table-column
-      label="已开票数量" >
+      label="已收票数量" >
        <template slot-scope="scope">
           <span >{{scope.row.invoicedQty||0}}</span>
-        </template>
-    </el-table-column>
-
-      <el-table-column
-      label="已开票金额" >
-       <template slot-scope="scope">
-          <span >{{scope.row.invoicedQty*scope.row.inPrice||0}}</span>
         </template>
     </el-table-column>
 
@@ -62,16 +59,14 @@
     </el-table-column>
 
     <el-table-column
-        :label="labelMak?'红冲数量':'本次开票数量'" >
+        :label="labelMak?'红冲数量':'数量'" >
         <template slot-scope="scope">
           <template v-if="scope.row.edit">
-            <el-input-number 
+            <el-input
               size="mini"
-              :max="isNaN(scope.row.realInQty-scope.row.invoicedQty)?scope.row.realInQty:scope.row.realInQty-scope.row.invoicedQty" 
-              :min="0" 
-              style="width:80px"
+              style="width:70px"
               v-model="scope.row.invoiceQty" >
-              </el-input-number>
+              </el-input>
           </template>
            <span v-else>
             {{scope.row.invoiceQty}}
@@ -80,19 +75,14 @@
     </el-table-column>
 
      <el-table-column
-      label="本次开票金额" >
-       <template slot-scope="scope">
-          <span >{{scope.row.invoiceQty*scope.row.inPrice}}</span>
-        </template>
-    </el-table-column>
-
-     <el-table-column
-      width="150"
+      width="160"
       label="操作" >
       <template slot-scope="scope">
-          <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index)" size="mini" >确定</el-button>
-          <el-button v-else @click="goeditrow(scope.$index)" size="mini" >编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <div style="width:160px">
+              <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index,'确定')" size="mini" >确定</el-button>
+              <el-button v-else @click="goeditrow(scope.$index,'编辑')" size="mini" >编辑</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </div>
       </template>
     </el-table-column>
     
@@ -114,8 +104,8 @@ export default {
   },
 
   methods:{
-    goeditrow(index){
-       this.$emit('goeditrow',index)
+    goeditrow(index,type){
+       this.$emit('goeditrow',index,type)
     },
     handleDelete(index,row){
        this.$emit('handleDelete',index,row)

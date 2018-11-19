@@ -200,20 +200,10 @@ export default {
     allActualTicketTax:{
       get: function () { 
         let data=this.searchForm.productBreakdown||[];
-      
-        if(data.length===0){
-          return 0
-        } else if(data.length===1){
-          return data[0].actualTicketTax
-        } else{
-           let resData=data.reduce((a,b)=>{
-            return Number(a.actualTicketTax)+Number(b.actualTicketTax)
-           });
-           return resData;
-        }
-
-        return 0
-       
+          let resData=data.reduce((a,b)=>{
+          return a+Number(b.actualTicketTax)
+          },0);
+          return resData;
       },
       set:function(){
         
@@ -223,18 +213,10 @@ export default {
     allTaxAmount:{
       get: function () { 
         let data=this.searchForm.productBreakdown||[];
-        if(data.length===0){
-          return 0
-        } else if(data.length===1){
-          return data[0].skuPrice*data[0].invoicedQuantity
-        } else{
-           let resData=data.reduce((a,b)=>{
-            return a.skuPrice*a.invoicedQuantity+b.skuPrice*b.invoicedQuantity
-           });
-           return resData;
-        }
-
-        return 0
+        let resData=data.reduce((a,b)=>{
+        return a+b.skuPrice*b.invoicedQuantity
+        },0);
+        return resData;
       },
       set:function(){
         

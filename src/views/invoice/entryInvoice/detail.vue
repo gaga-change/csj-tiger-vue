@@ -12,9 +12,9 @@
           </el-button>
           <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1"  @click="Modify({type:3,status:1,prompt:'确定要作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >确认作废
           </el-button>
-            <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1"  @click="Modify({type:3,status:2,prompt:'确定要驳回作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >驳回作废
+          <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1"  @click="Modify({type:3,status:2,prompt:'确定要驳回作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >驳回作废
           </el-button>
-           <el-button v-else :disabled="true" >暂无操作</el-button>
+          <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="modify"  style="margin-left: 10px;" size="small"  type="success" >修改 </el-button>
         </template> 
       </sticky>
       <item-title text="基本信息"/>
@@ -46,6 +46,11 @@ export default {
   },
   methods: {
     Modify,
+    modify(){
+       this.$router.push({
+        path:`/invoice/entryInvoice/registrationAdd?finaPurchaseInvoiceId=${this.$route.query.finaPurchaseInvoiceId}`,
+      })
+    },
     findFinaPurchaseInvoiceApi(){
       let { finaPurchaseInvoiceId }=this.$route.query||{};
       this.loading=true;
@@ -55,6 +60,7 @@ export default {
         if(res.success){
           this.tableData=res.data&&res.data.finaPurchaseInvoiceDetailBOList;
           this.cardData=res.data;
+          this.cardData.notInvoiceAmt=Number(res.data.invoiceAmt-res.data.invoiceTaxAmt).toFixed(2);
         }
           this.loading=false;
       }).catch(err=>{
@@ -63,7 +69,13 @@ export default {
     }
   },
   mounted(){
-    this.findFinaPurchaseInvoiceApi()
+    this.findFinaPurchaseInvoiceApi();
+    let dom=document.querySelectorAll('.sub-navbar >div');
+    [...dom].forEach(item=>{
+      if(item.innerHTML==='sticky'){
+         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
+      }
+    })
   },
 
 }
@@ -71,8 +83,7 @@ export default {
 
 </script>
 
-
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
  .entryInvoice-detail{
 
  }

@@ -21,13 +21,13 @@
         </span>
         <span class="card-text" v-else-if="item.useIf=='linkDom'">
           {{
-             formatter(item.type,cardData[item.prop],item.useApi,item.useApi, item.userFormatter,item.useLocalEnum)
+             formatter(item.type,cardData[item.prop],item.useApi,item.useApi, item.userFormatter,item.useLocalEnum,item.format)
           }}
           <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea;margin-left:8px">{{item.linkText}}</router-link>
         </span>
         <span class="card-text" v-else>
           {{
-             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum)
+             formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum,item.format)
           }}
         </span>
 
@@ -70,7 +70,7 @@ export default {
   },
 
     methods:{
-      formatter(type,value,useApi,userFormatter,useLocalEnum){
+      formatter(type,value,useApi,userFormatter,useLocalEnum,format){
         if(value!=undefined){
           if(useApi){
             return this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
@@ -80,7 +80,7 @@ export default {
               return userFormatter(value)
           }  else{
             switch(type){
-              case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
+              case 'time': return moment(value).format(format||'YYYY-MM-DD HH:mm:ss');
               case 'boolean': return Number(value)?'是':'否';
               default : return value
             }

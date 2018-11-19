@@ -1,6 +1,6 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"   @busiBillNoChange="busiBillNoChange"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
+     <search-invoice   :searchForm="searchForm"  :onlySelect="true"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -26,10 +26,10 @@ export default {
     return {
       searchForm:{
         providerCode:'',
-        contractNo:'' ,
         invoiceNo:'',
         busiBillNo:'',
-        cancelApplyStatus:''
+        cancelApplyStatus:'',
+        invoiceNature:''
       },
       pageSize:10,
       pageNum:1,
@@ -43,8 +43,27 @@ export default {
   mounted(){
     this.getCurrentTableData();
   },
+
+  created(){
+    this.voidIndexConfig.forEach(item=>{
+       if(item.useLink){
+          item.dom=this.formatter();
+       }
+    })
+  },
   
   methods:{
+    formatter(){
+     return  (row, column, cellValue, index)=>{
+            let finaPurchaseInvoiceId = row.finaPurchaseInvoiceId
+            let status = Number(row.cancelApplyStatus)
+            switch(status){
+              case 1 : return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>确认作废</router-link></div>  
+              default: return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>查看</router-link></div>
+            }
+          };
+    },
+
     busiBillNoChange(busiBillNo,contractNo){
       let data = _.cloneDeep(this.searchForm);
       data.contractNo=contractNo;
@@ -86,11 +105,13 @@ export default {
         }
       }
       json.ticketStatus=3;
+      json.isInvalid=1;
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
-      finaPurchaseInvoiceList(json).then(res=>{
+      finaPurchaseInvoiceList({...json,pageSize:this.pageSize,pageNum:this.pageNum}).then(res=>{
           if(res.success){
             let data=res.data.list||[];
             this.tableData=data.filter(v=>v);
+            this.total=res.data.total;
           }
           this.loading=false
        }).catch(err=>{
