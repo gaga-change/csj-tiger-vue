@@ -202,7 +202,8 @@ export default {
         busiBillNo,contractNo
       }).then(res=>{ 
         if(res.success){
-          this.alertTableData=res.data.map(v=>{
+          let data=res.data||[];
+          this.alertTableData=data.filter(v=>v.invoicedQty).map(v=>{
             let json=v;
             json.taxRate=v.taxRate/100;
             json.billDetailId=v.busiBillNo;

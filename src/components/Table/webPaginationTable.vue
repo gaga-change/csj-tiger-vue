@@ -27,7 +27,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-sizes="pageSizes"
+        :page-sizes="[...pageSizes,total]"
         :page-size="pageSize"
          size="small"
         :layout="layout"
