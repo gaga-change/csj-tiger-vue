@@ -2,7 +2,7 @@ import { NatureInvoice, InvoiceStatus, TicketStatus, InvoiceType} from '@/utils/
 import Moment  from 'moment'
 export const indexTableConfigApply=[//申请列表
   { label:'开票申请单号',prop:'applyCode',fixed:true, width:120 ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
-  { label:'客户名称',prop:'cusName', minWidth:120 },
+  { label:'客户名称',prop:'cusName', width:120 },
   { label:'计划开票金额',prop:'realInvoiceAmt',type:'money', width:120 },
   { label:'计划开票数量',prop:'numberOfInvoices', width:120 },
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
@@ -15,7 +15,7 @@ export const indexTableConfigApply=[//申请列表
 export const indexTableConfigRegistration=[//登记列表
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceregistration/detail',query:[{key:'id',value:'id'}] },
   { label:'开票申请单号',prop:'applyCode', width:120 },
-  { label:'客户名称',prop:'cusName', minWidth:90 },
+  { label:'客户名称',prop:'cusName', width:120 },
   { label:'订单编号',prop:'outBusiBillNo', width:150  },
   // { label:'业务板块',prop:'cusName2', width:80 },
   { label:'发票号',prop:'invoiceCode', width:120 },
@@ -37,7 +37,7 @@ export const indexTableConfigRegistration=[//登记列表
 export const indexTableConfigInvalid=[//待改
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceinvalid/detail',query:[{key:'id',value:'id'}] },
   { label:'开票申请单号',prop:'applyCode', width:120},
-  { label:'客户名称',prop:'cusName', minWidth:120  },
+  { label:'客户名称',prop:'cusName', width:120  },
   { label:'开票金额',prop:'realInvoiceAmt',type:'money', minWidth:90},
   { label:'开票数量',prop:'numberOfInvoices', minWidth:90 },
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
@@ -52,7 +52,7 @@ export const indexTableConfigInvalid=[//待改
 export const applyinfoConfig=[//发票申请信息
   { title:'开票单号',prop:'invoiceNo', show:'register+invalid' },
   { title:'发票申请单号',prop:'applyCode', show:'apply+register+invalid+billing' },
-  { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing' },
+  { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing',width:120},
   { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'outBusiBillNo'}]  },
   { title:'合同编号',prop:'contractNo', show:'apply+register+invalid+billing' },
   { title:'发票种类',prop:'invoiceType', userFormatter: (cellValue)=>{

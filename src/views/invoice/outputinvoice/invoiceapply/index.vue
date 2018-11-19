@@ -89,7 +89,6 @@
               };
               default:return value
             }
-         
        },
        submitDemo(id){
          console.log(11,id);

@@ -13,7 +13,7 @@ const service = axios.create({
 service.interceptors.response.use(
   response => {
     const res = response.data;
-    if (res.code !== '200' && !res.success) {
+    if (res.code !== '200' && !res.success && res.code!=='success') {
       if (res.code === '512') {
         MessageBox.alert('验证失败,请重新登录').then(_ => {
           location.href = `/csj_login`
