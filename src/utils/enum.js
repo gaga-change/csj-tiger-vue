@@ -255,8 +255,8 @@ export  const entryInvoiceTicketStatus=[
     name: '已审核',
     value: 3
   },
- 
 ]
+  
 //付款单据状态
 export const paymentStatusEnum = [
   {
