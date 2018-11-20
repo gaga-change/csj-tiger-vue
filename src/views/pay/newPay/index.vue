@@ -138,16 +138,16 @@
               size="mini"
               type="primary"
               @click="importFile">
-              {{enclosure.length ? '继续上传' : '上传附件'}}
+              {{filePathList.length ? '继续上传' : '上传附件'}}
             </el-button>
-            <span v-show="enclosure">{{enclosure.length}}个文件</span>
-            <span v-if="enclosure&&enclosure.length>0">
+            <span v-show="filePathList">{{filePathList.length}}个文件</span>
+            <span v-if="filePathList&&filePathList.length>0">
               <el-dropdown>
               <span class="el-dropdown-link">
                 查看附件<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(v,i) in enclosure" :key="v.filePath" >
+                <el-dropdown-item v-for="(v,i) in filePathList" :key="v.filePath" >
                   <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.name||`附件${i+1}`">{{v.name||`附件${i+1}`}}</a>
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -189,7 +189,7 @@
         ref="upload"
         :action="uploadUrl"
         multiple
-        :file-list = "filePathList"
+        :file-list = "fileNew"
         :on-remove="handleRemove"
         :on-exceed="handleExceed"
         :before-upload="beforeUpload"
@@ -298,25 +298,13 @@
         busiBillNoAll:[],
         customerFilterMark:'',//客户名称过滤标识
         billFilterMark:'',//订单筛选
+        fileNew:[],//新曾文件
+
       }
     },
     computed: {
-      enclosure() {
-        const url = []
-        this.filePathList.map(
-          file => {
-            console.log(file,file.response,file.name && file.url,'item')
-            if (file.response) {
-              url.push({ fileName: file.name, filePath: file.response.data })
-            } else if (file.name && file.url) {
-              url.push({ fileName: file.name, filePath: file.url })
-            }
-          }
-        )
-        console.log(url,'url');
-        
-        return url
-      },
+     
+  
       ...mapGetters({
         company: 'company',
         companyId: 'companyId',
@@ -357,6 +345,8 @@
         this.getDetail()
       }else{
         this.payment={}
+        this.filePathList = []
+        this.fileNew = []
       }
       this.getCustomInfo()  
     },
@@ -366,6 +356,8 @@
         this.getDetail()
       }else{
         this.payment={}
+        this.filePathList = []
+        this.fileNew = []
       }
       this.getCustomInfo()
     },
@@ -433,7 +425,8 @@
         }
       },
       handleRemove(file, fileList) {
-        this.fileList = fileList
+        this.fileNew = fileList
+        this.filePathList = [...fileList,this.payment.filePathList]
       },
       getDetail() {
         getPaymentListAndDetail(
@@ -445,11 +438,13 @@
             this.payment =  {
              ...payment
             }
-            console.log(this.payment,'pay');
             
-            if(res.list[0].fileInfos&&res.list[0].fileInfos.length>0){
-              this.fileList = res.list[0].filePathList
-              this.payment.filePathList = res.list[0].fileInfos
+            if(res.list[0].filePathList&&res.list[0].filePathList.length>0){
+              this.filePathList = [...res.list[0].filePathList]
+              this.payment.filePathList = [...res.list[0].filePathList]
+            }else{
+              this.filePathList = []
+              this.payment.filePathList = []
             }
             
             
@@ -463,13 +458,16 @@
       importFile() {
         this.dialogVisible = true
       },
-      submitUpload() {
+      submitUpload() {       
         this.$refs.upload.submit()
       },
       handleExceed(files, fileList) {
         this.$message.warning(`当前限制选择上传 1 个文件`)
       },
       handelUploadChange(file, fileList) {
+        
+        console.log(file, fileList,'change');
+
         // 选择文件时显示上传按钮
         if (Object.keys(file).length && fileList.length) {
           this.uploadButtonVisible = true
@@ -478,20 +476,18 @@
         }
       },
       handleUploadSuccess(res, file, fileList) {
-        console.log(res, file, fileList,12);
         // this.filenamelist = []
         // fileList.map(item => {
         //   this.filenamelist.push({name:item.name})
         // })
         if (res.code === '200') {
-          this.filePathList=fileList
+          this.filePathList=[...this.payment.filePathList,...fileList]
         } else {
           this.$message({
             message: res.message,
             type: 'error'
           })
         }
-        console.log(this.fileList,'file');
         
       },
       onSubmit(type) {
@@ -499,7 +495,11 @@
           if (valid) {
             this.submitloading = true
             let postData = {...this.payment}
-            postData.filePath = this.enclosure
+
+            postData.filePathList = []
+            this.filePathList.map(item=>{
+              postData.filePathList.push({fileName:item.name,filePath:item.response.data})
+            })
             postData.flag = type ? false : true
             let msg = '新建'
             msg = postData.id ? '修改' : '新建' 
