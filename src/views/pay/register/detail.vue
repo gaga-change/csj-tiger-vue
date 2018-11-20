@@ -1,11 +1,12 @@
 <template>
 <div>
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+    <template v-if="dataSuccess">
       <template  v-if="userInfo.roles.includes('cashier')&&cardData.paymentStatus == 4">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(0,'ruleForm')">保存
         </el-button>
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
       </template> 
@@ -20,6 +21,12 @@
       <el-tag v-else>
         暂无操作
       </el-tag>
+      </template>
+      <template v-else>
+        <el-tag >
+        暂无操作
+      </el-tag>
+      </template>
   </sticky>
 
    <invoice-detail :cardData="cardData"
@@ -131,7 +138,7 @@
           loading:false,
           buttonDisabled:false,
           tableData: [],
-          cardConfig:[],
+          cardConfig:realPayInfoConfig,
           cardData:{},
           ruleForm:{
             realPaymentDate:'',//付款日期
@@ -145,20 +152,12 @@
           editable:false,//区分提交和编辑
           name,
           searchForm,
-          realPayInfoConfig,
           PaymentModeEnumFilter,
+          dataSuccess:false,
         }
       },
 
      created(){
-       let cardConfig =[],paymentInfoConfigFilter=[];
-      realPayInfoConfig.map(item=>{
-        if(item.prop=='realPay'){
-          item.userFormatter = this.formatter('realPay')
-        }
-        cardConfig.push(item)
-      })
-      this.cardConfig = cardConfig
     
       this.getCurrentTableData();  
       
@@ -253,8 +252,11 @@
           params.processInstanceId = this.$route.query.processInstanceId
         }
         getPaymentListAndDetail(params).then(res=>{
+           this.loading=false;
+          this.buttonDisabled = false
+          
           if(res.success){
-        
+            this.dataSuccess = true
            
             this.cardData = res.list[0]
              let fileInfos = res.list[0].filePathList || []
@@ -266,7 +268,6 @@
                 }
                 
               })
-            console.log(6333);
             let { realPaymentDate,
             paymentMode,//结算方式,
             applyPaymentAmt,//货款金额
@@ -293,8 +294,7 @@
                 this.tableData = []
               }
           }
-          this.loading=false;
-          this.buttonDisabled = false
+         
         }).catch(err=>{
             this.loading=false;
             this.buttonDisabled = false
