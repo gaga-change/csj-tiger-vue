@@ -59,7 +59,8 @@ export default {
         invoiceTaxAmt:'',
         makeDate:'',
         arriveDate:'',
-        oldInvoiceId:''
+        oldInvoiceId:'',
+        contractNo:''
       },
       dialogVisible:false,
       alertTableData:[],
@@ -70,8 +71,7 @@ export default {
       loading:false,
       useWatch:false,
 
-      invoiceAmt:0,
-      invoiceTaxAmt:0
+      busiBillNo:''
       
     }
   },
@@ -175,6 +175,7 @@ export default {
     },
 
     oldInvoiceIdChange(value){
+      this.useWatch=true;
       findFinaPurchaseInvoice({
         finaPurchaseInvoiceId:value
       }).then(res=>{
@@ -195,15 +196,19 @@ export default {
 
     clickDialogVisible(){
       let {contractNo,busiBillNo}=this.searchForm;
-      if(!contractNo||!busiBillNo){
+      if(!busiBillNo){
          this.$message.error('请先选择订单');
          return ''
       }
        this.dialogVisible=true;
+       if(busiBillNo===this.busiBillNo){
+          return ''
+       }
       queryInWarehouseBillDetailList({
         busiBillNo,contractNo
       }).then(res=>{ 
         if(res.success){
+          this.busiBillNo=busiBillNo;
           let data=res.data||[];
           this.alertTableData=data.filter(v=>v.realInQty).map(v=>{
             let json=v;
@@ -244,6 +249,7 @@ export default {
       this.useWatch=true;
       this.dialogVisible=false;
       this.editTableData=this.alertTableDataSelect;
+
     },
 
     submit(type,value){
