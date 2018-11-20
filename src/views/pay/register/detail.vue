@@ -3,9 +3,9 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="dataSuccess">
       <template  v-if="userInfo.roles.includes('cashier')&&cardData.paymentStatus == 4">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+         <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(0,'ruleForm')">保存
-        </el-button>
+        </el-button> -->
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
