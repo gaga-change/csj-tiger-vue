@@ -9,7 +9,7 @@ import { Message } from 'element-ui';
 
 const whiteList = ['/csj_login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
-  
+  console.log(to,from,'11111');
   NProgress.start()
   if (whiteList.includes(to.path)) {
     next()
@@ -17,13 +17,10 @@ router.beforeEach((to, from, next) => {
       store.dispatch('GetInfo').then(res => { 
         store.dispatch('gitMap').then(res=>{
           router.addRoutes(store.getters.menu)
-
           next({ ...to, replace: true })
         }).catch(err=>{
           router.addRoutes(store.getters.menu)
-
           next({ ...to, replace: true })
-
         })
       }).catch((err) => {
         // Message({
@@ -35,20 +32,16 @@ router.beforeEach((to, from, next) => {
         //     location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
         //   }
         // });
-        // location.href = `${location.origin}/csj_logout`
-        // location.href='/csj_login'
-  console.log(to,from,'33333333');
-
-        location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
+        location.href = `${location.origin}/csj_logout`
+        location.href='/csj_login'
+        // location.href = `${LoginPath}/logout?service=${location.origin}/csj_login`
       })
+    } else {
       next()
     }
-  
+
 })
-router.beforeResolve((to, from, next) => {
-  next()
-  NProgress.done() 
-})
-router.afterEach(() => {
+
+router.afterEach((to, from) => {
   NProgress.done() 
 })

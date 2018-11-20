@@ -25,7 +25,7 @@
                 <router-link :to="{ path: `/payment/apply/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-if="!scope.row.nodename.includes('总经理审')" >
                     {{scope.row.title}}
                 </router-link>
-                <router-link :to="{ path: `/payment/register/detail?id=${scope.row.title}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-else>
+                <router-link :to="{ path: `/payment/register/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-else>
                   {{scope.row.title}}
                 </router-link>
                 </template>

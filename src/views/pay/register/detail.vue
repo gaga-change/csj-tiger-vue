@@ -9,24 +9,6 @@
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
       </template> 
-       <!-- <template  v-else-if="cardData.paymentStatus == 5">
-         <template v-if="!editable">
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-              @click="()=>{this.editable = true;this.buttonDisabled=false}">编辑
-          </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-              @click="submitOrder">提交
-          </el-button>
-        </template>
-          <template  v-else>
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-              @click="saveOrder(0,'ruleForm')">保存
-          </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-              @click="saveOrder(1,'ruleForm')">提交
-          </el-button>
-        </template> 
-      </template>  -->
       <template v-else-if="$route.query.from=='needWork'&&userInfo.roles.includes('cashier')&&cardData.paymentStatus==5">
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
