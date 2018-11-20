@@ -9,7 +9,6 @@ import { Message } from 'element-ui';
 
 const whiteList = ['/csj_login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
-  console.log(to,from,'11111');
   NProgress.start()
   if (whiteList.includes(to.path)) {
     next()

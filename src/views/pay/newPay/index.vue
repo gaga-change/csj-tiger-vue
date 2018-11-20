@@ -121,7 +121,7 @@
         </el-col> -->
        
          <el-col :span="8">
-          <el-form-item label="要求付款日期" label-width="120px" prop="mount">
+          <el-form-item label="要求付款日期" label-width="120px" prop="applyPaymentDate">
               <el-date-picker
               v-model="payment.applyPaymentDate"
               type="datetime"

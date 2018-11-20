@@ -27,7 +27,7 @@
               @click="Modify('payReject')">驳回
           </el-button>  
         </template>
-         <template v-if="userInfo.roles.includes('finance')&&cardData.paymentStatus==2">
+         <template v-else-if="userInfo.roles.includes('finance')&&cardData.paymentStatus==2">
            <!-- 财务 -->
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
@@ -36,7 +36,7 @@
               @click="Modify('payReject')">驳回
           </el-button>  
         </template>
-         <template v-if="userInfo.roles.includes('manager')&&cardData.paymentStatus==3">
+         <template v-else-if="userInfo.roles.includes('manager')&&cardData.paymentStatus==3">
            <!-- 财务 -->
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
@@ -45,6 +45,9 @@
               @click="Modify('payReject')">驳回
           </el-button>  
         </template>
+        <el-tag v-else>
+        暂无操作
+        </el-tag>
       </template>
       <el-tag v-else>
         暂无操作
@@ -111,29 +114,22 @@
           loading:false,
           buttonDisabled:false,
           tableData: [],
-          cardConfig:[],
+          cardConfig:realPayInfoConfig,
           dataSuccess:false,
           cardData:{},
           editable:true,//区分提交和编辑
           name,
           searchForm,
-          realPayInfoConfig,
         }
       },
 
      created(){
-       let cardConfig =[], paymentInfoConfigFilter=[];
-      realPayInfoConfig.map(item=>{
-        if(item.prop=='realPay'){
-          item.dom = this.formatter('realPay')
-        }
-        cardConfig.push(item)
-      })
-      this.cardConfig = cardConfig
+       
+ 
       this.getCurrentTableData();  
       
     },
-
+   
     computed: {
     ...mapGetters([
       'mapConfig',
