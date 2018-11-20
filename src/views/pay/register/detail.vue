@@ -32,7 +32,7 @@
    <invoice-detail :cardData="cardData"
     :tableData="tableData"  :name="name">
     <item-title text="实付信息"/>
-    <template v-if="(cardData.paymentStatus == 4||editable)&&$route.query.from=='needWork'&&userInfo.roles.includes('cashier')">
+    <template v-if="(cardData.paymentStatus == 4||editable)&&userInfo.roles.includes('cashier')">
       
         <el-card class="simpleCard" shadow="never" body-style="padding:12px">
           <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
