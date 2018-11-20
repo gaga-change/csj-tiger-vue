@@ -5,7 +5,7 @@ export  const listIndexConfig=[
   { label:'订单编号',prop:'busiBillNo',width:150},
   { label:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig',},
   { label:'发票号',prop:'invoiceNo',width:150},
-  { label:'发票金额',prop:'invoiceAmt',},
+  { label:'发票金额',prop:'invoiceAmt',type:'toFixed'},
   { label:'数量',prop:'invoicedQty',},
   { label:'发票收到日期',prop:'arriveDate',width:150,type:'time',format:'YYYY-MM-DD'},
   { label:'发票开具日期',prop:'makeDate',width:150,type:'time',format:'YYYY-MM-DD'},
@@ -22,7 +22,7 @@ export  const voidIndexConfig=[
   { label:'作废发票号',prop:'invoiceNo',width:150},
   { label:'供应商',prop:'providerName',width:150},
   { label:'订单编号',prop:'busiBillNo',width:150},
-  { label:'发票金额',prop:'invoiceAmt',},
+  { label:'发票金额',prop:'invoiceAmt',type:'toFixed'},
   { label:'数量',prop:'invoicedQty',},
   { label:'发票类型',prop:'invoiceType',useLocalEnum:true,type:'InvoiceType',width:150},
   { label:'单据状态',prop:'ticketStatus',useLocalEnum:true,type:'entryInvoiceTicketStatus'},
@@ -51,6 +51,7 @@ export  const listDetailConfig=[
 //详情页表格信息
   export  const listDetailTableConfig=[
     { label:'商品编码',prop:'skuCode',},
+    { label:'商品名称',prop:'skuName',},
     { label:'规格型号',prop:'skuFormat',},
     { label:'单位',prop:'skuUnitName',},
     { label:'单价',prop:'taxPrice',},
@@ -77,13 +78,13 @@ export  const listDetailConfig=[
   function formatter(type){
     return (row, column, cellValue, index)=>{
       switch(type){
-        case 1:return row.realInQty*row.inPrice||0;break;
-        case 2:return row.invoicedQty*row.inPrice||0;break;
-        case 3:return row.invoicedQty||0;break;
-        case 4:return row.taxPrice*row.invoiceQty||0;break
-        case 5:return row.taxRate/100;break;
-        case 6:return row.taxPrice*row.realInQty||0;break
-        case 7:return row.taxPrice*row.invoicedQty||0;break
+        case 1:return !isNaN(Number(row.realInQty*row.inPrice))?Number(row.realInQty*row.inPrice).toFixed(2):0;break;
+        case 2:return !isNaN(Number(row.invoicedQty*row.inPrice))?Number(row.invoicedQty*row.inPrice).toFixed(2):0;break;
+        case 3:return !isNaN(Number(row.invoicedQty))?Number(row.invoicedQty).toFixed(2):0;break;
+        case 4:return !isNaN(Number(row.taxPrice*row.invoiceQty))?Number(row.taxPrice*row.invoiceQty).toFixed(2):0;break;
+        case 5:return !isNaN(Number(row.taxRate/100))?Number(row.taxRate/100).toFixed(2):0;break;
+        case 6:return !isNaN(Number(row.taxPrice*row.realInQty))?Number(row.taxPrice*row.realInQty).toFixed(2):0;break;
+        case 7:return !isNaN(Number(row.taxPrice*row.invoicedQty))?Number(row.taxPrice*row.invoicedQty).toFixed(2):0;break;
       }
     }
   }

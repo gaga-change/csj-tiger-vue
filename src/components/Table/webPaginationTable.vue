@@ -1,13 +1,14 @@
 <template>
   <div class="ctabel">
       <el-table
+        ref="multipleTable"
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
-        :data="tableData"
+        :data="this._events.SelectionChange?allTableData:tableData"
          size="small"
         :border="border"
-        @selection-change="handleSelectionChange"
+         @selection-change="handleSelectionChange"
         :style="tableStyle">
 
         <el-table-column
@@ -23,15 +24,15 @@
       </el-table>
 
       <el-pagination
+        v-if="total>maxTotal&&!this._events.SelectionChange"
         :style="paginationStyle"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-sizes="pageSizes"
+        :page-sizes="[...pageSizes,total]"
         :page-size="pageSize"
-         size="small"
+        size="small"
         :layout="layout"
-        v-if="total>maxTotal"
         :total="total">
       </el-pagination>
   </div>
@@ -160,6 +161,7 @@ export default {
     }
   },
 
+
   methods: { 
      handleSizeChange(val){
         this.pageSize=val
@@ -171,7 +173,7 @@ export default {
 
      handleSelectionChange(val){
        this.$emit('SelectionChange', val); 
-     }
+     },
   }
 }
 </script>

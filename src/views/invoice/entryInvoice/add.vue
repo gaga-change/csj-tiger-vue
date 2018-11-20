@@ -3,7 +3,7 @@
      <search-invoice   :searchForm="searchForm"  @propsChange="propsChange"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
      <div class="add-buttom" >
         <item-title text="商品发票明细" />
-        <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="dialogVisible=true;"  >选择商品发票明细</el-button>
+        <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="clickDialogVisible"  >选择商品发票明细</el-button>
      </div>
 
      <edit-table 
@@ -59,7 +59,8 @@ export default {
         invoiceTaxAmt:'',
         makeDate:'',
         arriveDate:'',
-        oldInvoiceId:''
+        oldInvoiceId:'',
+        contractNo:''
       },
       dialogVisible:false,
       alertTableData:[],
@@ -70,8 +71,7 @@ export default {
       loading:false,
       useWatch:false,
 
-      invoiceAmt:0,
-      invoiceTaxAmt:0
+      busiBillNo:''
       
     }
   },
@@ -175,6 +175,7 @@ export default {
     },
 
     oldInvoiceIdChange(value){
+      this.useWatch=true;
       findFinaPurchaseInvoice({
         finaPurchaseInvoiceId:value
       }).then(res=>{
@@ -193,16 +194,23 @@ export default {
       })
     },
 
-    busiBillNoChange(busiBillNo,contractNo){
-      this.loading=true;
-      let searchForm= _.cloneDeep(this.searchForm);
-      searchForm.contractNo=contractNo;
-      this.searchForm=searchForm;
+    clickDialogVisible(){
+      let {contractNo,busiBillNo}=this.searchForm;
+      if(!busiBillNo){
+         this.$message.error('请先选择订单');
+         return ''
+      }
+       this.dialogVisible=true;
+       if(busiBillNo===this.busiBillNo){
+          return ''
+       }
       queryInWarehouseBillDetailList({
         busiBillNo,contractNo
       }).then(res=>{ 
         if(res.success){
-          this.alertTableData=res.data.map(v=>{
+          this.busiBillNo=busiBillNo;
+          let data=res.data||[];
+          this.alertTableData=data.filter(v=>v.realInQty).map(v=>{
             let json=v;
             json.taxRate=v.taxRate/100;
             json.billDetailId=v.busiBillNo;
@@ -215,6 +223,14 @@ export default {
       }).catch(err=>{
         this.loading=false; 
       });
+
+    },
+
+    busiBillNoChange(busiBillNo,contractNo){
+      this.loading=true;
+      let searchForm= _.cloneDeep(this.searchForm);
+      searchForm.contractNo=contractNo;
+      this.searchForm=searchForm;
     },
 
     handleSelectionChange(value){
@@ -233,6 +249,7 @@ export default {
       this.useWatch=true;
       this.dialogVisible=false;
       this.editTableData=this.alertTableDataSelect;
+
     },
 
     submit(type,value){

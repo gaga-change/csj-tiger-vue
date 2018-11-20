@@ -98,6 +98,13 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6" v-if="searchForm.contractNo!==undefined">
+            <el-form-item label="合同编号" >
+              <el-input type="text" size="small" :disabled="true"   placeholder="请选择合同编号"    v-model="searchForm.contractNo" ></el-input>
+            </el-form-item>
+          </el-col>
+
+
           <el-col :span="6" v-if="searchForm.invoiceType!==undefined" >
             <el-form-item 
             label="发票种类" 
@@ -115,12 +122,6 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="6" v-if="searchForm.contractNo!==undefined">
-            <el-form-item label="合同编号" >
-              <el-input type="text" size="small" :disabled="true"   placeholder="请选择合同编号"    v-model="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
