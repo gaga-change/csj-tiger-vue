@@ -10,7 +10,7 @@
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
       </template> 
-      <template v-else-if="userInfo.roles.includes('cashier')&&cardData.paymentStatus==5">
+      <template v-else-if="$route.query.from=='needWork'&&userInfo.roles.includes('cashier')&&cardData.paymentStatus==5">
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>

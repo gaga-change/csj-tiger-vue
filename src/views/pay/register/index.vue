@@ -76,7 +76,7 @@
             let id = row.id
             let status = Number(row.paymentStatus)
             switch(status){
-              case 4: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>付款登记</router-link></div>
+              // case 4: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>付款登记</router-link></div>
               // case 5: return <div><router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
               default: return <router-link  to={{path:`/payment/register/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
