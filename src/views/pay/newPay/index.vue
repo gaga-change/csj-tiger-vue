@@ -148,7 +148,7 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(v,i) in filePathList" :key="v.filePath" >
-                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.name||`附件${i+1}`">{{v.name||`附件${i+1}`}}</a>
+                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.fileName||`附件${i+1}`">{{v.fileName||`附件${i+1}`}}</a>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
