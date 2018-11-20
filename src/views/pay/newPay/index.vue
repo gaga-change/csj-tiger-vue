@@ -352,7 +352,7 @@
         )
         
         this.filePathList = url
-        console.log(this.filePathList);
+        console.log(this.filePathList,11111);
         
       }
     },
