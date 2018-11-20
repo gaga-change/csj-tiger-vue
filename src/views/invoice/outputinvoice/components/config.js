@@ -92,6 +92,7 @@ export const detailinfoConfig=[//发票详情信息
   { title:'备注',prop:'ticketRemark', show:'register+invalid',span:10},
 ]
 export const detailtableConfig=[//详情表格
+  { label:'序号',type:'index', width:50 },
   { label:'商品分类',prop:'skuCategoryno', minWidth:120 },
   { label:'商品编码',prop:'skuCode', minWidth:120 },
   { label:'商品名称',prop:'skuName', minWidth:160},

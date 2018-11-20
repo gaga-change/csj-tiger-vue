@@ -58,7 +58,7 @@ export default [
         component: _import('invoice/entryInvoice/list'),
         name: 'registrationList',
         meta: {
-          title: '发票登记列表',
+          title: '发票登记',
           icon: 'form',
         }
       },
@@ -80,7 +80,7 @@ export default [
         component: _import('invoice/entryInvoice/void'),
         name: 'registrationVoid',
         meta: {
-          title: '发票作废列表',
+          title: '发票作废',
           icon: 'form',
         }
       },

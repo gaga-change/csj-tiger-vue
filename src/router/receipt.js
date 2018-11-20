@@ -26,7 +26,7 @@ export default [
         component: _import('receipt/register/index'),
         name: 'register',
         meta: {
-          title: '收款单列表',
+          title: '收款单',
           icon: 'search',
           roles: ['service_finance']
         }
@@ -47,7 +47,7 @@ export default [
         component: _import('receipt/associate/index'),
         name: 'associate',
         meta: {
-          title: '收款单列表业务',
+          title: '收款关联业务单',
           icon: 'search',
           roles: ['service_finance']
         }
