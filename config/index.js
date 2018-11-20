@@ -1,60 +1,22 @@
 'use strict'
 
 const path = require('path')
+// const ip='http://172.16.81.26:7878';//苗哥
+const ip='http://192.168.2.172:7878';//修号
+const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
+let proxyTable={};
+proxyTableArr.forEach(item=>{
+  proxyTable[item]={
+    target: ip, 
+    changeOrigin: true
+  }
+})
 module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/csj_login': {
-        // target: 'http://172.16.81.26:7878', //苗哥
-        // target: 'http://192.168.1.195:2222',//财务测试服务器
-
-        // target: 'http://192.168.1.195:7979',//交付测试服务器
-        // target: 'http://192.168.2.139:7878', //陈姐
-        // target: 'http://172.16.80.83:7878',//志强
-        // target: 'http://172.16.80.138:7878', //亚雷
-        // target: 'http://172.16.81.130:7878', //红兵
-        target: 'http://192.168.2.172:7878', //浩浩
-        changeOrigin: true
-      },
-      '/csj_logout': {
-        // target: 'http://172.16.81.26:7878', //苗哥
-        // target: 'http://192.168.1.195:2222',//财务测试服务器
-
-        // target: 'http://192.168.1.195:7979',//交付测试服务器
-        // target: 'http://192.168.2.139:7878', //陈姐
-        // target: 'http://172.16.80.83:7878',//志强
-        // target: 'http://172.16.80.138:7878', //亚雷
-        // target: 'http://172.16.81.130:7878', //红兵
-        target: 'http://192.168.2.172:7878', //浩浩
-        changeOrigin: true
-      },
-
-      '/webApi': {
-        // target: 'http://192.168.1.195:7979',//v1.4测试服务器
-        // target: 'http://192.168.1.195:2222',//v1.3测试服务器
-        // target: 'http://172.16.80.83:7878',//志强
-        // target: 'http://172.16.80.138:7878', //亚雷
-        // target: 'http://192.168.2.163:7878', //红兵
-        // target: 'http://192.168.2.139:7878', //陈姐
-        // target: 'http://172.16.81.26:7878', //苗哥
-        target: 'http://192.168.2.172:7878', //浩浩
-        changeOrigin: true
-      },
-      '/api': {
-        // target: 'http://192.168.1.195:7979',//v1.4测试服务器
-        // target: 'http://192.168.1.195:2222',//v1.3测试服务器
-        // target: 'http://172.16.80.83:7878',//志强
-        // target: 'http://172.16.80.138:7878', //亚雷
-        // target: 'http://192.168.2.163:7878', //红兵
-        // target: 'http://192.168.2.139:7878', //陈姐
-        // target: 'http://172.16.81.26:7878', //苗哥
-        target: 'http://192.168.2.172:7878', //浩浩
-        changeOrigin: true
-      },
-    },
+    proxyTable: proxyTable,
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST
