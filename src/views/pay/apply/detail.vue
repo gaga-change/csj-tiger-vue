@@ -1,22 +1,43 @@
 <template>
   <div>
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
+    
     <template v-if="dataSuccess">
-       <template  v-if="cardData.paymentStatus == 0">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="linkToCreate">编辑
-        </el-button>
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="saveOrder">提交
-        </el-button>
-      </template> 
-      <template  v-else-if="cardData.paymentStatus == 9">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
-            @click="linkToCreate">编辑
-        </el-button>
-      </template> 
+        <template  v-if="userInfo.roles.includes('purchase')&&cardData.paymentStatus == 0">
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="linkToCreate">编辑
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="saveOrder">提交
+          </el-button>
+        </template> 
+         <template  v-else-if="cardData.paymentStatus == 9">
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="linkToCreate">编辑
+          </el-button>
+      </template>	
       <template v-else-if="$route.query.from=='needWork'">
-         <template v-if="/(1|2|3)/.test(cardData.paymentStatus)">
+        <template v-if="userInfo.roles.includes('purchaseAdmin')&&cardData.paymentStatus == 1">
+          <!-- 采购负责人审核 -->
+
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+            @click="Modify('payCheck')">审核
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+              @click="Modify('payReject')">驳回
+          </el-button>  
+        </template>
+         <template v-if="userInfo.roles.includes('finance')&&cardData.paymentStatus==2">
+           <!-- 财务 -->
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+            @click="Modify('payCheck')">审核
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+              @click="Modify('payReject')">驳回
+          </el-button>  
+        </template>
+         <template v-if="userInfo.roles.includes('manager')&&cardData.paymentStatus==3">
+           <!-- 财务 -->
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
@@ -36,7 +57,7 @@
   </sticky>
    <invoice-detail :cardData="cardData" 
     :tableData="tableData"  :name="name">
-    <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px" v-if="dataSuccess">
+    <!-- <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px" v-if="dataSuccess">
    <el-row>
      <el-col  class="card-list"     :span="24" >
         <span class="card-title">付款相关信息</span> : 
@@ -54,7 +75,7 @@
         </div>
       </el-col>
    </el-row>
-  </el-card>   
+  </el-card>    -->
   <template v-if="cardData.paymentStatus>4">
     <item-title text="实付信息"/>
     <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
@@ -151,7 +172,7 @@
       saveOrder(){
         
         let params = {
-          id:this.$route.query.id,
+          id:this.cardData.id,
           operator:this.userInfo.id,
           operatorName:this.userInfo.truename,
           fromSystemCode: 'CSJSCM',
