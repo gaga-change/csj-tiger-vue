@@ -524,7 +524,7 @@
               res => {
                 
                 if (res.success&&res.data) {
-                  this.$message({type:'success',message:`${msg}付款申请成功`,duration:2000,onClose:()=>{
+                  this.$message({type:'success',message:`${msg}付款申请成功`,duration:1000,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
                           query: {
@@ -533,7 +533,7 @@
                         })
                   }})
                 }else{
-                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:2000
+                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:1000
                   })
                 }
                 this.submitloading = false
