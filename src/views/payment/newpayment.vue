@@ -98,7 +98,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
+      <el-row :gutter="20" style="height:140px;">
         <el-col :span="6">
           <el-form-item label="备注" prop="payment.memos">
             <el-input type="textarea" v-model="paymentform.payment.memos" size="small" rows='5'></el-input>
@@ -116,11 +116,13 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
+      <el-row  >
+         <el-col :span="6">
         <el-form-item >
           <el-button type="primary" @click="onSubmit" size="small" :disabled="submitloading" v-loading="submitloading">新建付款单</el-button>
           <el-button @click="onCancel" size="small">取消</el-button>
         </el-form-item>
+         </el-col >
       </el-row>
     </el-form>
     <!-- 上传弹框 -->

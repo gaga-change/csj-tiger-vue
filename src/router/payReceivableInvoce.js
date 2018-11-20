@@ -3,88 +3,48 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 import Layout from '../views/layout/Layout'
 
 export default [
-  // {
-  //   path: '/payment',
-  //   component: Layout,
-  //   redirect: '/payment/newpayment',
-  //   name: 'paymentDelivery',
-  //   meta: { title: '付款管理', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
-  //   children: [
-  //     {
-  //       path: 'newpayment',
-  //       component: _import('payment/newpayment'),
-  //       name: 'newpaymentDelivery',
-  //       meta: {
-  //         title: '新建付款单',
-  //         icon: 'form',
-  //         roles: ['service_finance']
-  //       }
-  //     },
-  //     {
-  //       path: 'paymentlist',
-  //       component: _import('payment/paymentlist'),
-  //       name: 'paymentlistDelivery',
-  //       meta: {
-  //         title: '付款单查询',
-  //         icon: 'search',
-  //         roles: ['service_finance']
-  //       }
-  //     },
-  //     {
-  //       path: 'paymentdetail/:ticketno',
-  //       component: _import('payment/paymentdetail'),
-  //       hidden: true,
-  //       name: 'paymentdetailDelivery',
-  //       meta: {
-  //         title: '付款单详情',
-  //         icon: 'form',
-  //         noCache: true,
-  //         roles: ['service_finance']
-  //       }
-  //     }
-  //   ]
-  // },
   {
-    path: '/receivable',
+    path: '/payment',
     component: Layout,
-    redirect: '/receivable/newreceivable',
-    name: 'receivableDelivery',
-    meta: { title: '收款管理', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
+    redirect: '/payment/newpayment',
+    name: 'paymentDelivery',
+    meta: { title: '付款管理', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
-        path: 'newreceivable',
-        component: _import('receivable/newreceivable'),
-        name: 'newreceivableDelivery',
+        path: 'newpayment',
+        component: _import('payment/newpayment'),
+        name: 'newpaymentDelivery',
         meta: {
-          title: '新建收款单',
+          title: '新建付款单',
           icon: 'form',
           roles: ['service_finance']
         }
       },
       {
-        path: 'receivablelist',
-        component: _import('receivable/receivablelist'),
-        name: 'receivablelistDelivery',
+        path: 'paymentlist',
+        component: _import('payment/paymentlist'),
+        name: 'paymentlistDelivery',
         meta: {
-          title: '收款单查询',
+          title: '付款单查询',
           icon: 'search',
           roles: ['service_finance']
         }
       },
       {
-        path: 'receivabledetail/:ticketno',
-        component: _import('receivable/receivabledetail'),
+        path: 'paymentdetail/:ticketno',
+        component: _import('payment/paymentdetail'),
         hidden: true,
-        name: 'receivabledetailDelivery',
+        name: 'paymentdetailDelivery',
         meta: {
-          title: '收款单详情',
-          noCache: true,
+          title: '付款单详情',
           icon: 'form',
+          noCache: true,
           roles: ['service_finance']
         }
       }
     ]
   },
+  
 
   {
     path: '/invoice/entryInvoice',
@@ -98,7 +58,7 @@ export default [
         component: _import('invoice/entryInvoice/list'),
         name: 'registrationList',
         meta: {
-          title: '发票登记列表',
+          title: '发票登记',
           icon: 'form',
         }
       },
@@ -120,7 +80,7 @@ export default [
         component: _import('invoice/entryInvoice/void'),
         name: 'registrationVoid',
         meta: {
-          title: '发票作废列表',
+          title: '发票作废',
           icon: 'form',
         }
       },
