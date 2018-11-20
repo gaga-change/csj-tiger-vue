@@ -51,6 +51,7 @@ export  const listDetailConfig=[
 //详情页表格信息
   export  const listDetailTableConfig=[
     { label:'商品编码',prop:'skuCode',},
+    { label:'商品名称',prop:'skuName',},
     { label:'规格型号',prop:'skuFormat',},
     { label:'单位',prop:'skuUnitName',},
     { label:'单价',prop:'taxPrice',},

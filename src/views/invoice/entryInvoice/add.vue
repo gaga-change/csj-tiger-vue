@@ -3,7 +3,7 @@
      <search-invoice   :searchForm="searchForm"  @propsChange="propsChange"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
      <div class="add-buttom" >
         <item-title text="商品发票明细" />
-        <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="dialogVisible=true;"  >选择商品发票明细</el-button>
+        <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="clickDialogVisible"  >选择商品发票明细</el-button>
      </div>
 
      <edit-table 
@@ -193,17 +193,19 @@ export default {
       })
     },
 
-    busiBillNoChange(busiBillNo,contractNo){
-      this.loading=true;
-      let searchForm= _.cloneDeep(this.searchForm);
-      searchForm.contractNo=contractNo;
-      this.searchForm=searchForm;
+    clickDialogVisible(){
+      let {contractNo,busiBillNo}=this.searchForm;
+      if(!contractNo||!busiBillNo){
+         this.$message.error('请先选择订单');
+         return ''
+      }
+       this.dialogVisible=true;
       queryInWarehouseBillDetailList({
         busiBillNo,contractNo
       }).then(res=>{ 
         if(res.success){
           let data=res.data||[];
-          this.alertTableData=data.filter(v=>v.invoicedQty).map(v=>{
+          this.alertTableData=data.filter(v=>v.realInQty).map(v=>{
             let json=v;
             json.taxRate=v.taxRate/100;
             json.billDetailId=v.busiBillNo;
@@ -216,6 +218,14 @@ export default {
       }).catch(err=>{
         this.loading=false; 
       });
+
+    },
+
+    busiBillNoChange(busiBillNo,contractNo){
+      this.loading=true;
+      let searchForm= _.cloneDeep(this.searchForm);
+      searchForm.contractNo=contractNo;
+      this.searchForm=searchForm;
     },
 
     handleSelectionChange(value){
