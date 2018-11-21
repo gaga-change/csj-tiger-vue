@@ -9,6 +9,7 @@ export  const listIndexConfig=[
   { label:'数量',prop:'invoicedQty',},
   { label:'发票收到日期',prop:'arriveDate',width:150,type:'time',format:'YYYY-MM-DD'},
   { label:'发票开具日期',prop:'makeDate',width:150,type:'time',format:'YYYY-MM-DD'},
+  { label:'单据创建日期',prop:'gmtCreate',width:150,type:'time',format:'YYYY-MM-DD'},
   { label:'发票类型',prop:'invoiceType',useLocalEnum:true,type:'InvoiceType',width:150},
   { label:'发票性质',prop:'invoiceNature',useLocalEnum:true,type:'NatureInvoice'},
   { label:'发票状态',prop:'invoiceStatus',useLocalEnum:true,type:'InvoiceStatus'},
