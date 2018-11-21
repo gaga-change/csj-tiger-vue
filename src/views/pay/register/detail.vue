@@ -15,7 +15,7 @@
             @click="Modify('payCheck')">审核
           </el-button>
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
-              @click="Modify('payReject')">驳回
+              @click="Modify('payRejectSingle')">驳回
           </el-button>  
       </template>
       <el-tag v-else>
