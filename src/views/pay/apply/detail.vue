@@ -3,7 +3,8 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     
     <template v-if="dataSuccess">
-      <template  v-if="userInfo.roles.includes('purchase')&&cardData.paymentStatus == 0">
+      <template  v-if="(userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 0">
+        <!-- 采购员 -->
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="linkToCreate">编辑
           </el-button>
@@ -17,7 +18,7 @@
           </el-button>
       </template>	
       <template v-else-if="$route.query.from=='needWork'">
-        <template v-if="userInfo.roles.includes('purchaseAdmin')&&cardData.paymentStatus == 1">
+        <template v-if="userInfo.roles.includes('buyer_leader')&&cardData.paymentStatus == 1">
           <!-- 采购负责人审核 -->
 
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
@@ -27,7 +28,7 @@
               @click="Modify('payReject')">驳回
           </el-button>  
         </template>
-         <template v-else-if="userInfo.roles.includes('finance')&&cardData.paymentStatus==2">
+         <template v-else-if="(userInfo.roles.includes('finance_leader')||userInfo.roles.includes('finance_TIGER'))&&cardData.paymentStatus==2">
            <!-- 财务 -->
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
@@ -36,7 +37,7 @@
               @click="Modify('payReject')">驳回
           </el-button>  
         </template>
-         <template v-else-if="userInfo.roles.includes('manager')&&cardData.paymentStatus==3">
+         <template v-else-if="userInfo.roles.includes('leader_TIGER')&&cardData.paymentStatus==3">
            <!-- 财务 -->
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
