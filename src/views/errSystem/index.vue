@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  class="errlog">
      <search-invoice  :searchForm="searchForm"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
      
       <base-table 
@@ -12,15 +12,17 @@
       :pageSize="pageSize"
       :currentPage="pageNum"
       :tableData="tableData"/>
-
+     
       <el-dialog
       title="错误详情"
       custom-class="shouDetailsDialog"
       :visible.sync="dialogVisible"
-      top="6vh"
+      top="3vh"
       width="70%"
       :before-close="()=>dialogVisible=false">
-
+      <div style="display:flex;justify-content: flex-end;margin-bottom:12px">
+          <el-button type="primary"  size="small" @click="againSubmit" >重试</el-button>
+      </div>
       <item-card :config="listDetailConfig" :loading="cardLoading"   :cardData="cardData"/> 
 
      </el-dialog>
@@ -53,18 +55,8 @@ export default {
       cardData:{
 
       },
-      tableData:[
-        {
-          "id": "int",
-          "busiType": "string",
-          "subType": "string",
-          "busiKey": "string",
-          "resetCount": "int ",
-          "paramData": "string",
-          "errorMes": "string",
-          "successFlag": "int"
-        } 
-      ]
+      tableData:[],
+      nowId:''
 
     }
   },
@@ -87,7 +79,41 @@ export default {
 
     selectbyId(row){
       this.dialogVisible=true;
-      console.log(row)
+      this.cardLoading=true;
+      interactiveErrorDataGet({
+         id:row.id
+      }).then(res=>{
+        this.nowId=row.id;
+        if(res.success){
+          this.cardData=res.data;
+        }
+        this.cardLoading=false;
+      }).catch(err=>{
+        this.cardLoading=false;
+        console.log(err)
+      })
+    },
+
+    againSubmit(){
+       interactiveErrorDataReset({
+         id:this.nowId
+       }).then(res=>{
+         if(res.success){
+          this.$message({
+            type: 'success',
+            message: '重试成功'
+          })
+         }else{
+           this.$message({
+            type: 'error',
+            message: '重试失败'
+          })
+         }
+         this.selectbyId({id:this.nowId})
+       }).catch(err=>{
+         this.selectbyId({id:this.nowId})
+         console.log(err)
+       })
     },
 
     submit(value){
@@ -127,7 +153,7 @@ export default {
       interactiveErrorDataSelect({...json,pageSize:this.pageSize,pageNum:this.pageNum}).then(res=>{
         if(res.success){
           this.total=res.data&&res.data.total;
-          // this.tableData=res.data&&res.data.list||[]    
+          this.tableData=res.data&&res.data.list||[]    
         }
         this.loading=false;
       }).catch(err=>{
@@ -138,11 +164,15 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .tableSelectbyId{
-    color: rgb(51, 153, 234);
-    cursor: pointer;
+<style rel="stylesheet/scss" lang="scss">
+  .errlog{
+    .tableSelectbyId{
+      color: rgb(51, 153, 234);
+      cursor: pointer; 
+    }
+    .el-dialog__body{
+      padding-top: 0;
+    }
   }
-
 </style>
 

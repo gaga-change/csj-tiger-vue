@@ -296,3 +296,16 @@ export const paymentStatusEnum = [
     value: 19
   },
 ]
+
+//成功标识
+export const successFlag = [
+  {
+    name: '成功',
+    value: 1
+  },
+  {
+    name: '失败',
+    value: 0
+  },
+
+]
