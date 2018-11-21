@@ -61,7 +61,7 @@
         </el-col>
         <el-col :span="6">
             <el-form-item label-width="70px" label="单据状态:" class="postInfo-container-item" prop="invoicetype">
-              <el-select v-model="searchForm.approveStatus" 
+              <el-select v-model="searchForm.paymentStatus" 
                filterable clearable placeholder="请选择单据状态" 
               size="small" prefix-icon="el-icon-search">
                 <el-option
@@ -131,6 +131,10 @@ export default {
         type: String,
         default: ''
       },
+      paymentStatus:{
+        type: String,//单据状态
+        default: ''
+      }
     },
   },
   created(){
@@ -197,8 +201,15 @@ export default {
 
      customerChange(value){
       let searchForm=_.cloneDeep(this.searchForm);
-      searchForm.paymenterName=this.customerConfig.find(v=>v.paymenterCode==value).paymenterName;
-      searchForm.paymenterCode=value;
+      console.log(value,'value');
+      if(value){
+        searchForm.paymenterName=this.customerConfig.find(v=>v.paymenterCode==value).paymenterName;
+        searchForm.paymenterCode=value;
+      }else{
+        searchForm.paymenterName='';
+        searchForm.paymenterCode='';
+      }
+      
       this.id='';
       this.tableData=[];
       this.searchForm=searchForm;

@@ -22,8 +22,7 @@ router.beforeEach((to, from, next) => {
           next({ ...to, replace: true })
         })
       }).catch((err) => {
-        location.href = `${location.origin}/csj_logout`
-        location.href='/csj_login'
+        location.href = `/csj_logout`
       })
     } else {
       next()
