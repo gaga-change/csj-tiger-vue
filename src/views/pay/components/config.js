@@ -25,6 +25,7 @@ export const reisterTableConfig=[// 付款登记列表
 
 
 export const paymentInfoConfig = [//付款单详情
+  { title:'付款申请号', prop:'applyNo' },
   { title:'收款方', prop:'paymenterName' },
   { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true },
   { title:'款项类型', prop:'moneyType', type:'MoneyTypeEnum',useLocalEnum:true },
@@ -33,7 +34,7 @@ export const paymentInfoConfig = [//付款单详情
   // { title:'合同约定付款方式 ', prop:'paymentMode',
   // useLocalEnum:true, type:'PaymentModeEnum' },
   { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
-  { title:'申请货款金额', prop:'applyPaymentAmt',type:"money" },
+  { title:'申请货款金额', prop:'applyPaymentAmt',type:"money"},
 
   
   { title:'要求付款日期', prop:'applyPaymentDate', type:'time' },

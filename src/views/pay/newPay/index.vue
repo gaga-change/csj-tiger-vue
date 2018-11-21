@@ -111,7 +111,7 @@
           </el-form-item>
         </el-col> -->
         <el-col :span="6">
-          <el-form-item label="申请货款金额" prop="applyPaymentAmt">
+          <el-form-item label="申请货款金额" prop="applyPaymentAmt" label-width="120px">
              <el-input type="text" size="small" :disabled="false" v-model="payment.applyPaymentAmt"></el-input>
           </el-form-item>
         </el-col>

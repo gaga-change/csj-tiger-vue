@@ -31,74 +31,75 @@
 
    <invoice-detail :cardData="cardData"
     :tableData="tableData"  :name="name">
+    <template v-if="dataSuccess">
     <item-title text="实付信息"/>
-    <template v-if="(cardData.paymentStatus == 4||editable)&&userInfo.roles.includes('cashier')">
-      
-        <el-card class="simpleCard" shadow="never" body-style="padding:12px">
-          <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
-             <el-row :gutter="10">
-             <el-col :span="6">
-              <el-form-item label="付款日期" prop="realPaymentDate">
-                <el-date-picker
-                  v-model="ruleForm.realPaymentDate"
-                  type="date"
-                  size="small"
-                  placeholder="付款日期"
-                  :editable="false">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-               <el-col :span="6">
-              <el-form-item label="结算方式" prop="paymentMode">
-                <el-select v-model="ruleForm.paymentMode" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
-                  <el-option
-                    v-for="item in PaymentModeEnumFilter"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="10">
-            <el-col :span="6">
-              <el-form-item label="货款金额" >
-                <el-input type="text" v-model="ruleForm.applyPaymentAmt" disabled size="small" placeholder="货款金额"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="贴息">
-                <el-input v-model="ruleForm.realInterestAmt" size="small" ></el-input>
-              </el-form-item>
-            </el-col>
-         
-            <el-col :span="6">
-              <el-form-item label="实付金额" >
-                <el-input type="text" size="small" disabled v-model="ruleForm.realPaymentAmt" ></el-input>
-              </el-form-item>
-            </el-col>
+      <template v-if="(cardData.paymentStatus == 4||editable)&&userInfo.roles.includes('cashier')">
+        
+          <el-card class="simpleCard" shadow="never" body-style="padding:12px">
+            <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
+              <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="付款日期" prop="realPaymentDate">
+                  <el-date-picker
+                    v-model="ruleForm.realPaymentDate"
+                    type="date"
+                    size="small"
+                    placeholder="付款日期"
+                    :editable="false">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+                <el-col :span="6">
+                <el-form-item label="结算方式" prop="paymentMode">
+                  <el-select v-model="ruleForm.paymentMode" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
+                    <el-option
+                      v-for="item in PaymentModeEnumFilter"
+                      :key="item.value"
+                      :label="item.name"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-row>
-          <el-row :gutter="10">
-            <el-col :span="6" >
-              <el-form-item label="备注">
-                <el-input type="textarea" size="small" v-model="ruleForm.remarkInfo"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="6" >
-              <el-form-item label="交易流水号">
-                <el-input type="text" size="small" v-model="ruleForm.paymentRecordNo" ></el-input>
-              </el-form-item>
-            </el-col>
-            </el-row>
-          </el-form>
-        </el-card>
-      
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="货款金额" >
+                  <el-input type="text" v-model="ruleForm.applyPaymentAmt" disabled size="small" placeholder="货款金额"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="贴息">
+                  <el-input v-model="ruleForm.realInterestAmt" size="small" ></el-input>
+                </el-form-item>
+              </el-col>
+          
+              <el-col :span="6">
+                <el-form-item label="实付金额" >
+                  <el-input type="text" size="small" disabled v-model="ruleForm.realPaymentAmt" ></el-input>
+                </el-form-item>
+              </el-col>
+              </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6" >
+                <el-form-item label="备注">
+                  <el-input type="textarea" size="small" v-model="ruleForm.remarkInfo"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" >
+                <el-form-item label="交易流水号">
+                  <el-input type="text" size="small" v-model="ruleForm.paymentRecordNo" ></el-input>
+                </el-form-item>
+              </el-col>
+              </el-row>
+            </el-form>
+          </el-card>
+        
+      </template>
+      <template v-else>
+        <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
+      </template>
     </template>
-    <template v-else>
-      <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
-    </template>
- 
     </invoice-detail>
     </div>
 </template>

@@ -17,7 +17,7 @@
           </el-dropdown>
         </span>
         <span class="card-text" v-else-if="item.useIf=='link'">
-          <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query,cardData)}" style="color:#3399ea">{{cardData[item.prop]}}</router-link>
+          <router-link  :to="{path:item.linkTo,query:mapFormatter(item.query),params:mapFormatter(item.params)}" style="color:#3399ea">{{item.name?item.name:cardData[item.prop]}}</router-link>
         </span>
         <span class="card-text" v-else-if="item.useIf=='linkDom'">
           <!-- {{
@@ -25,9 +25,10 @@
           }} -->
           <router-link  :to="{path:item.userFormatter,}" style="color:#3399ea;margin-left:8px">{{item.name}}</router-link>
         </span>
-         <span class="card-text" v-else-if="item.useIf=='linkParam'">
-          <!-- <router-link  :to="{path:item.linkTo}" style="color:#3399ea">12313123123{{item.name}}</router-link> -->
-          <router-link  :to="{path:item.userFormatter,}" style="color:#3399ea;margin-left:8px">{{item.name}}</router-link>
+         <span class="card-text" v-else-if="item.useIf=='userFormatter'">
+         {{
+             formatter(item.type,cardData,item.useApi, item.userFormatter,item.useLocalEnum,item.format)
+          }}
         </span>
         <span class="card-text" v-else>
           {{
@@ -95,7 +96,7 @@ export default {
         }
       },
       
-      mapFormatter(arr=[],data){
+      mapFormatter(arr=[],data=this.cardData){
         let json={}
         arr.forEach(v=>{
             json[v.key]=data[v.value]

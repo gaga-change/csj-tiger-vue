@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     
     <template v-if="dataSuccess">
-        <template  v-if="userInfo.roles.includes('purchase')&&cardData.paymentStatus == 0">
+      <template  v-if="userInfo.roles.includes('purchase')&&cardData.paymentStatus == 0">
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="linkToCreate">编辑
           </el-button>
