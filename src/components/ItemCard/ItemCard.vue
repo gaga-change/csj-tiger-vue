@@ -2,8 +2,8 @@
   <div :style="boxStyle">
   <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" :body-style="bodyStyle" >
    <el-row>
-     <el-col  class="card-list"  v-for="item in config"  :key="item.prop||item.title"  :span="item.span||6" >
-        <span class="card-title">{{item.title}}</span> : 
+     <el-col  class="card-list"  v-for="item in config"  :key="item.prop||item.title"   :span="item.span||6" >
+        <span class="card-title"   :style="item.uesStringify&&'display: block;margin-bottom:12px'">{{item.title}}</span> {{!item.uesStringify?':':'' }}
         <span v-if="item.useIf=='files'">
             <el-dropdown v-if="item.prop&&cardData[item.prop]&&cardData[item.prop].length>0">
             <span class="el-dropdown-link">
@@ -28,6 +28,16 @@
          <span class="card-text" v-else-if="item.useIf=='linkParam'">
           <router-link  :to="{path:item.linkTo}" style="color:#3399ea">12313123123{{item.name}}</router-link>
         </span>
+
+         <el-input
+            v-else-if="item.uesStringify"
+            type="textarea"
+            :rows="item.rows||2"
+            resize="none"
+            placeholder="请输入内容"
+            :value="formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum,item.format)">
+          </el-input>
+          
         <span class="card-text" v-else>
           {{
              formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum,item.format)

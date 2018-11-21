@@ -5,7 +5,6 @@ import { reportCenterUrl} from '@/utils'
 
 import { asyncRouterMap }  from '@/router'
 
-
 const getters = {
   sidebar: state => state.app.sidebar,
   userInfo: state => state.user.userInfo,
@@ -58,6 +57,8 @@ const getters = {
     menutemp.push({
       path: '*', redirect: '/404', hidden: true 
     })
+
+
     return menutemp
   }
 }
