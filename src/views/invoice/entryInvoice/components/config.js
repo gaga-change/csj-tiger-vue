@@ -66,6 +66,7 @@ export  const listDetailConfig=[
   //签收明细弹框表格配置
   export  const addAlertTableConfig=[
     { label:'序号',type:'index',columnType:'selection'},
+    { label:'序号',type:'index',width:50},
     { label:'商品编码',prop:'skuCode',},
     { label:'商品名称',prop:'skuName',},
     { label:'规格型号',prop:'skuFormat',},
