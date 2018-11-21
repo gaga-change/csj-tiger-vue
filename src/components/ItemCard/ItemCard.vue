@@ -30,7 +30,7 @@
         </span>
 
          <el-input
-            v-if="item.uesStringify"
+            v-else-if="item.uesStringify"
             type="textarea"
             :rows="item.rows||2"
             resize="none"
@@ -95,7 +95,6 @@ export default {
             switch(type){
               case 'time': return moment(value).format(format||'YYYY-MM-DD HH:mm:ss');
               case 'boolean': return Number(value)?'是':'否';
-              case 'stringify':return  value
               default : return value
             }
           }

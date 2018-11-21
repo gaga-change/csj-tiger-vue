@@ -18,6 +18,6 @@ export  const listDetailConfig=[
   { title:'重试次数',prop:'resetCount'},
   { title:'成功标示',prop:'successFlag',useLocalEnum:true,type:'successFlag'},
   { title:'记录时间',prop:'gmtCreate',type:'time'},
-  { title:'入参',prop:'paramData',span:24,type:'stringify',uesStringify:true,rows:4},
-  { title:'结果',prop:'errorMes',span:24,type:'stringify',uesStringify:true,rows:14},
+  { title:'入参',prop:'paramData',span:24,uesStringify:true,rows:4},
+  { title:'结果',prop:'errorMes',span:24,uesStringify:true,rows:14},
 ]
