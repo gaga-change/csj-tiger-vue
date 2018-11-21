@@ -42,6 +42,14 @@ export function PaymentPurchaseAudit(data) {
     data:data
   })
 }
+// 付款登记驳回（不走工作流）
+export function PaymentPurchaseAuditSingle(data) {
+  return request({
+    url: ` /api/payment/payRegisterAuditReject`,
+    method: 'post',
+    data:data
+  })
+}
 // 订单发票信息查看
 export function invoiceSelect(data) {
   return request({

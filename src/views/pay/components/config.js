@@ -32,8 +32,8 @@ export const paymentInfoConfig = [//付款单详情
   { title:'采购合同', prop:'contractNo',},
   // { title:'合同约定付款方式 ', prop:'paymentMode',
   // useLocalEnum:true, type:'PaymentModeEnum' },
-  { title:' 已付货款 ', prop:'realPaymentAmt',type:'money' },
-  { title:'申请付款金额', prop:'applyPaymentAmt',type:"money" },
+  { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
+  { title:'申请货款金额', prop:'applyPaymentAmt',type:"money" },
 
   
   { title:'要求付款日期', prop:'applyPaymentDate', type:'time' },

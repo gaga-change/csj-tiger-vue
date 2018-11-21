@@ -1,7 +1,7 @@
 <template>
   <div class="outgoing-quiry-container">
       <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('paycreate')"
+         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('paymentCreate')"
             @click="linkToCreate">创建付款申请
         </el-button>
       </sticky>
@@ -88,9 +88,9 @@
             let id = row.id
             let status = Number(row.paymentStatus)
             switch(status){
-              case 0: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
-              case 1: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
-               case 2: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
+              // case 0: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>提交</router-link></div>
+              // case 1: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
+              //  case 2: return <div><router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;</div>
               default: return <router-link  to={{path:`/payment/apply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>
             }
           };

@@ -111,7 +111,7 @@
           </el-form-item>
         </el-col> -->
         <el-col :span="6">
-          <el-form-item label="货款" prop="applyPaymentAmt">
+          <el-form-item label="申请货款金额" prop="applyPaymentAmt">
              <el-input type="text" size="small" :disabled="false" v-model="payment.applyPaymentAmt"></el-input>
           </el-form-item>
         </el-col>
@@ -148,7 +148,7 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(v,i) in filePathList" :key="v.filePath" >
-                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.name||`附件${i+1}`">{{v.name||`附件${i+1}`}}</a>
+                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.fileName||`附件${i+1}`">{{v.fileName||`附件${i+1}`}}</a>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -229,6 +229,7 @@
           receiveBank:'',//收款银行.
           receiveAccount:'',//收款账号.
           filePathList:[],
+          fileNew:[]
         }
   export default {
     name: 'newpayment',
@@ -298,13 +299,10 @@
         busiBillNoAll:[],
         customerFilterMark:'',//客户名称过滤标识
         billFilterMark:'',//订单筛选
-        fileNew:[],//新曾文件
-
+        fileNew:[],
       }
     },
     computed: {
-     
-  
       ...mapGetters({
         company: 'company',
         companyId: 'companyId',
@@ -340,13 +338,30 @@
        }
       },
     },
+    watch:{
+      fileNew(){
+        const url = []
+        this.fileNew.map(
+          file => {
+            if (file.response) {
+              url.push({ fileName: file.name, filePath: file.response.data })
+            } else if (file.name && file.url) {
+              url.push({ fileName: file.name, filePath: file.url })
+            }
+          }
+        )
+        
+        this.filePathList = url
+        console.log(this.filePathList,11111);
+        
+      }
+    },
     created() {
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
       }else{
         this.payment={}
         this.filePathList = []
-        this.fileNew = []
       }
       this.getCustomInfo()  
     },
@@ -357,7 +372,6 @@
       }else{
         this.payment={}
         this.filePathList = []
-        this.fileNew = []
       }
       this.getCustomInfo()
     },
@@ -426,7 +440,6 @@
       },
       handleRemove(file, fileList) {
         this.fileNew = fileList
-        this.filePathList = [...fileList,this.payment.filePathList]
       },
       getDetail() {
         getPaymentListAndDetail(
@@ -440,11 +453,17 @@
             }
             
             if(res.list[0].filePathList&&res.list[0].filePathList.length>0){
-              this.filePathList = [...res.list[0].filePathList]
-              this.payment.filePathList = [...res.list[0].filePathList]
+              let fileList = [...res.list[0].filePathList],temp = []
+              this.filePathList = fileList
+              this.payment.filePathList = fileList
+              fileList.map(file=>{
+                temp.push({name:file.fileName,url:file.filePath,...file})
+              })
+              this.fileNew = temp
             }else{
               this.filePathList = []
               this.payment.filePathList = []
+              this.fileNew = []
             }
             
             
@@ -465,8 +484,6 @@
         this.$message.warning(`当前限制选择上传 1 个文件`)
       },
       handelUploadChange(file, fileList) {
-        
-        console.log(file, fileList,'change');
 
         // 选择文件时显示上传按钮
         if (Object.keys(file).length && fileList.length) {
@@ -481,7 +498,7 @@
         //   this.filenamelist.push({name:item.name})
         // })
         if (res.code === '200') {
-          this.filePathList=[...this.payment.filePathList,...fileList]
+          this.fileNew=fileList    
         } else {
           this.$message({
             message: res.message,
@@ -496,10 +513,7 @@
             this.submitloading = true
             let postData = {...this.payment}
 
-            postData.filePathList = []
-            this.filePathList.map(item=>{
-              postData.filePathList.push({fileName:item.name,filePath:item.response.data})
-            })
+            postData.filePathList = this.filePathList
             postData.flag = type ? false : true
             let msg = '新建'
             msg = postData.id ? '修改' : '新建' 
@@ -510,7 +524,7 @@
               res => {
                 
                 if (res.success&&res.data) {
-                  this.$message({type:'success',message:`${msg}付款申请成功`,duration:2000,onClose:()=>{
+                  this.$message({type:'success',message:`${msg}付款申请成功`,duration:1000,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
                           query: {
@@ -519,7 +533,7 @@
                         })
                   }})
                 }else{
-                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:2000
+                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:1000
                   })
                 }
                 this.submitloading = false

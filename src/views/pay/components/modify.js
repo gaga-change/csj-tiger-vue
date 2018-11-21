@@ -1,5 +1,5 @@
 
-import { PaymentPurchaseAudit} from '@/api/pay'
+import { PaymentPurchaseAudit, PaymentPurchaseAuditSingle } from '@/api/pay'
 
 export default function Modify(type, name, needfresh, api) {
   // 0 驳回
@@ -83,6 +83,42 @@ export default function Modify(type, name, needfresh, api) {
     }).catch(()=>{
       
       this.needfresh()
+    })
+  }else if (type == 'payRejectSingle') {
+    this.$prompt('请输入驳回原因', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消'
+    }).then(({ value }) => {
+      PaymentPurchaseAuditSingle({
+        isPass: 0,
+        opinion :value,
+        ...params
+      }).then(res => {
+        if(res.success){
+          this.$message({
+            type: 'success',
+            message: '驳回成功!'
+          })
+        }else{
+          this.$message({
+            type: 'warn',
+            message: '驳回失败!'
+          })
+        } 
+        this.needfresh()
+      }).catch(err => {
+        this.$message({
+          type: 'warn',
+          message: '驳回失败!'
+        })
+        this.needfresh()
+      })
+    }).catch(()=>{
+       this.$message({
+          type: 'info',
+          message: '驳回取消'
+        })
+        this.needfresh()
     })
   }
 }

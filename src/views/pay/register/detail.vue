@@ -3,9 +3,9 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="dataSuccess">
       <template  v-if="userInfo.roles.includes('cashier')&&cardData.paymentStatus == 4">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+         <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(0,'ruleForm')">保存
-        </el-button>
+        </el-button> -->
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
@@ -14,8 +14,8 @@
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
-              @click="Modify('payReject')">驳回
+          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
+              @click="Modify('payRejectSingle')">驳回
           </el-button>  
       </template>
       <el-tag v-else>
@@ -32,7 +32,7 @@
    <invoice-detail :cardData="cardData"
     :tableData="tableData"  :name="name">
     <item-title text="实付信息"/>
-    <template v-if="(cardData.paymentStatus == 4||editable)&&$route.query.from=='needWork'&&userInfo.roles.includes('cashier')">
+    <template v-if="(cardData.paymentStatus == 4||editable)&&userInfo.roles.includes('cashier')">
       
         <el-card class="simpleCard" shadow="never" body-style="padding:12px">
           <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
@@ -166,7 +166,7 @@
       ruleForm:{//深度监听，可监听到对象、数组的变化
             handler(val, oldVal){
               // this.ruleForm.realInterestAmt = (val.realInterestAmt-0).toFixed(1)
-              val.realPaymentAmt = (val.applyPaymentAmt - val.realInterestAmt)||0
+              val.realPaymentAmt = ((val.applyPaymentAmt - val.realInterestAmt)||0).toFixed(2)
             },
             deep:true
         }
