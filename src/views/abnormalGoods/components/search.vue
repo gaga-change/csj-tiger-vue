@@ -45,7 +45,7 @@
            <el-col :span="6">
             <el-form-item label="退回日期" label-width="80px"  >
               <el-date-picker
-                v-model="time"
+                v-model="searchForm.退回日期"
                 type="daterange"
                 align="right"
                 style="width:380px" 
@@ -102,7 +102,6 @@ export default {
             }
           }]
         },
-        time: ''
     }
   },
 
@@ -130,7 +129,12 @@ export default {
     },
 
     resetForm(){
-      this.$emit('reset')
+      let data = _.cloneDeep(this.searchForm);
+      let json={};
+      for(let i in data){
+        json[i]=''
+      }
+      this.$emit('submit',json)
     }
   }
 
