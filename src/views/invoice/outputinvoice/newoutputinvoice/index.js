@@ -281,10 +281,10 @@ export default {
               data.allTaxAmount=this.allTaxAmount;
               data.allNotTaxAmount=this.allNotTaxAmount;
 
-              if(data.productBreakdown.some(v=>!v.taxCode)){
-                this.$message.error('税务编码必填');
-                return ''
-              }
+              // if(data.productBreakdown.some(v=>!v.taxCode)){
+              //   this.$message.error('税务编码必填');
+              //   return ''
+              // }
 
               data.productBreakdown=data.productBreakdown.map(v=>{
                  let json=v;

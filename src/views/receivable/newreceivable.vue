@@ -56,7 +56,7 @@
           <el-form-item label="收款日期" prop="receivable.recdate">
             <el-date-picker
               v-model="receivableform.receivable.recdate"
-              type="datetime"
+              type="date"
               size="small"
               :editable="false"
               placeholder="选择日期时间"

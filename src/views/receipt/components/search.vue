@@ -90,7 +90,7 @@
         </el-col>  
         <el-col :span="6">
           <el-form-item label-width="70px" label="收款日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.paymentDate" type="daterange" format="yyyy-MM-dd"start-placeholder="开始日期"
+            <el-date-picker size="small" v-model="searchForm.paymentDate" type="daterange" format="yyyy-MM-dd" start-placeholder="开始日期"
       end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>

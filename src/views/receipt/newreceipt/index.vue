@@ -60,7 +60,7 @@
           <el-form-item label="日期" prop="mount">
               <el-date-picker
               v-model="receipt.paymentDate"
-              type="datetime"
+              type="date"
               size="small"
               :editable="false"
               placeholder="选择日期时间"

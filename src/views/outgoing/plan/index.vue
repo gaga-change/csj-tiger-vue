@@ -49,10 +49,10 @@
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
-                    type="datetimerange"
+                    type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
-                    :default-time="['12:00:00']">
+                    >
                  </el-date-picker>
               </el-form-item>
           </el-col>
