@@ -75,10 +75,10 @@
               prop="signCreateTime">
               <el-date-picker
                 v-model="planform.signCreateTime"
-                type="datetime"
-                placeholder="选择日期时间"
+                type="date"
+                placeholder="选择日期"
                  align="right"
-                default-time="12:00:00">
+                >
               </el-date-picker>
           </el-form-item>
         </el-col>
