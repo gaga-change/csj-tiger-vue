@@ -163,7 +163,7 @@
         for(let i in this.ruleForm){
         if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD HH:mm:ss'));
+               let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD'));
                if(arr.every(v=>v)){
                  json['outStoreBeginDate']=arr[0];
                  json['outStoreEndDate']=arr[1];

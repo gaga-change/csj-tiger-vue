@@ -194,7 +194,7 @@ export default {
     formatter(type,value){
         if(value!=undefined){
           switch(type){
-            case 'time': return moment(value).format('YYYY-MM-DD HH:mm:ss');
+            case 'time': return moment(value).format('YYYY-MM-DD');
             case 'statusFilter': return value || value ==0 ?this.$options.filters.statusFilter(value) :'';
             case 'contractType':return value == 1 ? '销售合同' : '采购合同';
             case 'businesstype': return value ==1 ? '汽车板块':'钢铁板块'
