@@ -181,7 +181,7 @@ export default {
       }).then(res=>{
         if(res.success){
            let data=res.data&&res.data.finaPurchaseInvoiceDetailBOList||[]
-           this.editTableData=data.filter(v=>v.realInQty&&v.realInQty>v.invoicedQty).map(v=>{
+           this.editTableData=data.map(v=>{
               let json=v;
               json.inPrice=v.taxPrice;
               json.taxRate=v.taxRate/100;
