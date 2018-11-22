@@ -1,6 +1,11 @@
 <template>
   <div class="outgoing-quiry-container">
   <div style="marginBottom:12px">
+    <sticky :className="'sub-navbar published'">
+      <template >
+         <el-button type="success"  size="small" ><router-link :to="{path:'/abnormalGoods/add'}" >创建异常签收商品登记单</router-link></el-button>
+      </template>
+    </sticky>
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
         <el-form :inline="true" :model="ruleForm"  size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline"  label-width="50px"  label-position="left">
@@ -91,8 +96,9 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { tableConfig} from './config';
+    import Sticky from '@/components/Sticky'
     export default {
-      components: { BaseTable },
+      components: { BaseTable,Sticky },
       data() {
       return {
         ruleForm: {
