@@ -1,6 +1,6 @@
 <template>
   <div  class="abnormalGoods">
-    <sticky :className="'sub-navbar published'">
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
          <el-button type="success"  size="small" ><router-link :to="{path:'/abnormalGoods/add'}" >创建异常签收商品登记单</router-link></el-button>
       </template>
@@ -30,7 +30,7 @@ export default {
    data() {
     return {
       searchForm:{
-        providerName:'',
+        客户名称:'',
         contractNo:'',
         busiBillNo:'',
         ticketStatus:'',
@@ -51,10 +51,26 @@ export default {
   },
 
   created(){
-
+    this.listIndexConfig.forEach(item=>{
+       if(item.useLink){
+          item.dom=this.formatter();
+       }
+    })
   },
 
   methods:{
+
+   formatter(){
+     return  (row, column, cellValue, index)=>{
+            let id = row.索引
+            let status = Number(row.状态)
+            switch(status){
+              case 0 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{}}} style={{color:'#3399ea'}}>提交</router-link></div>  
+              default: return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{}}} style={{color:'#3399ea'}}>查看</router-link></div>
+            }
+          };
+    },
+
 
     submit(value){
       this.searchForm=value;

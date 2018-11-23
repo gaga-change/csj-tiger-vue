@@ -5,8 +5,8 @@
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
       
           <el-col :span="6">
-            <el-form-item label="供应商名称" label-width="80px" style="width:300px" >
-              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入供应商名称"    v-model="searchForm.providerName" ></el-input>
+            <el-form-item label="客户名称" label-width="80px" style="width:300px" >
+              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model="searchForm.客户名称" ></el-input>
             </el-form-item>
           </el-col>
 
