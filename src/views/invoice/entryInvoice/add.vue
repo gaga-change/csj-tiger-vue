@@ -265,7 +265,12 @@ export default {
       json.invoiceTaxAmt=Number(this.searchForm.invoiceTaxAmt);
       json.invoiceAmt=Number(this.searchForm.invoiceAmt);
       json.arriveDate=moment(json.arriveDate).valueOf()
-      json.makeDate=moment(json.makeDate).valueOf()
+      json.makeDate=moment(json.makeDate).valueOf();
+      this.editTableData=this.editTableData.map(v=>{
+        let json=v;
+        json.invoiceQty=Number(json.invoiceQty);
+        return json;
+      })
       if(finaPurchaseInvoiceId){
          let idArr=this.editTableData.map(v=>Number(v.billDetailId)); 
          let localIdArr= this.localTableData.map(v=>Number(v.billDetailId));
