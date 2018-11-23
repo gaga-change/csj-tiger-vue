@@ -3,9 +3,10 @@
 const path = require('path')
 // const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://192.168.2.172:7878';//修号
-const ip='http://192.168.2.163:7878';//红兵
+// const ip='http://192.168.2.163:7878';//红兵
 // const ip='http://192.168.2.139:7878';//陈姐
 // const ip='http://172.16.80.138:7878';//亚雷
+const ip='http://192.168.1.195:7979';//测试服务
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 let proxyTable={};
 proxyTableArr.forEach(item=>{
