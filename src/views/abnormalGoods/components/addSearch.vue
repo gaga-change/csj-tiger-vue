@@ -8,13 +8,36 @@
     </sticky>
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
-      
-          <el-col :span="6">
-            <el-form-item label="客户" label-width="40px" style="width:260px" >
-              <el-input type="text" size="small"      placeholder="请选择客户"    v-model="searchForm.客户" ></el-input>
+         <el-col :span="6"  >
+            <el-form-item 
+             label="客户" 
+             label-width="40px">
+              <el-select v-model="searchForm.客户"
+               filterable
+               clearable
+               placeholder="请选择供应商名称"  >
+              <el-option 
+               value=""
+               v-if="customerConfig.length"
+               :disabled="true">
+                <div class="providerList">
+                  <span>企业编码</span>
+                  <span >企业名称</span>
+                </div>
+              </el-option>
+              <el-option
+                v-for="item in customerConfig"
+                :key="item.entNumber"
+                :label="item.entName"
+                :value="item.entNumber">
+                 <div class="providerList">
+                   <span >{{ item.entNumber }}</span>
+                   <span >{{ item.entName }}</span>
+                 </div>
+              </el-option>
+            </el-select>
             </el-form-item>
           </el-col>
-
 
           <el-col :span="6">
             <el-form-item label="订单编号"  label-width="80px" style="width:300px">
@@ -79,11 +102,12 @@
 
 <script>
 import Sticky from '@/components/Sticky'
+import { infoCustomerInfo} from '@/api/invoicetigger/newoutputinvoice';  
 export default {
   components: { Sticky },
   data() {
     return {
- 
+      customerConfig:[]
     }
   },
 
@@ -95,12 +119,18 @@ export default {
   },
   
   mounted(){
-
+    infoCustomerInfo().then(res=>{
+      if(res.success){
+        this.customerConfig=res.data||[];
+      }
+     }).catch(err=>{
+      console.log(err)
+     })
   },
 
   methods:{
 
-    submit(type){
+     submit(type){
        this.$refs['searchForm'].validate((valid) => {
           if (valid) {
              this.$emit('submit',this.searchForm,type)

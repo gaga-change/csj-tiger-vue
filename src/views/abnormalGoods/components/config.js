@@ -49,3 +49,15 @@ export  const listIndexConfig=[ //列表页表格配置
     { label:'创建日期',prop:'',},
     { label:'单据状态',prop:'',},
   ]
+
+
+  export  const addAlertTableConfig=[ //商品明细table
+    { label:'序号',prop:'',width:50},
+    { label:'商品编号',prop:'',},
+    { label:'商品名称',prop:'',},
+    { label:'采购单价',prop:'',},
+    { label:'供应商名称',prop:'',},
+    { label:'采购合同编号',prop:'',},
+    { label:'仓库',prop:'',},
+    { label:'可用库存数量',prop:'',},
+  ]

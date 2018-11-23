@@ -23,28 +23,47 @@
     </el-table-column>
 
     <el-table-column
-      prop="skuFormat"
+      prop=""
       label="采购单价">
     </el-table-column>
 
     <el-table-column
-      prop="skuUnitName"
-      label="供应商" >
+      prop=""
+      label="供应商名称" >
+    </el-table-column>
+
+
+     <el-table-column
+      prop=""
+      label="采购合同编号" >
     </el-table-column>
 
      <el-table-column
-      prop="inPrice"
-      label="单价" >
-       <template slot-scope="scope">
-          <span >{{Number(scope.row.inPrice).toFixed(2)}}</span>
+      prop=""
+      label="仓库" >
+    </el-table-column>
+
+     <el-table-column
+      prop=""
+      label="申请数量" >
+      <template slot-scope="scope">
+        <template v-if="scope.row.edit">
+          <el-input
+            size="mini"
+            style="width:70px"
+            v-model.number="scope.row.申请数量" >
+            </el-input>
         </template>
+          <span v-else>
+          {{scope.row.申请数量}}
+        </span>
+    </template>
     </el-table-column>
 
      <el-table-column
-      prop="realInQty"
-      label="已入库数量" >
+      prop=""
+      label="金额" >
     </el-table-column>
-
 
      <el-table-column
       width="160"
@@ -69,10 +88,6 @@ export default {
        type:Array,
        default:()=>[]
      },
-     labelMak:{
-       type:Boolean,
-       default:false
-     }
   },
 
   methods:{
