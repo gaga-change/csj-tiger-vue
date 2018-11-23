@@ -47,6 +47,24 @@ export const deepSort = [//排序从零开始计数
    
   ]
 export const sort = ['outgoing','reply','paymentsDelivery'] 
+
+export function deepExistMenu(menu,deepExist,notDeep) {
+    var arr =[], index = 0;
+    for(var i = 0;i<deepExist.length;i++){
+        for(var j=0;j<menu.length;j++){
+                if(deepExist[i].path === menu[j].path){
+                  
+                    arr[index] = menu[j]
+                    if(!notDeep&&deepExist[i].children&&deepExist[i].children.length>0){
+                        arr[index].children = deepExistMenu(menu[j].children,deepExist[i].children)
+                    }
+                    index++
+                }
+            }
+    }
+    
+    return arr
+  }
   
 
 
