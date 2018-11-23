@@ -1,7 +1,7 @@
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 import Layout from '@/views/layout/Layout'
 import { reportCenterUrl} from '@/utils'
-// import { deepSortMenu, sortMenu }  from '@/utils/deepSortMenu'
+import { deepSortMenu, sortMenu, deepExistMenu }  from '@/utils/deepSortMenu'
 
 import { asyncRouterMap }  from '@/router'
 
@@ -19,11 +19,15 @@ const getters = {
   //   return asyncRouterMap
   // }
   menu: state => {
-    let bakmenu = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
-    let localPathArr=asyncRouterMap.map(v=>v.path)
-        if(Array.isArray(bakmenu)){
-          bakmenu=bakmenu.filter(v=>localPathArr.includes(v.path))
-        }
+    let bakmenus = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
+   
+    let localPathArr=asyncRouterMap
+    //     if(Array.isArray(bakmenu)){
+    //       bakmenu=bakmenu.filter(v=>localPathArr.includes(v.path))
+    //     }
+    // let bakmenus = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
+   let bakmenu = deepExistMenu(bakmenus,localPathArr)
+
    
     // bakmenu = deepSortMenu(bakmenu, deepSort,)
     const menutemp = []
