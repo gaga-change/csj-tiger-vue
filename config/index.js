@@ -9,13 +9,16 @@ const path = require('path')
 const ip='http://192.168.1.195:7979';//测试服务
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
+
 let proxyTable={};
+
 proxyTableArr.forEach(item=>{
   proxyTable[item]={
     target: ip, 
     changeOrigin: true
   }
 })
+
 module.exports = {
   dev: {
     // Paths
