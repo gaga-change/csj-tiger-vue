@@ -176,7 +176,7 @@
         if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD'));
-               if(arr.every(v=>v)){
+              if(arr.every(v=>v)&&arr.length>1){
                  json['inStoreBeginDate']=arr[0];
                  json['inStoreEndDate']=arr[1];
                } 
