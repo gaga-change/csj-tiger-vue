@@ -12,10 +12,11 @@
             <el-form-item 
              label="客户" 
              label-width="40px">
-              <el-select v-model="searchForm.客户"
+              <el-select v-model="searchForm.customerCode"
                filterable
                clearable
-               placeholder="请选择供应商名称"  >
+               @change="customerCodeChange"
+               placeholder="请选择客户名称"  >
               <el-option 
                value=""
                v-if="customerConfig.length"
@@ -41,13 +42,39 @@
 
           <el-col :span="6">
             <el-form-item label="订单编号"  label-width="80px" style="width:300px">
-              <el-input type="text" size="small"    placeholder="选择销售订单"    v-model="searchForm.busiBillNo" ></el-input>
+               <el-select v-model="searchForm.outBillNo" 
+               filterable
+               @focus="outBillNoFocus"
+               @change="outBillNoChange"
+               clearable
+               placeholder="选择销售订单">
+              <el-option 
+                value=""
+                v-if="outBillNoConfig.length"
+               :disabled="true">
+                <div class="providerList">
+                  <span>订单编号</span>
+                  <span >合同编号</span>
+                </div>
+              </el-option>
+              <el-option
+                v-for="item in outBillNoConfig"
+                :key="item.outBillNo"
+                :label="item.outBillNo"
+                :value="item.outBillNo">
+                 <div class="providerList">
+                   <span >{{ item.outBillNo }}</span>
+                   <span >{{ item.outContractNo }}</span>
+                 </div>
+              </el-option>
+            </el-select>
+           
             </el-form-item>
           </el-col>
 
           <el-col :span="6">
             <el-form-item label="合同编号" label-width="80px" style="width:300px" >
-              <el-input type="text" size="small"  :disabled="true"     v-model="searchForm.contractNo" ></el-input>
+              <el-input type="text" size="small"  :disabled="true"     v-model="searchForm.outContractNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -103,21 +130,24 @@
 <script>
 import Sticky from '@/components/Sticky'
 import { infoCustomerInfo} from '@/api/invoicetigger/newoutputinvoice';  
+import { queryOutBillInfoByCustCode} from '@/api/abnormalGoods/index';  
 export default {
   components: { Sticky },
   data() {
     return {
-      customerConfig:[]
+      customerConfig:[],
+      outBillNoConfig:[],
+      searchForm:{
+        customerCode:'',//客户编码
+        customerName:'',//客户名称
+        outBillNo:'',//销售订单号
+        outContractNo:''//销售合同号
+      }
     }
   },
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
-  },
-  
+
+
   mounted(){
     infoCustomerInfo().then(res=>{
       if(res.success){
@@ -129,6 +159,34 @@ export default {
   },
 
   methods:{
+
+    customerCodeChange(){
+       this.searchForm.outBillNo='';
+       this.searchForm.outContractNo='';
+       this.$emit('propChange')
+    },  
+
+    outBillNoChange(value){
+      this.searchForm.outContractNo=this.outBillNoConfig.find(v=>v.outBillNo===value)&&this.outBillNoConfig.find(v=>v.outBillNo===value).outContractNo;
+      this.$emit('propChange')
+    },
+
+    outBillNoFocus(){
+      if(this.searchForm.customerCode){
+        this.searchForm.customerName=this.customerConfig.find(v=>this.searchForm.customerCode===v.entNumber)&&this.customerConfig.find(v=>this.searchForm.customerCode===v.entNumber).entName; 
+        queryOutBillInfoByCustCode({
+           custCode:this.searchForm.customerCode
+        }).then(res=>{
+           if(res.success){
+             this.outBillNoConfig=res.data;
+           }
+        }).catch(err=>{
+          console.log(err)
+        })
+      } else{
+         this.$message.error('请先选择客户名称');
+      }
+    },
 
      submit(type){
        this.$refs['searchForm'].validate((valid) => {

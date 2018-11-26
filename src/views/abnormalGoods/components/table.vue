@@ -23,46 +23,50 @@
     </el-table-column>
 
     <el-table-column
-      prop=""
+      prop="costPrice"
       label="采购单价">
     </el-table-column>
 
     <el-table-column
-      prop=""
+      prop="providerName"
       label="供应商名称" >
     </el-table-column>
 
 
      <el-table-column
-      prop=""
+      prop="purcBatchContractNo"
       label="采购合同编号" >
     </el-table-column>
 
      <el-table-column
-      prop=""
+      prop="warehouseName"
       label="仓库" >
     </el-table-column>
 
      <el-table-column
-      prop=""
+      prop="returnQty"
       label="申请数量" >
       <template slot-scope="scope">
         <template v-if="scope.row.edit">
-          <el-input
+          <el-input-number
             size="mini"
-            style="width:70px"
-            v-model.number="scope.row.申请数量" >
-            </el-input>
+            style="width:120px"
+            :max="scope.row.refundQty-scope.row.registeredQty"
+            :min="0"
+             v-model.number="scope.row.returnQty" >
+            </el-input-number>
         </template>
           <span v-else>
-          {{scope.row.申请数量}}
+            {{scope.row.returnQty}}
         </span>
     </template>
     </el-table-column>
 
      <el-table-column
-      prop=""
       label="金额" >
+        <template slot-scope="scope">
+           {{scope.row.returnQty*scope.row.costPrice}}
+        </template>
     </el-table-column>
 
      <el-table-column

@@ -1,6 +1,6 @@
 <template>
   <div  class="abnormalGoods">
-      <add-search  :searchForm="searchForm"   @submit="this.submit"  ></add-search >
+      <add-search   @submit="this.submit"  @propChange="this.propChange" ref="search" ></add-search >
       <div class="add-buttom" >
         <item-title text="商品明细" />
         <el-button type="primary" size="mini"  @click="displayAlert"  >增加商品明细</el-button>
@@ -37,20 +37,19 @@ import AddSearch from './components/addSearch'
 import EditTable from './components/table'
 import { addAlertTableConfig } from './components/config';
 import webPaginationTable from '@/components/Table/webPaginationTable'
+import { queryListByCustCodeAndOutBillCode } from '@/api/abnormalGoods/index';  
 import _  from 'lodash';
 export default {
   components: { AddSearch,EditTable,webPaginationTable },
    data() {
     return {
-      searchForm:{
-
-      },
       editTableData:[],
       addAlertTableConfig,
       dialogVisible:false,
       alertLoading:false,
       alertTableData:[],
-      alertTableDataSelect:[]
+      alertTableDataSelect:[],
+      outBillNo:''
     }
   },
 
@@ -63,14 +62,46 @@ export default {
   },
 
   methods:{
+    propChange(){
+      this.alertTableData=[];
+      this.alertTableDataSelect=[];
+      this.editTableData=[];
+      this.outBillNo=''
+    },
 
     displayAlert(){
-      this.dialogVisible=true;
+      let data=this.$refs['search'].searchForm;
+      if(data.customerCode&&data.outBillNo){
+          this.dialogVisible=true;
+          if(this.outBillNo!==data.outBillNo){
+              this.outBillNo=data.outBillNo;
+              this.alertLoading=true;
+              queryListByCustCodeAndOutBillCode({
+              custCode:data.customerCode,
+              outBillCode:data.outBillNo
+            }).then(res=>{
+              if(res.success){
+                this.alertTableData=res.data;
+              }
+              this.alertLoading=false;
+             }).catch(err=>{
+               console.log(err)
+               this.alertLoading=false;
+             })
+          }
+          
+      } else{
+         this.$message.error('请先选择销售订单');
+      }
+     
     },
 
     handleSuccess(){
       this.dialogVisible=false;
-      this.editTableData=this.alertTableDataSelect;
+      this.editTableData=this.alertTableDataSelect.map(v=>{
+         v.returnQty=v.refundQty-v.registeredQty||0;
+         return v;
+      });
     },
 
     handleSelectionChange(value){
