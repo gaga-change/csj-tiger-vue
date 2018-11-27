@@ -137,33 +137,33 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.invoiceAmt!==undefined" >
+           <el-col :span="6" v-if="searchForm.asInvoiceAmt!==undefined" >
             <el-form-item  
             label-width="110px" 
             label="实际开票金额" 
-             prop="invoiceAmt"
+             prop="asInvoiceAmt"
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.invoiceAmt" ></el-input>
+              <el-input type="text" size="small"  @change="asInvoiceAmtChange()"  v-model="searchForm.asInvoiceAmt" ></el-input>
             </el-form-item>
           </el-col>
 
-            <el-col :span="6" v-if="searchForm.invoiceTaxAmt!==undefined" >
+            <el-col :span="6" v-if="searchForm.asInvoiceTaxAmt!==undefined" >
             <el-form-item 
              label="税额" 
              label-width="50px" 
-             prop="invoiceTaxAmt"
+             prop="asInvoiceTaxAmt"
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.invoiceTaxAmt" ></el-input>
+              <el-input type="text" size="small"  v-model="searchForm.asInvoiceTaxAmt" ></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="4" v-if="searchForm.invoiceTaxAmt!==undefined&&searchForm.invoiceAmt!==undefined" >
+          <el-col :span="4" v-if="searchForm.asInvoiceTaxAmt!==undefined&&searchForm.asInvoiceAmt!==undefined" >
             <el-form-item  label-width="90px" label="不含税金额" >
-             <span > {{ Number(searchForm.invoiceAmt-searchForm.invoiceTaxAmt).toFixed(2) }} </span>
+             <span > {{ Number(searchForm.asInvoiceAmt-searchForm.asInvoiceTaxAmt).toFixed(2) }} </span>
             </el-form-item>
           </el-col>
 
@@ -344,6 +344,11 @@ export default {
   },
 
   methods:{
+
+    asInvoiceAmtChange(){
+       console.log(1234)
+    },
+
     NatureInvoiceChange(value){
       this.$emit('propsChange','NatureInvoice')
       if(value===1){

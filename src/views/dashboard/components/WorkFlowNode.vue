@@ -15,19 +15,26 @@
                 <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.requestid" target="_blank" v-if="scope.row.urlflag === 0">
                   {{scope.row.title}}
                 </a> -->
+
                 <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
                   {{scope.row.title}}
                 </router-link>
+
+                 <router-link :to="{ path: `/abnormalGoods/detail?id=${scope.row.taskId}&title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
+                  {{scope.row.title}}
+                </router-link>
+
                 <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                   {{scope.row.title}}
                 </router-link>
+
                 <template v-else-if="scope.row.type === '财务付款'">
-                <router-link :to="{ path: `/payment/apply/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-if="!scope.row.nodename.includes('出纳付款')" >
+                  <router-link :to="{ path: `/payment/apply/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-if="!scope.row.nodename.includes('出纳付款')" >
+                      {{scope.row.title}}
+                  </router-link>
+                  <router-link :to="{ path: `/payment/register/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-else>
                     {{scope.row.title}}
-                </router-link>
-                <router-link :to="{ path: `/payment/register/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-else>
-                  {{scope.row.title}}
-                </router-link>
+                  </router-link>
                 </template>
                
                 <span v-else>{{scope.row.title}}</span>
@@ -76,12 +83,19 @@
                   <!-- <a :href="'/workflow/request/workflow.jsp?requestid=' + scope.row.bussinessKey" target="_blank" v-if="scope.row.urlflag === 0">
                     {{scope.row.bussinessKey}}
                   </a> -->
+
                   <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
                     {{scope.row.title}}
                   </router-link>
+
+                 <router-link :to="{ path: `/abnormalGoods/detail?id=${scope.row.taskId}&title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
+                   {{scope.row.title}}
+                 </router-link>
+
                   <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                     {{scope.row.title}}
                   </router-link>
+
                   <span v-else>{{scope.row.title}}</span>
                 </template> 
               </el-table-column>

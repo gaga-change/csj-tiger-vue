@@ -1,47 +1,48 @@
 export  const listIndexConfig=[ //列表页表格配置
-    { label:'异常签收登记单号',prop:'',},
-    { label:'客户名称',prop:'',},
-    { label:'订单编号',prop:'',},
-    { label:'合同编号',prop:'',},
-    { label:'申请数量',prop:'',},
-    { label:'金额',prop:'',},
-    { label:'单据状态',prop:'',},
-    { label:'返回日期',prop:'',},
+    { label:'异常签收登记单号',prop:'registerCode',},
+    { label:'客户名称',prop:'customerName',},
+    { label:'订单编号',prop:'outBillNo',},
+    { label:'合同编号',prop:'outContractNo',},
+    { label:'申请数量',prop:'numberOfApplications',},
+    { label:'金额',prop:'amount',type:'toFixed'},
+    { label:'单据状态',prop:'billStatus',useLocalEnum:true,type:'billStatusEnum'},
+    { label:'返回日期',prop:'planReturnDate',},
     { label:'操作',useLink:true},
   ]
 
   export  const detailBaseInfo=[ //详情页基本信息
-    { title:'客户',prop:'',},
-    { title:'订单编号',prop:'',},
-    { title:'合同编号',prop:'',},
-    { title:'异常商品处理建议',prop:'',},
-    { title:'具体原因',prop:'',},
-    { title:'退回地址',prop:'',},
-    { title:'计划退回日期',prop:'',},
-    { title:'联系电话',prop:'',},
+    { title:'客户',prop:'customerName',},
+    { title:'订单编号',prop:'outBillNo',},
+    { title:'合同编号',prop:'outContractNo',},
+    { title:'退回地址',prop:'returnAddress',},
+    { title:'计划退回日期',prop:'planReturnDate',},
+    { title:'联系电话',prop:'linkTel',},
+    { title:'异常商品处理建议',prop:'handleOpinion',span:24,useLocalEnum:true,type:'handleOpinionConfig'},
+    { title:'具体原因',span:24,prop:'rejectReason',},
   ]
 
   export  const detailReturnBaseInfo=[ //详情页退回商品的采购信息
-    { title:'供应商',prop:'',},
-    { title:'采购订单编号',prop:'',},
-    { title:'采购合同编号',prop:'',},
-    { title:'发票状态',prop:'',},
-    { title:'付款状态',prop:'',},
-    { title:'已入库数量',prop:'',},
-    { title:'已入库金额',prop:'',},
-    { title:'已收票金额',prop:'',},
-    { title:'已付贷款',prop:'',},
+    { title:'供应商',prop:'providerName',},
+    { title:'采购订单编号',prop:'busiBillNo',},
+    { title:'采购合同编号',prop:'contractNo',},
+    { title:'单据状态',prop:'billStatus',useLocalEnum:true,type:'billStatusEnum'},
+    { title:'发票状态',prop:'invoiceStatus',useLocalEnum:true,type:'invoiceStatusConfig'},
+    { title:'付款状态',prop:'paymentStatus',useLocalEnum:true,type:'paymentStatusConfig'},
+    { title:'已入库数量',prop:'realInQty',},
+    { title:'已入库金额',prop:'inboundAmount',type:'toFixed'},
+    { title:'已收票金额',prop:'invoicedAmount',type:'toFixed'},
+    { title:'已付贷款',prop:'paidPayment',type:'toFixed'},
   ]
 
 
 
   export  const detailAbnormalReceipt=[ //异常签收商品明细
     { label:'序号',type:'index'},
-    { label:'商品编码',prop:'',},
-    { label:'商品名称',prop:'',},
-    { label:'规格型号',prop:'',},
-    { label:'单位',prop:'',},
-    { label:'申请数量',prop:'',},
+    { label:'商品编码',prop:'skuCode',},
+    { label:'商品名称',prop:'skuName',},
+    { label:'规格型号',prop:'skuFormat',},
+    { label:'单位',prop:'skuUnitName',},
+    { label:'申请数量',prop:'returnQty',},
   ]
   
   export  const detailReturnGoods=[ //采购退货申请单

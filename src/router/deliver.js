@@ -276,13 +276,15 @@ export default [
         name: 'add',
         path: 'add',
         meta: { title: '创建异常商品登记', noCache: true },
-        component: _import('abnormalGoods/add')
+        component: _import('abnormalGoods/add'),
+        hidden: true,
       },
       {
         name: 'detail',
         path: 'detail',
         meta: { title: '异常商品登记详情', noCache: true },
-        component: _import('abnormalGoods/detail')
+        component: _import('abnormalGoods/detail'),
+        hidden: true,
       },
     ]
   },

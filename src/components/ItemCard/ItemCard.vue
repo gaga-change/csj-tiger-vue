@@ -34,7 +34,6 @@
             type="textarea"
             :rows="item.rows||2"
             resize="none"
-            placeholder="请输入内容"
             :value="formatter(item.type,cardData[item.prop],item.useApi, item.userFormatter,item.useLocalEnum,item.format)">
           </el-input>
           
@@ -95,6 +94,7 @@ export default {
             switch(type){
               case 'time': return moment(value).format(format||'YYYY-MM-DD');
               case 'boolean': return Number(value)?'是':'否';
+              case 'toFixed':return Number(Number(value).toFixed(2));
               default : return value
             }
           }

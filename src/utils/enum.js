@@ -309,3 +309,68 @@ export const successFlag = [
   },
 
 ]
+
+
+//异常商品处理单据状态
+export const billStatusEnum = [
+  {
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '待审核',
+    value: 1
+  },
+  {
+    name: '已生成采购退货单',
+    value: 2
+  },
+  {
+    name: '已驳回',
+    value: 3
+  },
+  {
+    name: '已关闭',
+    value: 4
+  },
+  {
+    name: '已完成退货',
+    value: 5
+  },
+
+]
+
+
+
+//异常商品处理  异常商品处理意见
+export  const handleOpinionConfig=[
+  {
+    name: '客户已拒收 ，建议退回供应商 ',
+    value: 0
+  },
+]
+
+
+//异常商品处理  发票状态
+export  const invoiceStatusConfig=[
+  {
+    name: '未开票',
+    value: 0
+  },
+  {
+    name: '已开票',
+    value: 1
+  },
+]
+
+//异常商品处理  付款状态
+export  const paymentStatusConfig=[
+  {
+    name: '未付款',
+    value: 0
+  },
+  {
+    name: '已付款',
+    value: 1
+  },
+]

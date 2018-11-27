@@ -25,17 +25,19 @@ import { listIndexConfig } from './components/config';
 import BaseTable from '@/components/Table'
 import Sticky from '@/components/Sticky'
 import _  from 'lodash';
+import moment from 'moment';
+import { getPurcRejectApplyList } from '@/api/abnormalGoods/index';  
 export default {
   components: { SearchInvoice,BaseTable,Sticky },
    data() {
     return {
       searchForm:{
-        客户名称:'',
+        clientSName:'',
         contractNo:'',
-        busiBillNo:'',
-        ticketStatus:'',
-        异常登记签收单号:'',
-        退回日期:''
+        orderNumber:'',
+        documentStatus:'',
+        registerCode:'',
+        time:[]
       },
       pageSize:10,
       pageNum:1,
@@ -62,11 +64,11 @@ export default {
 
    formatter(){
      return  (row, column, cellValue, index)=>{
-            let id = row.索引
+            let id = row.id
             let status = Number(row.状态)
             switch(status){
-              case 0 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{}}} style={{color:'#3399ea'}}>提交</router-link></div>  
-              default: return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{}}} style={{color:'#3399ea'}}>查看</router-link></div>
+              case 0 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>提交</router-link></div>  
+              default: return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>查看</router-link></div>
             }
           };
     },
@@ -74,6 +76,7 @@ export default {
 
     submit(value){
       this.searchForm=value;
+      console.log(value)
       this.getCurrentTableData()
     },
 
@@ -96,8 +99,28 @@ export default {
           json[i]=this.searchForm[i]
         }
       }
-     console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
-      this.loading=false;
+
+      if(json.time.length===2){
+       json['startDate']=moment(json.time[0]).valueOf();
+       json['endDate']=moment(json.time[0]).valueOf();
+      }
+      
+      console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
+      getPurcRejectApplyList({
+          ...json,
+          pageSize:this.pageSize,
+          pageNum:this.pageNum
+        }).then(res=>{
+          if(res.success){
+           this.tableData=res.data&&res.data.list
+          }
+          this.loading=false;
+        }).catch(err=>{
+          console.log(err)
+          this.loading=false;
+        })
+        
+     
     }
   }
 }

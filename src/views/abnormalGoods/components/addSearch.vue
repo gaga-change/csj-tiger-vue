@@ -11,7 +11,11 @@
          <el-col :span="6"  >
             <el-form-item 
              label="客户" 
-             label-width="40px">
+             label-width="50px"
+             prop="customerCode"
+            :rules="[
+              { required: true, message: '该项为必填'},
+             ]">
               <el-select v-model="searchForm.customerCode"
                filterable
                clearable
@@ -41,7 +45,12 @@
           </el-col>
 
           <el-col :span="6">
-            <el-form-item label="订单编号"  label-width="80px" style="width:300px">
+            <el-form-item label="订单编号" 
+             label-width="80px" style="width:300px"
+             prop="outBillNo"
+             :rules="[
+                { required: true, message: '该项为必填'},
+              ]">
                <el-select v-model="searchForm.outBillNo" 
                filterable
                @focus="outBillNoFocus"
@@ -73,16 +82,29 @@
           </el-col>
 
           <el-col :span="6">
-            <el-form-item label="合同编号" label-width="80px" style="width:300px" >
+            <el-form-item 
+            label="合同编号" 
+            label-width="80px" 
+            style="width:300px" 
+             prop="outContractNo"
+             :rules="[
+              { required: true, message: '该项为必填'},
+             ]">
               <el-input type="text" size="small"  :disabled="true"     v-model="searchForm.outContractNo" ></el-input>
             </el-form-item>
           </el-col>
 
-         
           <el-col :span="6">
-            <el-form-item label="计划退回日期" label-width="100px" style="width:300px" >
+            <el-form-item 
+            label="计划退回日期"
+            label-width="100px"
+            style="width:300px" 
+            prop="planReturnDate"
+            :rules="[
+              { required: true, message: '该项为必填'},
+             ]">
               <el-date-picker
-                v-model="searchForm.计划退回日期"
+                v-model="searchForm.planReturnDate"
                 type="date"
                 placeholder="选择日期">
             </el-date-picker>
@@ -91,20 +113,25 @@
 
           <el-col :span="6">
             <el-form-item label="退回地址" label-width="70px" style="width:300px" >
-                <el-input type="text" size="small"      placeholder="输入退回地址"    v-model="searchForm.退回地址" ></el-input>
+                <el-input type="text" size="small"      placeholder="输入退回地址"    v-model="searchForm.returnAddress" ></el-input>
             </el-form-item>
           </el-col>   
           
            <el-col :span="6">
             <el-form-item label="联系电话" label-width="80px" style="width:300px" >
-               <el-input type="text" size="small"      placeholder="输入联系电话"    v-model="searchForm.联系电话" ></el-input>
+               <el-input type="text" size="small"      placeholder="输入联系电话"    v-model="searchForm.linkTel" ></el-input>
             </el-form-item>
           </el-col>   
 
           <el-col :span="24">
             <el-form-item label="异常商品处理意见" label-width="110px"  >
-              <el-radio-group v-model="searchForm.resource">
-                <el-radio :label="0">客户已拒收 ，建议退回供应商</el-radio>
+              <el-radio-group v-model="searchForm.handleOpinion">
+                <el-radio  
+                  v-for="item in handleOpinionConfig"
+                  :key="item.value"
+                  :label="item.value">
+                     {{item.name}}
+                  </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -116,7 +143,7 @@
                 :rows="4"
                 resize="none"
                 placeholder="请输入具体原因"
-                v-model="searchForm.具体原因">
+                v-model="searchForm.rejectReason">
               </el-input>
              </el-form-item>
           </el-col>
@@ -131,17 +158,24 @@
 import Sticky from '@/components/Sticky'
 import { infoCustomerInfo} from '@/api/invoicetigger/newoutputinvoice';  
 import { queryOutBillInfoByCustCode} from '@/api/abnormalGoods/index';  
+import { handleOpinionConfig } from '@/utils/enum'
 export default {
   components: { Sticky },
   data() {
     return {
       customerConfig:[],
       outBillNoConfig:[],
+      handleOpinionConfig,
       searchForm:{
         customerCode:'',//客户编码
         customerName:'',//客户名称
         outBillNo:'',//销售订单号
-        outContractNo:''//销售合同号
+        outContractNo:'',//销售合同号
+        planReturnDate:'',//计划退回日期
+        returnAddress:'',//退回地址
+        linkTel:'',//联系电话
+        handleOpinion:'',//异常商品建议处理意见 
+        rejectReason:'',//具体原因
       }
     }
   },

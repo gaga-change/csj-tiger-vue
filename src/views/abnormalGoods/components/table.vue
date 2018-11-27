@@ -65,7 +65,7 @@
      <el-table-column
       label="金额" >
         <template slot-scope="scope">
-           {{scope.row.returnQty*scope.row.costPrice}}
+           {{Number(scope.row.returnQty*scope.row.costPrice).toFixed(2)}}
         </template>
     </el-table-column>
 

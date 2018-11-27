@@ -57,6 +57,10 @@ export default {
         invoiceNo:'',
         invoiceAmt:'',
         invoiceTaxAmt:'',
+
+        asInvoiceAmt:'',
+        asInvoiceTaxAmt:'',
+
         makeDate:'',
         arriveDate:'',
         oldInvoiceId:'',
@@ -71,8 +75,7 @@ export default {
       loading:false,
       useWatch:false,
 
-      busiBillNo:''
-      
+      busiBillNo:'',
     }
   },
 
@@ -107,14 +110,17 @@ export default {
             let invoiceAmt=val.reduce(function(a,b){
               return a+b.invoiceQty*b.inPrice
             },0);
-
-            this.searchForm.invoiceAmt=Number(invoiceAmt).toFixed(2);
+            
+            this.searchForm.invoiceAmt=invoiceAmt;
+            this.searchForm.asInvoiceAmt=Number(invoiceAmt).toFixed(2);
           
+
             let invoiceTaxAmt=val.reduce(function(a,b){
                return a+(b.invoiceQty*b.inPrice)/(1+b.taxRate)*b.taxRate
             },0);
 
-            this.searchForm.invoiceTaxAmt=Number(invoiceTaxAmt).toFixed(2);
+            this.searchForm.invoiceTaxAmt=invoiceTaxAmt;
+            this.searchForm.asInvoiceTaxAmt=Number(invoiceTaxAmt).toFixed(2);
 
           }
         },
@@ -132,6 +138,10 @@ export default {
             for(let i in this.searchForm){
               this.searchForm[i]=res.data&&res.data[i]
             };
+            this.searchForm['asInvoiceAmt']=Number(this.searchForm['invoiceAmt']).toFixed(2);
+            this.searchForm['asInvoiceTaxAmt']=Number(this.searchForm['invoiceTaxAmt']).toFixed(2);
+            
+
             let arr=res.data&&res.data.finaPurchaseInvoiceDetailBOList||[];
             let data=arr.map(v=>{
               let json=v;
