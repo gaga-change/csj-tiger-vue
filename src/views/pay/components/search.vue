@@ -56,7 +56,7 @@
 
         <el-col :span="6">
           <el-form-item label="付款申请号" label-width="85px"  >
-            <el-input type="text" size="small" v-model="searchForm.id" ></el-input>
+            <el-input type="text" size="small" v-model="searchForm.applyNo" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">

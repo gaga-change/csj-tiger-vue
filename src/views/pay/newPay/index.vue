@@ -510,9 +510,13 @@
       onSubmit(type) {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            this.submitloading = true
+          
             let postData = {...this.payment}
-
+            if(!this.filePathList.length){
+              this.$message.error('附件不能为空');
+              return ''
+            }
+            this.submitloading = true
             postData.filePathList = this.filePathList
             postData.flag = type ? false : true
             let msg = '新建'
@@ -520,6 +524,11 @@
             postData.operatorName = this.userInfo.truename
             postData.operator = this.userInfo.id
             postData.fromSystemCode = 'CSJSCM'
+
+ 
+            delete postData.realPaymentAmt 
+
+
             addOrUpdatePayment(postData).then(
               res => {
                 
