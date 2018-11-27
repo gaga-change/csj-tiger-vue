@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import {stringify} from 'qs';
 
 // 新增进项发票POST /api/inputInvoice/addOrUpdateInputInvoice
 export function addOrUpdateInputInvoice(data) {
@@ -130,7 +131,7 @@ export function getApplyMainDetail(data) {
 //get /salesInvoiceInquiry销项开票接口
 export function getSalesInvoiceInquiry(data) {
   return request({
-    url: `/webApi/sale/invoice/salesInvoiceInquiry`,
+    url: `/webApi/sale/invoice/salesInvoiceInquiry?${stringify(data)}`,
     method: 'post',
     data: data
   })
