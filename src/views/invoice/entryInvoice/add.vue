@@ -1,6 +1,9 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"  @propsChange="propsChange"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange"   @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
+     <search-invoice   :searchForm="searchForm"  @propsChange="propsChange"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange" 
+     @asInvoiceAmtChange="asInvoiceAmtChange" 
+     @asInvoiceTaxAmtChange="asInvoiceTaxAmtChange" 
+     @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
      <div class="add-buttom" >
         <item-title text="商品发票明细" />
         <el-button type="primary" size="mini"  :disabled="searchForm.invoiceNature===2" @click="clickDialogVisible"  >选择商品发票明细</el-button>
@@ -160,6 +163,14 @@ export default {
     },
 
   methods:{
+
+    asInvoiceAmtChange(){
+      this.searchForm.invoiceAmt=this.searchForm.asInvoiceAmt;
+    },
+
+    asInvoiceTaxAmtChange(){
+      this.searchForm.invoiceTaxAmt=this.searchForm.asInvoiceTaxAmt;
+    },
 
     propsChange(type){
       let searchForm= _.cloneDeep(this.searchForm);

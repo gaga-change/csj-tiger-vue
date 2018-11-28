@@ -4,7 +4,7 @@ import * as LocalApi from '@/api/abnormalGoods/index';
 export default function Modify({billStatus,prompt,successTips,errorTips,api}) {
     let component=this.$confirm;
     let Api=LocalApi[api];
-    if([2,3].includes(billStatus)){
+    if([3].includes(billStatus)){
       component=this.$prompt
     }
      component(prompt, '提示', {
@@ -12,7 +12,7 @@ export default function Modify({billStatus,prompt,successTips,errorTips,api}) {
       cancelButtonText: '取消'
     }).then(({ value }) => {
       Api({
-        flag:1,
+        flag:this.$route.query.title?0:1,
         id:Number(this.$route.query.id),
         billStatus:billStatus
       }).then(res=>{

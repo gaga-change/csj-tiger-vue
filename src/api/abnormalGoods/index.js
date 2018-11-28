@@ -39,7 +39,7 @@ export function getPurcRejectApply(data) {
 //分页列表
 export function getPurcRejectApplyList(data) {
   return request({
-    url: `/webApi/goBack/rejectApply/getPurcRejectApplyList`,
+    url: `/webApi/goBack/rejectApply/getPurcRejectApplyList?${stringify(data)}`,
     method: 'post',
     data:data
   })

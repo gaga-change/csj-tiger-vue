@@ -3,7 +3,7 @@
   <div style="marginBottom:12px">
     <sticky :className="'sub-navbar published'">
       <template >
-         <el-button type="success"  size="small" ><router-link :to="{path:'/abnormalGoods/add'}" >创建异常签收商品登记单</router-link></el-button>
+         <el-button type="success"  size="small" @click="add" >创建异常签收商品登记单</el-button>
       </template>
     </sticky>
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
@@ -139,6 +139,13 @@
     },
 
     methods: {
+
+      add(){
+        this.$router.push({
+          path:`/abnormalGoods/add`,
+        })
+      },
+
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()

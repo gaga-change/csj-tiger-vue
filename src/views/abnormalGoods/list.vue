@@ -2,7 +2,7 @@
   <div  class="abnormalGoods">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button type="success"  size="small" ><router-link :to="{path:'/abnormalGoods/add'}" >创建异常签收商品登记单</router-link></el-button>
+         <el-button type="success"  size="small"  @click="add"  >创建异常签收商品登记单</el-button>
       </template>
     </sticky>
      <search-invoice  :searchForm="searchForm"   @submit="this.submit"  ></search-invoice>
@@ -62,12 +62,20 @@ export default {
 
   methods:{
 
+    add(){
+      this.$router.push({
+        path:`/abnormalGoods/add`,
+      })
+    },
+
    formatter(){
      return  (row, column, cellValue, index)=>{
             let id = row.id
-            let status = Number(row.状态)
+            let status = Number(row.billStatus)
             switch(status){
-              case 0 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>提交</router-link></div>  
+              case 0 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>提交</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>删除</router-link></div> 
+              case 1 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>同意</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>驳回</router-link></div> 
+               case 3 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>提交</router-link></div>  
               default: return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>查看</router-link></div>
             }
           };

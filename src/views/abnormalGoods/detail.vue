@@ -5,8 +5,9 @@
          <el-button v-if="cardData.billStatus===0||cardData.billStatus===3"  type="success"  size="small" @click="modify"  >修改</el-button>
          <el-button v-if="cardData.billStatus===0||cardData.billStatus===3" @click="Modify({ billStatus:1, prompt:'确认要提交吗?', successTips:'操作成功',errorTips:'操作失败',api:'submitPurcRejectApply'})"   type="success"  size="small">提交</el-button>
          <el-button v-if="cardData.billStatus===1"  @click="Modify({ billStatus:3, prompt:'请输入驳回意见', successTips:'驳回成功',errorTips:'驳回失败',api:'purcRejectApplyheck'})"  type="success"  size="small">驳回</el-button>
+          <el-button v-if="cardData.billStatus===3"  @click="Modify({ billStatus:4, prompt:'确定要关闭吗?', successTips:'操作成功',errorTips:'操作失败',api:'purcRejectApplyheck'})"  type="success"  size="small">关闭</el-button>
          <el-button v-if="cardData.billStatus===0"  @click="Modify({ billStatus:-1, prompt:'确定要删除吗?', successTips:'操作成功',errorTips:'操作失败',api:'deletePurcRejectApplyheck'})"  type="success"  size="small">删除</el-button>
-         <el-button v-if="cardData.billStatus===1"  @click="Modify({ billStatus:2, prompt:'请输入审核意见', successTips:'审核成功',errorTips:'审核失败',api:'purcRejectApplyheck'})"   type="success"  size="small">同意并提交采购申请</el-button>
+         <el-button v-if="cardData.billStatus===1"  @click="Modify({ billStatus:2, prompt:'确定要同意吗?', successTips:'您已同意向供应商退货，系统将为您通知到相应采购员',errorTips:'操作失败',api:'purcRejectApplyheck'})"   type="success"  size="small">同意</el-button>
       </template>
     </sticky>
      
@@ -21,24 +22,11 @@
     </div>
 
     <div style="margin-bottom:12px">
-      <item-title text="其他相关信息" />  
-        <el-tabs v-model="tabActive" type="card">
-
-         <el-tab-pane label="异常签收商品明细 " name="abnormal">
-            <web-pagination-table 
-              :loading="loading"
-              :config="detailAbnormalReceipt" 
-              :allTableData="detailAbnormalReceiptData"/>
-          </el-tab-pane>
-
-          <!-- <el-tab-pane label="采购退货单" name="returnGoods">
-             <web-pagination-table 
-              :loading="loading"
-              :config="detailReturnGoods" 
-              :allTableData="detailReturnGoodsData"/>
-         </el-tab-pane> -->
-        
-     </el-tabs> 
+      <item-title text="异常签收商品明细" />  
+       <web-pagination-table 
+        :loading="loading"
+        :config="detailAbnormalReceipt" 
+        :allTableData="detailAbnormalReceiptData"/>
     </div>
 
     <div class="tableTotal">
@@ -54,7 +42,7 @@
 import Sticky from '@/components/Sticky'
 import Modify from './components/modify'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { detailBaseInfo,detailAbnormalReceipt,detailReturnGoods,detailReturnBaseInfo } from './components/config';
+import { detailBaseInfo,detailAbnormalReceipt,detailReturnBaseInfo } from './components/config';
 import { getPurcRejectApply } from '@/api/abnormalGoods/index';  
 export default {
   components: { Sticky,webPaginationTable,Modify},
@@ -68,13 +56,8 @@ export default {
       detailAbnormalReceipt,//异常签收商品明细配置
       detailAbnormalReceiptData:[],//异常签收商品明细数据
 
-      detailReturnGoods,//采购退货申请单配置
-      detailReturnGoodsData:[],//采购退货申请单数据
-
       detailReturnBaseInfo,//退回商品的采购信息配置
      
-
-      tabActive:'abnormal',//tab标签页
       returnQty:0,
       returnQtyCostPrice:0,
 
@@ -110,10 +93,14 @@ export default {
   methods:{
     Modify,
     getPurcRejectApplyApi(){
-      let { id }=this.$route.query||{};
-      getPurcRejectApply({
-        id
-      }).then(res=>{
+      let { id,title }=this.$route.query||{};
+      let json={};
+      if(id){
+        json.id=id;
+      } else{
+        json.registerCode=title;
+      }
+      getPurcRejectApply(json).then(res=>{
         if(res.success){
           this.cardData=res.data
           this.detailAbnormalReceiptData=res.data.productBreakdown;
