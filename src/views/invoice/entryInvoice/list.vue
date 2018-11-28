@@ -41,14 +41,15 @@ export default {
         ticketStatus:'',
         invoiceNature:'',
         busiPlate:'',
-        time:[]
+        time:[],
+        endTime:[]
       },
       pageSize:10,
       pageNum:1,
       total:0,
       loading:false,
       listIndexConfig,
-      tableData:[]
+      tableData:[],
     }
   },
 
@@ -106,6 +107,7 @@ export default {
         json[i]=''
       }
       json.time=[];
+      json.endTime=[];
       this.searchForm=json;
       this.submit({})
     },
@@ -128,6 +130,11 @@ export default {
       if(json.time.length===2){
         json.makeBeginDate=moment(json.time[0]).valueOf()
         json.makeEndDate=moment(json.time[1]).valueOf()
+      }
+
+      if(json.endTime.length===2){
+        json.arriveBeginDate=moment(json.endTime[0]).valueOf()
+        json.arriveEndDate=moment(json.endTime[1]).valueOf()
       }
 
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})

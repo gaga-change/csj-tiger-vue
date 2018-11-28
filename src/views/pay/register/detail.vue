@@ -2,7 +2,7 @@
 <div>
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="dataSuccess">
-      <template  v-if="userInfo.roles.includes('cashier')&&cardData.paymentStatus == 4">
+      <template  v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('cashier'))&&cardData.paymentStatus == 4">
          <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
             @click="saveOrder(0,'ruleForm')">保存
         </el-button> -->
@@ -10,7 +10,7 @@
             @click="saveOrder(1,'ruleForm')">提交
         </el-button>
       </template> 
-      <template v-else-if="$route.query.from=='needWork'&&userInfo.roles.includes('cashier')&&cardData.paymentStatus==5">
+      <template v-else-if="$route.query.from=='needWork'&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))&&cardData.paymentStatus==5">
           <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
@@ -33,7 +33,7 @@
     :tableData="tableData"  :name="name">
     <template v-if="dataSuccess">
     <item-title text="实付信息"/>
-      <template v-if="(cardData.paymentStatus == 4||editable)&&userInfo.roles.includes('cashier')">
+      <template v-if="(cardData.paymentStatus == 4||editable)&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
         
           <el-card class="simpleCard" shadow="never" body-style="padding:12px">
             <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">

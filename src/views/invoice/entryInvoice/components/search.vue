@@ -315,6 +315,22 @@
           </el-form-item>
         </el-col>
 
+        <el-col :span="12"  v-if="searchForm.endTime!==undefined">
+            <el-form-item label="到票日期" label-width="80px"  >
+              <el-date-picker
+                v-model="searchForm.endTime"
+                type="daterange"
+                align="right"
+                style="width:400px" 
+                unlink-panels
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="24" v-if="isDisplaySubmit">
             <el-form-item label-width="0">
               <el-button type="primary"  size="small"  @click="submit">查询</el-button>
