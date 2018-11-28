@@ -42,7 +42,9 @@ export  const listIndexConfig=[ //列表页表格配置
     { label:'商品名称',prop:'skuName',},
     { label:'规格型号',prop:'skuFormat',},
     { label:'单位',prop:'skuUnitName',},
+    { label:'单价',prop:'taxPrice',},
     { label:'申请数量',prop:'returnQty',},
+    { label:'金额',dom:formatter(1)},
   ]
   
   export  const detailReturnGoods=[ //采购退货申请单
@@ -63,3 +65,11 @@ export  const listIndexConfig=[ //列表页表格配置
     { label:'仓库',prop:'warehouseName',},
     { label:'可用库存数量',prop:'refundQty',},
   ]
+
+  function formatter(type){
+    return (row, column, cellValue, index)=>{
+      switch(type){
+        case 1:return !isNaN(Number(row.taxPrice*row.returnQty))?Number(row.taxPrice*row.returnQty).toFixed(2):0;break;  
+      }
+    }
+  }

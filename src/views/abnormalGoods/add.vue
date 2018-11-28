@@ -9,6 +9,11 @@
        :tableData="editTableData"
        @goeditrow="goeditrow"
        @handleDelete="handleDelete"/>
+      
+     <div class="tableTotal"  >
+       <span>申请退回数量</span> : <span>{{Number(returnQty).toFixed(2)}}</span>
+       <span>金额</span> : <span>{{Number(returnQtyCostPrice).toFixed(2)}}</span>
+    </div>
 
      <el-dialog
       title="选择商品明细"
@@ -17,7 +22,7 @@
       top="6vh"
       width="70%"
       :before-close="()=>dialogVisible=false">
-
+      
         <el-row>
           <el-col :span="6" style="min-width:300px;margin-bottom:12px">
             <span style="font-size:12px;color:#606266">采购合同编号 :</span>
@@ -111,6 +116,30 @@ export default {
     ...mapGetters({
       visitedViews: 'visitedViews',
     }),
+
+    returnQty:{
+      get: function () { 
+        return this.editTableData.reduce((a,b)=>{
+          return a+b.returnQty
+        },0)
+      },
+      set:function(){
+        
+      }
+    },
+
+    returnQtyCostPrice:{
+      get: function () { 
+        return this.editTableData.reduce((a,b)=>{
+          return a+b.returnQty*b.costPrice
+        },0)
+      },
+      set:function(){
+        
+      }
+    },
+
+
   },
 
   methods:{
@@ -243,6 +272,21 @@ export default {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
+    }
+
+    .tableTotal{
+      margin-top: 12px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
     }
   }
 </style>

@@ -42,8 +42,8 @@
     </div>
 
     <div class="tableTotal">
-       <span>申请退回数量</span> : <span></span>
-       <span>金额</span> : <span></span>
+       <span>申请退回数量</span> : <span>{{Number(returnQty).toFixed(2)}}</span>
+       <span>金额</span> : <span>{{Number(returnQtyCostPrice).toFixed(2)}}</span>
     </div>
 
 
@@ -75,6 +75,8 @@ export default {
      
 
       tabActive:'abnormal',//tab标签页
+      returnQty:0,
+      returnQtyCostPrice:0,
 
 
     }
@@ -115,6 +117,13 @@ export default {
         if(res.success){
           this.cardData=res.data
           this.detailAbnormalReceiptData=res.data.productBreakdown;
+          this.returnQty=this.detailAbnormalReceiptData.reduce((a,b)=>{
+              return a+b.returnQty
+            },0);
+
+          this.returnQtyCostPrice=this.detailAbnormalReceiptData.reduce((a,b)=>{
+            return a+b.returnQty*b.taxPrice
+          },0)
         }
       }).catch(err=>{
         console.log(err)
