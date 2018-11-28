@@ -418,10 +418,10 @@
           if (valid) {
             let postData = {...this.receipt}
 
-            if(!this.enclosure.length){
-              this.$message.error('附件不能为空');
-              return ''
-            }
+            // if(!this.enclosure.length){
+            //   this.$message.error('附件不能为空');
+            //   return ''
+            // }
              this.submitloading = true
 
             postData.filePath = this.enclosure
