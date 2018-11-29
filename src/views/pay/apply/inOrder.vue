@@ -85,6 +85,7 @@
  let count = 0
   import { titleInfo,  } from '../components/config'
   import { inOrderSelect } from '@/api/pay'
+  import { paramSortArray } from '@/utils/arrayHandler'
  export default {
     name: 'InvoiceDetail', 
     components: { webPaginationTable },
@@ -164,7 +165,7 @@
       getInfo(){
         inOrderSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
           if(res.success&&res.data){
-            this.tableData = res.data.items || []
+            this.tableData = paramSortArray(res.data.items, 'skuCode')
             this.cardData = res.data
           }
         })

@@ -82,6 +82,7 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
  let count = 0
   import { titleInfo } from '../components/config'
+  import { paramSortArray } from '@/utils/arrayHandler'
   import { invoiceSelect } from '@/api/pay'
  export default {
     name: 'invoice', 
@@ -162,7 +163,7 @@
       getInfo(){
         invoiceSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
           if(res.success&&res.data){
-            this.tableData = res.data.items || []
+             this.tableData = paramSortArray(res.data.items, 'skuCode')
             this.cardData = res.data
           }
         })
