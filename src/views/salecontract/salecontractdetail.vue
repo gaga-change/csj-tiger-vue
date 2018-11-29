@@ -118,8 +118,8 @@ import moment from 'moment'
 const infoConfig=[
    {title:'合同档案编号',value:'contractno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
    {title:'合同名称',value:'contractname',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'供应商合同编号',value:'cuscontractno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
-   {title:'供应商名称',value:'customname',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'客户合同编号',value:'cuscontractno',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
+   {title:'客户名称',value:'customname',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
    {title:'业务负责人',value:'leader',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
    {title:'代签人',value:'proxy',style:'minWidth:310px;marginBottom:16px',span:8,nthShow:true},
    {title:'合同类型',type:'contractType',value:'contracttype',style:'minWidth:310px;marginBottom:16px',span:8},
