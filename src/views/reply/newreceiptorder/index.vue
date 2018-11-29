@@ -170,14 +170,14 @@
             </el-table-column>
             <el-table-column
               label="签收数量"
-               width="100">
+               width="130">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
                     size="mini"
                     :max="planform.type===0?scope.row.realOutQty-scope.row.rejectQty:scope.row.planOutQty-scope.row.rejectQty" 
                     :min="0" 
-                     style="width:90px"
+                     style="width:120px"
                      v-model="scope.row.signQty" >
                    </el-input-number>
                 </template>
@@ -189,14 +189,14 @@
 
              <el-table-column
               label="拒收数量"
-              width="100">
+              width="130">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
                   <el-input-number 
                   :max="planform.type===0?scope.row.realOutQty-scope.row.signQty:scope.row.planOutQty-scope.row.signQty" 
                   :min="0" 
                   size="mini"
-                  style="width:90px"
+                  style="width:120px"
                    v-model="scope.row.rejectQty" >
                    </el-input-number>
                 </template>
@@ -210,9 +210,11 @@
               label="操作"
               width="150">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index)" size="mini" >确定</el-button>
-                <el-button v-else @click="goeditrow(scope.$index)" size="mini" >编辑</el-button>
-                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                <div style="width:150px">
+                  <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index)" size="mini" >确定</el-button>
+                  <el-button v-else @click="goeditrow(scope.$index)" size="mini" >编辑</el-button>
+                  <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </div>
               </template>
             </el-table-column>
           </el-table>
