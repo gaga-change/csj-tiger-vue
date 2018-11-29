@@ -46,7 +46,7 @@
           <el-table-column
             label="入库总量"
             prop="inStoreQtySum"
-            :formatter="addTotal"
+            
             width="100">
           </el-table-column>
           <el-table-column
@@ -82,6 +82,7 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
  let count = 0
   import { titleInfo } from '../components/config'
+  import { paramSortArray } from '@/utils/arrayHandler'
   import { invoiceSelect } from '@/api/pay'
  export default {
     name: 'invoice', 
@@ -100,11 +101,16 @@
       }
     },
     created(){
+      count = 0
+      this.getInfo()
+    },
+     actived(){
+      count = 0
       this.getInfo()
     },
     methods:{
       nInOne({ row, column, rowIndex, columnIndex }) {
-      
+        
             
         let tableData = this.tableData
         let equalRow = 0
@@ -151,7 +157,7 @@
         let total=0
         this.tableData.map(item=>{
           if(item.skuCode == params.skuCode){
-            total += Number(item.amount1||0)
+            total += Number(item.inStoreQtySum||0)
           }
         })
         return total
@@ -162,7 +168,7 @@
       getInfo(){
         invoiceSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
           if(res.success&&res.data){
-            this.tableData = res.data.items || []
+             this.tableData = paramSortArray(res.data.items, 'skuCode')
             this.cardData = res.data
           }
         })
