@@ -20,7 +20,7 @@
                   {{scope.row.title}}
                 </router-link>
 
-                 <router-link :to="{ path: `/abnormalGoods/detail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
+                 <router-link :to="{ path: `/abnormalGoods/detail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货申请'">
                   {{scope.row.title}}
                 </router-link>
 
@@ -88,7 +88,7 @@
                     {{scope.row.title}}
                   </router-link>
 
-                 <router-link :to="{ path: `/abnormalGoods/detail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
+                 <router-link :to="{ path: `/abnormalGoods/detail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货申请'">
                    {{scope.row.title}}
                  </router-link>
 
