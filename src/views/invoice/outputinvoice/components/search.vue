@@ -30,11 +30,7 @@
           </el-form-item>
         </el-col>
 
-        <!-- <el-col :span="6">
-          <el-form-item label="合同编号" >
-            <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
-          </el-form-item>
-        </el-col> -->
+       
 
         <el-col :span="6">
           <el-form-item label="单据状态">
