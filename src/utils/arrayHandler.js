@@ -1,5 +1,5 @@
 /**
- *paramSortArray 通过某一参数字段进行数组的排 
+ *paramSortArray 通过某一参数字段进行数组的排序
  *
  * @param {*} itemData 需处理的数组
  * @param {*} keyName 排序的字段

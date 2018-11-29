@@ -92,7 +92,6 @@
     data() {
       return {
         config:titleInfo,
-        
         searchForm:{},
         tableData:[],
         cardData:{},
@@ -103,6 +102,13 @@
       }
     },
     created(){
+      count = 0
+      
+      this.getInfo()
+    },
+    actived(){
+      this.tableData = [] 
+      count = 0
       this.getInfo()
     },
     methods:{
@@ -110,8 +116,7 @@
           return moment(c).format('YYYY-MM-DD')
       },
       nInOne({ row, column, rowIndex, columnIndex }) {
-      
-            
+
         let tableData = this.tableData
         let equalRow = 0
         tableData.map(item=>{
@@ -157,7 +162,7 @@
         let total=0
         this.tableData.map(item=>{
           if(item.skuCode == params.skuCode){
-            total += Number(item.amount1||0)
+            total += Number(item.inStoreQty||0)
           }
         })
         return total
@@ -166,6 +171,8 @@
         inOrderSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
           if(res.success&&res.data){
             this.tableData = paramSortArray(res.data.items, 'skuCode')
+            console.log(this.tableData,'kkk');
+            
             this.cardData = res.data
           }
         })

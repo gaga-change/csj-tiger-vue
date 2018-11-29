@@ -46,7 +46,7 @@
           <el-table-column
             label="入库总量"
             prop="inStoreQtySum"
-            :formatter="addTotal"
+            
             width="100">
           </el-table-column>
           <el-table-column
@@ -101,11 +101,16 @@
       }
     },
     created(){
+      count = 0
+      this.getInfo()
+    },
+     actived(){
+      count = 0
       this.getInfo()
     },
     methods:{
       nInOne({ row, column, rowIndex, columnIndex }) {
-      
+        
             
         let tableData = this.tableData
         let equalRow = 0
@@ -152,7 +157,7 @@
         let total=0
         this.tableData.map(item=>{
           if(item.skuCode == params.skuCode){
-            total += Number(item.amount1||0)
+            total += Number(item.inStoreQtySum||0)
           }
         })
         return total
