@@ -8,6 +8,7 @@
           <el-form-item label="客户名称"  prop="cusName">
             <el-select v-model="searchForm.cusCode"
               :filter-method="cusCodeFilter" 
+              size="small"
               clearable
               filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
@@ -38,7 +39,8 @@
 
         <el-col :span="6">
           <el-form-item label="单据状态">
-            <el-select v-model="searchForm.ticketStatusEnum" :clearable="true"   filterable placeholder="请选择单据状态">
+            <el-select v-model="searchForm.ticketStatusEnum" 
+            size="small" :clearable="true"   filterable placeholder="请选择单据状态">
               <el-option
                 v-for="item in TicketStatus"
                 :key="item.value"
@@ -86,7 +88,9 @@
 
         <el-col :span="6">
           <el-form-item label="订单编号"  prop="orderNo" >
-             <el-select v-model="searchForm.orderNo" 
+            <el-input type="text" size="small" v-model="searchForm.outBusiBillNo"></el-input>
+
+             <!-- <el-select v-model="searchForm.orderNo" 
               clearable
               :filter-method="orderNoFilter" 
               filterable placeholder="请选择订单编号" 
@@ -107,7 +111,7 @@
                 <span class="codeNoStyle">{{ item.busiBillNo }}</span>
                 <span class="codeNoStyle">{{ item.contractNo }}</span>
               </el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
         </el-col>
 
@@ -350,7 +354,7 @@ export default {
      customerChange(value){
       let searchForm=_.cloneDeep(this.searchForm);
       searchForm.cusName=this.customerConfig.find(v=>v.entNumber==value)&&this.customerConfig.find(v=>v.entNumber==value).entName;
-      searchForm.orderNo='';
+      // searchForm.orderNo='';
       this.id='';
       this.tableData=[];
       this.searchForm=searchForm;
