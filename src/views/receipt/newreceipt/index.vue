@@ -416,8 +416,14 @@
       onSubmit(type) {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            this.submitloading = true
             let postData = {...this.receipt}
+
+            // if(!this.enclosure.length){
+            //   this.$message.error('附件不能为空');
+            //   return ''
+            // }
+             this.submitloading = true
+
             postData.filePath = this.enclosure
             postData.isSubmit = type ? true : false
             let msg = '新建'
