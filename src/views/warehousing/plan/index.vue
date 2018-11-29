@@ -59,10 +59,10 @@
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
-                    type="datetimerange"
+                    type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
-                    :default-time="['12:00:00']">
+                    >
                  </el-date-picker>
               </el-form-item>
           </el-col>
@@ -185,7 +185,7 @@
           if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
-               if(arr.every(v=>v)){
+               if(arr.every(v=>v)&&arr.length>1){
                  json['planInTimeStart']=arr[0];
                  json['planTimeToEnd']=arr[1];
                } 

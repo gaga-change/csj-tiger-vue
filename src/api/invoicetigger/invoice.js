@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import {stringify} from 'qs';
 // /webApi/sale/invoice/billingDetails开票详情
 export function getSalesInvoiceDetails(data) {
   return request({
@@ -37,7 +37,7 @@ export function getSalesInvoiceBillingReject(data) {
 //post /salesInvoiceInquiry销项开票接口
 export function getSalesInvoiceInquiry(data) {
   return request({
-    url: `/webApi/sale/invoice/salesInvoiceInquiry`,
+    url: `/webApi/sale/invoice/salesInvoiceInquiry?${stringify(data)}`,
     method: 'post',
     data: data
   })

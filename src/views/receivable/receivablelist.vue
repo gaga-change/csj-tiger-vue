@@ -92,7 +92,7 @@
             <el-form-item label="收款日期" prop="recdate">
               <el-date-picker
                 v-model="ruleForm.postrecdate"
-                type="datetimerange"
+                type="daterange"
                 :editable="false"
                 size="small"
                 range-separator="至"

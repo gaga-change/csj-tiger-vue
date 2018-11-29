@@ -60,7 +60,7 @@
           <el-form-item label="日期" prop="mount">
               <el-date-picker
               v-model="receipt.paymentDate"
-              type="datetime"
+              type="date"
               size="small"
               :editable="false"
               placeholder="选择日期时间"
@@ -416,8 +416,14 @@
       onSubmit(type) {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            this.submitloading = true
             let postData = {...this.receipt}
+
+            // if(!this.enclosure.length){
+            //   this.$message.error('附件不能为空');
+            //   return ''
+            // }
+             this.submitloading = true
+
             postData.filePath = this.enclosure
             postData.isSubmit = type ? true : false
             let msg = '新建'

@@ -1,7 +1,7 @@
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 import Layout from '@/views/layout/Layout'
 import { reportCenterUrl} from '@/utils'
-// import { deepSortMenu, sortMenu }  from '@/utils/deepSortMenu'
+import { deepSortMenu, sortMenu, deepExistMenu }  from '@/utils/deepSortMenu'
 
 import { asyncRouterMap }  from '@/router'
 
@@ -15,22 +15,22 @@ const getters = {
   companyId: state => state.user.companyId,
   mapConfig:state=>state.map.mapConfig,
   permission_codes: state => state.user.permissionCodes,
+
   // menu: state => {
   //   return asyncRouterMap
   // }
+  
   menu: state => {
-    let bakmenu = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
-    let localPathArr=asyncRouterMap.map(v=>v.path)
-        if(Array.isArray(bakmenu)){
-          bakmenu=bakmenu.filter(v=>localPathArr.includes(v.path))
-        }
-   
+
+    let bakmenus = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
+    let bakmenu = deepExistMenu(bakmenus,asyncRouterMap)
+
     // bakmenu = deepSortMenu(bakmenu, deepSort,)
     const menutemp = []
-    bakmenu.map(item => {
+    bakmenu.forEach(item => {
       const subchildren = []
       if (item.children && item.children.length) {
-        item.children.map(subitem => {
+        item.children.forEach(subitem => {
           subchildren.push({
             path: subitem.path,
             component: subitem.component ? _import(subitem.component) : null,

@@ -124,7 +124,7 @@
           <el-form-item label="要求付款日期" label-width="120px" prop="applyPaymentDate">
               <el-date-picker
               v-model="payment.applyPaymentDate"
-              type="datetime"
+              type="date"
               size="small"
               :editable="false"
               placeholder="选择日期时间"
@@ -510,9 +510,13 @@
       onSubmit(type) {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            this.submitloading = true
+          
             let postData = {...this.payment}
-
+            if(!this.filePathList.length){
+              this.$message.error('附件不能为空');
+              return ''
+            }
+            this.submitloading = true
             postData.filePathList = this.filePathList
             postData.flag = type ? false : true
             let msg = '新建'
@@ -520,6 +524,11 @@
             postData.operatorName = this.userInfo.truename
             postData.operator = this.userInfo.id
             postData.fromSystemCode = 'CSJSCM'
+
+ 
+            delete postData.realPaymentAmt 
+
+
             addOrUpdatePayment(postData).then(
               res => {
                 

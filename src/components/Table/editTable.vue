@@ -4,7 +4,7 @@
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
-        :data="tableData"
+        :data="tableDataEditable"
         :highlight-current-row="highlightCurrentRow"
         @current-change="handleCurrentRedioChange"
         :summary-method="summaryMethod"
@@ -15,14 +15,66 @@
 
           <el-table-column
             v-for="item in tableConfig"
-            :formatter="item.formatter"
             :fixed="item.fixed"
             :width="item.width"
-            :key="item.lable"
-            :prop="item.prop"
+            :key="item.label"
             :label="item.label">
+             <template slot-scope="scope">
+                <template v-if="scope.row.editable&&item.editable">
+                  <template v-if="item.editType">
+                    <el-input
+                      size="mini"
+                      style="width:70px"
+                      v-if="item.editType"
+                      :type="item.editType"
+                      v-model="scope.row[item.prop]" >
+                    </el-input>
+                  </template>
+                  <template v-else>
+                    <el-input
+                    size="mini"
+                    style="width:70px"
+                    v-model="scope.row[item.prop]" >
+                    </el-input>
+                  </template>
+                </template>
+                <span v-else-if="item.linkTo">
+                  <router-link :to="{path:item.linkTo,query:mapFormatter(item.query,scope.row)}" style="color:#3399ea">{{item.linkText?  item.linkText:scope.row[item.prop]}}</router-link>
+                </span>
+                <span v-else-if="item.useIf == 'files'">
+                  <el-dropdown>
+                             <span class="el-dropdown-link">
+                               查看附件<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                             <el-dropdown-menu slot="dropdown">
+                               <el-dropdown-item v-for="(file,i) in scope.row[item.prop]" :key="file.path">
+                                    <a class="el-dropdown-link"  target="blank"   :href="file.path">{{file.name||`附件${i+1}`}}</a>
+                                  </el-dropdown-item>
+                                
+                             </el-dropdown-menu>
+                          </el-dropdown>
+                </span>
+                <span v-else-if="typeof item.formatter == 'function'">
+                  {{item.formatter(scope.row,{},scope.row[item.prop],scope.$index)}}
+                </span>
+              
+                <span v-else>
+                  {{scope.row[item.prop]}}
+                </span>
+            </template>
           </el-table-column>
-
+          <el-table-column
+            width="160"
+            fixed="right"
+            label="操作" >
+            <template slot-scope="scope">
+                <div style="width:160px">
+                    <el-button v-if="scope.row.editable" type="success" @click="goeditrow(scope.$index,'confirm')" size="mini" >确定</el-button>
+                    <el-button v-else @click="goeditrow(scope.$index,'edit')" size="mini" >编辑</el-button>
+                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </div>
+            </template>
+          </el-table-column>
       </el-table>
 
       <el-pagination
@@ -127,70 +179,40 @@ export default {
   data() {
     return {
       tableConfig:[],
+      tableDataEditable: [],
     }
   },
   created(){
 
   },
+  watch:{
+    tableData(){
+      this.tableDataEditable = [...this.tableData]
+    }
+    
+  },
   beforeMount(){
+    this.tableDataEditable = [...this.tableData]
     let tableConfig=_.cloneDeep(this.config);
     for(let i in tableConfig){
        if(tableConfig[i].type){
          if(tableConfig[i].useApi){
             tableConfig[i].formatter=(row, column, cellValue, index)=>this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue)&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue).value||cellValue
          } else if(tableConfig[i].useLocalEnum){
-            tableConfig[i].formatter=(row, column, cellValue, index)=>Enum[tableConfig[i].type].find(v=>v.value==cellValue)&&Enum[tableConfig[i].type].find(v=>v.value==cellValue).name||cellValue
-         } else{
+           
+           
+            tableConfig[i].formatter=(row, column, cellValue, index)=>{
+              return Enum[tableConfig[i].type].find(v=>v.value==cellValue)&&Enum[tableConfig[i].type].find(v=>v.value==cellValue).name||cellValue}
+         } 
+         else{
           switch(tableConfig[i].type){
             case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format(tableConfig[i].format||'YYYY-MM-DD'):'';break;
             case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
             case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
             case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue&&Number(Number(cellValue).toFixed(2));break;
-            case 'files': tableConfig[i].formatter=(row, column, cellValue, index)=>{
-                 let files=row.files;
-                 if(!files||files.length<1){
-                   return ''
-                 }
-                 return  <el-dropdown>
-                            <span class="el-dropdown-link">
-                              查看附件<i class="el-icon-arrow-down el-icon--right"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                               {
-                                 files.map((v,i)=><el-dropdown-item>
-                                   <a class="el-dropdown-link"  target="blank"   href={v.path}>{v.name||`附件${i+1}`}</a>
-                                 </el-dropdown-item>)
-                               }
-                            </el-dropdown-menu>
-                         </el-dropdown>
-            };break;
-
-             case 'outgoing+reply':tableConfig[i].formatter=(row, column, cellValue, index)=>{
-              if(row.isCreate){
-                  return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
-                    <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea'}}>创建回单</router-link>
-                  </div>
-                } else{
-                    return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
-                  </div>
-                }
-           };break;
 
            }
-         }
-       } else if(tableConfig[i].dom){
-         tableConfig[i].formatter=tableConfig[i].dom
-       } else if(tableConfig[i].linkTo){
-          tableConfig[i].formatter=(row, column, cellValue, index)=>{
-            let json={};
-            tableConfig[i].query.forEach(item=>{
-                json[item.key]=row[item.value]
-            })
-            return  <router-link  to={{path:tableConfig[i].linkTo,query:json}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
-          }
-          
+         }  
         } else{
           tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
        }
@@ -226,7 +248,6 @@ export default {
   },
 
   methods: { 
-    
      handleSizeChange(val){
         this.$emit('sizeChange', val); 
      },
@@ -237,9 +258,30 @@ export default {
 
      handleCurrentRedioChange(currentRow, oldCurrentRow){
        this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
-     }
+     },
+    
+      goeditrow(index,type) {
+       
+        let data=_.cloneDeep(this.tableDataEditable);
 
+        data[index].editable = !data[index].editable
+        this.tableDataEditable=data;
+        if(type!='edit'){
+          this.$emit('dataChange',index,type,data[index])//触发父组件方法，数据更改
+        }
+      },
 
+      handleDelete(index, row) {
+        this.tableDataEditable.splice(index, 1)
+        this.$emit('dataChange',index,'delete')
+      },
+      mapFormatter(target, data){
+        let json={};
+        target.forEach(item=>{
+          json[item.key]=data[item.value]
+        })
+        return json
+      },
 
   }
 }

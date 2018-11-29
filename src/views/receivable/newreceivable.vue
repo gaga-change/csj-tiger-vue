@@ -56,7 +56,7 @@
           <el-form-item label="收款日期" prop="receivable.recdate">
             <el-date-picker
               v-model="receivableform.receivable.recdate"
-              type="datetime"
+              type="date"
               size="small"
               :editable="false"
               placeholder="选择日期时间"
@@ -386,7 +386,6 @@
         this.$refs['ruleForm'].validate((valid) => {
           console.log(valid)
           if (valid) {
-            this.submitloading = true
             const view = this.visitedViews.filter(v => v.path === this.$route.path)
             const postData = JSON.parse(JSON.stringify(this.receivableform))
             postData.receivable.payername = this.getCusname
@@ -395,6 +394,11 @@
             postData.receivable.recdate = parseTime(this.receivableform.receivable.recdate)
             postData.receivable.createuser = this.userInfo.truename
             postData.receivable.settlementamount = this.settlementamount
+            if(!this.enclosure.length){
+              this.$message.error('附件不能为空');
+              return ''
+            }
+            this.submitloading = true
             postData.receivable.enclosure = JSON.stringify(this.enclosure)
             console.log('send data: ' + JSON.stringify(postData))
             if(this.receivableform.receivable.fundnature === '1' && this.receivableform.receivable.residualamount<this.settlementamount){

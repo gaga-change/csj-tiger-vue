@@ -40,6 +40,23 @@ export const asyncRouterMap = [
   ...Deliver,
   ...PayReceivableInvoce,
   ...Receipt,
-  ...Payment
+  ...Payment,
+  {
+    path: '/err',
+    component: Layout,
+    redirect: 'err/errIndex',
+    meta: { title: '错误处理', noCache: true,icon:'back' },
+    hidden: false,
+    children: [
+      {
+        name: 'errIndex',
+        path: 'errIndex',
+        meta: { title: '错误处理', noCache: true ,icon:'back'},
+        component: _import('errSystem/index')
+      },
+    ]
+  },
+
+  { path: '*', redirect: '/404', hidden: true }
 ]
 

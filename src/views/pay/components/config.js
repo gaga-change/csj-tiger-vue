@@ -33,7 +33,7 @@ export const paymentInfoConfig = [//付款单详情
   { title:'采购合同', prop:'contractNo',},
   // { title:'合同约定付款方式 ', prop:'paymentMode',
   // useLocalEnum:true, type:'PaymentModeEnum' },
-  { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
+  // { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
   { title:'申请货款金额', prop:'applyPaymentAmt',type:"money"},
 
   
@@ -46,7 +46,7 @@ export const paymentInfoConfig = [//付款单详情
 export const realPayInfoConfig = [//实付详情
   { title:'付款日期', prop:'realPaymentDate',type:'time' },
   { title:'结算方式', prop:'paymentMode',type:'PaymentModeEnum',useLocalEnum:true },
-  { title:'付款人', prop:'applyUserName', },
+  { title:'付款人', prop:'inputUserName', },
   { title:'货款', prop:'applyPaymentAmt', },
   { title:'贴息', prop:'realInterestAmt',},
   { title:'实付金额', prop:'realPaymentAmt',},

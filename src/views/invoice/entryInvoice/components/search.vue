@@ -137,33 +137,33 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.invoiceAmt!==undefined" >
+           <el-col :span="6" v-if="searchForm.asInvoiceAmt!==undefined" >
             <el-form-item  
             label-width="110px" 
             label="实际开票金额" 
-             prop="invoiceAmt"
+             prop="asInvoiceAmt"
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.invoiceAmt" ></el-input>
+              <el-input type="text" size="small"  @change="asInvoiceAmtChange()"  v-model.number="searchForm.asInvoiceAmt" ></el-input>
             </el-form-item>
           </el-col>
 
-            <el-col :span="6" v-if="searchForm.invoiceTaxAmt!==undefined" >
+            <el-col :span="6" v-if="searchForm.asInvoiceTaxAmt!==undefined" >
             <el-form-item 
              label="税额" 
              label-width="50px" 
-             prop="invoiceTaxAmt"
+             prop="asInvoiceTaxAmt"
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  v-model="searchForm.invoiceTaxAmt" ></el-input>
+              <el-input type="text" size="small"  @change="asInvoiceTaxAmtChange()"    v-model.number="searchForm.asInvoiceTaxAmt" ></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="4" v-if="searchForm.invoiceTaxAmt!==undefined&&searchForm.invoiceAmt!==undefined" >
+          <el-col :span="4" v-if="searchForm.asInvoiceTaxAmt!==undefined&&searchForm.asInvoiceAmt!==undefined" >
             <el-form-item  label-width="90px" label="不含税金额" >
-             <span > {{ Number(searchForm.invoiceAmt-searchForm.invoiceTaxAmt).toFixed(2) }} </span>
+             <span > {{ Number(searchForm.asInvoiceAmt-searchForm.asInvoiceTaxAmt).toFixed(2) }} </span>
             </el-form-item>
           </el-col>
 
@@ -285,6 +285,52 @@
             </el-form-item>
           </el-col>
 
+        
+         <el-col :span="12"  v-if="searchForm.time!==undefined">
+            <el-form-item label="开票日期" label-width="80px"  >
+              <el-date-picker
+                v-model="searchForm.time"
+                type="daterange"
+                align="right"
+                style="width:400px" 
+                unlink-panels
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+
+        <el-col :span="6" v-if="searchForm.busiPlate!==undefined">
+          <el-form-item label="业务板块">
+            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
+              <el-option
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="12"  v-if="searchForm.endTime!==undefined">
+            <el-form-item label="到票日期" label-width="80px"  >
+              <el-date-picker
+                v-model="searchForm.endTime"
+                type="daterange"
+                align="right"
+                style="width:400px" 
+                unlink-panels
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="24" v-if="isDisplaySubmit">
             <el-form-item label-width="0">
               <el-button type="primary"  size="small"  @click="submit">查询</el-button>
@@ -300,7 +346,7 @@
 
 <script>
 import _  from 'lodash';
-import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType ,invoiceCancelStatusConfig} from '@/utils/enum'
+import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType ,invoiceCancelStatusConfig,busiPlateConfig} from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
 import { queryInWarehouseBillList,queryListByFinaPurchaseInvoiceReq,getProvider } from '@/api/void/list'
 export default {
@@ -311,6 +357,7 @@ export default {
      entryInvoiceTicketStatus,
      NatureInvoice,
      InvoiceType,
+     busiPlateConfig,
      invoiceCancelStatusConfig,
 
      oldInvoiceIdConfig:[],
@@ -319,7 +366,35 @@ export default {
      addFrom:{
 
      },
-     loading:false
+     loading:false,
+
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
     }
   },
   props:{
@@ -344,6 +419,15 @@ export default {
   },
 
   methods:{
+
+    asInvoiceAmtChange(){
+      this.$emit('asInvoiceAmtChange')
+    },
+
+    asInvoiceTaxAmtChange(){
+      this.$emit('asInvoiceTaxAmtChange')
+    },
+
     NatureInvoiceChange(value){
       this.$emit('propsChange','NatureInvoice')
       if(value===1){

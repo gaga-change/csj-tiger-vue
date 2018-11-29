@@ -260,20 +260,34 @@ export default [
   },
 
   {
-    path: '/err',
+    path: '/abnormalGoods',
     component: Layout,
-    redirect: 'err/errIndex',
-    meta: { title: '错误处理', noCache: true,icon:'back' },
+    redirect: 'abnormalGoods/list',
+    meta: { title: '异常商品登记', noCache: true,icon:'back' },
     hidden: false,
     children: [
       {
-        name: 'errIndex',
-        path: 'errIndex',
-        meta: { title: '错误处理', noCache: true ,icon:'back'},
-        component: _import('errSystem/index')
+        name: 'list',
+        path: 'list',
+        meta: { title: '异常商品登记', noCache: true},
+        component: _import('abnormalGoods/list')
+      },
+      {
+        name: 'add',
+        path: 'add',
+        meta: { title: '创建异常商品登记', noCache: true },
+        component: _import('abnormalGoods/add'),
+        hidden: true,
+      },
+      {
+        name: 'detail',
+        path: 'detail',
+        meta: { title: '异常商品登记详情', noCache: true },
+        component: _import('abnormalGoods/detail'),
+        hidden: true,
       },
     ]
   },
 
-  { path: '*', redirect: '/404', hidden: true }
+
 ]

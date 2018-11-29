@@ -86,7 +86,7 @@ export default {
             return userFormatter(this.cardData)
           }  else{
             switch(type){
-              case 'time': return moment(value).format(format||'YYYY-MM-DD HH:mm:ss');
+              case 'time': return moment(value).format(format||'YYYY-MM-DD');
               case 'boolean': return Number(value)?'是':'否';
               default : return value
             }

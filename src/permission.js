@@ -23,7 +23,6 @@ router.beforeEach((to, from, next) => {
         })
       }).catch((err) => {
         location.href = `/csj_logout`
-        // location.href = `/csj_login`
       })
     } else {
       next()
