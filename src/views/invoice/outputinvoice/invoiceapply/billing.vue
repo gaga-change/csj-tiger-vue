@@ -25,12 +25,14 @@
     import Sticky from '@/components/Sticky' // 粘性header组件
     import { detailtableConfig, applyinfoConfig, detailinfoConfig, recordConfig} from '../components/config';
     const name = "billing"
-    const detailinfoConfigDetail = [], applyinfoConfigDetail = []
+    const detailinfoConfigDetail = [], applyinfoConfigDetail = [];
+
         applyinfoConfig.map(item=>{
           if(name&&(item.show.indexOf(name)!=-1)){
             applyinfoConfigDetail.push(item)
           }
         })
+
         detailinfoConfig.map(item=>{
           if(name&&(item.show.indexOf(name)!=-1)){
             detailinfoConfigDetail.push(item)

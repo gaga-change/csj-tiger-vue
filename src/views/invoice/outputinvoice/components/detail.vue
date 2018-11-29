@@ -75,6 +75,7 @@
         
       }
     },
+
     props:{
       detailinfoConfig:{
         type:Array,

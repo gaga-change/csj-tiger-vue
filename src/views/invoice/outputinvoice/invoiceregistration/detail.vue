@@ -40,6 +40,7 @@
     import moment from 'moment';
     import { printUrl } from '@/utils'
     import { getSalesInvoiceDetails } from '@/api/invoicetigger/invoice'
+    import _  from 'lodash';
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { finaReportService  } from '@/api/public';
@@ -143,6 +144,13 @@
           this.cardData = res.data
           
           this.cardData.finaSaleInvoiceDetailDOList = []
+
+          if(!this.cardData.oldInvoiceCode){
+            let applyinfoConfigDetail=_.cloneDeep(this.applyinfoConfigDetail);
+            let index=applyinfoConfigDetail.findIndex(v=>v.prop==='oldInvoiceCode');
+            applyinfoConfigDetail.splice(index,1);
+            this.applyinfoConfigDetail=applyinfoConfigDetail;
+          }
         
        }
         this.loading=false;

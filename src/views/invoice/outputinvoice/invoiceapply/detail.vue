@@ -49,6 +49,7 @@
     import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit } from '@/api/invoicetigger/invoice'
     import { printUrl } from '@/utils'
     import { finaReportService  } from '@/api/public';
+    import _  from 'lodash';
 
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
@@ -62,7 +63,7 @@
     const detailinfoConfigDetail = [], applyinfoConfigDetail = []//子组件卡片对应的name值
         applyinfoConfig.map(item=>{
           if(name&&(item.show.indexOf(name)!=-1)){
-            applyinfoConfigDetail.push(item)
+              applyinfoConfigDetail.push(item)
           }
         })
         detailinfoConfig.map(item=>{
@@ -169,7 +170,12 @@
           this.finaSaleInvoiceDetailDOList = res.data && res.data.finaSaleInvoiceDetailDOList || []
           this.cardData = {...res.data}
           console.log(this.cardData);
-          
+          if(!this.cardData.oldInvoiceCode){
+            let applyinfoConfigDetail=_.cloneDeep(this.applyinfoConfigDetail);
+            let index=applyinfoConfigDetail.findIndex(v=>v.prop==='oldInvoiceCode');
+            applyinfoConfigDetail.splice(index,1);
+            this.applyinfoConfigDetail=applyinfoConfigDetail;
+          }
           
           this.cardData.finaSaleInvoiceDetailDOList = []
        }

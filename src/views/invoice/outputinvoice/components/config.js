@@ -65,6 +65,7 @@ export const applyinfoConfig=[//发票申请信息
     NatureInvoice.map(item => {if(item.value == cellValue){invoiceNature = item.name}})
     return invoiceNature}, show:'apply+register+invalid+billing'
   },
+  { title:'蓝票票号',prop:'oldInvoiceCode',show:'apply+register+invalid+billing'},
   { title:'发票最迟开具日期',prop:'applyLastAllowTime',type:'time', show:'apply+register+invalid+billing' },
   { title:'发票申请日期',prop:'applyTime',type:'time', show:'apply+register+invalid+billing' },
   { title:'发票开具金额',prop:'applyInvoiceAmt',userFormatter: (cellValue)=>{

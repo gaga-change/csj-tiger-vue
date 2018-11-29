@@ -322,7 +322,7 @@ export const billStatusEnum = [
     value: 1
   },
   {
-    name: '已生成采购退货单',
+    name: '已审核',
     value: 2
   },
   {
