@@ -361,6 +361,7 @@
         this.getDetail()
       }else{
         this.payment={}
+        this.fileNew =[]
         this.filePathList = []
       }
       this.getCustomInfo()  
@@ -371,6 +372,7 @@
         this.getDetail()
       }else{
         this.payment={}
+        this.fileNew =[]
         this.filePathList = []
       }
       this.getCustomInfo()

@@ -19,7 +19,7 @@ export const receiptTableConfig=[// 收款列表
 export const receiptInfoConfig=[//收款单详情
   { title:'收款单号', prop:'receiveNo' },
   { title:'付款方', prop:'paymenterName' },
-  { title:'收款单号', prop:'receiveNo' },
+  // { title:'收款单号', prop:'receiveNo' },
   { title:'金额', prop:'paymentAmt',type:'money' },
   { title:'日期', prop:'paymentDate', type:'time' },
   { title:'上传附件', prop:'fileInfos', useIf:'files' },

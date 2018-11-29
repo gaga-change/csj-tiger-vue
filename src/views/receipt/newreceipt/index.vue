@@ -248,7 +248,6 @@
             }
           }
         )
-        console.log(url,'url');
         
         return url
       },
@@ -284,7 +283,9 @@
         this.getDetail()
       }else{
         this.receipt={}
+        this.fileList = []
       }
+      console.log(this.enclosure,'awww');
       this.getCustomInfo()
     },
     activated(){
@@ -293,7 +294,10 @@
         
         this.getDetail()
       }else{
+        this.fileList = []
         this.receipt={}
+        console.log(this.enclosure,'wwww');
+        
       }
       this.getCustomInfo()
     },
