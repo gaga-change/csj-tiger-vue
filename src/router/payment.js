@@ -22,6 +22,16 @@ export default [
         }
       },
       {
+        path: 'apply',
+        component: _import('pay/apply/index'),
+        name: 'apply',
+        meta: {
+          title: '付款申请',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
+      {
         path: 'register',
         component: _import('pay/register/index'),
         name: 'register',
@@ -42,16 +52,7 @@ export default [
           roles: ['service_finance']
         }
       },
-      {
-        path: 'apply',
-        component: _import('pay/apply/index'),
-        name: 'apply',
-        meta: {
-          title: '付款申请',
-          icon: 'search',
-          roles: ['service_finance']
-        }
-      },
+    
       {
         path: 'apply/detail',
         component: _import('pay/apply/detail'),
