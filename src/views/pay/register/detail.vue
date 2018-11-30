@@ -21,6 +21,9 @@
       <el-tag v-else>
         暂无操作
       </el-tag>
+      <el-button  style="margin-left: 10px;" size="small"  type="primary" 
+            @click="makePrint">打印
+        </el-button>
       </template>
       <template v-else>
         <el-tag >
@@ -29,7 +32,7 @@
       </template>
   </sticky>
 
-   <invoice-detail :cardData="cardData"
+   <invoice-detail :cardData="cardData" id="print"
     :tableData="tableData"  :name="name">
     <template v-if="dataSuccess">
     <item-title text="实付信息"/>
@@ -223,6 +226,14 @@
 
     methods: {
       Modify,
+      makePrint(){
+        var printStr = document.getElementById('print').innerHTML
+        var oldStr = document.body.innerHTML
+        document.body.innerHTML = printStr
+        window.print()
+        document.body.innerHTML = oldStr
+        return fasle
+      },
       editReal(){
         this.editable = true
       },
@@ -330,7 +341,7 @@
             }
             
               this.cardData.filePathList   = fileInfos
-              this.cardData.moneyType = 3
+              // this.cardData.moneyType = 3
               if(this.cardData.moneyType == 3){
                 this.rules = returnPayReg
               }else{
