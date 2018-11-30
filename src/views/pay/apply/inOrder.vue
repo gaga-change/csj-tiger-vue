@@ -36,7 +36,7 @@
           </el-table-column>
           <el-table-column
             label="单价"
-            prop="taxPrice"
+            prop="inPrice"
             width="100">
           </el-table-column>
           <el-table-column

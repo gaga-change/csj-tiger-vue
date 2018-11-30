@@ -41,6 +41,7 @@ export  const listDetailConfig=[
   { title:'作废状态',prop:'cancelApplyStatus',useLocalEnum:true,type:'invoiceCancelStatusConfig'},
   { title:'发票种类',prop:'invoiceType',useLocalEnum:true,type:'InvoiceType'},
   { title:'发票性质',prop:'invoiceNature',useLocalEnum:true,type:'NatureInvoice'},
+  { title:'蓝票票号',prop:'oldInvoiceNo'},
   { title:'发票号码',prop:'invoiceNo',},
   { title:'实际开票金额',prop:'invoiceAmt',},
   { title:'税额',prop:'invoiceTaxAmt',},

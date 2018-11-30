@@ -12,7 +12,7 @@
               @click="saveOrder">提交
           </el-button>
         </template> 
-         <template  v-else-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('purchase'))&&cardData.paymentStatus == 9">
+         <template  v-else-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 9">
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="linkToCreate">编辑
           </el-button>

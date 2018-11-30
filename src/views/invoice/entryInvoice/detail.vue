@@ -33,6 +33,7 @@ import Modify from './components/modify'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { findFinaPurchaseInvoice } from '@/api/void/list'
 import Sticky from '@/components/Sticky' 
+import _  from 'lodash';
 export default {
   components: { webPaginationTable,Sticky},
   data(){
@@ -61,6 +62,13 @@ export default {
           this.tableData=res.data&&res.data.finaPurchaseInvoiceDetailBOList;
           this.cardData=res.data;
           this.cardData.notInvoiceAmt=Number(res.data.invoiceAmt-res.data.invoiceTaxAmt).toFixed(2);
+
+          if(!this.cardData.oldInvoiceNo){
+            let listDetailConfig=_.cloneDeep(this.listDetailConfig);
+            let index=listDetailConfig.findIndex(v=>v.prop==='oldInvoiceNo');
+            listDetailConfig.splice(index,1);
+            this.listDetailConfig=listDetailConfig;
+          }
         }
           this.loading=false;
       }).catch(err=>{
