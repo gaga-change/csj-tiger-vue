@@ -287,7 +287,7 @@
           </el-col>
 
         
-         <!-- <el-col :span="12"  v-if="searchForm.time!==undefined">
+         <el-col :span="12"  v-if="searchForm.time!==undefined">
             <el-form-item label="开票日期" label-width="80px"  >
               <el-date-picker
                 v-model="searchForm.time"
@@ -330,7 +330,7 @@
                 :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
-          </el-col> -->
+          </el-col>
 
           <el-col :span="24" v-if="isDisplaySubmit">
             <el-form-item label-width="0">
