@@ -232,7 +232,7 @@
         document.body.innerHTML = printStr
         window.print()
         document.body.innerHTML = oldStr
-        return fasle
+        return false
       },
       editReal(){
         this.editable = true
