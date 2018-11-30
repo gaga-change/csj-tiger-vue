@@ -25,6 +25,7 @@ export const reisterTableConfig=[// 付款登记列表
 
 
 export const paymentInfoConfig = [//付款单详情
+  { label:'标题',prop:'applyTitle'},
   { title:'付款申请号', prop:'applyNo' },
   { title:'收款方', prop:'paymenterName' },
   { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true },
