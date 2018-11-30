@@ -70,7 +70,12 @@
             prop="invoiceAmt"
             minWidth="100">
           </el-table-column>
-          
+          <el-table-column
+            label="发票性质"
+            prop="invoiceNature"
+            :formatter="invoiceNatureType"
+            minWidth="100">
+          </el-table-column>
          
         </el-table>
   </div>
@@ -84,6 +89,7 @@
   import { titleInfo } from '../components/config'
   import { paramSortArray } from '@/utils/arrayHandler'
   import { invoiceSelect } from '@/api/pay'
+  import { NatureInvoice } from '@/utils/enum'
  export default {
     name: 'invoice', 
     components: { webPaginationTable },
@@ -172,6 +178,17 @@
             this.cardData = res.data
           }
         })
+      },
+      invoiceNatureType({invoiceNature}){
+        var a = ''
+        NatureInvoice.map(item => {
+          if(item.value == invoiceNature){
+            a =  item.name
+          }
+        })
+        return a
+        // return NatureInvoice[]
+        
       }
     }
  }
