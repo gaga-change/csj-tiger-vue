@@ -33,7 +33,7 @@
     :tableData="tableData"  :name="name">
     <template v-if="dataSuccess">
     <item-title text="实付信息"/>
-      <template v-if="true||(cardData.paymentStatus == 4||editable||cardData.moneyType==3)&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
+      <template v-if="(cardData.paymentStatus == 4||editable||cardData.moneyType==3)&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
         
           <el-card class="simpleCard" shadow="never" body-style="padding:12px">
             <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
@@ -69,7 +69,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="贴息">
+                <el-form-item label="贴息" prop="realInterestAmt">
                   <el-input v-model="ruleForm.realInterestAmt" size="small" type="number" ></el-input>
                 </el-form-item>
               </el-col>
@@ -111,6 +111,7 @@
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
     import { realPayInfoConfig } from '../components/config';
+    import { MoneyReg } from '@/utils/validator'
     import { MoneyStateEnum, MoneyTypeEnum,PaymentModeEnum } from '@/utils/enum'
     const name = "apply"
    
@@ -126,12 +127,23 @@
         if (!Number(value)) {
           return callback(new Error('请输入货款'))
         }
-        if(value<0){
-          return callback(new Error('货款为正数'))
-        }
-        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        if (!MoneyReg.test(value)) {
           return callback(new Error('货款最多两位小数'))
         }
+        callback()
+      }
+       var checkInAmt = (rule, value, callback) => {
+        if(value == 0){
+
+        }else{
+          if (!Number(value)) {
+            return callback(new Error('请输入贴息'))
+          }
+          if (!MoneyReg.test(value)) {
+            return callback(new Error('贴息最多两位小数'))
+          }
+        }
+        
         callback()
       }
     const returnPayReg = { realPaymentDate: [
@@ -144,6 +156,9 @@
             ],
             applyPaymentAmt: [
               { validator: checkAmt, required: true, trigger: 'blur' }
+            ],
+            realInterestAmt: [
+              { validator: checkInAmt, required: true, trigger: 'blur' }
             ]
     }
     const rulesReg =  {
@@ -193,11 +208,12 @@
     watch:{
       ruleForm:{//深度监听，可监听到对象、数组的变化
             handler(val, oldVal){
-              // this.ruleForm.realInterestAmt = (val.realInterestAmt-0).toFixed(1)
+              // this.ruleForm.realInterestAmt = (val.realInterestAmt-0).toFixed(1)   
               val.realPaymentAmt = ((val.applyPaymentAmt - val.realInterestAmt)||0).toFixed(2)
             },
             deep:true
-        }
+      },
+      
     },
     computed: {
     ...mapGetters([
