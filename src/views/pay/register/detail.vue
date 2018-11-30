@@ -33,7 +33,7 @@
     :tableData="tableData"  :name="name">
     <template v-if="dataSuccess">
     <item-title text="实付信息"/>
-      <template v-if="(cardData.paymentStatus == 4||editable)&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
+      <template v-if="true||(cardData.paymentStatus == 4||editable||cardData.moneyType==3)&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
         
           <el-card class="simpleCard" shadow="never" body-style="padding:12px">
             <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
@@ -64,18 +64,18 @@
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
-                <el-form-item label="货款金额" >
-                  <el-input type="text" v-model="ruleForm.applyPaymentAmt" disabled size="small" placeholder="货款金额"></el-input>
+                <el-form-item label="货款金额" prop="applyPaymentAmt">
+                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='cardData.moneyType!=3' size="small" placeholder="货款金额"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="贴息">
-                  <el-input v-model="ruleForm.realInterestAmt" size="small" ></el-input>
+                  <el-input v-model="ruleForm.realInterestAmt" size="small" type="number" ></el-input>
                 </el-form-item>
               </el-col>
           
               <el-col :span="6">
-                <el-form-item label="实付金额" >
+                <el-form-item label="实付金额" prop='realPaymentAmt'>
                   <el-input type="text" size="small" disabled v-model="ruleForm.realPaymentAmt" ></el-input>
                 </el-form-item>
               </el-col>
@@ -121,21 +121,48 @@
     let PaymentModeEnumFilter = PaymentModeEnum.filter(item=>{
      return item.value<4
     })
-    import InvoiceDetail from '../components/detail'
-    import Modify from '../components/modify'
-    export default {
-      components: { InvoiceDetail, Sticky },
-      data() {
-        return {
-          total:0,
-          rules: {
-             realPaymentDate: [
+     var checkAmt = (rule, value, callback) => {
+        
+        if (!Number(value)) {
+          return callback(new Error('请输入货款'))
+        }
+        if(value<0){
+          return callback(new Error('货款为正数'))
+        }
+        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+          return callback(new Error('货款最多两位小数'))
+        }
+        callback()
+      }
+    const returnPayReg = { realPaymentDate: [
+            { required: true, message: '请选择付款日期', trigger: 'change' }
+            ],
+            paymentMode: [
+            { required: true, message: '请选择结算方式', trigger: 'change' }
+            ],realPaymentAmt: [
+            { required: true, }
+            ],
+            applyPaymentAmt: [
+              { validator: checkAmt, required: true, trigger: 'blur' }
+            ]
+    }
+    const rulesReg =  {
+            realPaymentDate: [
             { required: true, message: '请选择付款日期', trigger: 'change' }
             ],
             paymentMode: [
             { required: true, message: '请选择结算方式', trigger: 'change' }
             ],
-          },
+          }
+    import InvoiceDetail from '../components/detail'
+    import Modify from '../components/modify'
+    export default {
+      components: { InvoiceDetail, Sticky },
+      data() {
+       
+        return {
+          total:0,
+          rules:rulesReg,
           loading:false,
           buttonDisabled:false,
           tableData: [],
@@ -287,6 +314,12 @@
             }
             
               this.cardData.filePathList   = fileInfos
+              this.cardData.moneyType = 3
+              if(this.cardData.moneyType == 3){
+                this.rules = returnPayReg
+              }else{
+                this.rules = rulesReg
+              }
               if(this.cardData.id&&this.cardData.processInstanceId){
                 paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
                       this.tableData = res.data            
