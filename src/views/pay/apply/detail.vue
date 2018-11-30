@@ -68,7 +68,7 @@
   </sticky>
    <invoice-detail :cardData="cardData" 
     :tableData="tableData"  :name="name">
-    <!-- <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px" v-if="dataSuccess">
+    <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px" v-if="dataSuccess">
    <el-row>
      <el-col  class="card-list"     :span="24" >
         <span class="card-title">付款相关信息</span> : 
@@ -86,7 +86,7 @@
         </div>
       </el-col>
    </el-row>
-  </el-card>    -->
+  </el-card>   
   <template v-if="cardData.paymentStatus>4">
     <item-title text="实付信息"/>
     <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
