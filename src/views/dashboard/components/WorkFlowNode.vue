@@ -197,7 +197,7 @@ export default {
     // },
     getDefaultData() {
       this.loading = true
-      WorkFlowNode({truename:this.userInfo.truename,userId:this.userInfo.id}).then(res => {
+      WorkFlowNode({truename:this.userInfo.truename,userId:this.userInfo.id,roles:this.userInfo.roles}).then(res => {
         
         if(res&&res.data){
           this.list = res.data || []
@@ -229,7 +229,7 @@ export default {
       },
     getNowData() {
       this.nowloading = true
-      NowWorkFlowNode(this.userInfo.truename).then(res => {
+      NowWorkFlowNode(this.userInfo.truename,this.userInfo.roles).then(res => {
         if(res&&res.data){
           this.nowlist = res.data || []
           this.nownums = res.data.length

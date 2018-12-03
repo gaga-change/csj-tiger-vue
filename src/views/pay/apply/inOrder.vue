@@ -1,8 +1,7 @@
 <template>
   <div class="outgoing-quirydetail-container">
-
   <item-title text='订单入库信息'/>
-  <item-card :config="config" :loading="loading"   :cardData="cardData"  />
+  <item-card :config="config" :loading="loading"   :cardData="cardData"  id="demotable"/>
       <el-table
           :data="tableData"
           border
@@ -13,6 +12,11 @@
             prop="skuCode"
             width="120">
           </el-table-column>
+           <el-table-column
+            label="商品行号"
+            prop="busiIndex"
+            minWidth="80">
+          </el-table-column>
           <el-table-column
             label="商品名称"
             prop="skuName"
@@ -21,7 +25,7 @@
            <el-table-column
             label="规格型号"
             prop="skuFormat"
-            minWidth="80">
+            minWidth="120">
           </el-table-column>
           <el-table-column
             label="品牌"
@@ -120,12 +124,12 @@
         let tableData = this.tableData
         let equalRow = 0
         tableData.map(item=>{
-          if(item.skuCode == row.skuCode){
+          if(item.skuCode == row.skuCode&&item.busiIndex==row.busiIndex){
             ++equalRow
           }
         })
         
-        if (columnIndex==0||columnIndex==1||columnIndex==2||columnIndex==3||columnIndex==4||columnIndex==5||columnIndex==6) {
+        if (columnIndex==0||columnIndex==1||columnIndex==2||columnIndex==3||columnIndex==4||columnIndex==5||columnIndex==6||columnIndex==7) {
           if (rowIndex-count === 0) {
          
             return {
@@ -138,7 +142,7 @@
               colspan: 0
             };
           }
-        }else if(columnIndex==7){
+        }else if(columnIndex==8){
           if (rowIndex-count === 0) {
                count += equalRow       
             return {
@@ -168,13 +172,19 @@
         return total
       },
       getInfo(){
+        this.loading = true
         inOrderSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
           if(res.success&&res.data){
-            this.tableData = paramSortArray(res.data.items, 'skuCode')
+            this.tableData = paramSortArray(res.data.items, ['skuCode','busiIndex'])
             console.log(this.tableData,'kkk');
             
             this.cardData = res.data
           }
+          this.loading = false
+        }).catch(err=>{
+          console.log(err);
+          
+          this.loading = false
         })
       }
     }

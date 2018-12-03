@@ -212,6 +212,10 @@ export const MoneyTypeEnum = [
   {
     name: '保证金',
     value: 2
+  },
+  {
+    name: '供应商退货款',
+    value: 3
   }
 ]
 

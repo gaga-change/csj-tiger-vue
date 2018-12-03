@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import {stringify} from 'qs'
 const TransFnc = function(data) {
   let ret = ''
   for (const it in data) {
@@ -613,7 +614,7 @@ export function ZyUser(data) {
 // POST /api/ContractWorkFlow/getWorkFlowNode 获取我的待办信息API
 export function WorkFlowNode(data) {
   return request({
-    url: `/webApi/workflow/todo?truename=${data.truename}&userId=${data.userId}`,
+    url: `/webApi/workflow/todo?truename=${data.truename}&userId=${data.userId}&roles=${data.roles}`,
     method: 'get',
   })
 }
@@ -736,9 +737,9 @@ export function CategorySmall(data) {
 // }
 
 // POST /api/ContractWorkFlow/getNowWorkFlowNode 获取我的在办信息API
-export function NowWorkFlowNode(truename) {
+export function NowWorkFlowNode(truename,roles) {
   return request({
-    url: `/webApi/workflow/tobedone?truename=${truename}`,
+    url: `/webApi/workflow/tobedone?truename=${truename}&roles=${roles}`,
     method: 'get',
   })
 }
