@@ -115,6 +115,7 @@
     import Sticky from '@/components/Sticky' // 粘性header组件
     import { realPayInfoConfig } from '../components/config';
     import { MoneyReg } from '@/utils/validator'
+    import { MakePrint } from '@/utils/index'
     import { MoneyStateEnum, MoneyTypeEnum,PaymentModeEnum } from '@/utils/enum'
     const name = "apply"
    
@@ -226,14 +227,9 @@
 
     methods: {
       Modify,
-      makePrint(){
-        var printStr = document.getElementById('print').innerHTML
-        var oldStr = document.body.innerHTML
-        document.body.innerHTML = printStr
-        window.print()
-        document.body.innerHTML = oldStr
-        return false
-      },
+     makePrint(){
+       MakePrint(document.getElementById('print').innerHTML)
+     },
       editReal(){
         this.editable = true
       },

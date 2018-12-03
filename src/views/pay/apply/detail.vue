@@ -25,37 +25,23 @@
 
         <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_leader'))&&cardData.paymentStatus == 1">
           <!-- 采购负责人审核 -->
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
-            @click="Modify('payCheck')">审核
-          </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
-              @click="Modify('payReject')">驳回
-          </el-button>  
+         <check-button :buttonDisabled='buttonDisabled' :Modify="Modify"></check-button>
         </template>
 
          <template v-else-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('finance_leader')||userInfo.roles.includes('finance_TIGER'))&&cardData.paymentStatus==2">
            <!-- 财务 -->
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
-            @click="Modify('payCheck')">审核
-          </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
-              @click="Modify('payReject')">驳回
-          </el-button>  
+          <check-button :buttonDisabled='buttonDisabled' :Modify="Modify"></check-button>
         </template>
 
          <template v-else-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('leader_TIGER'))&&cardData.paymentStatus==3">
            <!-- 财务 -->
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
-            @click="Modify('payCheck')">审核
-          </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
-              @click="Modify('payReject')">驳回
-          </el-button>  
+         <check-button :buttonDisabled='buttonDisabled' :Modify="Modify"></check-button>
         </template>
         
         <el-tag v-else>
         暂无操作
         </el-tag>
+        
       </template>
       <el-tag v-else>
         暂无操作
@@ -113,8 +99,9 @@
     
     import InvoiceDetail from '../components/detail'
     import Modify from '../components/modify'
+    import CheckButton from '../components/checkButton'
     export default {
-      components: { InvoiceDetail, Sticky },
+      components: { InvoiceDetail, Sticky, CheckButton },
       data() {
         return {
           total:0,
