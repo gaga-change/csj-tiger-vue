@@ -52,6 +52,7 @@
         loading:false,
         infoConfig,
         config:{},
+        
      }
    },
 

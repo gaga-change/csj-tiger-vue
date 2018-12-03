@@ -2,12 +2,56 @@
   <div  class="abnormalGoods">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button v-if="cardData.billStatus===0||cardData.billStatus===3"  type="success"  size="small" @click="modify"  >修改</el-button>
-         <el-button v-if="cardData.billStatus===0||cardData.billStatus===3" @click="Modify({ billStatus:1, prompt:'确认要提交吗?', successTips:'操作成功',errorTips:'操作失败',api:'submitPurcRejectApply'})"   type="success"  size="small">提交</el-button>
-         <el-button v-if="cardData.billStatus===1"  @click="Modify({ billStatus:3, prompt:'请输入驳回意见', successTips:'驳回成功',errorTips:'驳回失败',api:'purcRejectApplyheck'})"  type="success"  size="small">驳回</el-button>
-          <el-button v-if="cardData.billStatus===3"  @click="Modify({ billStatus:4, prompt:'确定要关闭吗?', successTips:'操作成功',errorTips:'操作失败',api:'purcRejectApplyheck'})"  type="success"  size="small">关闭</el-button>
-         <el-button v-if="cardData.billStatus===0"  @click="Modify({ billStatus:-1, prompt:'确定要删除吗?', successTips:'操作成功',errorTips:'操作失败',api:'deletePurcRejectApplyheck'})"  type="success"  size="small">删除</el-button>
-         <el-button v-if="cardData.billStatus===1"  @click="Modify({ billStatus:2, prompt:'确定要同意吗?', successTips:'您已同意向供应商退货，系统将为您通知到相应采购员',errorTips:'操作失败',api:'purcRejectApplyheck'})"   type="success"  size="small">同意</el-button>
+        
+         <el-button v-if="cardData.billStatus===0||cardData.billStatus===3" 
+          type="success"  size="small" @click="modify"  >修改</el-button>
+        
+         <el-button v-if="cardData.billStatus===0||cardData.billStatus===3"
+          @click="Modify({ 
+            billStatus:1,
+            prompt:'确认要提交吗?',
+            successTips:'操作成功',
+            errorTips:'操作失败',
+            api:'submitPurcRejectApply'})"  
+          type="success" 
+          size="small">提交</el-button>
+        
+         <el-button v-if="cardData.billStatus===1" 
+          @click="Modify({ 
+            billStatus:3,
+            prompt:'请输入驳回意见',
+            successTips:'驳回成功',
+            errorTips:'驳回失败',
+            api:'purcRejectApplyheck'})" 
+          type="success" 
+          size="small">驳回</el-button>
+          
+          <el-button v-if="cardData.billStatus===3"  
+          @click="Modify({ billStatus:4, 
+            prompt:'确定要关闭吗?', 
+            successTips:'操作成功',
+            errorTips:'操作失败',
+            api:'purcRejectApplyheck'})"  
+          type="success"  
+          size="small">关闭</el-button>
+         
+         <el-button v-if="cardData.billStatus===0"  
+         @click="Modify({ billStatus:-1, 
+          prompt:'确定要删除吗?', 
+          successTips:'操作成功',
+          errorTips:'操作失败',
+          api:'deletePurcRejectApplyheck'})"  
+         type="success" 
+          size="small">删除</el-button>
+       
+         <el-button v-if="cardData.billStatus===1" 
+          @click="Modify({ billStatus:2,
+            prompt:'确定要同意吗?', 
+            successTips:'您已同意向供应商退货，系统将为您通知到相应采购员',
+            errorTips:'操作失败',
+            api:'purcRejectApplyheck'})"  
+          type="success"  
+          size="small">同意</el-button>
       </template>
     </sticky>
      
