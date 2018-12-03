@@ -187,7 +187,7 @@
                let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
                if(arr.every(v=>v)&&arr.length>1){
                  json['planInTimeStart']=arr[0];
-                 json['planTimeToEnd']=arr[1];
+                 json['planInTimeEnd']=arr[1];
                } 
             } else{
                json[i]=this.ruleForm[i]

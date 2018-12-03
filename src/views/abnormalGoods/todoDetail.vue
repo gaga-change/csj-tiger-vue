@@ -3,8 +3,7 @@
 
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button  type="success"  size="small"  @click="linkTo"  >登记供应商退款</el-button>
-         <el-button  type="success"  size="small" >已完成退款</el-button>
+         <el-button  type="success"  size="small"  @click="outgoingOk"  :disabled="outgoingButtonDisabled"   >出库确认</el-button>
       </template>
     </sticky>
 
@@ -28,7 +27,7 @@
 import { todoDetailInfoConfig ,todoDetailTableConfig } from './components/config';
 import Sticky from '@/components/Sticky'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { findPurchaseOrder ,selectByBusiBillNo} from '@/api/abnormalGoods/index';
+import { findPurchaseOrder ,finishOutWarehouse} from '@/api/abnormalGoods/index';
 export default {
   components: { webPaginationTable,Sticky },
    data() {
@@ -36,27 +35,15 @@ export default {
      todoDetailInfoConfig,
      cardData:{},
      loading:false,
+     outgoingButtonDisabled:false,
 
 
      todoDetailTableConfig,
      tableData:[],
-     id:''
-
     }
   },
 
   mounted(){
-    let { title }=this.$route.query||{};
-    selectByBusiBillNo({
-      busiBillNo:title
-    }).then(res=>{
-      if(res.success){
-         this.id=res.data.id;
-      }
-    }).catch(err=>{
-      console.log(err)
-    })
-
     this.findPurchaseOrderApi();
     let dom=document.querySelectorAll('.sub-navbar >div');
     [...dom].forEach(item=>{
@@ -82,10 +69,27 @@ export default {
   
 
   methods:{
-
-    linkTo(){
-       this.$router.push({
-        path:`/payment/register/detail?id=${this.id}`,
+    
+    outgoingOk(){
+      finishOutWarehouse({
+        purcBackOrder:this.$route.query.title
+      }).then(res=>{
+        if(res.success){
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.findPurchaseOrderApi()
+        } else{
+           this.$message({
+            type: 'error',
+            message:'操作失败'
+          })
+        }
+          this.outgoingButtonDisabled=true;
+      }).catch(err=>{
+        console.log(err)
+        this.outgoingButtonDisabled=true;
       })
     },
 

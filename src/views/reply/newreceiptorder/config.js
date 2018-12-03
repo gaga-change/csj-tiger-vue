@@ -9,7 +9,7 @@ export   const tableConfig=[
   { label:'签收数量',prop:'signQty'},
   { label:'拒收数量',prop:'rejectQty'},
   { label:'发票号',useList:true,width:200},
-  { label:'开票数量',prop:'signQty'},
+  { label:'开票数量',prop:'invoicedQuantity'},
 ];
 
 

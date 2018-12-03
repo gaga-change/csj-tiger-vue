@@ -26,6 +26,14 @@
      :loading="loading"
      :config="tableConfig" 
      :allTableData="tableData"/>
+
+    <div class="tableTotal">
+       <span>签收总量</span> : <span>{{config.allSignQty&&Number(config.allSignQty).toFixed(2)||0}}</span>
+       <span>签收金额</span> : <span>{{config.allSignAmount&&Number(config.allSignAmount).toFixed(2)||0}}</span>
+       <span>开票总量</span> : <span>{{config.allInvoiceQty&&Number(config.allInvoiceQty).toFixed(2)||0}}</span>
+       <span>开票金额</span> : <span>{{config.allInvoiceAmout&&Number(config.allInvoiceAmout).toFixed(2)||0}}</span>
+    </div>
+
   </div>
   </div>
 </template>
@@ -111,6 +119,21 @@
     padding-top: 12px;
     .el-card{
       border: 0;
+    }
+
+     .tableTotal{
+      padding-top:8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
     }
   }
 </style>

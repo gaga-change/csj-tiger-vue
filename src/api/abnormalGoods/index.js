@@ -26,13 +26,15 @@ export function findPurchaseOrder(data) {
   })
 }
 
-//通过订单编号查询付款单id
-export function selectByBusiBillNo(data) {
+
+//出库确认
+export function finishOutWarehouse(data) {
   return request({
-    url: `/api/payment/selectByBusiBillNo?${stringify(data)}`,
+    url: `api/finishOutWarehouse?${stringify(data)}`,
     method: 'get',
   })
 }
+
 
 //保存/提交采购退货申请
 export function savePurcRejectApplyDO(data) {

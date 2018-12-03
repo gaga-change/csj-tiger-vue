@@ -292,7 +292,7 @@ export default [
         path: 'todoDetail',
         meta: { title: '采购退货单详情', noCache: true },
         component: _import('abnormalGoods/todoDetail'),
-        hidden: false,
+        hidden: true,
       },
     ]
   },
