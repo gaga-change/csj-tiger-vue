@@ -60,6 +60,37 @@ export  const listIndexConfig=[ //列表页表格配置
     { label:'可用库存数量',prop:'refundQty',},
   ]
 
+
+  export  const todoDetailInfoConfig=[ //采购退货单详情配置
+    { title:'采购合同',prop:'contractno',},
+    { title:'采购单号',prop:'purchorder',},
+    { title:'退货申请日期',prop:'backapplydate',type:'time'},
+    { title:'供应商名称',prop:'servicername'},
+    { title:'开票状态',prop:'invoicestatus'},
+    { title:'开票金额',prop:'invoiceamount'},
+    { title:'付款状态',prop:'paystatus'},
+    { title:'付款金额',prop:'payamount'},
+    { title:'退货金额',prop:'sumbackamount'},
+    { title:'退货原因',prop:'backreason'},
+   
+  ]
+
+
+  export  const todoDetailTableConfig=[ //列表页表格配置
+    { label:'序号',type:'index',width:50},
+    { label:'商品编码',prop:'materialno',},
+    { label:'商品名称',prop:'materialname',},
+    { label:'品牌',prop:'materialtag',},
+    { label:'规格',prop:'materialrule',},
+    { label:'单位',prop:'orderunit',},
+    { label:'单价',prop:'price',},
+    { label:'出库数量',prop:'outnum',},
+    { label:'退货数量',prop:'backnum',},
+    { label:'出库金额',prop:'outamount',},
+    { label:'退货金额',prop:'backamount',},
+  ]
+
+
   function formatter(type){
     return (row, column, cellValue, index)=>{
       switch(type){

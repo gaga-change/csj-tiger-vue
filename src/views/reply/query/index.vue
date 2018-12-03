@@ -50,6 +50,32 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6" style="min-width:300px" >
+            <el-form-item label="开票状态" label-width="60px"  prop="signStatus">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.signStatus"   placeholder="请选择开票状态">
+                <el-option   v-for="item in mapConfig['getSignStatus']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6"  style="min-width:300px" >
+            <el-form-item label="销售合同号" label-width="90px" prop="contractNo">
+              <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入销售合同号"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6"  style="min-width:300px" >
+            <el-form-item label="销售订单号" label-width="90px" prop="outBusiBillNo">
+              <el-input v-model.lazy.trim="ruleForm.outBusiBillNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入销售订单号"></el-input>
+            </el-form-item>
+          </el-col>
+
+           <el-col :span="6"  style="min-width:300px" >
+            <el-form-item label="客户名称" label-width="90px" prop="arrivalName">
+              <el-input v-model.lazy.trim="ruleForm.arrivalName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入客户名称"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="12"   >
             <el-form-item label="签收日期" label-width="60px" prop="time">
                  <el-date-picker
@@ -108,6 +134,7 @@
             signName:'',
             createrName:'',
             approveStatus:'',
+            signStatus:'',
 
             time:'',
             pageNum: 1,
