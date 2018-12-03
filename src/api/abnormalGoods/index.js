@@ -17,6 +17,23 @@ export function queryListByCustCodeAndOutBillCode(data) {
   })
 }
 
+
+//采购退货详情接口
+export function findPurchaseOrder(data) {
+  return request({
+    url: `/webApi/in/invoice/purcback/findPurchaseOrder?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+//通过订单编号查询付款单id
+export function selectByBusiBillNo(data) {
+  return request({
+    url: `/api/payment/selectByBusiBillNo?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
 //保存/提交采购退货申请
 export function savePurcRejectApplyDO(data) {
   return request({

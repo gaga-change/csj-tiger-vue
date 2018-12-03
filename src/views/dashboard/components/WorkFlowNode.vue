@@ -24,6 +24,10 @@
                   {{scope.row.title}}
                 </router-link>
 
+                <router-link :to="{ path: `/abnormalGoods/todoDetail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
+                  {{scope.row.title}}
+                </router-link>
+
                 <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                   {{scope.row.title}}
                 </router-link>
@@ -32,6 +36,7 @@
                   <router-link :to="{ path: `/payment/apply/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-if="!scope.row.nodename.includes('出纳付款')" >
                       {{scope.row.title}}
                   </router-link>
+
                   <router-link :to="{ path: `/payment/register/detail?processInstanceId=${scope.row.processInstanceId}&taskId=${scope.row.taskId}&taskName=${scope.row.nodename}&from=needWork` }" v-else>
                     {{scope.row.title}}
                   </router-link>
@@ -91,6 +96,10 @@
                  <router-link :to="{ path: `/abnormalGoods/detail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货申请'">
                    {{scope.row.title}}
                  </router-link>
+
+                <router-link :to="{ path: `/abnormalGoods/todoDetail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
+                  {{scope.row.title}}
+                </router-link>
 
                   <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                     {{scope.row.title}}

@@ -35,7 +35,8 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import {Prompt} from '@/utils/prompt'
  import { signDetail } from '@/api/reply'
- import { tableConfig,infoConfig} from './config';
+ import { tableConfig,infoConfig } from './config';
+ import { NatureInvoice } from '@/utils/enum'
  export default {
   components: { 
     Sticky,
@@ -53,6 +54,23 @@
         config:{},
      }
    },
+
+
+  created(){
+    this.tableConfig.forEach(item=>{
+       if(item.useList){
+          item.dom=(row, column, cellValue, index)=>{
+            let arr=row.invoiceList||[]
+            return  <el-card class="box-card" shadow="never" body-style="padding:0" >
+                     {
+                       arr.map(v=><div>{`${v.invoiceNo||''}( ${NatureInvoice.find(item=>item.value===Number(v.invoiceNature))&&NatureInvoice.find(item=>item.value===v.invoiceNature).name||''})`}</div>)
+                     }
+                    </el-card>
+          }
+       }
+    })
+  },
+
 
    mounted(){
       let { id,approveStatus}=this.$route.query||{};
@@ -83,12 +101,15 @@
         query:{modify:true,id:this.signId}
       })
      }
-   }
+   },
  }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .transfermanagement-container{
     padding-top: 12px;
+    .el-card{
+      border: 0;
+    }
   }
 </style>

@@ -68,7 +68,13 @@ export function getWarehouse() {
   })
 }
 
-
+//开票状态枚举
+export function getSignStatus() {
+  return request({
+    url: '/webApi/base/enum/getSignStatus',
+    method: 'get',
+  })
+}
 
 
 

@@ -84,11 +84,6 @@ export default {
     })
   },
 
-  created(){
-
-  },
-
-  
 
   methods:{
     Modify,
