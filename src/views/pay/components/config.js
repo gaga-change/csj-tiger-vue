@@ -79,7 +79,7 @@ export const contractTableConfig=[//合同商品明细
 
   { label:'数量',prop:'invoiceNo'},
   { label:'单位',prop:'applyCode'},
-  { label:'单价',prop:'applyCode'},
+  { label:'单价',prop:'inPrice'},
   { label:'金额',prop:'cusName',type:'time',},
 
   { label:'使用单位',prop:'invoiceNo'},

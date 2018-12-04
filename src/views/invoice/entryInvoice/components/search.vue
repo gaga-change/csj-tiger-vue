@@ -98,11 +98,11 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" v-if="searchForm.contractNo!==undefined">
+          <!-- <el-col :span="6" v-if="searchForm.contractNo!==undefined">
             <el-form-item label="合同编号" >
               <el-input type="text" size="small" :disabled="true"   placeholder="请选择合同编号"    v-model="searchForm.contractNo" ></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
 
 
           <el-col :span="6" v-if="searchForm.invoiceType!==undefined" >
@@ -245,7 +245,7 @@
               { required: true, message: '该项为必填'},
             ]">
              <el-select v-model="searchForm.invoiceNature" 
-              @change="NatureInvoiceChange"
+              @change="propsChange('NatureInvoice')"
               size="small"  filterable clearable placeholder="请选择发票性质" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in NatureInvoice"
@@ -271,6 +271,7 @@
                 filterable 
                 clearable 
                 :loading="loading"
+                @focus="oldInvoiceIdFocus"
                 placeholder="请选择蓝票" 
                 prefix-icon="el-icon-search"
 
@@ -428,12 +429,6 @@ export default {
       this.$emit('asInvoiceTaxAmtChange')
     },
 
-    NatureInvoiceChange(value){
-      this.$emit('propsChange','NatureInvoice')
-      if(value===1){
-        this.queryListByFinaPurchaseInvoiceReqApi(this.searchForm.busiBillNo)
-      }
-    },
 
     propsChange(value){
        this.$emit('propsChange',value)
