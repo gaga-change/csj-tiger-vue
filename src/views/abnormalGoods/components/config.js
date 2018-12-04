@@ -16,7 +16,7 @@ export  const listIndexConfig=[ //列表页表格配置
     { title:'合同编号',prop:'outContractNo',},
     { title:'单据状态',prop:'billStatus',useLocalEnum:true,type:'billStatusEnum'},
     { title:'退回地址',prop:'returnAddress',},
-    { title:'计划退回日期',prop:'planReturnDate',},
+    { title:'计划退回日期',prop:'planReturnDate',type:'time'},
     { title:'联系电话',prop:'linkTel',},
     { title:'异常商品处理建议',prop:'handleOpinion',span:24,useLocalEnum:true,type:'handleOpinionConfig'},
     { title:'具体原因',span:24,prop:'rejectReason',},

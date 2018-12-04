@@ -120,7 +120,8 @@ export default {
           pageNum:this.pageNum
         }).then(res=>{
           if(res.success){
-           this.tableData=res.data&&res.data.list
+           this.tableData=res.data&&res.data.list;
+           this.total=res.data&&res.data.total
           }
           this.loading=false;
         }).catch(err=>{
