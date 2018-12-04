@@ -1,2 +1,7 @@
-// module.exports = file => () => import('@/views/' + file + '.vue')
-module.exports = file => require('@/views/' + file + '.vue').default // vue-loader at least v13.0.0+
+module.exports = file => {
+  try{
+    return  require('@/views/' + file + '.vue').default
+  }catch(err){
+    console.log(err);//当组件不存在时，不抛出异常阻塞其余
+  }
+} // vue-loader at least v13.0.0+
