@@ -70,6 +70,14 @@
     </el-row>
     </el-card>
  </div>
+
+  <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+      <a :href="`/webApi/in/order/export?${stringify(this.linkData)}`" >
+        <el-button type="primary" size="small" >导出Excel</el-button> 
+      </a>
+  </div>
+
+
   <base-table 
     @sizeChange="handleSizeChange"
     @currentChange="handleCurrentChange"
@@ -89,6 +97,8 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
+    import {stringify} from 'qs';
+
     export default {
       components: { BaseTable },
       data() {
@@ -112,6 +122,7 @@
         loading:false,
         tableData: [],
         tableConfig:indexTableConfig,
+        linkData:''
       }
     },
     
@@ -133,7 +144,7 @@
     },
 
     methods: {
-
+      stringify,
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()
@@ -166,10 +177,12 @@
       },
 
       getCurrentTableData(){
-         this.$router.replace({
+
+        this.$router.replace({
           path:'/warehousing/quiry',
           query:{data:JSON.stringify(this.ruleForm)}
         })
+
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
@@ -183,10 +196,11 @@
             } else{
                json[i]=this.ruleForm[i]
             }
-            
           }
         }
+
         let data={...json}
+        this.linkData=data;
        inOrderSelect(data).then(res=>{
        if(res.success){
           let data=res.data;

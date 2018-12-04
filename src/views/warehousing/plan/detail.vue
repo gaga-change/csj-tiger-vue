@@ -12,6 +12,7 @@
             :config="tableConfig" 
             :allTableData="tableData"/>
           </el-tab-pane>
+          
         <el-tab-pane label="相关入库单" name="warehousing">
              <web-pagination-table 
             :loading="warehousingLoding"

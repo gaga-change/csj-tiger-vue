@@ -31,7 +31,6 @@
        <span>签收总量</span> : <span>{{config.allSignQty&&Number(config.allSignQty).toFixed(2)||0}}</span>
        <span>签收金额</span> : <span>{{config.allSignAmount&&Number(config.allSignAmount).toFixed(2)||0}}</span>
        <span>开票总量</span> : <span>{{config.allInvoiceQty&&Number(config.allInvoiceQty).toFixed(2)||0}}</span>
-       <span>开票金额</span> : <span>{{config.allInvoiceAmout&&Number(config.allInvoiceAmout).toFixed(2)||0}}</span>
     </div>
 
   </div>
@@ -72,7 +71,7 @@
             let arr=row.invoiceList||[]
             return  <el-card class="box-card" shadow="never" body-style="padding:0" >
                      {
-                       arr.map(v=><div>{`${v.invoiceNo||''}( ${NatureInvoice.find(item=>item.value===Number(v.invoiceNature))&&NatureInvoice.find(item=>item.value===v.invoiceNature).name||''})`}</div>)
+                       arr.map(v=><div>{`${v.invoiceCode||''}( ${NatureInvoice.find(item=>item.value===Number(v.invoiceNature))&&NatureInvoice.find(item=>item.value===v.invoiceNature).name||''})`}</div>)
                      }
                     </el-card>
           }

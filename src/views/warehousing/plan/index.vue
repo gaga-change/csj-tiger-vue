@@ -57,6 +57,7 @@
           <el-col :span="16" >
             <el-form-item label="计划入库日期" label-width="100px" prop="time">
                  <el-date-picker
+                    :clearable="false"
                     v-model="ruleForm.time"
                     @change="timeChange"
                     type="daterange"
@@ -81,6 +82,12 @@
     </el-row>
     </el-card>
  </div>
+    <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+         <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
+            <el-button type="primary" size="small" >导出Excel</el-button> 
+         </a>
+    </div>
+
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -100,6 +107,7 @@
     import BaseTable from '@/components/Table'
     import { indexTableConfig } from './config';
     import { mapGetters } from 'vuex'
+    import {stringify} from 'qs';
     export default {
       components: { BaseTable },
       data() {
@@ -122,7 +130,8 @@
          
         },
          loading:false,
-         tableData: []
+         tableData: [],
+         linkData:''
       }
     },
 
@@ -142,6 +151,7 @@
     },
 
     methods: {
+       stringify,
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
@@ -175,7 +185,7 @@
       },
 
       getCurrentTableData(){
-         this.$router.replace({
+        this.$router.replace({
           path:'/warehousing/plan',
           query:{data:JSON.stringify(this.ruleForm)}
         })
@@ -192,10 +202,10 @@
             } else{
                json[i]=this.ruleForm[i]
             }
-            
           }
         }
         let data={...json}
+        this.linkData=data;
        inPlanSelect(data).then(res=>{
        if(res.success){
           let data=res.data;
