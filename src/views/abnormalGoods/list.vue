@@ -74,7 +74,7 @@ export default {
             let status = Number(row.billStatus)
             switch(status){
               case 0 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>提交</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>删除</router-link></div> 
-              case 1 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>同意</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>驳回</router-link></div> 
+              // case 1 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>同意</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>驳回</router-link></div> 
                case 3 : return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>提交</router-link></div>  
               default: return <div><router-link  to={{path:`/abnormalGoods/detail`,query:{id}}} style={{color:'#3399ea'}}>查看</router-link></div>
             }

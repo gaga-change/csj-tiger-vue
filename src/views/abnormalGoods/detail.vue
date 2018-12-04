@@ -16,7 +16,7 @@
           type="success" 
           size="small">提交</el-button>
         
-         <el-button v-if="cardData.billStatus===1" 
+         <!-- <el-button v-if="cardData.billStatus===1" 
           @click="Modify({ 
             billStatus:3,
             prompt:'请输入驳回意见',
@@ -24,7 +24,7 @@
             errorTips:'驳回失败',
             api:'purcRejectApplyheck'})" 
           type="success" 
-          size="small">驳回</el-button>
+          size="small">驳回</el-button> -->
           
           <el-button v-if="cardData.billStatus===3"  
           @click="Modify({ billStatus:4, 
@@ -44,14 +44,14 @@
          type="success" 
           size="small">删除</el-button>
        
-         <el-button v-if="cardData.billStatus===1" 
+         <!-- <el-button v-if="cardData.billStatus===1" 
           @click="Modify({ billStatus:2,
             prompt:'确定要同意吗?', 
             successTips:'您已同意向供应商退货，系统将为您通知到相应采购员',
             errorTips:'操作失败',
             api:'purcRejectApplyheck'})"  
           type="success"  
-          size="small">同意</el-button>
+          size="small">同意</el-button> -->
       </template>
     </sticky>
      
