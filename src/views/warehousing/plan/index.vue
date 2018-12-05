@@ -82,11 +82,11 @@
     </el-row>
     </el-card>
  </div>
-    <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+    <!-- <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
          <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
             <el-button type="primary" size="small" >导出Excel</el-button> 
          </a>
-    </div>
+    </div> -->
 
     <base-table 
       @sizeChange="handleSizeChange"

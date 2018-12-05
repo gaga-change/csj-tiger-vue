@@ -13,17 +13,14 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.path)) {
     next()
   } else if (store.getters.userInfo == null) {
+      store.dispatch('gitMap');
       store.dispatch('GetInfo').then(res => { 
-        store.dispatch('gitMap').then(res=>{
-          router.addRoutes(store.getters.menu)
-          next({ ...to, replace: true })
-        }).catch(err=>{
-          router.addRoutes(store.getters.menu)
-          next({ ...to, replace: true })
-        })
+        router.addRoutes(store.getters.menu)
+        next({ ...to, replace: true }) 
       }).catch((err) => {
         location.href = `/csj_logout`
       })
+
     } else {
       next()
     }

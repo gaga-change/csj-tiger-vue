@@ -389,7 +389,7 @@
             data.signCreateTime=moment(data.signCreateTime).valueOf();
             let json={};
             for(let i in data){
-              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds', 'type'].includes(i)){
+              if(['signName','signTel','signCreateTime','files','deleteSignDetailIds', 'type','ownerCode','ownerName'].includes(i)){
                 json[i]=data[i]
               }
             }

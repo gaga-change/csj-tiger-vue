@@ -7,6 +7,7 @@ export function Prompt(type){
       }).then(({ value }) => {
         signApprove({
           approveRemark:value,
+          purcBatchNo:this.config.purcBatchNo,
           signId:this.signId,
           code:1
         }).then(res=>{
