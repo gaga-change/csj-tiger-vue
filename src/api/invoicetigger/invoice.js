@@ -87,3 +87,12 @@ export function obsoleteDocument(data) {
     data: data
   })
 }
+
+
+//查询蓝字发票接口
+export function dropSaleInvoice(data) {
+  return request({
+    url: `/webApi/sale/invoice/dropSaleInvoice?${stringify(data)}`,
+    method: 'get',
+  })
+}

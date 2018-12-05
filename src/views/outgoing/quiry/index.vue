@@ -63,16 +63,23 @@
     </el-row>
     </el-card>
    </div>
+
+  <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+      <a :href="`/webApi/out/order/export?${stringify(this.linkData)}`" >
+        <el-button type="primary" size="small" >导出Excel</el-button> 
+      </a>
+  </div>
+
     <base-table 
-          @sizeChange="handleSizeChange"
-          @currentChange="handleCurrentChange"
-          :loading="loading"
-          :config="tableConfig"  
-          :total="total" 
-          :maxTotal="10"
-          :pageSize="ruleForm.pageSize"
-          :currentPage="ruleForm.pageNum"
-          :tableData="tableData"/>
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+      :loading="loading"
+      :config="tableConfig"  
+      :total="total" 
+      :maxTotal="10"
+      :pageSize="ruleForm.pageSize"
+      :currentPage="ruleForm.pageNum"
+      :tableData="tableData"/>
  </div>
 </template>
 
@@ -82,6 +89,7 @@
     import BaseTable from '@/components/Table'
     import {indexTableConfig } from './config';
     import { mapGetters } from 'vuex'
+    import {stringify} from 'qs';
     
     export default {
       components: { BaseTable },
@@ -103,7 +111,8 @@
          
         },
          loading:false,
-         tableData: []
+         tableData: [],
+         linkData:''
       }
     },
 
@@ -122,6 +131,7 @@
     },
 
     methods: {
+      stringify,
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()
@@ -175,6 +185,7 @@
           }
         }
         let data={...json}
+        this.linkData=data;
        outOrderSelect(data).then(res=>{
        if(res.success){
           let data=res.data;

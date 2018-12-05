@@ -14,7 +14,7 @@ export  const listIndexConfig=[
   { label:'发票性质',prop:'invoiceNature',useLocalEnum:true,type:'NatureInvoice'},
   { label:'发票状态',prop:'invoiceStatus',useLocalEnum:true,type:'InvoiceStatus'},
   { label:'单据状态',prop:'ticketStatus',useLocalEnum:true,type:'entryInvoiceTicketStatus'},
-  { label:'操作',fixed:'right',useLink:true,width:90},
+  { label:'操作',fixed:'right',useLink:true,width:120},
 ]
 
 //发票作废列表页面 表格配置

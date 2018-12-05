@@ -27,7 +27,7 @@
               <el-select v-model="searchForm.documentStatus" 
               size="small"  filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in []"
+                  v-for="item in billStatusEnum"
                   :key="item.value"
                   :label="item.name"
                   :value="item.value">
@@ -72,9 +72,11 @@
 </template>
 
 <script>
+import { billStatusEnum } from '@/utils/enum'
 export default {
   data() {
     return {
+      billStatusEnum,
       pickerOptions: {
           shortcuts: [{
             text: '最近一周',

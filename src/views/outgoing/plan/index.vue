@@ -71,6 +71,13 @@
     </el-row>
     </el-card>
   </div>
+
+   <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+      <a :href="`/webApi/out/plan/export?${stringify(this.linkData)}`" >
+        <el-button type="primary" size="small" >导出Excel</el-button> 
+      </a>
+  </div>
+
    <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -90,6 +97,7 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig } from './config';
+    import {stringify} from 'qs';
     export default {
       components: { BaseTable },
       data() {
@@ -110,6 +118,7 @@
         loading:false,
         tableData: [],
         tableConfig:indexTableConfig,
+        linkData:''
       }
     },
 
@@ -128,6 +137,7 @@
     ])},
 
     methods: {
+       stringify,
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
@@ -182,6 +192,7 @@
           }
         }
         let data={...json}
+        this.linkData=data;
        outPlanSelect(data).then(res=>{
        if(res.success){
           let data=res.data;

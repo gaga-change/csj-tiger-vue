@@ -40,7 +40,7 @@
 <script>
  import Sticky from '@/components/Sticky' 
  import webPaginationTable from '@/components/Table/webPaginationTable'
- import {Prompt} from '@/utils/prompt'
+ import {Prompt} from './prompt'
  import { signDetail } from '@/api/reply'
  import { tableConfig,infoConfig } from './config';
  import { NatureInvoice } from '@/utils/enum'
