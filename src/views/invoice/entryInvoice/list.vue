@@ -71,8 +71,8 @@ export default {
             let finaPurchaseInvoiceId = row.finaPurchaseInvoiceId
             let status = Number(row.ticketStatus)
             switch(status){
-              case 0 : return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>提交</router-link></div>  
-              case 1 : return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea',marginRight:'12px'}}>查看</router-link><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>审核</router-link></div>  
+              case 0 : return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea',marginRight:'8px'}}>提交</router-link><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea',marginRight:'8px'}}>编辑</router-link><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>删除</router-link></div>  
+              case 1 : return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea',marginRight:'12px'}}>审核</router-link><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>驳回</router-link></div>  
               default: return <div><router-link  to={{path:`/invoice/entryInvoice/registrationDetail`,query:{finaPurchaseInvoiceId:finaPurchaseInvoiceId}}} style={{color:'#3399ea'}}>查看</router-link></div>
             }
           };

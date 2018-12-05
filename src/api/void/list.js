@@ -99,3 +99,12 @@ export function getProvider() {
     method: 'get',
   })
 }
+
+
+//删除详情
+export function dropPurInvoice(data) {
+  return request({
+    url: `/webApi/in/invoice/register/dropPurInvoice?${stringify(data)}`,
+    method: 'get',
+  })
+}

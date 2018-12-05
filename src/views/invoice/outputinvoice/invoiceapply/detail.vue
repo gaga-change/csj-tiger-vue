@@ -13,6 +13,10 @@
           <el-button  style="margin-left: 10px;" type="success" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
               @click="submitInvoice">提交 
           </el-button>
+           <el-button  style="margin-left: 10px;"  size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+              @click="dropSaleInvoiceApi">删除
+          </el-button>
+
         </template>
       
         <template v-else-if="cardData.ticketStatus == 1">
@@ -46,7 +50,7 @@
 
 <script>
     import moment from 'moment';
-    import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit } from '@/api/invoicetigger/invoice'
+    import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit,dropSaleInvoice } from '@/api/invoicetigger/invoice'
     import { printUrl } from '@/utils'
     import { finaReportService  } from '@/api/public';
     import _  from 'lodash';
@@ -123,6 +127,32 @@
         
         this.getCurrentTableData()
       },
+
+      dropSaleInvoiceApi(){
+        this.$confirm('是否确定删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          dropSaleInvoice({
+            id:this.$route.query.id
+          }).then(res=>{
+            if(res.success){
+                this.$message({type:'success',message:'操作成功'})
+                this.$router.push({
+                  path:`/invoice/outputinvoice/invoiceapply`,
+                })
+            } else{
+              this.$message({type:'err',message:'操作失败'})
+            }
+          }).catch(err=>{
+            this.$message({type:'err',message:'操作失败'})
+            console.log(err)
+            })
+          }).catch(err=>{
+            this.$message({type:'info',message:'操作取消'})
+          })
+      },
+
       submitInvoice(){
         getSalesInvoiceSubmit({id:this.$route.query.id}).then((res)=>{
           if(res.success){

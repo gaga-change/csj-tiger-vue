@@ -15,6 +15,7 @@
           <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1"  @click="Modify({type:3,status:2,prompt:'确定要驳回作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >驳回作废
           </el-button>
           <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="modify"  style="margin-left: 10px;" size="small"  type="success" >修改 </el-button>
+          <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="dropPurInvoiceApi"  style="margin-left: 10px;" size="small"   >删除 </el-button>
         </template> 
       </sticky>
       <item-title text="基本信息"/>
@@ -31,7 +32,7 @@
 import { listDetailConfig,listDetailTableConfig } from './components/config';
 import Modify from './components/modify'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { findFinaPurchaseInvoice } from '@/api/void/list'
+import { findFinaPurchaseInvoice,dropPurInvoice } from '@/api/void/list'
 import Sticky from '@/components/Sticky' 
 import _  from 'lodash';
 export default {
@@ -47,6 +48,30 @@ export default {
   },
   methods: {
     Modify,
+    dropPurInvoiceApi(){
+      this.$confirm('是否确定删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(() => {
+        dropPurInvoice({
+          id:this.$route.query.finaPurchaseInvoiceId
+        }).then(res=>{
+          if(res.success){
+              this.$message({type:'success',message:'操作成功'})
+              this.$router.push({
+                path:`/invoice/entryInvoice/registrationList`,
+              })
+          } else{
+            this.$message({type:'err',message:'操作失败'})
+          }
+        }).catch(err=>{
+          this.$message({type:'err',message:'操作失败'})
+          console.log(err)
+          })
+        }).catch(err=>{
+          this.$message({type:'info',message:'操作取消'})
+      })
+    },
     modify(){
        this.$router.push({
         path:`/invoice/entryInvoice/registrationAdd?finaPurchaseInvoiceId=${this.$route.query.finaPurchaseInvoiceId}`,

@@ -240,7 +240,7 @@
                     <span v-else>{{ props.row.invoicedQuantity }}</span>
                   </el-form-item>
 
-                   <el-form-item label="签收数量">
+                   <el-form-item label="可开票数量">
                     <span>{{ props.row.invoicedQty }}</span>
                   </el-form-item>
 
@@ -294,7 +294,7 @@
             </el-table-column>
 
               <el-table-column
-              label="签收数量"
+              label="可开票数量"
               prop="invoicedQty">
             </el-table-column>
 

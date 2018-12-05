@@ -143,7 +143,7 @@ export default {
 
     total:{
       get: function () {
-       return this.allTableData.length
+       return this.allTableData&&this.allTableData.length||0
       },
       set:function(){
         
@@ -153,6 +153,9 @@ export default {
       get: function () {
        let from = this.pageSize*(this.currentPage-1);
        let to = from + this.pageSize;
+       if(!this.allTableData){
+         return []
+       }
        return this.allTableData.slice(from,to)
       },
       set:function(){

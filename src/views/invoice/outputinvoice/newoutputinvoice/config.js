@@ -9,7 +9,7 @@ export  const tableConfig=[
   { label:'单位',prop:'skuUnitName',},
   { label:'单价',prop:'skuPrice',},
   { label:'税率',prop:'taxRate'},
-  { label:'已签收数量',prop:'invoicedQty'},
+  { label:'可开票数量',prop:'invoicedQty'},
   // { label:'本次开票数量',prop:'invoicedQuantity'},
 ];
 
