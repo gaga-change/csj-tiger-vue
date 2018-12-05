@@ -12,14 +12,11 @@ const map = {
   actions: {
     // 获取枚举信息
     gitMap({ commit, state }) {
-      return new Promise((resolve, reject) => {
         config().then(res=>{
           commit('SET_MAP',res );
-          resolve(res)
         }).catch(err=>{
-          reject(err)
+          console.log(err)
         })
-      })
     }
 
   }

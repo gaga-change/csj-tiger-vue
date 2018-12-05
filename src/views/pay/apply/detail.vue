@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     
     <template v-if="dataSuccess">
-      <template  v-if="true||(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 0">
+      <template  v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 0">
         <!-- 采购员 -->
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="linkToCreate">编辑
@@ -176,13 +176,14 @@
                         })
                 }
               })
+              this.needfresh()
             }else{
               this.$message({
                 type: 'warn',
                 message: '删除失败!'
               })
             } 
-            this.needfresh()
+            
           }).catch(err => {
             this.$message({
               type: 'warn',

@@ -95,7 +95,7 @@ export function receiptInvalidate(data) {
 // 收款详情删除
 export function dropReceive(id) {
   return request({
-    url: `/webApi/receive/busiOrder?id=${id}`,
+    url: `/webApi/receive/dropReceive?id=${id}`,
     method: 'get',
   })
 }

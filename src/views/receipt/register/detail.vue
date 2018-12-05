@@ -10,6 +10,9 @@
          <el-button  style="margin-left: 10px;" size="small" type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="submitReceipt()">提交
         </el-button>  
+         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+            @click="deleteIt">删除
+          </el-button>
       </template> 
       <template v-else-if="cardData.approveStatus == 1">
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission ('receiptFinaCheck')" v-loading="buttonDisabled"
@@ -121,6 +124,9 @@
 
     methods: {
       Modify,
+      isActive(route) {
+        return route.path === this.$route.path
+      },
        deleteIt(){
         this.$confirm('要删除该条数据吗？', '提示', {
           confirmButtonText: '确定',
@@ -131,11 +137,12 @@
               this.$message({
                 type: 'success',
                 message: '删除成功!',
-                duration:1500,
+                 duration:1500,
                 onClose:()=>{
                     var a = this.$store.state.tagsView.visitedViews
                     var view = {};
-                    a.map(item => {if(item.name === 'applyDetail'){view=item}})
+                    console.log(a)
+                    a.map(item => {if(item.name === 'receiptRegisterDetail'){view=item}})
                     this.$message({
                           type: 'success',
                           message: '删除成功!',
@@ -159,8 +166,9 @@
                 type: 'warn',
                 message: '删除失败!'
               })
+              this.needfresh()
             } 
-            this.needfresh()
+            
           }).catch(err => {
             this.$message({
               type: 'warn',
