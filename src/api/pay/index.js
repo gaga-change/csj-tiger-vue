@@ -97,3 +97,11 @@ export function payRegisterCommit(data) {
     method: 'get',
   })
 }
+//
+// 删除付款详情
+export function dropPayment(id) {
+  return request({
+    url: ` /api/payment/dropPayment?id=${id}`,
+    method: 'get',
+  })
+}

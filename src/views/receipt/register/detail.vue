@@ -18,13 +18,19 @@
           <el-button  style="margin-left: 10px;" size="small"  type="warning" :disabled="buttonDisabled||!$haspermission('receiptFinaCheck')" v-loading="buttonDisabled"
               @click="Modify('FinaReject')">驳回
           </el-button>  
-        </template>
+      </template>
        <el-button  style="margin-left: 10px;" v-else-if="cardData.approveStatus == 2 && cardData.relationStatus==0" size="small" type="primary"  :disabled="buttonDisabled||!$haspermission('receiptSalesman')" v-loading="buttonDisabled"
             @click="salesman()">提交 
         </el-button>  
-          <el-button  style="margin-left: 10px;" size="small"  v-else-if="cardData.approveStatus==3" type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+        <template v-else-if="cardData.approveStatus==3">
+          <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="linkToCreate('rebulid')">编辑
-        </el-button>  
+          </el-button>  
+           <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+            @click="deleteIt">删除
+          </el-button>  
+        </template>
+          
         <el-tag v-else>
           暂无操作
         </el-tag>
@@ -63,7 +69,7 @@
 
 <script>
     import moment from 'moment';
-    import { relateSalesMan, getReceiptDetail,receiptFinaSubmit } from '@/api/receipt'
+    import { relateSalesMan, getReceiptDetail,receiptFinaSubmit, dropReceive } from '@/api/receipt'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -115,6 +121,61 @@
 
     methods: {
       Modify,
+       deleteIt(){
+        this.$confirm('要删除该条数据吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(({ value }) => {
+          dropReceive(this.$route.query.id).then(res => {
+           if(res.success){
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+                duration:1500,
+                onClose:()=>{
+                    var a = this.$store.state.tagsView.visitedViews
+                    var view = {};
+                    a.map(item => {if(item.name === 'applyDetail'){view=item}})
+                    this.$message({
+                          type: 'success',
+                          message: '删除成功!',
+                          onClose:()=>{
+                            this.$store.dispatch('delVisitedViews', view).then((views) => {
+                                if (this.isActive(view)) {
+                                  const latestView = views.slice(-1)[0]
+                                  if (latestView) {
+                                    this.$router.push(latestView.path)
+                                  } else {
+                                    this.$router.push('/')
+                                  }
+                                }
+                            })
+                          }
+                        })
+                }
+              })
+            }else{
+              this.$message({
+                type: 'warn',
+                message: '删除失败!'
+              })
+            } 
+            this.needfresh()
+          }).catch(err => {
+            this.$message({
+              type: 'warn',
+              message: '删除失败!'
+            })
+            this.needfresh()
+          })
+        }).catch(()=>{
+          // this.$message({
+          //     type: 'info',
+          //     message: '删除取消'
+          //   })
+            this.needfresh()
+        })
+      },
       submitReceipt(){
         this.buttonDisabled = true
         receiptFinaSubmit({id:this.$route.query.id}).then(res=>{

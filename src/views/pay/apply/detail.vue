@@ -3,13 +3,16 @@
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     
     <template v-if="dataSuccess">
-      <template  v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 0">
+      <template  v-if="true||(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 0">
         <!-- 采购员 -->
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="linkToCreate">编辑
           </el-button>
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="saveOrder">提交
+          </el-button>
+          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="deleteIt">删除
           </el-button>
         </template> 
          <template  v-else-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_cars')||userInfo.roles.includes('buyer_steel'))&&cardData.paymentStatus == 9">
@@ -18,6 +21,9 @@
           </el-button>
             <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
               @click="saveOrder">提交
+          </el-button>
+           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentCreate')" v-loading="buttonDisabled"
+              @click="deleteIt">删除
           </el-button>
       </template>	
 
@@ -84,7 +90,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail,paymentSubmit, paymentRecord } from '@/api/pay'
+    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -133,6 +139,65 @@
 
     methods: {
       Modify,
+      isActive(route) {
+        return route.path === this.$route.path
+      },
+      deleteIt(){
+        this.$confirm('要删除该条数据吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(({ value }) => {
+        
+          dropPayment(this.$route.query.id).then(res => {
+            if(res.success){
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+                duration:1500,
+                onClose:()=>{
+                    var a = this.$store.state.tagsView.visitedViews
+                    var view = {};
+                    a.map(item => {if(item.name === 'applyDetail'){view=item}})
+                    this.$message({
+                          type: 'success',
+                          message: '删除成功!',
+                          onClose:()=>{
+                            this.$store.dispatch('delVisitedViews', view).then((views) => {
+                                if (this.isActive(view)) {
+                                  const latestView = views.slice(-1)[0]
+                                  if (latestView) {
+                                    this.$router.push(latestView.path)
+                                  } else {
+                                    this.$router.push('/')
+                                  }
+                                }
+                            })
+                          }
+                        })
+                }
+              })
+            }else{
+              this.$message({
+                type: 'warn',
+                message: '删除失败!'
+              })
+            } 
+            this.needfresh()
+          }).catch(err => {
+            this.$message({
+              type: 'warn',
+              message: '删除失败!'
+            })
+            this.needfresh()
+          })
+        }).catch(()=>{
+          // this.$message({
+          //     type: 'info',
+          //     message: '删除取消'
+          //   })
+            this.needfresh()
+        })
+      },
         formatter(type,value){
             switch(type){
               case 'realPay': return  (row, column, cellValue, index)=>{
