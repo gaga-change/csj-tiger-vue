@@ -291,6 +291,12 @@
       busiBillNo:'',
       contractNo:''
     }
+    let MoneyTypeEnumFilter = []
+     MoneyTypeEnum.map(item => {
+      if(item.type.includes('receipt')){
+        MoneyTypeEnumFilter.push(item)
+      }
+    })
     import InvoiceDetail from '../components/detail'
     import Modify from '../components/modify'
     export default {
@@ -325,7 +331,7 @@
           orderTableData:[],
           filterOrderTableData:[],
           MoneyStateEnum,
-          MoneyTypeEnum,
+          MoneyTypeEnum:MoneyTypeEnumFilter,
           multipleSelection:[],//选择的订单
         }
       },

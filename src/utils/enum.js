@@ -203,19 +203,23 @@ export const MoneyStateEnum = [
 export const MoneyTypeEnum = [
   {
     name: '预付款',
-    value: 0
+    value: 0,
+    type:'receipt+pay',
   },
   {
     name: '提货款',
-    value: 1
+    value: 1,
+    type:'receipt+pay',
   },
   {
     name: '保证金',
-    value: 2
+    value: 2,
+    type:'receipt+pay',
   },
   {
     name: '供应商退货款',
-    value: 3
+    value: 3,
+    type:'pay',
   }
 ]
 
