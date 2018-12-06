@@ -176,12 +176,13 @@
                         })
                 }
               })
-              this.needfresh()
+              
             }else{
               this.$message({
                 type: 'warn',
                 message: '删除失败!'
               })
+              this.needfresh()
             } 
             
           }).catch(err => {
