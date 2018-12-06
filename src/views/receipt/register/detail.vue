@@ -47,8 +47,17 @@
         <el-col :span="6">
           <el-form-item label="分配业务员"  :rules="[
                 { required: true, message: '该项为必填'},
-              ]" prop="username">
-            <el-input type="text" size="small" v-model="searchForm.username" ></el-input>
+              ]" prop="userId">
+            <!-- <el-input type="text" size="small" v-model="searchForm.username" ></el-input> -->
+             <el-select v-model="searchForm.userId" 
+             placeholder="请选择业务员">
+              <el-option
+                v-for="item in salesmans"
+                :key="item.userId"
+                :label="item.username"
+                :value="item.userId">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -72,7 +81,7 @@
 
 <script>
     import moment from 'moment';
-    import { relateSalesMan, getReceiptDetail,receiptFinaSubmit, dropReceive } from '@/api/receipt'
+    import { relateSalesMan, getReceiptDetail,receiptFinaSubmit, dropReceive, allSaleman } from '@/api/receipt'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -103,8 +112,10 @@
           detailtableConfigDetail,
           name,
           searchForm:{
-            name:''
+            username:'',
+            userId:'',
           },
+          salesmans:[],
           rules:{
              username: [
             { required: true, message: '请输入业务员', trigger: 'blur' }
@@ -115,13 +126,42 @@
 
      created(){
       this.getCurrentTableData();  
+      this.getAllSaleman()
     },
 
     computed: {
     ...mapGetters([
       'mapConfig',
     ])},
-
+    watch:{
+      searchForm:{
+        handler(val,oldVal){
+          console.log(val,oldVal,66333);
+          
+          if(!val.userId){
+            return
+          }else{
+            this.salesmans.map(item => {
+              if(item.userId == val.userId){
+                this.searchForm.username = item.username
+              } 
+            })
+          }
+        },
+        deep:true
+      }
+      // 'searchForm.userId':(val,oldVal)=>{//埋坑，Error in callback for watcher "searchForm.userId": "TypeError: Cannot read property 'map' of undefined"
+      //   if(val == oldVal){
+      //     return
+      //   }else{
+      //     this.salesmans.map(item => {
+      //       if(item.userId == val){
+      //         this.searchForm.username = item.username
+      //       } 
+      //     })
+      //   }
+      // }
+    },
     methods: {
       Modify,
       isActive(route) {
@@ -196,10 +236,20 @@
           this.needfresh()
         })
       },
+      getAllSaleman(){
+        allSaleman().then(res=>{
+          if(res.success){
+            this.salesmans = res.data
+          }else{
+            this.salesmans = []
+          }
+        })
+      },
       salesman(){
+          
         if(this.searchForm.username){
           this.buttonDisabled = true
-          relateSalesMan({id:this.cardData.id,username:this.searchForm.username}).then((res)=>{
+          relateSalesMan({id:this.cardData.id,username:this.searchForm.username,userId:this.searchForm.userId}).then((res)=>{
               if(res.success){
                 this.$message({type:'success',message:'关联业务员成功',duration:2000})
                 

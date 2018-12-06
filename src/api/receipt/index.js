@@ -99,3 +99,10 @@ export function dropReceive(id) {
     method: 'get',
   })
 }
+//业务员 /webApi/receive/salesman/list
+export function allSaleman() {
+  return request({
+    url: `/webApi/receive/salesman/list`,
+    method: 'get',
+  })
+}
