@@ -3,9 +3,6 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template  v-if="cardData.relationStatus == 1">
-         <el-button v-if="submitForm.moneyState==0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
-            @click="choosesalesman()">关联业务单
-        </el-button>  
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(0,'submitForm')">保存
         </el-button>  
@@ -23,9 +20,6 @@
           </el-button>  
         </template>
         <template v-else>
-            <el-button v-if="submitForm.moneyState==0" style="margin-left: 10px;" size="small" v-loading="buttonDisabled" type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
-            @click="choosesalesman()">关联业务单
-          </el-button>  
           <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
               @click="saveOrder(0,'submitForm')">保存
           </el-button>  
@@ -44,9 +38,7 @@
           </el-button>  
         </template>
          <template  v-else-if="cardData.relationStatus == 5">
-         <el-button  style="margin-left: 10px;" size="small"  type="warning" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
-            @click="choosesalesman()">关联业务单
-        </el-button>  
+        
          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(0,'submitForm')">保存
         </el-button>  
@@ -92,16 +84,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="6">
-          <el-form-item label="货款合计">
-           <span>{{totalLoan}}</span>
-          </el-form-item>
-        </el-col>
-          <el-col :span="6">
-          <el-form-item label="贴息合计">
-           <span>{{totalDiscount}}</span>
-          </el-form-item>
-        </el-col>
         </template>	
       </el-row>
       </el-form>
@@ -116,6 +98,13 @@
       </el-row>
       </el-form>
      </el-card>
+
+      <template  v-if="cardData.relationStatus == 1||(cardData.relationStatus == 2&&editable)||cardData.relationStatus == 5">
+        <el-button v-if="submitForm.moneyState==0" style="margin-right: 25px;float:right" size="small" v-loading="buttonDisabled" type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
+            @click="choosesalesman()" >关联业务单
+        </el-button>
+        
+      </template> 
       <el-table
           :data="relateOrderData"
           v-if="submitForm.moneyState===0&&(cardData.relationStatus==1||cardData.relationStatus==2||cardData.relationStatus==5)"
@@ -195,6 +184,20 @@
             </template>
           </el-table-column>
       </el-table>
+      <el-form v-if="cardData.relationStatus==1||cardData.relationStatus==2||cardData.relationStatus==5">
+        <el-row >
+        <el-col :span="3">
+          <el-form-item label="货款合计">
+           <span>{{totalLoan}}</span>
+          </el-form-item>
+        </el-col>
+          <el-col :span="3">
+          <el-form-item label="贴息合计">
+           <span>{{totalDiscount}}</span>
+          </el-form-item>
+        </el-col>
+        </el-row>
+      </el-form>
       <el-dialog
           title="订单选择"
           :visible.sync="showDetails"
@@ -280,8 +283,7 @@
     import { detailtableConfig } from '../components/config';
     import { MoneyStateEnum, MoneyTypeEnum } from '@/utils/enum'
     const name = "associate"
-    const detailtableConfigDetail = []
-       
+    const detailtableConfigDetail = []  
         detailtableConfig.map(item=>{
           if(name&&(item.show.indexOf(name)!=-1)){
             detailtableConfigDetail.push(item)
@@ -547,8 +549,10 @@
               })
               this.cardData.fileInfos = fileInfos
               let { moneyState, moneyType } = {moneyState:0,moneyType:0};
-              this.submitForm.moneyState = this.cardData.moneyState == 99 ? '': this.cardData.moneyState
+              this.submitForm.moneyState = this.cardData.moneyState == 99 ? 0: this.cardData.moneyState
               this.submitForm.moneyType = this.cardData.moneyType == 99 ? '': this.cardData.moneyType
+              console.log(this.submitForm,63333333);
+              
               if(res.data.relationVos&&res.data.relationVos.length>0){
                 this.relateOrderData = []
                 let relationVos = [...res.data.relationVos]
