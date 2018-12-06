@@ -25,23 +25,26 @@ export const reisterTableConfig=[// 付款登记列表
 
 
 export const paymentInfoConfig = [//付款单详情
-  { title:'标题',prop:'applyTitle'},
-  { title:'付款申请号', prop:'applyNo' },
-  { title:'收款方', prop:'paymenterName' },
-  { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true },
-  { title:'款项类型', prop:'moneyType', type:'MoneyTypeEnum',useLocalEnum:true },
-  { title:'采购订单', prop:'busiBillNo', },
-  { title:'采购合同', prop:'contractNo',},
+  { title:'标题', prop:'applyTitle', paytype:'goods+others'},
+  { title:'付款申请号', prop:'applyNo',paytype:'goods' },
+  { title:'付款申请单', prop:'applyNo',paytype:'others' },
+  { title:'收款方', prop:'paymenterName', paytype:'goods+others' },
+  { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true, paytype:'goods+others' },
+  { title:'款项类型', prop:'moneyType', type:'MoneyTypeEnum',useLocalEnum:true, paytype:'goods' },
+  { title:'采购订单', prop:'busiBillNo', paytype:'goods'},
+  { title:'采购合同', prop:'contractNo', paytype:'goods'},
+  { title:'合同号', prop:'contractNo', paytype:'others'},
+  { title:'对账区间', prop:'duration', paytype:'others'},
   // { title:'合同约定付款方式 ', prop:'paymentMode',
   // useLocalEnum:true, type:'PaymentModeEnum' },
   // { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
-  { title:'申请货款金额', prop:'applyPaymentAmt',type:"money"},
+  { title:'申请付款金额', prop:'applyPaymentAmt',type:"money", paytype:'goods+others'},
 
   
-  { title:'要求付款日期', prop:'applyPaymentDate', type:'time' },
-  { title:'收款方银行账户', prop:'receiveAccount'},
-  { title:'收款方收款银行 ', prop:'receiveBank', },
-  { title:' 附件 ', prop:'filePathList', useIf:'files', },
+  { title:'要求付款日期', prop:'applyPaymentDate', type:'time', paytype:'goods+others' },
+  { title:'收款方银行账户', prop:'receiveAccount', paytype:'goods+others'},
+  { title:'收款方收款银行 ', prop:'receiveBank', paytype:'goods+others' },
+  { title:' 附件 ', prop:'filePathList', useIf:'files', paytype:'goods+others' },
   // { title:'测试1 ', prop:'linkParam',linkTo:'/',useIf:'linkParam',name:'fuck' },
 ]
 export const realPayInfoConfig = [//实付详情
