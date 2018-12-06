@@ -7,6 +7,14 @@
         </template> 
       </sticky>
      <search-invoice  :searchForm="searchForm" :onlySelect="true" @busiBillNoChange="busiBillNoChange"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
+    
+    <div class="tableTotal" v-if="tableData.length>0">
+       <span>收票总额</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceAmout']&&Number(tableData[0]['sumInvoiceAmout']).toFixed(2)}}</span>
+       <span>共计发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']&&Number(tableData[0]['sumInvoiceQty']).toFixed(2)}}</span>
+       <span>共计蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBuleInvoiceQty']&&Number(tableData[0]['sumBuleInvoiceQty']).toFixed(2)}}</span>
+       <span>共计红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']&&Number(tableData[0]['sumRedInvoiceQty']).toFixed(2)}}</span>
+    </div>
+
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -154,9 +162,24 @@ export default {
 </script>
 
 
-<style>
+<style rel="stylesheet/scss" lang="scss">
   .entryInvoice-list{
-    
+    .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
+    }
   }
 </style>
 
