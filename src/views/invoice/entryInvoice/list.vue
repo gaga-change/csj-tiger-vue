@@ -10,9 +10,9 @@
     
     <div class="tableTotal" v-if="tableData.length>0">
        <span>收票总额</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceAmout']&&Number(tableData[0]['sumInvoiceAmout']).toFixed(2)}}</span>
-       <span>共计发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']&&Number(tableData[0]['sumInvoiceQty']).toFixed(2)}}</span>
-       <span>共计蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBuleInvoiceQty']&&Number(tableData[0]['sumBuleInvoiceQty']).toFixed(2)}}</span>
-       <span>共计红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']&&Number(tableData[0]['sumRedInvoiceQty']).toFixed(2)}}</span>
+       <span>共计发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']}}</span>
+       <span>共计蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBuleInvoiceQty']}}</span>
+       <span>共计红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']}}</span>
     </div>
 
     <base-table 
