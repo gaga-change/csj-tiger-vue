@@ -29,7 +29,7 @@
               <span class="card-title">{{item.title}}</span> : <span class="card-text">
 
               <template v-for="enclosure in elecontract">
-                <a :href="`/webApi/download/file?pathUrl=${enclosure.url}&pathName=${enclosure.name}`" target="_blank" style="padding-right:4px;color:#128fe7;">{{enclosure.name}}</a><br/>
+                <a :href="`/webApi/download/file?pathUrl=${enclosure.url}`" target="_blank" style="padding-right:4px;color:#128fe7;">{{enclosure.name}}</a><br/>
                 <!-- <a :href="link.url" target="_blank" style="color:blue">{{link.name}}</a> -->
               </template>
               </span>

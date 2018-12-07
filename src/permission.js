@@ -19,10 +19,14 @@ router.beforeEach((to, from, next) => {
           router.addRoutes(store.getters.menu)
           next({ ...to, replace: true }) 
         } else{
+          console.log(res);
+          
           location.href = `/csj_logout`
         }
        
       }).catch((err) => {
+        console.log(err);
+        
         location.href = `/csj_logout`
       })
 
