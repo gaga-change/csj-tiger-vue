@@ -535,7 +535,7 @@
               res => {
                 
                 if (res.success&&res.data) {
-                  this.$message({type:'success',message:`${msg}付款申请成功`,duration:1000,onClose:()=>{
+                  this.$message({type:'success',message:`${msg}付款申请成功，1.5s后跳转至详情页`,duration:1500,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
                           query: {
