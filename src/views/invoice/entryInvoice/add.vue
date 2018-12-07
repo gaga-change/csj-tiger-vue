@@ -1,6 +1,6 @@
 <template>
   <div class="entryInvoice-list">
-     <search-invoice   :searchForm="searchForm"  @propsChange="propsChange"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange" 
+     <search-invoice   :searchForm="searchForm" :disabled="disabled"      @propsChange="propsChange"  @oldInvoiceIdChange="oldInvoiceIdChange"  @busiBillNoChange="busiBillNoChange" 
      @asInvoiceAmtChange="asInvoiceAmtChange" 
      @asInvoiceTaxAmtChange="asInvoiceTaxAmtChange" 
      @submit="this.submit"   :isDisplaySubmit="false"  ></search-invoice>
@@ -79,6 +79,7 @@ export default {
       useWatch:false,
 
       busiBillNo:'',
+      disabled:false
     }
   },
 
@@ -287,11 +288,18 @@ export default {
       json.invoiceAmt=Number(this.searchForm.invoiceAmt);
       json.arriveDate=moment(json.arriveDate).valueOf()
       json.makeDate=moment(json.makeDate).valueOf();
+
       this.editTableData=this.editTableData.map(v=>{
         let json=v;
         json.invoiceQty=Number(json.invoiceQty);
         return json;
       })
+
+       if(this.editTableData.length===0){
+        this.$message.error('请先选择明细');
+        return ''
+      }
+
       if(finaPurchaseInvoiceId){
          let idArr=this.editTableData.map(v=>Number(v.billDetailId)); 
          let localIdArr= this.localTableData.map(v=>Number(v.billDetailId));
@@ -320,25 +328,28 @@ export default {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       if(type==='save'){
         saveApi(json).then(res=>{
-          this.$confirm('操作成功！', '提示', {
-            confirmButtonText: '详情',
-            cancelButtonText: '关闭',
-            type: 'success'
-          }).then(
-            _ => {
-              this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                  this.$router.push({
-                    path:'/invoice/entryInvoice/registrationDetail',
-                    query:{ finaPurchaseInvoiceId:finaPurchaseInvoiceId?finaPurchaseInvoiceId:res.data}
+          if(res.success){
+              this.disabled=true;
+              this.$message({
+                type:'success',
+                message:'操作成功,1.5s后跳往详情页',
+                duration:1500,
+                onClose:()=>{
+                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                    this.$router.push({
+                      path:'/invoice/entryInvoice/registrationDetail',
+                      query:{ finaPurchaseInvoiceId:finaPurchaseInvoiceId?finaPurchaseInvoiceId:res.data}
+                    })
+                  }).catch(err=>{ 
+                    console.log(err)
                   })
-              }).catch(err=>{ 
-                console.log(err)
+                }
               })
-            }).catch(err=>{
-              console.log(err)
-            })
-          }).catch(err=>{
-             console.log(err) 
+      
+          } else{
+             this.$message.error('操作失败');
+          }
+
         })
       } else if(type==='submit') {
          saveApi(json).then(res=>{
@@ -346,24 +357,28 @@ export default {
               commitFinaPurchaseInvoice({
                 finaPurchaseInvoiceId:finaPurchaseInvoiceId?finaPurchaseInvoiceId:res.data
               }).then(result=>{
-                  this.$confirm('操作成功！', '提示', {
-                    confirmButtonText: '详情',
-                    cancelButtonText: '关闭',
-                    type: 'success'
-                 }).then( _ => {
+                if(res.success){
+                  this.disabled=true;
+                  this.$message({
+                    type:'success',
+                    message:'操作成功,1.5s后跳往详情页',
+                    duration:1500,
+                    onClose:()=>{
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
                           path:'/invoice/entryInvoice/registrationDetail',
                           query:{ finaPurchaseInvoiceId:finaPurchaseInvoiceId?finaPurchaseInvoiceId:res.data}
                         })
                       }).catch(err=>{
-                         console.log(err)
-                      })
-                 }).catch(err=>{
-                     console.log(err)
-                 })
+                        console.log(err)
+                      })  
+                    }
+                  })
+                } else{
+                   this.$message.error('操作失败');
+                }
               }).catch(err=>{
-                    console.log(err)
+                  console.log(err)
               })
            } else{
              this.$message.error('保存失败');

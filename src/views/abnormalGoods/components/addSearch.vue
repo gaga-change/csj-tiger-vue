@@ -2,8 +2,8 @@
    <div class="entryInvoice-form">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button type="success"  size="small" @click="submit('save')" >保存</el-button>
-         <el-button type="success"  size="small" @click="submit('submit')">提交</el-button>
+         <el-button type="success"  size="small" :disabled="disabled"   @click="submit('save')" >保存</el-button>
+         <el-button type="success"  size="small" :disabled="disabled" @click="submit('submit')">提交</el-button>
       </template>
     </sticky>
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
@@ -179,8 +179,13 @@ export default {
       }
     }
   },
-
-
+  
+   props:{
+     disabled:{
+      type:Boolean,
+      default:false
+     }
+  },
 
   mounted(){
     infoCustomerInfo().then(res=>{

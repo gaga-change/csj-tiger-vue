@@ -16,6 +16,7 @@ export default {
   components: { Sticky ,webPaginationTable,BaseTable},
   data() {
     return {
+      disabled:false,
       radioState:'',
       fetchSuccess:true,
       loading:false,
@@ -286,6 +287,8 @@ export default {
               //   return ''
               // }
 
+
+
               data.productBreakdown=data.productBreakdown.map(v=>{
                  let json=v;
                  json.taxAmount=v.taxPrice*v.invoicedQuantity;
@@ -308,27 +311,28 @@ export default {
                    this.$message.error('红字发票不能为空');
                    return 
                  }
-
-                console.log({...this.blueTicketstate})   
+ 
                if(this.blueTicketstate.invoiceCancelStatus>0&&this.blueTicketstate.invoiceCancelStatus<3||this.blueTicketstate.invoiceStatus===2){
                 this.$message.error('对应蓝票存在作废状态,无法开具相应红票');
                  return ''
                }
               }
-              // console.log('提交的',{...data,ticketStatus:ticketStatus,invoiceStatus:invoiceStatus})
+
+              if(data.productBreakdown.length===0){
+                this.$message.error('请先选择明细');
+                return ''
+              }
 
               const view = this.visitedViews.filter(v => v.path === this.$route.path)  
               saveFinaSaleInvoice({...data,ticketStatus:ticketStatus,invoiceStatus:0}).then(res=>{
                 if(res.success){
-                  this.$confirm('操作成功！', '提示', {
-                    confirmButtonText: '详情',
-                    cancelButtonText: '关闭',
-                    type: 'success'
-                  }).then(
-                    _ => {
+                  this.disabled=true;
+                  this.$message({
+                    type:'success',
+                    message:'操作成功,1.5s后跳往详情页',
+                    duration:1500,
+                    onClose:()=>{
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                        console.log(111);
-                        
                         this.$router.push({
                           path: '/invoice/outputinvoice/invoiceapply/detail',
                           query:{
@@ -339,10 +343,7 @@ export default {
                         console.log(err)
                       })
                     }
-                  ).catch(err=>{
-                    console.log(err)
                   })
-
                 }else{
                   this.$message.error('操作失败');
                 }
