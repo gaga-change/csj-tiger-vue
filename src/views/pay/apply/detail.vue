@@ -166,7 +166,7 @@
                                 if (this.isActive(view)) {
                                   const latestView = views.slice(-1)[0]
                                   if (latestView) {
-                                    this.$router.push(latestView.path)
+                                    this.$router.push(latestView)
                                   } else {
                                     this.$router.push('/')
                                   }

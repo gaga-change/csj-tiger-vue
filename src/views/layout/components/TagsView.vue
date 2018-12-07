@@ -30,6 +30,8 @@ export default {
   },
   computed: {
     visitedViews() {
+      console.log(this.$store.state.tagsView.visitedViews,'aaaaaa');
+      
       return this.$store.state.tagsView.visitedViews
     }
   },
@@ -82,7 +84,7 @@ export default {
         if (this.isActive(view)) {
           const latestView = views.slice(-1)[0]
           if (latestView) {
-            this.$router.push(latestView.path)
+            this.$router.push(latestView)
           } else {
             this.$router.push('/')
           }
