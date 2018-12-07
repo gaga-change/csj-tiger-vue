@@ -22,7 +22,11 @@
       top="6vh"
       width="70%"
       :before-close="()=>dialogVisible=false">
-
+       <div style="display:flex;align-items: center;margin-bottom:12px">
+           <span style="font-size:14px;padding-right:10px">商品名称 :</span>
+           <el-input type="text" size="small" style="width:200px;margin-right:12px" v-model.trim="alertSkuName"  @keyup.enter.native="alertSeach"  ></el-input> 
+           <el-button type="primary" size="small" @click="alertSeach"> 查询</el-button>
+       </div>
        <web-pagination-table 
         @SelectionChange="handleSelectionChange"
         :loading="loading"
@@ -70,6 +74,7 @@ export default {
         contractNo:''
       },
       dialogVisible:false,
+      alertlocalTableData:[],
       alertTableData:[],
       alertTableDataSelect:[],
       editTableData:[],
@@ -79,7 +84,8 @@ export default {
       useWatch:false,
 
       busiBillNo:'',
-      disabled:false
+      disabled:false,
+      alertSkuName:''
     }
   },
 
@@ -164,6 +170,9 @@ export default {
     },
 
   methods:{
+    alertSeach(){
+      this.alertTableData= this.alertlocalTableData.filter(v=>v.skuName.includes(this.alertSkuName))
+    },
 
     asInvoiceAmtChange(){
       this.searchForm.invoiceAmt=this.searchForm.asInvoiceAmt;
@@ -176,22 +185,22 @@ export default {
     propsChange(type){
       let searchForm= _.cloneDeep(this.searchForm);
       if(type==='providerCode'){
-          searchForm.busiBillNo='';
+         
+         searchForm.busiBillNo='';
           searchForm.oldInvoiceId='';
-          this.alertTableData=[];
-          this.editTableData=[];
-          this.alertTableDataSelect=[];
       } else if(type==='busiBillNo'){
+
           searchForm.oldInvoiceId='';
-          this.alertTableData=[];
-          this.editTableData=[];
-          this.alertTableDataSelect=[];
       } else if(type==='NatureInvoice'){
+
           searchForm.oldInvoiceId='';
-          this.alertTableData=[];
-          this.editTableData=[];
-          this.alertTableDataSelect=[];
       }
+
+       this.alertlocalTableData=[];
+       this.alertTableData=[];
+       this.editTableData=[];
+       this.alertTableDataSelect=[];
+       this.alertSkuName=''
 
       this.searchForm=searchForm;
     },
@@ -232,7 +241,7 @@ export default {
         if(res.success){
           this.busiBillNo=busiBillNo;
           let data=res.data||[];
-          this.alertTableData=data.filter(v=>v.realInQty&&v.realInQty>v.invoicedQty).map(v=>{
+          this.alertlocalTableData=data.filter(v=>v.realInQty&&v.realInQty>v.invoicedQty).map(v=>{
             let json=v;
             json.taxRate=v.taxRate/100;
             json.billDetailId=v.busiBillNo;
@@ -240,6 +249,8 @@ export default {
             json.invoiceQty=isNaN(v.invoicedQty)?v.realInQty:v.realInQty-v.invoicedQty
             return json;
           });;
+          this.alertSkuName=''
+          this.alertTableData=  _.cloneDeep(this.alertlocalTableData)
         }
         this.loading=false;
       }).catch(err=>{
@@ -270,7 +281,13 @@ export default {
     handleSuccess(){
       this.useWatch=true;
       this.dialogVisible=false;
-      this.editTableData=this.alertTableDataSelect;
+      let busiBillNoArr=this.editTableData.map(v=>v.busiBillNo)
+      this.alertTableDataSelect.forEach(v=>{
+         if(!busiBillNoArr.includes(v.busiBillNo)){
+           this.editTableData.push(v)
+         }
+      })
+   
 
     },
 
