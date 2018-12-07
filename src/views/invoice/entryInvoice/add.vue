@@ -26,6 +26,7 @@
            <span style="font-size:14px;padding-right:10px">商品名称 :</span>
            <el-input type="text" size="small" style="width:200px;margin-right:12px" v-model.trim="alertSkuName"  @keyup.enter.native="alertSeach"  ></el-input> 
            <el-button type="primary" size="small" @click="alertSeach"> 查询</el-button>
+           <el-button type="primary" size="small" style="margin-right:12px" @click="()=>{this.alertSkuName='';this.alertSeach()}"> 重置</el-button>
        </div>
        <web-pagination-table 
         @SelectionChange="handleSelectionChange"
@@ -170,7 +171,7 @@ export default {
     },
 
   methods:{
-    alertSeach(){
+    alertSeach(value){
       this.alertTableData= this.alertlocalTableData.filter(v=>v.skuName.includes(this.alertSkuName))
     },
 
@@ -281,14 +282,14 @@ export default {
     handleSuccess(){
       this.useWatch=true;
       this.dialogVisible=false;
-      let busiBillNoArr=this.editTableData.map(v=>v.busiBillNo)
+      let data= _.cloneDeep(this.editTableData);
+      let busiBillNoArr=data.map(v=>v.busiBillNo);
       this.alertTableDataSelect.forEach(v=>{
          if(!busiBillNoArr.includes(v.busiBillNo)){
-           this.editTableData.push(v)
+           data.push(v)
          }
       })
-   
-
+      this.editTableData=data;  
     },
 
     submit(type,value){
