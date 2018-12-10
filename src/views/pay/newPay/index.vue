@@ -41,18 +41,18 @@
         <el-col :span="6">
           <el-form-item label="款项性质" prop="moneyState">
             <el-select v-model="payment.moneyState" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+              <!-- :disabled="item.disabled" -->
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
                 :label="item.name"
-                :disabled="item.disabled"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="款项类型" prop="moneyType">
+        <el-col :span="6" v-if="this.payment.moneyState === 0">
+          <el-form-item label="款项类型" prop="moneyType"> 
             <el-select v-model="payment.moneyType" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in MoneyTypeEnum"
@@ -64,9 +64,8 @@
           </el-form-item>
         </el-col>
        
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
+      
+        <el-col :span="6" v-if="this.payment.moneyState === 0">
           <el-form-item label="采购订单" prop="busiBillNo">
             <el-select v-model="payment.busiBillNo" :disabled="false" 
             :filter-method="cusBillFilter" 
@@ -82,8 +81,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="采购合同" prop="contractNo">
-             <el-input type="text" size="small" disabled v-model="payment.contractNo" />
+          <el-form-item :label="this.payment.moneyState === 0 ?'采购合同' :'合同号'" prop="contractNo" >
+             <el-input type="text" size="small" :disabled="this.payment.moneyState === 0" v-model="payment.contractNo" />
           </el-form-item>
         </el-col>
         <!-- <el-col :span="6">
@@ -98,7 +97,7 @@
             </el-select>
           </el-form-item>
         </el-col> -->
-        <el-col :span="6" v-if="true">
+        <el-col :span="6" v-if="this.payment.moneyState === 0">
           <el-form-item label="已付货款" prop="realPaymentAmt">
              <el-input type="text" size="small" disabled v-model="payment.realPaymentAmt"></el-input>
           </el-form-item>
@@ -111,8 +110,11 @@
           </el-form-item>
         </el-col> -->
         <el-col :span="6">
-          <el-form-item label="申请货款金额" prop="applyPaymentAmt" label-width="120px">
-             <el-input type="text" size="small" :disabled="false" v-model="payment.applyPaymentAmt"></el-input>
+          <el-form-item label="申请付款金额" prop="applyPaymentAmt" label-width="120px"  :rules="[
+              { validator: checkAmt, required: true, trigger: 'blur' }
+             ]">
+             <el-input type="text" size="small" :disabled="this.payment.moneyState !== 0" v-model="payment.applyPaymentAmt" style="max-width:120px" ></el-input>
+             <el-button @click="getPayInfo" v-show="this.payment.moneyState !== 0" size="small" style="display:inline-block" type="text">拉取对账单</el-button>
           </el-form-item>
         </el-col>
          <!-- <el-form-item label="其中:贴息" label-width="90px" prop="paymentAmt">
@@ -202,6 +204,52 @@
         <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
     </el-dialog>
+
+    <!-- 拉取对账单 -->
+    <el-dialog
+      title="拉取对账单"
+      :visible.sync="dialogVisiblePay"
+      center
+      width="50%">
+     <el-row style="margin-bottom:10px;">
+       <el-col>该服务商上次对账截止至{{123123123}}号</el-col>
+     </el-row>
+      <el-row>
+        <el-col>请选取本次对账时间段 <el-date-picker
+            v-model="payDurationStart"
+            type="dates" 
+            size="small"
+            disabled
+            placeholder="开始">
+          </el-date-picker> 至
+          <el-date-picker
+            v-model="payDuration"
+            type="dates" 
+            size="small"
+            placeholder="结束日期">
+          </el-date-picker>
+          <el-button @click="getPayInfoDatail" size="small">查询</el-button>
+
+        </el-col>
+     </el-row>
+     <el-table :data="data">
+        <el-table-column
+          v-for="item in tableConfig"
+          :formatter="item.formatter"
+          :key="item.lable"
+          :type="item.columnType"
+          :fixed="item.fixed"
+          :width="item.width"
+          :prop="item.prop"
+          :label="item.label">
+        </el-table-column>
+     </el-table>
+     <div>服务费{{}}</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>  
 </template>
   
@@ -209,6 +257,7 @@
 <script>
   import { addOrUpdatePayment, getPaymentListAndDetail,BusibillNoSelect } from '@/api/pay'
   import { mapGetters } from 'vuex'
+  import moment from 'moment'
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
   import { getProvider } from '@/api/pay'
@@ -218,7 +267,7 @@
           applyTitle:'',//申请标题.  
           paymenterCode:'',//收款方id.
           paymenterName:'',//付款方名称（客户姓名）.
-          moneyState:'',//款项性质.
+          moneyState:0,//款项性质.
           moneyType:'',//款项类型.
           busiBillNo:'',//采购单号编号.
           contractNo:'',//合同号.
@@ -231,6 +280,70 @@
           filePathList:[],
           fileNew:[]
         }
+  const goodsRules = {
+     applyTitle:[
+        { required: true, message: '请输入申请标题', trigger: 'blur' }
+      ],
+      paymenterCode: [
+        { required: true, message: '请选择收款方', trigger: 'change' }
+      ],
+      // applyPaymentAmt: [
+      //   { validator: checkAmtGoods, required: true, trigger: 'blur' }
+      // ],
+      moneyState: [
+        { required: true, message: '请选择款项性质', trigger: 'change' }
+      ],
+      moneyType: [
+        { required: true, message: '请选择款项类型', trigger: 'change' }
+      ],
+      busiBillNo: [
+        { required: true, message: '请选择采购订单', trigger: 'change' }
+      ],
+      applyPaymentDate: [
+        {  required: true, message: '请选择付款日期', trigger: 'change' }
+      ],
+  }
+  const notGoodsRules = {
+    applyTitle:[
+        { required: true, message: '请输入申请标题', trigger: 'blur' }
+      ],
+      paymenterCode: [
+        { required: true, message: '请选择收款方', trigger: 'change' }
+      ],
+      // applyPaymentAmt: [
+      //   { validator: checkAmt, required: true, trigger: 'blur' }
+      // ],
+      moneyState: [
+        { required: true, message: '请选择款项性质', trigger: 'change' }
+      ],
+      contractNo: [
+        { required: true, message: '请输入合同号', trigger: 'blur' }
+      ],
+      applyPaymentDate: [
+        {  required: true, message: '请选择付款日期', trigger: 'change' }
+      ],
+  }
+  //  const checkAmtGoods = (rule, value, callback) => {
+  //       console.log(value,3221);
+        
+  //       if (!Number(value)) {
+  //         return callback(new Error(`请输入货款`))
+  //       }
+  //       if(value<0){
+  //         return callback(new Error('货款为正数'))
+  //       }
+  //       if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+  //         return callback(new Error('货款最多两位小数'))
+  //       }
+  //       callback()
+  //     }
+  //   const checkAmt = (rule, value, callback) => {
+  //     console.log(value,123);
+  //       if (!Number(value)) {
+  //         return callback(new Error(`请拉取对账单`))
+  //       }
+  //       callback()
+  //     }
   export default {
     name: 'newpayment',
     // components: {
@@ -249,7 +362,7 @@
       var checkAmt = (rule, value, callback) => {
         
         if (!Number(value)) {
-          return callback(new Error('请输入货款'))
+          return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
         }
         if(value<0){
           return callback(new Error('货款为正数'))
@@ -265,30 +378,7 @@
         PaymentModeEnum,
         busiBillNoAll:[],
         payment,
-        rules: {
-          applyTitle:[
-              { required: true, message: '请输入申请标题', trigger: 'blur' }
-            ],
-            paymenterCode: [
-              { required: true, message: '请选择收款方', trigger: 'change' }
-            ],
-            applyPaymentAmt: [
-              { validator: checkAmt, required: true, trigger: 'blur' }
-            ],
-            moneyState: [
-              { required: true, message: '请选择款项性质', trigger: 'change' }
-            ],
-            moneyType: [
-               { required: true, message: '请选择款项类型', trigger: 'change' }
-            ],
-            busiBillNo: [
-              { required: true, message: '请选择采购订单', trigger: 'change' }
-            ],
-            applyPaymentDate: [
-              {  required: true, message: '请选择付款日期', trigger: 'change' }
-            ],
-          
-        },
+        rules: goodsRules,
         dialogVisible: false,
         uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
         filePathList: [],
@@ -300,6 +390,9 @@
         customerFilterMark:'',//客户名称过滤标识
         billFilterMark:'',//订单筛选
         fileNew:[],
+        dialogVisiblePay: true,
+        payDuration:'',
+        payDurationStart:1544171631612,
       }
     },
     computed: {
@@ -354,9 +447,31 @@
         this.filePathList = url
         console.log(this.filePathList,11111);
         
+      },
+      // payment:{
+      //   handler (val,oldVal){
+      //     console.log(val,oldVal);
+      //     if(val.moneyState==0){
+      //       this.rules = goodsRules
+      //     }else{
+      //       this.rules = notGoodsRules
+      //     }
+      //   },
+      //   deep:true
+      // }
+      'payment.moneyState':(val,oldVal)=>{
+        console.log(val,oldVal);
+        if(val==0){
+          this.rules = goodsRules
+        }else{
+          this.rules = notGoodsRules
+          console.log(this.rules);
+          
+        }
       }
     },
     created() {
+      this.payment.moneyState = 0
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
       }else{
@@ -367,6 +482,7 @@
       this.getCustomInfo()  
     },
     activated(){
+      this.payment.moneyState = 0
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         
         this.getDetail()
@@ -378,6 +494,25 @@
       this.getCustomInfo()
     },
     methods: {
+      getPayInfo(){
+        //拉取对账单
+      },
+      getPayInfoDatail(){
+        console.log(this.payDuration);
+      },
+      checkAmt(rule, value, callback){
+        
+        if (!Number(value)) {
+          return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
+        }
+        if(value<0){
+          return callback(new Error('货款为正数'))
+        }
+        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+          return callback(new Error('货款最多两位小数'))
+        }
+        callback()
+      },
       clearMark(){
         this.customerFilterMark=''
         this.billFilterMark=''
