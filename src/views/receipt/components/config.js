@@ -57,7 +57,7 @@ export const detailtableConfig=[//详情表格
   { label:'签收金额',prop:'signAmt', minWidth:90,show:'register+associate'},
   { label:'已开票货款',prop:'invoicedAmt', width:120,show:'register+associate'},
   { label:'本次收到货款',prop:'payableAmt', width:120,show:'register+associate'}, 
-  { label:' 本次收到贴息',prop:'interestAmt', width:120,show:'register+associate'},
+  { label:' 贴息',prop:'interestAmt', width:120,show:'register+associate'},
   { label:'订单收到货款合计',prop:'totalOrderPayableAmt', width:120,show:'register'},
   { label:'订单收到贴息合计 ',prop:'totalOrderInterestAmt', width:120,show:'register'},
 ]
