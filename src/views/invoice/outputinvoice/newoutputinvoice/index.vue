@@ -2,9 +2,9 @@
 <div class="app-container">
   <sticky :className="'sub-navbar published'" style="margin-bottom: 8px">
     <template v-if="fetchSuccess">
-       <el-button v-loading="loading"  style="margin-left: 10px;"  size="small"  @click="submitForm('searchForm','save')">保存
+       <el-button v-loading="loading"  :disabled="disabled"   style="margin-left: 10px;"  size="small"  @click="submitForm('searchForm','save')">保存
       </el-button>
-      <el-button v-loading="loading"   style="margin-left: 10px;"   size="small"  type="success"  @click="submitForm('searchForm','submit')">保存并提交
+      <el-button v-loading="loading" :disabled="disabled"  style="margin-left: 10px;"   size="small"  type="success"  @click="submitForm('searchForm','submit')">保存并提交
       </el-button>
     </template>
 
@@ -144,7 +144,7 @@
 
 
 
-        <el-col :span="6" style="margin-bottom:16px;margin-left:20px">
+        <el-col :span="6" style="margin-bottom:16px">
           <el-form-item label="含税发票金额"    label-width="90px" >
             <el-input type="text" size="small"  :disabled="true" v-model="Number(allTaxAmount).toFixed(2)" ></el-input>
           </el-form-item>

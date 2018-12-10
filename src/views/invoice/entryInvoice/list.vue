@@ -9,10 +9,11 @@
      <search-invoice  :searchForm="searchForm" :onlySelect="true" @busiBillNoChange="busiBillNoChange"   @submit="this.submit"  @reset="this.reset"  ></search-invoice>
     
     <div class="tableTotal" v-if="tableData.length>0">
-       <span>收票总额</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceAmout']&&Number(tableData[0]['sumInvoiceAmout']).toFixed(2)}}</span>
-       <span>共计发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']}}</span>
-       <span>共计蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBuleInvoiceQty']}}</span>
-       <span>共计红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']}}</span>
+       <span>已录入收票金额</span> : <span>{{tableData[0]&&tableData[0]['allInvoiceAmout']&&Number(tableData[0]['allInvoiceAmout']).toFixed(2)}}</span>
+       <span>已审核收票金额</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceAmout']&&Number(tableData[0]['sumInvoiceAmout']).toFixed(2)}}</span>
+       <span>共登记发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']}}</span>
+       <span>其中蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBuleInvoiceQty']}}</span>
+       <span>其中红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']}}</span>
     </div>
 
     <base-table 

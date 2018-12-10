@@ -2,9 +2,9 @@
    <div class="entryInvoice-form">
     <sticky  v-if="!isDisplaySubmit"  :className="'sub-navbar published'" style="margin-bottom: 8px">
         <template >
-          <el-button  style="margin-left: 10px;"  size="small"   @click="submit('save')">保存
+          <el-button  style="margin-left: 10px;" :disabled="disabled"  size="small"   @click="submit('save')">保存
           </el-button>
-          <el-button   style="margin-left: 10px;"   size="small"  type="success"  @click="submit('submit')">保存并提交
+          <el-button   style="margin-left: 10px;" :disabled="disabled"  size="small"  type="success"  @click="submit('submit')">保存并提交
           </el-button>
         </template> 
     </sticky>
@@ -410,6 +410,10 @@ export default {
      onlySelect:{
        type:Boolean,
        default:false
+     },
+     disabled:{
+      type:Boolean,
+      default:false
      }
   },
   
