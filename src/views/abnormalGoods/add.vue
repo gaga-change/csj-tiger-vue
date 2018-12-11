@@ -60,6 +60,7 @@ import AddSearch from './components/addSearch'
 import EditTable from './components/table'
 import { addAlertTableConfig } from './components/config';
 import webPaginationTable from '@/components/Table/webPaginationTable'
+import { handleOpinionConfig } from '@/utils/enum'
 import { queryListByCustCodeAndOutBillCode , savePurcRejectApplyDO ,getPurcRejectApply } from '@/api/abnormalGoods/index';  
 import _  from 'lodash';
 import { mapGetters } from 'vuex'
@@ -93,6 +94,11 @@ export default {
               for(let i in this.$refs['search'].searchForm){
                  this.$refs['search'].searchForm[i]=res.data[i]
               }
+              console.log(this.$refs['search'].searchForm.handleOpinion,1231231231);
+              
+              if(!this.$refs['search'].searchForm.handleOpinion){
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+              }
               this.editTableData=res.data.productBreakdown.map(v=>{
                 let json=v;
                 json.warehouseName=res.data.warehouseName;
@@ -104,8 +110,14 @@ export default {
               });
             }
          }).catch(err=>{
+           if(!this.$refs['search'].searchForm.handleOpinion){
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+            }
            console.log(err)
          })
+     }else{
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+              
      }
   },
 
