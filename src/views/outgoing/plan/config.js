@@ -8,6 +8,7 @@ export const tableConfig=[
   { label:'已出/应出',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
   }},
+  { label:'手工出库',prop:'qty',useEdit:true,width:160,max:['planOutQty','realOutQty'],min:0},
 ];
 
 export  const infoConfig=[
@@ -43,5 +44,5 @@ export const indexTableConfig=[
   { label:'计划出库仓库',prop:'planWarehouseName'},
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
-  { label:'操作',fixed:'right',type:'outgoing+reply'},
+  { label:'操作',fixed:'right',useLink:true},
 ]
