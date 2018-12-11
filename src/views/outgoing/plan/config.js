@@ -44,5 +44,5 @@ export const indexTableConfig=[
   { label:'计划出库仓库',prop:'planWarehouseName'},
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
-  { label:'操作',fixed:'right',useLink:true},
+  { label:'操作',fixed:'right',useLink:true,minWidth:100},
 ]

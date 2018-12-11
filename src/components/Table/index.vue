@@ -18,6 +18,7 @@
             :formatter="item.formatter"
             :fixed="item.fixed"
             :width="item.width"
+            :min-width="item.minWidth"
             :key="item.lable"
             :prop="item.prop"
             :label="item.label">

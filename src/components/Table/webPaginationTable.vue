@@ -18,6 +18,7 @@
           :type="item.columnType"
           :fixed="item.fixed"
           :width="item.width"
+          :min-width="item.minWidth"
           :prop="item.prop"
           :label="item.label">
         </el-table-column>

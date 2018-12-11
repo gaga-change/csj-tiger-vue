@@ -79,7 +79,21 @@
             let data=res.data;
             this.config=data;
             this.planCode=data.planCode;
-            this.tableData=Array.isArray(data.itemList)?data.itemList:[];
+            let tableData=Array.isArray(data.itemList)?data.itemList:[];
+            if(this.$route.query.history){
+               this.tableData=tableData.map(v=>{
+                 let json=v;
+                 json.qty=v.planOutQty-v.realOutQty;
+                 return json;
+               })
+            } else{
+               this.tableData=tableData.map(v=>{
+                 let json=v;
+                 json.qty=v.handOutQty;
+                 return json;
+               })
+            }
+           
           }
           this.loading=false;
 
@@ -89,7 +103,6 @@
       },
 
       sureQty(){
-        this.sureQtyLoding=true;
         let json={};
         json.planCode=this.$route.query.planCode;
         json.outDate=moment().valueOf();
@@ -98,8 +111,12 @@
         json.fromSystemCode='CSJSCM';
         json.operator=this.userInfo.id;
         json.operatorName=this.userInfo.truename;
+        if(this.tableData.some(v=>v.qty!==0&&!v.qty)){
+          this.$message.error('手工出库必填');
+          return ''
+        }
         json.items=this.tableData;
-
+        this.sureQtyLoding=true;
         orderSave(json).then(res=>{
           this.sureQtyLoding=false;
           if(res.success){

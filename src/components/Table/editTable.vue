@@ -15,6 +15,7 @@
             v-for="item in config"
             :fixed="item.fixed"
             :width="item.width"
+            :min-width="item.minWidth"
             :key="item.label"
             :label="item.label">
              <template slot-scope="scope">

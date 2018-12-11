@@ -126,13 +126,13 @@
         this.tableConfig.forEach(item=>{
           if(item.useLink){
               item.dom=(row, column, cellValue, index)=>{
-                return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
+                return <div style={{display:'flex'}}>
+                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>查看</router-link>
                     { row.isCreate&&
-                      <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea'}}>创建回单</router-link>
+                      <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>创建回单</router-link>
                     }
                     { row.isHandOut&&
-                      <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode,history:true}}} style={{color:'#3399ea'}}>手工出库</router-link>
+                      <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode,history:true}}} style={{color:'#3399ea',whiteSpace:'nowrap'}}>手工出库</router-link>
                     }
                 </div>
               }
