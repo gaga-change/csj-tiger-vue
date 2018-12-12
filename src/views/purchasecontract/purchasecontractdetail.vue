@@ -34,8 +34,6 @@
               </template>
               </span>
             </template>
-            
-            
               
           </el-col>
        </el-row>

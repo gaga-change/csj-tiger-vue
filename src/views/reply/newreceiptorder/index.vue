@@ -3,7 +3,7 @@
     <sticky :className="'sub-navbar published'">
       <template v-if="fetchSuccess">
         <template>
-          <el-button  size="small" type="primary" @click="submitOrder('ruleForm')" v-loading="submitloading">
+          <el-button  size="small"  type="primary" @click="submitOrder('ruleForm')" v-loading="submitloading">
             提交
           </el-button>
         </template>
@@ -138,6 +138,7 @@
               </el-table-column>
             <el-table-column
               label="商品名称"
+              :width="120"
               prop="skuName">
             </el-table-column>
             <el-table-column
@@ -426,25 +427,22 @@
             Api(json).then(res=>{
                 this.submitloading=false;
                 this.replyid=typeof res.data==="string"?res.data:res.data.id;
-                this.$confirm('操作成功！', '提示', {
-                confirmButtonText: '详情',
-                cancelButtonText: '关闭',
-                type: 'success'
-              }).then(
-                _ => {
-                  this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                    this.$router.push({
-                      path: '/reply/newreceiptorder-detail',
-                      query:{
+                  this.$message({
+                    type:'success',
+                    message:'操作成功,1.5s后跳往详情页',
+                    duration:1500,
+                    onClose:()=>{
+                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                       this.$router.push({
+                       path: '/reply/newreceiptorder-detail',
+                       query:{
                         id:modify?this.id:this.replyid,
                         approveStatus:0,         
-                      }
-                    })
-                  })
-                }
-              ).catch(err=>{
-                 
-              })
+                        }
+                      })
+                     })
+                    }
+                  })   
             }).catch(err=>{
               this.submitloading=false;
             })
@@ -517,10 +515,14 @@
 </script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss" >
   .el-form-item{
     height:30px;
     margin-bottom: 26px;
+  }
+
+  .el-table .cell{
+     white-space: nowrap;
   }
 </style>
 

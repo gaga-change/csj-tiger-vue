@@ -435,26 +435,16 @@
             addOrUpdateReceipt(postData).then(
               res => {
                 if (res.success&&res.data&&res.data.id) {
-                  this.$confirm(msg + '收款单成功！', '提示', {
-                    confirmButtonText: '详情',
-                    cancelButtonText: '关闭',
-                    type: 'success'
-                  }).then(
-                    _ => {
-                        this.$router.push({
+                  this.$message({type:'success',message:`${msg}收款单成功，1.5s后跳转至详情页`,duration:1500,onClose:()=>{
+                     this.$router.push({
                           path: '/receipt/register/detail',
                           query: {
                             id: res.data.id
                           }
                         })
-                    }
-                  ).catch(_ => {
-                    this.$router.push({
-                      path: '/receipt/register/detail',
-                      query: {
-                       id: res.data.id
-                      }
-                    })
+                  }})
+                }else{
+                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:1500
                   })
                 }
                 this.submitloading = false

@@ -27,7 +27,7 @@ export  const listIndexConfig=[ //列表页表格配置
     { title:'采购订单编号',prop:'busiBillNo',},
     { title:'采购合同编号',prop:'contractNo',},
     // { title:'发票状态',prop:'invoiceStatus',useLocalEnum:true,type:'invoiceStatusConfig'},
-    { title:'付款状态',prop:'paymentStatus',useLocalEnum:true,type:'paymentStatusConfig'},
+    // { title:'付款状态',prop:'paymentStatus',useLocalEnum:true,type:'paymentStatusConfig'},
     // { title:'已入库数量',prop:'realInQty',},
     { title:'已入库金额',prop:'inboundAmount',type:'toFixed'},
     // { title:'已收票金额',prop:'invoicedAmount',type:'toFixed'},

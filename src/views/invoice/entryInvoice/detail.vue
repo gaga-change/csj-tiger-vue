@@ -8,11 +8,11 @@
           </el-button>
            <el-button  v-if="cardData.ticketStatus===1"  @click="Modify({type:0,status:1,prompt:'请输入驳回意见',successTips:'驳回成功',errorTips:'驳回失败'})"    style="margin-left: 10px;"  size="small" type="success" >驳回
           </el-button>
-          <el-button   v-if="cardData.ticketStatus===3&&(cardData.cancelApplyStatus===0||cardData.cancelApplyStatus===3)"  @click="Modify({type:3,status:0,prompt:'确定要申请作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >作废申请
+          <el-button   v-if="cardData.ticketStatus===3&&(cardData.cancelApplyStatus===0||cardData.cancelApplyStatus===3)&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:0,prompt:'确定要申请作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >作废申请
           </el-button>
-          <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1"  @click="Modify({type:3,status:1,prompt:'确定要作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >确认作废
+          <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:1,prompt:'确定要作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >确认作废
           </el-button>
-          <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1"  @click="Modify({type:3,status:2,prompt:'确定要驳回作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >驳回作废
+          <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:2,prompt:'确定要驳回作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >驳回作废
           </el-button>
           <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="modify"  style="margin-left: 10px;" size="small"  type="success" >修改 </el-button>
           <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="dropPurInvoiceApi"  style="margin-left: 10px;" size="small"   >删除 </el-button>
@@ -105,6 +105,15 @@ export default {
     this.findFinaPurchaseInvoiceApi();
     let dom=document.querySelectorAll('.sub-navbar >div');
     [...dom].forEach(item=>{
+      if(item.innerHTML==='sticky'){
+         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
+      }
+    })
+  },
+
+  updated(){
+     let dom=document.querySelectorAll('.sub-navbar >div');
+     [...dom].forEach(item=>{
       if(item.innerHTML==='sticky'){
          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
       }

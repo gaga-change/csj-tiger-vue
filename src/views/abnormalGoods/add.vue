@@ -1,6 +1,6 @@
 <template>
   <div  class="abnormalGoods">
-      <add-search   @submit="this.submit"  @propChange="this.propChange" ref="search" ></add-search >
+      <add-search   @submit="this.submit" :disabled="disabled"   @propChange="this.propChange" ref="search" ></add-search >
       <div class="add-buttom" >
         <item-title text="商品明细" />
         <el-button type="primary" size="mini"  @click="displayAlert"  >增加商品明细</el-button>
@@ -60,6 +60,7 @@ import AddSearch from './components/addSearch'
 import EditTable from './components/table'
 import { addAlertTableConfig } from './components/config';
 import webPaginationTable from '@/components/Table/webPaginationTable'
+import { handleOpinionConfig } from '@/utils/enum'
 import { queryListByCustCodeAndOutBillCode , savePurcRejectApplyDO ,getPurcRejectApply } from '@/api/abnormalGoods/index';  
 import _  from 'lodash';
 import { mapGetters } from 'vuex'
@@ -79,6 +80,7 @@ export default {
       outBillNo:'',
 
       purcBillContractNo:'',/**采购订单号对应的合同**/
+      disabled:false,
 
     }
   },
@@ -92,6 +94,11 @@ export default {
               for(let i in this.$refs['search'].searchForm){
                  this.$refs['search'].searchForm[i]=res.data[i]
               }
+              console.log(this.$refs['search'].searchForm.handleOpinion,1231231231);
+              
+              if(!this.$refs['search'].searchForm.handleOpinion){
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+              }
               this.editTableData=res.data.productBreakdown.map(v=>{
                 let json=v;
                 json.warehouseName=res.data.warehouseName;
@@ -103,8 +110,14 @@ export default {
               });
             }
          }).catch(err=>{
+           if(!this.$refs['search'].searchForm.handleOpinion){
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+            }
            console.log(err)
          })
+     }else{
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+              
      }
   },
 
@@ -225,12 +238,12 @@ export default {
       
       savePurcRejectApplyDO(json).then(res=>{
         if(res.success){
-          this.$confirm('操作成功！', '提示', {
-            confirmButtonText: '详情',
-            cancelButtonText: '关闭',
-            type: 'success'
-          }).then(
-            _ => {
+            this.disabled=true;
+            this.$message({
+            type:'success',
+            message:'操作成功,1.5s后跳往详情页',
+            duration:1500,
+            onClose:()=>{
               this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                   this.$router.push({
                     path:'/abnormalGoods/detail',
@@ -238,10 +251,9 @@ export default {
                   })
               }).catch(err=>{ 
                 console.log(err)
-              })
-          }).catch(err=>{
-            console.log(err)
-          })
+              })  
+             }
+            })
         }
       }).catch(err=>{
         console.log(err)
