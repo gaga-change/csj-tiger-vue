@@ -20,7 +20,7 @@ service.interceptors.response.use(
         })
       } else {
         let message=res.message||res.errorMsg||'';
-        if(message=='用户未登录'){
+        if(message=='用户未登录'||message.includes('登录失效')){
           location.href = `/csj_login`
         }
         Notification({
@@ -37,7 +37,7 @@ service.interceptors.response.use(
   },
   error => {
     let message=error.message||err.errorMsg||''
-    if(message=='用户未登录'){
+    if(message=='用户未登录'||message.includes('登录失效')){
       location.href = `/csj_login`
     }
     Notification({
