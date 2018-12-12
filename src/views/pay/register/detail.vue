@@ -2,29 +2,50 @@
 <div>
   <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
     <template v-if="dataSuccess">
-      <template  v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('cashier'))&&cardData.paymentStatus == 4">
-         <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
-            @click="saveOrder(0,'ruleForm')">保存
-        </el-button> -->
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
-            @click="saveOrder(1,'ruleForm')">提交
-        </el-button>
-      </template> 
-      <template v-else-if="$route.query.from=='needWork'&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))&&cardData.paymentStatus==5">
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
-            @click="Modify('payCheck')">审核
+      <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('cashier'))">
+        <!-- 出纳操作 -->
+         <template  v-if="(cardData.moneyState==2&&cardData.paymentStatus==3)||(cardData.moneyState==0&&cardData.paymentStatus==4)">
+           <el-button @click="editReal" v-if="!editable" size="small"  type="primary">创建付款登记</el-button>
+           <template v-else>
+              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              @click="saveOrder(0,'ruleForm')">保存
+              </el-button>
+              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+                  @click="saveOrder(1,'ruleForm')">提交
+              </el-button>
+           </template>
+          
+        </template>  
+        <template v-else-if="cardData.registerStatus == 0||cardData.registerStatus == 9">
+          <el-button @click="editReal" v-if="!editable" size="small"  type="primary">编辑</el-button>
+           <template v-else>
+              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              @click="saveOrder(0,'ruleForm')">保存
+              </el-button>
+              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+                  @click="saveOrder(1,'ruleForm')">提交
+            </el-button>
+           </template>
+           
+        </template> 
+        <!-- $route.query.from=='needWork'&& 之前走工作流审核 -->
+        <template v-else-if="cardData.registerStatus==5">
+            <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+              @click="Modify('payCheckRegister')">审核
+            </el-button>
+            <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
+                @click="Modify('payRejectSingleRegister')">驳回
+            </el-button>  
+        </template>
+        <!-- <el-tag v-else>
+          暂无操作
+        </el-tag> -->
+        <el-button  style="margin-left: 10px;" size="small"  type="primary" 
+              @click="makePrint">打印
           </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
-              @click="Modify('payRejectSingle')">驳回
-          </el-button>  
+        </template>
       </template>
-      <el-tag v-else>
-        暂无操作
-      </el-tag>
-      <el-button  style="margin-left: 10px;" size="small"  type="primary" 
-            @click="makePrint">打印
-        </el-button>
-      </template>
+     
       <template v-else>
         <el-tag >
         暂无操作
@@ -33,10 +54,26 @@
   </sticky>
 
    <invoice-detail :cardData="cardData" id="print"
-    :tableData="tableData"  :name="name">
+    :tableData="tableData"  :name="name" :payment-info-config="paymentInfoConfig">
+    <template v-if="cardData.moneyState == 2">
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" >
+        <el-row>
+          <el-col  class="card-list" :span="18" >
+              <span class="card-title">对账区间</span> ：
+              <a class="card-text" @click="showDetail" style="color:#409EFF">
+                {{formatTime(cardData.startTime)}} 至 {{formatTime(cardData.endTime)}}
+              </a>
+            </el-col>
+        </el-row>
+      </el-card>   
+       <!-- 对账单 -->
+      <pay-bill :serviceCharge="paybillData.serviceCharge" :table-data="paybillData.tableData" ref="payBills" :dialog-visible-pay="dialogVisiblePay" :pay-duration-start="payDurationStart" :pay-duration-end="payDurationEnd" :time-usable="timeUsable">
+      </pay-bill>
+    </template>
     <template v-if="dataSuccess">
     <item-title text="实付信息"/>
-      <template v-if="(cardData.paymentStatus == 4||editable)&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
+    <!-- (cardData.moneyState==2&&cardData.paymentStatus==3)||(cardData.moneyState==0&&cardData.paymentStatus==4)||(cardData.registerStatus == 0||cardData.registerStatus == 9||editable)) -->
+      <template v-if="editable&&(userInfo.roles.includes('cashier')||userInfo.roles.includes('superAdmin'))">
         
           <el-card class="simpleCard" shadow="never" body-style="padding:12px">
             <el-form :model="ruleForm" :rules="rules"  ref="ruleForm" label-width="80px" label-postion="left">
@@ -48,13 +85,13 @@
                     type="date"
                     size="small"
                     placeholder="付款日期"
-                    :editable="false">
+                    :disabled="!editable">
                   </el-date-picker>
                 </el-form-item>
               </el-col>
                 <el-col :span="6">
                 <el-form-item label="结算方式" prop="paymentMode">
-                  <el-select v-model="ruleForm.paymentMode" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
+                  <el-select v-model="ruleForm.paymentMode" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search" :disabled="!editable">
                     <el-option
                       v-for="item in PaymentModeEnumFilter"
                       :key="item.value"
@@ -68,12 +105,12 @@
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="货款金额" prop="applyPaymentAmt">
-                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='cardData.moneyType!=3' size="small" placeholder="货款金额"></el-input>
+                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="small" placeholder="货款金额"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="贴息" prop="realInterestAmt">
-                  <el-input v-model="ruleForm.realInterestAmt" size="small" type="number" ></el-input>
+                  <el-input v-model="ruleForm.realInterestAmt" size="small" type="number" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
           
@@ -86,12 +123,12 @@
             <el-row :gutter="10">
               <el-col :span="6" >
                 <el-form-item label="备注">
-                  <el-input type="textarea" size="small" v-model="ruleForm.remarkInfo"></el-input>
+                  <el-input type="textarea" size="small" v-model="ruleForm.remarkInfo" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" >
                 <el-form-item label="交易流水号">
-                  <el-input type="text" size="small" v-model="ruleForm.paymentRecordNo" ></el-input>
+                  <el-input type="text" size="small" v-model="ruleForm.paymentRecordNo" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
               </el-row>
@@ -109,14 +146,17 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail, payRegister,payRegisterCommit, paymentRecord } from '@/api/pay'
+    import { getPaymentListAndDetail, payRegister,payRegisterCommit, paymentRecord, infoInvoiceAmmount, getPaymentRegisterData } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
-    import { realPayInfoConfig } from '../components/config';
+    import { realPayInfoConfig, paymentInfoConfig } from '../components/config';
     import { MoneyReg } from '@/utils/validator'
     import { MakePrint } from '@/utils/index'
     import { MoneyStateEnum, MoneyTypeEnum,PaymentModeEnum } from '@/utils/enum'
+    import PayBill from '../components/PayBill'
+
+    
     const name = "apply"
    
     let searchForm = {
@@ -176,7 +216,7 @@
     import InvoiceDetail from '../components/detail'
     import Modify from '../components/modify'
     export default {
-      components: { InvoiceDetail, Sticky },
+      components: { InvoiceDetail, Sticky, PayBill },
       data() {
        
         return {
@@ -186,6 +226,7 @@
           buttonDisabled:false,
           tableData: [],
           cardConfig:realPayInfoConfig,
+          paymentInfoConfig:[],
           cardData:{},
           ruleForm:{
             realPaymentDate:'',//付款日期
@@ -201,6 +242,17 @@
           searchForm,
           PaymentModeEnumFilter,
           dataSuccess:false,
+
+           //对账单相关参数
+          paybillData:{},
+          disableButton:false,
+          dialogVisiblePay:false,
+          payDurationStart:'',
+          payDurationEnd:'',
+          timeUsable:{
+            start:true,
+            end:true
+          },
         }
       },
 
@@ -227,6 +279,35 @@
 
     methods: {
       Modify,
+      formatTime(value){
+        return moment(value).format('YYYY-MM-DD')
+      },
+      showDetail(){
+        //显示对账区间
+
+        this.loading = true
+        this.payDurationStart = this.cardData.startTime
+        this.payDurationEnd = this.cardData.endTime
+        infoInvoiceAmmount({startTime:this.cardData.startTime,endTime:this.cardData.endTime}).then(res=>{
+            
+            if(res.success){
+              var tableData = res.data&&res.data.items||[]
+
+              this.paybillData.tableData = tableData.filter(item => item&&item.makeDate)
+              
+              this.paybillData.serviceCharge = res.data.serviceCharge 
+              this.dialogVisiblePay = true
+              this.$refs.payBills.dialogVisPay = true
+              
+            }else{
+              this.$message({type:'info',message:'请稍后请求'})
+            }
+            this.loading = false
+        }).catch(err=>{
+            this.loading = false
+            this.$message({type:'error',message:'接口请求失败，请重试'})
+        })
+      },
      makePrint(){
        MakePrint(document.getElementById('print').innerHTML)
      },
@@ -244,6 +325,7 @@
          
       },
       needfresh() {
+        
         this.buttonDisabled = false
         this.editable = false
         this.getCurrentTableData()
@@ -260,6 +342,9 @@
             params.operatorName=this.userInfo.truename
             params.fromSystemCode='CSJSCM'
             params.applyNo = this.cardData.applyNo
+            if(this.cardData.finaPaymentRegisterId){
+              params.finaPaymentRegisterId = this.cardData.finaPaymentRegisterId
+            }
             if(type){
               params.flag = false
             }else{
@@ -267,8 +352,9 @@
             }
             this.buttonDisabled=true
             payRegister(params).then(res=>{
-              console.log(res);
               
+              this.needfresh()
+            }).catch(err => {
               this.needfresh()
             })
           } else {
@@ -281,8 +367,9 @@
         this.buttonDisabled = true
            let params = {...this.ruleForm}
             params.id = this.cardData.id
-            params.taskId=this.$route.query.taskId
-            params.taskName=this.$route.query.taskName
+            //之前工作流参数
+            // params.taskId=this.$route.query.taskId
+            // params.taskName=this.$route.query.taskName
             params.operator=this.userInfo.id
             params.operatorName=this.userInfo.truename
             params.fromSystemCode='CSJSCM'
@@ -310,6 +397,7 @@
             this.dataSuccess = true
            
             this.cardData = res.list[0]
+           
              let fileInfos = res.list[0].filePathList || []
               
               fileInfos.map(item=>{
@@ -319,6 +407,18 @@
                 }
                 
               })
+              var detailConfig = []
+              if(this.cardData.moneyType==0){
+                detailConfig = paymentInfoConfig.filter(config=>
+                  config.paytype.includes('goods')
+                )
+              }else{
+                detailConfig = paymentInfoConfig.filter(config=>
+                  config.paytype.includes('service')
+                )
+              }
+              this.paymentInfoConfig = [...detailConfig]
+              
             let { realPaymentDate,
             paymentMode,//结算方式,
             applyPaymentAmt,//货款金额
@@ -327,6 +427,7 @@
             remarkInfo,//备注
             paymentRecordNo,//交易流水号
             } = this.cardData
+
             this.ruleForm = { realPaymentDate,
             paymentMode,//结算方式,
             applyPaymentAmt,//货款金额
@@ -336,20 +437,36 @@
             paymentRecordNo,//交易流水号
             }
             
-              this.cardData.filePathList   = fileInfos
+            this.cardData.filePathList   = fileInfos
               // this.cardData.moneyType = 3
-              if(this.cardData.moneyType == 3){
-                this.rules = returnPayReg
-              }else{
-                this.rules = rulesReg
-              }
-              if(this.cardData.id&&this.cardData.processInstanceId){
-                paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
-                      this.tableData = res.data            
-                })
-              }else{
-                this.tableData = []
-              }
+            if(this.cardData.moneyType == 3){
+              this.rules = returnPayReg
+            }else{
+              this.rules = rulesReg
+            }
+            if(this.cardData.id&&this.cardData.processInstanceId){
+              paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
+                this.tableData = res.data            
+              })
+            }else{
+              this.tableData = []
+            }
+            if(this.cardData.finaPaymentRegisterId){
+              this.loading = true
+              getPaymentRegisterData({id:this.cardData.finaPaymentRegisterId}).then(res =>{
+                this.loading = false
+                if(res.success){
+                  this.cardData.registerStatus = res.data.registerStatus
+                  console.log(this.cardData.registerStatus,222222);
+                  
+                }else{
+                  this.cardData.registerStatus = ''
+                }
+              }).catch(err => {
+                this.cardData.registerStatus = ''
+                this.loading = false
+              })
+            }
           }
          
         }).catch(err=>{

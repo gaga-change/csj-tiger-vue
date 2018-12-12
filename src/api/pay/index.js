@@ -97,11 +97,41 @@ export function payRegisterCommit(data) {
     method: 'get',
   })
 }
+export function getAllProvider(data) {
+  return request({
+    url: ` /webApi/base/info/getAllProvider`,
+    method: 'get',
+  })
+}
 //
 // 删除付款详情
 export function dropPayment(id) {
   return request({
     url: ` /api/payment/dropPayment?id=${id}`,
     method: 'get',
+  })
+}
+// 拉取对账单
+export function infoInvoiceAmmount(data) {
+  return request({
+    url: ` /api/payment/getInvoiceAmmount`,
+    method: 'post',
+    data:data
+  })
+}
+// 获取对账单最后拉取时间
+export function getLastTime(data) {
+  return request({
+    url: ` /api/payment/getLastTime`,
+    method: 'post',
+    data:data
+  })
+}
+// 
+export function getPaymentRegisterData(data) {
+  return request({
+    url: ` /api/payment/selectRegisterData`,
+    method: 'post',
+    data:data
   })
 }

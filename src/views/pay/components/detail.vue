@@ -16,7 +16,7 @@
 <script>
   import _ from 'lodash'
  import webPaginationTable from '@/components/Table/webPaginationTable'
-  import { recordConfig, paymentInfoConfig } from './config'
+  import { recordConfig } from './config'
  export default {
     name: 'InvoiceDetail', 
     components: { webPaginationTable },
@@ -24,7 +24,7 @@
       return {
         config:{},
         recordConfig,
-        paymentInfoConfig,
+        // paymentInfoConfig,
         searchForm:{},
         recordData:[],
         loading:false,
@@ -58,6 +58,11 @@
         required:false,
         default:()=> [] 
       },
+      paymentInfoConfig:{
+        type: Array,
+        required:true,
+        default:()=> [] 
+      }
     },
     
  }

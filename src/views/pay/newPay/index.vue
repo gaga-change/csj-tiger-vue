@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="app-container">
-    <el-form :model="payment" :rules="rules" ref="ruleForm" label-width="70px" label-position="left">
+    <el-form :model="payment" :rules="rules" ref="ruleForm" label-width="100px" label-position="left">
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="申请标题" prop="applyTitle">
@@ -41,10 +41,10 @@
         <el-col :span="6">
           <el-form-item label="款项性质" prop="moneyState">
             <el-select v-model="payment.moneyState" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
-              <!-- :disabled="item.disabled" -->
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
+                :disabled="item.disabled"
                 :label="item.name"
                 :value="item.value">
               </el-option>
@@ -81,9 +81,20 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item :label="this.payment.moneyState === 0 ?'采购合同' :'合同号'" prop="contractNo" >
-             <el-input type="text" size="small" :disabled="this.payment.moneyState === 0" v-model="payment.contractNo" />
-          </el-form-item>
+          <template v-if="payment.moneyState === 0">
+            <el-form-item label="采购合同" prop="contractNo" >
+              <el-input type="text" size="small" disabled v-model="payment.contractNo" />
+            </el-form-item>
+          </template>
+          <template v-else>
+            <el-form-item label="合同号" prop="contractNo" :rules="[
+                {  required: true, trigger: 'blur', message:'请输入合同号' }
+              ]">
+              <el-input type="text" size="small" v-model="payment.contractNo" />
+            </el-form-item>
+          </template>
+          
+         
         </el-col>
         <!-- <el-col :span="6">
           <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentMode">
@@ -110,11 +121,11 @@
           </el-form-item>
         </el-col> -->
         <el-col :span="6">
-          <el-form-item label="申请付款金额" prop="applyPaymentAmt" label-width="120px"  :rules="[
+          <el-form-item label="申请付款金额" prop="applyPaymentAmt" label-width="100px"  :rules="[
               { validator: checkAmt, required: true, trigger: 'blur' }
              ]">
-             <el-input type="text" size="small" :disabled="this.payment.moneyState !== 0" v-model="payment.applyPaymentAmt" style="max-width:120px" ></el-input>
-             <el-button @click="getPayInfo" v-show="this.payment.moneyState !== 0" size="small" style="display:inline-block" type="text">拉取对账单</el-button>
+             <el-input type="text" size="small" :disabled="this.payment.moneyState === 2" v-model="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
+             <el-button @click="getPayInfo" v-show="this.payment.moneyState === 2" size="small" style="display:inline-block" type="text">拉取对账单</el-button>
           </el-form-item>
         </el-col>
          <!-- <el-form-item label="其中:贴息" label-width="90px" prop="paymentAmt">
@@ -123,13 +134,14 @@
         </el-col> -->
        
          <el-col :span="8">
-          <el-form-item label="要求付款日期" label-width="120px" prop="applyPaymentDate">
+          <el-form-item label="要求付款日期" label-width="100px" prop="applyPaymentDate">
               <el-date-picker
               v-model="payment.applyPaymentDate"
               type="date"
               size="small"
               :editable="false"
               placeholder="选择日期时间"
+              style="max-width:200px"
               align="right">
             </el-date-picker>
           </el-form-item>
@@ -160,13 +172,13 @@
       </el-row>
        <el-row :gutter="20">
           <el-col :span="6">
-          <el-form-item label="收款方银行账户" label-width="120px" prop="receiveAccount">
+          <el-form-item label="收款方银行账户" label-width="100px" prop="receiveAccount">
              <el-input type="text" size="small" v-model="payment.receiveAccount"></el-input>
           </el-form-item>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="收款方收款银行" label-width="120px" prop="receiveBank">
+          <el-form-item label="收款方收款银行" label-width="100px" prop="receiveBank">
             <el-input type="text" size="small" v-model="payment.receiveBank"></el-input>
           </el-form-item>
         </el-col>
@@ -205,63 +217,40 @@
       </el-upload>
     </el-dialog>
 
-    <!-- 拉取对账单 -->
-    <el-dialog
-      title="拉取对账单"
-      :visible.sync="dialogVisiblePay"
-      center
-      width="50%">
-     <el-row style="margin-bottom:10px;">
-       <el-col>该服务商上次对账截止至{{123123123}}号</el-col>
-     </el-row>
-      <el-row>
-        <el-col>请选取本次对账时间段 <el-date-picker
-            v-model="payDurationStart"
-            type="dates" 
-            size="small"
-            disabled
-            placeholder="开始">
-          </el-date-picker> 至
-          <el-date-picker
-            v-model="payDuration"
-            type="dates" 
-            size="small"
-            placeholder="结束日期">
-          </el-date-picker>
-          <el-button @click="getPayInfoDatail" size="small">查询</el-button>
-
-        </el-col>
-     </el-row>
-     <el-table :data="data">
-        <el-table-column
-          v-for="item in tableConfig"
-          :formatter="item.formatter"
-          :key="item.lable"
-          :type="item.columnType"
-          :fixed="item.fixed"
-          :width="item.width"
-          :prop="item.prop"
-          :label="item.label">
-        </el-table-column>
-     </el-table>
-     <div>服务费{{}}</div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
+    <!-- 对账单 -->
+    <pay-bill :serviceCharge="paybillData.serviceCharge" :table-data="paybillData.tableData" ref="payBills" :dialog-visible-pay="dialogVisiblePay" :pay-duration-start="payDurationStart" :pay-duration-end="payDurationEnd">
+      <template slot="detailLastDate">
+        <el-row style="margin-bottom:10px;">
+          <el-col>该服务商上次对账截止至{{lastBillDate}}号</el-col>
+        </el-row>
+      </template>
+      
+      <template slot="searchButton">
+         <el-button @click="getPayInfoDatail" size="small" :disabled="disableButton">查询</el-button>
+      </template>
+      <template slot="footer">
+        <span class="dialog-footer">
+          <div style="display:flex;justify-content:flex-end;">
+            <el-button @click="dialogVisiblePay = false" >取 消</el-button>
+            <el-button type="primary" @click="()=>{this.dialogVisiblePay = false;this.payment.applyPaymentAmt=this.paybillData.serviceCharge}">确 定</el-button>
+          </div>
+         
+        </span>
+      </template>
+    </pay-bill>
   </div>  
 </template>
   
 
 <script>
-  import { addOrUpdatePayment, getPaymentListAndDetail,BusibillNoSelect } from '@/api/pay'
+  import { addOrUpdatePayment, getPaymentListAndDetail, BusibillNoSelect } from '@/api/pay'
   import { mapGetters } from 'vuex'
   import moment from 'moment'
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
-  import { getProvider } from '@/api/pay'
+  import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime } from '@/api/pay'
   // import orderchoice from './Component/orderchoice'
+  import PayBill from '../components/PayBill'
   const  payment = {
           id:'',//付款申请id.
           applyTitle:'',//申请标题.  
@@ -278,8 +267,11 @@
           receiveBank:'',//收款银行.
           receiveAccount:'',//收款账号.
           filePathList:[],
-          fileNew:[]
+          fileNew:[],
+          ownerCode:'',
+          ownerName:'',
         }
+  //货物校验
   const goodsRules = {
      applyTitle:[
         { required: true, message: '请输入申请标题', trigger: 'blur' }
@@ -303,6 +295,8 @@
         {  required: true, message: '请选择付款日期', trigger: 'change' }
       ],
   }
+
+  //非货物校验
   const notGoodsRules = {
     applyTitle:[
         { required: true, message: '请输入申请标题', trigger: 'blur' }
@@ -316,39 +310,20 @@
       moneyState: [
         { required: true, message: '请选择款项性质', trigger: 'change' }
       ],
-      contractNo: [
-        { required: true, message: '请输入合同号', trigger: 'blur' }
-      ],
+      // contractNo: [
+      //   { required: true, message: '请输入合同号', trigger: 'blur' }
+      // ],
       applyPaymentDate: [
         {  required: true, message: '请选择付款日期', trigger: 'change' }
       ],
   }
-  //  const checkAmtGoods = (rule, value, callback) => {
-  //       console.log(value,3221);
-        
-  //       if (!Number(value)) {
-  //         return callback(new Error(`请输入货款`))
-  //       }
-  //       if(value<0){
-  //         return callback(new Error('货款为正数'))
-  //       }
-  //       if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
-  //         return callback(new Error('货款最多两位小数'))
-  //       }
-  //       callback()
-  //     }
-  //   const checkAmt = (rule, value, callback) => {
-  //     console.log(value,123);
-  //       if (!Number(value)) {
-  //         return callback(new Error(`请拉取对账单`))
-  //       }
-  //       callback()
-  //     }
+
   export default {
     name: 'newpayment',
-    // components: {
-    //   orderchoice
-    // },
+    components: {
+      // orderchoice,
+      PayBill
+    },
     data() {
       var checkDetail = (rule, value, callback) => {
         if (value.length > 20) {
@@ -373,26 +348,39 @@
         callback()
       }
       return {
+        //枚举
         MoneyStateEnum,
         MoneyTypeEnum,
         PaymentModeEnum,
-        busiBillNoAll:[],
         payment,
         rules: goodsRules,
+        //上传文件相关
         dialogVisible: false,
         uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
         filePathList: [],
         uploadButtonVisible: false,
         dialogTableVisible: false,
         submitloading: false,
+        fileNew:[],
+
+        //客户账单相关
         customerConfig:[],
+        customerAllConfig:[],//
         busiBillNoAll:[],
         customerFilterMark:'',//客户名称过滤标识
         billFilterMark:'',//订单筛选
-        fileNew:[],
-        dialogVisiblePay: true,
-        payDuration:'',
-        payDurationStart:1544171631612,
+
+        //对账单相关参数
+        paybillData:{},
+        disableButton:false,
+        dialogVisiblePay:false,
+        lastBillDate:'',
+        payDurationStart:'',
+        payDurationEnd:'',
+        timeUsable:{
+          start:true,
+          end:false
+        },
       }
     },
     computed: {
@@ -407,11 +395,20 @@
       nowCustomerConfig:{
        get: function () {
         let value=this.customerFilterMark;
-        if((value!==0&&!value)||!this.customerConfig.length){
-          return this.customerConfig
-        } else{
-          return this.customerConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
+        if(this.payment.moneyState === 0){
+          if((value!==0&&!value)||!this.customerConfig.length){
+            return this.customerConfig
+          } else{
+            return this.customerConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
+          }
+        }else{
+          if((value!==0&&!value)||!this.customerConfig.length){
+            return this.customerAllConfig
+          } else{
+            return this.customerAllConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
+          }
         }
+       
        },
        set:function(){
  
@@ -445,30 +442,34 @@
         )
         
         this.filePathList = url
-        console.log(this.filePathList,11111);
         
       },
-      // payment:{
-      //   handler (val,oldVal){
-      //     console.log(val,oldVal);
-      //     if(val.moneyState==0){
-      //       this.rules = goodsRules
-      //     }else{
-      //       this.rules = notGoodsRules
-      //     }
-      //   },
-      //   deep:true
-      // }
-      'payment.moneyState':(val,oldVal)=>{
-        console.log(val,oldVal);
-        if(val==0){
-          this.rules = goodsRules
-        }else{
-          this.rules = notGoodsRules
-          console.log(this.rules);
-          
-        }
+      payment:{
+        handler (val,oldVal){
+         
+          if(val.moneyState==0){
+            this.rules = goodsRules
+           
+          }else{
+            this.rules = notGoodsRules
+           
+          }
+        },
+        deep:true
       }
+      // 'payment.moneyState':(val,oldVal)=>{
+      //   if(val==0){
+      //     this.rules = goodsRules
+      //     this.payment.ownerCode = ''
+      //     this.payment.ownerName = ''
+      //   }else{
+      //     this.rules = notGoodsRules
+      //     this.payment.ownerCode = 'EP201804150009';
+      //     this.payment.ownerName = '诸暨裕大贸易有限公司';
+      //     console.log(this.rules);
+          
+      //   }
+      // }
     },
     created() {
       this.payment.moneyState = 0
@@ -480,6 +481,7 @@
         this.filePathList = []
       }
       this.getCustomInfo()  
+     
     },
     activated(){
       this.payment.moneyState = 0
@@ -496,9 +498,40 @@
     methods: {
       getPayInfo(){
         //拉取对账单
+        getLastTime({}).then(res=>{
+          if(res.success){
+            this.dialogVisiblePay = true
+            this.$refs.payBills.dialogVisPay = true
+            res.data.endTime = moment('2018-12-02')
+            this.lastBillDate = moment(res.data.endTime).format('YYYY-MM-DD')
+            this.payDurationStart = moment(res.data.endTime).add('1','days')
+            this.paybillData = {}
+          }
+        })
+        
       },
-      getPayInfoDatail(){
-        console.log(this.payDuration);
+      getPayInfoDatail(event){
+        this.disableButton = true
+        var endTime = +this.$refs.payBills.durationEnd
+        
+        if(endTime){
+          infoInvoiceAmmount({startTime:this.payDurationStart,endTime}).then(res=>{
+            
+            if(res.success){
+              var tableData = res.data&&res.data.items||[]
+
+              this.paybillData.tableData = tableData.filter(item => item&&item.makeDate)
+              
+              this.paybillData.serviceCharge = res.data.serviceCharge 
+            }
+            this.disableButton = false
+          }).catch(err=>{
+            this.disableButton = false
+          })
+        }else{
+          this.disableButton = false
+        }
+       
       },
       checkAmt(rule, value, callback){
         
@@ -518,19 +551,27 @@
         this.billFilterMark=''
       },
       customerChange(e){
-        this.customerConfig.map(item=>{
+        var customer = []
+        
+        if(this.payment.moneyState == 0){
+          customer = [...this.customerConfig]
+           if(this.payment.paymenterCode){
+            BusibillNoSelect({paymenterCode:this.payment.paymenterCode}).then(res=>{
+              if(res.success){
+                this.busiBillNoAll = res.data || []
+              }
+            })
+          }
+        }else if(this.payment.moneyState == 2){
+          customer = [...this.customerAllConfig]
+        }
+        customer.map(item=>{
           
           if(item.paymenterCode==e){
             this.payment.paymenterName = item.paymenterName
           }
         })
-        if(this.payment.paymenterCode){
-          BusibillNoSelect({paymenterCode:this.payment.paymenterCode}).then(res=>{
-            if(res.success){
-              this.busiBillNoAll = res.data || []
-            }
-          })
-        }
+       
         
       },
 
@@ -542,6 +583,7 @@
         // }).catch(err=>{
 
         // })
+        
         getProvider().then(res=>{
           if(res.success){
             this.customerConfig=res.data||[]
@@ -549,6 +591,14 @@
         }).catch(err=>{
 
         })
+        getAllProvider().then(res=>{
+          if(res.success){
+            this.customerAllConfig=res.data||[]
+          }
+        }).catch(err=>{
+
+        })
+        
       },
       cusCodeFilter(value){
         this.customerFilterMark=value;
@@ -645,6 +695,30 @@
         
       },
       onSubmit(type) {
+        
+        var customer = []
+        
+        if(this.payment.moneyState == 0){
+          customer = [...this.customerConfig]
+          this.payment.ownerCode = '';
+          this.payment.ownerName = '';
+          
+        }else if(this.payment.moneyState == 2){
+          customer = [...this.customerAllConfig]
+          this.payment.ownerCode = 'EP201804150009';
+          this.payment.ownerName = '诸暨裕大贸易有限公司';
+        }
+        customer.map(item=>{
+          if(item.paymenterCode==this.payment.paymenterCode){
+            this.payment.paymenterName = item.paymenterName
+          }
+        })
+        this.payment.startTime = this.$refs.payBills.payDurationStart
+        this.payment.endTime = this.$refs.payBills.durationEnd
+        if(!this.payment.endTime){
+          this.$message({type:'error',message:'请选择结束对账单时间'})
+          return
+        }
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
           

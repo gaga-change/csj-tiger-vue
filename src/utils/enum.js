@@ -191,7 +191,7 @@ export const MoneyStateEnum = [
   {
     name: '服务费',
     value: 2,
-    disabled:true,
+    disabled:false,
   },
   {
     name: ' ',

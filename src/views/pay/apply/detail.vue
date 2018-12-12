@@ -27,8 +27,8 @@
           </el-button>
       </template>	
 
-      <template v-else-if="$route.query.from=='needWork'">
-
+      <template v-else-if="$route.query.from=='needWork'&&cardData.moneyState==0">
+        <!-- 货款，且走工作流 -->
         <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_leader'))&&cardData.paymentStatus == 1">
           <!-- 采购负责人审核 -->
          <check-button :buttonDisabled='buttonDisabled' :Modify="Modify"></check-button>
@@ -48,9 +48,23 @@
         暂无操作
         </el-tag>
         
+      </template> 
+      <template v-else-if="cardData.moneyState==2">
+        <!-- 服务费 -->
+
+         <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('finance_leader')||userInfo.roles.includes('finance_TIGER'))&&cardData.paymentStatus==1">
+           <!-- 财务 -->
+          <check-button :buttonDisabled='buttonDisabled' :Modify="Modify"></check-button>
+        </template>
+
+        
+        <el-tag v-else>
+        暂无操作
+        </el-tag>
+        
       </template>
       <el-tag v-else>
-        暂无操作
+        暂无操作{{userInfo.roles}} {{cardData.paymentStatus}}
       </el-tag>
     </template>	
      
@@ -58,31 +72,49 @@
         暂无操作
       </el-tag>
   </sticky>
-   <invoice-detail :cardData="cardData" 
+   <invoice-detail :cardData="cardData" :payment-info-config="paymentInfoConfig"
     :tableData="tableData"  :name="name">
-    <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px" v-if="dataSuccess">
-   <el-row>
-     <el-col  class="card-list"     :span="24" >
-        <span class="card-title">付款相关信息</span> : 
-      
-        <div class="card-text" style="display:inline-block">
-          <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${this.cardData.contractNo}/${this.cardData.taskId}` }" style="color:#3399ea">
-                  合同信息查看
-          </router-link>&nbsp;&nbsp;
-          <router-link :to="{ path: `/payment/apply/inOrder`, query:{id:this.cardData.id,busiBillNo:this.cardData.busiBillNo}}" style="color:#3399ea">
-                  订单入库信息查看
-          </router-link>&nbsp;&nbsp;
-          <router-link :to="{ path: `/payment/apply/invoice`,query:{id:this.cardData.id,busiBillNo:this.cardData.busiBillNo} }" style="color:#3399ea">
-                  订单发票信息查看
-          </router-link>
-        </div>
-      </el-col>
-   </el-row>
-  </el-card>   
-  <template v-if="cardData.paymentStatus>4">
-    <item-title text="实付信息"/>
-    <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
-  </template>
+    <template v-if="cardData.moneyState == 0">
+       <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:14px" v-if="dataSuccess">
+        <el-row>
+          <el-col  class="card-list"     :span="24" >
+            <span class="card-title">付款相关信息</span> : 
+            
+            <div class="card-text" style="display:inline-block">
+              <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${this.cardData.contractNo}/${this.cardData.taskId}` }" style="color:#3399ea">
+                        合同信息查看
+                </router-link>&nbsp;&nbsp;
+                <router-link :to="{ path: `/payment/apply/inOrder`, query:{id:this.cardData.id,busiBillNo:this.cardData.busiBillNo}}" style="color:#3399ea">
+                        订单入库信息查看
+                </router-link>&nbsp;&nbsp;
+                <router-link :to="{ path: `/payment/apply/invoice`,query:{id:this.cardData.id,busiBillNo:this.cardData.busiBillNo} }" style="color:#3399ea">
+                        订单发票信息查看
+              </router-link>
+            </div>
+          </el-col>
+        </el-row>
+      </el-card>   
+      <template v-if="cardData.paymentStatus>4">
+        <item-title text="实付信息"/>
+        <item-card :config="cardConfig" :loading="loading"   :cardData="cardData"  />
+      </template>
+    </template>
+    <template v-else>
+       <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" >
+        <el-row>
+          <el-col  class="card-list" :span="18" >
+              <span class="card-title">对账区间</span> ：
+              <a class="card-text" @click="showDetail" style="color:#409EFF">
+                 {{formatTime(cardData.startTime)}} 至 {{formatTime(cardData.endTime)}}
+              </a>
+            </el-col>
+        </el-row>
+      </el-card>   
+       <!-- 对账单 -->
+      <pay-bill :serviceCharge="paybillData.serviceCharge" :table-data="paybillData.tableData" ref="payBills" :dialog-visible-pay="dialogVisiblePay" :time-usable="timeUsable" :pay-duration-start="payDurationStart" :pay-duration-end="payDurationEnd">
+      </pay-bill>
+    </template>
+   
 
     </invoice-detail>
     </div>
@@ -90,11 +122,11 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment } from '@/api/pay'
+    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment, infoInvoiceAmmount } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
-    import { realPayInfoConfig } from '../components/config';
+    import { realPayInfoConfig, paymentInfoConfig } from '../components/config';
     import { MoneyStateEnum, MoneyTypeEnum } from '@/utils/enum'
     const name = "apply"
    
@@ -106,8 +138,10 @@
     import InvoiceDetail from '../components/detail'
     import Modify from '../components/modify'
     import CheckButton from '../components/checkButton'
+    import PayBill from '../components/PayBill'
+
     export default {
-      components: { InvoiceDetail, Sticky, CheckButton },
+      components: { InvoiceDetail, Sticky, CheckButton, PayBill },
       data() {
         return {
           total:0,
@@ -116,16 +150,27 @@
           buttonDisabled:false,
           tableData: [],
           cardConfig:realPayInfoConfig,
+          paymentInfoConfig:[],
           dataSuccess:false,
           cardData:{},
           editable:true,//区分提交和编辑
           name,
           searchForm,
+
+          //对账单相关参数
+          paybillData:{},
+          disableButton:false,
+          dialogVisiblePay:false,
+          payDurationStart:'',
+          payDurationEnd:'',
+          timeUsable:{
+            start:true,
+            end:true
+          },
         }
       },
 
      created(){
-       
  
       this.getCurrentTableData();  
       
@@ -139,8 +184,40 @@
 
     methods: {
       Modify,
+      formatTime(value){
+        return moment(value).format('YYYY-MM-DD')
+      },
+      showDetail(){
+        //显示对账区间
+
+        this.loading = true
+        this.payDurationStart = this.cardData.startTime
+        this.payDurationEnd = this.cardData.endTime
+        infoInvoiceAmmount({startTime:this.cardData.startTime,endTime:this.cardData.endTime}).then(res=>{
+            
+            if(res.success){
+              var tableData = res.data&&res.data.items||[]
+
+              this.paybillData.tableData = tableData.filter(item => item&&item.makeDate)
+              
+              this.paybillData.serviceCharge = res.data.serviceCharge 
+              this.dialogVisiblePay = true
+              this.$refs.payBills.dialogVisPay = true
+              
+              
+            }else{
+              this.$message({type:'info',message:'请稍后请求'})
+              this.paybillData.tableData = []
+              this.paybillData.serviceCharge = ''
+            }
+            this.loading = false
+        }).catch(err=>{
+            this.loading = false
+            this.$message({type:'error',message:'接口请求失败，请重试'})
+        })
+      },
       isActive(route) {
-        return route.path === this.$route.path
+        return route.path === this.$route.path//是否当前页
       },
       deleteIt(){
         this.$confirm('要删除该条数据吗？', '提示', {
@@ -200,7 +277,7 @@
             this.needfresh()
         })
       },
-        formatter(type,value){
+      formatter(type,value){
             switch(type){
               case 'realPay': return  (row, column, cellValue, index)=>{
                 
@@ -209,7 +286,7 @@
               default:return value
             }
          
-       },
+      },
       linkToCreate(){
           this.$confirm('去新建付款单页编辑?', '提示', {
             confirmButtonText: '确定',
@@ -250,11 +327,12 @@
              this.needfresh()
           })
       },
+      //刷新页面
       needfresh() {
         this.buttonDisabled = false
         this.getCurrentTableData()
       },
-    
+      //获得当前数据
       getCurrentTableData(){
         this.loading=true;
          let params = {}
@@ -278,6 +356,17 @@
                 }
                 
               })
+               var detailConfig = []
+              if(this.cardData.moneyType==0){
+                detailConfig = paymentInfoConfig.filter(config=>
+                  config.paytype.includes('goods')
+                )
+              }else{
+                detailConfig = paymentInfoConfig.filter(config=>
+                  config.paytype.includes('service')
+                )
+              }
+              this.paymentInfoConfig = [...detailConfig]
               this.cardData.filePathList = fileInfos
               
               if(this.cardData.id&&this.cardData.processInstanceId){
@@ -301,7 +390,7 @@
         
        
       
-      }
+      },
     }
  }
 </script>
