@@ -138,6 +138,7 @@
               </el-table-column>
             <el-table-column
               label="商品名称"
+              :width="120"
               prop="skuName">
             </el-table-column>
             <el-table-column
@@ -514,10 +515,14 @@
 </script>
 
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss" >
   .el-form-item{
     height:30px;
     margin-bottom: 26px;
+  }
+
+  .el-table .cell{
+     white-space: nowrap;
   }
 </style>
 

@@ -5,7 +5,7 @@
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
-        :data="this._events.SelectionChange?allTableData:tableData"
+        :data="!usePagination?allTableData:tableData"
          size="small"
         :border="border"
          @selection-change="handleSelectionChange"
@@ -18,13 +18,14 @@
           :type="item.columnType"
           :fixed="item.fixed"
           :width="item.width"
+          :min-width="item.minWidth"
           :prop="item.prop"
           :label="item.label">
         </el-table-column>
       </el-table>
 
       <el-pagination
-        v-if="total>maxTotal&&!this._events.SelectionChange"
+        v-if="total>maxTotal&&usePagination"
         :style="paginationStyle"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -91,6 +92,10 @@ export default {
       type: String,
       default: "marginTop:16px"
     },
+    usePagination:{
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {

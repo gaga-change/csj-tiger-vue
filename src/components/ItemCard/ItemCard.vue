@@ -86,9 +86,9 @@ export default {
       formatter(type,value,useApi,userFormatter,useLocalEnum,format){
         if(value!=undefined){
           if(useApi){
-            return this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
+            return Array.isArray(this.mapConfig[type])&&this.mapConfig[type].find(v=>v.key==value)&&this.mapConfig[type].find(v=>v.key==value).value||''
           } else if(useLocalEnum){
-            return Enum[type].find(v=>v.value==value)&&Enum[type].find(v=>v.value==value).name||''
+            return Array.isArray(Enum[type])&&Enum[type].find(v=>v.value==value)&&Enum[type].find(v=>v.value==value).name||''
           }else if(typeof userFormatter=='function'){
               return userFormatter(value)
           }  else{
