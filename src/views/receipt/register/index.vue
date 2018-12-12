@@ -6,8 +6,11 @@
         </el-button>
       </sticky>
   <div style="marginBottom:12px">
-    <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
+     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
+      <div style="display: flex;justify-content: flex-end;margin-bottom: 12px;font-size:14px;color:#606266">
+        <span v-for="info in infoConfig" :key="info.title" style="margin-right:12px;"><span style="font-weight: 600">{{info.title}}：</span><span>{{(cardData[info.prop]||0).toFixed(2)}}</span></span>
+      </div>
    <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -30,7 +33,7 @@
 
 
     import moment from 'moment';
-    import { getReceiptList } from '@/api/receipt'
+    import { getReceiptList, getReceiptListTotal } from '@/api/receipt'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { receiptTableConfig } from '../components/config';
@@ -46,6 +49,12 @@
         loading:false,
         tableData: [],
         tableConfig:[],
+        infoConfig:[ 
+          { title:'实际回款合计', prop:'totalPaymentAmt',type:'money' },
+          { title:'实收货款合计', prop:'totalSumPayableAmt',type:'money' },
+          { title:'贴息合计', prop:'totalSumInterestAmt',type:'money' },
+        ],
+        cardData:{},
       }
     },
 
@@ -106,7 +115,7 @@
        submitForm(ruleForm) {
         this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'register'}
         this.getCurrentTableData();
-          
+        this.getTotal() 
       },
 
       resetForm() {
@@ -162,7 +171,14 @@
         }).catch(err=>{
             this.loading=false;
         })
-      }
+        getReceiptListTotal(data).then(res => {
+            console.log(res);
+            if(res.success){
+              this.cardData = res.data
+            }
+        })
+      },
+     
     }
  }
 </script>
