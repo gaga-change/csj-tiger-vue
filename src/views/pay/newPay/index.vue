@@ -212,6 +212,8 @@
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
   import { getProvider } from '@/api/pay'
+    import { MoneyReg } from '@/utils/validator'
+
   // import orderchoice from './Component/orderchoice'
   const  payment = {
           id:'',//付款申请id.
@@ -251,10 +253,10 @@
         if (!Number(value)) {
           return callback(new Error('请输入货款'))
         }
-        if(value<0){
-          return callback(new Error('货款为正数'))
-        }
-        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        // if(value<0){
+        //   return callback(new Error('货款为正数'))
+        // }
+        if (!MoneyReg.test(value)) {
           return callback(new Error('货款最多两位小数'))
         }
         callback()
