@@ -157,7 +157,7 @@
           </el-table-column>
 
           <el-table-column
-            label="本次收到贴息"
+            label="贴息"
             width="120">
             <template slot-scope="scope">
               <template v-if="scope.row.edit&&editable">
@@ -205,21 +205,19 @@
           :before-close="handleClose">
           <el-form v-model="searchForm" label-width="60px">
             <el-row :gutter="20">
-               <el-col :span="9">
+               <el-col :span="6">
                 <el-form-item label="订单编号" >
                   <el-input type="text" size="small" v-model="searchForm.busiBillNo" ></el-input>
                 </el-form-item>
               </el-col>
-               <el-col :span="9">
+               <el-col :span="6">
                 <el-form-item label="合同编号" >
                   <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="3">
-                <el-button @click="searchOrder" size="small" :span="3" type="primary">查询</el-button>
-              </el-col>
-              <el-col :span="3">
-                <el-button @click="searchReset" size="small" :span="3" type="primary">重置</el-button>
+              <el-col :span="6" >
+                <el-button @click="searchOrder" size="small"  type="primary">查询</el-button>
+                <el-button @click="searchReset" size="small" type="primary">重置</el-button>
               </el-col>
             </el-row>
           </el-form>
