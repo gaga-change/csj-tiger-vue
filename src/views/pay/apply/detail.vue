@@ -64,7 +64,7 @@
         
       </template>
       <el-tag v-else>
-        暂无操作{{userInfo.roles}} {{cardData.paymentStatus}}
+        暂无操作
       </el-tag>
     </template>	
      

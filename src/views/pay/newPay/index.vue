@@ -502,7 +502,7 @@
           if(res.success){
             this.dialogVisiblePay = true
             this.$refs.payBills.dialogVisPay = true
-            res.data.endTime = moment('2018-12-02')
+            // res.data.endTime = moment('2018-12-02')
             this.lastBillDate = moment(res.data.endTime).format('YYYY-MM-DD')
             this.payDurationStart = moment(res.data.endTime).add('1','days')
             this.paybillData = {}
@@ -713,12 +713,15 @@
             this.payment.paymenterName = item.paymenterName
           }
         })
-        this.payment.startTime = this.$refs.payBills.payDurationStart
-        this.payment.endTime = this.$refs.payBills.durationEnd
-        if(!this.payment.endTime){
-          this.$message({type:'error',message:'请选择结束对账单时间'})
-          return
+        if(this.payment.moneyState == 2){
+          this.payment.startTime = this.$refs.payBills.payDurationStart
+          this.payment.endTime = this.$refs.payBills.durationEnd
+          if(!this.payment.endTime){
+            this.$message({type:'error',message:'请选择结束对账单时间'})
+            return
+          }
         }
+        
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
           
