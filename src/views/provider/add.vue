@@ -92,16 +92,33 @@
                     </upload-mode>
                   </el-form-item>
               </el-col>
+              
             </el-row>  
          </el-form>
-   </el-card>
+     </el-card>
+
+     <item-title text="相关明细"/>
+      <nesting-table 
+        :loading="loading"
+        :useEdit="true"
+        :useDelet="false"
+        :useEditExpand="true"
+        :defaultExpandAll="true"
+        editText="登记收货量"
+        :config="addTableConfig" 
+        :childConfig="addChildTableConfig"
+        :allTableData="tableData"
+        @goeditrow="goeditrow"/>
     </div>
 </template>
 
 <script>
 import Sticky from '@/components/Sticky'
+import NestingTable from '@/components/Table/nestingTable'
+import { addTableConfig,addChildTableConfig } from './components/config';
+import _  from 'lodash';
 export default {
-  components: { Sticky},
+  components: { Sticky,NestingTable},
    data() {
     return {
       searchForm:{
@@ -113,7 +130,15 @@ export default {
         联系电话:'',
         收货地址:'',
       },
-      successfulUploadFiles:[]
+      successfulUploadFiles:[],
+      addTableConfig,
+      addChildTableConfig,
+      tableData:[
+        {
+          ceshi:1
+        }
+      ],
+      loading:false,
     }
   },
 
@@ -137,6 +162,12 @@ export default {
 
 
   methods:{
+
+      goeditrow(index) {
+        let data= _.cloneDeep(this.tableData);
+        data[index].edit=!data[index].edit;
+        this.tableData=data;
+      },
 
     fileListChange(successfulUploadFiles){
       this.successfulUploadFiles=successfulUploadFiles

@@ -8,8 +8,15 @@
         :data="!usePagination?allTableData:tableData"
          size="small"
         :border="border"
+        :default-expand-all="useEditExpand&&defaultExpandAll"
          @selection-change="handleSelectionChange"
         :style="tableStyle">
+
+        <el-table-column type="expand"  v-if="useEditExpand">
+        <template slot-scope="props">
+            
+        </template>
+        </el-table-column>
 
          <el-table-column
             v-for="item in config"
@@ -59,8 +66,8 @@
             <template slot-scope="scope">
                 <div style="width:160px">
                     <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index,'sure')" size="mini" >确定</el-button>
-                    <el-button v-else @click="goeditrow(scope.$index,'edit')" size="mini" >编辑</el-button>
-                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button v-else @click="goeditrow(scope.$index,'edit')" size="mini" >{{editText}}</el-button>
+                    <el-button size="mini"  v-if="useDelet" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </div>
             </template>
           </el-table-column>
@@ -137,6 +144,26 @@ export default {
       default: false
     },
     usePagination:{
+      type: Boolean,
+      default: false
+    },
+
+    useEditExpand:{
+      type: Boolean,
+      default: false
+    },
+
+    useDelet:{
+      type: Boolean,
+      default: true
+    },
+
+    editText:{
+      type: String,
+      default:"编辑"
+    },
+
+    defaultExpandAll:{
       type: Boolean,
       default: false
     }
@@ -241,3 +268,4 @@ export default {
   }
   
 </style>
+

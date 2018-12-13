@@ -25,7 +25,7 @@ export  const listIndexConfig=[ //list页配置
 
 
   export  const detailTableConfig=[ //list页配置
-    { label:'序号',prop:'',},
+    { label:'序号',type:'index',width:50},
     { label:'商品编码',prop:'',},
     { label:'商品名称',prop:'',},
     { label:'规格型号',prop:'',},
@@ -33,4 +33,25 @@ export  const listIndexConfig=[ //list页配置
     { label:'计划出库量',prop:'',},
     { label:'收货数量',prop:'',},
     { label:'操作',prop:'',},
+  ]
+
+
+  export  const addTableConfig=[ //登记页table配置
+    { label:'序号',type:'index',width:50},
+    { label:'商品编码',prop:'ceshi',},
+    { label:'商品名称',prop:'',},
+    { label:'规格型号',prop:'',},
+    { label:'品牌',prop:'',},
+    { label:'计划出库量',prop:'',},
+    { label:'本次收货数量',prop:'',},
+    { label:'操作',prop:'',},
+  ]
+
+  export  const addChildTableConfig=[ //登记页子表配置
+    { label:'序号',type:'index',width:50},
+    { label:'供应商',prop:'',},
+    { label:'采购单',prop:'',},
+    { label:'采购数量',prop:'',},
+    { label:'客户已收数量',prop:'',},
+    { label:'本次收货数量',prop:'',},
   ]
