@@ -18,6 +18,7 @@
             :formatter="item.formatter"
             :fixed="item.fixed"
             :width="item.width"
+            :min-width="item.minWidth"
             :key="item.lable"
             :prop="item.prop"
             :label="item.label">
@@ -164,20 +165,6 @@ export default {
                             </el-dropdown-menu>
                          </el-dropdown>
             };break;
-
-             case 'outgoing+reply':tableConfig[i].formatter=(row, column, cellValue, index)=>{
-              if(row.isCreate){
-                  return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
-                    <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea'}}>创建回单</router-link>
-                  </div>
-                } else{
-                    return <div>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',margin:'0 10px 0 0'}}>查看</router-link>
-                  </div>
-                }
-           };break;
-
            }
          }
        } else if(tableConfig[i].dom){

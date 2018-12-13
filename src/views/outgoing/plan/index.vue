@@ -7,7 +7,7 @@
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="出库类型"   prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"  placeholder="请选择出库类型">
-                <el-option   v-for="item in mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -121,6 +121,24 @@
         linkData:''
       }
     },
+
+      created(){
+        this.tableConfig.forEach(item=>{
+          if(item.useLink){
+              item.dom=(row, column, cellValue, index)=>{
+                return <div style={{display:'flex'}}>
+                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>查看</router-link>
+                    { row.isCreate&&
+                      <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>创建回单</router-link>
+                    }
+                    { row.isHandOut&&
+                      <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode,history:true}}} style={{color:'#3399ea',whiteSpace:'nowrap'}}>手工出库</router-link>
+                    }
+                </div>
+              }
+          }
+        })
+      },
 
      mounted(){
        if(this.$route.query.data){

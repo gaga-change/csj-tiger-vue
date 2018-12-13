@@ -49,6 +49,16 @@ export function outOrderDetail(data={}) {
   })
 }
 
+//确认并生成出库单接口
+export function orderSave(data={}) {
+  return request({
+    url: `/webApi/out/order/save`,
+    method: 'post',
+    data: data,
+  })
+}
+
+
 
 
 
