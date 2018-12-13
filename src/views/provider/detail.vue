@@ -3,6 +3,8 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
          <el-button  type="success" size="small" >修改</el-button>
+         <el-button  type="success" size="small" >提交</el-button>
+         <el-button  size="small" >删除</el-button>
       </template>
     </sticky>
      
@@ -26,17 +28,17 @@
 <script>
 import Sticky from '@/components/Sticky'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { detailBaseInfoConfig } from './components/config';
+import { detailBaseInfoConfig,detailTableConfig } from './components/config';
 
 export default {
   components: { Sticky,webPaginationTable},
    data() {
     return {
-      detailBaseInfoConfig:[],
+      detailBaseInfoConfig,
       loading:false,
       detailBaseInfoData:{},
 
-      detailTableConfig:[],
+      detailTableConfig,
       detailTableData:[],
     }
   },

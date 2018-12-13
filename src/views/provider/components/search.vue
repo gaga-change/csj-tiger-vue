@@ -18,7 +18,7 @@
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="出库计划单"  label-width="80px" style="width:300px">
-              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入订单编号"    v-model="searchForm.出库计划单" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入计划单号"    v-model="searchForm.出库计划单" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -83,11 +83,9 @@
 </template>
 
 <script>
-import { billStatusEnum } from '@/utils/enum'
 export default {
   data() {
     return {
-      billStatusEnum,
       pickerOptions: {
           shortcuts: [{
             text: '最近一周',
