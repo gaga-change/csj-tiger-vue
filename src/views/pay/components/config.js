@@ -6,6 +6,7 @@ export const applyTableConfig=[// 付款申请列表
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'订单编号',prop:'busiBillNo', width:150 },
   { label:'申请金额',prop:'applyPaymentAmt'},
+  { label:'款项性质',prop:'moneyState',useLocalEnum:true, type:'MoneyStateEnum', minWidth:120, },
   { label:'单据状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
   { label:'申请人',prop:'applyUserName', width:130},
   { label:'操作',width:150,fixed:'right',userLink:true},
@@ -18,35 +19,39 @@ export const reisterTableConfig=[// 付款登记列表
   { label:'申请金额',prop:'applyPaymentAmt'},
   { label:'实付金额',prop:'realPaymentAmt'},
   // { label:'付款状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
+  { label:'款项性质',prop:'moneyState',useLocalEnum:true, type:'MoneyStateEnum', minWidth:120, },
+
   { label:'单据状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
   { label:'申请人',prop:'applyUserName', width:130},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
 
 
-export const paymentInfoConfig = [//付款单详情
-  { title:'标题', prop:'applyTitle', paytype:'goods+others'},
+export const paymentInfoConfig = [//付款单货款详情
+  { title:'标题', prop:'applyTitle', paytype:'goods+service'},
   { title:'付款申请号', prop:'applyNo',paytype:'goods' },
   // { title:'付款申请单', prop:'applyNo',paytype:'others' },
-  { title:'收款方', prop:'paymenterName', paytype:'goods+others' },
-  { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true, paytype:'goods+others' },
+  { title:'收款方', prop:'paymenterName', paytype:'goods+service' },
+  { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true, paytype:'goods+service' },
   { title:'款项类型', prop:'moneyType', type:'MoneyTypeEnum',useLocalEnum:true, paytype:'goods' },
   { title:'采购订单', prop:'busiBillNo', paytype:'goods'},
   { title:'采购合同', prop:'contractNo', paytype:'goods'},
-  // { title:'合同号', prop:'contractNo', paytype:'others'},
+  { title:'合同号', prop:'contractNo', paytype:'service'},
   // { title:'对账区间', prop:'duration', paytype:'others'},
   // { title:'合同约定付款方式 ', prop:'paymentMode',
   // useLocalEnum:true, type:'PaymentModeEnum' },
   // { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
-  { title:'申请付款金额', prop:'applyPaymentAmt',type:"money", paytype:'goods+others'},
+  { title:'申请付款金额', prop:'applyPaymentAmt',type:"money", paytype:'goods+service'},
 
   
-  { title:'要求付款日期', prop:'applyPaymentDate', type:'time', paytype:'goods+others' },
-  { title:'收款方银行账户', prop:'receiveAccount', paytype:'goods+others'},
-  { title:'收款方收款银行 ', prop:'receiveBank', paytype:'goods+others' },
-  { title:' 附件 ', prop:'filePathList', useIf:'files', paytype:'goods+others' },
+  { title:'要求付款日期', prop:'applyPaymentDate', type:'time', paytype:'goods+service' },
+  { title:'收款方银行账户', prop:'receiveAccount', paytype:'goods+service'},
+  { title:'收款方收款银行 ', prop:'receiveBank', paytype:'goods+service' },
+  { title:' 附件 ', prop:'filePathList', useIf:'files', paytype:'goods+service' },
   // { title:'测试1 ', prop:'linkParam',linkTo:'/',useIf:'linkParam',name:'fuck' },
 ]
+
+
 export const realPayInfoConfig = [//实付详情
   { title:'付款日期', prop:'realPaymentDate',type:'time' },
   { title:'结算方式', prop:'paymentMode',type:'PaymentModeEnum',useLocalEnum:true },

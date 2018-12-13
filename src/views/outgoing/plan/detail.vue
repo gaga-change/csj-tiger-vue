@@ -15,7 +15,6 @@
         <el-tab-pane label="相关计划单" name="plan">
           <edit-table 
             :loading="loading"
-            :useEdit="Boolean(this.$route.query.history)"
             :config="tableConfig" 
             :allTableData="tableData"
             @goeditrow="goeditrow"
@@ -84,6 +83,7 @@
                this.tableData=tableData.map(v=>{
                  let json=v;
                  json.qty=v.planOutQty-v.realOutQty;
+                 json.edit=true;
                  return json;
                })
             } else{
