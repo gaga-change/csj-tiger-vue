@@ -248,7 +248,11 @@
   import moment from 'moment'
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
+
   import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime } from '@/api/pay'
+
+  import { MoneyReg } from '@/utils/validator'
+
   // import orderchoice from './Component/orderchoice'
   import PayBill from '../components/PayBill'
   const  payment = {
@@ -339,18 +343,19 @@
         if (!Number(value)) {
           return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
         }
-        if(value<0){
-          return callback(new Error('货款为正数'))
-        }
-        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        // if(value<0){
+        //   return callback(new Error('货款为正数'))
+        // }
+        if (!MoneyReg.test(value)) {
           return callback(new Error('货款最多两位小数'))
         }
         callback()
       }
+      var moneyTypeFilter = MoneyTypeEnum.filter(item =>item.type.includes('receipt'))
       return {
         //枚举
         MoneyStateEnum,
-        MoneyTypeEnum,
+        MoneyTypeEnum:moneyTypeFilter,
         PaymentModeEnum,
         payment,
         rules: goodsRules,
@@ -538,10 +543,10 @@
         if (!Number(value)) {
           return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
         }
-        if(value<0){
-          return callback(new Error('货款为正数'))
-        }
-        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        // if(value<0){
+        //   return callback(new Error('货款为正数'))
+        // }
+        if (!MoneyReg.test(value)) {
           return callback(new Error('货款最多两位小数'))
         }
         callback()
@@ -555,13 +560,7 @@
         
         if(this.payment.moneyState == 0){
           customer = [...this.customerConfig]
-           if(this.payment.paymenterCode){
-            BusibillNoSelect({paymenterCode:this.payment.paymenterCode}).then(res=>{
-              if(res.success){
-                this.busiBillNoAll = res.data || []
-              }
-            })
-          }
+           
         }else if(this.payment.moneyState == 2){
           customer = [...this.customerAllConfig]
         }
@@ -571,6 +570,13 @@
             this.payment.paymenterName = item.paymenterName
           }
         })
+        if(this.payment.paymenterCode){
+            BusibillNoSelect({paymenterCode:this.payment.paymenterCode}).then(res=>{
+              if(res.success){
+                this.busiBillNoAll = res.data || []
+              }
+            })
+          }
        
         
       },

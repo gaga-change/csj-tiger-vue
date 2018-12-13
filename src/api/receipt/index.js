@@ -25,6 +25,14 @@ export function getReceiptList(data) {
     data: data
   })
 }
+// /webApi/receive/list 查询付款单列表
+export function getReceiptListTotal(data) {
+  return request({
+    url: `/webApi/receive/list/total`,
+    method: 'post',
+    data: data
+  })
+}
 // /webApi/receive/detail 查询付款单详情
 export function getReceiptDetail(data) {
   return request({
