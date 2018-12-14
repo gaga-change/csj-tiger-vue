@@ -301,7 +301,8 @@ useIf配置项参数介绍
 | elementLoadingBackground | loading背景颜色  |  String  | rgba(255, 255, 255, 0.5)  |  否  |
 | highlightCurrentRow | 是否要高亮当前行    |  Boolean  | false |  否  |
 | config | 配置属性   |  Array  | -  |  是  |
-| tableData | 数据源    |  Array  | -|  是  |
+| tableData |后端分页数据源(后端分页参数)    |  Array  | -|  是  |
+| allTableData | 前端分页数据源(前端分页参数)    |  Array  | -|  是  |
 | usePagination | 是否使用前端分页 (前端分页参数)    |  Boolean  | false |  否  |
 | total | 数据的总长度 |  Number  | 0 |  是  |
 | currentPage | 当前页码 (后端分页参数)   |  Number  | 1  |  否  |
@@ -340,7 +341,7 @@ config配置项参数介绍
 | --- | --- |  --- | --- | 
 | lable | 表头   |  String  | 
 | prop | 索引key   |  String  | 
-| type | 类型:time,Boolean,toFixed,index,files其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
+| type | 类型:time,Boolean,toFixed,index,files其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换,对应列的类型。如果设置了 selection 则显示多选框  |  String  | 
 | format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
@@ -359,6 +360,7 @@ config配置项参数介绍
 | --- | --- |  --- | 
 | sizeChange | pageSize变化后的回调 (后端分页回调)   | pageSize：当前每页展示多少条 |
 | currentChange | 页码变化后的回调 (后端分页回调)   | currentPage: 当前页码 |
-| currentRedioChange | 点击某一行 (后端分页回调)   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
+| currentRedioChange | 点击某一行 (后端分页回调),可以用此做单选  同时将highlightCurrentRow设置为true 选中时高亮   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
+| SelectionChange | 多选选中后的回调 (前端分页回调)   | val：选中的行数组成的数组 |
 
 
