@@ -59,8 +59,9 @@ export const realPayInfoConfig = [//实付详情
   { title:'货款', prop:'applyPaymentAmt', },
   { title:'贴息', prop:'realInterestAmt',},
   { title:'实付金额', prop:'realPaymentAmt',},
-  { title:'备注 ', prop:'paymentAbstract',
-  },
+  { title:'备注 ', prop:'paymentAbstract',},
+  { title:' 登记附件 ', prop:'registerFileInfoList', useIf:'files'},
+
 ]
 export const contractInfo = [
   { title:'合同档案编号', prop:'paymenterName' },

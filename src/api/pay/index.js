@@ -127,10 +127,19 @@ export function getLastTime(data) {
     data:data
   })
 }
-// 
+//  付款登记单查询
 export function getPaymentRegisterData(data) {
   return request({
     url: ` /api/payment/selectRegisterData`,
+    method: 'post',
+    data:data
+  })
+}
+
+// 根据合同号查询附件
+export function getContractFiles(data) {
+  return request({
+    url: ` /api/payment/selectContractFiles`,
     method: 'post',
     data:data
   })
