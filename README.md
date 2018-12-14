@@ -64,7 +64,7 @@ npm run build
 
 ### 四、组价介绍
 
-####  ItemTitle(模块标题组件)
+####  1.ItemTitle(模块标题组件)
 > 模块的标题,突出该模块
 
 
