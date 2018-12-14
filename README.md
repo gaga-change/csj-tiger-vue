@@ -94,16 +94,6 @@ npm run build
 ```
  <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
  
-  let infoConfig=[ 
-    { title:'采购合同',prop:'contractno',},
-    { title:'采购单号',prop:'purchorder',},
-  ]
-  
-  let cardData={
-      contractno:1,
-      purchorder:2,
-  }
- 
 ```
 
 属性介绍
