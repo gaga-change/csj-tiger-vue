@@ -129,7 +129,7 @@ config配置项参数介绍
 | --- | --- |  --- | --- | 
 | title | 标题   |  String  | 
 | prop | 索引key   |  String  | 
-| type | 类型:time,boolean,toFixed,其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi)  |  String  | 
+| type | 类型:time,boolean,toFixed,其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
 
 ####  UploadMode(文件上传组件组件)
 
