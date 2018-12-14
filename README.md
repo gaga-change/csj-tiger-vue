@@ -65,6 +65,13 @@ npm run build
 ####  ItemTitle(模块标题组件)
 > 模块的标题,突出该模块
 
+1. 使用方式
+2. 
+```
+ <item-title text="基本信息"/>
+ 
+```
+
 ####  ItemCard(详情页基本信息卡片组件)
 
 ####  UploadMode(文件上传组件组件)
