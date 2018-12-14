@@ -299,7 +299,7 @@ useIf配置项参数介绍
 | loading | loading  |  Boolean  | false  |  否  |
 | elementLoadingText | loading提示文字  |  String  | 加载中  |  否  |
 | elementLoadingBackground | loading背景颜色  |  String  | rgba(255, 255, 255, 0.5)  |  否  |
-| highlightCurrentRow | 是否要高亮当前行    |  Boolean  | false |  否  |
+| highlightCurrentRow | 是否要高亮当前行  可以用此做单选    |  Boolean  | false |  否  |
 | config | 配置属性   |  Array  | -  |  是  |
 | tableData |后端分页数据源(后端分页参数)    |  Array  | -|  是  |
 | allTableData | 前端分页数据源(前端分页参数)    |  Array  | -|  是  |
@@ -341,7 +341,8 @@ config配置项参数介绍
 | --- | --- |  --- | --- | 
 | lable | 表头   |  String  | 
 | prop | 索引key   |  String  | 
-| type | 类型:time,Boolean,toFixed,index,files其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换,对应列的类型。如果设置了 selection 则显示多选框  |  String  | 
+| type | 类型:time,Boolean,toFixed,index,files其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换,对应列的类型 |  String  | 
+| columnType | element的原生type   如果设置了 columnType:'selection' 则显示多选框   |  String  | 
 | format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
