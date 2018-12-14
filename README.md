@@ -186,8 +186,9 @@ useIf配置项参数介绍
 | fileListChange | 上传成功和移除文件的回调   | 上传成功的文件列表 |
 
 
+### table组件
 
-####  BaseTable(后端分页table组件)
+#### 1. BaseTable(后端分页table组件)
 
 > 后端分页组件,支持后端分页
 
@@ -215,6 +216,33 @@ useIf配置项参数介绍
    </script>
  
 ```
+
+
+#### 2. WebPaginationTable(前端分页table组件)
+> 前端分页组件
+
+使用方式
+```
+   <template>
+    <web-pagination-table 
+    :loading="loading"
+    :config="detailAbnormalReceipt" 
+    :allTableData="detailAbnormalReceiptData"/>
+   </template>
+   
+   <script>
+   import WebPaginationTable from '@/components/Table/webPaginationTable'
+     export default {
+       components: { WebPaginationTable},    
+     }
+   </script>
+ 
+```
+
+
+#### 3. EditTable(可编辑table组件,仅支持前端分页)
+
+#### 4.  NestingTable(多功能嵌套table组件,仅支持前端分页)
 
 属性介绍
 
@@ -283,12 +311,5 @@ config配置项参数介绍
 | sizeChange | pageSize变化后的回调   | pageSize：当前每页展示多少条 |
 | currentChange | 页码变化后的回调   | currentPage: 当前页码 |
 | currentRedioChange | 点击某一行   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
-
-
-####  WebPaginationTable(前端分页table组件)
-
-####  EditTable(可编辑table组件,仅支持前端分页)
-
-####  NestingTable(多功能嵌套table组件,仅支持前端分页)
 
 
