@@ -313,6 +313,7 @@ useIf配置项参数介绍
 | border | 是否展示纵向边框 |  Boolean  | true  |  否  |
 | tableStyle | 表格的样式 |  String  | width: 100%  |  否  |
 | paginationStyle | 分页器的样式 |  String  | marginTop:16px  |  否  |
+| useEdit | 是否使用可编辑（可编辑表格属性） |  Boolean  | false |  否  |
 
 config配置项参数介绍
 
@@ -352,8 +353,10 @@ config配置项参数介绍
 | dom | dom传递  |  function类型:``` (row, column, cellValue, index)=>return <div>{cellValue}</div> ``` |
 | linkTo | 跳转的路径,该属性需要结合query  |  String  |
 | query | 页面跳转时query上的属性以及所使用的索引 ```query:[{key:'warehouseExeCode',value:'warehouseExeCode'}] ``` |  Array  |
-| linkText | link随时用的文案（不穿时直接为单元格值） |  String  |
-
+| linkText | link随时用的文案（不传时直接为单元格值） |  String  |
+| edit | link随时用的文案（不传时直接为单元格值） |  String  |
+| max | 最大值索引数组 |  Array  |
+| min | 最小值 |  Number  |
 
 方法介绍
 
@@ -363,5 +366,5 @@ config配置项参数介绍
 | currentChange | 页码变化后的回调 (后端分页回调)   | currentPage: 当前页码 |
 | currentRedioChange | 点击某一行 (后端分页回调),可以用此做单选  同时将highlightCurrentRow设置为true 选中时高亮   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
 | SelectionChange | 多选选中后的回调 (前端分页回调)   | val：选中的行数组成的数组 |
-
-
+| goeditrow | 点击编辑或者确定后的回调（可编辑表格属性）   | index:索引,type:按钮操作类型 |
+| handleDelete | 点击删除的回调（可编辑表格属性）  | index:索引,type:按钮操作类型 |
