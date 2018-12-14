@@ -107,9 +107,8 @@ npm run build
 | bodyStyle | 卡片的样式   |  String  | padding:12px  |  否  |
 
 
-```
 
-配置项参数介绍
+config配置项参数介绍
 
 | 属性  | 描述  |  类型 | 默认值 | 是否必填  |
 | --- | --- |  --- | --- | --- | 
