@@ -256,7 +256,7 @@ config配置项参数介绍
 | minWidth | 单元格最小宽度  |  Number或者String  | 
 | width | 单元格宽度  |  Number或者String  |
 | fixed | 是否固定表头  |  Boolean或者String('left'、'right')  |
-| dom | dom传递  |  function类型: (row, column, cellValue, index)=>return <div>{cellValue}</div>  |
+| dom | dom传递  |  function类型:``` (row, column, cellValue, index)=>return <div>{cellValue}</div> ``` |
 
 ####  WebPaginationTable(前端分页table组件)
 
