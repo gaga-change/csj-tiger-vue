@@ -240,6 +240,8 @@ config配置项参数介绍
       format:'',
       dom:'',
       linkTo:'',
+      query：[],
+      linkText:'',
   }
 ]
 
@@ -249,7 +251,7 @@ config配置项参数介绍
 | --- | --- |  --- | --- | 
 | lable | 表头   |  String  | 
 | prop | 索引key   |  String  | 
-| type | 类型:time,boolean,toFixed,其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
+| type | 类型:time,Boolean,toFixed,index,files其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
 | format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
@@ -257,6 +259,9 @@ config配置项参数介绍
 | width | 单元格宽度  |  Number或者String  |
 | fixed | 是否固定表头  |  Boolean或者String('left'、'right')  |
 | dom | dom传递  |  function类型:``` (row, column, cellValue, index)=>return <div>{cellValue}</div> ``` |
+| linkTo | 跳转的路径,该属性需要结合query  |  String  |
+| query | 页面跳转时query上的属性以及所使用的索引 ```query:[{key:'warehouseExeCode',value:'warehouseExeCode'}] ``` |  Array  |
+| linkText | link随时用的文案（不穿时直接为单元格值） |  String  |
 
 ####  WebPaginationTable(前端分页table组件)
 
