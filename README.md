@@ -128,8 +128,7 @@ config配置项参数介绍
 | 属性  | 描述  |  类型 |
 | --- | --- |  --- | --- | 
 | title | 标题   |  String  | 
-
-
+| prop | 索引key   |  String  | 
 
 
 ####  UploadMode(文件上传组件组件)
