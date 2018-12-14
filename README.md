@@ -275,6 +275,16 @@ config配置项参数介绍
 | query | 页面跳转时query上的属性以及所使用的索引 ```query:[{key:'warehouseExeCode',value:'warehouseExeCode'}] ``` |  Array  |
 | linkText | link随时用的文案（不穿时直接为单元格值） |  String  |
 
+
+方法介绍
+
+| 方法  | 描述  |  返回值 |
+| --- | --- |  --- | 
+| sizeChange | pageSize变化后的回调   | pageSize：当前每页展示多少条 |
+| currentChange | 页码变化后的回调   | currentPage: 当前页码 |
+| currentRedioChange | 点击某一行   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
+
+
 ####  WebPaginationTable(前端分页table组件)
 
 ####  EditTable(可编辑table组件,仅支持前端分页)
