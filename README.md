@@ -42,12 +42,14 @@ npm run start
 ####  打包方式
 
 
+
 测试环境:
 
 ```
 npm run build-test
 
 ```
+
 
 正式环境:
 
@@ -65,6 +67,7 @@ npm run build
 ####  ItemTitle(模块标题组件)
 > 模块的标题,突出该模块
 
+
 使用方式
 
 
@@ -72,6 +75,7 @@ npm run build
  <item-title text="基本信息"/>
  
 ```
+
 
 属性介绍
 
