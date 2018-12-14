@@ -137,10 +137,10 @@ config配置项参数介绍
 | title | 标题   |  String  | 
 | prop | 索引key   |  String  | 
 | type | 类型:time,boolean,toFixed,其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
+| format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  |
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
 | userFormatter | 格式化函数  |  function  | 
-| format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 
 ------------------------------------------------------
 
@@ -224,6 +224,39 @@ config配置项参数介绍
 | tableStyle | 表格的样式 |  String  | width: 100%  |  否  |
 | paginationStyle | 分页器的样式 |  String  | marginTop:16px  |  否  |
 
+config配置项参数介绍
+
+```
+[
+  {
+      lable:'',
+      prop:'',
+      minWidth:'',
+      fixed:'',
+      width:'',
+      type:'',
+      useApi:'',
+      useLocalEnum:'',
+      format:'',
+      dom:'',
+      linkTo:'',
+  }
+]
+
+```
+
+| 属性  | 描述  |  类型 |
+| --- | --- |  --- | --- | 
+| lable | 表头   |  String  | 
+| prop | 索引key   |  String  | 
+| type | 类型:time,boolean,toFixed,其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
+| format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
+| useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
+| useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
+| minWidth | 单元格最小宽度  |  Number|String  | 
+| width | 单元格宽度  |  Number|String  |
+| fixed | 是否固定表头  |  Boolean|String('left'|'right')  |
+| dom | dom传递  |  function类型: (row, column, cellValue, index)=>return <div>{cellValue}</div>  |
 
 ####  WebPaginationTable(前端分页table组件)
 
