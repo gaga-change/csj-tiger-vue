@@ -107,6 +107,25 @@ npm run build
 | bodyStyle | 卡片的样式   |  String  | padding:12px  |  否  |
 
 
+config介绍：
+
+```
+  export  const todoDetailInfoConfig=[ //采购退货单详情配置
+    { title:'采购合同',prop:'contractno',},
+    { title:'采购单号',prop:'purchorder',},
+    { title:'退货申请日期',prop:'backapplydate',type:'time'},
+    { title:'供应商名称',prop:'servicername'},
+    { title:'开票状态',prop:'invoicestatus'},
+    { title:'开票金额',prop:'invoiceamount'},
+    { title:'付款状态',prop:'paystatus'},
+    { title:'付款金额',prop:'payamount'},
+    { title:'退货金额',prop:'sumbackamount'},
+    { title:'退货原因',prop:'backreason'},
+   
+  ]
+  
+```
+
 
 ####  UploadMode(文件上传组件组件)
 
