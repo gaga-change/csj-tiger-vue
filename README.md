@@ -137,6 +137,28 @@ config配置项参数介绍
 
 ####  UploadMode(文件上传组件组件)
 
+> 上传附件组件
+
+使用方式
+
+
+```
+  <upload-mode
+    @fileListChange="fileListChange" 
+    :defailFileList="[]" >
+  </upload-mode>
+ 
+```
+
+属性介绍
+
+| 属性  | 描述  |  类型 | 默认值 | 是否必填  |
+| --- | --- |  --- | --- | --- | 
+| defailFileList | 默认已上传的列表数组 [ {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]    |  Array  | -  |  否  |
+| filesuploadUrl | 文件上传的地址    |  String  | /webApi/fileupload/common/filetoserver |  否  |
+
+
+
 ####  BaseTable(后端分页table组件)
 
 ####  WebPaginationTable(前端分页table组件)
