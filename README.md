@@ -141,6 +141,18 @@ config配置项参数介绍
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
 | userFormatter | 格式化函数  |  function  | 
+| uesStringify | 文本插件```{ title:'入参',prop:'paramData',span:24,uesStringify:true,rows:4},``` |  Boolean  | 
+| useIf | 可以实现诸如 files、link、linkDom的渲染 |  String  | 
+
+
+useIf配置项参数介绍
+
+| 属性  | 描述  |
+| --- | --- |  --- | --- | 
+| files | 数据源是一个数组 [{path:'',name:''}]  |    | 
+| link | 结合linkTo、query使用 ```useIf:'link',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]```    |
+| linkDom |结合linkTo、query、linkText使用```useIf:'linkDom',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'signNo'}],linkText:'查看入库详情' ```  |  
+
 
 ------------------------------------------------------
 
