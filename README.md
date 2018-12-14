@@ -64,7 +64,7 @@ npm run build
 
 ### 四、组价介绍
 
-####  1.ItemTitle(模块标题组件)
+####  ItemTitle(模块标题组件)
 > 模块的标题,突出该模块
 
 
@@ -82,6 +82,7 @@ npm run build
 | 属性  | 描述  |  类型 | 默认值 | 是否必填  |
 | --- | --- |  --- | --- | --- | 
 | text | 标题名称    |  String  | -  |  是  |
+| boxStyle | 标题盒子的样式    |  String  | width:100%  |  否  |
 
 
 ####  ItemCard(详情页基本信息卡片组件)
