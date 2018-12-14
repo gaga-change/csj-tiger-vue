@@ -110,7 +110,7 @@ npm run build
 config介绍：
 
 ```
-  export  const todoDetailInfoConfig=[ //采购退货单详情配置
+ [ 
     { title:'采购合同',prop:'contractno',},
     { title:'采购单号',prop:'purchorder',},
     { title:'退货申请日期',prop:'backapplydate',type:'time'},
@@ -125,6 +125,14 @@ config介绍：
   ]
   
 ```
+
+配置项参数介绍
+
+| 属性  | 描述  |  类型 | 默认值 | 是否必填  |
+| --- | --- |  --- | --- | --- | 
+| config | 配置属性   |  Array  | -  |  是  |
+
+
 
 
 ####  UploadMode(文件上传组件组件)
