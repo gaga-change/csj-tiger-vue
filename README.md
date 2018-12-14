@@ -133,7 +133,7 @@ config配置项参数介绍
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
 | userFormatter | 格式化函数  |  function  | 
-| format | type为time时的,时间展示格式(默认:YYYY-MM-DD)  |  String  | 
+| format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 
 ####  UploadMode(文件上传组件组件)
 
