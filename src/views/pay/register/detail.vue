@@ -56,11 +56,11 @@
    <invoice-detail :cardData="cardData" id="print"
     :tableData="tableData"  :name="name" :payment-info-config="paymentInfoConfig">
     <template v-if="cardData.moneyState == 2">
-      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" >
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:10px">
         <el-row>
           <el-col  class="card-list" :span="18" >
               <span class="card-title">对账区间</span> ：
-              <a class="card-text" @click="showDetail" style="color:#409EFF">
+              <a class="card-text" @click="showDetail" style="color:#409EFF" v-if="dataSuccess">
                 {{formatTime(cardData.startTime)}} 至 {{formatTime(cardData.endTime)}}
               </a>
             </el-col>
@@ -492,7 +492,7 @@
            this.loading=false;
           this.buttonDisabled = false
           
-          if(res.success){
+          if(res.success&&res.list&&res.list.length>0){
             this.dataSuccess = true
            
             this.cardData = res.list[0]
@@ -521,11 +521,11 @@
             
 
               var detailConfig = []
-              if(this.cardData.moneyType==0){
+              if(this.cardData.moneyState==0){
                 detailConfig = paymentInfoConfig.filter(config=>
                   config.paytype.includes('goods')
                 )
-              }else{
+              }else if(this.cardData.moneyState==2){
                 detailConfig = paymentInfoConfig.filter(config=>
                   config.paytype.includes('service')
                 )

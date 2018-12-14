@@ -195,7 +195,8 @@ export const MoneyStateEnum = [
   },
   {
     name: ' ',
-    value: 99
+    value: 99,
+    disabled:true
   },
 ]
 

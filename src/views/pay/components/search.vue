@@ -39,9 +39,9 @@
             <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="6">
-          <el-form-item label="付款状态">
-            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择付款状态">
+        <el-col :span="6">
+          <el-form-item label="款项性质">
+            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -50,7 +50,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>   -->
+        </el-col>  
       </el-row>
       <el-row :gutter="10">  
 
@@ -89,11 +89,11 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { paymentStatusEnum } from '@/utils/enum'
+import { paymentStatusEnum,MoneyStateEnum } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import { getProvider } from '@/api/pay'
 import _  from 'lodash';
-
+let MoneyStateEnumFilter = MoneyStateEnum.filter(item =>!item.disabled)
 export default {
   name: 'SearchInvoice',
   data() {
@@ -102,6 +102,7 @@ export default {
       },
       searchForm:{},
       paymentStatusEnum,
+      MoneyStateEnum: MoneyStateEnumFilter,
       codeConfig:[],
       customerConfig:[], //客户名称下拉配置
       customerFilterMark:'',//客户名称过滤标识
