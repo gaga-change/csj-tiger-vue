@@ -9,6 +9,7 @@ import Deliver from './deliver'
 import PayReceivableInvoce from './PayReceivableInvoce'
 import Receipt from './receipt'
 import Payment from './payment'
+import Provider from './provider'
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
@@ -41,6 +42,7 @@ export const asyncRouterMap = [
   ...PayReceivableInvoce,
   ...Receipt,
   ...Payment,
+  ...Provider,
   {
     path: '/err',
     component: Layout,

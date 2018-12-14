@@ -23,7 +23,6 @@ const getters = {
   menu: state => {
 
     let bakmenus = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
-    
     let bakmenu = deepExistMenu(bakmenus,asyncRouterMap)
 
     // bakmenu = deepSortMenu(bakmenu, deepSort,)

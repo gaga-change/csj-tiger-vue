@@ -44,6 +44,19 @@
             </el-form-item>
           </el-col>
 
+        <el-col :span="6" >
+          <el-form-item label="业务板块"  prop="busiPlate">
+            <el-select v-model="ruleForm.busiPlate"  @change="submitForm('ruleForm')" placeholder="请选择业务板块">
+              <el-option
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
           <el-col :span="12" >
             <el-form-item label="入库日期" prop="time">
                  <el-date-picker
@@ -98,6 +111,7 @@
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
     import {stringify} from 'qs';
+    import {busiPlateConfig} from '@/utils/enum'
 
     export default {
       components: { BaseTable },
@@ -111,6 +125,7 @@
             warehouseName:'',
             warehouseCode:'',
             providerName:'',
+            busiPlate:'',
             time:'',
             pageNum: 1,
             pageSize:10,
@@ -122,7 +137,8 @@
         loading:false,
         tableData: [],
         tableConfig:indexTableConfig,
-        linkData:''
+        linkData:'',
+        busiPlateConfig,
       }
     },
     
