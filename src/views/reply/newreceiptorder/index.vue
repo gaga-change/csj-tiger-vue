@@ -96,6 +96,8 @@
         </el-form-item>
           <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:84px;position: absolute;"> 附件为必选</span>
         </el-col>
+
+        
         <el-col :span="6">
             <el-form-item
              label="签收依据"

@@ -1,21 +1,39 @@
 <template>
-  <div class="ctabel">
+  <div class="nesting-table">
       <el-table
         ref="multipleTable"
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="!usePagination?allTableData:tableData"
-        :size="size"
+         size="mini"
         :border="border"
+        :default-expand-all="useEditExpand&&defaultExpandAll"
          @selection-change="handleSelectionChange"
         :style="tableStyle">
+
+        <el-table-column type="expand" v-if="useEditExpand">
+        <template slot-scope="props">
+           <div class="nesting-table-expand">
+             <edit-table 
+              size="mini"
+              :loading="false"
+              :config="childConfig" 
+              v-if="props.row[childTableDataKey]&&props.row[childTableDataKey].length"
+              :allTableData="props.row[childTableDataKey]"/>
+              <div  class="nesting-table-expand-nothing" v-else>
+                 暂无明细
+              </div>
+           </div>
+        </template>
+        </el-table-column>
 
          <el-table-column
             v-for="item in config"
             :fixed="item.fixed"
             :width="item.width"
             :min-width="item.minWidth"
+            :class-name="item.type?item.type:''"
             :key="item.label"
             :label="item.label">
              <template slot-scope="scope">
@@ -26,14 +44,14 @@
                         v-if="item.editType"
                         :style="`width:${item.width-20}px`"
                         :type="item.editType"
-                        :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
+                        :max="Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
                         v-model="scope.row[item.prop]" >
                     </el-input>
                     <el-input-number
                         size="mini"
                         v-else
-                        :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
+                        :max="Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
                         :style="`width:${item.width-20}px`"
                         v-model="scope.row[item.prop]" >
@@ -59,8 +77,8 @@
             <template slot-scope="scope">
                 <div style="width:160px">
                     <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index,'sure')" size="mini" >确定</el-button>
-                    <el-button v-else @click="goeditrow(scope.$index,'edit')" size="mini" >编辑</el-button>
-                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button v-else @click="goeditrow(scope.$index,'edit')" style="background: #dbdee3;" size="mini" >{{editText}}</el-button>
+                    <el-button size="mini"  v-if="useDelet" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </div>
             </template>
           </el-table-column>
@@ -85,7 +103,9 @@
 import moment from 'moment';
 import { mapGetters } from 'vuex'
 import  * as Enum from "@/utils/enum.js";
+import EditTable from './editTable'
 export default {
+   components: { EditTable },
    props: {
      loading: {
       type: Boolean,
@@ -99,9 +119,13 @@ export default {
       type: Array,
       default:()=> []
     },
-    size:{
+    childConfig:{
+      type: Array,
+      default:()=> []
+    },
+    childTableDataKey:{
       type: String,
-      default: "small"
+      default: ''
     },
     pageSizes:{
       type: Array,
@@ -130,7 +154,7 @@ export default {
     },
     tableStyle:{
       type: String,
-      default: "width: 100%;table-layout:fixed"
+      default: "width: 100%"
     },
     paginationStyle:{
       type: String,
@@ -141,6 +165,26 @@ export default {
       default: false
     },
     usePagination:{
+      type: Boolean,
+      default: false
+    },
+
+    useEditExpand:{
+      type: Boolean,
+      default: false
+    },
+
+    useDelet:{
+      type: Boolean,
+      default: true
+    },
+
+    editText:{
+      type: String,
+      default:"编辑"
+    },
+
+    defaultExpandAll:{
       type: Boolean,
       default: false
     }
@@ -198,7 +242,6 @@ export default {
             case 'rate':return cellValue+'%';break;
             case 'Boolean':return cellValue?'是':'否' ;break;
             case 'index':return (this.pageSize)*(this.currentPage-1)+index+1;break;
-            case 'bracketsIndex':return `( ${(this.pageSize)*(this.currentPage-1)+index+1} )`;break;
             case 'toFixed':return cellValue&&Number(Number(cellValue).toFixed(2));break;
            }
          }
@@ -240,9 +283,33 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .ctabel{
-    width: 100%;
-  }
+<style rel="stylesheet/scss" lang="scss" >
   
+  .nesting-table{
+    .cell{
+      line-height: 24px;
+    }
+    th{
+      background: #dbdee3;
+      color: #777;
+    }
+    .el-table__expanded-cell[class*=cell]{
+      padding:0;
+      padding-left: 50px;
+    }
+    .nesting-table-expand{
+      th{
+         background: #dbdee3;
+         color: #777;
+      }
+
+      .nesting-table-expand-nothing{
+         height:40px;
+         line-height: 40px;
+         text-align: center;
+      }
+    }
+  }
+ 
 </style>
+
