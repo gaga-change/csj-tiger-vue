@@ -177,6 +177,33 @@ config配置项参数介绍
 
 ####  BaseTable(后端分页table组件)
 
+> 后端分页组件,支持后端分页
+
+使用方式
+
+```
+   <template>
+     <base-table 
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+      :loading="loading"
+      :config="listIndexConfig"  
+      :total="total" 
+      :maxTotal="10"
+      :pageSize="pageSize"
+      :currentPage="pageNum"
+      :tableData="tableData"/>
+   </template>
+   
+   <script>
+     import BaseTable from '@/components/Table'
+     export default {
+       components: { BaseTable},    
+     }
+   </script>
+ 
+```
+
 ####  WebPaginationTable(前端分页table组件)
 
 ####  EditTable(可编辑table组件,仅支持前端分页)
