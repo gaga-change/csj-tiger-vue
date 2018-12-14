@@ -314,7 +314,12 @@ useIf配置项参数介绍
 | tableStyle | 表格的样式 |  String  | width: 100%  |  否  |
 | paginationStyle | 分页器的样式 |  String  | marginTop:16px  |  否  |
 | useEdit | 是否使用可编辑（可编辑表格属性） |  Boolean  | false |  否  |
+| useEditExpand | 是否使用嵌套表格（NestingTable属性） |  Boolean  | false |  否  |
+| useDelet | 外层是否展示删除按钮（NestingTable属性） |  Boolean  | true |  否  |
+| editText | 外层编辑按钮文案（NestingTable属性） |  String  | 编辑 |  否  |
+| defaultExpandAll | 是否默认展开所有扩展（NestingTable属性） |  Boolean  | false |  否  |
 | childConfig | 嵌套表格子表配置（NestingTable属性） |  Array  | [] |  否  |
+| childTableDataKey | 嵌套表格子表数据所使用的父级索引（NestingTable属性） |  Array  | [] |  否  |
 
 config配置项参数介绍
 
