@@ -39,6 +39,22 @@ npm run start
 
 ```
 
+####  打包方式
+
+测试环境:
+
+```
+npm run build-test
+
+```
+
+正式环境:
+
+```
+npm run build
+
+```
+
 ### 三、目录结构
 
 > 参考[vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/guide/#%E5%8A%9F%E8%83%BD)
