@@ -102,7 +102,11 @@ npm run build
 | --- | --- |  --- | --- | --- | 
 | config | 配置属性   |  Array  | -  |  是  |
 | cardData | 数据源   |  Object  | {}  |  是  |
-| cardData | 数据源   |  Object  | {}  |  是  |
+| loading | loading   |  Boolean  | false  |  否  |
+| boxStyle | 外层盒子的样式   |  String  | marginBottom:12px  |  否  |
+| bodyStyle | 卡片的样式   |  String  | padding:12px  |  否  |
+
+
 
 ####  UploadMode(文件上传组件组件)
 
