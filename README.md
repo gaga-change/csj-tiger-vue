@@ -110,9 +110,24 @@ npm run build
 
 config配置项参数介绍
 
-| 属性  | 描述  |  类型 | 默认值 | 是否必填  |
-| --- | --- |  --- | --- | --- | 
-| config | 配置属性   |  Array  | -  |  是  |
+```
+[
+  {
+      title:'',
+      prop:'',
+      type:'',
+      useApi:'',
+      userFormatter:'',
+      useLocalEnum:'',
+      format:'',
+  }
+]
+
+```
+
+| 属性  | 描述  |  类型 |
+| --- | --- |  --- | --- | 
+| title | 标题   |  String  | 
 
 
 
