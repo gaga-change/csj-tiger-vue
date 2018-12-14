@@ -117,8 +117,8 @@ config配置项参数介绍
       prop:'',
       type:'',
       useApi:'',
-      userFormatter:'',
       useLocalEnum:'',
+      userFormatter:'',
       format:'',
   }
 ]
@@ -130,6 +130,10 @@ config配置项参数介绍
 | title | 标题   |  String  | 
 | prop | 索引key   |  String  | 
 | type | 类型:time,boolean,toFixed,其他本地定义的api方法名或枚举名(结合useLocalEnum,useApi),可以很方便的进行数据的格式化和类型转换  |  String  | 
+| useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
+| useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
+| userFormatter | 格式化函数  |  function  | 
+| format | type为time时的,时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 
 ####  UploadMode(文件上传组件组件)
 
