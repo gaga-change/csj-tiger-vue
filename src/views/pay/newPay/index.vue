@@ -578,9 +578,14 @@
           if(res.success){
             this.dialogVisiblePay = true
             this.$refs.payBills.dialogVisPay = true
-            var lastTime = moment('2018-01-01')
+            var lastTime = moment('2017-12-31')
             if(res.data&&res.data.endTime){
               lastTime = res.data.endTime
+            }
+            
+            if(this.payment.startTime){
+              lastTime = moment(this.payment.startTime).subtract('1','days')
+              this.payDurationEnd = this.payment.endTime
             }
             this.lastBillDate = moment(lastTime).format('YYYY-MM-DD')
             this.payDurationStart = moment(lastTime).add('1','days')
