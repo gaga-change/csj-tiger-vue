@@ -86,6 +86,23 @@ npm run build
 
 
 ####  ItemCard(详情页基本信息卡片组件)
+> 详情页基本信息卡片
+
+使用方式
+
+
+```
+ <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
+ 
+```
+
+属性介绍
+
+| 属性  | 描述  |  类型 | 默认值 | 是否必填  |
+| --- | --- |  --- | --- | --- | 
+| config | 配置属性   |  Array  | -  |  是  |
+| cardData | 数据源   |  Object  | {}  |  是  |
+| cardData | 数据源   |  Object  | {}  |  是  |
 
 ####  UploadMode(文件上传组件组件)
 
