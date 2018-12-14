@@ -6,7 +6,7 @@
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="!usePagination?allTableData:tableData"
-         size="small"
+        :size="size"
         :border="border"
          @selection-change="handleSelectionChange"
         :style="tableStyle">
@@ -26,14 +26,14 @@
                         v-if="item.editType"
                         :style="`width:${item.width-20}px`"
                         :type="item.editType"
-                        :max="Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
+                        :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
                         v-model="scope.row[item.prop]" >
                     </el-input>
                     <el-input-number
                         size="mini"
                         v-else
-                        :max="Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
+                        :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
                         :style="`width:${item.width-20}px`"
                         v-model="scope.row[item.prop]" >
@@ -99,6 +99,10 @@ export default {
       type: Array,
       default:()=> []
     },
+    size:{
+      type: String,
+      default: "small"
+    },
     pageSizes:{
       type: Array,
       default:()=> [10, 20, 50, 100]
@@ -126,7 +130,7 @@ export default {
     },
     tableStyle:{
       type: String,
-      default: "width: 100%"
+      default: "width: 100%;table-layout:fixed"
     },
     paginationStyle:{
       type: String,
@@ -194,6 +198,7 @@ export default {
             case 'rate':return cellValue+'%';break;
             case 'Boolean':return cellValue?'是':'否' ;break;
             case 'index':return (this.pageSize)*(this.currentPage-1)+index+1;break;
+            case 'bracketsIndex':return `( ${(this.pageSize)*(this.currentPage-1)+index+1} )`;break;
             case 'toFixed':return cellValue&&Number(Number(cellValue).toFixed(2));break;
            }
          }

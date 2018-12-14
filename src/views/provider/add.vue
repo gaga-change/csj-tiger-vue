@@ -104,6 +104,7 @@
         :useDelet="false"
         :useEditExpand="true"
         :defaultExpandAll="true"
+        childTableDataKey="billDetailList"
         editText="登记收货量"
         :config="addTableConfig" 
         :childConfig="addChildTableConfig"
@@ -135,7 +136,26 @@ export default {
       addChildTableConfig,
       tableData:[
         {
-          ceshi:1
+           billDetailList:[
+             {
+               purchaseQty:20,
+               receiveQty:10,
+               receiveQty:1
+             },
+              {
+               purchaseQty:5,
+               receiveQty:2,
+               receiveQty:2
+             },
+              {
+               purchaseQty:6,
+               receiveQty:1,
+               receiveQty:3
+             },
+           ]
+        },
+        {
+
         }
       ],
       loading:false,
@@ -165,8 +185,17 @@ export default {
 
       goeditrow(index) {
         let data= _.cloneDeep(this.tableData);
+        if(!data[index]['billDetailList']||!data[index]['billDetailList'].length){
+          return ''
+        }
         data[index].edit=!data[index].edit;
+        data[index]['billDetailList']=data[index]['billDetailList'].map(v=>{
+          let json=v;
+          json.edit=!v.edit
+          return json;
+        })
         this.tableData=data;
+        console.log([...this.tableData])
       },
 
     fileListChange(successfulUploadFiles){

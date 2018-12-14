@@ -1,20 +1,30 @@
 <template>
-  <div class="ctabel">
+  <div class="nesting-table">
       <el-table
         ref="multipleTable"
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="!usePagination?allTableData:tableData"
-         size="small"
+         size="mini"
         :border="border"
         :default-expand-all="useEditExpand&&defaultExpandAll"
          @selection-change="handleSelectionChange"
         :style="tableStyle">
 
-        <el-table-column type="expand"  v-if="useEditExpand">
+        <el-table-column type="expand" v-if="useEditExpand">
         <template slot-scope="props">
-            
+           <div class="nesting-table-expand">
+             <edit-table 
+              size="mini"
+              :loading="false"
+              :config="childConfig" 
+              v-if="props.row[childTableDataKey]&&props.row[childTableDataKey].length"
+              :allTableData="props.row[childTableDataKey]"/>
+              <div  class="nesting-table-expand-nothing" v-else>
+                 暂无明细
+              </div>
+           </div>
         </template>
         </el-table-column>
 
@@ -23,6 +33,7 @@
             :fixed="item.fixed"
             :width="item.width"
             :min-width="item.minWidth"
+            :class-name="item.type?item.type:''"
             :key="item.label"
             :label="item.label">
              <template slot-scope="scope">
@@ -66,7 +77,7 @@
             <template slot-scope="scope">
                 <div style="width:160px">
                     <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index,'sure')" size="mini" >确定</el-button>
-                    <el-button v-else @click="goeditrow(scope.$index,'edit')" size="mini" >{{editText}}</el-button>
+                    <el-button v-else @click="goeditrow(scope.$index,'edit')" style="background: #dbdee3;" size="mini" >{{editText}}</el-button>
                     <el-button size="mini"  v-if="useDelet" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </div>
             </template>
@@ -92,7 +103,9 @@
 import moment from 'moment';
 import { mapGetters } from 'vuex'
 import  * as Enum from "@/utils/enum.js";
+import EditTable from './editTable'
 export default {
+   components: { EditTable },
    props: {
      loading: {
       type: Boolean,
@@ -105,6 +118,14 @@ export default {
     config:{
       type: Array,
       default:()=> []
+    },
+    childConfig:{
+      type: Array,
+      default:()=> []
+    },
+    childTableDataKey:{
+      type: String,
+      default: ''
     },
     pageSizes:{
       type: Array,
@@ -262,10 +283,33 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-  .ctabel{
-    width: 100%;
-  }
+<style rel="stylesheet/scss" lang="scss" >
   
+  .nesting-table{
+    .cell{
+      line-height: 24px;
+    }
+    th{
+      background: #dbdee3;
+      color: #777;
+    }
+    .el-table__expanded-cell[class*=cell]{
+      padding:0;
+      padding-left: 50px;
+    }
+    .nesting-table-expand{
+      th{
+         background: #dbdee3;
+         color: #777;
+      }
+
+      .nesting-table-expand-nothing{
+         height:40px;
+         line-height: 40px;
+         text-align: center;
+      }
+    }
+  }
+ 
 </style>
 
