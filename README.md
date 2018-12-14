@@ -302,9 +302,10 @@ useIf配置项参数介绍
 | highlightCurrentRow | 是否要高亮当前行    |  Boolean  | false |  否  |
 | config | 配置属性   |  Array  | -  |  是  |
 | tableData | 数据源    |  Array  | -|  是  |
+| usePagination | 是否使用前端分页(前端分页参数)    |  Boolean  | false |  否  |
 | total | 数据的总长度 |  Number  | 0 |  是  |
-| currentPage | 当前页码   |  Number  | 1  |  否  |
-| pageSize | 每页显示的条数   |  Number  | 10  |  否  |
+| currentPage | 当前页码(后端分页参数)   |  Number  | 1  |  否  |
+| pageSize | 每页显示的条数(后端分页参数)  |  Number  | 10  |  否  |
 | pageSizes | 分页规格数组   |  Array  | [10, 50, 100, 500]  |  否  |
 | maxTotal | 只有表格的数据条数大于这个值的时候才显示分页 |  Number  | 10  |  否  |
 | layout | 布局组件 参考element-ui   |  String  | total, sizes, prev, pager, next, jumper  |  否  |
@@ -356,8 +357,8 @@ config配置项参数介绍
 
 | 方法  | 描述  |  返回值 |
 | --- | --- |  --- | 
-| sizeChange | pageSize变化后的回调   | pageSize：当前每页展示多少条 |
-| currentChange | 页码变化后的回调   | currentPage: 当前页码 |
-| currentRedioChange | 点击某一行   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
+| sizeChange | pageSize变化后的回调(后端分页回调)   | pageSize：当前每页展示多少条 |
+| currentChange | 页码变化后的回调(后端分页回调)   | currentPage: 当前页码 |
+| currentRedioChange | 点击某一行(后端分页回调)   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
 
 
