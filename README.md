@@ -66,7 +66,8 @@ npm run build
 > 模块的标题,突出该模块
 
 1. 使用方式
-2. 
+
+
 ```
  <item-title text="基本信息"/>
  
