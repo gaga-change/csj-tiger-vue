@@ -40,7 +40,7 @@
 
         <el-col :span="6" >
           <el-form-item label="业务板块"  prop="busiPlate">
-            <el-select v-model="ruleForm.busiPlate"  placeholder="请选择业务板块">
+            <el-select v-model="ruleForm.busiPlate" @change="submitForm('ruleForm')"  placeholder="请选择业务板块">
               <el-option
                 v-for="item in busiPlateConfig"
                 :key="item.value"
