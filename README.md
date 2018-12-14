@@ -253,9 +253,9 @@ config配置项参数介绍
 | format | type为time时的时间展示格式(默认:YYYY-MM-DD)  |  String  | 
 | useApi | 是否使用本地api枚举,使用时只需将useApi设置为true,同时给type传递一个api枚举的方法名即可  |  Boolean  | 
 | useLocalEnum | 是否使用本地前端定义的枚举,使用时只需将useLocalEnum设置为true,同时给type传递一个枚举的方法名即可  |  Boolean  | 
-| minWidth | 单元格最小宽度  |  Number|String  | 
-| width | 单元格宽度  |  Number|String  |
-| fixed | 是否固定表头  |  Boolean|String('left'|'right')  |
+| minWidth | 单元格最小宽度  |  Number或者String  | 
+| width | 单元格宽度  |  Number或者String  |
+| fixed | 是否固定表头  |  Boolean或者String('left'|'right')  |
 | dom | dom传递  |  function类型: (row, column, cellValue, index)=>return <div>{cellValue}</div>  |
 
 ####  WebPaginationTable(前端分页table组件)
