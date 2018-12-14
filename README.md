@@ -16,13 +16,13 @@
 
 ####  拉取
 
-1. http方式:
+http方式:
 
 ```
 git clone http://lis530@192.168.1.226/deliverGroup/csj-shark-vue.git
 
 ```
-2. ssh方式:
+ssh方式:
 
 ```
 git clone git@192.168.1.226:deliverGroup/csj-shark-vue.git
