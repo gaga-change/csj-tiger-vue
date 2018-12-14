@@ -190,7 +190,7 @@ useIf配置项参数介绍
 
 #### 1. BaseTable(后端分页table组件)
 
-> 后端分页组件,支持后端分页
+> 后端分页组件,支持后端分页，,多用于主页table
 
 使用方式
 
@@ -219,7 +219,7 @@ useIf配置项参数介绍
 
 
 #### 2. WebPaginationTable(前端分页table组件)
-> 前端分页组件
+> 前端分页组件,多用于详情页table
 
 使用方式
 ```
@@ -241,8 +241,56 @@ useIf配置项参数介绍
 
 
 #### 3. EditTable(可编辑table组件,仅支持前端分页)
+> 参考出库技术>手工出库页面
+
+使用方式
+```
+   <template>
+      <edit-table 
+        :loading="loading"
+        :config="tableConfig" 
+        :allTableData="tableData"
+        @goeditrow="goeditrow"
+        @handleDelete="handleDelete"/>
+   </template>
+   
+   <script>
+    import editTable from '@/components/Table/editTable'
+     export default {
+       components: { EditTable},    
+     }
+   </script>
+ 
+```
 
 #### 4.  NestingTable(多功能嵌套table组件,仅支持前端分页)
+> 参考供应商直发登记页面
+
+使用方式
+```
+   <template>
+      <nesting-table 
+        :loading="loading"
+        :useEdit="true"
+        :useDelet="false"
+        :useEditExpand="true"
+        :defaultExpandAll="true"
+        childTableDataKey="billDetailList"
+        editText="登记收货量"
+        :config="addTableConfig" 
+        :childConfig="addChildTableConfig"
+        :allTableData="tableData"
+        @goeditrow="goeditrow"/>
+   </template>
+   
+   <script>
+    import NestingTable from '@/components/Table/nestingTable'
+     export default {
+       components: { NestingTable},    
+     }
+   </script>
+ 
+```
 
 属性介绍
 
