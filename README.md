@@ -204,6 +204,27 @@ config配置项参数介绍
  
 ```
 
+属性介绍
+
+| 属性  | 描述  |  类型 | 默认值 | 是否必填  |
+| --- | --- |  --- | --- | --- | 
+| loading | loading  |  Boolean  | false  |  否  |
+| elementLoadingText | loading提示文字  |  String  | 加载中  |  否  |
+| elementLoadingBackground | loading背景颜色  |  String  | rgba(255, 255, 255, 0.5)  |  否  |
+| highlightCurrentRow | 是否要高亮当前行    |  Boolean  | false |  否  |
+| config | 配置属性   |  Array  | -  |  是  |
+| tableData | 数据源    |  Array  | -|  是  |
+| total | 数据的总长度 |  Number  | 0 |  是  |
+| currentPage | 当前页码   |  Number  | 1  |  否  |
+| pageSize | 每页显示的条数   |  Number  | 10  |  否  |
+| pageSizes | 分页规格数组   |  Array  | [10, 50, 100, 500]  |  否  |
+| maxTotal | 只有表格的数据条数大于这个值的时候才显示分页 |  Number  | 10  |  否  |
+| layout | 布局组件 参考element-ui   |  String  | total, sizes, prev, pager, next, jumper  |  否  |
+| border | 是否展示纵向边框 |  Boolean  | true  |  否  |
+| tableStyle | 表格的样式 |  String  | width: 100%  |  否  |
+| paginationStyle | 分页器的样式 |  String  | marginTop:16px  |  否  |
+
+
 ####  WebPaginationTable(前端分页table组件)
 
 ####  EditTable(可编辑table组件,仅支持前端分页)
