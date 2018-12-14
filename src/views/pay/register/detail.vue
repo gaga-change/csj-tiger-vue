@@ -104,8 +104,8 @@
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
-                <el-form-item label="货款金额" prop="applyPaymentAmt">
-                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="small" placeholder="货款金额"></el-input>
+                <el-form-item label="付款金额" prop="applyPaymentAmt">
+                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="small" placeholder="付款金额"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -205,10 +205,10 @@
      var checkAmt = (rule, value, callback) => {
         
         if (!Number(value)) {
-          return callback(new Error('请输入货款'))
+          return callback(new Error('请输入付款金额'))
         }
         if (!MoneyReg.test(value)) {
-          return callback(new Error('货款最多两位小数'))
+          return callback(new Error('付款金额最多两位小数'))
         }
         callback()
       }
@@ -267,7 +267,7 @@
           ruleForm:{
             realPaymentDate:'',//付款日期
             paymentMode:'',//结算方式,
-            applyPaymentAmt:'',//货款金额
+            applyPaymentAmt:'',//付款金额
             realPaymentAmt:'',//实付金额
             realInterestAmt:'',//贴息
             remarkInfo:'',//备注
