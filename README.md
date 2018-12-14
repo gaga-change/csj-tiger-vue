@@ -158,6 +158,13 @@ config配置项参数介绍
 | filesuploadUrl | 文件上传的地址    |  String  | /webApi/fileupload/common/filetoserver |  否  |
 
 
+方法介绍
+
+| 方法  | 描述  |  返回值 |
+| --- | --- |  --- | 
+| fileListChange | 上传成功和移除文件的回调   | 上传成功的文件列表 |
+
+
 
 ####  BaseTable(后端分页table组件)
 
