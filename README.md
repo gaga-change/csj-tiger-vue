@@ -354,7 +354,8 @@ config配置项参数介绍
 | linkTo | 跳转的路径,该属性需要结合query  |  String  |
 | query | 页面跳转时query上的属性以及所使用的索引 ```query:[{key:'warehouseExeCode',value:'warehouseExeCode'}] ``` |  Array  |
 | linkText | link随时用的文案（不传时直接为单元格值） |  String  |
-| edit | link随时用的文案（不传时直接为单元格值） |  String  |
+| edit | 是否可开始使用可编辑 |  String  |
+| editType | 可编辑的类型 |  String  |
 | max | 最大值索引数组 |  Array  |
 | min | 最小值 |  Number  |
 
