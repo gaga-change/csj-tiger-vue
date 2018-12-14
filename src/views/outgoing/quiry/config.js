@@ -30,6 +30,7 @@ export const indexTableConfig=[
   { label:'货主',prop:'ownerName'},
   { label:'出库仓库名称',prop:'warehouseName'},
   { label:'是否越库',prop:'isCross',width:100,type:'Boolean',},
+  { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'出库日期',prop:'outStoreTime',type:'time'},
   { label:'操作',fixed:'right',width:80,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看' },
 ]
