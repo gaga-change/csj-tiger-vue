@@ -314,6 +314,7 @@ useIf配置项参数介绍
 | tableStyle | 表格的样式 |  String  | width: 100%  |  否  |
 | paginationStyle | 分页器的样式 |  String  | marginTop:16px  |  否  |
 | useEdit | 是否使用可编辑（可编辑表格属性） |  Boolean  | false |  否  |
+| childConfig | 嵌套表格子表配置（NestingTable属性） |  Array  | [] |  否  |
 
 config配置项参数介绍
 
@@ -369,3 +370,6 @@ config配置项参数介绍
 | SelectionChange | 多选选中后的回调 (前端分页回调)   | val：选中的行数组成的数组 |
 | goeditrow | 点击编辑或者确定后的回调（可编辑表格属性）   | index:索引,type:按钮操作类型 |
 | handleDelete | 点击删除的回调（可编辑表格属性）  | index:索引,type:按钮操作类型 |
+
+
+
