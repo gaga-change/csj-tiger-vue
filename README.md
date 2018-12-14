@@ -29,6 +29,7 @@ git clone git@192.168.1.226:deliverGroup/csj-shark-vue.git
 
 ```
 > 启动方式
+
 ```
 npm run start
 
