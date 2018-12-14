@@ -40,18 +40,18 @@ npm run start
 
 ### 四、组价介绍
 
->  ItemTitle(模块标题组件)
+> ItemTitle(模块标题组件)
 
->  ItemCard(详情页基本信息卡片组件)
+> ItemCard(详情页基本信息卡片组件)
 
->  UploadMode(文件上传组件组件)
+> UploadMode(文件上传组件组件)
 
->  BaseTable(后端分页table组件)
+> BaseTable(后端分页table组件)
 
->  WebPaginationTable(前端分页table组件)
+> WebPaginationTable(前端分页table组件)
 
->  EditTable(可编辑table组件,仅支持前端分页)
+> EditTable(可编辑table组件,仅支持前端分页)
 
->  NestingTable(多功能嵌套table组件,仅支持前端分页)
+> NestingTable(多功能嵌套table组件,仅支持前端分页)
 
 
