@@ -14,7 +14,9 @@
 
 ### 二、代码拉取以及启动方式
 
+
 ####  拉取
+
 
 http方式:
 
@@ -22,12 +24,14 @@ http方式:
 git clone http://lis530@192.168.1.226/deliverGroup/csj-shark-vue.git
 
 ```
+
 ssh方式:
 
 ```
 git clone git@192.168.1.226:deliverGroup/csj-shark-vue.git
 
 ```
+
 ####  启动方式
 
 ```
