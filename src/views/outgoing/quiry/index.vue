@@ -86,8 +86,8 @@
   </div>
 
     <div class="tableTotal" v-if="outTotal.totalOutStoreQty!==undefined||outTotal.totalOutStoreAmt!==undefined">
-       <span>出库总金额</span> : <span>{{outTotal&&Number(outTotal.totalOutStoreQty).toFixed(2)}}</span>
-       <span>出库总数量</span> : <span>{{outTotal&&Number(outTotal.totalOutStoreAmt).toFixed(2)}}</span>
+       <span>出库总金额</span> : <span>{{outTotal&&Number(outTotal.totalOutStoreAmt).toFixed(2)}}</span>
+       <span>出库总数量</span> : <span>{{outTotal&&Number(outTotal.totalOutStoreQty).toFixed(2)}}</span>
     </div>
 
     <base-table 
