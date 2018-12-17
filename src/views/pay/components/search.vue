@@ -73,7 +73,7 @@
               </el-select>
             </el-form-item>
         </el-col>  
-         <el-col :span="6">
+         <!-- <el-col :span="6">
           <el-form-item label="业务板块">
             <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
@@ -84,7 +84,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>  
+        </el-col>   -->
       </el-row>
       <el-row :gutter="10">
         <el-col :span="6">
