@@ -19,13 +19,13 @@
           </el-col>
 
 
-          <el-col :span="6" style="minWidth:310px">
+          <el-col :span="6" style="minWidth:300px">
             <el-form-item label="计划单号" prop="planCode">
               <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入计划单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="minWidth:310px">
+          <el-col :span="6" style="minWidth:300px">
             <el-form-item label="出库单号" prop="warehouseExeCode">
               <el-input v-model.lazy.trim="ruleForm.warehouseExeCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入出库单号"></el-input>
             </el-form-item>
@@ -37,9 +37,24 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="16" style="minWidth:340px" >
+
+        <el-col :span="6" >
+          <el-form-item label="业务板块"  prop="busiPlate">
+            <el-select v-model="ruleForm.busiPlate" @change="submitForm('ruleForm')"  placeholder="请选择业务板块">
+              <el-option
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+          <el-col :span="12" style="minWidth:400px" >
             <el-form-item label="出库日期" prop="time">
                  <el-date-picker
+                    style="minWidth:340px" 
                     v-model="ruleForm.time"
                     @change="timeChange"
                     type="daterange"
@@ -95,6 +110,7 @@
     import {indexTableConfig } from './config';
     import { mapGetters } from 'vuex'
     import {stringify} from 'qs';
+    import {busiPlateConfig} from '@/utils/enum'
     
     export default {
       components: { BaseTable },
@@ -106,6 +122,7 @@
             arrivalName:'',
             planCode:'',
             warehouseExeCode:'',
+            busiPlate:'',
             time:'',
             pageNum: 1,
             pageSize:10,
@@ -115,6 +132,7 @@
         rules: {
          
         },
+        busiPlateConfig,
          loading:false,
          tableData: [],
          linkData:'',

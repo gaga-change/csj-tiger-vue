@@ -3,6 +3,9 @@
   <div style="marginBottom:12px">
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
+     <div style="display: flex;justify-content: flex-end;margin-bottom: 12px;font-size:14px;color:#606266">
+        <span v-for="info in infoConfig" :key="info.title" style="margin-right:12px;"><span style="font-weight: 600">{{info.title}}：</span><span>{{(cardData[info.prop]||0).toFixed(2)}}</span></span>
+      </div>
    <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -25,7 +28,7 @@
 
 
     import moment from 'moment';
-    import { getPaymentListAndDetail } from '@/api/pay'
+    import { getPaymentListAndDetail, infoPaymentTotal } from '@/api/pay'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { reisterTableConfig } from '../components/config';
@@ -41,6 +44,11 @@
         loading:false,
         tableData: [],
         tableConfig:[],
+        infoConfig:[ 
+          { title:'已付货款合计', prop:'totalPaymentAmt',type:'money' },
+          { title:'贴息合计', prop:'totalInterestAmt',type:'money' },
+        ],
+        cardData:{},
       }
     },
 
@@ -131,18 +139,24 @@
           }
         }
         let data={...json}
-         getPaymentListAndDetail(data).then(res=>{
+        getPaymentListAndDetail(data).then(res=>{
           
           if(res.success){
               let data=res.data;
               this.tableData=res.list||[];
               this.total=res.total;
+              
           }
           
             this.loading=false;
 
         }).catch(err=>{
             this.loading=false;
+        })
+        infoPaymentTotal({busiPlate:data.busiPlate}).then(res => {
+          if(res.success){
+            this.cardData = res.data
+          }
         })
       }
     }

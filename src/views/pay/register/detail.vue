@@ -7,9 +7,9 @@
          <template  v-if="(cardData.moneyState==2&&cardData.paymentStatus==3)||(cardData.moneyState==0&&cardData.paymentStatus==4)">
            <el-button @click="editReal" v-if="!editable" size="small"  type="primary">创建付款登记</el-button>
            <template v-else>
-              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
               @click="saveOrder(0,'ruleForm')">保存
-              </el-button>
+              </el-button> -->
               <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
                   @click="saveOrder(1,'ruleForm')">提交
               </el-button>
@@ -19,9 +19,9 @@
         <template v-else-if="cardData.registerStatus == 0||cardData.registerStatus == 9">
           <el-button @click="editReal" v-if="!editable" size="small"  type="primary">编辑</el-button>
            <template v-else>
-              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
               @click="saveOrder(0,'ruleForm')">保存
-              </el-button>
+              </el-button> -->
               <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
                   @click="saveOrder(1,'ruleForm')">提交
             </el-button>
@@ -56,11 +56,11 @@
    <invoice-detail :cardData="cardData" id="print"
     :tableData="tableData"  :name="name" :payment-info-config="paymentInfoConfig">
     <template v-if="cardData.moneyState == 2">
-      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" >
+      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:10px">
         <el-row>
           <el-col  class="card-list" :span="18" >
               <span class="card-title">对账区间</span> ：
-              <a class="card-text" @click="showDetail" style="color:#409EFF">
+              <a class="card-text" @click="showDetail" style="color:#409EFF" v-if="dataSuccess">
                 {{formatTime(cardData.startTime)}} 至 {{formatTime(cardData.endTime)}}
               </a>
             </el-col>
@@ -104,8 +104,8 @@
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
-                <el-form-item label="货款金额" prop="applyPaymentAmt">
-                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="small" placeholder="货款金额"></el-input>
+                <el-form-item label="付款金额" prop="applyPaymentAmt">
+                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="small" placeholder="付款金额"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -131,6 +131,18 @@
                   <el-input type="text" size="small" v-model="ruleForm.paymentRecordNo" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
+              <el-col :span="10">
+                <el-form-item label="附件">
+                  <el-button
+                    size="mini"
+                    type="primary"
+                    @click="importFile">
+                    {{filePathList.length ? '继续上传' : '上传附件'}}
+                  </el-button>
+                    <span v-show="filePathList">{{filePathList.length}}个文件</span>
+                  
+                </el-form-item>
+              </el-col>
               </el-row>
             </el-form>
           </el-card>
@@ -141,6 +153,30 @@
       </template>
     </template>
     </invoice-detail>
+    <!-- 上传弹框 -->
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      center
+      width="50%">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        :action="uploadUrl"
+        multiple
+        :file-list = "fileNew"
+        :on-remove="handleRemove"
+        :on-exceed="handleExceed"
+        :before-upload="beforeUpload"
+        name="myFile"
+        :on-change="handelUploadChange"
+        :on-success="handleUploadSuccess"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
+      </el-upload>
+    </el-dialog>
     </div>
 </template>
 
@@ -169,10 +205,10 @@
      var checkAmt = (rule, value, callback) => {
         
         if (!Number(value)) {
-          return callback(new Error('请输入货款'))
+          return callback(new Error('请输入付款金额'))
         }
         if (!MoneyReg.test(value)) {
-          return callback(new Error('货款最多两位小数'))
+          return callback(new Error('付款金额最多两位小数'))
         }
         callback()
       }
@@ -231,7 +267,7 @@
           ruleForm:{
             realPaymentDate:'',//付款日期
             paymentMode:'',//结算方式,
-            applyPaymentAmt:'',//货款金额
+            applyPaymentAmt:'',//付款金额
             realPaymentAmt:'',//实付金额
             realInterestAmt:'',//贴息
             remarkInfo:'',//备注
@@ -242,6 +278,12 @@
           searchForm,
           PaymentModeEnumFilter,
           dataSuccess:false,
+           //上传文件相关
+          dialogVisible: false,
+          uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
+          filePathList: [],
+          uploadButtonVisible: false,
+          fileNew:[],
 
            //对账单相关参数
           paybillData:{},
@@ -269,6 +311,22 @@
             },
             deep:true
       },
+       fileNew(){
+        const url = []
+        this.fileNew.map(
+          file => {
+            
+            if (file.response) {
+              url.push({ fileName: file.name, filePath: file.response.data })
+            } else if (file.name && file.url) {
+              url.push({ fileName: file.name, filePath: file.url })
+            }
+          }
+        )
+        
+        this.filePathList = url
+
+      },
       
     },
     computed: {
@@ -279,6 +337,45 @@
 
     methods: {
       Modify,
+       beforeUpload(file) {
+        // 如果上传文件大于5M
+        if (file.size > 5 * 1024 * 1024) {
+          this.$message.error('上传附件不能大于5M')
+          return false
+        }
+      },
+      handleRemove(file, fileList) {
+        this.fileNew = fileList
+      },
+       importFile() {
+        this.dialogVisible = true
+      },
+      submitUpload() {       
+        this.$refs.upload.submit()
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择上传 1 个文件`)
+      },
+      handelUploadChange(file, fileList) {
+
+        // 选择文件时显示上传按钮
+        if (Object.keys(file).length && fileList.length) {
+          this.uploadButtonVisible = true
+        } else {
+          this.uploadButtonVisible = false
+        }
+      },
+      handleUploadSuccess(res, file, fileList) {
+        if (res.code === '200') {
+          this.fileNew=fileList   
+        } else {
+          this.$message({
+            message: res.message,
+            type: 'error'
+          })
+        }
+        
+      },
       formatTime(value){
         return moment(value).format('YYYY-MM-DD')
       },
@@ -342,6 +439,8 @@
             params.operatorName=this.userInfo.truename
             params.fromSystemCode='CSJSCM'
             params.applyNo = this.cardData.applyNo
+            params.registerFileInfoList = [...this.filePathList]
+            // if()
             if(this.cardData.finaPaymentRegisterId){
               params.finaPaymentRegisterId = this.cardData.finaPaymentRegisterId
             }
@@ -393,12 +492,13 @@
            this.loading=false;
           this.buttonDisabled = false
           
-          if(res.success){
+          if(res.success&&res.list&&res.list.length>0){
             this.dataSuccess = true
            
             this.cardData = res.list[0]
            
              let fileInfos = res.list[0].filePathList || []
+             let registerFileInfos = res.list[0].registerFileInfoList || []
               
               fileInfos.map(item=>{
                 if(item.filePath){
@@ -407,12 +507,25 @@
                 }
                 
               })
+            this.cardData.filePathList   = fileInfos
+             registerFileInfos.map(item=>{
+                if(item.filePath){
+                  item.path = item.filePath//itemCard组件，文件下载的参数为path
+                  item.url = item.filePath//filenew监听
+                  item.name = item.fileName
+                }
+                
+              })
+            this.cardData.registerFileInfoList   = registerFileInfos
+            this.fileNew = registerFileInfos
+            
+
               var detailConfig = []
-              if(this.cardData.moneyType==0){
+              if(this.cardData.moneyState==0){
                 detailConfig = paymentInfoConfig.filter(config=>
                   config.paytype.includes('goods')
                 )
-              }else{
+              }else if(this.cardData.moneyState==2){
                 detailConfig = paymentInfoConfig.filter(config=>
                   config.paytype.includes('service')
                 )
@@ -437,7 +550,6 @@
             paymentRecordNo,//交易流水号
             }
             
-            this.cardData.filePathList   = fileInfos
               // this.cardData.moneyType = 3
             if(this.cardData.moneyType == 3){
               this.rules = returnPayReg

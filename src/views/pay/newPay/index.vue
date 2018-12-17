@@ -40,7 +40,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项性质" prop="moneyState">
-            <el-select v-model="payment.moneyState" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="payment.moneyState" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" @change="changeMoneyState">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -83,19 +83,33 @@
         <el-col :span="6">
           <template v-if="payment.moneyState === 0">
             <el-form-item label="采购合同" prop="contractNo" >
-              <el-input type="text" size="small" disabled v-model="payment.contractNo" />
+              <el-input type="text" size="small" disabled v-model="payment.contractNo" @change="getContract"/>
             </el-form-item>
           </template>
           <template v-else>
             <el-form-item label="合同号" prop="contractNo" :rules="[
                 {  required: true, trigger: 'blur', message:'请输入合同号' }
               ]">
-              <el-input type="text" size="small" v-model="payment.contractNo" />
+              <el-input type="text" size="small" v-model="payment.contractNo" v-on:blur="getContract"/>
             </el-form-item>
-          </template>
-          
-         
+          </template>  
+           <!-- <el-form-item :label="fileContractList.length+'个文件'"> -->
+              <!-- <span v-show="fileContractList">{{fileContractList.length}}个文件</span> -->
+            <span v-if="fileContractList&&fileContractList.length>0">
+              <el-dropdown>
+              <span class="el-dropdown-link">
+                查看合同附件<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="(v,i) in fileContractList" :key="v.filePath" >
+                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.fileName||`附件${i+1}`">{{v.fileName||`附件${i+1}`}}</a>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </span>
+          <!-- </el-form-item>  -->
         </el-col>
+       
         <!-- <el-col :span="6">
           <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentMode">
               <el-select v-model="payment.paymentMode" disabled filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
@@ -146,7 +160,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-                <el-col :span="10">
+        <el-col :span="10">
           <el-form-item label="附件">
              <el-button
               size="mini"
@@ -154,19 +168,8 @@
               @click="importFile">
               {{filePathList.length ? '继续上传' : '上传附件'}}
             </el-button>
-            <span v-show="filePathList">{{filePathList.length}}个文件</span>
-            <span v-if="filePathList&&filePathList.length>0">
-              <el-dropdown>
-              <span class="el-dropdown-link">
-                查看附件<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(v,i) in filePathList" :key="v.filePath" >
-                  <a class="el-dropdown-link"  target="blank"   :href="v.filePath" :download="v.fileName||`附件${i+1}`">{{v.fileName||`附件${i+1}`}}</a>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </span>
+              <span v-show="filePathList">{{filePathList.length}}个文件</span>
+            
           </el-form-item>
         </el-col>
       </el-row>
@@ -249,7 +252,7 @@
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
 
-  import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime } from '@/api/pay'
+  import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime, getContractFiles} from '@/api/pay'
 
   import { MoneyReg } from '@/utils/validator'
 
@@ -339,9 +342,9 @@
         callback()
       }
       var checkAmt = (rule, value, callback) => {
-        
+        var a = this.payment.moneyState || 0
         if (!Number(value)) {
-          return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
+          return callback(new Error(`请${a == 0 ? '输入货款':'拉取对账单'}`))
         }
         // if(value<0){
         //   return callback(new Error('货款为正数'))
@@ -367,6 +370,7 @@
         dialogTableVisible: false,
         submitloading: false,
         fileNew:[],
+        fileContractList:[],
 
         //客户账单相关
         customerConfig:[],
@@ -386,6 +390,23 @@
           start:true,
           end:false
         },
+        //切换moneyState需要记录的值
+        contractObj:{
+          goods: '',
+          service: '',
+        },
+        applyPaymentAmtObj:{
+          goods:'',
+          service:''
+        },
+        filesObj:{
+          goods:'',
+          service:'',
+        },
+        contractFiles:{
+          goods:'',
+          service:''
+        }
       }
     },
     computed: {
@@ -447,32 +468,29 @@
         )
         
         this.filePathList = url
-        
+      
       },
       payment:{
         handler (val,oldVal){
          
           if(val.moneyState==0){
             this.rules = goodsRules
-           
           }else{
             this.rules = notGoodsRules
-           
           }
         },
         deep:true
-      }
+      },
       // 'payment.moneyState':(val,oldVal)=>{
       //   if(val==0){
       //     this.rules = goodsRules
       //     this.payment.ownerCode = ''
       //     this.payment.ownerName = ''
+      //   
       //   }else{
       //     this.rules = notGoodsRules
       //     this.payment.ownerCode = 'EP201804150009';
       //     this.payment.ownerName = '诸暨裕大贸易有限公司';
-      //     console.log(this.rules);
-          
       //   }
       // }
     },
@@ -501,15 +519,76 @@
       this.getCustomInfo()
     },
     methods: {
+      getContract(){
+        if(this.payment.contractNo){
+          getContractFiles({contractNo:this.payment.contractNo}).then(res => {
+            if(res.success){
+              this.fileContractList = res.data
+              if(this.payment.moneyState == 0){
+                this.contractFiles.goods = this.fileContractList
+              }else if(this.payment.moneyState == 2){
+                this.contractFiles.service = this.fileContractList
+              }
+            }
+          })
+        }
+        
+      },
+      changeMoneyState(){
+        
+        if(this.payment.moneyState == 0){
+          if(this.payment.contractNo != this.contractObj.goods){
+            this.payment.contractNo = this.contractObj.goods
+          }
+          if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.goods){
+            this.payment.applyPaymentAmt = this.applyPaymentAmtObj.goods
+          }
+         
+          
+          // if(this.payment.filePathList != this.filesObj.goods){
+            this.payment.filePathList = [...this.filesObj.goods]
+            this.fileNew = [...this.filesObj.goods]
+            this.filePathList = [...this.filesObj.goods]
+            this.fileContractList = [...this.contractFiles.goods]
+            console.log(this.fileNew.length,this.payment.filePathList,this.filePathList.length,1);
+            
+          // }
+        }else  if(this.payment.moneyState == 2){
+          if(this.payment.contractNo != this.contractObj.service){
+            this.payment.contractNo = this.contractObj.service
+          }
+          if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.service){
+            this.payment.applyPaymentAmt = this.applyPaymentAmtObj.service
+          }
+          console.log(this.filesObj.service,2);
+          
+          // if(this.payment.filePathList != this.filesObj.service){
+            this.payment.filePathList = [...this.filesObj.service]
+            this.fileNew = [...this.filesObj.service]
+            this.fileContractList = [...this.contractFiles.service]
+
+          // }
+        }
+        
+        
+      },
       getPayInfo(){
         //拉取对账单
         getLastTime({}).then(res=>{
           if(res.success){
             this.dialogVisiblePay = true
             this.$refs.payBills.dialogVisPay = true
-            // res.data.endTime = moment('2018-12-02')
-            this.lastBillDate = moment(res.data.endTime).format('YYYY-MM-DD')
-            this.payDurationStart = moment(res.data.endTime).add('1','days')
+            var lastTime = moment('2017-12-31')
+            if(res.data&&res.data.endTime){
+              lastTime = res.data.endTime
+            }
+            
+            if(this.payment.startTime){
+              lastTime = moment(this.payment.startTime).subtract('1','days')
+              this.payDurationEnd = this.payment.endTime
+            }
+            this.lastBillDate = moment(lastTime).format('YYYY-MM-DD')
+            this.payDurationStart = moment(lastTime).add('1','days')
             this.paybillData = {}
           }
         })
@@ -620,6 +699,7 @@
           }
           
         })
+        this.getContract()
       },
       cusBillFilter(value){
         this.billFilterMark=value;
@@ -633,6 +713,11 @@
       },
       handleRemove(file, fileList) {
         this.fileNew = fileList
+          if(this.payment.moneyState == 0){
+          this.filesObj.goods = [...fileList]
+        }else if(this.payment.moneyState == 2){
+          this.filesObj.service = [...fileList]
+        }
       },
       getDetail() {
         getPaymentListAndDetail(
@@ -644,9 +729,10 @@
             this.payment =  {
              ...payment
             }
-            
+            let fileList = [],temp = []
+           
             if(res.list[0].filePathList&&res.list[0].filePathList.length>0){
-              let fileList = [...res.list[0].filePathList],temp = []
+              fileList = [...res.list[0].filePathList]
               this.filePathList = fileList
               this.payment.filePathList = fileList
               fileList.map(file=>{
@@ -658,8 +744,40 @@
               this.payment.filePathList = []
               this.fileNew = []
             }
-            
-            
+             if(payment.moneyState == 0){
+              this.contractObj = {
+                goods: payment.contractNo,
+                service: '',
+              },
+              this.applyPaymentAmtObj = {
+                goods:payment.applyPaymentAmt,
+                service:''
+              },
+              this.filesObj = {
+                goods:temp,
+                service:'',
+              }
+            }else if(payment.moneyState == 2){
+              this.contractObj = {
+                goods: '',
+                service: payment.contractNo,
+              },
+              this.applyPaymentAmtObj = {
+                goods:'',
+                service:payment.applyPaymentAmt
+              },
+              this.filesObj = {
+                goods:'',
+                service:temp,
+              }
+            }
+            if(payment.contractNo){
+              getContractFiles({contractNo:payment.contractNo}).then(res => {
+                 if(res.success){
+                  this.fileContractList = res.data
+                }
+              })
+            }
           }
         
         }).catch(err => {
@@ -691,7 +809,12 @@
         //   this.filenamelist.push({name:item.name})
         // })
         if (res.code === '200') {
-          this.fileNew=fileList    
+          this.fileNew=fileList   
+          if(this.payment.moneyState == 0){
+            this.filesObj.goods = [...fileList]
+          }else if(this.payment.moneyState == 2){
+            this.filesObj.service = [...fileList]
+          } 
         } else {
           this.$message({
             message: res.message,
@@ -732,10 +855,10 @@
           if (valid) {
           
             let postData = {...this.payment}
-            if(!this.filePathList.length){
-              this.$message.error('附件不能为空');
-              return ''
-            }
+            // if(!this.filePathList.length){
+            //   this.$message.error('附件不能为空');
+            //   return ''
+            // }
             this.submitloading = true
             postData.filePathList = this.filePathList
             postData.flag = type ? false : true
