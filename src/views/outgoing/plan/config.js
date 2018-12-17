@@ -55,13 +55,6 @@ export  const manualBaseInfoConfigLeft=[
   {title:'未匹配',prop:'',span:12},
 ]
 
-//入库业务
-export  const manualBaseInfoConfigRight=[
-  {title:'相关采购单',prop:'',span:12},
-  {title:'供应商',prop:'',span:12},
-  {title:'制单时间',prop:'',span:12},
-]
-
 //table配置
 export const manualBaseInfoTableConfig=[
   { label:'业务单号',prop:''},
@@ -83,4 +76,35 @@ export const matchingTableConfig=[
   { label:'对应单位',prop:''},
   { label:'已入/计划',prop:''},
   { label:'操作',prop:'',fixed:'right',useLink:true},
+]
+
+
+//出库商品弹框配置上
+export  const alertTopConfig=[
+  {title:'名称',prop:'',},
+  {title:'编号',prop:'',},
+  {title:'规格',prop:'',},
+  {title:'计划数量',prop:'',},
+]
+
+
+//出库商品弹框配置下
+export  const alertBottomConfig=[
+  {title:'名称',prop:'',},
+  {title:'编号',prop:'',},
+  {title:'规格',prop:'',},
+  {title:'计划采购量',prop:'',},
+  {title:'入库量',prop:'',},
+]
+
+
+//采购单明细片配置
+export  const detailsConfig=[
+  {label:'单号',prop:'',},
+  {label:'编号',prop:'',},
+  {label:'名称',prop:'',},
+  {label:'规格',prop:'',},
+  {label:'单位',prop:'',},
+  {label:'采购数量',prop:'',},
+  {label:'入库数量',prop:'',},
 ]

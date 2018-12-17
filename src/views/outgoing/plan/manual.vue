@@ -11,7 +11,6 @@
 
           <div class="manualBaseInfo-right">
           <item-title text="入库业务"/>
-           <item-card :config="manualBaseInfoConfigRight" :loading="loading"   :cardData="cardData"  />
              <web-pagination-table 
               :loading="loading"
               :config="manualBaseInfoTableConfig" 
@@ -42,13 +41,39 @@
         top="6vh"
         width="70%"
         :before-close="()=>alertDisplay=false">
+          <div class="alertContainer">
+             <item-title text="出库商品"/>
+             <div class="alertInfoContainer">
+                <div class="alertInfoContainer-top">
+                    <item-card :config="alertTopConfig"   :cardData="row"  />
+                </div>
 
+                <div class="add-buttom" >
+                  <item-title text="已匹配商品"/> 
+                  <el-button type="primary" size="mini"  >取消匹配</el-button>
+               </div> 
+                 
+                 <div class="alertInfoContainer-bottom">
+                    <item-card :config="alertBottomConfig"   :loading="false"  :cardData="row"  />
+                </div>
+
+                <item-title text="采购单明细"/>
+                <web-pagination-table 
+                :loading="false"
+                :config="detailsConfig" 
+                :allTableData="[]"/> 
+
+                <div class="sure-btn" >
+                  <el-button type="primary" size="mini">确定</el-button>
+               </div> 
+             </div>
+          </div>
       </el-dialog>
   </div>
 </template>
 
 <script>
- import { manualBaseInfoConfigLeft,manualBaseInfoConfigRight,manualBaseInfoTableConfig,matchingTableConfig } from './config';
+ import { manualBaseInfoConfigLeft,manualBaseInfoTableConfig,matchingTableConfig,alertTopConfig, alertBottomConfig,detailsConfig} from './config';
  import webPaginationTable from '@/components/Table/webPaginationTable'
  export default {
     components: { webPaginationTable},
@@ -57,9 +82,11 @@
         loading:false,
         cardData:{},
         manualBaseInfoConfigLeft,
-        manualBaseInfoConfigRight,
         manualBaseInfoTableConfig,
         matchingTableConfig,
+        alertTopConfig,
+        alertBottomConfig,
+        detailsConfig,
         row:{},
         alertDisplay:false,
       }
@@ -123,13 +150,36 @@
          padding: 12px;
       }
     }
-
     .operationBtn{
       padding: 5px;
       font-size: 12px;
       cursor: pointer;
       color: rgb(51, 153, 234);
       white-space: nowrap;
+    }
+   .alertContainer{
+     .alertInfoContainer{
+        .alertInfoContainer-top,.alertInfoContainer-bottom{
+           border: 1px solid #ebeef5;
+           margin-bottom: 12px;
+        }
+        .alertInfoContainer-bottom{
+          padding-bottom: 12px;
+        }
+     }
+   }
+
+    .add-buttom{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .sure-btn{
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 12px;
     }
 
   }
