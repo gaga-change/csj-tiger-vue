@@ -8,9 +8,9 @@
   <div style="marginBottom:12px">
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
-   <div style="display: flex;justify-content: flex-end;margin-bottom: 12px;font-size:14px;color:#606266">
+   <!-- <div style="display: flex;justify-content: flex-end;margin-bottom: 12px;font-size:14px;color:#606266">
         <span v-for="info in infoConfig" :key="info.title" style="margin-right:12px;"><span style="font-weight: 600">{{info.title}}：</span><span>{{(cardData[info.prop]||0).toFixed(2)}}</span></span>
-      </div>
+      </div> -->
    <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"

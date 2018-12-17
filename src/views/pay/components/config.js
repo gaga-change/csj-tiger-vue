@@ -12,6 +12,7 @@ export const applyTableConfig=[// 付款申请列表
   { label:'申请人',prop:'applyUserName', width:130},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
+
 export const reisterTableConfig=[// 付款登记列表
   { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/register/detail',query:[{key:'id',value:'id'}] },
   { label:'供应商',prop:'paymenterName',type:'money', width:160 },
