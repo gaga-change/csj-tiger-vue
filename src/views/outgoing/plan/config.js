@@ -8,7 +8,6 @@ export const tableConfig=[
   { label:'已出/应出',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
   }},
-  { label:'手工出库',prop:'qty',useEdit:true,width:160,max:['planOutQty','realOutQty'],min:0},
 ];
 
 export  const infoConfig=[
@@ -45,4 +44,43 @@ export const indexTableConfig=[
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
   { label:'操作',fixed:'right',useLink:true,minWidth:100},
+]
+
+//手工出库页面基本配置
+//出库计划
+export  const manualBaseInfoConfigLeft=[
+  {title:'业务单号',prop:'',span:12},
+  {title:'总明细数',prop:'',span:12},
+  {title:'已匹配',prop:'',span:12},
+  {title:'未匹配',prop:'',span:12},
+]
+
+//入库业务
+export  const manualBaseInfoConfigRight=[
+  {title:'相关采购单',prop:'',span:12},
+  {title:'供应商',prop:'',span:12},
+  {title:'制单时间',prop:'',span:12},
+]
+
+//table配置
+export const manualBaseInfoTableConfig=[
+  { label:'业务单号',prop:''},
+  { label:'供应商名称',prop:''},
+  { label:'制单时间',prop:''},
+]
+
+//出库匹配详情配置
+export const matchingTableConfig=[
+  { label:'编号',prop:''},
+  { label:'名称',prop:''},
+  { label:'规格',prop:''},
+  { label:'单位',prop:''},
+  { label:'计划出库数量',prop:''},
+  { label:'对应采购单号',prop:''},
+  { label:'对应编码',prop:''},
+  { label:'对应名称',prop:''},
+  { label:'对应规格',prop:''},
+  { label:'对应单位',prop:''},
+  { label:'已入/计划',prop:''},
+  { label:'操作',prop:''},
 ]

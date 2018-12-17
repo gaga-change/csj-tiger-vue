@@ -85,6 +85,11 @@
       </a>
   </div>
 
+    <div class="tableTotal" v-if="outTotal.totalOutStoreQty!==undefined||outTotal.totalOutStoreAmt!==undefined">
+       <span>出库总金额</span> : <span>{{outTotal&&Number(outTotal.totalOutStoreQty).toFixed(2)}}</span>
+       <span>出库总数量</span> : <span>{{outTotal&&Number(outTotal.totalOutStoreAmt).toFixed(2)}}</span>
+    </div>
+
     <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -100,7 +105,7 @@
 
 <script>
     import moment from 'moment';
-    import { outOrderSelect} from '@/api/outgoing'
+    import { outOrderSelect,selectTotal} from '@/api/outgoing'
     import BaseTable from '@/components/Table'
     import {indexTableConfig } from './config';
     import { mapGetters } from 'vuex'
@@ -130,7 +135,8 @@
         busiPlateConfig,
          loading:false,
          tableData: [],
-         linkData:''
+         linkData:'',
+         outTotal:{}
       }
     },
 
@@ -204,6 +210,15 @@
         }
         let data={...json}
         this.linkData=data;
+
+        selectTotal(data).then(res=>{
+          if(res.success){
+            this.outTotal=res.data;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+
        outOrderSelect(data).then(res=>{
        if(res.success){
           let data=res.data;
@@ -221,3 +236,23 @@
 </script>
 
 
+<style rel="stylesheet/scss" lang="scss">
+  .outgoing-quiry-container{
+    .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
+    }
+  }
+</style>

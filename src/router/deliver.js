@@ -37,6 +37,13 @@ export default [
         hidden: true,
       },
       {
+        name: 'manual',
+        path: 'manual',
+        meta: { title: '手工出库页面', noCache: true },
+        component: _import('outgoing/plan/manual'),
+        hidden: true,
+      },
+      {
         name: 'quiry',
         path: 'quiry',
         meta: { title: '出库单查询', noCache: true },

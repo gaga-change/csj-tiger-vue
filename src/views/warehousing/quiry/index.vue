@@ -90,6 +90,10 @@
       </a>
   </div>
 
+  <div class="tableTotal" v-if="inTotal.totInAmt!==undefined||inTotal.totInQty!==undefined">
+      <span>入库总金额</span> : <span>{{inTotal&&Number(inTotal.totInAmt).toFixed(2)}}</span>
+      <span>入库总数量</span> : <span>{{inTotal&&Number(inTotal.totInQty).toFixed(2)}}</span>
+  </div>
 
   <base-table 
     @sizeChange="handleSizeChange"
@@ -106,7 +110,7 @@
 
 <script>
     import moment from 'moment';
-    import {inOrderSelect} from '@/api/warehousing'
+    import {inOrderSelect,selectSumNo} from '@/api/warehousing'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
@@ -138,6 +142,7 @@
         tableData: [],
         tableConfig:indexTableConfig,
         linkData:'',
+        inTotal:{},
         busiPlateConfig,
       }
     },
@@ -217,6 +222,16 @@
 
         let data={...json}
         this.linkData=data;
+
+       selectSumNo(data).then(res=>{
+          if(res.success){
+            this.inTotal=res.data;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+
+
        inOrderSelect(data).then(res=>{
        if(res.success){
           let data=res.data;
@@ -233,3 +248,23 @@
  }
 </script>
 
+<style rel="stylesheet/scss" lang="scss">
+  .outgoing-quiry-container{
+    .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
+    }
+  }
+</style>

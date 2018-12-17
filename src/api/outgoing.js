@@ -49,15 +49,14 @@ export function outOrderDetail(data={}) {
   })
 }
 
-//确认并生成出库单接口
-export function orderSave(data={}) {
+
+// 出库单查询 合计接口 
+export function selectTotal(data={}) {
   return request({
-    url: `/webApi/out/order/save`,
-    method: 'post',
-    data: data,
+    url: `/webApi/out/order/select/total?${stringify(data)}`,
+    method: 'get',
   })
 }
-
 
 
 
