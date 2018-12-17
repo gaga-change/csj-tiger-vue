@@ -73,7 +73,18 @@
               </el-select>
             </el-form-item>
         </el-col>  
-        
+         <el-col :span="6">
+          <el-form-item label="业务板块">
+            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择款项性质">
+              <el-option
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>  
       </el-row>
       <el-row :gutter="10">
         <el-col :span="6">
@@ -89,7 +100,7 @@
 
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
-import { paymentStatusEnum,MoneyStateEnum } from '@/utils/enum'
+import { paymentStatusEnum,MoneyStateEnum,busiPlateConfig } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import { getProvider } from '@/api/pay'
 import _  from 'lodash';

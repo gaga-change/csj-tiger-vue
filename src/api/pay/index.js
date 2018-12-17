@@ -144,3 +144,18 @@ export function getContractFiles(data) {
     data:data
   })
 }
+
+/**
+ *
+ *
+ * @export 付款登记统计
+ * @param {*} data busiPlate业务板块
+ * @returns
+ */
+export function infoPaymentTotal(data) {
+  return request({
+    url: ` /api/payment/list/total`,
+    method: 'post',
+    data:data
+  })
+}
