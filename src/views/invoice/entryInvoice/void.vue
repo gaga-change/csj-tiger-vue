@@ -105,7 +105,7 @@ export default {
         }
       }
       json.ticketStatus=3;
-      json.isInvalid=1;
+      json.isInvalid=0;
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       finaPurchaseInvoiceList({...json,pageSize:this.pageSize,pageNum:this.pageNum}).then(res=>{
           if(res.success){

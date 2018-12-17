@@ -6,7 +6,7 @@ export  const listIndexConfig=[ //列表页表格配置
     { label:'申请数量',prop:'numberOfApplications',},
     { label:'金额',prop:'amount',type:'toFixed'},
     { label:'单据状态',prop:'billStatus',useLocalEnum:true,type:'billStatusEnum'},
-    { label:'返回日期',prop:'planReturnDate',type:'time'},
+    { label:'计划退回日期',prop:'planReturnDate',type:'time'},
     { label:'操作',useLink:true},
   ]
 

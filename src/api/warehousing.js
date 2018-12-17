@@ -54,6 +54,17 @@ export function inOrderDetail(data={}) {
   })
 }
 
+// 入库单查询 合计接口 
+export function selectSumNo(data={}) {
+  return request({
+    url: `api/in/order/selectSumNo`,
+    method: 'post',
+    data: data,
+  })
+}
+
+
+
 
 
 
