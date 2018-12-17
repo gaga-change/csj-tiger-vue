@@ -71,8 +71,8 @@ export const manualBaseInfoTableConfig=[
 
 //出库匹配详情配置
 export const matchingTableConfig=[
-  { label:'编号',prop:''},
-  { label:'名称',prop:''},
+  { label:'编号',prop:'',fixed:true},
+  { label:'名称',prop:'name'},
   { label:'规格',prop:''},
   { label:'单位',prop:''},
   { label:'计划出库数量',prop:''},
@@ -82,5 +82,5 @@ export const matchingTableConfig=[
   { label:'对应规格',prop:''},
   { label:'对应单位',prop:''},
   { label:'已入/计划',prop:''},
-  { label:'操作',prop:''},
+  { label:'操作',prop:'',fixed:'right',useLink:true},
 ]

@@ -24,7 +24,16 @@
         <web-pagination-table 
           :loading="loading"
           :config="matchingTableConfig" 
-          :allTableData="[]"/> 
+          :allTableData="[
+             {
+               id:1,
+               name:'测试'
+             },
+             {
+               id:1,
+               name:'测试'
+             }
+          ]"/> 
   </div>
 </template>
 
@@ -42,6 +51,20 @@
         manualBaseInfoTableConfig,
         matchingTableConfig
       }
+    },
+
+    created(){
+      this.matchingTableConfig.forEach(item=>{
+        if(item.useLink){
+            item.dom=(row, column, cellValue, index)=>{
+              return <div>
+                  { 
+                    <span>匹配</span>
+                  }
+              </div>
+            }
+        }
+      })
     },
 
     mounted(){
@@ -83,5 +106,6 @@
          padding: 12px;
       }
     }
+
   }
 </style>
