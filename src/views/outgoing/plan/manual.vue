@@ -34,6 +34,16 @@
                name:'测试'
              }
           ]"/> 
+
+      <el-dialog
+        title="商品匹配"
+        custom-class="shouDetailsDialog"
+        :visible.sync="alertDisplay"
+        top="6vh"
+        width="70%"
+        :before-close="()=>alertDisplay=false">
+
+      </el-dialog>
   </div>
 </template>
 
@@ -49,7 +59,9 @@
         manualBaseInfoConfigLeft,
         manualBaseInfoConfigRight,
         manualBaseInfoTableConfig,
-        matchingTableConfig
+        matchingTableConfig,
+        row:{},
+        alertDisplay:false,
       }
     },
 
@@ -59,7 +71,7 @@
             item.dom=(row, column, cellValue, index)=>{
               return <div>
                   { 
-                    <span>匹配</span>
+                    <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>匹配</span>
                   }
               </div>
             }
@@ -77,6 +89,11 @@
 
     methods:{
 
+      alertMethods(row){
+        this.row=row;
+        this.alertDisplay=true;
+        console.log({...row})
+      }
 
     },
  }
@@ -105,6 +122,14 @@
          border: 1px solid #ebeef5;
          padding: 12px;
       }
+    }
+
+    .operationBtn{
+      padding: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      color: rgb(51, 153, 234);
+      white-space: nowrap;
     }
 
   }
