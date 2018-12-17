@@ -342,9 +342,9 @@
         callback()
       }
       var checkAmt = (rule, value, callback) => {
-        
+        var a = this.payment.moneyState || 0
         if (!Number(value)) {
-          return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
+          return callback(new Error(`请${a == 0 ? '输入货款':'拉取对账单'}`))
         }
         // if(value<0){
         //   return callback(new Error('货款为正数'))
