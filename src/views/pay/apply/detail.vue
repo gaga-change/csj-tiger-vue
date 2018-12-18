@@ -122,7 +122,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment, infoInvoiceAmmount } from '@/api/pay'
+    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment, infoInvoiceAmmount, getContractFiles } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -348,7 +348,6 @@
               this.cardData = res.list[0]
             
               let fileInfos = res.list[0].filePathList || []
-              
               fileInfos.map(item=>{
                 if(item.filePath){
                   item.path = item.filePath//itemCard组件，文件下载的参数为path
@@ -356,6 +355,22 @@
                 }
                 
               })
+              let contractFilePathList = []
+               getContractFiles({contractNo:res.list[0].contractNo}).then(res => {
+                  if(res.success){
+                    contractFilePathList = res.data
+                    contractFilePathList.map(item=>{
+                      if(item.filePath){
+                        item.path = item.filePath//itemCard组件，文件下载的参数为path
+                        item.name = item.fileName
+                      }
+                      
+                    })
+                    this.cardData.contractFilePathList = contractFilePathList
+                    console.log(this.cardData.contractFilePathList,'this.cardData.contractFilePathList');
+                    
+                  }
+                })
                var detailConfig = []
               if(this.cardData.moneyState==0){
                 detailConfig = paymentInfoConfig.filter(config=>

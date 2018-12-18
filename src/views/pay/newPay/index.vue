@@ -836,8 +836,8 @@
         
         if(this.payment.moneyState == 0){
           customer = [...this.customerConfig]
-          this.payment.ownerCode = '';
-          this.payment.ownerName = '';
+          this.payment.ownerCode = 'EP201804150009';
+          this.payment.ownerName = '诸暨裕大贸易有限公司';
           
         }else if(this.payment.moneyState == 2){
           customer = [...this.customerAllConfig]

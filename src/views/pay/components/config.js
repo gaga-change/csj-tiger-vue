@@ -52,6 +52,7 @@ export const paymentInfoConfig = [//付款单货款详情
   { title:'收款方银行账户', prop:'receiveAccount', paytype:'goods+service'},
   { title:'收款方收款银行 ', prop:'receiveBank', paytype:'goods+service' },
   { title:' 附件 ', prop:'filePathList', useIf:'files', paytype:'goods+service' },
+  { title:' 合同附件 ', prop:'contractFilePathList', useIf:'files', paytype:'goods+service' },
   // { title:'测试1 ', prop:'linkParam',linkTo:'/',useIf:'linkParam',name:'fuck' },
 ]
 
