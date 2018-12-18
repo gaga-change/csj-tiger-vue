@@ -371,8 +371,8 @@
               
               this.cardData.filePathList = fileInfos
               
-              if(this.cardData.id&&this.cardData.processInstanceId){
-                paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
+              if(this.cardData.id){
+                paymentRecord({id:this.cardData.id}).then(res=>{
                       this.tableData = res.data            
                 })
               }else{
