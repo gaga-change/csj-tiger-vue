@@ -18,39 +18,39 @@
        <item-title text="基本信息"/>
         <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" body-style="padding:12px" >
         <el-row >
-          <el-col :span="6" v-if="planform.signNo">
+          <el-col :span="6" v-if="planform.signNo"  style="min-width:300px">
             <el-form-item label="回单号:" prop="signNo">
               {{planform.signNo}}
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px">
             <el-form-item label="出库计划单号:" label-width="100px"   prop="planCode">
               {{planform.planCode}}
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px">
             <el-form-item label="收货企业:" prop="arrivalName">
               {{planform.arrivalName}}
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px">
             <el-form-item label="发货仓库" prop="planWarehouseName">
               {{planform.planWarehouseName}}
             </el-form-item>
           </el-col>
           
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px;margin-right:20px">
             <el-form-item
              label="签收人"
              :rules="[
                 { required: true, message: '该项为必填'},
               ]"
               prop="signName">
-              <el-input v-model="planform.signName" style="width:180px"  placeholder="请输入签收人"></el-input>
+              <el-input v-model="planform.signName"   placeholder="请输入签收人"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px;margin-right:20px">
             <el-form-item 
               label="签收人电话"
               label-width="90px"
@@ -59,7 +59,6 @@
               ]"
              prop="signTel">
               <el-input  
-              style="width:180px" 
               v-model="planform.signTel"
                 placeholder="请输入签收人电话"></el-input>
             </el-form-item>
@@ -69,6 +68,7 @@
           <el-form-item 
             label="签收日期" 
             label-width="74px"
+            style="min-width:330px;margin-right:20px"
             :rules="[
                 { required: true, message: '该项为必填'},
               ]"
@@ -83,7 +83,7 @@
           </el-form-item>
         </el-col>
 
-      <el-col :span="6">
+      <el-col :span="6" style="min-width:300px">
         <el-form-item 
           label="上传附件">
           <el-button
@@ -98,7 +98,7 @@
         </el-col>
 
         
-        <el-col :span="6">
+        <el-col :span="6" style="min-width:300px">
             <el-form-item
              label="签收依据"
              :rules="[
@@ -106,7 +106,7 @@
               ]"
               prop="type">
               <!-- demodemo -->
-              <el-select v-model="planform.type" style="width:180px"  placeholder="请选择签收依据">
+              <el-select v-model="planform.type"  placeholder="请选择签收依据">
               <el-option
                 v-for="item in signTypes"
                 :key="item.type"

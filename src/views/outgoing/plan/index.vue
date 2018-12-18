@@ -12,25 +12,25 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6" style="min-width:300px" >
             <el-form-item label="业务单号" prop="busiBillNo">
               <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6"  style="min-width:300px">
             <el-form-item label="计划单号" prop="planCode">
               <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入计划单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6"  style="min-width:300px">
             <el-form-item label="计划仓库" prop="planWarehouseName">
               <el-input v-model.lazy.trim="ruleForm.planWarehouseName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请选择计划仓库"></el-input>
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" >
+           <el-col :span="6"  style="min-width:300px">
             <el-form-item label="客户名称" prop="arrivalName">
               <el-input v-model.lazy.trim="ruleForm.arrivalName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入客户名称"></el-input>
             </el-form-item>
@@ -44,7 +44,7 @@
             </el-form-item>
           </el-col>
  
-          <el-col :span="16" >
+          <el-col :span="12"  style="min-width:600px">
             <el-form-item label="计划出库日期" prop="time" label-width="100px" >
                  <el-date-picker
                     v-model="ruleForm.time"
