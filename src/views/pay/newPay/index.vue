@@ -52,7 +52,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="this.payment.moneyState === 0">
-          <el-form-item label="款项类型" prop="moneyType"> 
+          <el-form-item label="款项类型" prop="moneyType" key="moneyType">  
             <el-select v-model="payment.moneyType" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in MoneyTypeEnum"
@@ -87,7 +87,7 @@
             </el-form-item>
           </template>
           <template v-else>
-            <el-form-item label="合同号" prop="contractNo" :rules="[
+            <el-form-item label="合同号" prop="contractNo" key="contract" :rules="[
                 {  required: true, trigger: 'blur', message:'请输入合同号' }
               ]">
               <el-input type="text" size="small" v-model="payment.contractNo" v-on:blur="getContract"/>
@@ -495,7 +495,8 @@
       // }
     },
     created() {
-      this.payment.moneyState = 0
+      // this.payment.moneyState = 0
+      // this.$set('payment.moneyState',0)
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
       }else{
@@ -507,7 +508,8 @@
      
     },
     activated(){
-      this.payment.moneyState = 0
+      // this.payment.moneyState = 0
+      // this.$set('payment.moneyState',0)
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         
         this.getDetail()
@@ -535,10 +537,12 @@
         
       },
       changeMoneyState(){
+
         
         if(this.payment.moneyState == 0){
           if(this.payment.contractNo != this.contractObj.goods){
             this.payment.contractNo = this.contractObj.goods
+            
           }
           if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.goods){
             this.payment.applyPaymentAmt = this.applyPaymentAmtObj.goods
@@ -569,7 +573,10 @@
 
           // }
         }
-        
+        this.$refs['ruleForm'].validate((valid) => {
+          return false
+          
+        });
         
       },
       getPayInfo(){
