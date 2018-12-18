@@ -165,7 +165,7 @@
         }).catch(err=>{
             this.loading=false;
         })
-        infoPaymentTotal({busiPlate:data.busiPlate}).then(res => {
+        infoPaymentTotal(data).then(res => {
           if(res.success){
             this.cardData = res.data
           }
