@@ -12,7 +12,7 @@
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
         <el-row :gutter="6"
-          <el-col :span="6" v-if="searchForm.providerCode!==undefined"  >
+          <el-col :span="6" v-if="searchForm.providerCode!==undefined"  style="min-width:300px" >
             <el-form-item 
             label="供应商名称" 
             label-width="90px"
@@ -49,7 +49,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" v-if="searchForm.busiBillNo!==undefined" >
+          <el-col :span="6" v-if="searchForm.busiBillNo!==undefined" style="min-width:300px" >
             <el-form-item 
              label="订单编号" 
              label-width="80px"
@@ -105,7 +105,7 @@
           </el-col> -->
 
 
-          <el-col :span="6" v-if="searchForm.invoiceType!==undefined" >
+          <el-col :span="6" v-if="searchForm.invoiceType!==undefined" style="min-width:300px" >
             <el-form-item 
             label="发票种类" 
             label-width="80px"
@@ -125,7 +125,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.invoiceNo!==undefined">
+           <el-col :span="6" v-if="searchForm.invoiceNo!==undefined" style="min-width:300px">
             <el-form-item 
             label="发票号码" 
              label-width="80px"
@@ -137,7 +137,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.asInvoiceAmt!==undefined" >
+           <el-col :span="6" v-if="searchForm.asInvoiceAmt!==undefined"  style="min-width:300px;margin-right: 8px">
             <el-form-item  
             label-width="110px" 
             label="实际开票金额" 
@@ -149,7 +149,7 @@
             </el-form-item>
           </el-col>
 
-            <el-col :span="6" v-if="searchForm.asInvoiceTaxAmt!==undefined" >
+            <el-col :span="6" v-if="searchForm.asInvoiceTaxAmt!==undefined" style="min-width:300px" >
             <el-form-item 
              label="税额" 
              label-width="50px" 
@@ -161,13 +161,13 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="4" v-if="searchForm.asInvoiceTaxAmt!==undefined&&searchForm.asInvoiceAmt!==undefined" >
+          <el-col :span="4" v-if="searchForm.asInvoiceTaxAmt!==undefined&&searchForm.asInvoiceAmt!==undefined"  >
             <el-form-item  label-width="90px" label="不含税金额" >
              <span > {{ Number(searchForm.asInvoiceAmt-searchForm.asInvoiceTaxAmt).toFixed(2) }} </span>
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.makeDate!==undefined" style="margin-right:16px">
+           <el-col :span="6" v-if="searchForm.makeDate!==undefined" style="min-width:300px;margin-right:16px" >
             <el-form-item 
             label-width="110px" 
             label="发票开具日期:"
@@ -180,7 +180,7 @@
             </el-form-item>
           </el-col>
 
-            <el-col :span="6" v-if="searchForm.arriveDate!==undefined" >
+            <el-col :span="6" v-if="searchForm.arriveDate!==undefined" style="min-width:300px" >
             <el-form-item 
             label-width="80px" 
             label="到票日期:" 
@@ -193,7 +193,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.invoiceStatus!==undefined" >
+           <el-col :span="6" v-if="searchForm.invoiceStatus!==undefined"  style="min-width:300px">
             <el-form-item label="发票状态" >
                <el-select v-model="searchForm.invoiceStatus" 
               size="small"  filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
@@ -207,7 +207,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.cancelApplyStatus!==undefined" >
+           <el-col :span="6" v-if="searchForm.cancelApplyStatus!==undefined" style="min-width:300px" >
             <el-form-item label="作废状态" >
                <el-select v-model="searchForm.cancelApplyStatus" 
               size="small"  filterable clearable placeholder="请选择作废状态" prefix-icon="el-icon-search">
@@ -222,7 +222,7 @@
           </el-col>
 
     
-          <el-col :span="6"  v-if="searchForm.ticketStatus!==undefined" >
+          <el-col :span="6"  v-if="searchForm.ticketStatus!==undefined"  style="min-width:300px">
             <el-form-item label="单据状态" >
               <el-select v-model="searchForm.ticketStatus" 
               size="small"  filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
@@ -236,7 +236,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" v-if="searchForm.invoiceNature!==undefined" >
+           <el-col :span="6" v-if="searchForm.invoiceNature!==undefined" style="min-width:300px" >
             <el-form-item
             label-width="80px"
             label="发票性质"
@@ -258,7 +258,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="6"  v-if="searchForm.oldInvoiceId!==undefined&&searchForm.invoiceNature===2" >
+           <el-col :span="6"  v-if="searchForm.oldInvoiceId!==undefined&&searchForm.invoiceNature===2" style="min-width:300px" >
             <el-form-item 
             label="蓝字发票"
             prop="oldInvoiceId"
@@ -287,7 +287,7 @@
           </el-col>
 
         
-         <el-col :span="12"  v-if="searchForm.time!==undefined">
+         <el-col :span="12"  v-if="searchForm.time!==undefined" style="min-width:400px">
             <el-form-item label="开票日期" label-width="80px"  >
               <el-date-picker
                 v-model="searchForm.time"
@@ -303,7 +303,7 @@
             </el-form-item>
           </el-col>
 
-        <el-col :span="6" v-if="searchForm.busiPlate!==undefined">
+        <el-col :span="6" v-if="searchForm.busiPlate!==undefined" style="min-width:300px">
           <el-form-item label="业务板块">
             <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
               <el-option
@@ -316,7 +316,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="12"  v-if="searchForm.endTime!==undefined">
+        <el-col :span="12"  v-if="searchForm.endTime!==undefined" style="min-width:400px">
             <el-form-item label="到票日期" label-width="80px"  >
               <el-date-picker
                 v-model="searchForm.endTime"

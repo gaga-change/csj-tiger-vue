@@ -44,7 +44,7 @@
             </el-form-item>
           </el-col>
 
-        <el-col :span="6" >
+        <el-col :span="6"  style="min-width:320px">
           <el-form-item label="业务板块"  prop="busiPlate">
             <el-select v-model="ruleForm.busiPlate"  @change="submitForm('ruleForm')" placeholder="请选择业务板块">
               <el-option

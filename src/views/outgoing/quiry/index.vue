@@ -12,33 +12,33 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" >
+          <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="业务单号" prop="busiBillNo">
               <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="6" style="minWidth:300px">
+          <el-col :span="6" style="min-width:320px">
             <el-form-item label="计划单号" prop="planCode">
               <el-input v-model.lazy.trim="ruleForm.planCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入计划单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="minWidth:300px">
+          <el-col :span="6" style="min-width:320px">
             <el-form-item label="出库单号" prop="warehouseExeCode">
               <el-input v-model.lazy.trim="ruleForm.warehouseExeCode" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入出库单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="minWidth:310px">
+          <el-col :span="6" style="min-width:320px">
             <el-form-item label="客户名称" prop="arrivalName">
               <el-input v-model.lazy.trim="ruleForm.arrivalName" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入客户名称"></el-input>
             </el-form-item>
           </el-col>
 
 
-        <el-col :span="6" >
+        <el-col :span="6" style="min-width:320px" >
           <el-form-item label="业务板块"  prop="busiPlate">
             <el-select v-model="ruleForm.busiPlate" @change="submitForm('ruleForm')"  placeholder="请选择业务板块">
               <el-option
