@@ -27,7 +27,7 @@
           </el-button>
       </template>	
 
-      <template v-else-if="$route.query.from=='needWork'&&cardData.moneyState==0">
+      <template v-else-if="cardData.moneyState==0">
         <!-- 货款，且走工作流 -->
         <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_leader'))&&cardData.paymentStatus == 1">
           <!-- 采购负责人审核 -->
