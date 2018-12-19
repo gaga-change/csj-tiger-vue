@@ -366,8 +366,8 @@
                       }
                       
                     })
-                    this.cardData.contractFilePathList = contractFilePathList
-                    console.log(this.cardData.contractFilePathList,'this.cardData.contractFilePathList');
+                    // this.cardData.contractFilePathList = contractFilePathList
+                    this.$set(this.cardData,'contractFilePathList',contractFilePathList)
                     
                   }
                 })
@@ -384,8 +384,8 @@
               this.paymentInfoConfig = [...detailConfig]
               
               
-              this.cardData.filePathList = fileInfos
-              
+              // this.cardData.filePathList = fileInfos
+               this.$set(this.cardData,'filePathList',fileInfos)
               if(this.cardData.id){
                 paymentRecord({id:this.cardData.id}).then(res=>{
                       this.tableData = res.data            

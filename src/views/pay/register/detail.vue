@@ -311,6 +311,7 @@
             },
             deep:true
       },
+     
        fileNew(){
         const url = []
         this.fileNew.map(
@@ -507,7 +508,8 @@
                 }
                 
               })
-            this.cardData.filePathList   = fileInfos
+              this.$set(this.cardData,'filePathList',fileInfos)
+            // this.cardData.filePathList   = fileInfos
              registerFileInfos.map(item=>{
                 if(item.filePath){
                   item.path = item.filePath//itemCard组件，文件下载的参数为path
@@ -516,7 +518,8 @@
                 }
                 
               })
-            this.cardData.registerFileInfoList   = registerFileInfos
+            // this.cardData.registerFileInfoList   = registerFileInfos
+            this.$set(this.cardData,'registerFileInfoList',registerFileInfos)
             this.fileNew = registerFileInfos
             
               let contractFilePathList = []
@@ -530,7 +533,8 @@
                       }
                       
                     })
-                    this.cardData.contractFilePathList = contractFilePathList
+              this.$set(this.cardData,'contractFilePathList',contractFilePathList)
+
                   }
                 })
               var detailConfig = []

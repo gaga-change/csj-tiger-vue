@@ -81,9 +81,6 @@ export default {
       default:'padding:12px'
     }
   },
-  watch:{
-    cardData:{deep:true}
-  },
     methods:{
       formatter(type,value,useApi,userFormatter,useLocalEnum,format){
         if(value!=undefined){
