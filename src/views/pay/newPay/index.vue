@@ -883,6 +883,22 @@
               res => {
                 
                 if (res.success&&res.data) {
+                   this.contractObj={
+                    goods: '',
+                    service: '',
+                  },
+                  this.applyPaymentAmtObj={
+                    goods:'',
+                    service:''
+                  },
+                  this.filesObj={
+                    goods:'',
+                    service:'',
+                  },
+                  this.contractFiles={
+                    goods:'',
+                    service:''
+                  }
                   this.$message({type:'success',message:`${msg}付款申请成功，1.5s后跳转至详情页`,duration:1500,onClose:()=>{
                      this.$router.push({
                           path: '/payment/apply/detail',
