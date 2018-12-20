@@ -121,12 +121,12 @@ export default function Modify(type, name, needfresh, api) {
         })
         this.needfresh()
     })
-  }else if (type == 'PaymentPurchaseRegisterAudit') {//审核登记
+  }else if (type == 'payCheckRegister') {//审核登记
     this.$prompt('请输入审核通过原因', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
     }).then(({value}) => {
-      PaymentPurchaseAudit({
+      PaymentPurchaseRegisterAudit({
         isPass: 1,
         opinion :value,
         ...params,
