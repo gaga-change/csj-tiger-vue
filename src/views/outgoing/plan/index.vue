@@ -133,7 +133,11 @@
                     }
                     {
                       row.isHandOut&&
-                      <router-link  to={{path:'/outgoing/manual',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap'}}>手工出库</router-link>
+                      <router-link  to={{path:'/outgoing/manual',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>手工出库</router-link>
+                    }
+                    {
+                      row.isReceive&&
+                      <router-link  to={{path:'/provider/add',query:{id:row.id,planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap'}}>收货登记</router-link>
                     }
                 </div>
               }

@@ -5,9 +5,9 @@
           size="mini"
           type="primary"
            @click="filesDialogVisible=true" >
-          {{localFileList.length ? '继续上传' : '上传附件'}}
+          {{(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length ? '继续上传' : '上传附件'}}
         </el-button>
-        <span v-show="localFileList.length">{{localFileList.length}}个文件</span>
+        <span v-show="(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length">{{(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length}}个文件</span>
      </div>
 
     <el-dialog
@@ -20,7 +20,7 @@
         ref="filesupload"
         :action="filesuploadUrl"
         :file-list="defailFileList"
-        multiple
+         multiple
         :before-upload="beforeUpload"
         :limit="10"
         :on-exceed="handleFileExceed"
@@ -43,7 +43,7 @@ export default {
 
     data(){
       return {
-        localFileList:[],
+        localFileList:null,
         displayBtn:false,
         filesDialogVisible:false,
       }
@@ -61,11 +61,7 @@ export default {
       }
     },
 
-    mounted(){
-      if(this.defailFileList.length){
-        this.localFileList=this.defailFileList;
-      }
-    },
+
 
     methods:{
 
@@ -95,6 +91,7 @@ export default {
     formatterLocalFileList(fileList){
       let arr=[];
       if(Array.isArray(fileList)){
+        console.log(fileList)
             fileList.forEach(item=>{
               if(item.response&&item.response.code&&item.response.code==='200'){
                 if(item.response.data&&item.response.data.desc&&item.response.data.desc.includes('成功')){
@@ -104,17 +101,24 @@ export default {
                   arr.push(json)
                 }
               } else{
-                if(item.status==='success'&&item.url&&item.name){
+                if(item.status==='success'&&(item.url||item.path)&&item.name){
                   let oldJson={};
                   oldJson.name=item.name;
-                  oldJson.url=item.url;
+                  oldJson.url=item.url||item.path;
                   arr.push(oldJson)
                 }
               }
             })
           }
       this.localFileList=arr;
-      this.$emit('fileListChange',this.localFileList)
+      this.filesLength=arr.length;
+      let localFileListArr=arr.map(v=>{
+        let json={};
+        json.name=v.name;
+        json.path=v.url;
+        return json;
+      });
+      this.$emit('fileListChange',localFileListArr)
     },
 
 

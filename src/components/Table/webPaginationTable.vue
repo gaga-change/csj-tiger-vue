@@ -6,6 +6,8 @@
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
         :data="!usePagination?allTableData:tableData"
+         @current-change="handleCurrentRedioChange"
+        :highlight-current-row="highlightCurrentRow"
          size="small"
         :border="border"
          @selection-change="handleSelectionChange"
@@ -47,6 +49,10 @@ import { mapGetters } from 'vuex'
 import  * as Enum from "@/utils/enum.js";
 export default {
    props: {
+    highlightCurrentRow:{
+       type: Boolean,
+       default: false    
+    },
      loading: {
       type: Boolean,
       default: false
@@ -182,6 +188,10 @@ export default {
      handleSelectionChange(val){
        this.$emit('SelectionChange', val); 
      },
+
+      handleCurrentRedioChange(currentRow, oldCurrentRow){
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
+     }
   }
 }
 </script>

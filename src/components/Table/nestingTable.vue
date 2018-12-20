@@ -291,7 +291,7 @@ export default {
     }
     th{
       background: #dbdee3;
-      color: #777;
+      color: #666;
     }
     .el-table__expanded-cell[class*=cell]{
       padding:0;
@@ -300,7 +300,7 @@ export default {
     .nesting-table-expand{
       th{
          background: #dbdee3;
-         color: #777;
+         color: #666;
       }
 
       .nesting-table-expand-nothing{

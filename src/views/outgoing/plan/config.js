@@ -49,62 +49,70 @@ export const indexTableConfig=[
 //手工出库页面基本配置
 //出库计划
 export  const manualBaseInfoConfigLeft=[
-  {title:'业务单号',prop:'',span:12},
-  {title:'总明细数',prop:'',span:12},
-  {title:'已匹配',prop:'',span:12},
-  {title:'未匹配',prop:'',span:12},
+  {title:'业务单号',prop:'busiBillNo',span:12},
+  {title:'总明细数',prop:'itemCount',span:12},
+  {title:'已匹配',prop:'matchCount',span:12},
+  {title:'未匹配',prop:'notMatchCount',span:12},
 ]
 
 //table配置
 export const manualBaseInfoTableConfig=[
-  { label:'业务单号',prop:''},
-  { label:'供应商名称',prop:''},
-  { label:'制单时间',prop:''},
+  { label:'业务单号',prop:'purcticketno'},
+  { label:'供应商名称',prop:'providerName'},
+  { label:'制单时间',prop:'gmtCreate',type:'time'},
 ]
 
 //出库匹配详情配置
 export const matchingTableConfig=[
-  { label:'编号',prop:'',fixed:true},
-  { label:'名称',prop:'name'},
-  { label:'规格',prop:''},
-  { label:'单位',prop:''},
-  { label:'计划出库数量',prop:''},
-  { label:'对应采购单号',prop:''},
-  { label:'对应编码',prop:''},
-  { label:'对应名称',prop:''},
-  { label:'对应规格',prop:''},
-  { label:'对应单位',prop:''},
-  { label:'已入/计划',prop:''},
+  { label:'编号',prop:'skuCode',fixed:true},
+  { label:'名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'单位',prop:'skuUnitName'},
+  { label:'计划出库数量',prop:'planOutQty'},
+  { label:'对应采购单号',prop:'busiBillNo',minWidth:120},
+  { label:'对应编码',prop:'matchSkuCode'},
+  { label:'对应名称',prop:'matchSkuName'},
+  { label:'对应规格',prop:'matchSkuFormat'},
+  { label:'对应单位',prop:'matchSkuUnitName'},
+  { label:'已入/计划',fixed:false,dom:(row, column, cellValue, index)=>{
+    if(row.realInQty!==null&&!isNaN(row.realInQty)&&row.planInQty!==null&&!isNaN(row.planInQty)){
+       return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
+    } else{
+       return ''
+    }
+    
+  }},
   { label:'操作',prop:'',fixed:'right',useLink:true},
 ]
 
 
-//出库商品弹框配置上
+//出库商品弹框配置左
 export  const alertTopConfig=[
-  {title:'名称',prop:'',},
-  {title:'编号',prop:'',},
-  {title:'规格',prop:'',},
-  {title:'计划数量',prop:'',},
+  {title:'名称',prop:'skuName',span:12},
+  {title:'编号',prop:'skuCode',span:12},
+  {title:'规格',prop:'skuFormat',span:12},
+  {title:'计划数量',prop:'planOutQty',span:12},
 ]
 
 
-//出库商品弹框配置下
+//出库商品弹框配置右
 export  const alertBottomConfig=[
-  {title:'名称',prop:'',},
-  {title:'编号',prop:'',},
-  {title:'规格',prop:'',},
-  {title:'计划采购量',prop:'',},
-  {title:'入库量',prop:'',},
+  {title:'名称',prop:'matchSkuName',span:12},
+  {title:'编号',prop:'matchSkuCode',span:12},
+  {title:'规格',prop:'matchSkuFormat',span:12},
+  {title:'计划采购量',prop:'planInQty',span:12},
+  {title:'入库量',prop:'realInQty',span:12},
 ]
 
 
 //采购单明细片配置
 export  const detailsConfig=[
-  {label:'单号',prop:'',},
-  {label:'编号',prop:'',},
-  {label:'名称',prop:'',},
-  {label:'规格',prop:'',},
-  {label:'单位',prop:'',},
-  {label:'采购数量',prop:'',},
-  {label:'入库数量',prop:'',},
+  {label:'单号',prop:'purcticketno',},
+  {label:'编号',prop:'providerCode',},
+  {label:'名称',prop:'providerName',},
+  {label:'规格',prop:'skuFormat',},
+  {label:'单位',prop:'skuUnit',},
+  {label:'采购数量',prop:'planInQty',},
+  {label:'入库数量',prop:'realInQty',},
 ]
+
