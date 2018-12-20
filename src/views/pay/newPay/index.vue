@@ -64,7 +64,7 @@
           </el-form-item>
         </el-col>
        
-      
+
         <el-col :span="6" v-if="this.payment.moneyState === 0">
           <el-form-item label="采购订单" prop="busiBillNo">
             <el-select v-model="payment.busiBillNo" :disabled="false" 
@@ -76,6 +76,19 @@
                 :key="item.busiBillNo"
                 :label="item.busiBillNo"
                 :value="item.busiBillNo">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6" v-if="this.payment.moneyState === 0">
+          <el-form-item label="业务板块" prop="busiPlate">
+            <el-select v-model="payment.busiPlate" disabled 
+               size="small" prefix-icon="el-icon-search">
+              <el-option
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -249,7 +262,7 @@
   import { addOrUpdatePayment, getPaymentListAndDetail, BusibillNoSelect } from '@/api/pay'
   import { mapGetters } from 'vuex'
   import moment from 'moment'
-  import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum } from '@/utils/enum'
+  import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum, busiPlateConfig } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
 
   import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime, getContractFiles} from '@/api/pay'
@@ -266,6 +279,7 @@
           moneyState:0,//款项性质.
           moneyType:'',//款项类型.
           busiBillNo:'',//采购单号编号.
+          busiPlate:'',//业务板块
           contractNo:'',//合同号.
           paymentMode:'',//付款方式.
           realPaymentAmt:'',//已付货款.
@@ -360,6 +374,7 @@
         MoneyStateEnum,
         MoneyTypeEnum:moneyTypeFilter,
         PaymentModeEnum,
+        busiPlateConfig,
         payment,
         rules: goodsRules,
         //上传文件相关
@@ -703,6 +718,7 @@
             this.payment.contractNo = item.contractNo
             // this.payment.paymentMode = item.paymentMode
             this.payment.realPaymentAmt = item.paymentAmt
+            this.payment.busiPlate = item.busiPlate
           }
           
         })
@@ -843,6 +859,7 @@
           customer = [...this.customerAllConfig]
           this.payment.ownerCode = 'EP201804150009';
           this.payment.ownerName = '诸暨裕大贸易有限公司';
+          this.payment.busiPlate = ''
         }
         customer.map(item=>{
           if(item.paymenterCode==this.payment.paymenterCode){
