@@ -33,7 +33,7 @@
 
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="入库仓库"  prop="planWarehouseCode">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.planWarehouseCode"  placeholder="请选择下推状态">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.planWarehouseCode"  placeholder="请选择入库仓库">
                 <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>

@@ -86,6 +86,15 @@ export function planHandMatch(data={}) {
 }
 
 
+// 取消操作
+export function planCancelMatch(data={}) {
+  return request({
+    url: `/webApi/out/plan/cancelMatch`,
+    method: 'post',
+    data: data
+  })
+}
+
 
 
 

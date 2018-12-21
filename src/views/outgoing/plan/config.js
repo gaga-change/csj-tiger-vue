@@ -108,11 +108,12 @@ export  const alertBottomConfig=[
 //采购单明细片配置
 export  const detailsConfig=[
   {label:'单号',prop:'purcticketno',},
-  {label:'编号',prop:'providerCode',},
-  {label:'名称',prop:'providerName',},
+  {label:'商品编号',prop:'skuCode',},
+  {label:'商品名称',prop:'skuName',},
   {label:'规格',prop:'skuFormat',},
   {label:'单位',prop:'skuUnit',},
   {label:'采购数量',prop:'planInQty',},
   {label:'入库数量',prop:'realInQty',},
+  {label:'是否匹配',useIcon:true,width:100,},
 ]
 

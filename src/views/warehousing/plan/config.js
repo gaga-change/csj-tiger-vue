@@ -6,7 +6,7 @@ export   const tableConfig=[
   { label:'单价',prop:'inPrice',type:'toFixed'},
   { label:'转换比',prop:'skuUnitConvert'},
   { label:'已入/总数',fixed:false,dom:(row, column, cellValue, index)=>{
-      return `${row.realInQty&&Math.round(row.realInQty)}/${row.planInQty&&Math.round(row.planInQty)}(${row.skuUnitName})`
+      return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
   }},
 
   { label:'还应入',fixed:false,dom:(row, column, cellValue, index)=>{

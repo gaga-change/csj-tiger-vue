@@ -32,7 +32,7 @@
 
            <el-col :span="6" style="min-width:250px" >
              <el-form-item label="仓库" label-width="40px"  prop="warehouseCode">
-              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode"   placeholder="请选择入库类型">
+              <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode"   placeholder="请选择仓库">
                 <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -40,7 +40,7 @@
 
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="供应商名称" prop="providerName"   label-width="78px">
-              <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入入库单号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>
           </el-col>
 
