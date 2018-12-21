@@ -155,13 +155,13 @@ export default {
        if(res.success){
           let arr=res.data&&res.data.itemList||[];
           if(this.$route.query.edit){
-            arr=res.data&&res.data.outPlanDetaiList||[];
+            arr=res.data&&res.data.itemList||[];
             this.searchForm=res.data;
             this.searchForm.arrivalName=res.data&&res.data.receiveEnterprise;
             this.searchForm.busiBillNo=res.data&&res.data.outBusiBillNo;
             this.tableData=arr.map(v=>{
                 let json=v;
-                json.billDetailList=v.detailVOList||[];
+                json.billDetailList=v.itemList||[];
                 return json;
             }); 
           } else{
@@ -170,8 +170,8 @@ export default {
             this.searchForm.contractNo=res.data&&res.data.contractNo
             this.tableData=arr.map(v=>{
                 let json=v;
-                if(v.billDetailList&&Array.isArray(v.billDetailList)){
-                  json.billDetailList=v.billDetailList.map(item=>{
+                if(v.detailList&&Array.isArray(v.detailList)){
+                  json.billDetailList=v.detailList.map(item=>{
                     let childJson=item;
                     childJson.receiveQty=(item.purchaseQty-item.realInQty)||0;
                     return childJson;
@@ -245,12 +245,12 @@ export default {
               this.submitLoading=true;
              }
              json.files=this.successfulUploadFiles;
-             json.detailsList=this.tableData.map(v=>{
+             json.itemList=this.tableData.map(v=>{
                let json=v;
                json.outPlanDetailid=v.id;
-               json.inBillDetailReq=[];
+               json.detailList=[];
                if(Array.isArray(v.billDetailList)){
-                 json.inBillDetailReq=v.billDetailList.map(v=>{
+                 json.detailList=v.billDetailList.map(v=>{
                    let childJson=v;
                    childJson.planQty=v.purchaseQty;
                    childJson.realQty=v.realInQty;
