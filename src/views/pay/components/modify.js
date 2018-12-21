@@ -12,6 +12,7 @@ export default function Modify(type, name, needfresh, api) {
     fromSystemCode:'CSJSCM',
     isTodoFlag:this.$route.query.from=='needWork'//是否走待办
   }
+  console.log({...params},this.$route.query.from=='needWork',this.$route.query.from,'needWork')
   if (type == 'payReject') {
     this.$prompt('请输入驳回原因', '提示', {
       confirmButtonText: '确定',
