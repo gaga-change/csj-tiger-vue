@@ -114,6 +114,6 @@ export  const detailsConfig=[
   {label:'单位',prop:'skuUnit',},
   {label:'采购数量',prop:'planInQty',},
   {label:'入库数量',prop:'realInQty',},
-  {label:'是否匹配',useIcon:true,width:100,},
+  {label:'是否匹配',useIcon:true,width:100,align:'center'},
 ]
 

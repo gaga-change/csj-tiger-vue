@@ -49,6 +49,7 @@ export default {
         busiBillNo:'',
         ticketStatus:'',
         invoiceNature:'',
+        contractnNo:'',
         busiPlate:'',
         time:[],
         endTime:[]

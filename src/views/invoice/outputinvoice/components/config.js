@@ -17,6 +17,7 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'开票申请单号',prop:'applyCode', width:120 },
   { label:'客户名称',prop:'cusName', width:120 },
   { label:'订单编号',prop:'outBusiBillNo', width:150  },
+  { label:'合同编号',prop:'contractNo', width:120 },
   // { label:'业务板块',prop:'cusName2', width:80 },
   { label:'发票号',prop:'invoiceCode', width:120 },
   { label:'发票申请日期',prop:'applyTime', width:100, dom: (row, column, cellValue, index)=>{
