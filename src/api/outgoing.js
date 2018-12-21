@@ -59,6 +59,32 @@ export function selectTotal(data={}) {
 }
 
 
+// 根据出库业务单查询采购单信息
+export function planGetBill(data={}) {
+  return request({
+    url: `/webApi/out/plan/getBill?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
+// 自动匹配
+export function planAutoMatch(data={}) {
+  return request({
+    url: `/webApi/out/plan/autoMatch?${stringify(data)}`,
+    method:'get',
+  })
+}
+
+// 匹配操作
+export function planHandMatch(data={}) {
+  return request({
+    url: `/webApi/out/plan/handMatch`,
+    method: 'post',
+    data: data
+  })
+}
+
 
 
 

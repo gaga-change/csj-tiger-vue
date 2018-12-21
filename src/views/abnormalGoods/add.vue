@@ -111,14 +111,13 @@ export default {
             }
          }).catch(err=>{
            if(!this.$refs['search'].searchForm.handleOpinion){
-                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+             this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
             }
-           console.log(err)
+            console.log(err)
          })
-     }else{
-                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
-              
-     }
+        }else{
+           this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value     
+        }
   },
 
   created(){

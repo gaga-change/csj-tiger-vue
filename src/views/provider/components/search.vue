@@ -6,31 +6,32 @@
       
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="客户名称" label-width="80px" style="width:300px" >
-              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model="searchForm.客户名称" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model="searchForm.receiveEnterprise" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6" style="min-width:300px">
             <el-form-item label="销售合同编号" label-width="90px" style="width:300px" >
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model="searchForm.销售合同编号" ></el-input>
+              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model="searchForm.contractNo " ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="出库计划单"  label-width="80px" style="width:300px">
-              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入计划单号"    v-model="searchForm.出库计划单" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入计划单号"    v-model="searchForm.planCode" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
              <el-form-item label="单据状态"  label-width="80px" style="width:300px" >
-              <el-select v-model="searchForm.单据状态" 
-              size="small"  filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+              <el-select v-model="searchForm.receiveStatus" 
+               @change="submit" 
+              size="small"  placeholder="请选择单据状态" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in []"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.value">
+                  v-for="item in mapConfig['getReceiveStatus']"
+                  :label="item.value" 
+                  :key="item.key"  
+                  :value="item.key">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -40,11 +41,12 @@
            <el-col :span="6" style="min-width:500px">
             <el-form-item label="收货日期" label-width="80px"  >
               <el-date-picker
-                v-model="searchForm.ReceivTime "
+                v-model="searchForm.ReceivTime"
                 type="daterange"
                 align="right"
                 style="width:400px" 
                 unlink-panels
+                 @change="submit" 
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -61,6 +63,7 @@
                 align="right"
                 style="width:400px" 
                 unlink-panels
+                 @change="submit" 
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -83,6 +86,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -116,6 +120,11 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters([
+      'mapConfig',
+  ])},
+
   props:{
      searchForm:{
        type:Object,
@@ -124,7 +133,7 @@ export default {
   },
   
   mounted(){
-
+   console.log({...this.mapConfig})
   },
 
   methods:{

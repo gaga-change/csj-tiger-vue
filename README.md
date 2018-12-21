@@ -371,7 +371,7 @@ config配置项参数介绍
 | --- | --- |  --- | 
 | sizeChange | pageSize变化后的回调 (后端分页回调)   | pageSize：当前每页展示多少条 |
 | currentChange | 页码变化后的回调 (后端分页回调)   | currentPage: 当前页码 |
-| currentRedioChange | 点击某一行 (后端分页回调),可以用此做单选  同时将highlightCurrentRow设置为true 选中时高亮   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
+| currentRedioChange | 点击某一行回调,可以用此做单选  同时将highlightCurrentRow设置为true 选中时高亮   | currentRow:当前该行数据, oldCurrentRow:上一行数据 |
 | SelectionChange | 多选选中后的回调 (前端分页回调)   | val：选中的行数组成的数组 |
 | goeditrow | 点击编辑或者确定后的回调（可编辑表格属性）   | index:索引,type:按钮操作类型 |
 | handleDelete | 点击删除的回调（可编辑表格属性）  | index:索引,type:按钮操作类型 |

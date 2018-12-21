@@ -77,6 +77,16 @@ export function getSignStatus() {
 }
 
 
+//供应商直发单据状态枚举
+export function getReceiveStatus() {
+  return request({
+    url: '/webApi/base/enum/getReceiveStatus',
+    method: 'get',
+  })
+}
+
+
+
 
 
 

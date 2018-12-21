@@ -22,14 +22,14 @@ export default [
         path: 'add',
         component: _import('provider/add'),
         name: 'add',
-        hidden:false,
+        hidden:true,
         meta: {title: '登记页面',noCache: true }
       },
       {
         path: 'detail',
         component: _import('provider/detail'),
         name: 'detail',
-        hidden:false,
+        hidden:true,
         meta: {title: '客户收货登记详情',noCache: true }
       },
     ]
