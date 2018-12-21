@@ -27,7 +27,7 @@
           </el-button>
       </template>	
 
-      <template v-else-if="$route.query.from=='needWork'&&cardData.moneyState==0">
+      <template v-else-if="cardData.moneyState==0">
         <!-- 货款，且走工作流 -->
         <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('buyer_leader'))&&cardData.paymentStatus == 1">
           <!-- 采购负责人审核 -->
@@ -122,7 +122,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment, infoInvoiceAmmount } from '@/api/pay'
+    import { getPaymentListAndDetail,paymentSubmit, paymentRecord, dropPayment, infoInvoiceAmmount, getContractFiles } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -348,7 +348,6 @@
               this.cardData = res.list[0]
             
               let fileInfos = res.list[0].filePathList || []
-              
               fileInfos.map(item=>{
                 if(item.filePath){
                   item.path = item.filePath//itemCard组件，文件下载的参数为path
@@ -356,6 +355,22 @@
                 }
                 
               })
+              let contractFilePathList = []
+               getContractFiles({contractNo:res.list[0].contractNo}).then(res => {
+                  if(res.success){
+                    contractFilePathList = res.data
+                    contractFilePathList.map(item=>{
+                      if(item.filePath){
+                        item.path = item.filePath//itemCard组件，文件下载的参数为path
+                        item.name = item.fileName
+                      }
+                      
+                    })
+                    // this.cardData.contractFilePathList = contractFilePathList
+                    this.$set(this.cardData,'contractFilePathList',contractFilePathList)
+                    
+                  }
+                })
                var detailConfig = []
               if(this.cardData.moneyState==0){
                 detailConfig = paymentInfoConfig.filter(config=>
@@ -369,10 +384,10 @@
               this.paymentInfoConfig = [...detailConfig]
               
               
-              this.cardData.filePathList = fileInfos
-              
-              if(this.cardData.id&&this.cardData.processInstanceId){
-                paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
+              // this.cardData.filePathList = fileInfos
+               this.$set(this.cardData,'filePathList',fileInfos)
+              if(this.cardData.id){
+                paymentRecord({id:this.cardData.id}).then(res=>{
                       this.tableData = res.data            
                 })
               }else{

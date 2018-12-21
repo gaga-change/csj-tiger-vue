@@ -1,5 +1,5 @@
 
-import { PaymentPurchaseAudit, PaymentPurchaseAuditSingle } from '@/api/pay'
+import { PaymentPurchaseAudit, PaymentPurchaseAuditSingle ,PaymentPurchaseRegisterAudit} from '@/api/pay'
 
 export default function Modify(type, name, needfresh, api) {
   // 0 驳回
@@ -9,8 +9,10 @@ export default function Modify(type, name, needfresh, api) {
     id: this.cardData.id,
     operator:this.userInfo.id,
     operatorName:this.userInfo.truename,
-    fromSystemCode:'CSJSCM'
+    fromSystemCode:'CSJSCM',
+    isTodoFlag:this.$route.query.from=='needWork'//是否走待办
   }
+  
   if (type == 'payReject') {
     this.$prompt('请输入驳回原因', '提示', {
       confirmButtonText: '确定',
@@ -125,11 +127,11 @@ export default function Modify(type, name, needfresh, api) {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
     }).then(({value}) => {
-      PaymentPurchaseAudit({
+      PaymentPurchaseRegisterAudit({
         isPass: 1,
         opinion :value,
         ...params,
-        // id: this.cardData.finaPaymentRegisterId,
+        id: this.cardData.finaPaymentRegisterId,
       }).then(res => {
         if(res.success){
           this.$message({

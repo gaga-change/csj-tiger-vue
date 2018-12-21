@@ -81,7 +81,6 @@ export default {
       default:'padding:12px'
     }
   },
-
     methods:{
       formatter(type,value,useApi,userFormatter,useLocalEnum,format){
         if(value!=undefined){

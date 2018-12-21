@@ -8,7 +8,7 @@
     </sticky>
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
-         <el-col :span="6"  >
+         <el-col :span="6"  style="min-width:300px"  >
             <el-form-item 
              label="客户" 
              label-width="50px"
@@ -44,9 +44,9 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px">
             <el-form-item label="订单编号" 
-             label-width="80px" style="width:300px"
+             label-width="80px" 
              prop="outBillNo"
              :rules="[
                 { required: true, message: '该项为必填'},
@@ -81,11 +81,10 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px">
             <el-form-item 
             label="合同编号" 
             label-width="80px" 
-            style="width:300px" 
              prop="outContractNo"
              :rules="[
               { required: true, message: '该项为必填'},
@@ -94,11 +93,10 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="6" style="min-width:300px;margin-right:20px">
             <el-form-item 
             label="计划退回日期"
             label-width="100px"
-            style="width:300px" 
             prop="planReturnDate"
             :rules="[
               { required: true, message: '该项为必填'},
@@ -111,14 +109,14 @@
             </el-form-item>
           </el-col>  
 
-          <el-col :span="6">
-            <el-form-item label="退回地址" label-width="70px" style="width:300px" >
+          <el-col :span="6" style="min-width:300px">
+            <el-form-item label="退回地址" label-width="70px" >
                 <el-input type="text" size="small"      placeholder="输入退回地址"    v-model="searchForm.returnAddress" ></el-input>
             </el-form-item>
           </el-col>   
           
-           <el-col :span="6">
-            <el-form-item label="联系电话" label-width="80px" style="width:300px" >
+           <el-col :span="6" style="min-width:300px">
+            <el-form-item label="联系电话" label-width="80px"  >
                <el-input type="text" size="small"      placeholder="输入联系电话"    v-model="searchForm.linkTel" ></el-input>
             </el-form-item>
           </el-col>   

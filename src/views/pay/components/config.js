@@ -8,10 +8,11 @@ export const applyTableConfig=[// 付款申请列表
   { label:'申请金额',prop:'applyPaymentAmt'},
   { label:'款项性质',prop:'moneyState',useLocalEnum:true, type:'MoneyStateEnum', minWidth:120, },
   { label:'单据状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
-  // { label:'业务板块',prop:'busiPlate',useLocalEnum:true, type:'busiPlateConfig', minWidth:120, },
+  { label:'业务板块',prop:'busiPlate',useLocalEnum:true, type:'busiPlateConfig', minWidth:120, },
   { label:'申请人',prop:'applyUserName', width:130},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
+
 export const reisterTableConfig=[// 付款登记列表
   { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/register/detail',query:[{key:'id',value:'id'}] },
   { label:'供应商',prop:'paymenterName',type:'money', width:160 },
@@ -23,7 +24,7 @@ export const reisterTableConfig=[// 付款登记列表
   { label:'款项性质',prop:'moneyState',useLocalEnum:true, type:'MoneyStateEnum', minWidth:120, },
 
   { label:'单据状态',prop:'paymentStatus',useLocalEnum:true, type:'paymentStatusEnum', minWidth:120, },
-  // { label:'业务板块',prop:'busiPlate',useLocalEnum:true, type:'busiPlateConfig', minWidth:120, },
+  { label:'业务板块',prop:'busiPlate',useLocalEnum:true, type:'busiPlateConfig', minWidth:120, },
   { label:'申请人',prop:'applyUserName', width:130},
   { label:'操作',width:150,fixed:'right',userLink:true},
 ]
@@ -36,7 +37,7 @@ export const paymentInfoConfig = [//付款单货款详情
   { title:'收款方', prop:'paymenterName', paytype:'goods+service' },
   { title:'款项性质', prop:'moneyState',type:'MoneyStateEnum',useLocalEnum:true, paytype:'goods+service' },
   { title:'款项类型', prop:'moneyType', type:'MoneyTypeEnum',useLocalEnum:true, paytype:'goods' },
-  // { title:'业务板块', prop:'busiPlate', type:'busiPlateConfig',useLocalEnum:true, paytype:'goods+service' },
+  { title:'业务板块', prop:'busiPlate', type:'busiPlateConfig',useLocalEnum:true, paytype:'goods+service' },
   { title:'采购订单', prop:'busiBillNo', paytype:'goods'},
   { title:'采购合同', prop:'contractNo', paytype:'goods'},
   { title:'合同号', prop:'contractNo', paytype:'service'},
@@ -51,6 +52,7 @@ export const paymentInfoConfig = [//付款单货款详情
   { title:'收款方银行账户', prop:'receiveAccount', paytype:'goods+service'},
   { title:'收款方收款银行 ', prop:'receiveBank', paytype:'goods+service' },
   { title:' 附件 ', prop:'filePathList', useIf:'files', paytype:'goods+service' },
+  { title:' 合同附件 ', prop:'contractFilePathList', useIf:'files', paytype:'goods+service' },
   // { title:'测试1 ', prop:'linkParam',linkTo:'/',useIf:'linkParam',name:'fuck' },
 ]
 

@@ -20,7 +20,7 @@ export function paymentSubmit(data) {
 // 查询 列表、付款单详情
 export function getPaymentListAndDetail(data) {
   return request({
-    url: ` /api/payment/queryPayment`,
+    url: `/api/payment/queryPayment`,
     method: 'post',
     data:data
   })
@@ -29,15 +29,23 @@ export function getPaymentListAndDetail(data) {
 //  采购订单查询
 export function BusibillNoSelect(data) {
   return request({
-    url: ` /api/payment/busibillNoSelect`,
+    url: `/api/payment/busibillNoSelect`,
     method: 'post',
     data:data
   })
 }
-// 采购负责人审核
+// 申请审核
 export function PaymentPurchaseAudit(data) {
   return request({
-    url: ` /api/payment/purchaseAudit`,
+    url: `/api/payment/purchaseAudit`,
+    method: 'post',
+    data:data
+  })
+}
+// 登记审核
+export function PaymentPurchaseRegisterAudit(data) {
+  return request({
+    url: `/api/payment/registerAudit`,
     method: 'post',
     data:data
   })
@@ -45,7 +53,7 @@ export function PaymentPurchaseAudit(data) {
 // 付款登记驳回（不走工作流）
 export function PaymentPurchaseAuditSingle(data) {
   return request({
-    url: ` /api/payment/payRegisterAuditReject`,
+    url: `/api/payment/payRegisterAuditReject`,
     method: 'post',
     data:data
   })
@@ -53,7 +61,7 @@ export function PaymentPurchaseAuditSingle(data) {
 // 订单发票信息查看
 export function invoiceSelect(data) {
   return request({
-    url: ` /api/payment/invoiceSelect`,
+    url: `/api/payment/invoiceSelect`,
     method: 'post',
     data:data
   })
@@ -61,7 +69,7 @@ export function invoiceSelect(data) {
 // 订单入库信息查询
 export function inOrderSelect(data) {
   return request({
-    url: ` /api/payment/inOrderSelect`,
+    url: `/api/payment/inOrderSelect`,
     method: 'post',
     data:data
   })
@@ -69,7 +77,7 @@ export function inOrderSelect(data) {
 //  操作记录
 export function paymentRecord(data) {
   return request({
-    url: ` /api/payment/operationRecord`,
+    url: `/api/payment/operationRecord`,
     method: 'post',
     data:data
   })
@@ -77,7 +85,7 @@ export function paymentRecord(data) {
 // 付款登记
 export function payRegister(data) {
   return request({
-    url: ` /api/payment/payRegister`,
+    url: `/api/payment/payRegister`,
     method: 'post',
     data:data
   })
@@ -85,7 +93,7 @@ export function payRegister(data) {
 // 付款登记提交
 export function payRegisterCommit(data) {
   return request({
-    url: ` /api/payment/payRegisterCommit`,
+    url: `/api/payment/payRegisterCommit`,
     method: 'post',
     data:data
   })
@@ -93,13 +101,13 @@ export function payRegisterCommit(data) {
  // 客户查询
  export function getProvider(data) {
   return request({
-    url: ` /webApi/base/info/getProvider`,
+    url: `/webApi/base/info/getProvider`,
     method: 'get',
   })
 }
 export function getAllProvider(data) {
   return request({
-    url: ` /webApi/base/info/getAllProvider`,
+    url: `/webApi/base/info/getAllProvider`,
     method: 'get',
   })
 }
@@ -107,14 +115,14 @@ export function getAllProvider(data) {
 // 删除付款详情
 export function dropPayment(id) {
   return request({
-    url: ` /api/payment/dropPayment?id=${id}`,
+    url: `/api/payment/dropPayment?id=${id}`,
     method: 'get',
   })
 }
 // 拉取对账单
 export function infoInvoiceAmmount(data) {
   return request({
-    url: ` /api/payment/getInvoiceAmmount`,
+    url: `/api/payment/getInvoiceAmmount`,
     method: 'post',
     data:data
   })
@@ -122,7 +130,7 @@ export function infoInvoiceAmmount(data) {
 // 获取对账单最后拉取时间
 export function getLastTime(data) {
   return request({
-    url: ` /api/payment/getLastTime`,
+    url: `/api/payment/getLastTime`,
     method: 'post',
     data:data
   })
@@ -130,7 +138,7 @@ export function getLastTime(data) {
 //  付款登记单查询
 export function getPaymentRegisterData(data) {
   return request({
-    url: ` /api/payment/selectRegisterData`,
+    url: `/api/payment/selectRegisterData`,
     method: 'post',
     data:data
   })
@@ -139,7 +147,7 @@ export function getPaymentRegisterData(data) {
 // 根据合同号查询附件
 export function getContractFiles(data) {
   return request({
-    url: ` /api/payment/selectContractFiles`,
+    url: `/api/payment/selectContractFiles`,
     method: 'post',
     data:data
   })
@@ -154,7 +162,7 @@ export function getContractFiles(data) {
  */
 export function infoPaymentTotal(data) {
   return request({
-    url: ` /api/payment/list/total`,
+    url: `/api/payment/list/total`,
     method: 'post',
     data:data
   })

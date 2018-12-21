@@ -182,7 +182,7 @@
 
 <script>
     import moment from 'moment';
-    import { getPaymentListAndDetail, payRegister,payRegisterCommit, paymentRecord, infoInvoiceAmmount, getPaymentRegisterData } from '@/api/pay'
+    import { getPaymentListAndDetail, payRegister,payRegisterCommit, paymentRecord, infoInvoiceAmmount, getPaymentRegisterData,getContractFiles } from '@/api/pay'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件
@@ -311,6 +311,7 @@
             },
             deep:true
       },
+     
        fileNew(){
         const url = []
         this.fileNew.map(
@@ -507,7 +508,8 @@
                 }
                 
               })
-            this.cardData.filePathList   = fileInfos
+              this.$set(this.cardData,'filePathList',fileInfos)
+            // this.cardData.filePathList   = fileInfos
              registerFileInfos.map(item=>{
                 if(item.filePath){
                   item.path = item.filePath//itemCard组件，文件下载的参数为path
@@ -516,10 +518,25 @@
                 }
                 
               })
-            this.cardData.registerFileInfoList   = registerFileInfos
+            // this.cardData.registerFileInfoList   = registerFileInfos
+            this.$set(this.cardData,'registerFileInfoList',registerFileInfos)
             this.fileNew = registerFileInfos
             
+              let contractFilePathList = []
+               getContractFiles({contractNo:res.list[0].contractNo}).then(res => {
+                  if(res.success){
+                    contractFilePathList = res.data
+                    contractFilePathList.map(item=>{
+                      if(item.filePath){
+                        item.path = item.filePath//itemCard组件，文件下载的参数为path
+                        item.name = item.fileName
+                      }
+                      
+                    })
+              this.$set(this.cardData,'contractFilePathList',contractFilePathList)
 
+                  }
+                })
               var detailConfig = []
               if(this.cardData.moneyState==0){
                 detailConfig = paymentInfoConfig.filter(config=>
@@ -556,8 +573,8 @@
             }else{
               this.rules = rulesReg
             }
-            if(this.cardData.id&&this.cardData.processInstanceId){
-              paymentRecord({id:this.cardData.id,processInstanceId:this.cardData.processInstanceId}).then(res=>{
+            if(this.cardData.id){
+              paymentRecord({id:this.cardData.id}).then(res=>{
                 this.tableData = res.data            
               })
             }else{

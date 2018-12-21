@@ -73,9 +73,9 @@
               </el-select>
             </el-form-item>
         </el-col>  
-         <!-- <el-col :span="6">
+         <el-col :span="6">
           <el-form-item label="业务板块">
-            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择款项性质">
+            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择款项性质" size="small">
               <el-option
                 v-for="item in busiPlateConfig"
                 :key="item.value"
@@ -84,7 +84,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>   -->
+        </el-col>  
       </el-row>
       <el-row :gutter="10">
         <el-col :span="6">
@@ -122,6 +122,7 @@ export default {
       orderNoFilterMark:'',//订单编号过滤标识
 
       signNoConfig:[],//签收单号下拉配置
+      busiPlateConfig:[{name: '全选',value: ''},...busiPlateConfig],
 
     }
   },
