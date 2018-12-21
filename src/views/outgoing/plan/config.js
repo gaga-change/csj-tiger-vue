@@ -69,7 +69,7 @@ export const matchingTableConfig=[
   { label:'规格',prop:'skuFormat'},
   { label:'单位',prop:'skuUnitName'},
   { label:'计划出库数量',prop:'planOutQty'},
-  { label:'对应采购单号',prop:'busiBillNo',minWidth:120},
+  { label:'对应采购单号',prop:'matchPurNo',minWidth:120},
   { label:'对应编码',prop:'matchSkuCode'},
   { label:'对应名称',prop:'matchSkuName'},
   { label:'对应规格',prop:'matchSkuFormat'},

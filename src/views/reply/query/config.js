@@ -5,6 +5,8 @@ export   const tableConfig=[
   { label:'销售订单号',prop:'outBusiBillNo',width:'150px'},
   { label:'客户',prop:'arrivalName',width:'150px'},
   { label:'货主',prop:'ownerName',width:'180px'},
+  { label:'签收总量',prop:'allSignQty',width:'180px'},
+  { label:'签收总金额',prop:'allSignAmount',width:'180px'},
   { label:'发货仓库',prop:'planWarehouseName',width:'180px'},
   { label:'单据状态',prop:'approveStatus',width:'80px',type:'getApproveStatusMap',useApi:true},
   { label:'开票状态',prop:'signStatus',width:'80px',type:'getSignStatus',useApi:true},
