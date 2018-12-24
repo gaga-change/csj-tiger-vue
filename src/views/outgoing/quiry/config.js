@@ -28,6 +28,7 @@ export const indexTableConfig=[
   { label:'出库单号',prop:'warehouseExeCode', minWidth:120,fixed:true,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
   { label:'业务单号',prop:'busiBillNo',minWidth:120,linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
   { label:'计划单号',prop:'planCode',minWidth:120,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
+  { label:'合同编号',prop:'contractNo'},
   { label:'客户名称',prop:'arrivalName'}, 
   { label:'货主',prop:'ownerName'},
   { label:'出库仓库名称',prop:'warehouseName'},

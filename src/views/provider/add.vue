@@ -155,13 +155,12 @@ export default {
        if(res.success){
           let arr=res.data&&res.data.itemList||[];
           if(this.$route.query.edit){
-            arr=res.data&&res.data.itemList||[];
             this.searchForm=res.data;
             this.searchForm.arrivalName=res.data&&res.data.receiveEnterprise;
             this.searchForm.busiBillNo=res.data&&res.data.outBusiBillNo;
             this.tableData=arr.map(v=>{
                 let json=v;
-                json.billDetailList=v.itemList||[];
+                json.billDetailList=v.detailList||[];
                 return json;
             }); 
           } else{

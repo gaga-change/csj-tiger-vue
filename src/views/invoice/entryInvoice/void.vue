@@ -41,6 +41,9 @@ export default {
   },
 
   mounted(){
+    if(this.$route.query.data){
+      this.searchForm={...this.searchForm,...JSON.parse(this.$route.query.data)}
+    }
     this.getCurrentTableData();
   },
 
@@ -97,6 +100,10 @@ export default {
     },
 
     getCurrentTableData(){
+      this.$router.replace({
+        path:'/invoice/entryInvoice/registrationVoid',
+        query:{data:JSON.stringify(this.searchForm)}
+      })
       this.loading=true;
       let json={};
       for(let i in this.searchForm){
@@ -106,7 +113,7 @@ export default {
       }
       json.ticketStatus=3;
       json.isInvalid=0;
-      console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
+      // console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       finaPurchaseInvoiceList({...json,pageSize:this.pageSize,pageNum:this.pageNum}).then(res=>{
           if(res.success){
             let data=res.data.list||[];
