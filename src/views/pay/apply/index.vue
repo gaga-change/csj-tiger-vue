@@ -29,6 +29,7 @@
       searchItem:'apply',
       pageNum: 1,
       pageSize:10,
+      isRegisterflag:false,//申请单查询
     }
 
 
