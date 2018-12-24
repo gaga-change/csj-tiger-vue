@@ -24,6 +24,7 @@
       searchItem:'register',
       pageNum: 1,
       pageSize:10,
+      isRegisterflag:true,//登记单查询
     }
 
 
