@@ -1,6 +1,6 @@
 export   const tableConfig=[
   { label:'序号',fixed:true,type:'index',width:50},
-  { label:'变动日期',prop:'changeTime'},
+  { label:'变动日期',prop:'changeTime',type:'time'},
   { label:'出入库类型',prop:'direcType',type:'getStockDirectType',useApi:true},
   { label:'业务类型',prop:'busiBillType',type:'getBillType',useApi:true},
   { label:'出入库方',prop:'warehouseName'},
