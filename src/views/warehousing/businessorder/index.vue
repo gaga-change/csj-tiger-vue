@@ -18,6 +18,12 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6">
+            <el-form-item label="合同编号" prop="contractNo">
+              <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入合同编号"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="6" >
             <el-form-item label="货主名称" prop="ownerName">
               <el-input v-model.lazy.trim="ruleForm.ownerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
@@ -103,6 +109,7 @@
           busiBillNo: '',
           ownerName: '',
           providerName:'',
+          contractNo:'',
           linkTel: '',
           pageNum: 1,
           pageSize:10,

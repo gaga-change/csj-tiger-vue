@@ -42,9 +42,9 @@
                     <div class="alertInfoContainer-right" >
                         <div class="alertInfoContainer-right-title">
                             <item-title 
-                             :text="row.isAuto?`已匹配商品`:`已匹配商品${(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty)&&!isClick?'(该匹配属于自动匹配)':''}`"
+                             :text="row.isAuto===null?`已匹配商品`:`已匹配商品${(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty)&&!isClick?'(该匹配属于自动匹配)':''}`"
                              boxStyle="width:250px;float:left"/> 
-                            <el-button type="primary" size="mini" style="float:right"  v-if="row.isAuto" >取消匹配</el-button>
+                            <el-button type="primary" size="mini" style="float:right"  v-if="row.isAuto===null" :loading="cancelLoding"  @click="cancelMatch">取消匹配</el-button>
                         </div>
                         <div  class="alertInfoContainer-card">
                              <item-card :config="alertBottomConfig" 
@@ -76,8 +76,9 @@
 
 <script>
  import { manualBaseInfoConfigLeft,manualBaseInfoTableConfig,matchingTableConfig,alertTopConfig, alertBottomConfig,detailsConfig} from './config';
- import { outPlanDetail,planGetBill,planAutoMatch,planHandMatch} from '@/api/outgoing'
+ import { outPlanDetail,planGetBill,planAutoMatch,planHandMatch,planCancelMatch} from '@/api/outgoing'
  import webPaginationTable from '@/components/Table/webPaginationTable'
+ import { mapGetters } from 'vuex'
  import _  from 'lodash';
  export default {
     components: { webPaginationTable},
@@ -100,10 +101,13 @@
         alertBottomConfig,
         detailsConfig,
         row:{},
+        clickId:'',
         alertDisplay:false,
         isClick:false,
 
         sureLoding:false,
+        cancelLoding:false,
+        
       }
     },
 
@@ -113,58 +117,126 @@
             item.dom=(row, column, cellValue, index)=>{
               return <div>
                   {
-                     row.isAuto?
-                    <span class="operationBtn"  onClick={this.alertMethods.bind(this,row,row.isAuto)}>重新匹配</span>
-                    :<span class="operationBtn"  onClick={this.alertMethods.bind(this,row,row.isAuto)}>匹配</span>
+                     row.isAuto===false&&
+                    <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>匹配</span>
+                  }
+                  {
+                     row.isAuto===null&&
+                    <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
                   }
               </div>
             }
         }
-      })
+      }),
+
+      this.detailsConfig.forEach(item=>{
+        if(item.useIcon){
+            item.dom=(row, column, cellValue, index)=>{
+              if(row.isIcon){
+                return <div>
+                  <i class="el-icon-success"></i>
+                </div>
+              } else{
+                return ''
+              }
+       
+            }
+           }
+        })
     },
 
     mounted(){
       this.getOutPlanDetail()
     },
 
-    computed: {
-
-    },
+   computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
 
     methods:{
-
       matchSku(){
          this.sureLoding=true;
-         planHandMatch(this.row).then(res=>{
-            this.sureLoding=false;
-            if(res.success){
-              this.alertDisplay=false;
+         let row=this.row;
+         if(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty){
+          planHandMatch({
+              ...this.row,
+              modifierId:this.userInfo.id,
+              modifierName:this.userInfo.truename,
+            }).then(res=>{
+              this.sureLoding=false;
+              if(res.success){
+                this.alertDisplay=false;
+                this.$message({
+                  type: 'success',
+                  message: '操作成功',
+                })
+                this.getOutPlanDetail()
+              }
+          }).catch(err=>{
+            console.log(err)
+              this.sureLoding=false;
               this.$message({
-                type: 'success',
-                message: '操作成功',
+                type: 'error',
+                message:'操作失败'
               })
-            }
-         }).catch(err=>{
-           console.log(err)
-            this.sureLoding=false;
-            this.$message({
-              type: 'error',
-              message:'操作失败'
-            })
-         })
+          })
+        } else{
+           this.$message({
+             type: 'error',
+             message:'请先选择要匹配的商品'
+           })
+        }
       },
+
+
+      cancelMatch(){
+        this.cancelLoding=true;
+        planCancelMatch({
+          id:this.row.id,
+          modifierId:this.userInfo.id,
+          modifierName:this.userInfo.truename,
+        }).then(res=>{
+          this.cancelLoding=false;
+          if(res.success){
+            this.$message({
+              type: 'success',
+              message: '操作成功',
+            })
+            this.clickId=new Date();
+            this.getOutPlanDetail()
+          }
+        }).catch(err=>{
+          console.log(err)
+          this.cancelLoding=false;
+          this.$message({
+            type: 'error',
+            message:'操作失败'
+          })
+        })
+    },
 
 
       currentRedioChange(currentRow, oldCurrentRow){
         let row= _.cloneDeep(this.row);
-        row.matchSkuName=currentRow.providerName;//名称
-        row.matchSkuCode=currentRow.providerCode;//编号
-        row.matchSkuFormat=currentRow.skuFormat;//规格
-        row.planInQty=currentRow.planInQty;//计划采购量
-        row.realInQty=currentRow.realInQty;//入库量
-        this.row=row;
-        this.isClick=true;
+        if(currentRow){
+          row.matchSkuName=currentRow.skuName;//商品名称
+          row.matchSkuCode=currentRow.skuCode;//编号
+          row.matchSkuFormat=currentRow.skuFormat;//规格
+          row.planInQty=currentRow.planInQty;//计划采购量
+          row.realInQty=currentRow.realInQty;//入库量
+          row.matchBusiIndex=currentRow.outBillIndex;
+          row.matchSkuUnitName=currentRow.skuUnit;
+          row.matchPurNo=currentRow.purcticketno;
+          this.row=row;
+          this.isClick=true; 
+          this.clickId=currentRow.id;
+          this.foamatAlert()
+        }
+        
       },
+
 
       getOutPlanDetail(){
          this.planLoading=true;
@@ -185,6 +257,18 @@
          })
       },
 
+      foamatAlert(){
+         let data= _.cloneDeep(this.outBillNoTableData);
+          data.forEach(item=>{
+            if(item.id===this.clickId){
+              item.isIcon=true;
+            } else{
+              item.isIcon=false;
+            }
+          })
+        this.outBillNoTableData=data;
+      },
+
       getPlanGetBill(outBillNo){
         this.outBillNoLoading=true;
          planGetBill({
@@ -193,6 +277,7 @@
            this.outBillNoLoading=false;
            if(res.success){
               this.outBillNoTableData=res.data&&res.data.purchaseItemAndSalesItemList||[];
+              this.foamatAlert()
             }
          }).catch(err=>{
             this.outBillNoLoading=false;
@@ -208,7 +293,12 @@
         }).then(res=>{
           this.matchLoading=false;
           if(res.success){
-             this.matchTable=res.data||[]
+             this.matchTable=res.data||[]; 
+              let row= _.cloneDeep(this.row);
+              row=this.matchTable.find(v=>v.id===row.id)||{};
+              this.row=row;
+              this.isClick=false;
+              console.log({...this.row})
           }
         }).catch(err=>{
           console.log(err)
@@ -217,11 +307,14 @@
       },
 
 
-      alertMethods(row,type){
+      alertMethods(row){
+        let outBillNoTableData= _.cloneDeep(this.outBillNoTableData);
+        this.outBillNoTableData=outBillNoTableData;
         this.row=row;
+        this.clickId=new Date();
+        this.foamatAlert();
         this.alertDisplay=true;
       }
-
 
     },
  }
@@ -296,6 +389,10 @@
         text-align: center;
       }
     }
+
+     .el-table__body tr.current-row>td, {
+        background-color: #b3d4fc;
+     }
 
   }
 </style>

@@ -10,7 +10,9 @@ export   const tableConfig=[
   { label:'已入/应入',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
   }},
- 
+  { label:'入库金额',dom:(row, column, cellValue, index)=>{
+    return `${row.inPrice*row.realInQty}`
+  }},
 ];
 
 export  const infoConfig=[
@@ -20,6 +22,8 @@ export  const infoConfig=[
   {title:'制单人',prop:'createrName'},
   {title:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
   {title:'制单时间',prop:'gmtCreate',type:'time'},
+  {title:'入库数量合计',prop:'allInQty',},
+  {title:'入库金额合计',prop:'allInAmt',},
   {title:'供应商编号',prop:'providerCode'},
   {title:'供应商名称',prop:'providerName'},
   {title:'联系电话',prop:'providerLinkTel'},
@@ -48,10 +52,15 @@ export const planTableConfig=[
 
 export const indexTableConfig=[
   { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
+  { label:'合同编号',prop:'contractNo'},
   { label:'货主名称',prop:'ownerName'},
   { label:'供应商名称',prop:'providerName'},
+  { label:'入库数量',prop:'allInQty'},
+  { label:'入库金额',prop:'allInAmt'},
   { label:'制单人',prop:'createrName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
   { label:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
   { label:'操作',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}],linkText:'查看'},
  ]
+
+

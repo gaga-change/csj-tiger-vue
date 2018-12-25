@@ -43,7 +43,7 @@ export const indexTableConfig=[
   { label:'计划出库仓库',prop:'planWarehouseName'},
   { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
-  { label:'操作',fixed:'right',useLink:true,minWidth:100},
+  { label:'操作',fixed:'right',useLink:true,minWidth:120},
 ]
 
 //手工出库页面基本配置
@@ -69,7 +69,7 @@ export const matchingTableConfig=[
   { label:'规格',prop:'skuFormat'},
   { label:'单位',prop:'skuUnitName'},
   { label:'计划出库数量',prop:'planOutQty'},
-  { label:'对应采购单号',prop:'busiBillNo',minWidth:120},
+  { label:'对应采购单号',prop:'matchPurNo',minWidth:120},
   { label:'对应编码',prop:'matchSkuCode'},
   { label:'对应名称',prop:'matchSkuName'},
   { label:'对应规格',prop:'matchSkuFormat'},
@@ -108,11 +108,12 @@ export  const alertBottomConfig=[
 //采购单明细片配置
 export  const detailsConfig=[
   {label:'单号',prop:'purcticketno',},
-  {label:'编号',prop:'providerCode',},
-  {label:'名称',prop:'providerName',},
+  {label:'商品编号',prop:'skuCode',},
+  {label:'商品名称',prop:'skuName',},
   {label:'规格',prop:'skuFormat',},
   {label:'单位',prop:'skuUnit',},
   {label:'采购数量',prop:'planInQty',},
   {label:'入库数量',prop:'realInQty',},
+  {label:'是否匹配',useIcon:true,width:100,align:'center'},
 ]
 

@@ -19,6 +19,7 @@
           :key="item.lable"
           :type="item.columnType"
           :fixed="item.fixed"
+          :align="item.align"
           :width="item.width"
           :min-width="item.minWidth"
           :prop="item.prop"

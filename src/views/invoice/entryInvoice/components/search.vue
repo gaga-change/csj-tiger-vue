@@ -98,11 +98,11 @@
             </el-form-item>
           </el-col>
 
-          <!-- <el-col :span="6" v-if="searchForm.contractNo!==undefined">
+          <el-col :span="6" v-if="searchForm.contractnNo!==undefined">
             <el-form-item label="合同编号" >
-              <el-input type="text" size="small" :disabled="true"   placeholder="请选择合同编号"    v-model="searchForm.contractNo" ></el-input>
+              <el-input type="text" size="small"  placeholder="请选择合同编号"    v-model="searchForm.contractnNo" ></el-input>
             </el-form-item>
-          </el-col> -->
+          </el-col>
 
 
           <el-col :span="6" v-if="searchForm.invoiceType!==undefined" style="min-width:300px" >

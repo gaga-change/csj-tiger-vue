@@ -117,9 +117,16 @@
             <el-input type="text" size="small"  v-model="searchForm.applyCode" ></el-input>
           </el-form-item>
         </el-col>
+
          <el-col :span="6" v-if="searchForm.searchItem=='register'">
           <el-form-item label="开票单号" >
             <el-input type="text" size="small"  v-model="searchForm.invoiceNo" ></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6" v-if="searchForm.searchItem=='register'">
+          <el-form-item label="合同编号" >
+            <el-input type="text" size="small"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
    
@@ -266,6 +273,10 @@ export default {
         default: ''
       },
       invoiceNo:{//开票单号
+        type: String,
+        default: ''
+      },
+      contractNo:{
         type: String,
         default: ''
       },

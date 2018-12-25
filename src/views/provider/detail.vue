@@ -72,7 +72,7 @@
         :loading="loading"
         :useEditExpand="true"
         :defaultExpandAll="true"
-        childTableDataKey="detailVOList"
+        childTableDataKey="detailList"
         :config="detailTableConfig" 
         :childConfig="addChildTableConfig"
         :allTableData="detailTableData"/>
@@ -143,7 +143,7 @@ export default {
       }).then(res=>{
         if(res.success){
            this.detailBaseInfoData=res.data;
-           this.detailTableData=res.data&&res.data.outPlanDetaiList||[];
+           this.detailTableData=res.data&&res.data.itemList||[];
         }
          this.loading=false;
       }).catch(err=>{

@@ -3,6 +3,7 @@ export  const listIndexConfig=[
   { label:'收票单号',prop:'registerCode',fixed:true,width:150,linkTo:'/invoice/entryInvoice/registrationDetail',query:[{key:'finaPurchaseInvoiceId',value:'finaPurchaseInvoiceId'}]},
   { label:'供应商',prop:'providerName',width:150},
   { label:'订单编号',prop:'busiBillNo',width:150},
+  { label:'合同编号',prop:'contractNo',width:120},
   { label:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig',},
   { label:'发票号',prop:'invoiceNo',width:150},
   { label:'发票金额',prop:'invoiceAmt',type:'toFixed'},
