@@ -4,7 +4,22 @@
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
     
-           <el-col :span="6" style="min-width:500px">
+           <el-col :span="6" style="min-width:300px">
+             <el-form-item label="交易主体"  label-width="80px" style="width:300px" >
+              <el-select v-model="searchForm.ownerCode" 
+               @change="submit" 
+               size="small"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
+                <el-option
+                   v-for="item in mapConfig['ownerInfoMap']" 
+                   :label="item.value"   
+                   :key="item.key"  
+                   :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6" style="min-width:500px">
             <el-form-item label="对账日期" label-width="80px"  >
               <el-date-picker
                 v-model="searchForm.time"
@@ -20,30 +35,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-
-           <el-col :span="6" style="min-width:300px">
-             <el-form-item label="交易主体"  label-width="80px" style="width:300px" >
-              <el-select v-model="searchForm.ownerCode" 
-               @change="submit" 
-              size="small"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
-                <el-option
-                  v-for="item in []"
-                  :label="item.value" 
-                  :key="item.key"  
-                  :value="item.key">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-        
-          <el-col :span="6" style="min-width:300px">
-            <el-form-item label="服务费百分比"  label-width="80px" style="width:300px">
-              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入计划单号"    v-model="searchForm.serviceRate" ></el-input>
-            </el-form-item>
-          </el-col>
-
-
+      
           <el-col :span="24">
             <el-form-item label-width="0">
               <el-button type="primary"  size="small"  @click="submit">查询</el-button>
