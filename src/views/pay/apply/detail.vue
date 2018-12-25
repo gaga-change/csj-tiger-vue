@@ -335,7 +335,7 @@
       //获得当前数据
       getCurrentTableData(){
         this.loading=true;
-         let params = {}
+         let params = {isRegisterflag:true}
         if(this.$route.query.id){
           params.id = this.$route.query.id
         }
