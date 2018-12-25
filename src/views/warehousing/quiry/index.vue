@@ -50,6 +50,14 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="货主"   prop="ownerCode">
+              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
         <el-col :span="6"  style="min-width:320px">
           <el-form-item label="业务板块"  prop="busiPlate">
             <el-select v-model="ruleForm.busiPlate"  @change="submitForm('ruleForm')" placeholder="请选择业务板块">
@@ -133,6 +141,7 @@
             planCode:'',
             warehouseExeCode:'',
             warehouseName:'',
+            ownerCode:'',
             warehouseCode:'',
             providerName:'',
             contractNo:'',

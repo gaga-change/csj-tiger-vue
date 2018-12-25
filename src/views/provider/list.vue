@@ -103,14 +103,14 @@
       
       //收货日期
       if(json.ReceivTime&&Array.isArray(json.ReceivTime)&&json.ReceivTime.length>0){
-        json.receiveBeginDate=moment(json.receiveBeginDate).valueOf()
-        json.receiveEndDate=moment(json.receiveEndDate).valueOf()
+        json.receiveBeginDate=moment(json.ReceivTime[0]).valueOf()
+        json.receiveEndDate=moment(json.ReceivTime[1]).valueOf()
       }
 
       //创建日期
       if(json.establishTime&&Array.isArray(json.establishTime)&&json.establishTime.length>0){
-        json.createBeginDate=moment(json.createBeginDate).valueOf()
-        json.createEndDate=moment(json.createEndDate).valueOf()
+        json.createBeginDate=moment(json.establishTime[0]).valueOf()
+        json.createEndDate=moment(json.establishTime[1]).valueOf()
       }
 
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})

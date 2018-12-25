@@ -1,7 +1,7 @@
 <template lang="html">
     <el-card class="simpleCard" shadow="never" body-style="padding:12px">
       <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
-      <el-row :gutter="10">
+      <el-row >
         <el-col :span="6">
           <el-form-item label="供应商名称" label-width="85px"  prop="cusName">
             <el-select v-model="searchForm.paymenterCode"
@@ -39,9 +39,18 @@
             <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
+
+        <el-col :span="6" style="min-width:300px"  >
+          <el-form-item label="货主"   prop="ownerCode">
+            <el-select    size="small"  v-model="searchForm.ownerCode"   placeholder="请选择货主">
+              <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
         <el-col :span="6">
           <el-form-item label="款项性质">
-            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择款项性质">
+            <el-select v-model="searchForm.moneyState" size="small" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -50,9 +59,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>  
-      </el-row>
-      <el-row :gutter="10">  
+        </el-col>   
 
         <el-col :span="6">
           <el-form-item label="付款申请号" label-width="85px"  >
@@ -104,6 +111,7 @@ import { paymentStatusEnum,MoneyStateEnum,busiPlateConfig } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import { getProvider } from '@/api/pay'
 import _  from 'lodash';
+import { mapGetters } from 'vuex'
 let MoneyStateEnumFilter = MoneyStateEnum.filter(item =>!item.disabled)
 export default {
   name: 'SearchInvoice',
@@ -140,6 +148,10 @@ export default {
         type: String,
         default: ''
       },
+      ownerCode:{
+        type: String,
+        default: ''
+      },
       contractNo:{//合同编号
         type: String,
         default: ''
@@ -171,6 +183,11 @@ export default {
   },
 
    computed: {
+
+    ...mapGetters([
+      'mapConfig',
+     ]),
+
     nowCustomerConfig:{
        get: function () {
         let value=this.customerFilterMark;
@@ -281,5 +298,9 @@ export default {
     &:last-child{
       float: right;
     } 
+  }
+  .el-form-item{
+    height:30px;
+    margin-bottom: 36px
   }
 </style>

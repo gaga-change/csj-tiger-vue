@@ -24,7 +24,7 @@ export   const infoConfig=[
   {title:'计划仓库',prop:'planWarehouseName'},
   {title:'计划制定时间',prop:'busiBillCreaterTime',type:'time'},
   {title:'货主编号',prop:'ownerCode'},
-  {title:'货主名称',prop:'ownerName'},
+  {title:'货主',prop:'ownerName'},
   {title:'供应商名称',prop:'providerName'},
   {title:'供应商编号',prop:'providerCode'},
   {title:'联系电话',prop:'linkTel'},

@@ -305,4 +305,37 @@ export default [
   },
 
 
+  {
+    path: '/abnormalGoods',
+    component: Layout,
+    redirect: 'abnormalGoods/list',
+    meta: { title: '对账管理', noCache: true,icon:'back' },
+    hidden: false,
+    children: [
+      {
+        name: 'list',
+        path: 'list',
+        meta: { title: '仓储服务费对账单', noCache: true},
+        component: _import('abnormalGoods/list'),
+        hidden: false,
+      },
+      {
+        name: 'add',
+        path: 'add',
+        meta: { title: '新增对账单', noCache: true },
+        component: _import('abnormalGoods/add'),
+        hidden: false,
+      },
+      {
+        name: 'detail',
+        path: 'detail',
+        meta: { title: '对账单详情', noCache: true },
+        component: _import('abnormalGoods/detail'),
+        hidden: false,
+      },
+
+    ]
+  },
+
+
 ]

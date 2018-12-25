@@ -45,6 +45,15 @@
             </el-select>
           </el-form-item>
         </el-col> 
+
+          <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="货主" >
+              <el-select    v-model="searchForm.ownerCode"   placeholder="请选择货主">
+                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
         <el-col :span="6" v-if="searchForm.searchItem == 'register'">
             <el-form-item label-width="70px" label="关联状态:" class="postInfo-container-item">
               <el-select v-model="searchForm.relationStatus" 
@@ -113,6 +122,7 @@
 import { MoneyStateEnum,RelationStatusEnum,ApproveStatusEnum } from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
+import { mapGetters } from 'vuex'
 let RelationStatusEnumFilter = RelationStatusEnum.filter(item=>{
   return item.value!=2
 })
@@ -159,6 +169,10 @@ export default {
         type: String,
         default: ''
       },
+      ownerCode:{
+        type: String, 
+        default: ''
+      },
       approveStatus:{//登记状态。
         type: String,
         default: ''
@@ -187,6 +201,9 @@ export default {
   },
 
    computed: {
+    ...mapGetters([
+      'mapConfig',
+    ]),
     nowCustomerConfig:{
        get: function () {
         let value=this.customerFilterMark;

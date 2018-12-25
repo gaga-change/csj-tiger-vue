@@ -86,15 +86,12 @@
                  </div>
               </el-option>
             </el-select>
-             
               <el-input
                type="text" 
                size="small" 
                placeholder="请输入订单编号"  
                v-if="onlySelect" 
                v-model="searchForm.busiBillNo" ></el-input>
-
-
             </el-form-item>
           </el-col>
 
@@ -103,7 +100,14 @@
               <el-input type="text" size="small"  placeholder="请选择合同编号"    v-model="searchForm.contractnNo" ></el-input>
             </el-form-item>
           </el-col>
-
+          
+          <el-col :span="6" style="min-width:300px" v-if="searchForm.ownerCode!==undefined"  >
+            <el-form-item label="货主" >
+              <el-select   v-model="searchForm.ownerCode"   placeholder="请选择货主">
+                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>   
 
           <el-col :span="6" v-if="searchForm.invoiceType!==undefined" style="min-width:300px" >
             <el-form-item 
@@ -349,6 +353,7 @@
 import _  from 'lodash';
 import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType ,invoiceCancelStatusConfig,busiPlateConfig} from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
+import { mapGetters } from 'vuex'
 import { queryInWarehouseBillList,queryListByFinaPurchaseInvoiceReq,getProvider } from '@/api/void/list'
 export default {
   components: { Sticky},
@@ -422,7 +427,11 @@ export default {
        this.getProviderApi();
     }
   },
-
+ computed: {
+    ...mapGetters([
+      'mapConfig',
+    ])
+  },
   methods:{
 
     asInvoiceAmtChange(){

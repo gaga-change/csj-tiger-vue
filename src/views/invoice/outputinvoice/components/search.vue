@@ -31,7 +31,13 @@
           </el-form-item>
         </el-col>
 
-       
+        <el-col :span="6" style="min-width:300px"  >
+          <el-form-item label="货主" >
+            <el-select   v-model="searchForm.ownerCode"   placeholder="请选择货主">
+              <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>  
 
         <el-col :span="6">
           <el-form-item label="单据状态">
@@ -129,7 +135,7 @@
             <el-input type="text" size="small"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
-   
+
         <el-col :span="6" v-if="searchForm.searchItem=='register'||searchForm.searchItem=='invalid'">
           <el-form-item label="业务板块">
             <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
@@ -208,6 +214,7 @@
 import { NatureInvoice, NatureInvoiceEnum, InvoiceStatus, TicketStatus, InvoiceType  as invoicetype ,busiPlateConfig,invoiceCancelStatusConfig} from '@/utils/enum'
 import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
 import _  from 'lodash';
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SearchInvoice',
@@ -234,6 +241,7 @@ export default {
 
     }
   },
+
   props:{
     searchForms:{
       cusName:{//客户名称.
@@ -253,6 +261,10 @@ export default {
         default: ''
       },
       contractNo:{//合同编号.
+        type: String,
+        default: ''
+      },
+      ownerCode:{
         type: String,
         default: ''
       },
@@ -307,6 +319,9 @@ export default {
   },
 
    computed: {
+    ...mapGetters([
+      'mapConfig',
+    ]),
     nowCustomerConfig:{
        get: function () {
         let value=this.customerFilterMark;

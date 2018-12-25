@@ -3,6 +3,7 @@ export const applyTableConfig=[// 付款申请列表
   { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/apply/detail',query:[{key:'id',value:'id'}] },
   { label:'标题',prop:'applyTitle', minWidth:120 },
   { label:'供应商',prop:'paymenterName',type:'money', width:160 },
+  { label:'货主',prop:'ownerName',width:160},
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'订单编号',prop:'busiBillNo', width:150 },
   { label:'申请金额',prop:'applyPaymentAmt'},
@@ -16,6 +17,7 @@ export const applyTableConfig=[// 付款申请列表
 export const reisterTableConfig=[// 付款登记列表
   { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/register/detail',query:[{key:'id',value:'id'}] },
   { label:'供应商',prop:'paymenterName',type:'money', width:160 },
+  { label:'货主',prop:'ownerName',width:160},
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'订单编号',prop:'busiBillNo', width:150 },
   { label:'申请金额',prop:'applyPaymentAmt'},
