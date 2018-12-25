@@ -107,7 +107,7 @@
         } 
       },
        submitForm(ruleForm) {
-        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'apply'}
+        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'apply',isRegisterflag:false}
         this.getCurrentTableData();
           
       },

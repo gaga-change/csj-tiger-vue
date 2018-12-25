@@ -482,7 +482,7 @@
       },
       getCurrentTableData(){
         this.loading=true;
-        let params = {}
+        let params = {isRegisterflag:true}//登记单查询
         if(this.$route.query.id){
           params.id = this.$route.query.id
         }
