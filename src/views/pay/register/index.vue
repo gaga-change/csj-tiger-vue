@@ -94,7 +94,7 @@
         } 
       },
        submitForm(ruleForm) {
-        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'associate'}
+        this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'associate',isRegisterflag:true}
         this.getCurrentTableData();
           
       },
