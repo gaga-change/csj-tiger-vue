@@ -9,6 +9,9 @@ export   const tableConfig=[
   { label:'生产厂家',prop:'productFactory'},
   { label:'转换比',prop:'skuUnitConvert'},
   { label:'入库数量',prop:'inStoreQty'},
+  { label:'入库金额',dom:(row, column, cellValue, index)=>{
+    return `${row.inPrice*row.inStoreQty}`
+  }},
 ];
 
 
@@ -17,8 +20,8 @@ export   const infoConfig=[
   {title:'计划单号',prop:'planCode',useIf:'link',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   {title:'入库日期',prop:'inWarehouseTime',type:'time'},
-  { title:'入库金额',prop:'intAmt'},
-  { title:'入库数量',prop:'inQty'},
+  { title:'入库金额合计',prop:'inAmt'},
+  { title:'入库数量合计',prop:'inQty'},
   {title:'入库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'供应商编号',prop:'providerCode'},
   {title:'供应商名称',prop:'providerName'},

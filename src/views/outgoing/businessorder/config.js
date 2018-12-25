@@ -14,6 +14,9 @@ export  const tableConfig=[
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
   }},
   { label:'转换比',prop:'skuUnitConvert',width:"80"},
+  { label:'出库金额',dom:(row, column, cellValue, index)=>{
+    return `${row.outStorePrice*row.realOutQty}`
+  }},
 ];
 
 export const infoConfig=[
@@ -21,8 +24,8 @@ export const infoConfig=[
   {title:'业务类型',prop:'busiBillType', type:'getBillType',useApi:true},
   {title:'来源系统',prop:'fromSysCode'},
   {title:'制单人',prop:'busiBillCreater'},
-  { title:'出库金额',prop:'realOutAmt'},
-  { title:'出库数量',prop:'realOutQty'},
+  { title:'出库金额合计',prop:'realOutAmt'},
+  { title:'出库数量合计',prop:'realOutQty'},
   {title:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
   {title:'是否越库',prop:'isCross',type:'boolean'},
   {title:'是否可分批',prop:'isBatch',type:'boolean'},
@@ -40,7 +43,7 @@ export const outgoingTableConfig=[
   { label:'出库仓库名称',prop:'warehouseName'},
   { label:'出库仓库编号',prop:'warehouseCode',},
   { label:'是否越库',prop:'isCross',type:'Boolean',},
-  { label:'出库日期',prop:'outStoreTime',type:'time'}
+  { label:'出库日期',prop:'outStoreTime',type:'time'},
 ]
 
 

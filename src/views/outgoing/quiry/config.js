@@ -8,14 +8,17 @@ export const tableConfig=[
   { label:'单价',prop:'skuOutPrice'},
   { label:'转换比',prop:'skuUnitConvert'},
   { label:'出库数量',prop:'outStoreQty'},
+  { label:'出库金额',dom:(row, column, cellValue, index)=>{
+    return `${row.skuOutPrice*row.outStoreQty}`
+  }},
 ];
 
 export  const infoConfig=[
   {title:'出库单号',prop:'warehouseExeCode',},
   {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   {title:'计划单号',prop:'planCode',useIf:'link',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
-  { title:'出库数量',prop:'outQty'},
-  { title:'出库金额',prop:'outAmt'},
+  { title:'出库数量合计',prop:'outQty'},
+  { title:'出库金额合计',prop:'outAmt'},
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'出库日期',prop:'outStoreTime',type:'time'},
   {title:'客户编号',prop:'arrivalCode'},
