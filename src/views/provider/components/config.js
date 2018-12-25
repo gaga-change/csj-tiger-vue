@@ -1,5 +1,5 @@
 export  const listIndexConfig=[ //list页配置
-    { label:'客户收货登记号',prop:'receiveCode',linkTo:'/provider/detail',query:[{key:'id',value:'id'},{key:'planCode',value:'planCode'}]},
+    { label:'客户收货登记号',prop:'receiveCode',fixed:true,linkTo:'/provider/detail',query:[{key:'id',value:'id'},{key:'planCode',value:'planCode'}]},
     { label:'客户名称',prop:'receiveEnterprise',},
     { label:'出库计划单号',prop:'planCode',},
     { label:'销售合同号',prop:'contractNo',},
@@ -8,7 +8,7 @@ export  const listIndexConfig=[ //list页配置
     { label:'创建日期',prop:'gmtCreate',type:'time'},
     { label:'收货日期',prop:'receiveCreateTime',type:'time'},
     { label:'单据状态',prop:'receiveStatus',type:'getReceiveStatus',useApi:true},
-    { label:'操作',useLink:true,},
+    { label:'操作',useLink:true,fixed:'right',width:150},
   ]
 
 
