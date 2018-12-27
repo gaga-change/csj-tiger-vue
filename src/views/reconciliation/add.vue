@@ -1,319 +1,168 @@
 <template>
-    <div class="provider-add">
-        <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
-            <template >
-                <el-button  type="success" size="small" @click="submit('save')"  :loading="saveLoading" >保存</el-button>
-                <el-button  type="success" size="small" @click="submit('submit')" :loading="submitLoading" >提交</el-button>
-            </template>
-        </sticky>
+  <div  class="abnormalGoods">
+    <search-from :searchForm="searchForm" @submit="submit" ref="searchForm" :buttonLoding="buttonLoding" ></search-from>
+    <div style="margin-bottom:12px">
+      <div style="display: flex;line-height: 24px;">
+          <item-title text="对账单明细" boxStyle="width:100px" /> 
+          <span style="font-size: 12px;color:rgb(51, 153, 234);cursor: pointer;" @click="pullout">拉取对账单明细</span>
+      </div>
+      
+     <div class="tableTotal" v-if="totalData&&totalData.billAmt!==undefined||totalData.serviceCharge!==undefined">
+       <span>该段时间内销售发票金额</span> : <span>{{totalData&&totalData.billAmt&&Number(totalData.billAmt).toFixed(2)}}</span>
+       <span>服务费金额</span> : <span>{{totalData&&totalData.serviceCharge&&Number(totalData.serviceCharge).toFixed(2)}}</span>
+      </div>
 
-        <el-card class="simpleCard"  shadow="never"  body-style="padding:12px;padding-bottom:0">
-          <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
-            <el-row>
-                <el-col :span="6" style="min-width:300px">
-                    <el-form-item label="收货企业" label-width="80px" style="width:300px" >
-                    <el-input type="text" size="small" :disabled="true"  @keyup.enter.native="submit"      v-model="searchForm.arrivalName" ></el-input>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="6" style="min-width:300px">
-                    <el-form-item label="销售订单号" label-width="90px" style="width:300px" >
-                    <el-input type="text" size="small" :disabled="true"   @keyup.enter.native="submit"     v-model="searchForm.busiBillNo" ></el-input>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="6" style="min-width:300px">
-                    <el-form-item label="销售合同号"  label-width="80px" style="width:300px">
-                    <el-input type="text" size="small" :disabled="true"  @keyup.enter.native="submit"      v-model="searchForm.contractNo" ></el-input>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="6">
-                    <el-form-item 
-                    label="收货日期"
-                    label-width="100px"
-                    style="width:300px" 
-                    prop="receiveCreateTime"
-                    :rules="[
-                    { required: true, message: '该项为必填'},
-                    ]">
-                    <el-date-picker
-                        v-model="searchForm.receiveCreateTime"
-                        type="date"
-                        placeholder="选择日期">
-                    </el-date-picker>
-                    </el-form-item>
-                </el-col>  
-
-                  <el-col :span="6" style="min-width:300px">
-                    <el-form-item label="收货人" 
-                     label-width="80px" 
-                     style="width:300px"
-                     prop="receiveName"
-                     :rules="[
-                      { required: true, message: '该项为必填'},
-                     ]">
-                    <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入收货人"    v-model="searchForm.receiveName" ></el-input>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="6" style="min-width:300px">
-                    <el-form-item label="联系电话" 
-                     label-width="80px" 
-                     style="width:300px">
-                    <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入联系电话"    v-model="searchForm.receiveTel" ></el-input>
-                    </el-form-item>
-                </el-col>
-
-              <el-col :span="10">
-                <el-form-item label="收货地址" 
-                 label-width="70px"
-                 prop="receiveAddr"
-                 :rules="[
-                    { required: true, message: '该项为必填'},
-                 ]">
-                <el-input
-                    type="textarea"
-                    :rows="1"
-                    resize="none"
-                    placeholder="请输入收货地址"
-                    v-model="searchForm.receiveAddr">
-                </el-input>
-                </el-form-item>
-             </el-col>
-
-              <el-col :span="6" style="min-width:300px">
-                  <el-form-item label="上传附件" 
-                    label-width="70px" 
-                    style="width:300px" >
-                    <upload-mode
-                      @fileListChange="fileListChange" 
-                      :defailFileList="searchForm.files||[]" >
-                    </upload-mode>
-                  </el-form-item>
-              </el-col>
-              
-            </el-row>  
-         </el-form>
-     </el-card>
-
-     <item-title text="相关明细"/>
-      <nesting-table 
-        :loading="loading"
-        :useEdit="true"
-        :useDelet="false"
-        :useEditExpand="true"
-        :defaultExpandAll="true"
-        childTableDataKey="billDetailList"
-        editText="登记收货量"
-        :config="addTableConfig" 
-        :childConfig="addChildTableConfig"
-        :allTableData="tableData"
-        @goeditrow="goeditrow"/>
+      <web-pagination-table 
+       :loading="tableLoading"
+       :config="detailTableConfig" 
+       :allTableData="detailTableData"/> 
     </div>
+  </div> 
 </template>
 
 <script>
-import Sticky from '@/components/Sticky'
-import NestingTable from '@/components/Table/nestingTable'
-import { addTableConfig,addChildTableConfig } from './components/config';
-import { toAddRegister,addReceiveRegiste,registerDetail,registerUpdate } from '@/api/provider'
 import { mapGetters } from 'vuex'
-import _  from 'lodash';
+import SearchFrom from './components/addSearch'
+import { detailTableConfig } from './components/config';
+import { getInvoiceAmmount,saveAccountBill } from '@/api/reconciliation.js'; 
 import moment from 'moment';
+import webPaginationTable from '@/components/Table/webPaginationTable'; 
 export default {
-  components: { Sticky,NestingTable},
+  components: {webPaginationTable,SearchFrom},
    data() {
     return {
       searchForm:{
-        arrivalName:'',
-        busiBillNo:'',
-        contractNo:'',
-        receiveCreateTime :'', 
-        receiveName:'',
-        receiveTel:'',
-        receiveAddr:'',
+         time:[],
+         ownerCode:'',
+         ownerName:'',
+         serviceRate:''
       },
-      successfulUploadFiles:[],
-      addTableConfig,
-      addChildTableConfig,
-      tableData:[],
-      loading:false,
-      saveLoading:false,
-      submitLoading:false,
+      tableLoading:false,
+      detailTableConfig,
+      detailTableData:[],
+
+      totalData:{},
+      buttonLoding:false
+
     }
-  },
-
-  mounted(){
-    let dataApi=toAddRegister;
-    if(this.$route.query.edit){
-      dataApi=registerDetail;
-    }
-    dataApi({
-       id:this.$route.query.id
-    }).then(res=>{
-       if(res.success){
-          let arr=res.data&&res.data.itemList||[];
-          if(this.$route.query.edit){
-            this.searchForm=res.data;
-            this.searchForm.arrivalName=res.data&&res.data.receiveEnterprise;
-            this.searchForm.busiBillNo=res.data&&res.data.outBusiBillNo;
-            this.tableData=arr.map(v=>{
-                let json=v;
-                json.billDetailList=v.detailList||[];
-                return json;
-            }); 
-          } else{
-            this.searchForm.arrivalName=res.data&&res.data.arrivalName
-            this.searchForm.busiBillNo=res.data&&res.data.busiBillNo
-            this.searchForm.contractNo=res.data&&res.data.contractNo
-            this.tableData=arr.map(v=>{
-                let json=v;
-                if(v.detailList&&Array.isArray(v.detailList)){
-                  json.billDetailList=v.detailList.map(item=>{
-                    let childJson=item;
-                    childJson.receiveQty=(item.purchaseQty-item.realInQty)||0;
-                    return childJson;
-                  })
-                }
-                return json;
-            }); 
-          }
-       }
-    }).catch(err=>{
-      console.log(err)
-    });
-
-    this.operationDom()
-  },
-
-  updated(){
-    this.operationDom()
   },
 
   computed: {
-    ...mapGetters({
-      visitedViews: 'visitedViews',
-    }),
+    ...mapGetters([
+        'visitedViews',
+        'userInfo'
+      ])
   },
 
   methods:{
-      operationDom(){
-         let dom=document.querySelectorAll('.sub-navbar >div');
-          [...dom].forEach(item=>{
-            if(item.innerHTML==='sticky'){
-              item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-            }
-          })
-      },
 
-      goeditrow(index) {
-        let data= _.cloneDeep(this.tableData);
-        if(!data[index]['billDetailList']||!data[index]['billDetailList'].length){
-          return ''
-        }
-        data[index].edit=!data[index].edit;
-        data[index]['billDetailList']=data[index]['billDetailList'].map(v=>{
-          let json=v;
-          json.edit=!v.edit
-          return json;
-        })
-        this.tableData=data;
-        console.log([...this.tableData])
-      },
-
-    fileListChange(successfulUploadFiles){
-      this.successfulUploadFiles=successfulUploadFiles
-    },
-
-    submit(type){
-       const view = this.visitedViews.filter(v => v.path === this.$route.path)
-       let subApi=addReceiveRegiste;
-       if(this.$route.query.edit){
-         subApi=registerUpdate;
-       }
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             let json=_.cloneDeep(this.searchForm);
-             json.planCode=this.$route.query.planCode;
-             if(type==="save"){
-              json.receiveStatus=0;
-              this.saveLoading=true;
-             } else if(type==="submit"){
-              json.receiveStatus=1;
-              this.submitLoading=true;
-             }
-             json.files=this.successfulUploadFiles;
-             json.itemList=this.tableData.map(v=>{
-               let json=v;
-               json.outPlanDetailid=v.id;
-               json.detailList=[];
-               if(Array.isArray(v.billDetailList)){
-                 json.detailList=v.billDetailList.map(v=>{
-                   let childJson=v;
-                   childJson.planQty=v.purchaseQty;
-                   childJson.realQty=v.realInQty;
-                   return childJson;
-                 })
-               }
-               return json;
-             });
-             if(json.receiveCreateTime){
-               json.receiveCreateTime=moment(json.receiveCreateTime).valueOf()
-             }
-             console.log({...json})
-             subApi(json).then(res=>{
-               if(res.success){
-                  this.saveLoading=false;
-                   this.$message({
-                      type:'success',
-                      message:'操作成功,1.5s后跳往详情页',
-                      duration:1500,
-                      onClose:()=>{
-                        this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                            if(this.$route.query.edit){
-                               this.$router.push({
-                                path:'/provider/detail', 
-                                query:{id:this.$route.query.id }
-                              })
-                            } else{
-                              this.$router.push({
-                                path:'/provider/detail', 
-                                query:{id:res.data.id }
-                              })
-                            }
-                        }).catch(err=>{ 
-                          console.log(err)   
-                        })  
-                      }
-                  }) 
-               }
-             }).catch(err=>{
+    submit(value,type){
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
+      this.searchForm=value;
+      let {time,ownerName,ownerCode ,serviceRate}=value;
+      if(isNaN(serviceRate)||serviceRate<0||serviceRate>100){
+        this.$message.error('服务百分比应为1-100之间的数值');
+        return ''
+      }
+      serviceRate=serviceRate/100;
+      let startTime=moment(time[0]).valueOf();
+      let endTime=moment(time[1]).valueOf();
+      let json={
+        startTime,
+        endTime,
+        ownerName,
+        ownerCode,
+        serviceRate
+      }
+      if(type==='pull'){
+        this.getCurrentTableData(json)
+      } else if(type==='submit'){
+          if(this.totalData.billAmt!==undefined&&this.totalData.serviceCharge!==undefined){
+              if(!this.detailTableData.length){
+                 this.$message.error('操作失败,明细不能为空');
+              }
+              this.buttonLoding=true;
+              saveAccountBill({
+                ...json,
+                billAmt:this.totalData.billAmt,
+                serviceChargeAmt:this.totalData.serviceCharge,
+                operatorName:this.userInfo.truename,
+                operator:this.userInfo.id,
+                fromSystemCode:'TIGER'
+              }).then(res=>{
+                this.buttonLoding=false;
+                if(res.success){
                 this.$message({
-                  type: 'error',
-                  message:'操作失败'
-                })
+                  type:'success',
+                  message:'操作成功,1.5s后跳往详情页',
+                  duration:1500,
+                  onClose:()=>{
+                    this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                        this.$router.push({
+                          path:'/reconciliation/detail',
+                          query:{id:res.data }
+                        })
+                    }).catch(err=>{ 
+                      console.log(err)
+                    })  
+                  }
+                  })
+                }
+              }).catch(err=>{
+                this.buttonLoding=false;
+                this.$message.error('操作失败');
                 console.log(err)
-                this.saveLoading=false;
-                this.submitLoading=false;
-             })
+              })
           } else{
-            return false;
+             this.$message.error('操作失败,请尝试重新拉取对账单');
           }
-       })
+      }
     },
+
+    pullout(){
+      this.$refs['searchForm'].submit('pull')
+    },
+
+
+    getCurrentTableData(json){
+      this.tableLoading=true;
+        getInvoiceAmmount(json).then(res=>{
+          this.tableLoading=false;
+          if(res.success){
+              this.totalData=res.data;
+              if(res.data&&Array.isArray(res.data.items)){
+                this.detailTableData=res.data.items.filter(v=>v!==null)
+              }
+          }
+        }).catch(err=>{
+          console.log(err)
+          this.tableLoading=false;
+        }) 
+    },
+
 
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-    .provider-add{
-      .el-form-item{
-        height:30px;
-        margin-bottom: 36px
+  .abnormalGoods{
+      .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
       }
-    }
      
-
+    }
+  }
 </style>
+

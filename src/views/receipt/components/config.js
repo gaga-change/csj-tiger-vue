@@ -68,3 +68,16 @@ export const recordConfig=[//操作记录
   { label:'操作者',prop:'applyCode'},
   { label:'发票日期',prop:'cusName',type:'time',}
 ]
+
+
+export const queryTableConfig=[//收款查询页面配置
+  { label:'客户名称',prop:''},
+  { label:'订单编号',prop:''},
+  { label:'合同编号',prop:''},
+  { label:'业务板块',prop:''},
+  { label:'款项性质',prop:''},
+  { label:'货款金额',prop:''},
+  { label:'贴息',prop:''},
+  { label:'实收金额',prop:''},
+  { label:'货主',prop:''},
+]

@@ -324,14 +324,14 @@ export default [
         path: 'add',
         meta: { title: '新增对账单', noCache: true },
         component: _import('reconciliation/add'),
-        hidden: false,
+        hidden: true,
       },
       {
         name: 'detail',
         path: 'detail',
         meta: { title: '对账单详情', noCache: true },
         component: _import('reconciliation/detail'),
-        hidden: false,
+        hidden: true,
       },
 
     ]

@@ -1,13 +1,42 @@
 <template lang="html">
    <div class="entryInvoice-form">
-  
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template >
+         <el-button  type="success"size="small" @click="submit('submit')">生成对账单 </el-button>
+      </template>
+    </sticky>
+
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
-    
-           <el-col :span="6" style="min-width:300px">
-             <el-form-item label="交易主体"  label-width="80px" style="width:300px" >
+  
+          <el-col :span="12" style="min-width:300px" >
+            <el-form-item
+             label="对账日期" 
+             prop="time"
+             :rules="[
+               { required: true, message: '该项为必填'},
+             ]">
+              <el-date-picker
+                v-model="searchForm.time"
+                type="daterange"
+                unlink-panels
+                size="small" 
+                style="width:400px"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6" style="min-width:330px">
+             <el-form-item label="交易主体" 
+             prop="ownerCode"
+             :rules="[
+               { required: true, message: '该项为必填'},
+             ]">
               <el-select v-model="searchForm.ownerCode" 
-               @change="submit" 
                size="small"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
                 <el-option
                    v-for="item in mapConfig['ownerInfoMap']" 
@@ -19,29 +48,22 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:500px">
-            <el-form-item label="对账单创建日期" label-width="100px"  >
-              <el-date-picker
-                v-model="searchForm.time"
-                type="daterange"
-                align="right"
-                style="width:400px" 
-                unlink-panels
-                 @change="submit" 
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :picker-options="pickerOptions">
-              </el-date-picker>
+          <el-col :span="6" style="min-width:300px">
+            <el-form-item label="服务百分比" 
+             label-width="90px" 
+             prop="serviceRate"
+             :rules="[
+               { required: true, message: '该项为必填'},
+             ]">
+               <el-input type="text" size="small"
+                 placeholder="输入服务百分比" v-model.number="searchForm.serviceRate" >
+                 <template  slot="append">
+                     <span>%</span>
+                  </template>
+               </el-input>
             </el-form-item>
-          </el-col>
-      
-          <el-col :span="24">
-            <el-form-item label-width="0">
-              <el-button type="primary"  size="small"  @click="submit">查询</el-button>
-              <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
-            </el-form-item>
-          </el-col>
+          </el-col> 
+
 
         </el-row>  
     </el-form>
@@ -51,7 +73,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Sticky from '@/components/Sticky'
 export default {
+  components: { Sticky},
   data() {
     return {
       pickerOptions: {
@@ -94,36 +118,26 @@ export default {
        type:Object,
        default:()=>{}
      },
+
+     buttonLoding:{
+       type:Boolean,
+       default:false
+     }
   },
   
-  mounted(){
-   console.log({...this.mapConfig})
-  },
 
   methods:{
-
-    submit(){
+  
+    submit(type){
        this.$refs['searchForm'].validate((valid) => {
           if (valid) {
-             this.$emit('submit',this.searchForm)
+             let ownerName=this.mapConfig['ownerInfoMap'].find(v=>v.key===this.searchForm.ownerCode).value
+             this.$emit('submit',{...this.searchForm,ownerName},type)
           } else{
             return false;
           }
        })
     },
-
-    resetForm(){
-      let data = _.cloneDeep(this.searchForm);
-      let json={};
-      for(let i in data){
-        if(Array.isArray(data[i])){
-          json[i]=[]
-        } else{
-          json[i]=''
-        } 
-      }
-      this.$emit('submit',json)
-    }
   }
 
 }

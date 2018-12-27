@@ -2,62 +2,21 @@
   <div  class="abnormalGoods">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
+
          <el-button  type="success"
-          size="small"  
-          @click="edit" 
-          v-if="[0,2].includes(detailBaseInfoData.receiveStatus)" >
+          size="small">
             修改
           </el-button>
 
-         <el-button  type="success"
-          size="small"  
-          :loading="subLoding"
-          @click="Modify({ 
-            prompt:'确定要提交吗?',
-            successTips:'操作成功',
-            errorTips:'操作失败',
-            api:'registerCommit'})"  
-            v-if="[0,2].includes(detailBaseInfoData.receiveStatus)" >
-            提交
+          <el-button  type="success"
+          size="small">
+            生成付款申请
           </el-button>
 
-         <el-button  type="success"
-          size="small"  
-          :loading="examineLoding"
-          @click="Modify({ 
-          flag:0,
-          prompt:'请输入审核意见！',
-          successTips:'操作成功',
-          errorTips:'操作失败',
-          api:'registerApprove'})" 
-          v-if="[1].includes(detailBaseInfoData.receiveStatus)" >
-             审核
+          <el-button  type="success"
+          size="small">
+            修改确认
           </el-button>
-
-         <el-button  type="success" 
-         size="small" 
-          :loading="rejectLoding"
-          @click="Modify({ 
-          flag:1,
-          prompt:'请输入驳回意见！',
-          successTips:'操作成功',
-          errorTips:'操作失败',
-          api:'registerApprove'})"  
-         v-if="[1].includes(detailBaseInfoData.receiveStatus)" >
-           驳回
-         </el-button>
-
-         <el-button  size="small" 
-          :loading="deletLoding"
-          @click="Modify({ 
-            prompt:'确定要删除吗?',
-            successTips:'操作成功',
-            errorTips:'操作失败',
-            api:'registerDrop'})"  
-            v-if="[0,2].includes(detailBaseInfoData.receiveStatus)">
-            删除
-          </el-button>
-
       </template>
     </sticky>
      
@@ -67,15 +26,15 @@
      </div>
    
     <div style="margin-bottom:12px">
-      <item-title text="相关明细" />  
-      <nesting-table 
-        :loading="loading"
-        :useEditExpand="true"
-        :defaultExpandAll="true"
-        childTableDataKey="detailList"
-        :config="detailTableConfig" 
-        :childConfig="addChildTableConfig"
-        :allTableData="detailTableData"/>
+      <item-title text="对账单明细" /> 
+      <div class="tableTotal" v-if="totalData&&totalData.billAmt!==undefined||totalData.serviceCharge!==undefined">
+       <span>该段时间内销售发票金额</span> : <span>{{totalData&&totalData.billAmt&&Number(totalData.billAmt).toFixed(2)}}</span>
+       <span>服务费金额</span> : <span>{{totalData&&totalData.serviceCharge&&Number(totalData.serviceCharge).toFixed(2)}}</span>
+      </div>
+      <web-pagination-table 
+       :loading="tableLoading"
+       :config="detailTableConfig" 
+       :allTableData="detailTableData"/> 
     </div>
 
 
@@ -84,28 +43,23 @@
 
 <script>
 import Sticky from '@/components/Sticky'
-import Modify from './components/modify'
-import NestingTable from '@/components/Table/nestingTable'
-import { detailBaseInfoConfig,detailTableConfig,addChildTableConfig } from './components/config';
-import { registerDetail } from '@/api/provider'
-import { mapGetters } from 'vuex'
-import _  from 'lodash';
+import { detailBaseInfoConfig,detailTableConfig } from './components/config';
+import { queryAccountBill,getInvoiceAmmount } from '@/api/reconciliation.js'; 
+import webPaginationTable from '@/components/Table/webPaginationTable'; 
 export default {
-  components: { Sticky,NestingTable},
+  components: { Sticky,webPaginationTable},
    data() {
     return {
       detailBaseInfoConfig,
       loading:false,
       detailBaseInfoData:{},
 
+      tableLoading:false,
       detailTableConfig,
       detailTableData:[],
-      addChildTableConfig,
 
-      subLoding:false,
-      examineLoding:false,
-      rejectLoding:false,
-      deletLoding:false,
+      totalData:{}
+
     }
   },
 
@@ -128,44 +82,59 @@ export default {
     })
   },
 
-  computed: {
-    ...mapGetters({
-      visitedViews: 'visitedViews',
-    })
-  },
 
   methods:{
-    Modify,
     getCurrentTableData(){
       this.loading=true;
-      registerDetail({
+      this.tableLoading=true;
+      queryAccountBill({
         id:this.$route.query.id
       }).then(res=>{
-        if(res.success){
-           this.detailBaseInfoData=res.data;
-           this.detailTableData=res.data&&res.data.itemList||[];
-        }
          this.loading=false;
+         if(res.success){
+           if(res.data&&res.data[0]){
+              this.detailBaseInfoData=res.data[0];
+              let {startTime,endTime,ownerName,ownerCode,serviceRate}=this.detailBaseInfoData;
+              getInvoiceAmmount({
+                 startTime,
+                 endTime,
+                 ownerCode,
+                 ownerName,
+                 serviceRate
+              }).then(res=>{
+                this.tableLoading=false;
+                if(res.success){
+                  this.totalData=res.data;
+                  if(res.data&&Array.isArray(res.data.items)){
+                     this.detailTableData=res.data.items.filter(v=>v!==null)
+                  }
+                }
+              }).catch(err=>{
+                console.log(err)
+                this.tableLoading=false;
+              })
+
+           }
+         }
       }).catch(err=>{
         console.log(err)
-         this.loading=false;
+        this.loading=false;
+        this.tableLoading=false;
       })
+
     },
 
-    edit(){
-       this.$router.push({
-          path:'/provider/add', 
-          query:{id:this.$route.query.id,planCode:this.$route.query.planCode,edit:true}
-        })
-    }
-   
+
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
   .abnormalGoods{
-    .tableTotal{
+   .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
       span{
          font-size: 12px;
          color:#606266;
