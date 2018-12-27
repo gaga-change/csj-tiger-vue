@@ -1,6 +1,11 @@
 <template>
   <div  class="abnormalGoods">
       <search-invoice  :searchForm="searchForm"   @submit="this.submit"  ></search-invoice>
+      <div class="tableTotal" v-if="totalData&&totalData.totalOrderAmt!==undefined||totalData.totalInterestAmt!==undefined||totalData.totalPayableAmt!==undefined">
+       <span>贷款合计</span> : <span>{{totalData&&totalData.totalOrderAmt&&Number(totalData.totalOrderAmt).toFixed(2)}}</span>
+       <span>贴息合计</span> : <span>{{totalData&&totalData.totalInterestAmt&&Number(totalData.totalInterestAmt).toFixed(2)}}</span>
+       <span>实收合计</span> : <span>{{totalData&&totalData.totalPayableAmt&&Number(totalData.totalPayableAmt).toFixed(2)}}</span>
+     </div>
       <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -18,25 +23,28 @@
 import SearchInvoice from '../components/querySearch'
 import { queryTableConfig } from '../components/config';
 import BaseTable from '@/components/Table'
+import { orderList,orderListTotal } from '@/api/receipt'
 import _  from 'lodash';
 export default {
   components: { SearchInvoice,BaseTable, },
    data() {
     return {
       searchForm:{
-        客户名称:'',
-        订单编号:'',
-        合同编号:'',
-        业务板块:'',
-        货主:'',
-        款项性质:'',
+        paymenterName:'',
+        busiBillNo:'',
+        contractNo:'',
+        busiPlate:'',
+        ownerCode:'',
+        moneyState:'',
       },
       pageSize:10,
       pageNum:1,
       total:0,
       loading:false,
       queryTableConfig,
-      tableData:[]
+      tableData:[],
+
+      totalData:{}
     }
   },
 
@@ -71,8 +79,31 @@ export default {
           json[i]=this.searchForm[i]
         }
       }
-      
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
+      orderList({
+        ...json,
+        pageSize:this.pageSize,
+        pageNum:this.pageNum
+      }).then(res=>{
+        if(res.success){
+           this.tableData=res.data&&res.data.list||[];
+           this.total=res.data.total;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+
+      orderListTotal({
+        ...json,
+        pageSize:this.pageSize,
+        pageNum:this.pageNum
+      }).then(res=>{
+         if(res.success){
+            this.totalData=res.data;
+         }
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   }
 }
@@ -80,7 +111,22 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
   .abnormalGoods{
-    
+    .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
+    }
   }
 </style>
 

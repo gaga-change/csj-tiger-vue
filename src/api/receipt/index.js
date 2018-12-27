@@ -114,3 +114,17 @@ export function allSaleman() {
     method: 'get',
   })
 }
+
+export function orderList(data) {
+  return request({
+    url: `/webApi/receive/relate/order/list?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+export function orderListTotal(data) {
+  return request({
+    url: `/webApi/receive/relate/order/list/total?${stringify(data)}`,
+    method: 'get',
+  })
+}

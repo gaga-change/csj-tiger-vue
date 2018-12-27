@@ -63,7 +63,7 @@
                 :highlightCurrentRow="true"
                 @currentRedioChange="currentRedioChange"
                 :config="detailsConfig" 
-                :allTableData="outBillNoTableData"/> 
+                :allTableData="alertTableData"/> 
 
                 <div class="sure-btn" >
                   <el-button type="primary" size="mini" :loding="sureLoding"  @click="matchSku">确定</el-button>
@@ -76,7 +76,7 @@
 
 <script>
  import { manualBaseInfoConfigLeft,manualBaseInfoTableConfig,matchingTableConfig,alertTopConfig, alertBottomConfig,detailsConfig} from './config';
- import { outPlanDetail,planGetBill,planAutoMatch,planHandMatch,planCancelMatch} from '@/api/outgoing'
+ import { outPlanDetail,planGetBill,planAutoMatch,planHandMatch,planCancelMatch,getBillDetail} from '@/api/outgoing'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import { mapGetters } from 'vuex'
  import _  from 'lodash';
@@ -107,6 +107,8 @@
 
         sureLoding:false,
         cancelLoding:false,
+
+        alertTableData:[]
         
       }
     },
@@ -246,9 +248,10 @@
              this.planLoading=false;
             if(res.success){ 
               this.planCardData=res.data;
-              if(res.data&&res.data.busiBillNo){
-                 this.getPlanGetBill(res.data.busiBillNo);
-                 this.getPlanAutoMatch(this.$route.query.planCode,res.data.busiBillNo)
+              if(res.data&&res.data.contractNo){
+                 this.getPlanGetBill(res.data.contractNo);
+                 this.getBillDetailApi(res.data.contractNo)
+                 this.getPlanAutoMatch(this.$route.query.planCode,res.data.contractNo)
               }
             }
          }).catch(err=>{
@@ -258,7 +261,7 @@
       },
 
       foamatAlert(){
-         let data= _.cloneDeep(this.outBillNoTableData);
+         let data= _.cloneDeep(this.alertTableData);
           data.forEach(item=>{
             if(item.id===this.clickId){
               item.isIcon=true;
@@ -266,17 +269,35 @@
               item.isIcon=false;
             }
           })
-        this.outBillNoTableData=data;
+        this.alertTableData=data;
       },
 
-      getPlanGetBill(outBillNo){
+      getBillDetailApi(contractNo){
+        getBillDetail({
+          contractNo:contractNo
+        }).then(res=>{
+          if(res.success){
+            if(res.data.length){
+               this.alertTableData=res.data.map(v=>{
+                 let json=v;
+                 json.id=v.busiIndex;
+                 return json;
+               });
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+
+      getPlanGetBill(contractNo){
         this.outBillNoLoading=true;
          planGetBill({
-           outBillNo:outBillNo
+           contractNo:contractNo
          }).then(res=>{
            this.outBillNoLoading=false;
            if(res.success){
-              this.outBillNoTableData=res.data&&res.data.purchaseItemAndSalesItemList||[];
+              this.outBillNoTableData=res.data||[];
               this.foamatAlert()
             }
          }).catch(err=>{
@@ -285,11 +306,11 @@
          })
       },
 
-      getPlanAutoMatch(planCode,outBillNo){
+      getPlanAutoMatch(planCode,contractNo){
         this.matchLoading=true;
         planAutoMatch({
           planCode:planCode,
-          outBillNo:outBillNo
+          contractNo:contractNo
         }).then(res=>{
           this.matchLoading=false;
           if(res.success){

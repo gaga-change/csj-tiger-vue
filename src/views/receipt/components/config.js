@@ -71,13 +71,13 @@ export const recordConfig=[//操作记录
 
 
 export const queryTableConfig=[//收款查询页面配置
-  { label:'客户名称',prop:''},
-  { label:'订单编号',prop:''},
-  { label:'合同编号',prop:''},
-  { label:'业务板块',prop:''},
-  { label:'款项性质',prop:''},
-  { label:'货款金额',prop:''},
-  { label:'贴息',prop:''},
-  { label:'实收金额',prop:''},
-  { label:'货主',prop:''},
+  { label:'客户名称',prop:'paymenterName'},
+  { label:'订单编号',prop:'busiBillNo'},
+  { label:'合同编号',prop:'contractNo'},
+  { label:'业务板块',prop:'busiPlate',type:'busiPlateConfig', useLocalEnum:true,},
+  { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true,},
+  { label:'货款金额',prop:'orderAmt'},
+  { label:'贴息',prop:'interestAmt'},
+  { label:'实收金额',prop:'payableAmt'},
+  { label:'货主',prop:'ownerCode', type:'ownerInfoMap',useApi:true},
 ]

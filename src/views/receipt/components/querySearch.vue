@@ -6,19 +6,19 @@
       
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="客户名称" label-width="80px"  >
-              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model="searchForm.客户名称" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model="searchForm.paymenterName" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6"  style="min-width:300px">
             <el-form-item label="订单编号"  label-width="80px" >
-              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入订单编号"    v-model="searchForm.订单编号" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入订单编号"    v-model="searchForm.busiBillNo" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6"  style="min-width:300px">
             <el-form-item label="合同编号" label-width="80px"  >
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model="searchForm.合同编号" ></el-input>
+              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -26,7 +26,7 @@
 
           <el-col :span="6"  style="min-width:300px">
              <el-form-item label="业务板块"  label-width="80px"  >
-              <el-select v-model="searchForm.业务板块" 
+              <el-select v-model="searchForm.busiPlate" 
               size="small"  filterable clearable placeholder="请选择业务板块" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in busiPlateConfig"
@@ -40,7 +40,7 @@
            
           <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="货主"  >
-              <el-select  size="small"    v-model="searchForm.货主"   placeholder="请选择货主">
+              <el-select  size="small"    v-model="searchForm.ownerCode"   placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -48,7 +48,7 @@
 
             <el-col :span="6"  style="min-width:300px">
              <el-form-item label="款项性质"  label-width="80px"  >
-              <el-select v-model="searchForm.款项性质" 
+              <el-select v-model="searchForm.moneyState" 
               size="small"  filterable clearable placeholder="请选择款项性质" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in MoneyStateEnum"

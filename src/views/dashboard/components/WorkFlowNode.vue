@@ -1,11 +1,15 @@
 <template lang="html">
-  <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
-        <el-tab-pane label="我的待办" name="willtodo">
+  <el-tabs v-model="tabActive" type="card" @tab-click="activeChange" >
+        <el-tab-pane label="我的待办"  name="willtodo">
            <span slot="label">
             <i class="el-icon-date"></i> 我的待办
             <el-badge :value="nums" class="item"></el-badge>
           </span>
-          <el-table :data="showlist" border style="height:500px;overflow-y:auto">
+          <el-table 
+          :data="showlist" 
+           v-loading="loading"
+           border 
+          style="height:500px;overflow-y:auto">
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -27,6 +31,14 @@
                 <router-link :to="{ path: `/abnormalGoods/todoDetail?title=${scope.row.title}` }" v-else-if="scope.row.type === '采购退货'">
                   {{scope.row.title}}
                 </router-link>
+
+                 <router-link :to="{ path: `saleorder/saleorderdetail?title=${scope.row.title}&taskId=${scope.row.taskId}` }"   v-else-if="scope.row.type === '销售订单'">
+                    {{scope.row.title}}
+                  </router-link>
+
+                    <router-link :to="{ path: `purchaseorder/purchaseorderdetail?title=${scope.row.title}&taskId=${scope.row.taskId}` }" v-else-if="scope.row.type === '采购订单'">
+                    {{scope.row.title}}
+                  </router-link>
 
                 <router-link :to="{ path: `/salecontract/salecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-else-if="scope.row.type === '销售合同'">
                   {{scope.row.title}}
@@ -90,6 +102,14 @@
                   </a> -->
 
                   <router-link :to="{ path: `/purchasecontract/purchasecontractdetail/${scope.row.title}/${scope.row.taskId}` }" v-if="scope.row.type === '采购合同'">
+                    {{scope.row.title}}
+                  </router-link>
+
+                  <router-link :to="{ path: `saleorder/saleorderdetail?title=${scope.row.title}&taskId=${scope.row.taskId}` }"   v-else-if="scope.row.type === '销售订单'">
+                    {{scope.row.title}}
+                  </router-link>
+
+                    <router-link :to="{ path: `purchaseorder/purchaseorderdetail?title=${scope.row.title}&taskId=${scope.row.taskId}` }" v-else-if="scope.row.type === '采购订单'">
                     {{scope.row.title}}
                   </router-link>
 

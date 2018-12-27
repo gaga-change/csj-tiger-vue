@@ -157,10 +157,10 @@ export default [
     name: 'purchaseorder',
     alwaysShow: false,
     hidden: true,
-    meta: { title: '采购订单管理', icon: 'purchase', roles: ['service_finance', 'service_business_verify', 'service_business', 'service_market'] }, // you can set roles in root nav
+    meta: { title: '采购订单管理', icon: 'purchase'  }, 
     children: [
       {
-        path: 'purchaseorderdetail/:ticketno',
+        path: 'purchaseorderdetail',
         component: _import('purchaseorder/purchaseorderdetail'),
         name: 'purchaseorderdetail',
         hidden: true,
@@ -168,7 +168,6 @@ export default [
           title: '采购订单详情',
           icon: 'form',
           noCache: true,
-          roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market']
         }
       }
     ]
@@ -180,10 +179,10 @@ export default [
     name: 'saleorder',
     alwaysShow: false,
     hidden: true,
-    meta: { title: '销售订单管理', icon: 'sale', roles: ['service_finance', 'service_business', 'service_business_verify', 'service_market'] }, // you can set roles in root nav
+    meta: { title: '销售订单管理', icon: 'sale' }, 
     children: [
       {
-        path: 'saleorderdetail/:ticketno',
+        path: 'saleorderdetail',
         component: _import('saleorder/saleorderdetail'),
         name: 'saleorderdetail',
         hidden: true,
@@ -191,7 +190,6 @@ export default [
           title: '销售订单详情',
           icon: 'form',
           noCache: true,
-          roles: ['service_business', 'service_business_verify', 'service_finance', 'service_market']
         }
       }
     ]
