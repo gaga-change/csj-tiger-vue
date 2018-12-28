@@ -7,6 +7,7 @@ export const indexTableConfigApply=[//申请列表
   { label:'计划开票数量',prop:'numberOfInvoices', width:120 },
   { label:'单据创建时间',prop:'gmtCreate',type:'time', width:120 },
   { label:'创建人',prop:'createrName', width:120 },
+  { label:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig',},
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },
   { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true, minWidth:90},
   { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
@@ -22,7 +23,7 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'单据创建时间',prop:'gmtCreate',type:'time', width:120 },
   { label:'创建人',prop:'createrName', width:120 },
-  // { label:'业务板块',prop:'cusName2', width:80 },
+  { label:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig',},
   { label:'发票号',prop:'invoiceCode', width:120 },
   { label:'发票申请日期',prop:'applyTime', width:100, dom: (row, column, cellValue, index)=>{
     return cellValue ? Moment(cellValue).format('YYYY-MM-DD') : ''
