@@ -200,7 +200,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="备注" label-width="80px" prop="remarkInfo">
-            <el-input type="textarea" size="small" :maxlength="100" v-model="payment.remarkInfo"></el-input>
+            <el-input type="textarea" size="small" :maxlength="100" v-model="payment.remarkInfo" placeholder="一百字以内"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
