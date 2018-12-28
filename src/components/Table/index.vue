@@ -7,12 +7,17 @@
         :data="tableData"
         :highlight-current-row="highlightCurrentRow"
         @current-change="handleCurrentRedioChange"
+        @selection-change="handleSelectionChange"
         :summary-method="summaryMethod"
         :border="border"
         :show-summary="showSummary"
         size="small"
         :style="tableStyle">
-
+          <el-table-column
+            type="selection"
+            v-if="showMul"
+            width="55">
+          </el-table-column>
           <el-table-column
             v-for="item in tableConfig"
             :formatter="item.formatter"
@@ -122,6 +127,10 @@ export default {
       type: Number,
       default: 0
     },
+    showMul:{//多选框
+      type:Boolean,
+      default:false
+    }
    
   },
 
@@ -224,6 +233,11 @@ export default {
 
      handleCurrentRedioChange(currentRow, oldCurrentRow){
        this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
+     },
+     handleSelectionChange(val){
+       console.log(123,'ssss');
+       
+       this.$emit('selectionPartentChange',val)
      }
 
 
