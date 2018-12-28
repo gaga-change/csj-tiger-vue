@@ -66,8 +66,8 @@ export  const listIndexConfig=[ //list页配置
             },0)
         }
       } else if(type==='detailSum'){
-        if(row.detailVOList&&Array.isArray(row.detailVOList)){
-          return row.detailVOList.reduce((a,b)=>{
+        if(row.detailList&&Array.isArray(row.detailList)){
+          return row.detailList.reduce((a,b)=>{
             return a+(b.receiveQty||0);
           },0)
         }
