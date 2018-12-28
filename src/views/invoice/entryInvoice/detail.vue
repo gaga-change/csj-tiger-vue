@@ -23,6 +23,7 @@
        <item-title text="相关明细"/>
        <web-pagination-table 
        :loading="loading"
+       :showSummary="true"
        :config="listDetailTableConfig" 
        :allTableData="tableData"/>
    </div>
@@ -31,7 +32,7 @@
 <script>
 import { listDetailConfig,listDetailTableConfig } from './components/config';
 import Modify from './components/modify'
-import webPaginationTable from '@/components/Table/webPaginationTable'
+import webPaginationTable from '@/components/Table/headerTable'
 import { findFinaPurchaseInvoice,dropPurInvoice } from '@/api/void/list'
 import Sticky from '@/components/Sticky' 
 import _  from 'lodash';
@@ -47,7 +48,7 @@ export default {
     }
   },
   methods: {
-    Modify,
+     Modify,
     dropPurInvoiceApi(){
       this.$confirm('是否确定删除?', '提示', {
         confirmButtonText: '确定',

@@ -119,7 +119,7 @@ export default {
             })
 
             let invoiceAmt=val.reduce(function(a,b){
-              return a+b.invoiceQty*b.inPrice
+              return a+b.invoiceQty*b.incomingUnitPrice
             },0);
             
             this.searchForm.invoiceAmt=invoiceAmt;
@@ -127,7 +127,7 @@ export default {
           
 
             let invoiceTaxAmt=val.reduce(function(a,b){
-               return a+(b.invoiceQty*b.inPrice)/(1+b.taxRate)*b.taxRate
+               return a+(b.invoiceQty*b.incomingUnitPrice)/(1+b.taxRate)*b.taxRate
             },0);
 
             this.searchForm.invoiceTaxAmt=invoiceTaxAmt;
@@ -247,6 +247,7 @@ export default {
             json.taxRate=v.taxRate/100;
             json.billDetailId=v.busiBillNo;
             json.maxNum=v.invoiceQty||0;
+            json.incomingUnitPrice=v.inPrice;
             json.invoiceQty=isNaN(v.invoicedQty)?v.realInQty:v.realInQty-v.invoicedQty
             return json;
           });;

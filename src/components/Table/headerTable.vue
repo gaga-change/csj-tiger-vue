@@ -12,47 +12,56 @@
         :summary-method="getSummaries||getSummarie"
          @selection-change="handleSelectionChange"
         :style="tableStyle"> 
-
          <el-table-column
             v-for="item in config"
             :fixed="item.fixed"
             :width="item.width"
+            align="center"
             :min-width="item.minWidth"
             :key="item.label"
             :label="item.label">
-             <template slot-scope="scope">
-                <template v-if="item.useEdit">
-                  <template v-if="scope.row&&scope.row.edit">
-                    <el-input
-                        size="mini"
-                        v-if="item.editType"
-                        :style="`width:${item.width-20}px`"
-                        :type="item.editType"
-                        :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
-                        :min="item.min||0"
-                        v-model="scope.row[item.prop]" >
-                    </el-input>
-                    <el-input-number
-                        size="mini"
-                        v-else
-                        :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
-                        :min="item.min||0"
-                        :style="`width:${item.width-20}px`"
-                        v-model="scope.row[item.prop]" >
-                    </el-input-number>
-                   </template>
-                   <span v-else>
-                    {{formatter(scope.row,item,scope.row[item.prop],scope.$index)}}
-                   </span>
+            <el-table-column
+              v-for="childrenItem in item.children"
+              :fixed="childrenItem.fixed"
+              :width="childrenItem.width"
+              :min-width="childrenItem.minWidth"
+              :key="childrenItem.label"
+              :label="childrenItem.label">
+                <template slot-scope="scope">
+                    <template v-if="childrenItem.useEdit">
+                      <template v-if="scope.row&&scope.row.edit">
+                        <el-input
+                            size="mini"
+                            v-if="childrenItem.editType"
+                            :style="`width:${childrenItem.width-20}px`"
+                            :type="childrenItem.editType"
+                            :max="childrenItem.max&&Array.isArray(childrenItem.max)&&scope.row[childrenItem.max[0]]-scope.row[childrenItem.max[1]]"
+                            :min="childrenItem.min||0"
+                            v-model="scope.row[childrenItem.prop]" >
+                        </el-input>
+                        <el-input-number
+                            size="mini"
+                            v-else
+                            :max="childrenItem.max&&Array.isArray(childrenItem.max)&&scope.row[childrenItem.max[0]]-scope.row[childrenItem.max[1]]"
+                            :min="childrenItem.min||0"
+                            :style="`width:${childrenItem.width-20}px`"
+                            v-model="scope.row[childrenItem.prop]" >
+                        </el-input-number>
+                      </template>
+                      <span v-else>
+                        {{formatter(scope.row,childrenItem,scope.row[childrenItem.prop],scope.$index)}}
+                      </span>
+                    </template>
+                    <span v-else-if="childrenItem.linkTo">
+                      <router-link :to="{path:childrenItem.linkTo,query:mapFormatter(childrenItem.query,scope.row)}" style="color:#3399ea">{{childrenItem.linkText?  childrenItem.linkText:scope.row[childrenItem.prop]}}</router-link>
+                    </span>
+                    <span v-else>
+                      {{formatter(scope.row,childrenItem,scope.row[childrenItem.prop],scope.$index)}}
+                    </span>
                 </template>
-                <span v-else-if="item.linkTo">
-                  <router-link :to="{path:item.linkTo,query:mapFormatter(item.query,scope.row)}" style="color:#3399ea">{{item.linkText?  item.linkText:scope.row[item.prop]}}</router-link>
-                </span>
-                <span v-else>
-                  {{formatter(scope.row,item,scope.row[item.prop],scope.$index)}}
-                </span>
-            </template>
+            </el-table-column>
           </el-table-column>
+
           <el-table-column
             v-if="useEdit"
             width="160"
@@ -67,8 +76,6 @@
             </template>
           </el-table-column>
       </el-table>
-
-
 
       <el-pagination
         v-if="total>maxTotal&&usePagination"
@@ -252,9 +259,18 @@ export default {
       getSummarie(param) {
         const { columns, data } = param;
         const sums = [];
+        let configArr=[];
+        this.config.forEach(item=>{
+          if(item.children&&Array.isArray(item.children)){
+              configArr.push(...item.children)
+          } else{
+            configArr.push(item)
+          }
+        })
+
         columns.forEach((items, index) => {
           let column=items;
-          let json=this.config.find(citems=>citems.label===items.label)||{};
+          let json=configArr.find(citems=>citems.label===items.label)||{};
           column={...items,...json};
 
           if(index===0){
@@ -305,8 +321,14 @@ export default {
 <style rel="stylesheet/scss" lang="scss" >
   .ctabel{
     width: 100%;
-   
+    .el-table--border{
+    border-color:#dbdee3; 
+    *{
+      border-color:#dbdee3 !important;
+    }
+    
+    }
+    border-bottom: 1px solid #dbdee3;
+    margin-bottom: -4px;
   }
-  
-  
 </style>

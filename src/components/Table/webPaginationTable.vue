@@ -10,6 +10,8 @@
         :highlight-current-row="highlightCurrentRow"
          size="small"
         :border="border"
+        :show-summary="showSummary"
+        :summary-method="getSummaries||getSummarie"
          @selection-change="handleSelectionChange"
         :style="tableStyle">
 
@@ -65,6 +67,13 @@ export default {
     config:{
       type: Array,
       default:()=> []
+    },
+    getSummaries:{
+      type: Function,
+    },
+    showSummary:{
+      type: Boolean,
+      default: false    
     },
     pageSizes:{
       type: Array,
@@ -192,7 +201,57 @@ export default {
 
       handleCurrentRedioChange(currentRow, oldCurrentRow){
        this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
-     }
+     },
+
+    getSummarie(param) {
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((items, index) => {
+        let column=items;
+        let json=this.config.find(citems=>citems.label===items.label)||{};
+        column={...items,...json};
+
+        if(index===0){
+          sums[index] = '合计';
+          return ;
+        } 
+        
+        if(!column.useSum){
+          return ''
+        } 
+
+        const values = data.map(item =>{
+          if(column.useSum.includes&&column.useSum.includes(',')){
+            let arr=column.useSum.split(',');
+              return arr.reduce((a,b)=>{
+                return Number(a)*Number(item[b])
+              },1)
+          } else{
+              return Number(item[column.prop])     
+          }
+        });
+
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          if(column.unitName){
+              sums[index]=Number(sums[index]).toFixed(column.fixed||2) + column.unitName;
+          } else{
+              sums[index]=Number(sums[index]).toFixed(column.fixed||2)
+          }
+        
+        } else {
+          sums[index] = '';
+        }
+      });
+      return sums;
+    }
   }
 }
 </script>
