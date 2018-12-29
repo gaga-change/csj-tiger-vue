@@ -198,7 +198,11 @@
             <el-input type="text" size="small" v-model="payment.receiveBank"></el-input>
           </el-form-item>
         </el-col>
-
+        <el-col :span="6">
+          <el-form-item label="备注" label-width="80px" prop="remarkInfo">
+            <el-input type="textarea" size="small" :maxlength="100" v-model="payment.remarkInfo" placeholder="一百字以内"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       
       <el-row :gutter="20">
@@ -291,6 +295,7 @@
           fileNew:[],
           ownerCode:'',
           ownerName:'',
+          remarkInfo:'',
         }
   //货物校验
   const goodsRules = {
