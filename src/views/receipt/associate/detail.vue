@@ -535,7 +535,7 @@
               this.relateOrderData = res.data && res.data.relationVos || []
               this.relateOrderArr = [];
               this.relateOrderData.map(item=>{
-                this.relateOrderArr.push(item.id)
+                this.relateOrderArr.push(item.busiBillNo)
               })
               this.cardData = res.data.finaReceiveDO
               let fileInfos = res.data.fileInfos || {}
