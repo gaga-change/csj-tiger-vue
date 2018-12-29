@@ -9,6 +9,7 @@
          @current-change="handleCurrentRedioChange"
         :highlight-current-row="highlightCurrentRow"
          size="small"
+        :height="height"
         :border="border"
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
@@ -70,6 +71,9 @@ export default {
     },
     getSummaries:{
       type: Function,
+    },
+    height:{
+      type: String,
     },
     showSummary:{
       type: Boolean,
