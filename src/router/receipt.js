@@ -63,6 +63,16 @@ export default [
           roles: ['service_finance']
         }
       },
+      {
+        path: 'receiptquery',
+        component: _import('receipt/receiptquery/index'),
+        name: 'receiptquery',
+        meta: {
+          title: '收款查询',
+          icon: 'search',
+          roles: ['service_finance']
+        }
+      },
     ]
   },
 ]

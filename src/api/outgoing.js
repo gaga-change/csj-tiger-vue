@@ -85,6 +85,15 @@ export function planHandMatch(data={}) {
   })
 }
 
+//匹配明细
+export function getBillDetail(data={}) {
+  return request({
+    url: `/webApi/out/plan/getBillDetail?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
+
 
 // 取消操作
 export function planCancelMatch(data={}) {

@@ -24,8 +24,10 @@
           </el-col>
 
             <el-col :span="6" style="min-width:300px"  >
-              <el-form-item label="货主名称" prop="ownerName">
-                <el-input v-model.lazy.trim="ruleForm.ownerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
+              <el-form-item label="货主"   prop="ownerCode">
+                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+                  <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
 
@@ -35,6 +37,7 @@
               </el-form-item>
             </el-col>
 
+          
             <el-col :span="24">
               <el-form-item>
                 <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
@@ -82,7 +85,7 @@
         ruleForm: {
           busiBillType: '',
           busiBillNo: '',
-          ownerName: '',
+          ownerCode:'',
           arrivalName: '',
           contractNo:'',
           pageNum: 1,

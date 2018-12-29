@@ -53,7 +53,7 @@ export const planTableConfig=[
 export const indexTableConfig=[
   { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
   { label:'合同编号',prop:'contractNo'},
-  { label:'货主名称',prop:'ownerName'},
+  { label:'货主',prop:'ownerName'},
   { label:'供应商名称',prop:'providerName'},
   { label:'入库数量',prop:'allInQty'},
   { label:'入库金额',prop:'allInAmt'},

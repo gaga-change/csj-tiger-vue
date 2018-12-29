@@ -95,6 +95,7 @@ export default {
               case 'time': return moment(value).format(format||'YYYY-MM-DD');
               case 'boolean': return Number(value)?'是':'否';
               case 'toFixed':return Number(Number(value).toFixed(2));
+              case 'rate':return Number(Number(value)*100).toFixed(2)+'%';
               default : return value
             }
           }

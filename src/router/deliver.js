@@ -305,4 +305,37 @@ export default [
   },
 
 
+  {
+    path: '/reconciliation',
+    component: Layout,
+    redirect: 'reconciliation/list',
+    meta: { title: '对账管理', noCache: true,icon:'back' },
+    hidden: false,
+    children: [
+      {
+        name: 'list',
+        path: 'list',
+        meta: { title: '仓储服务费对账单', noCache: true},
+        component: _import('reconciliation/list'),
+        hidden: false,
+      },
+      {
+        name: 'add',
+        path: 'add',
+        meta: { title: '新增对账单', noCache: true },
+        component: _import('reconciliation/add'),
+        hidden: true,
+      },
+      {
+        name: 'detail',
+        path: 'detail',
+        meta: { title: '对账单详情', noCache: true },
+        component: _import('reconciliation/detail'),
+        hidden: true,
+      },
+
+    ]
+  },
+
+
 ]

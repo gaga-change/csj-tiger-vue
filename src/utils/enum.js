@@ -12,20 +12,6 @@ export const NatureInvoice = [
   },
 ];
 
-//业务板块
-export const busiPlateConfig = [
-  
-  {
-    name: '钢铁',
-    value: 0
-  },
-
-  {
-    name: '汽车',
-    value: 1
-  },
-];
-
 
 //发票性质枚举类型
 export const NatureInvoiceEnum = [
@@ -69,6 +55,7 @@ export const TicketStatus = [
   },
 ]
 
+
 //发票状态
 export const InvoiceStatus = [
   {
@@ -84,6 +71,8 @@ export const InvoiceStatus = [
     value: 2
   },
 ]
+
+
 //发票类型
 export const InvoiceType = [
   {
@@ -103,6 +92,7 @@ export const InvoiceType = [
     value: 4
   }
 ]
+
 
 //付款方式
 export const PaymentModeEnum = [
@@ -170,11 +160,9 @@ export const RelationStatusEnum = [
     name: '关联已审',
     value: 4
   },
-  // {
-  //   name: '已驳回',
-  //   value: 5
-  // },
+
 ]
+
 
 //收款款项性质
 export const MoneyStateEnum = [
@@ -199,6 +187,7 @@ export const MoneyStateEnum = [
     disabled:true
   },
 ]
+
 
 //收款款项类型
 export const MoneyTypeEnum = [
@@ -247,6 +236,7 @@ export const invoiceCancelStatusConfig = [
 
 //进项发票页面枚举
 //单据状态
+
 export  const entryInvoiceTicketStatus=[
   {
     name: '草稿 ',
@@ -266,6 +256,7 @@ export  const entryInvoiceTicketStatus=[
   },
 ]
   
+
 //付款单据状态
 export const paymentStatusEnum = [
   {
@@ -350,7 +341,6 @@ export const billStatusEnum = [
 ]
 
 
-
 //异常商品处理  异常商品处理意见
 export  const handleOpinionConfig=[
   {
@@ -383,3 +373,156 @@ export  const paymentStatusConfig=[
     value: 1
   },
 ]
+
+
+
+//scm交货方式
+export  const deliverwayConfig=[
+  {
+    name: '库发 ',
+    value: 1
+  },
+  {
+    name: '供应商直发',
+    value: 2
+  },
+  {
+    name: '自提',
+    value: 3
+  },
+]
+
+//业务板块
+export const busiPlateConfig = [
+  
+  {
+    name: '钢铁',
+    value: 0
+  },
+
+  {
+    name: '汽车',
+    value: 1
+  },
+
+  {
+    name: '冶金',
+    value: 2
+  },
+];
+
+//scm付款方式
+export const paymethodConfig = [
+  {
+    name: '货到付款',
+    value: 1
+  },
+
+  {
+    name: '预付款',
+    value: 2
+  },
+];
+
+
+//scm结算方式
+export const settlementmethodConfig = [
+  {
+    name: '现金',
+    value: 1
+  },
+
+  {
+    name: '银行转账',
+    value: 2
+  },
+
+  {
+    name: '银行承兑',
+    value: 3
+  },
+
+  {
+    name: '商业承兑',
+    value: 4
+  },
+
+  {
+    name: '支票',
+    value: 5
+  },
+];
+
+//scm状态
+export const statusConfig = [
+  {
+    name: '草稿',
+    value: -1
+  },
+
+  {
+    name: '待审核',
+    value: 0
+  },
+
+  {
+    name: '确认通过',
+    value: 1
+  },
+
+  {
+    name: '驳回',
+    value: -2
+  },
+];
+
+//scm收款方式
+export const recmethodConfig = [
+  {
+    name: '货到收款',
+    value: 1
+  },
+  {
+    name: '货到票到付款',
+    value: 2
+  },
+  {
+    name: '先款后货',
+    value: 3
+  },
+];
+
+
+//scm签收状态
+export const recstatusConfig = [
+  {
+    name: '未签收',
+    value: 0
+  },
+  {
+    name: '部分签收',
+    value: 1
+  },
+  {
+    name: '全部签收',
+    value: 2
+  },
+];
+
+
+//scm退货状态
+export const backstatusConfig = [
+  {
+    name: '无退货',
+    value: 0
+  },
+  {
+    name: '部分退货',
+    value: 1
+  },
+  {
+    name: '全部退货 ',
+    value: 2
+  },
+];
+

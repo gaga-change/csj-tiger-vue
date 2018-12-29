@@ -4,15 +4,11 @@
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
         <el-form :inline="true" :model="ruleForm"  size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="6" >
-            <el-form-item label="货主编号" prop="ownerCode">
-              <el-input v-model.lazy.trim="ruleForm.ownerCode" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主编号"></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="6" >
-            <el-form-item label="货主名称" prop="ownerName">
-              <el-input v-model.lazy.trim="ruleForm.ownerName"  @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
+          <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="货主"   prop="ownerCode">
+              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
@@ -46,13 +42,13 @@
     import { owerInfo} from '@/api/owerinfo'
     import BaseTable from '@/components/Table'
     import { indexTableConfig} from './config';
+    import { mapGetters } from 'vuex'
     export default {
       components: { BaseTable },
       data() {
       return {
         ruleForm: {
           ownerCode:'',
-          ownerName: '',
           pageNum: 1,
           pageSize:10,
         },
@@ -64,6 +60,12 @@
         tableData: [],
         tableConfig:indexTableConfig,
       }
+    },
+
+    computed: {
+      ...mapGetters([
+        'mapConfig',
+      ])
     },
 
      mounted(){

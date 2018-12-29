@@ -1,7 +1,8 @@
 import { ApproveStatusEnum, MoneyStateEnum, MoneyTypeEnum, RelationStatusEnum, PaymentModeEnum } from '@/utils/enum'
 export const receiptTableConfig=[// 收款列表
   { label:'收款单号', width:150, prop:'receiveNo',fixed:true ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
-  { label:'客户名称',prop:'paymenterName', width:210 },
+  { label:'客户名称',prop:'paymenterName', width:150 },
+  { label:'货主',prop:'ownerName',width:150},
   { label:'收款金额',prop:'paymentAmt',type:'money', minWidth:120 },
   { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true, minWidth:120 },
   { label:'财务登记人',prop:'inputUserName', minWidth:90 },
@@ -66,4 +67,17 @@ export const recordConfig=[//操作记录
   { label:'操作',prop:'applyCode'},
   { label:'操作者',prop:'applyCode'},
   { label:'发票日期',prop:'cusName',type:'time',}
+]
+
+
+export const queryTableConfig=[//收款查询页面配置
+  { label:'客户名称',prop:'paymenterName'},
+  { label:'订单编号',prop:'busiBillNo'},
+  { label:'合同编号',prop:'contractNo'},
+  { label:'业务板块',prop:'busiPlate',type:'busiPlateConfig', useLocalEnum:true,},
+  { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true,},
+  { label:'货款金额',prop:'orderAmt'},
+  { label:'贴息',prop:'interestAmt'},
+  { label:'实收金额',prop:'payableAmt'},
+  { label:'货主',prop:'ownerCode', type:'ownerInfoMap',useApi:true},
 ]

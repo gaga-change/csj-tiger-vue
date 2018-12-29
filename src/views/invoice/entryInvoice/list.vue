@@ -48,6 +48,7 @@ export default {
         invoiceStatus:'',
         busiBillNo:'',
         ticketStatus:'',
+        ownerCode:'',
         invoiceNature:'',
         contractnNo:'',
         busiPlate:'',

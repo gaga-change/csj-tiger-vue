@@ -29,6 +29,7 @@ export default {
         invoiceNo:'',
         busiBillNo:'',
         cancelApplyStatus:'',
+        ownerCode:'',
         invoiceNature:''
       },
       pageSize:10,

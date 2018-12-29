@@ -57,7 +57,7 @@ export  const manualBaseInfoConfigLeft=[
 
 //table配置
 export const manualBaseInfoTableConfig=[
-  { label:'业务单号',prop:'purcticketno'},
+  { label:'业务单号',prop:'busiBillNo'},
   { label:'供应商名称',prop:'providerName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
 ]

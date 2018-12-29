@@ -3,6 +3,7 @@ export const applyTableConfig=[// 付款申请列表
   { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/apply/detail',query:[{key:'id',value:'id'}] },
   { label:'标题',prop:'applyTitle', minWidth:120 },
   { label:'供应商',prop:'paymenterName',type:'money', width:160 },
+  { label:'货主',prop:'ownerName',width:160},
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'订单编号',prop:'busiBillNo', width:150 },
   { label:'申请金额',prop:'applyPaymentAmt'},
@@ -16,6 +17,7 @@ export const applyTableConfig=[// 付款申请列表
 export const reisterTableConfig=[// 付款登记列表
   { label:'付款申请号', width:150, prop:'applyNo',fixed:true ,linkTo:'/payment/register/detail',query:[{key:'id',value:'id'}] },
   { label:'供应商',prop:'paymenterName',type:'money', width:160 },
+  { label:'货主',prop:'ownerName',width:160},
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'订单编号',prop:'busiBillNo', width:150 },
   { label:'申请金额',prop:'applyPaymentAmt'},
@@ -53,6 +55,7 @@ export const paymentInfoConfig = [//付款单货款详情
   { title:'收款方收款银行 ', prop:'receiveBank', paytype:'goods+service' },
   { title:' 附件 ', prop:'filePathList', useIf:'files', paytype:'goods+service' },
   { title:' 合同附件 ', prop:'contractFilePathList', useIf:'files', paytype:'goods+service' },
+  { title:'备注', prop:'remarkInfo', paytype:'goods+service'},
   // { title:'测试1 ', prop:'linkParam',linkTo:'/',useIf:'linkParam',name:'fuck' },
 ]
 

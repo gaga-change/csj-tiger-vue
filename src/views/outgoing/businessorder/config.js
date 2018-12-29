@@ -61,7 +61,7 @@ export const indexTableConfig=[
   { label:'业务单号',prop:'busiBillNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   { label:'合同编号',prop:'contractNo'},
   { label:'客户名称',prop:'arrivalName'},
-  { label:'货主名称',prop:'ownerName'},
+  { label:'货主',prop:'ownerName'},
   { label:'出库金额',prop:'realOutAmt'},
   { label:'出库数量',prop:'realOutQty'},
   { label:'制单人',prop:'busiBillCreater'},
