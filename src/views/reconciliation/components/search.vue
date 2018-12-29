@@ -96,10 +96,6 @@ export default {
      },
   },
   
-  mounted(){
-   console.log({...this.mapConfig})
-  },
-
   methods:{
 
     submit(){

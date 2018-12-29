@@ -5,11 +5,11 @@
   </div>
 
   <div class="tableTotal" v-if="tableData.length>0">
-      <span>已录入收票总金额</span> : <span>{{tableData[0]&&tableData[0]['enterTotalAmount']&&Number(tableData[0]['enterTotalAmount']).toFixed(2)}}</span>
-      <span>待登记金额</span> : <span>{{tableData[0]&&tableData[0]['amountToBeRegistered']&&Number(tableData[0]['amountToBeRegistered']).toFixed(2)}}</span>
-      <span>共计发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']}}</span>
-      <span>共计蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBlueInvoiceQty']}}</span>
-      <span>共计红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']}}</span>
+      <span>已录入发票金额</span> : <span>{{tableData[0]&&tableData[0]['enterTotalAmount']&&Number(tableData[0]['enterTotalAmount']).toFixed(2)}}</span>
+      <span>已登记发票金额</span> : <span>{{tableData[0]&&tableData[0]['amountToBeRegistered']&&Number(tableData[0]['amountToBeRegistered']).toFixed(2)}}</span>
+      <span>申请发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']}}</span>
+      <span>其中蓝票</span> : <span>{{tableData[0]&&tableData[0]['sumBlueInvoiceQty']}}</span>
+      <span>其中红票</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']}}</span>
   </div>
   
    <base-table 

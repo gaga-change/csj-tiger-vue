@@ -4,19 +4,19 @@
       <template >
 
          <el-button  type="success"
+          v-if="detailBaseInfoData.finaPaymentId===null"
+          @click="modify"
           size="small">
             修改
           </el-button>
 
           <el-button  type="success"
+           v-if="detailBaseInfoData.finaPaymentId===null"
+          @click="applay"
           size="small">
             生成付款申请
           </el-button>
 
-          <el-button  type="success"
-          size="small">
-            修改确认
-          </el-button>
       </template>
     </sticky>
      
@@ -58,32 +58,44 @@ export default {
       detailTableConfig,
       detailTableData:[],
 
-      totalData:{}
+      totalData:{},
 
     }
   },
 
   mounted(){
     this.getCurrentTableData();
-    let dom=document.querySelectorAll('.sub-navbar >div');
-    [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-    });
+    this.fomatDom()
   },
 
   updated(){
-     let dom=document.querySelectorAll('.sub-navbar >div');
-     [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-    })
+    this.fomatDom()
   },
 
 
   methods:{
+
+     fomatDom(){
+      let dom=document.querySelectorAll('.sub-navbar >div');
+      [...dom].forEach(item=>{
+        if(item.innerHTML==='sticky'){
+          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
+        }
+      })
+    },
+
+    modify(){
+      this.$router.push({
+        path:`/reconciliation/add?id=${this.$route.query.id}`,
+      }) 
+    },
+
+    applay(){
+      this.$router.push({
+        path:`/payment/newpayment?applyTitle=${this.detailBaseInfoData.billTitle}&moneyState=2&applyPaymentAmt=${this.totalData.serviceCharge}&byOut=true&reaconcliliationId=${this.$route.query.id}`,
+      }) 
+    },
+
     getCurrentTableData(){
       this.loading=true;
       this.tableLoading=true;

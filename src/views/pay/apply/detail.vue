@@ -225,7 +225,12 @@
           cancelButtonText: '取消'
         }).then(({ value }) => {
         
-          dropPayment(this.$route.query.id).then(res => {
+          dropPayment({
+              id:this.$route.query.id,
+              operator:this.userInfo.id,
+              operatorName:this.userInfo.truename,
+              fromSystemCode:'TIGER',
+            }).then(res => {
             if(res.success){
               this.$message({
                 type: 'success',

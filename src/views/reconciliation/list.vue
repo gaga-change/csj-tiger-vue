@@ -45,6 +45,10 @@
           item.dom=(row, column, cellValue, index)=>{
             return <div style={{display:'flex',flexWrap:'nowrap'}}>
                 <router-link  to={{path:'/reconciliation/detail',query:{id:row.id,}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>查看</router-link>
+                {
+                  row.finaPaymentId===null&&
+                  <router-link  to={{path:'/reconciliation/detail',query:{id:row.id,}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>生成付款申请</router-link>
+                }
             </div>
           }
       }

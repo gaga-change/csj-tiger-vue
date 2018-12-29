@@ -113,9 +113,9 @@ export function getAllProvider(data) {
 }
 //
 // 删除付款详情
-export function dropPayment(id) {
+export function dropPayment(data) {
   return request({
-    url: `/api/payment/dropPayment?id=${id}`,
+    url: `/api/payment/dropPayment?${stringify(data)}`,
     method: 'get',
   })
 }

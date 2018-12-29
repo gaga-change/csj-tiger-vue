@@ -40,7 +40,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项性质" prop="moneyState">
-            <el-select v-model="payment.moneyState" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" @change="changeMoneyState">
+            <el-select v-model="payment.moneyState"   :disabled="Boolean(this.$route.query.byOut)"    filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" @change="changeMoneyState">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -151,8 +151,8 @@
           <el-form-item label="申请付款金额" prop="applyPaymentAmt" label-width="100px"  :rules="[
               { validator: checkAmt, required: true, trigger: 'blur' }
              ]">
-             <el-input type="text" size="small" :disabled="this.payment.moneyState === 2" v-model="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
-             <el-button @click="getPayInfo" v-show="this.payment.moneyState === 2" size="small" style="display:inline-block" type="text">拉取对账单</el-button>
+             <el-input type="text" size="small"  v-model="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
+             <el-button @click="getPayInfo" v-show="this.payment.moneyState === 2&&Boolean(this.$route.query.byOut)" size="small" style="display:inline-block" type="text">付款来源</el-button>
           </el-form-item>
         </el-col>
          <!-- <el-form-item label="其中:贴息" label-width="90px" prop="paymentAmt">
@@ -237,27 +237,6 @@
       </el-upload>
     </el-dialog>
 
-    <!-- 对账单 -->
-    <pay-bill :serviceCharge="paybillData.serviceCharge" :table-data="paybillData.tableData" ref="payBills" :dialog-visible-pay="dialogVisiblePay" :pay-duration-start="payDurationStart" :pay-duration-end="payDurationEnd">
-      <template slot="detailLastDate">
-        <el-row style="margin-bottom:10px;">
-          <el-col>该服务商上次对账截止至{{lastBillDate}}号</el-col>
-        </el-row>
-      </template>
-      
-      <template slot="searchButton">
-         <el-button @click="getPayInfoDatail" size="small" :disabled="disableButton">查询</el-button>
-      </template>
-      <template slot="footer">
-        <span class="dialog-footer">
-          <div style="display:flex;justify-content:flex-end;">
-            <el-button @click="dialogVisiblePay = false" >取 消</el-button>
-            <el-button type="primary" @click="()=>{this.dialogVisiblePay = false;this.payment.applyPaymentAmt=this.paybillData.serviceCharge}">确 定</el-button>
-          </div>
-         
-        </span>
-      </template>
-    </pay-bill>
   </div>  
 </template>
   
@@ -266,6 +245,7 @@
   import { addOrUpdatePayment, getPaymentListAndDetail, BusibillNoSelect } from '@/api/pay'
   import { mapGetters } from 'vuex'
   import moment from 'moment'
+  import _  from 'lodash';
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum, busiPlateConfig } from '@/utils/enum'
   import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
 
@@ -363,14 +343,11 @@
       var checkAmt = (rule, value, callback) => {
         var a = this.payment.moneyState || 0
         if (!Number(value)) {
-          return callback(new Error(`请${a == 0 ? '输入货款':'拉取对账单'}`))
+          return callback(new Error(`请输入货款`))
         }
         // if(value<0){
         //   return callback(new Error('货款为正数'))
         // }
-        if (!MoneyReg.test(value)) {
-          return callback(new Error('货款最多两位小数'))
-        }
         callback()
       }
       var moneyTypeFilter = MoneyTypeEnum.filter(item =>item.type.includes('receipt'))
@@ -429,6 +406,7 @@
         }
       }
     },
+
     computed: {
       ...mapGetters({
         company: 'company',
@@ -475,6 +453,7 @@
       },
     },
     watch:{
+
       fileNew(){
         const url = []
         this.fileNew.map(
@@ -490,9 +469,9 @@
         this.filePathList = url
       
       },
+
       payment:{
         handler (val,oldVal){
-         
           if(val.moneyState==0){
             this.rules = goodsRules
           }else{
@@ -501,39 +480,43 @@
         },
         deep:true
       },
-      // 'payment.moneyState':(val,oldVal)=>{
-      //   if(val==0){
-      //     this.rules = goodsRules
-      //     this.payment.ownerCode = ''
-      //     this.payment.ownerName = ''
-      //   
-      //   }else{
-      //     this.rules = notGoodsRules
-      //     this.payment.ownerCode = 'EP201804150009';
-      //     this.payment.ownerName = '诸暨裕大贸易有限公司';
-      //   }
-      // }
+  
     },
+
+    mounted(){
+      console.log('mounted')
+    },
+
     created() {
+      console.log('created')
       // this.payment.moneyState = 0
       // this.$set('payment.moneyState',0)
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
-      }else{
+      }  else{
         this.payment={}
         this.fileNew =[]
         this.filePathList = []
       }
+
       this.getCustomInfo()  
-     
     },
+
     activated(){
       // this.payment.moneyState = 0
       // this.$set('payment.moneyState',0)
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        
         this.getDetail()
-      }else{
+     } else if(this.$route.query.byOut){
+        this.payment={}
+        this.fileNew =[]
+        this.filePathList = []
+        let data= _.cloneDeep(this.payment);
+        data.applyTitle=this.$route.query.applyTitle;
+        data.moneyState=Number(this.$route.query.moneyState);
+        data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
+        this.payment=data
+      } else{
         this.payment={}
         this.fileNew =[]
         this.filePathList = []
@@ -600,61 +583,19 @@
         
       },
       getPayInfo(){
-        //拉取对账单
-        getLastTime({}).then(res=>{
-          if(res.success){
-            this.dialogVisiblePay = true
-            this.$refs.payBills.dialogVisPay = true
-            var lastTime = moment('2017-12-31')
-            if(res.data&&res.data.endTime){
-              lastTime = res.data.endTime
-            }
-            
-            if(this.payment.startTime){
-              lastTime = moment(this.payment.startTime).subtract('1','days')
-              this.payDurationEnd = this.payment.endTime
-            }
-            this.lastBillDate = moment(lastTime).format('YYYY-MM-DD')
-            this.payDurationStart = moment(lastTime).add('1','days')
-            this.paybillData = {}
-          }
-        })
-        
-      },
-      getPayInfoDatail(event){
-        this.disableButton = true
-        var endTime = +this.$refs.payBills.durationEnd
-        
-        if(endTime){
-          infoInvoiceAmmount({startTime:this.payDurationStart,endTime}).then(res=>{
-            
-            if(res.success){
-              var tableData = res.data&&res.data.items||[]
-
-              this.paybillData.tableData = tableData.filter(item => item&&item.makeDate)
-              
-              this.paybillData.serviceCharge = res.data.serviceCharge 
-            }
-            this.disableButton = false
-          }).catch(err=>{
-            this.disableButton = false
-          })
-        }else{
-          this.disableButton = false
-        }
-       
+        //跳转到来源
+        this.$router.push({
+           path:`/reconciliation/detail?id=${this.$route.query.reaconcliliationId}`,
+        }) 
       },
       checkAmt(rule, value, callback){
         
         if (!Number(value)) {
-          return callback(new Error(`请${this.payment.moneyState == 0 ? '输入货款':'拉取对账单'}`))
+          return callback(new Error(`请输入货款`))
         }
         // if(value<0){
         //   return callback(new Error('货款为正数'))
         // }
-        if (!MoneyReg.test(value)) {
-          return callback(new Error('货款最多两位小数'))
-        }
         callback()
       },
       clearMark(){
@@ -871,14 +812,14 @@
             this.payment.paymenterName = item.paymenterName
           }
         })
-        if(this.payment.moneyState == 2){
-          this.payment.startTime = this.$refs.payBills.payDurationStart
-          this.payment.endTime = this.$refs.payBills.durationEnd
-          if(!this.payment.endTime){
-            this.$message({type:'error',message:'请选择结束对账单时间'})
-            return
-          }
-        }
+        // if(this.payment.moneyState == 2){
+        //   this.payment.startTime = this.$refs.payBills.payDurationStart
+        //   this.payment.endTime = this.$refs.payBills.durationEnd
+        //   if(!this.payment.endTime){
+        //     this.$message({type:'error',message:'请选择结束对账单时间'})
+        //     return
+        //   }
+        // }
         
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
