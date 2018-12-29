@@ -116,11 +116,12 @@
     },
 
     created(){
+
       this.matchingTableConfig.forEach(item=>{
         if(item.useLink){
             item.dom=(row, column, cellValue, index)=>{
              if(row.matchSkuCode){
-                if(!row.skuCode===row.matchSkuCode){
+                if(row.skuCode!==row.matchSkuCode){
                    return   <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
                 }
              } else{
@@ -157,6 +158,24 @@
   },
 
     methods:{
+      
+      match(){
+          this.matchingTableConfig.forEach(item=>{
+            if(item.useLink){
+                item.dom=(row, column, cellValue, index)=>{
+                if(row.matchSkuCode){
+                  console.log(row.matchSkuCode)
+                    if(row.skuCode!==row.matchSkuCode){
+                      return   <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
+                    }
+                } else{
+                    return  <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>匹配</span>
+                }
+                }
+            }
+          })
+      },
+
       matchSku(){
          this.sureLoding=true;
          let row=this.row;
@@ -207,6 +226,7 @@
             })
             this.clickId=new Date();
             this.getOutPlanDetail()
+            this.match()
           }
         }).catch(err=>{
           console.log(err)

@@ -73,7 +73,7 @@ export default {
       type: Function,
     },
     height:{
-      type: String,
+      type: Number,
     },
     showSummary:{
       type: Boolean,
