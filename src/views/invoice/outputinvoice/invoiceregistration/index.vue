@@ -3,6 +3,15 @@
   <div style="margin:12px">
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>
   </div>
+
+  <div class="tableTotal" v-if="tableData.length>0">
+      <span>已录入收票总金额</span> : <span>{{tableData[0]&&tableData[0]['enterTotalAmount']&&Number(tableData[0]['enterTotalAmount']).toFixed(2)}}</span>
+      <span>待登记金额</span> : <span>{{tableData[0]&&tableData[0]['amountToBeRegistered']&&Number(tableData[0]['amountToBeRegistered']).toFixed(2)}}</span>
+      <span>共计发票张数</span> : <span>{{tableData[0]&&tableData[0]['sumInvoiceQty']}}</span>
+      <span>共计蓝票张数</span> : <span>{{tableData[0]&&tableData[0]['sumBlueInvoiceQty']}}</span>
+      <span>共计红票张数</span> : <span>{{tableData[0]&&tableData[0]['sumRedInvoiceQty']}}</span>
+  </div>
+  
    <base-table 
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -48,7 +57,6 @@
      created(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-         console.log(this.ruleForm,'rule');
        }
       let tableConfig = []
       indexTableConfigRegistration.map(item=>{
@@ -153,6 +161,21 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
- 
+   .tableTotal{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      span{
+         font-size: 12px;
+         color:#606266;
+         &:nth-child(2n-1){
+          font-weight: 600;
+         }
+         &:nth-child(2n){
+          padding-right: 20px; 
+         }
+      }
+     
+    }
 </style>
 

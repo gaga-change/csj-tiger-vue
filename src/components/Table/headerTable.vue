@@ -1,5 +1,5 @@
 <template>
-  <div class="ctabel">
+  <div class="headerTable">
       <el-table
         ref="multipleTable"
         v-loading="loading"
@@ -319,7 +319,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" >
-  .ctabel{
+  .headerTable{
     width: 100%;
     .el-table--border{
     border-color:#dbdee3; 
