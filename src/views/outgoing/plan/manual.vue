@@ -43,9 +43,9 @@
                     <div class="alertInfoContainer-right" >
                         <div class="alertInfoContainer-right-title">
                             <item-title 
-                             :text="row.isAuto===null?`已匹配商品`:`已匹配商品${(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty)&&!isClick?'(该匹配属于自动匹配)':''}`"
+                             :text="'已匹配商品'"
                              boxStyle="width:250px;float:left"/> 
-                            <el-button type="primary" size="mini" style="float:right"  v-if="row.isAuto===null" :loading="cancelLoding"  @click="cancelMatch">取消匹配</el-button>
+                            <el-button type="primary" size="mini" style="float:right"  v-if="row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty" :loading="cancelLoding"  @click="cancelMatch">取消匹配</el-button>
                         </div>
                         <div  class="alertInfoContainer-card">
                              <item-card :config="alertBottomConfig" 
