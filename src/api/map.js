@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { stringify } from 'querystring';
 
 //仓库类型枚举
 export function getWarehouseType() {

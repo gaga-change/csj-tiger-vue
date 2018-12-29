@@ -3,6 +3,7 @@ import Moment  from 'moment'
 export const indexTableConfigApply=[//申请列表
   { label:'开票申请单号',prop:'applyCode',fixed:true, width:120 ,linkTo:'/invoice/outputinvoice/invoiceapply/detail',query:[{key:'id',value:'id'}] },
   { label:'客户名称',prop:'cusName', width:120 },
+  { label:'货主名称',prop:'ownerName', width:120 },
   { label:'计划开票金额',prop:'realInvoiceAmt',type:'money', width:120 },
   { label:'计划开票数量',prop:'numberOfInvoices', width:120 },
   { label:'单据创建时间',prop:'gmtCreate',type:'time', width:120 },
@@ -19,6 +20,8 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'开票单号',prop:'invoiceNo',fixed:true, width:120,linkTo:'/invoice/outputinvoice/invoiceregistration/detail',query:[{key:'id',value:'id'}] },
   { label:'开票申请单号',prop:'applyCode', width:120 },
   { label:'客户名称',prop:'cusName', width:120 },
+  { label:'货主名称',prop:'ownerName', width:120 },
+
   { label:'订单编号',prop:'outBusiBillNo', width:150  },
   { label:'合同编号',prop:'contractNo', width:120 },
   { label:'单据创建时间',prop:'gmtCreate',type:'time', width:120 },
