@@ -13,7 +13,7 @@
           <item-title text="入库业务"/>
              <web-pagination-table 
               :loading="outBillNoLoading"
-              :height="outBillNoTableData.length&&outBillNoTableData.length>5&&300"
+              :height="outBillNoTableData.length&&outBillNoTableData.length>5&&300||200"
               :config="manualBaseInfoTableConfig" 
               :allTableData="outBillNoTableData"/> 
          </div>
