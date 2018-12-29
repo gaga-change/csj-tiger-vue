@@ -380,10 +380,10 @@
           
         let relateOrderArr = [],relateOrderData = []
         this.multipleSelection.map(item=>{
-          if(this.relateOrderArr.indexOf(item.id)==-1){
+          // if(this.relateOrderArr.indexOf(item.id)==-1){
             this.relateOrderArr.push(item.id)
             this.relateOrderData.push(item)
-          }
+          // }
           // relateOrderArr.push(item.id)
         }) 
       },
