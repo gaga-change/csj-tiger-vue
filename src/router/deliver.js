@@ -187,18 +187,24 @@ export default [
         hidden: true,
       },
       {
-        name: 'customerconfiguration',
-        path: 'customerconfiguration',
-        meta: { title: '客户仓库关系配置', noCache: true },
-        component: _import('businessset/customerconfiguration/index')
+        name: 'warehouseuser',
+        path: 'warehouseuser',
+        meta: { title: '仓库用户配置', noCache: true },
+        component: _import('businessset/warehouseuser/index')
       },
-      {
-        name: 'customerconfiguration-detail',
-        path: 'customerconfiguration-detail',
-        meta: { title: '客户仓库关系配置详情', noCache: true },
-        component: _import('businessset/customerconfiguration/detail'),
-        hidden: true,
-      },
+      // {
+      //   name: 'customerconfiguration',
+      //   path: 'customerconfiguration',
+      //   meta: { title: '客户仓库关系配置', noCache: true },
+      //   component: _import('businessset/customerconfiguration/index')
+      // },
+      // {
+      //   name: 'customerconfiguration-detail',
+      //   path: 'customerconfiguration-detail',
+      //   meta: { title: '客户仓库关系配置详情', noCache: true },
+      //   component: _import('businessset/customerconfiguration/detail'),
+      //   hidden: true,
+      // },
       //  {
       //   name: 'ownerconfiguration',
       //   path: 'ownerconfiguration',

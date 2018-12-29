@@ -13,6 +13,7 @@
           <item-title text="入库业务"/>
              <web-pagination-table 
               :loading="outBillNoLoading"
+              :height="300"
               :config="manualBaseInfoTableConfig" 
               :allTableData="outBillNoTableData"/> 
          </div>
@@ -42,9 +43,9 @@
                     <div class="alertInfoContainer-right" >
                         <div class="alertInfoContainer-right-title">
                             <item-title 
-                             :text="row.isAuto===null?`已匹配商品`:`已匹配商品${(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty)&&!isClick?'(该匹配属于自动匹配)':''}`"
+                             :text="'已匹配商品'"
                              boxStyle="width:250px;float:left"/> 
-                            <el-button type="primary" size="mini" style="float:right"  v-if="row.isAuto===null" :loading="cancelLoding"  @click="cancelMatch">取消匹配</el-button>
+                            <el-button type="primary" size="mini" style="float:right"  v-if="row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty" :loading="cancelLoding"  @click="cancelMatch">取消匹配</el-button>
                         </div>
                         <div  class="alertInfoContainer-card">
                              <item-card :config="alertBottomConfig" 
@@ -61,11 +62,12 @@
                 <web-pagination-table 
                 :loading="false"
                 :highlightCurrentRow="true"
+                 :height="300"
                 @currentRedioChange="currentRedioChange"
                 :config="detailsConfig" 
                 :allTableData="alertTableData"/> 
 
-                <div class="sure-btn" >
+                <div class="sure-btn"  style="padding-bottom:20px;">
                   <el-button type="primary" size="mini" :loding="sureLoding"  @click="matchSku">确定</el-button>
                </div> 
 
@@ -117,16 +119,13 @@
       this.matchingTableConfig.forEach(item=>{
         if(item.useLink){
             item.dom=(row, column, cellValue, index)=>{
-              return <div>
-                  {
-                     row.isAuto===false&&
-                    <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>匹配</span>
-                  }
-                  {
-                     row.isAuto===null&&
-                    <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
-                  }
-              </div>
+             if(row.matchSkuCode){
+                if(!row.skuCode===row.matchSkuCode){
+                   return   <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
+                }
+             } else{
+                return  <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>匹配</span>
+             }
             }
         }
       }),
@@ -278,9 +277,9 @@
         }).then(res=>{
           if(res.success){
             if(res.data.length){
-               this.alertTableData=res.data.map(v=>{
+               this.alertTableData=res.data.map((v,i)=>{
                  let json=v;
-                 json.id=v.busiIndex;
+                 json.id=i;
                  return json;
                });
             }
@@ -363,6 +362,7 @@
          flex-grow: 0;
          border: 1px solid #ebeef5;
          padding: 12px;
+         
       }
     }
     .operationBtn{

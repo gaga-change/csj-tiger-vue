@@ -380,8 +380,8 @@
           
         let relateOrderArr = [],relateOrderData = []
         this.multipleSelection.map(item=>{
-          if(this.relateOrderArr.indexOf(item.id)==-1){
-            this.relateOrderArr.push(item.id)
+          if(this.relateOrderArr.indexOf(item.busiBillNo)==-1){
+            this.relateOrderArr.push(item.busiBillNo)
             this.relateOrderData.push(item)
           }
           // relateOrderArr.push(item.id)
@@ -535,7 +535,7 @@
               this.relateOrderData = res.data && res.data.relationVos || []
               this.relateOrderArr = [];
               this.relateOrderData.map(item=>{
-                this.relateOrderArr.push(item.id)
+                this.relateOrderArr.push(item.busiBillNo)
               })
               this.cardData = res.data.finaReceiveDO
               let fileInfos = res.data.fileInfos || {}
@@ -557,7 +557,7 @@
                 this.relateOrderArr =[]
                 let totalLoan=0,totalDiscount=0;
                 relationVos.map(item=>{
-                  this.relateOrderArr.push(item.id)
+                  this.relateOrderArr.push(item.busiBillNo)
                   item.payableAmt =Number(item.payableAmt)||0
                   item.interestAmt =Number(item.interestAmt)||0
                   totalLoan+=item.payableAmt
