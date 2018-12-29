@@ -18,10 +18,9 @@ export  const infoConfig=[
 export const indexTableConfig=[
   { label:'仓库编号',prop:'warehouseNo'},
   { label:'仓库名称',prop:'warehouseName'},
-  { label:'仓库类型',prop:'warehouseType',type:'getWarehouseType',useApi:true},
-  { label:'账户',prop:'warehouseLinkName',},//unconfirm
+  // { label:'仓库类型',prop:'warehouseType',type:'getWarehouseType',useApi:true},
+  { label:'账户',prop:'operatorAccount',},//unconfirm
   { label:'手机',prop:'linkTel',},//unconfirm
-  { label:'用户名',prop:'linkTel',},//unconfirm
-  { label:'角色',prop:'role',},//unconfirm
-  
+  { label:'用户名',prop:'operatorName',},//unconfirm
+  // { label:'角色',prop:'role',},//unconfirm
  ]

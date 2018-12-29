@@ -11,16 +11,11 @@
           </el-col>
 
           <el-col :span="6" >
-            <el-form-item label="仓库名称" prop="warehouseName">
-              <el-input v-model.lazy.trim="ruleForm.warehouseName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
+            <el-form-item label="用户名" prop="warehouseName">
+              <el-input v-model.lazy.trim="ruleForm.warehouseName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入用户名"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6"  style="min-width:300px">
-            <el-form-item label="服务客户名称" prop="customerName">
-              <el-input v-model.lazy.trim="ruleForm.customerName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主名称"></el-input>
-            </el-form-item>
-          </el-col>
 
           <el-col :span="24">
             <el-form-item>
@@ -41,11 +36,13 @@
         <el-form :inline="true"  size="small"  class="demo-form-inline">
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary" size="small" :disabled="buttonDisabled||!$haspermission('warehouseuserAdd')" @click="addWarehouseuser">新增</el-button>
+              <el-button type="primary" size="small" :disabled="buttonDisabled||!$haspermission('warehouseuserAdd')" @click="addWarehouseuser">新增
+              </el-button>
             </el-form-item>
 
             <el-form-item> 
-              <el-button type="primary" size="small" :disabled="buttonDisabled||!$haspermission('warehouseuserDelete')" @click="deleteWarehouseuser">删除</el-button>
+              <el-button type="primary" size="small"  :disabled="buttonDisabled||!$haspermission('warehouseuserDelete')" @click="deleteWarehouseuser">删除
+              </el-button>
             </el-form-item>
           </el-col>
       </el-form>
@@ -59,6 +56,7 @@
       :loading="loading"
       :config="tableConfig"  
       :total="total" 
+      :showMul="showMul"
       :maxTotal="10"
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
@@ -70,34 +68,34 @@
       center
       width="450px">
       <el-form :model="addWarehouseForm" ref="warehouseForm" >
-        <el-form-item label="仓库名称" label-width="80px" prop="warehouseNo">
-           <el-select v-model="addWarehouseForm.warehouseNo" 
-             placeholder="请选择仓库名称" :rules="[
+        <el-form-item label="仓库名称" label-width="80px" prop="warehouseNo" :rules="[
               { required: true, message: '该项为必选'},
              ]">
+           <el-select v-model="addWarehouseForm.warehouseNo" 
+             placeholder="请选择仓库名称" >
               <el-option
                 v-for="item in warehouseAll"
-                :key="item.warehouseNo"
-                :label="item.warehouseName"
-                :value="item.warehouseNo">
+                :key="item.key"
+                :label="item.value"
+                :value="item.key">
               </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="用户名" label-width="80px" prop="newpassword">
-          <el-select v-model="addWarehouseForm.userNo" 
-             placeholder="请选择用户名" :rules="[
+        <el-form-item label="用户名" label-width="80px"  :rules="[
               { required: true, message: '该项为必选'},
              ]">
+          <el-select v-model="addWarehouseForm.operatorName" 
+             placeholder="请选择用户名" >
               <el-option
                 v-for="item in userAll"
-                :key="item.userNo"
-                :label="item.userName"
-                :value="item.userNo">
+                :key="item.id"
+                :label="item.operatorName"
+                :value="item.operatorName">
               </el-option>
             </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" style="text-align:right">
         <el-button @click="addWarehouseVisble = false">取 消</el-button>
         <el-button type="primary" @click="addConfirm">确 定</el-button>
       </div>
@@ -108,7 +106,8 @@
 <script>
 
     import moment from 'moment';
-    import { warehouseSelect} from '@/api/customerconfiguration'
+    import { getWarehouseUser, getUserByTid, makeWarehouseAdd, makeWarehouseDelete } from '@/api/customerconfiguration'
+    import { getWarehouse } from '@/api/map'
     import BaseTable from '@/components/Table'
     import {indexTableConfig} from './config';
 
@@ -127,14 +126,16 @@
         rules: {
         
         },
+        buttonDisabled:false,
         loading:false,
         tableData: [],
         tableConfig:indexTableConfig,
         multiselect:[],
         addWarehouseForm:{},
         userAll:[],
-        warehouseAll:[]
-
+        warehouseAll:[],
+        showMul:true,
+        addWarehouseVisble:false,
       }
     },
      mounted(){
@@ -142,44 +143,78 @@
           this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
        this.getCurrentTableData();
+       this.initInfo()
     },
 
     methods: { 
       deleteWarehouseuser(){
+        if(!this.$haspermission('warehouseuserDelete')){
+          this.$message({type:'info',message:'您没有权限删除'})
+          return false
+        }
         if(this.multiselect.length>0){
-            makeWarehouseDelete().then(res => {
-              if(res.success){
+            this.$confirm('是否确定删除?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              var paramsIds = []
+              
+              this.multiselect.map(item => {
+                paramsIds.push(item.id)
+              })
+              
+              makeWarehouseDelete({ids:paramsIds}).then(res => {
+                if(res.success){
+                  this.$message({
+                    type:'success',
+                    message:'删除成功'
+                  })
+                  this.getCurrentTableData()
+                }else{
+                  this.$message({
+                    type:'error',
+                    message:'删除失败'
+                  })
+                }
+              }).catch(err => {
                 this.$message({
-                  type:'success',
-                  message:'删除成功'
-                })
-                this.getCurrentTableData()
-              }else{
-                this.$message({
-                  type:'error',
-                  message:'删除失败'
-                })
-              }
-            }).catch(err => {
-               this.$message({
-                  type:'error',
-                  message:'删除失败'
-                })
+                    type:'error',
+                    message:'删除失败'
+                  })
+              })
+            }).catch(err=>{
+              
             })
         }else{
           this.$message({
                   type:'info',
-                  message:'请选择仓库'
+                  message:'请选择要刪除的'
                 })
         }
       },
       addWarehouseuser(){
+        if(!this.$haspermission('warehouseuserAdd')){
+          this.$message({type:'info',message:'您没有权限新增'})
+          return false
+        }
+        if(this.userAll.length>0&&this.warehouseAll.length>0){
+          // this.addWarehouseVisble = true
+        }else{
+          this.initInfo()
+        }
         this.addWarehouseVisble = true
       },
       addConfirm(){
         this.$refs['warehouseForm'].validate((valid) => {
           if (valid) {
-            makeWarehouseAdd({...this.addWarehouseForm}).then(res => {
+            var params = {}
+            this.userAll.map(item=>{
+              if(item.operatorName == this.addWarehouseForm.operatorName){
+                params = item
+              }
+            })
+            makeWarehouseAdd({ warehouseNo:this.addWarehouseForm.warehouseNo,...params}).then(res => {
               if(res.success){
                 this.$message({
                   type:'success',
@@ -214,7 +249,31 @@
           }
         });
       },
-
+      initInfo(){
+        if(!this.userAll.length>0){
+          getUserByTid().then(res =>{
+            if(res.success){
+              var temp = res.data
+              this.userAll = temp.map(item => {return {operatorAccount:item.email,operatorName:item.name,linkTel:item.phone,id:item.id}})
+            }else{
+              this.userAll = []
+            }
+          }).catch(err=>{
+            this.userAll = []
+          })
+        }
+       if(!this.warehouseAll.length>0){
+          getWarehouse().then(res=>{
+            if(res.success){
+              this.warehouseAll = res.data
+            }else{
+              this.warehouseAll = []
+            }
+          }).catch(err=>{
+            this.warehouseAll = []
+          })
+       }
+      },
       resetForm(formName) {
         this.$refs[formName].resetFields();
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
@@ -236,7 +295,7 @@
 
       getCurrentTableData(){
         this.$router.replace({
-          path:'/businessset/customerconfiguration',
+          path:'/businessset/warehouseuser',
           query:{data:JSON.stringify(this.ruleForm)}
         })
         this.loading=true;
@@ -247,7 +306,7 @@
           }
         }
         let data={...json}
-       warehouseSelect(data).then(res=>{
+       getWarehouseUser(data).then(res=>{
        if(res.success){
           let data=res.data;
           this.tableData=data.list||[];
