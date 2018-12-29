@@ -6,7 +6,7 @@
     { title:'计划单号',prop:'enquiryorder',},
     { title:'交货日期',prop:'planarrivedate',type:'time'},
     { title:'制单人',prop:'createuser'},
-    { title:'客户',prop:'customer'},
+    { title:'客户',prop:'customername'},
     { title:'收款方式',prop:'recmethod',useLocalEnum:true,type:'recmethodConfig'},
     { title:'交货方式',prop:'deliverway',useLocalEnum:true,type:'deliverwayConfig'},
     { title:'合同编号',prop:'contractno'},

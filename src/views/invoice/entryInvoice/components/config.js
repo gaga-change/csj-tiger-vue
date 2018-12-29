@@ -56,17 +56,25 @@ export  const listDetailConfig=[
 
 //详情页表格信息
   export  const listDetailTableConfig=[
-    { label:'序号',type:'index',width:50},
-    { label:'商品编码',prop:'skuCode',},
-    { label:'商品名称',prop:'skuName',},
-    { label:'规格型号',prop:'skuFormat',},
-    { label:'单位',prop:'skuUnitName',},
-    { label:'单价',prop:'taxPrice',},
-    { label:'已入库数量',prop:'realInQty',},
-    { label:'已入库金额',dom:formatter(6)},
-    { label:'已收票数量',dom:formatter(3)},
-    { label:'税率',dom:formatter(5)},
-    { label:'数量',prop:'invoiceQty',},
+    { label:'商品信息',children:[
+      { label:'序号',type:'index',width:50},
+      { label:'商品编码',prop:'skuCode',},
+      { label:'商品名称',prop:'skuName',},
+      { label:'规格型号',prop:'skuFormat',},
+      { label:'已收票数量',dom:formatter(3)},
+      { label:'单位',prop:'skuUnitName',},
+      { label:'税率',dom:formatter(5)},
+    ]},
+    { label:'入库信息',children:[
+      { label:'入库单价',prop:'incomingUnitPrice',},
+      { label:'已入库数量',prop:'realInQty',useSum:true},
+      { label:'已入库金额',dom:formatter(9),useSum:'incomingUnitPrice,realInQty',unitName:'元'},
+    ]},
+    { label:'本张商品发票信息',children:[
+      { label:'单价',prop:'taxPrice',},
+      { label:'数量',prop:'invoiceQty',useSum:true},
+      { label:'金额',dom:formatter(8),useSum:'invoiceQty,taxPrice',unitName:'元'},
+    ]}
   ]
 
   //签收明细弹框表格配置
@@ -93,6 +101,8 @@ export  const listDetailConfig=[
         case 5:return !isNaN(Number(row.taxRate/100))?Number(row.taxRate/100).toFixed(2):0;break;
         case 6:return !isNaN(Number(row.taxPrice*row.realInQty))?Number(row.taxPrice*row.realInQty).toFixed(2):0;break;
         case 7:return !isNaN(Number(row.taxPrice*row.invoicedQty))?Number(row.taxPrice*row.invoicedQty).toFixed(2):0;break;
+        case 8:return !isNaN(Number(row.invoiceQty*row.taxPrice))?Number(row.invoiceQty*row.taxPrice).toFixed(2):0;break;
+        case 9:return !isNaN(Number(row.incomingUnitPrice*row.realInQty))?Number(row.incomingUnitPrice*row.realInQty).toFixed(2):0;break;
       }
     }
   }

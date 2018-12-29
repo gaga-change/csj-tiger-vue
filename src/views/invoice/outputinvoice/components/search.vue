@@ -136,7 +136,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="6" v-if="searchForm.searchItem=='register'||searchForm.searchItem=='invalid'">
+        <el-col :span="6" v-if="searchForm.searchItem!=='invalid'">
           <el-form-item label="业务板块">
             <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择业务板块">
               <el-option
