@@ -280,47 +280,47 @@
   //货物校验
   const goodsRules = {
      applyTitle:[
-        { required: true, message: '请输入申请标题', trigger: 'blur' }
+        { required: true, message: '请输入申请标题'}
       ],
       paymenterCode: [
-        { required: true, message: '请选择收款方', trigger: 'change' }
+        { required: true, message: '请选择收款方' }
       ],
       // applyPaymentAmt: [
       //   { validator: checkAmtGoods, required: true, trigger: 'blur' }
       // ],
       moneyState: [
-        { required: true, message: '请选择款项性质', trigger: 'change' }
+        { required: true, message: '请选择款项性质' }
       ],
       moneyType: [
-        { required: true, message: '请选择款项类型', trigger: 'change' }
+        { required: true, message: '请选择款项类型' }
       ],
       busiBillNo: [
-        { required: true, message: '请选择采购订单', trigger: 'change' }
+        { required: true, message: '请选择采购订单' }
       ],
       applyPaymentDate: [
-        {  required: true, message: '请选择付款日期', trigger: 'change' }
+        {  required: true, message: '请选择付款日期' }
       ],
   }
 
   //非货物校验
   const notGoodsRules = {
     applyTitle:[
-        { required: true, message: '请输入申请标题', trigger: 'blur' }
+        { required: true, message: '请输入申请标题', }
       ],
       paymenterCode: [
-        { required: true, message: '请选择收款方', trigger: 'change' }
+        { required: true, message: '请选择收款方', }
       ],
       // applyPaymentAmt: [
       //   { validator: checkAmt, required: true, trigger: 'blur' }
       // ],
       moneyState: [
-        { required: true, message: '请选择款项性质', trigger: 'change' }
+        { required: true, message: '请选择款项性质',  }
       ],
       // contractNo: [
       //   { required: true, message: '请输入合同号', trigger: 'blur' }
       // ],
       applyPaymentDate: [
-        {  required: true, message: '请选择付款日期', trigger: 'change' }
+        {  required: true, message: '请选择付款日期', }
       ],
   }
 
@@ -488,13 +488,20 @@
     },
 
     created() {
-      console.log('created')
-      // this.payment.moneyState = 0
-      // this.$set('payment.moneyState',0)
+      // // this.payment.moneyState = 0
+      // // this.$set('payment.moneyState',0)
+      try{
+        this.$refs['ruleForm'].resetFields();
+
+      }catch(err){
+        console.log(1);
+        
+      }
+
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
-      }  else{
-        this.payment={}
+      }else{
+        this.payment={...payment}
         this.fileNew =[]
         this.filePathList = []
       }
@@ -503,8 +510,16 @@
     },
 
     activated(){
-      // this.payment.moneyState = 0
-      // this.$set('payment.moneyState',0)
+        // this.$refs['ruleForm'].resetFields();
+        try{
+          this.$refs['ruleForm'].resetFields();
+
+        }catch(err){
+          console.log(1);
+          
+        }
+    //   // this.payment.moneyState = 0
+    //   // this.$set('payment.moneyState',0)
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
      } else if(this.$route.query.byOut){
@@ -576,10 +591,8 @@
 
           // }
         }
-        this.$refs['ruleForm'].validate((valid) => {
-          return false
-          
-        });
+       
+        this.$refs['ruleForm'].resetFields();
         
       },
       getPayInfo(){
@@ -825,6 +838,9 @@
           if (valid) {
           
             let postData = {...this.payment}
+            if(this.$route.query.byOut){
+               postData.accountBillId=this.$route.query.reaconcliliationId
+            }
             // if(!this.filePathList.length){
             //   this.$message.error('附件不能为空');
             //   return ''
