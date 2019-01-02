@@ -763,7 +763,7 @@
       },
       getDetail() {
         getPaymentListAndDetail(
-         {id:this.$route.query.id}
+         {id:this.$route.query.id,isRegisterflag:false}
         ).then(res => {
           if(res.success){
             let {...payment} = res.list[0]
