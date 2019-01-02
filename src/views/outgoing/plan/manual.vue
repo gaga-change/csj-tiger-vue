@@ -180,6 +180,11 @@
          this.sureLoding=true;
          let row=this.row;
          if(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty){
+           console.log({
+              ...this.row,
+              modifierId:this.userInfo.id,
+              modifierName:this.userInfo.truename,
+            })
           planHandMatch({
               ...this.row,
               modifierId:this.userInfo.id,
@@ -247,7 +252,7 @@
           row.matchSkuFormat=currentRow.skuFormat;//规格
           row.planInQty=currentRow.planInQty;//计划采购量
           row.realInQty=currentRow.realInQty;//入库量
-          row.matchBusiIndex=currentRow.outBillIndex;
+          row.matchBusiIndex=currentRow.busiIndex;
           row.matchSkuUnitName=currentRow.skuUnit;
           row.matchPurNo=currentRow.purcticketno;
           this.row=row;
