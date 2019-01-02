@@ -66,6 +66,7 @@ import _  from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';
 export default {
+  name:'add',
   components: { AddSearch,EditTable,webPaginationTable },
    data() {
     return {

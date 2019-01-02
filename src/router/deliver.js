@@ -276,7 +276,7 @@ export default [
     path: '/abnormalGoods',
     component: Layout,
     redirect: 'abnormalGoods/list',
-    meta: { title: '异常商品登记', noCache: false,icon:'back' },
+    meta: { title: '异常商品登记', noCache: true,icon:'back' },
     hidden: false,
     children: [
       {
