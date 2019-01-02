@@ -120,9 +120,6 @@ export default {
         }
   },
 
-  created(){
-
-  },
 
   computed: {
     ...mapGetters({
