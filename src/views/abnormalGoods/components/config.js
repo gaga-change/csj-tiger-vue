@@ -68,8 +68,10 @@ export  const listIndexConfig=[ //列表页表格配置
     { title:'供应商名称',prop:'servicername'},
     { title:'开票状态',prop:'invoicestatus'},
     { title:'开票金额',prop:'invoiceamount'},
-    { title:'付款状态',prop:'paystatus'},
-    { title:'付款金额',prop:'payamount'},
+    { title:'是否退款',prop:'whetherRefund'},
+     
+    { title:'付款状态',prop:'paystatus',useLocalEnum:true, type:'paymentStatusConfig'},
+    { title:'付款金额',prop:'payamount',},
     { title:'退货金额',prop:'sumbackamount'},
     { title:'退货原因',prop:'backreason'},
    
