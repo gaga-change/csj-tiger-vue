@@ -7,6 +7,7 @@ export   const tableConfig=[
   { label:'签收数量',prop:'allSignQty',width:'180px'},
   { label:'签收金额',prop:'allSignAmount',width:'180px'},
   { label:'货主',prop:'ownerName',width:'180px'},
+  { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'发货仓库',prop:'planWarehouseName',width:'180px'},
   { label:'单据状态',prop:'approveStatus',width:'80px',type:'getApproveStatusMap',useApi:true},
   { label:'开票状态',prop:'signStatus',width:'80px',type:'getSignStatus',useApi:true},

@@ -837,7 +837,7 @@
             postData.operatorName = this.userInfo.truename
             postData.operator = this.userInfo.id
             postData.fromSystemCode = 'CSJSCM'
-
+            postData.accountBillId=this.$route.query.reaconcliliationId;
  
             delete postData.realPaymentAmt 
 

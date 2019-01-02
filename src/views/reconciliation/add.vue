@@ -35,7 +35,7 @@ export default {
          time:[],
          ownerCode:'',
          ownerName:'',
-         serviceRate:''
+         serviceRate:5
       },
       tableLoading:false,
       detailTableConfig,
@@ -88,7 +88,7 @@ export default {
       this.searchForm=value;
       let {time,ownerName,ownerCode ,serviceRate}=value;
       if(isNaN(serviceRate)||serviceRate<0||serviceRate>100){
-        this.$message.error('服务百分比应为1-100之间的数值');
+        this.$message.error('费百分比应为1-100之间的数值');
         return ''
       }
       serviceRate=serviceRate/100;

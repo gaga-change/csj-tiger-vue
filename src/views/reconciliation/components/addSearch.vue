@@ -50,14 +50,14 @@
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="服务百分比" 
-             label-width="90px" 
+            <el-form-item label="服务费百分比" 
+             label-width="100px" 
              prop="serviceRate"
              :rules="[
                { required: true, message: '该项为必填'},
              ]">
                <el-input type="text" size="small"
-                 placeholder="输入服务百分比" v-model.number="searchForm.serviceRate" >
+                 placeholder="输入服务费百分比" v-model.number="searchForm.serviceRate" >
                  <template  slot="append">
                      <span>%</span>
                   </template>

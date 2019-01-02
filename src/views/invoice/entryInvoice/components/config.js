@@ -70,7 +70,7 @@ export  const listDetailConfig=[
       { label:'已入库数量',prop:'realInQty',useSum:true},
       { label:'已入库金额',dom:formatter(9),useSum:'incomingUnitPrice,realInQty',unitName:'元'},
     ]},
-    { label:'本张商品发票信息',children:[
+    { label:'本张发票商品信息',children:[
       { label:'单价',prop:'taxPrice',},
       { label:'数量',prop:'invoiceQty',useSum:true},
       { label:'金额',dom:formatter(8),useSum:'invoiceQty,taxPrice',unitName:'元'},

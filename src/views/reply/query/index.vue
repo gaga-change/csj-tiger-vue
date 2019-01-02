@@ -76,6 +76,19 @@
             </el-form-item>
           </el-col>
 
+         <el-col :span="6" style="min-width:300px" >
+          <el-form-item label="业务板块" label-width="70px"  prop="busiPlate">
+            <el-select v-model="ruleForm.busiPlate" @change="submitForm('ruleForm')"  placeholder="请选择业务板块">
+              <el-option
+                v-for="item in busiPlateConfig"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
           <el-col :span="12"   >
             <el-form-item label="签收日期" label-width="60px" prop="time">
                  <el-date-picker
@@ -123,6 +136,7 @@
     import { mapGetters } from 'vuex'
     import { tableConfig} from './config';
     import Sticky from '@/components/Sticky'
+    import {busiPlateConfig} from '@/utils/enum'
     export default {
       components: { BaseTable,Sticky },
       data() {
@@ -147,6 +161,7 @@
         loading:false,
         tableData: [],
         tableConfig,
+        busiPlateConfig
       }
     },
      mounted(){
