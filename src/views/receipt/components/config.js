@@ -76,8 +76,8 @@ export const queryTableConfig=[//收款查询页面配置
   { label:'合同编号',prop:'contractNo'},
   { label:'业务板块',prop:'busiPlate',type:'busiPlateConfig', useLocalEnum:true,},
   { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true,},
-  { label:'货款金额',prop:'orderAmt'},
+  { label:'货款金额',prop:'payableAmt'},
   { label:'贴息',prop:'interestAmt'},
-  { label:'实收金额',prop:'payableAmt'},
+  { label:'实收金额',prop:'paymentAmt'},
   { label:'货主',prop:'ownerCode', type:'ownerInfoMap',useApi:true},
 ]

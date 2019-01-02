@@ -100,7 +100,7 @@
       </template>
     </template>
     <template v-else>
-       <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:10px">
+       <!-- <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:10px">
         <el-row>
           <el-col  class="card-list" :span="18" >
               <span class="card-title">对账区间</span> ：
@@ -109,7 +109,7 @@
               </a>
             </el-col>
         </el-row>
-      </el-card>   
+      </el-card>    -->
        <!-- 对账单 -->
       <pay-bill :serviceCharge="paybillData.serviceCharge" :table-data="paybillData.tableData" ref="payBills" :dialog-visible-pay="dialogVisiblePay" :time-usable="timeUsable" :pay-duration-start="payDurationStart" :pay-duration-end="payDurationEnd">
       </pay-bill>
