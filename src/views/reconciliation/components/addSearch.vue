@@ -9,24 +9,28 @@
 
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
-  
-          <el-col :span="12" style="min-width:300px" >
-            <el-form-item
-             label="对账日期" 
-             prop="time"
-             :rules="[
-               { required: true, message: '该项为必填'},
-             ]">
-              <el-date-picker
-                v-model="searchForm.time"
-                type="daterange"
-                unlink-panels
-                size="small" 
-                style="width:400px"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :picker-options="pickerOptions">
+          <el-col :span="6" style="min-width:330px" >
+            <el-form-item 
+            label-width="80px" 
+            label="对账起始日期:" 
+            prop="startTime"
+            :rules="[
+              { required: true, message: '该项为必填'},
+            ]">
+              <el-date-picker size="small" v-model="searchForm.startTime"  placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6" style="min-width:330px" >
+            <el-form-item 
+            label-width="80px" 
+            label="对账结束日期:" 
+            prop="endTime"
+            :rules="[
+              { required: true, message: '该项为必填'},
+            ]">
+              <el-date-picker size="small" v-model="searchForm.endTime"  placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
           </el-col>

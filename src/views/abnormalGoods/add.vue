@@ -66,6 +66,7 @@ import _  from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';
 export default {
+  name:'add',
   components: { AddSearch,EditTable,webPaginationTable },
    data() {
     return {
@@ -85,7 +86,8 @@ export default {
     }
   },
 
-  mounted(){
+
+  activated(){
      if(this.$route.query.id){
          getPurcRejectApply({
            id:this.$route.query.id
@@ -94,8 +96,7 @@ export default {
               for(let i in this.$refs['search'].searchForm){
                  this.$refs['search'].searchForm[i]=res.data[i]
               }
-              console.log(this.$refs['search'].searchForm.handleOpinion,1231231231);
-              
+
               if(!this.$refs['search'].searchForm.handleOpinion){
                 this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
               }
@@ -120,9 +121,8 @@ export default {
         }
   },
 
-  created(){
 
-  },
+
 
   computed: {
     ...mapGetters({

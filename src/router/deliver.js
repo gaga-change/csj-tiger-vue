@@ -288,7 +288,7 @@ export default [
       {
         name: 'add',
         path: 'add',
-        meta: { title: '创建异常商品登记', noCache: true },
+        meta: { title: '创建异常商品登记', noCache: false },
         component: _import('abnormalGoods/add'),
         hidden: true,
       },
