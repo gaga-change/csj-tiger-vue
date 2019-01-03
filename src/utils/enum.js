@@ -72,6 +72,21 @@ export const InvoiceStatus = [
   },
 ]
 
+//开具状态
+export const InvoiceStatus2 = [
+  {
+    name: '开具',
+    value: 0
+  },
+  {
+    name: '开具',
+    value: 1
+  },
+  {
+    name: '作废',
+    value: 2
+  },
+]
 
 //发票类型
 export const InvoiceType = [

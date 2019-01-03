@@ -144,7 +144,7 @@ export default {
     }
   },
 
-  mounted(){
+  activated(){
     let dataApi=toAddRegister;
     if(this.$route.query.edit){
       dataApi=registerDetail;

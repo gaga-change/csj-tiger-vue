@@ -117,7 +117,7 @@ export default {
     }
   },
 
-  mounted(){
+  activated(){
     let { from,id }=this.$route.query||{};
     if(from){
       getSalesInvoiceDetails({id}).then(res=>{

@@ -58,7 +58,7 @@ export default {
       ])
   },
 
-  mounted(){
+  activated(){
     if(this.$route.query.id){
       queryAccountBill({
         id:this.$route.query.id
