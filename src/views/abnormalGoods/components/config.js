@@ -31,7 +31,7 @@ export  const listIndexConfig=[ //列表页表格配置
     // { title:'已入库数量',prop:'realInQty',},
     { title:'已入库金额',prop:'inboundAmount',type:'toFixed'},
     // { title:'已收票金额',prop:'invoicedAmount',type:'toFixed'},
-    { title:'已付贷款',prop:'paidPayment',type:'toFixed'},
+    { title:'已付货款',prop:'paidPayment',type:'toFixed'},
   ]
 
 

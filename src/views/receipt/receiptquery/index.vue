@@ -2,7 +2,7 @@
   <div  class="abnormalGoods">
       <search-invoice  :searchForm="searchForm"   @submit="this.submit"  ></search-invoice>
       <div class="tableTotal" v-if="totalData&&totalData.totalPayableAmt!==undefined||totalData.totalInterestAmt!==undefined||totalData.totalPaymentAmt!==undefined">
-       <span>贷款合计</span> : <span>{{totalData&&totalData.totalPayableAmt&&Number(totalData.totalPayableAmt).toFixed(2)}}</span>
+       <span>货款合计</span> : <span>{{totalData&&totalData.totalPayableAmt&&Number(totalData.totalPayableAmt).toFixed(2)}}</span>
        <span>贴息合计</span> : <span>{{totalData&&totalData.totalInterestAmt&&Number(totalData.totalInterestAmt).toFixed(2)}}</span>
        <span>实收合计</span> : <span>{{totalData&&totalData.totalPaymentAmt&&Number(totalData.totalPaymentAmt).toFixed(2)}}</span>
      </div>
