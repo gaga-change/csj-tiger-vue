@@ -86,43 +86,13 @@ export default {
     }
   },
 
-
-  activated(){
-     if(this.$route.query.id){
-         getPurcRejectApply({
-           id:this.$route.query.id
-         }).then(res=>{
-            if(res.success){
-              for(let i in this.$refs['search'].searchForm){
-                 this.$refs['search'].searchForm[i]=res.data[i]
-              }
-
-              if(!this.$refs['search'].searchForm.handleOpinion){
-                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
-              }
-              this.editTableData=res.data.productBreakdown.map(v=>{
-                let json=v;
-                json.warehouseName=res.data.warehouseName;
-                json.purcBillNo=res.data.purcBillNo;
-                json.purcBillContractNo=res.data.purcBillContractNo;
-                json.warehouseCode=res.data.warehouseCode;
-                json.costPrice=v.taxPrice;
-                return json;
-              });
-            }
-         }).catch(err=>{
-           if(!this.$refs['search'].searchForm.handleOpinion){
-             this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
-            }
-            console.log(err)
-         })
-        }else{
-           this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value     
-        }
+  mounted(){
+    this.onload()
   },
 
-
-
+  activated(){
+    this.onload()
+  },
 
   computed: {
     ...mapGetters({
@@ -155,7 +125,40 @@ export default {
   },
 
   methods:{
+     onload(){
+         if(this.$route.query.id){
+         getPurcRejectApply({
+           id:this.$route.query.id
+         }).then(res=>{
+            if(res.success){
+              for(let i in this.$refs['search'].searchForm){
+                 this.$refs['search'].searchForm[i]=res.data[i]
+              }
 
+              if(!this.$refs['search'].searchForm.handleOpinion){
+                this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+              }
+              this.editTableData=res.data.productBreakdown.map(v=>{
+                let json=v;
+                json.warehouseName=res.data.warehouseName;
+                json.purcBillNo=res.data.purcBillNo;
+                json.purcBillContractNo=res.data.purcBillContractNo;
+                json.warehouseCode=res.data.warehouseCode;
+                json.costPrice=v.taxPrice;
+                return json;
+              });
+            }
+         }).catch(err=>{
+           if(!this.$refs['search'].searchForm.handleOpinion){
+             this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
+            }
+            console.log(err)
+         })
+        }else{
+           this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value     
+        }
+    },
+    
     purcBillContractNoChange(value){
      this.alertTableData=this.localAlertTableData.filter(v=>v.purcBatchContractNo===value);
     },

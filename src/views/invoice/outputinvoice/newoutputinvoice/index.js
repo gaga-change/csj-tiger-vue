@@ -117,71 +117,12 @@ export default {
     }
   },
 
+  mounted(){
+    this.onLoad()
+  },
+
   activated(){
-    let { from,id }=this.$route.query||{};
-    if(from){
-      getSalesInvoiceDetails({id}).then(res=>{
-        if(res.success){
-          let data=_.cloneDeep(this.searchForm);
-          if(res.data&&res.data.cusCode){
-            this.ordernoandcontractnoApi({entNumber:res.data.cusCode})
-          }
-          if(res.data&&res.data.outBusiBillNo){
-            getSigningInformation({
-              signatureNumber:res.data.outBusiBillNo
-            }).then(res=>{
-              if(res.success){
-                this.signNoConfig=res.data;
-              }
-            }).catch(err=>{
-              console.log(err)
-            });
-      
-            billingTypeDetails({
-              outBusiBillNo:res.data.outBusiBillNo
-            }).then(res=>{
-              if(res.success){
-                this.outBusiBillNoConfig=res.data;
-              }
-            }).catch(err=>{
-               console.log(err)
-            })
-          }
-
-          for(let i in data){
-            if(i==='orderNo'){
-              data[i]=res.data['outBusiBillNo'];
-            } else if(i==='invoiceNature'){
-              let name=NatureInvoice&&NatureInvoice.find(v=>v.value===res.data['invoiceNature']).name;
-              data[i]=NatureInvoiceEnum&&NatureInvoiceEnum.find(item=>item.name===name).value
-            }   else{
-              data[i]=res.data[i];
-            }
-          }
-          
-          data['productBreakdown']=res.data['finaSaleInvoiceDetailDOList'].map(v=>{
-            let json=v;
-            json['invoicedQty']=json['numberOfReceipts'];
-            json['invoicedQuantity']=json['actualInvoiceNumber']; 
-
-            json['skuPrice']=json['taxPrice'];
-            json['actualTicketTax']=json['invoiceTax'];
-            return json;
-          })
-          this.searchForm=data;
-        }
-      }).catch(err=>{
-         console.log(err)
-      })
-    }
-
-     infoCustomerInfo().then(res=>{
-        if(res.success){
-          this.customerConfig=res.data||[]
-        }
-     }).catch(err=>{
-      console.log(err)
-     })
+    this.onLoad()
   },
 
   computed: {
@@ -256,6 +197,73 @@ export default {
   
 
   methods:{
+
+    onLoad(){
+      let { from,id }=this.$route.query||{};
+      if(from){
+        getSalesInvoiceDetails({id}).then(res=>{
+          if(res.success){
+            let data=_.cloneDeep(this.searchForm);
+            if(res.data&&res.data.cusCode){
+              this.ordernoandcontractnoApi({entNumber:res.data.cusCode})
+            }
+            if(res.data&&res.data.outBusiBillNo){
+              getSigningInformation({
+                signatureNumber:res.data.outBusiBillNo
+              }).then(res=>{
+                if(res.success){
+                  this.signNoConfig=res.data;
+                }
+              }).catch(err=>{
+                console.log(err)
+              });
+        
+              billingTypeDetails({
+                outBusiBillNo:res.data.outBusiBillNo
+              }).then(res=>{
+                if(res.success){
+                  this.outBusiBillNoConfig=res.data;
+                }
+              }).catch(err=>{
+                 console.log(err)
+              })
+            }
+  
+            for(let i in data){
+              if(i==='orderNo'){
+                data[i]=res.data['outBusiBillNo'];
+              } else if(i==='invoiceNature'){
+                let name=NatureInvoice&&NatureInvoice.find(v=>v.value===res.data['invoiceNature']).name;
+                data[i]=NatureInvoiceEnum&&NatureInvoiceEnum.find(item=>item.name===name).value
+              }   else{
+                data[i]=res.data[i];
+              }
+            }
+            
+            data['productBreakdown']=res.data['finaSaleInvoiceDetailDOList'].map(v=>{
+              let json=v;
+              json['invoicedQty']=json['numberOfReceipts'];
+              json['invoicedQuantity']=json['actualInvoiceNumber']; 
+  
+              json['skuPrice']=json['taxPrice'];
+              json['actualTicketTax']=json['invoiceTax'];
+              return json;
+            })
+            this.searchForm=data;
+          }
+        }).catch(err=>{
+           console.log(err)
+        })
+      }
+  
+       infoCustomerInfo().then(res=>{
+          if(res.success){
+            this.customerConfig=res.data||[]
+          }
+       }).catch(err=>{
+        console.log(err)
+       })
+    },
 
     cusCodeFilter(value){
       this.customerFilterMark=value;

@@ -144,7 +144,28 @@ export default {
     }
   },
 
+  mounted(){
+     this.onLoad()
+  },
+
   activated(){
+    this.onLoad()
+  },
+
+  updated(){
+    this.operationDom()
+  },
+
+
+  computed: {
+    ...mapGetters({
+      visitedViews: 'visitedViews',
+    }),
+  },
+
+  methods:{
+
+  onLoad(){
     let dataApi=toAddRegister;
     if(this.$route.query.edit){
       dataApi=registerDetail;
@@ -187,17 +208,6 @@ export default {
     this.operationDom()
   },
 
-  updated(){
-    this.operationDom()
-  },
-
-  computed: {
-    ...mapGetters({
-      visitedViews: 'visitedViews',
-    }),
-  },
-
-  methods:{
       operationDom(){
          let dom=document.querySelectorAll('.sub-navbar >div');
           [...dom].forEach(item=>{

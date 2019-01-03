@@ -58,8 +58,19 @@ export default {
       ])
   },
 
+  mounted(){
+   this.onLoad()
+  },
+
+
   activated(){
-    if(this.$route.query.id){
+    this.onLoad()
+  },
+
+  methods:{
+     
+    onLoad(){
+      if(this.$route.query.id){
       queryAccountBill({
         id:this.$route.query.id
       }).then(res=>{
@@ -78,10 +89,8 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
-    }
-  },
-
-  methods:{
+     }
+    },
 
     submit(value,type){
       const view = this.visitedViews.filter(v => v.path === this.$route.path)

@@ -140,8 +140,18 @@ export default {
       } ,
     },
 
+    mounted(){
+      this.onLoad()
+    },
+
     activated(){
-       let { finaPurchaseInvoiceId }=this.$route.query||{};
+      this.onLoad()
+    },
+
+  methods:{
+
+    onLoad(){
+      let { finaPurchaseInvoiceId }=this.$route.query||{};
        if(finaPurchaseInvoiceId){
          findFinaPurchaseInvoice({
             finaPurchaseInvoiceId
@@ -171,7 +181,7 @@ export default {
        }
     },
 
-  methods:{
+    
     alertSeach(value){
       this.alertTableData= this.alertlocalTableData.filter(v=>v.skuName.includes(this.alertSkuName))
     },

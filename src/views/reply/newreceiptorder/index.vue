@@ -321,7 +321,16 @@
       },
     },
 
+    mounted(){
+      this.onload()
+    },
+
     activated(){
+      this.onload()
+    },
+
+    methods:{ 
+     onload(){
       let {id,modify}=this.$route.query||{};
       this.id=id;
       let data=_.cloneDeep(this.planform); 
@@ -374,10 +383,9 @@
         }).catch(err=>{
             this.loading=false;
         })
-      }
-    },
+       }
+      },
 
-    methods:{
       submitOrder(formName){
         let {modify}=this.$route.query||{};
         let Api=signBuildSale;
