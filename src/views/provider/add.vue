@@ -122,6 +122,7 @@ import { mapGetters } from 'vuex'
 import _  from 'lodash';
 import moment from 'moment';
 export default {
+  name:'providerAdd',
   components: { Sticky,NestingTable},
    data() {
     return {
@@ -148,15 +149,9 @@ export default {
      this.onLoad()
   },
 
-  activated(){
-    this.onLoad()
-  },
-
-  updated(){
-    this.operationDom()
-  },
-
-
+  // activated(){
+  //   this.onLoad()
+  // },
   computed: {
     ...mapGetters({
       visitedViews: 'visitedViews',

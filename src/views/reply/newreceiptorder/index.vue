@@ -325,9 +325,9 @@
       this.onload()
     },
 
-    activated(){
-      this.onload()
-    },
+    // activated(){
+    //   this.onload()
+    // },
 
     methods:{ 
      onload(){

@@ -121,9 +121,9 @@ export default {
     this.onLoad()
   },
 
-  activated(){
-    this.onLoad()
-  },
+  // activated(){
+  //   this.onLoad()
+  // },
 
   computed: {
     ...mapGetters({

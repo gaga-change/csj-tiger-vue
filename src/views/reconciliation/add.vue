@@ -63,9 +63,9 @@ export default {
   },
 
 
-  activated(){
-    this.onLoad()
-  },
+  // activated(){
+  //   this.onLoad()
+  // },
 
   methods:{
      

@@ -90,9 +90,9 @@ export default {
     this.onload()
   },
 
-  activated(){
-    this.onload()
-  },
+  // activated(){
+  //   this.onload()
+  // },
 
   computed: {
     ...mapGetters({
