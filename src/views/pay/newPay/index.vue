@@ -56,7 +56,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="this.payment.moneyState === 0">
-          <el-form-item label="款项类型" prop="moneyType" key="moneyType">  
+          <el-form-item label="款项类型" prop="moneyType" key="moneyType" :rules="[
+                {  required: true, message:'请选择款项类型' }
+              ]">  
             <el-select v-model="payment.moneyType" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in MoneyTypeEnum"
@@ -70,7 +72,9 @@
        
 
         <el-col :span="6" v-if="this.payment.moneyState === 0">
-          <el-form-item label="采购订单" prop="busiBillNo">
+          <el-form-item label="采购订单" prop="busiBillNo" :rules="[
+                {  required: true, message:'请选择采购订单' }
+              ]"> 
             <el-select v-model="payment.busiBillNo" :disabled="false" 
             :filter-method="cusBillFilter" 
             @focus="clearMark"
