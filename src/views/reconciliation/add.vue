@@ -32,7 +32,8 @@ export default {
    data() {
     return {
       searchForm:{
-         time:[],
+         startTime:'',
+         endTime:'',
          ownerCode:'',
          ownerName:'',
          serviceRate:5
@@ -64,9 +65,7 @@ export default {
         if(res.success){
           if(res.data&&res.data[0]){
             for(let i in this.searchForm){
-              if(i==='time'){
-                 this.searchForm['time']=[res.data[0]['startTime'],res.data[0]['endTime']]
-              } else if(i==='serviceRate'){
+               if(i==='serviceRate'){
                  this.searchForm['serviceRate']=res.data[0]['serviceRate']*100
               } else{
                 this.searchForm[i]=res.data[0][i]
@@ -86,14 +85,14 @@ export default {
     submit(value,type){
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.searchForm=value;
-      let {time,ownerName,ownerCode ,serviceRate}=value;
+      let {startTime,endTime,ownerName,ownerCode ,serviceRate}=value;
       if(isNaN(serviceRate)||serviceRate<0||serviceRate>100){
         this.$message.error('费百分比应为1-100之间的数值');
         return ''
       }
       serviceRate=serviceRate/100;
-      let startTime=moment(time[0]).valueOf();
-      let endTime=moment(time[1]).valueOf();
+      startTime=moment(startTime).valueOf();
+      endTime=moment(endTime).valueOf();
       let json={
         startTime,
         endTime,
