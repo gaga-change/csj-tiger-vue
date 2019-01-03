@@ -28,6 +28,7 @@ export default [
         meta: {
           title: '新增发票页面',
           icon: 'form',
+          noCache: false
         }
       },
 
@@ -144,7 +145,7 @@ export default [
         meta: {
           title: '申请销项发票',
           icon: 'form',
-          roles: ['service_finance']
+          noCache: false
         },
         hidden: true
       }

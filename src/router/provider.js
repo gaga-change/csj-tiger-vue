@@ -21,9 +21,9 @@ export default [
       {
         path: 'add',
         component: _import('provider/add'),
-        name: 'add',
+        name: 'providerAdd',
         hidden:true,
-        meta: {title: '登记页面',noCache: true }
+        meta: {title: '登记页面',noCache: false }
       },
       {
         path: 'detail',

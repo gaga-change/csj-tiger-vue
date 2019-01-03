@@ -97,7 +97,7 @@
       linkToInvoice(){
         if(this.$haspermission('salseinvoicecreate')){
           this.$router.push({
-            path:'/invoice/outputinvoice/newoutputinvoice',
+            path:`/invoice/outputinvoice/newoutputinvoice?time=${moment().valueOf()}`,
           })
         }else{
           this.$message({type:'info',message:'您无法新建发票，请联系管理员',duration:2000})

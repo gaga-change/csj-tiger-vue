@@ -59,7 +59,7 @@
 
     add(){
       this.$router.push({
-        path:'/reconciliation/add',
+        path:`/reconciliation/add?time=${moment().valueOf()}`,
       })
     },
 

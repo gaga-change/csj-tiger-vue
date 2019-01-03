@@ -263,6 +263,7 @@
   import Sticky from '@/components/Sticky'
   import { mapGetters } from 'vuex'
   export default {
+    name:'newreceiptorder',
     components: { Sticky },
     data(){
       return {

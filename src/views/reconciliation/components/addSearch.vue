@@ -11,7 +11,7 @@
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
           <el-col :span="6" style="min-width:330px" >
             <el-form-item 
-            label-width="80px" 
+            label-width="100px" 
             label="对账起始日期:" 
             prop="startTime"
             :rules="[
@@ -24,7 +24,7 @@
 
           <el-col :span="6" style="min-width:330px" >
             <el-form-item 
-            label-width="80px" 
+            label-width="100px" 
             label="对账结束日期:" 
             prop="endTime"
             :rules="[

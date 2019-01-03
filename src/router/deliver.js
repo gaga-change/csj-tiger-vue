@@ -258,7 +258,7 @@ export default [
       {
         name: 'newreceiptorder',
         path: 'newreceiptorder',
-        meta: { title: '创建回单', noCache: true },
+        meta: { title: '创建回单', noCache: false },
         component: _import('reply/newreceiptorder/index'),
         hidden: true,
       },
@@ -286,7 +286,7 @@ export default [
         component: _import('abnormalGoods/list')
       },
       {
-        name: 'add',
+        name: 'abnormalGoodsAdd',
         path: 'add',
         meta: { title: '创建异常商品登记', noCache: false },
         component: _import('abnormalGoods/add'),
@@ -326,9 +326,9 @@ export default [
         hidden: false,
       },
       {
-        name: 'add',
+        name: 'reconciliationAdd',
         path: 'add',
-        meta: { title: '新增对账单', noCache: true },
+        meta: { title: '新增对账单', noCache: false },
         component: _import('reconciliation/add'),
         hidden: true,
       },

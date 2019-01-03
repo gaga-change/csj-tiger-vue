@@ -28,6 +28,7 @@ import { getInvoiceAmmount,saveAccountBill,queryAccountBill } from '@/api/reconc
 import moment from 'moment';
 import webPaginationTable from '@/components/Table/webPaginationTable'; 
 export default {
+  name:'reconciliationAdd',
   components: {webPaginationTable,SearchFrom},
    data() {
     return {

@@ -138,7 +138,7 @@
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>
                     <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>查看</router-link>
                     { row.isCreate&&
-                      <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>创建回单</router-link>
+                      <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id,time:moment().valueOf()}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>创建回单</router-link>
                     }
                     {
                       row.isHandOut&&
@@ -146,7 +146,7 @@
                     }
                     {
                       row.isReceive&&
-                      <router-link  to={{path:'/provider/add',query:{id:row.id,planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>收货登记</router-link>
+                      <router-link  to={{path:'/provider/add',query:{id:row.id,planCode:row.planCode,time:moment().valueOf()}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>收货登记</router-link>
                     }
                 </div>
               }

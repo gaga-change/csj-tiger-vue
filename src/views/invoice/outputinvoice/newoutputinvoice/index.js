@@ -12,7 +12,7 @@ import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'newoutputinvoice',
+  name: 'newoutputinvoiceDelivery',
   components: { Sticky ,webPaginationTable,BaseTable},
   data() {
     return {
