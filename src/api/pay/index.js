@@ -167,3 +167,11 @@ export function infoPaymentTotal(data) {
     data:data
   })
 }
+// /webApi/accountbill/queryAccountBill
+export function getBillId(data) {
+  return request({
+    url: `/webApi/accountbill/queryAccountBill?${stringify(data)}`,
+    method: 'get',
+    // data:data
+  })
+}

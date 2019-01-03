@@ -1,7 +1,7 @@
 <template>
   <div class="outgoing-quirydetail-container">
 
-  <item-title text="付款单详情"/>
+  <div style="position:relative;height:30px"><item-title text="付款单详情" style="position:absolute;left:0px;"/><template v-if="cardData.moneyState == 2"><a style="color:#67c23a;position:absolute;left:105px;line-height:24px;" @click="toBill">付款来源</a></template></div>
   <item-card :config="paymentInfoConfig" :loading="loading"   :cardData="cardData"  />
   <slot></slot>
      <item-title text="操作记录"/>
@@ -17,6 +17,7 @@
   import _ from 'lodash'
  import webPaginationTable from '@/components/Table/webPaginationTable'
   import { recordConfig } from './config'
+  import { getBillId } from '@/api/pay'
  export default {
     name: 'InvoiceDetail', 
     components: { webPaginationTable },
@@ -28,7 +29,7 @@
         searchForm:{},
         recordData:[],
         loading:false,
-
+        billClick:false,
         card:{},
         deConfig:{}        
       }
@@ -41,6 +42,25 @@
     },
     created(){
       this.recordData = [...this.tableData]
+    },
+    methods:{
+      toBill(){
+        this.billClick = true
+        getBillId({finaPaymentId:this.cardData.id}).then(res=>{
+          this.billClick = false
+          if(res.success&&res.data&&res.data[0]){
+            this.$router.push({
+              path:'/reconciliation/detail',
+              query:{id:res.data[0].id}
+            })
+          }else{
+            this.$message({type:'info',message:'跳转对账单详情页失败，请重试'})
+          }
+        }).catch(err=>{
+          this.billClick = false
+          this.$message({type:'info',message:'跳转对账单详情页失败，请重试'})
+        })
+      }
     },
     props:{
       name:{
