@@ -3,7 +3,7 @@
   <sticky :className="'sub-navbar published'">
     <template >
         <el-button type="success"  :loading="loading"  :disabled="!$haspermission('saleorderExamine')"   v-show="shouBtn" @click="submit(1,'请输入审核意见!')" size="small">审核</el-button>
-       <el-button :loading="loading"  v-show="shouBtn" :disabled="!$haspermission('saleorderReject')"  @click="submit(2,'请输入驳回意见!')" size="small">驳回</el-button>
+       <el-button :loading="loading"  v-show="shouBtn" :disabled="!$haspermission('saleorderReject')"  @click="submit(0,'请输入驳回意见!')" size="small">驳回</el-button>
     </template>
   </sticky>
 
@@ -73,6 +73,10 @@ computed: {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
      }).then(({ value }) => {
+       if(state===0&&!value){
+         this.$message.error('操作失败,驳回意见必填');
+         return ''
+       }
         this.loading=true;
         billAudit({
           checkAdvice:value,

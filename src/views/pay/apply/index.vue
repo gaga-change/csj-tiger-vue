@@ -51,7 +51,7 @@
         tableData: [],
         tableConfig:[],
         infoConfig:[ 
-          { title:'已收货款合计', prop:'totalPaymentAmt',type:'money' },
+          { title:'已付货款合计', prop:'totalPaymentAmt',type:'money' },
           { title:'贴息合计', prop:'totalInterestAmt',type:'money' },
         ],
         cardData:{},

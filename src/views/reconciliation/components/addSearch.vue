@@ -2,7 +2,8 @@
    <div class="entryInvoice-form">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button  type="success"size="small" @click="submit('submit')">生成对账单 </el-button>
+         <el-button  type="success"size="small" :loading="buttonLoding"  v-if="this.$route.query.id===undefined"  @click="submit('submit')">生成对账单 </el-button>
+         <el-button  type="success"size="small" :loading="buttonLoding" v-if="this.$route.query.id!==undefined"  @click="submit('submit')">确认修改 </el-button>
       </template>
     </sticky>
 
@@ -49,14 +50,14 @@
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="服务百分比" 
-             label-width="90px" 
+            <el-form-item label="服务费百分比" 
+             label-width="100px" 
              prop="serviceRate"
              :rules="[
                { required: true, message: '该项为必填'},
              ]">
                <el-input type="text" size="small"
-                 placeholder="输入服务百分比" v-model.number="searchForm.serviceRate" >
+                 placeholder="输入服务费百分比" v-model.number="searchForm.serviceRate" >
                  <template  slot="append">
                      <span>%</span>
                   </template>
@@ -124,9 +125,26 @@ export default {
        default:false
      }
   },
+
+  mounted(){
+    this.fomatDom()
+  },
+
+  updated(){
+    this.fomatDom()
+  },
   
 
   methods:{
+
+    fomatDom(){
+      let dom=document.querySelectorAll('.sub-navbar >div');
+      [...dom].forEach(item=>{
+        if(item.innerHTML==='sticky'){
+          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
+        }
+      })
+    },
   
     submit(type){
        this.$refs['searchForm'].validate((valid) => {

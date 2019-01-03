@@ -15,7 +15,7 @@ export  const listIndexConfig=[ //list页配置
     { title:'对账起始日期',prop:'startTime',type:'time'},
     { title:'对账结束日期',prop:'endTime',type:'time'},
     { title:'交易主体',prop:'ownerName',},
-    { title:'服务百分比',prop:'serviceRate',type:'rate'},
+    { title:'服务费百分比',prop:'serviceRate',type:'rate'},
   ]
 
   export  const detailTableConfig=[ //detail页list配置

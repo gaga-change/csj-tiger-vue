@@ -24,7 +24,7 @@
 import { mapGetters } from 'vuex'
 import SearchFrom from './components/addSearch'
 import { detailTableConfig } from './components/config';
-import { getInvoiceAmmount,saveAccountBill } from '@/api/reconciliation.js'; 
+import { getInvoiceAmmount,saveAccountBill,queryAccountBill } from '@/api/reconciliation.js'; 
 import moment from 'moment';
 import webPaginationTable from '@/components/Table/webPaginationTable'; 
 export default {
@@ -35,14 +35,16 @@ export default {
          time:[],
          ownerCode:'',
          ownerName:'',
-         serviceRate:''
+         serviceRate:5
       },
       tableLoading:false,
       detailTableConfig,
       detailTableData:[],
 
       totalData:{},
-      buttonLoding:false
+      buttonLoding:false,
+
+      oldJson:{},
 
     }
   },
@@ -54,6 +56,31 @@ export default {
       ])
   },
 
+  mounted(){
+    if(this.$route.query.id){
+      queryAccountBill({
+        id:this.$route.query.id
+      }).then(res=>{
+        if(res.success){
+          if(res.data&&res.data[0]){
+            for(let i in this.searchForm){
+              if(i==='time'){
+                 this.searchForm['time']=[res.data[0]['startTime'],res.data[0]['endTime']]
+              } else if(i==='serviceRate'){
+                 this.searchForm['serviceRate']=res.data[0]['serviceRate']*100
+              } else{
+                this.searchForm[i]=res.data[0][i]
+              }
+            }
+           this.$refs['searchForm'].submit('pull')
+          }
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
+  },
+
   methods:{
 
     submit(value,type){
@@ -61,7 +88,7 @@ export default {
       this.searchForm=value;
       let {time,ownerName,ownerCode ,serviceRate}=value;
       if(isNaN(serviceRate)||serviceRate<0||serviceRate>100){
-        this.$message.error('服务百分比应为1-100之间的数值');
+        this.$message.error('费百分比应为1-100之间的数值');
         return ''
       }
       serviceRate=serviceRate/100;
@@ -74,12 +101,21 @@ export default {
         ownerCode,
         serviceRate
       }
+      if(this.$route.query.id){
+        json.id=this.$route.query.id;
+      }
       if(type==='pull'){
-        this.getCurrentTableData(json)
+        this.getCurrentTableData(json);
+        this.oldJson=json;
       } else if(type==='submit'){
+          if(JSON.stringify(this.oldJson)!==JSON.stringify(json)){
+            this.$message.error('请先拉取对账单');
+            return ;
+          }
           if(this.totalData.billAmt!==undefined&&this.totalData.serviceCharge!==undefined){
               if(!this.detailTableData.length){
                  this.$message.error('操作失败,明细不能为空');
+                 return ''
               }
               this.buttonLoding=true;
               saveAccountBill({
@@ -100,7 +136,7 @@ export default {
                     this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
                           path:'/reconciliation/detail',
-                          query:{id:res.data }
+                          query:{id:this.$route.query.id||res.data }
                         })
                     }).catch(err=>{ 
                       console.log(err)

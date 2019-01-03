@@ -13,7 +13,7 @@
           <item-title text="入库业务"/>
              <web-pagination-table 
               :loading="outBillNoLoading"
-              :height="300"
+              :height="outBillNoTableData.length&&outBillNoTableData.length>5&&300||200"
               :config="manualBaseInfoTableConfig" 
               :allTableData="outBillNoTableData"/> 
          </div>
@@ -116,11 +116,12 @@
     },
 
     created(){
+
       this.matchingTableConfig.forEach(item=>{
         if(item.useLink){
             item.dom=(row, column, cellValue, index)=>{
              if(row.matchSkuCode){
-                if(!row.skuCode===row.matchSkuCode){
+                if(row.skuCode!==row.matchSkuCode){
                    return   <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
                 }
              } else{
@@ -157,10 +158,33 @@
   },
 
     methods:{
+      
+      match(){
+          this.matchingTableConfig.forEach(item=>{
+            if(item.useLink){
+                item.dom=(row, column, cellValue, index)=>{
+                if(row.matchSkuCode){
+                  console.log(row.matchSkuCode)
+                    if(row.skuCode!==row.matchSkuCode){
+                      return   <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>重新匹配</span>
+                    }
+                } else{
+                    return  <span class="operationBtn"  onClick={this.alertMethods.bind(this,row)}>匹配</span>
+                }
+                }
+            }
+          })
+      },
+
       matchSku(){
          this.sureLoding=true;
          let row=this.row;
          if(row.matchSkuName||row.matchSkuCode||row.matchSkuFormat||row.planInQty||row.realInQty){
+           console.log({
+              ...this.row,
+              modifierId:this.userInfo.id,
+              modifierName:this.userInfo.truename,
+            })
           planHandMatch({
               ...this.row,
               modifierId:this.userInfo.id,
@@ -207,6 +231,7 @@
             })
             this.clickId=new Date();
             this.getOutPlanDetail()
+            this.match()
           }
         }).catch(err=>{
           console.log(err)
@@ -227,7 +252,7 @@
           row.matchSkuFormat=currentRow.skuFormat;//规格
           row.planInQty=currentRow.planInQty;//计划采购量
           row.realInQty=currentRow.realInQty;//入库量
-          row.matchBusiIndex=currentRow.outBillIndex;
+          row.matchBusiIndex=currentRow.busiIndex;
           row.matchSkuUnitName=currentRow.skuUnit;
           row.matchPurNo=currentRow.purcticketno;
           this.row=row;
