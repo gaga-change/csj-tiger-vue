@@ -66,7 +66,7 @@ export  const listIndexConfig=[ //列表页表格配置
     { title:'采购单号',prop:'purchorder',},
     { title:'退货申请日期',prop:'backapplydate',type:'time'},
     { title:'供应商名称',prop:'servicername'},
-    { title:'开票状态',prop:'invoicestatus'},
+    { title:'开票状态',prop:'invoicestatus',type:'getSignStatus',useApi:true},
     { title:'开票金额',prop:'invoiceamount'},
     { title:'是否退款',prop:'whetherRefund'},
      
