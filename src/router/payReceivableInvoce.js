@@ -28,6 +28,7 @@ export default [
         meta: {
           title: '新增发票页面',
           icon: 'form',
+          noCache: false
         }
       },
 

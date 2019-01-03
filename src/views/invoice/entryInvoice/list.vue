@@ -128,7 +128,7 @@ export default {
 
     toadd(){
       this.$router.push({
-        path:'/invoice/entryInvoice/registrationAdd',
+        path:`/invoice/entryInvoice/registrationAdd?time=${moment().valueOf()}`,
       })
     },
 
