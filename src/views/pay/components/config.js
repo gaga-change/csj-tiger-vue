@@ -47,7 +47,7 @@ export const paymentInfoConfig = [//付款单货款详情
   // { title:'合同约定付款方式 ', prop:'paymentMode',
   // useLocalEnum:true, type:'PaymentModeEnum' },
   // { title:' 已付货款 ', prop:'paymentAmt',type:'money' },
-  { title:'申请付款金额', prop:'applyPaymentAmt',type:"money", paytype:'goods+service'},
+  // { title:'申请付款金额', prop:'applyPaymentAmt',type:"money", paytype:'goods+service'},
 
   
   { title:'要求付款日期', prop:'applyPaymentDate', type:'time', paytype:'goods+service' },

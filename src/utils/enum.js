@@ -384,8 +384,12 @@ export  const paymentStatusConfig=[
     value: 0
   },
   {
-    name: '已付款',
+    name: '部分付款',
     value: 1
+  },
+  {
+    name: '已付款',
+    value: 2
   },
 ]
 
@@ -425,6 +429,22 @@ export const busiPlateConfig = [
     value: 2
   },
 ];
+
+//scm付款状态
+export  const scmpaymentStatusConfig=[
+  {
+    name: '未付款',
+    value: 0
+  },
+  {
+    name: '部分付款',
+    value: 1
+  },
+  {
+    name: '已付款',
+    value: 2
+  },
+]
 
 //scm付款方式
 export const paymethodConfig = [

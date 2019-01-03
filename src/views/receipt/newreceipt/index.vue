@@ -277,28 +277,30 @@
       // if (!this.gridData.length) {
       //   this.$store.dispatch('GetGysList')
       // }
+        console.log(234);
       
       
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
-      }else{
+      }
+      else{
         this.receipt={}
         this.fileList = []
       }
-      console.log(this.enclosure,'awww');
       this.getCustomInfo()
     },
     activated(){
-
+        console.log(123);
+        
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         
         this.getDetail()
-      }else{
-        this.fileList = []
-        this.receipt={}
-        console.log(this.enclosure,'wwww');
-        
       }
+      // else{
+      //   this.fileList = []
+      //   this.receipt={}
+        
+      // }
       this.getCustomInfo()
     },
     methods: {

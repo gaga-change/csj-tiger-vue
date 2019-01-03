@@ -18,6 +18,7 @@ export default [
         meta: {
           title: '新建付款单',
           icon: 'form',
+          noCache:false,
           roles: ['service_finance']
         }
       },
