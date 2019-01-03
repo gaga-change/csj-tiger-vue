@@ -321,7 +321,7 @@
       },
     },
 
-    mounted(){
+    activated(){
       let {id,modify}=this.$route.query||{};
       this.id=id;
       let data=_.cloneDeep(this.planform); 

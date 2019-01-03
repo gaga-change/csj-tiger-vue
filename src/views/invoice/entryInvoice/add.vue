@@ -140,7 +140,7 @@ export default {
       } ,
     },
 
-    mounted(){
+    activated(){
        let { finaPurchaseInvoiceId }=this.$route.query||{};
        if(finaPurchaseInvoiceId){
          findFinaPurchaseInvoice({

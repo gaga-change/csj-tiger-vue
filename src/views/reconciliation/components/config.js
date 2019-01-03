@@ -20,7 +20,7 @@ export  const listIndexConfig=[ //list页配置
 
   export  const detailTableConfig=[ //detail页list配置
     { label:'日期',prop:'makeDate',type:'time'},
-    { label:'操作',prop:'invoiceStatus',useLocalEnum:true,type:'InvoiceStatus',},
+    { label:'操作',prop:'invoiceStatus',useLocalEnum:true,type:'InvoiceStatus2',},
     { label:'发票性质',prop:'invoiceNature',useLocalEnum:true,type:'NatureInvoice',},
     { label:'发票号',prop:'invoiceNo'},
     { label:'发票金额',prop:'invoiceAmt'},
