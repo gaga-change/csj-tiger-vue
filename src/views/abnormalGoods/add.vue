@@ -86,11 +86,8 @@ export default {
     }
   },
 
-  activated(){
-    console.log(this.$route.query.data)
-  },
 
-  mounted(){
+  activated(){
      if(this.$route.query.id){
          getPurcRejectApply({
            id:this.$route.query.id
