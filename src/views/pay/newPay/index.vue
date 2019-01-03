@@ -493,25 +493,22 @@
   
     },
 
-    mounted(){
-      console.log('mounted')
-    },
 
-    created() {
-      // // this.payment.moneyState = 0
-      // // this.$set('payment.moneyState',0)
+    // created() {
+    //   // // this.payment.moneyState = 0
+    //   // // this.$set('payment.moneyState',0)
       
 
-      if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        this.getDetail()
-      }else{
-        this.payment={...payment}
-        this.fileNew =[]
-        this.filePathList = []
-      }
+    //   if (this.$route.query.id&&this.$route.query.from=='rebuild') {
+    //     this.getDetail()
+    //   }else{
+    //     this.payment={...payment}
+    //     this.fileNew =[]
+    //     this.filePathList = []
+    //   }
 
-      this.getCustomInfo()  
-    },
+    //   this.getCustomInfo()  
+    // },
 
     activated(){
         // this.$refs['ruleForm'].resetFields();
@@ -529,22 +526,15 @@
         data.moneyState=Number(this.$route.query.moneyState);
         data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
         this.payment=data
-      } else{
-        this.payment={}
-        this.$set(this.payment,'moneyState',0)
-        this.fileNew =[]
-        this.filePathList = []
-        this.$refs['ruleForm'].resetFields();
-      }
+      } 
+      // else{
+      //   this.payment={}
+      //   this.$set(this.payment,'moneyState',0)
+      //   this.fileNew =[]
+      //   this.filePathList = []
+      //   this.$refs['ruleForm'].resetFields();
+      // }
       this.getCustomInfo()
-      // try{
-      //     console.log(123123);
-      //     this.$refs['ruleForm'].resetFields();
-
-      //   }catch(err){
-      //     console.log(1);
-          
-      //   }
     },
     methods: {
       getContract(){

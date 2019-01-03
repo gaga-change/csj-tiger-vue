@@ -87,7 +87,7 @@
       linkToCreate(type){
         
         this.$router.push({
-              path:`/payment/newpayment`,
+              path:`/payment/newpayment?time=${+ (new Date())}`,
             })
          
       },

@@ -87,7 +87,7 @@
       linkToCreate(type){
         
         this.$router.push({
-              path:`/receipt/newreceipt`,
+              path:`/receipt/newreceipt?time=${+ (new Date())}`,
             })
          
       },
