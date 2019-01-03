@@ -86,6 +86,10 @@ export default {
     }
   },
 
+  activated(){
+    console.log(this.$route.query.data)
+  },
+
   mounted(){
      if(this.$route.query.id){
          getPurcRejectApply({
@@ -95,8 +99,7 @@ export default {
               for(let i in this.$refs['search'].searchForm){
                  this.$refs['search'].searchForm[i]=res.data[i]
               }
-              console.log(this.$refs['search'].searchForm.handleOpinion,1231231231);
-              
+
               if(!this.$refs['search'].searchForm.handleOpinion){
                 this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
               }
@@ -120,6 +123,8 @@ export default {
            this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value     
         }
   },
+
+
 
 
   computed: {
