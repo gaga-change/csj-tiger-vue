@@ -29,7 +29,7 @@
         searchForm:{},
         recordData:[],
         loading:false,
-
+        billClick:false,
         card:{},
         deConfig:{}        
       }
@@ -45,7 +45,9 @@
     },
     methods:{
       toBill(){
+        this.billClick = true
         getBillId({finaPaymentId:this.cardData.id}).then(res=>{
+          this.billClick = false
           if(res.success&&res.data&&res.data[0]){
             this.$router.push({
               path:'/reconciliation/detail',
@@ -54,8 +56,8 @@
           }else{
             this.$message({type:'info',message:'跳转对账单详情页失败，请重试'})
           }
-          
         }).catch(err=>{
+          this.billClick = false
           this.$message({type:'info',message:'跳转对账单详情页失败，请重试'})
         })
       }

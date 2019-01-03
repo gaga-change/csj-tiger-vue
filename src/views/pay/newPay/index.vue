@@ -1,16 +1,20 @@
 <template lang="html">
   <div class="app-container">
-    <el-form :model="payment" :rules="rules" ref="ruleForm" label-width="100px" label-position="left">
+    <el-form :model="payment"  ref="ruleForm" label-width="100px" label-position="left">
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="申请标题" prop="applyTitle">
+          <el-form-item label="申请标题" prop="applyTitle" :rules="[
+                {  required: true, message:'请输入申请标题' }
+              ]">
             <el-input type="text" size="small" v-model="payment.applyTitle"/>
           </el-form-item>
         </el-col>
       <!-- </el-row>
       <el-row :gutter="20"> -->
         <el-col :span="6">
-          <el-form-item label="收款方" prop="paymenterCode">
+          <el-form-item label="收款方" prop="paymenterCode" :rules="[
+                {  required: true, message:'请选择收款方' }
+              ]">
             <el-select v-model="payment.paymenterCode"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
@@ -101,7 +105,7 @@
           </template>
           <template v-else>
             <el-form-item label="合同号" prop="contractNo" key="contract" :rules="[
-                {  required: true, trigger: 'blur', message:'请输入合同号' }
+                {  required: true, message:'请输入合同号' }
               ]">
               <el-input type="text" size="small" v-model="payment.contractNo" v-on:blur="getContract"/>
             </el-form-item>
@@ -149,9 +153,9 @@
         </el-col> -->
         <el-col :span="6">
           <el-form-item label="申请付款金额" prop="applyPaymentAmt" label-width="100px"  :rules="[
-              { validator: checkAmt, required: true, trigger: 'blur' }
+              { validator: checkAmt, required: true }
              ]">
-             <el-input type="text" size="small"  v-model="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
+             <el-input type="text" size="small"  v-model.number="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
              <el-button @click="getPayInfo" v-show="this.payment.moneyState === 2&&Boolean(this.$route.query.byOut)" size="small" style="display:inline-block" type="text">付款来源</el-button>
           </el-form-item>
         </el-col>
@@ -161,7 +165,9 @@
         </el-col> -->
        
          <el-col :span="8">
-          <el-form-item label="要求付款日期" label-width="100px" prop="applyPaymentDate">
+          <el-form-item label="要求付款日期" label-width="100px" prop="applyPaymentDate"  :rules="[
+                {  required: true, message:'请选择付款日期' }
+              ]">
               <el-date-picker
               v-model="payment.applyPaymentDate"
               type="date"
@@ -277,52 +283,52 @@
           ownerName:'',
           remarkInfo:'',
         }
-  //货物校验
-  const goodsRules = {
-     applyTitle:[
-        { required: true, message: '请输入申请标题'}
-      ],
-      paymenterCode: [
-        { required: true, message: '请选择收款方' }
-      ],
-      // applyPaymentAmt: [
-      //   { validator: checkAmtGoods, required: true, trigger: 'blur' }
-      // ],
-      moneyState: [
-        { required: true, message: '请选择款项性质' }
-      ],
-      moneyType: [
-        { required: true, message: '请选择款项类型' }
-      ],
-      busiBillNo: [
-        { required: true, message: '请选择采购订单' }
-      ],
-      applyPaymentDate: [
-        {  required: true, message: '请选择付款日期' }
-      ],
-  }
+  // //货物校验
+  // const goodsRules = {
+  //    applyTitle:[
+  //       { required: true, message: '请输入申请标题'}
+  //     ],
+  //     paymenterCode: [
+  //       { required: true, message: '请选择收款方' }
+  //     ],
+  //     // applyPaymentAmt: [
+  //     //   { validator: checkAmtGoods, required: true, trigger: 'blur' }
+  //     // ],
+  //     moneyState: [
+  //       { required: true, message: '请选择款项性质' }
+  //     ],
+  //     moneyType: [
+  //       { required: true, message: '请选择款项类型' }
+  //     ],
+  //     busiBillNo: [
+  //       { required: true, message: '请选择采购订单' }
+  //     ],
+  //     applyPaymentDate: [
+  //       {  required: true, message: '请选择付款日期' }
+  //     ],
+  // }
 
-  //非货物校验
-  const notGoodsRules = {
-    applyTitle:[
-        { required: true, message: '请输入申请标题', }
-      ],
-      paymenterCode: [
-        { required: true, message: '请选择收款方', }
-      ],
-      // applyPaymentAmt: [
-      //   { validator: checkAmt, required: true, trigger: 'blur' }
-      // ],
-      moneyState: [
-        { required: true, message: '请选择款项性质',  }
-      ],
-      // contractNo: [
-      //   { required: true, message: '请输入合同号', trigger: 'blur' }
-      // ],
-      applyPaymentDate: [
-        {  required: true, message: '请选择付款日期', }
-      ],
-  }
+  // //非货物校验
+  // const notGoodsRules = {
+  //   applyTitle:[
+  //       { required: true, message: '请输入申请标题', }
+  //     ],
+  //     paymenterCode: [
+  //       { required: true, message: '请选择收款方', }
+  //     ],
+  //     // applyPaymentAmt: [
+  //     //   { validator: checkAmt, required: true, trigger: 'blur' }
+  //     // ],
+  //     moneyState: [
+  //       { required: true, message: '请选择款项性质',  }
+  //     ],
+  //     // contractNo: [
+  //     //   { required: true, message: '请输入合同号', trigger: 'blur' }
+  //     // ],
+  //     applyPaymentDate: [
+  //       {  required: true, message: '请选择付款日期', }
+  //     ],
+  // }
 
   export default {
     name: 'newpayment',
@@ -358,7 +364,7 @@
         PaymentModeEnum,
         busiPlateConfig,
         payment,
-        rules: goodsRules,
+        // rules: goodsRules,
         //上传文件相关
         dialogVisible: false,
         uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
@@ -470,16 +476,16 @@
       
       },
 
-      payment:{
-        handler (val,oldVal){
-          if(val.moneyState==0){
-            this.rules = goodsRules
-          }else{
-            this.rules = notGoodsRules
-          }
-        },
-        deep:true
-      },
+      // payment:{
+      //   handler (val,oldVal){
+      //     if(val.moneyState==0){
+      //       this.rules = goodsRules
+      //     }else{
+      //       this.rules = notGoodsRules
+      //     }
+      //   },
+      //   deep:true
+      // },
   
     },
 
@@ -490,13 +496,7 @@
     created() {
       // // this.payment.moneyState = 0
       // // this.$set('payment.moneyState',0)
-      try{
-        this.$refs['ruleForm'].resetFields();
-
-      }catch(err){
-        console.log(1);
-        
-      }
+      
 
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
@@ -511,13 +511,7 @@
 
     activated(){
         // this.$refs['ruleForm'].resetFields();
-        try{
-          this.$refs['ruleForm'].resetFields();
-
-        }catch(err){
-          console.log(1);
-          
-        }
+        
     //   // this.payment.moneyState = 0
     //   // this.$set('payment.moneyState',0)
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
@@ -533,10 +527,20 @@
         this.payment=data
       } else{
         this.payment={}
+        this.$set(this.payment,'moneyState',0)
         this.fileNew =[]
         this.filePathList = []
+        this.$refs['ruleForm'].resetFields();
       }
       this.getCustomInfo()
+      // try{
+      //     console.log(123123);
+      //     this.$refs['ruleForm'].resetFields();
+
+      //   }catch(err){
+      //     console.log(1);
+          
+      //   }
     },
     methods: {
       getContract(){
@@ -582,7 +586,7 @@
           if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.service){
             this.payment.applyPaymentAmt = this.applyPaymentAmtObj.service
           }
-          console.log(this.filesObj.service,2);
+          // console.log(this.filesObj.service,211);
           
           // if(this.payment.filePathList != this.filesObj.service){
             this.payment.filePathList = [...this.filesObj.service]
@@ -592,7 +596,6 @@
           // }
         }
        
-        this.$refs['ruleForm'].resetFields();
         
       },
       getPayInfo(){
