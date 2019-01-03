@@ -55,21 +55,7 @@
 
    <invoice-detail :cardData="cardData" id="print"
     :tableData="tableData"  :name="name" :payment-info-config="paymentInfoConfig">
-    <template v-if="cardData.moneyState == 2">
-      <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" style="margin-bottom:10px">
-        <el-row>
-          <el-col  class="card-list" :span="18" >
-              <span class="card-title">对账区间</span> ：
-              <a class="card-text" @click="showDetail" style="color:#409EFF" v-if="dataSuccess">
-                {{formatTime(cardData.startTime)}} 至 {{formatTime(cardData.endTime)}}
-              </a>
-            </el-col>
-        </el-row>
-      </el-card>   
-       <!-- 对账单 -->
-      <pay-bill :serviceCharge="paybillData.serviceCharge" :table-data="paybillData.tableData" ref="payBills" :dialog-visible-pay="dialogVisiblePay" :pay-duration-start="payDurationStart" :pay-duration-end="payDurationEnd" :time-usable="timeUsable">
-      </pay-bill>
-    </template>
+    
     <template v-if="dataSuccess">
     <item-title text="实付信息"/>
     <!-- (cardData.moneyState==2&&cardData.paymentStatus==3)||(cardData.moneyState==0&&cardData.paymentStatus==4)||(cardData.registerStatus == 0||cardData.registerStatus == 9||editable)) -->
