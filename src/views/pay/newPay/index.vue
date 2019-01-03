@@ -22,7 +22,7 @@
               @focus="clearMark"
               @change="customerChange"
               clearable
-              filterable placeholder="请选择客户名称">
+              filterable placeholder="请选择收款方">
               <el-option 
                 value=""
                :disabled="true"
@@ -353,7 +353,7 @@
       var checkAmt = (rule, value, callback) => {
         var a = this.payment.moneyState || 0
         if (!Number(value)) {
-          return callback(new Error(`请输入货款`))
+          return callback(new Error(`请输入申请付款金额`))
         }
         // if(value<0){
         //   return callback(new Error('货款为正数'))
