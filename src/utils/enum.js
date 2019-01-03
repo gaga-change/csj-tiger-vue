@@ -79,8 +79,12 @@ export const InvoiceStatus2 = [
     value: 0
   },
   {
-    name: '作废',
+    name: '开具',
     value: 1
+  },
+  {
+    name: '作废',
+    value: 2
   },
 ]
 
