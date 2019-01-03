@@ -2,7 +2,8 @@
   <div class="outgoing-quirydetail-container">
 
   <item-title text="付款单详情"/>
-  <item-card :config="paymentInfoConfig" :loading="loading"   :cardData="cardData"  ><template v-if="cardData.moneyState == 2"><a style="color:#409eff;font-size:14px;" @click="toBill">付款来源</a></template></item-card>
+  <item-card :config="paymentInfoConfig" :loading="loading"   :cardData="cardData"  ><el-col  class="card-list"    :span="6" >
+        <span class="card-title">申请付款金额:</span> <span class="card-text">{{this.cardData.applyPaymentAmt}}</span> <template v-if="cardData.moneyState == 2"><a style="color:#409eff;font-size:14px;" @click="toBill">付款来源</a></template></el-col></item-card>
      <item-title text="操作记录"/>
      	
     <web-pagination-table 

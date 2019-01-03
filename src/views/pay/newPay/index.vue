@@ -494,28 +494,33 @@
     },
 
 
-    // created() {
-    //   // // this.payment.moneyState = 0
-    //   // // this.$set('payment.moneyState',0)
+    created() {
+      if (this.$route.query.id&&this.$route.query.from=='rebuild') {
+        this.getDetail()
+     } else if(this.$route.query.byOut){
+        this.payment={}
+        this.fileNew =[]
+        this.filePathList = []
+        let data= _.cloneDeep(this.payment);
+        data.applyTitle=this.$route.query.applyTitle;
+        data.moneyState=Number(this.$route.query.moneyState);
+        data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
+        this.payment=data
+      } 
+      else{
+        this.payment={}
+        this.$set(this.payment,'moneyState',0)
+        this.fileNew =[]
+        this.filePathList = []
+      }
       
-
-    //   if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-    //     this.getDetail()
-    //   }else{
-    //     this.payment={...payment}
-    //     this.fileNew =[]
-    //     this.filePathList = []
-    //   }
-
-    //   this.getCustomInfo()  
-    // },
+      this.getCustomInfo()
+     
+    },
 
     activated(){
-
-        // this.$refs['ruleForm'].resetFields();
-        
-    //   // this.payment.moneyState = 0
-    //   // this.$set('payment.moneyState',0)
+      console.log(this.$route.params.from,1111);
+      
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
      } else if(this.$route.query.byOut){
@@ -528,13 +533,15 @@
         data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
         this.payment=data
       } 
-      // else{
-      //   this.payment={}
-      //   this.$set(this.payment,'moneyState',0)
-      //   this.fileNew =[]
-      //   this.filePathList = []
-      //   this.$refs['ruleForm'].resetFields();
-      // }
+      else if(this.$route.params.from=='new'){
+        this.payment={}
+        this.$set(this.payment,'moneyState',0)
+        this.fileNew =[]
+        this.filePathList = []
+        this.$refs['ruleForm'].resetFields();
+      }
+      console.log(this.payment);
+      
       this.getCustomInfo()
     },
     methods: {

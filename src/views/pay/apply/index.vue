@@ -88,6 +88,7 @@
         
         this.$router.push({
               path:`/payment/newpayment?time=${+ (new Date())}`,
+              params:{from:'new'}
             })
          
       },
