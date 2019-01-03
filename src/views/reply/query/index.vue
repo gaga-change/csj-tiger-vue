@@ -184,7 +184,7 @@
 
       add(){
         this.$router.push({
-          path:`/abnormalGoods/add`,
+          path:`/abnormalGoods/add?time=${moment().valueOf()}`,
         })
       },
 
