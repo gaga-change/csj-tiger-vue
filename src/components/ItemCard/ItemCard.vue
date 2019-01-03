@@ -45,6 +45,9 @@
         </span>
 
       </el-col>
+   
+   <slot></slot>
+
    </el-row>
   </el-card>   
   </div>

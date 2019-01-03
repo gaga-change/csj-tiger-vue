@@ -511,6 +511,7 @@
     // },
 
     activated(){
+
         // this.$refs['ruleForm'].resetFields();
         
     //   // this.payment.moneyState = 0
@@ -601,7 +602,7 @@
       checkAmt(rule, value, callback){
         
         if (!Number(value)) {
-          return callback(new Error(`请输入货款`))
+          return callback(new Error(`请输入申请付款金额`))
         }
         // if(value<0){
         //   return callback(new Error('货款为正数'))
