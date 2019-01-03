@@ -145,7 +145,7 @@ export default [
         meta: {
           title: '申请销项发票',
           icon: 'form',
-          roles: ['service_finance']
+          noCache: false
         },
         hidden: true
       }

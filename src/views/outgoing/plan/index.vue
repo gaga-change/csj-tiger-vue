@@ -146,7 +146,7 @@
                     }
                     {
                       row.isReceive&&
-                      <router-link  to={{path:'/provider/add',query:{id:row.id,planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>收货登记</router-link>
+                      <router-link  to={{path:'/provider/add',query:{id:row.id,planCode:row.planCode,time:moment().valueOf()}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>收货登记</router-link>
                     }
                 </div>
               }

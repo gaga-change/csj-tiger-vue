@@ -46,6 +46,7 @@ import Sticky from '@/components/Sticky'
 import { detailBaseInfoConfig,detailTableConfig } from './components/config';
 import { queryAccountBill,getInvoiceAmmount } from '@/api/reconciliation.js'; 
 import webPaginationTable from '@/components/Table/webPaginationTable'; 
+import moment from 'moment';
 export default {
   components: { Sticky,webPaginationTable},
    data() {
@@ -92,7 +93,7 @@ export default {
 
     applay(){
       this.$router.push({
-        path:`/payment/newpayment?applyTitle=${this.detailBaseInfoData.billTitle}&moneyState=2&applyPaymentAmt=${this.totalData.serviceCharge}&byOut=true&reaconcliliationId=${this.$route.query.id}`,
+        path:`/payment/newpayment?applyTitle=${this.detailBaseInfoData.billTitle}&moneyState=2&applyPaymentAmt=${this.totalData.serviceCharge}&byOut=true&reaconcliliationId=${this.$route.query.id}&time=${moment().valueOf()}`,
       }) 
     },
 
