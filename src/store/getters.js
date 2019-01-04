@@ -3,8 +3,6 @@ import Layout from '@/views/layout/Layout'
 import { reportCenterUrl} from '@/utils'
 import { deepSortMenu, sortMenu, deepExistMenu }  from '@/utils/deepSortMenu'
 
-import { asyncRouterMap }  from '@/router'
-
 const getters = {
   sidebar: state => state.app.sidebar,
   userInfo: state => state.user.userInfo,
@@ -15,17 +13,10 @@ const getters = {
   companyId: state => state.user.companyId,
   mapConfig:state=>state.map.mapConfig,
   permission_codes: state => state.user.permissionCodes,
-
-  // menu: state => {
-  //   return asyncRouterMap
-  // }
-  
+  markArr:state=>state.menu.markArr,
   menu: state => {
-
     let bakmenus = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
-    let bakmenu = deepExistMenu(bakmenus,asyncRouterMap)
-
-    // bakmenu = deepSortMenu(bakmenu, deepSort,)
+    let bakmenu = deepExistMenu(bakmenus,state.menu.localMenu)
     const menutemp = []
     bakmenu.forEach(item => {
       const subchildren = []

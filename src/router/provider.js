@@ -8,6 +8,7 @@ export default [
     component: Layout,
     redirect: '/provider/list',
     name: 'provider',
+    mark:'仓储运营',
     meta: { title: '供应商直发', icon: 'sale',noCache: true }, 
     hidden: false,
     children: [
