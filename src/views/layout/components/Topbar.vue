@@ -10,6 +10,9 @@
       <li>
         <a :href="TiggerUrl" target="_blank">供应链</a>
       </li>
+      <li  v-for="i in markArr">
+        <a  @click="setLocalmenu(i)"  :class="{navActive:active===i}"    target="_blank">{{i}}</a>
+      </li>
     </ul>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
@@ -89,6 +92,7 @@ export default {
       logoPath,
       TiggerUrl,
       modifyPasswordShow: false,
+      active:'财务管理',
       form: {
         oldpassword: '',
         newpassword: '',
@@ -112,10 +116,17 @@ export default {
       'sidebar',
       'avatar',
       'company',
+      'markArr',
       'userInfo'
     ])
   },
   methods: {
+
+    setLocalmenu(i){
+      this.$store.dispatch('setLocalmenu',i);
+      this.active=i;
+    },
+
      modifyPassword() {
       this.$refs.ruleForm2.validate((valid) => {
         if (valid) {
@@ -171,6 +182,11 @@ export default {
     font-size: 22px;
     font-weight: bold;
     color: #fff;
+  }
+
+  .navActive{
+    color:#fff;
+    font-weight: 700;
   }
 }
 .avatar-container {
