@@ -6,19 +6,19 @@
       
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="客户名称" label-width="80px" style="width:300px" >
-              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model="searchForm.receiveEnterprise" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入客户名称"    v-model.trim="searchForm.receiveEnterprise" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6" style="min-width:300px">
             <el-form-item label="销售合同编号" label-width="90px" style="width:300px" >
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model="searchForm.contractNo " ></el-input>
+              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model.trim="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="出库计划单"  label-width="80px" style="width:300px">
-              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入计划单号"    v-model="searchForm.planCode" ></el-input>
+              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入计划单号"    v-model.trim="searchForm.planCode" ></el-input>
             </el-form-item>
           </el-col>
 

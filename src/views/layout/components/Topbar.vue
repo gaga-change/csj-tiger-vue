@@ -10,6 +10,9 @@
       <li>
         <a :href="TiggerUrl" target="_blank">供应链</a>
       </li>
+      <li>
+        <a :href="TiggerUrl" target="_blank">a</a>
+      </li>
     </ul>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
