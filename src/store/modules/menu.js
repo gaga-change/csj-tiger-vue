@@ -10,9 +10,7 @@ const menu = {
   mutations: {
     SET_LOCALMENU:(state, menu)=>{
       state.localMenu=asyncRouterMap.filter(v=>!v.mark||v.mark===menu);
-      // console.log(state.localMenu)
       router.addRoutes(store.getters.menu)
-      // console.log(store.getters.menu)
     }
   },
 

@@ -124,6 +124,7 @@ export default {
 
     setLocalmenu(i){
       this.$store.dispatch('setLocalmenu',i);
+      sessionStorage.setItem('mark',i)
       this.active=i;
     },
 
