@@ -17,40 +17,13 @@
               </el-form-item>
             </el-col>
             
-            <el-col :span="6"  style="min-width:300px" >
-              <el-form-item 
-              label="货主" 
-              label-width="90px"
-              prop="ownerCode"
-              >
-                <el-select v-model="ruleForm.ownerCode"
-                filterable
-                clearable
-                @keyup.enter.native="propsChange('ownerCode')"
-                placeholder="请选择货主"  >
-                <el-option 
-                value=""
-                v-if="providerConfig.length"
-                :disabled="true">
-                  <div class="providerList">
-                    <span>企业编号</span>
-                    <span >企业名称</span>
-                  </div>
-                </el-option>
-                <el-option
-                  v-for="item in providerConfig"
-                  :key="item.paymenterCode"
-                  :label="item.paymenterName"
-                  :value="item.paymenterCode">
-                  <div class="providerList">
-                    <span >{{ item.paymenterCode }}</span>
-                    <span >{{ item.paymenterName }}</span>
-                  </div>
-                </el-option>
+            <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="货主"   prop="ownerCode">
+              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
-            
-              </el-form-item>
-            </el-col>
+            </el-form-item>
+          </el-col>
 
 
             <el-col :span="24">
@@ -85,8 +58,10 @@
 <script>
     import { stockSelect} from '@/api/inventory'
     import BaseTable from '@/components/Table'
+    import { mapGetters } from 'vuex'
+    
     import { indexTableConfig } from './config';
-    import { getProvider } from '@/api/void/list'
+    
     export default {
       components: { BaseTable },
       data() {
@@ -124,19 +99,16 @@
        }
 
        this.getCurrentTableData();
-       this.getProviderApi()
+      
+    },
+    computed: {
+      ...mapGetters([
+        'mapConfig',
+      ])
     },
 
     methods: {
-      getProviderApi(){
-        getProvider().then(res=>{
-          if(res.success){
-            this.providerConfig=res.data;
-          }
-        }).catch(err=>{
-
-        })
-      },
+      
       propsChange(){
         this.submitForm('ruleForm')
       },
