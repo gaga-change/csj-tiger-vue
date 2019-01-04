@@ -8,6 +8,7 @@ export default [
     component: Layout,
     redirect: '/receipt/newreceipt',
     name: 'receipt',
+    mark:'财务管理',
     meta: { title: '收款管理', icon: 'sale', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {

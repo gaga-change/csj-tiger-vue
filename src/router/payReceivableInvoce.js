@@ -5,6 +5,7 @@ import Layout from '../views/layout/Layout'
 export default [
   {
     path: '/invoice/entryInvoice',
+    mark:'财务管理',
     component: Layout,
     redirect: '/invoice/entryInvoice/registrationList',
     name: 'entryInvoice',
@@ -59,6 +60,7 @@ export default [
   {
     path: '/invoice/outputinvoice',
     component: Layout,
+    mark:'财务管理',
     redirect: '/invoice/outputinvoice/invoiceapply',
     name: 'outputinvoiceDelivery',
     meta: { title: '销项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
