@@ -1,4 +1,6 @@
 import { asyncRouterMap }  from '@/router'
+import router from '@/router';
+import store from '@/store'
 const menu = {
   state: {
     localMenu: [],
@@ -7,13 +9,19 @@ const menu = {
 
   mutations: {
     SET_LOCALMENU:(state, menu)=>{
-      state.localMenu=asyncRouterMap.filter(v=>!v.mark||v.mark===menu) 
+      state.localMenu=asyncRouterMap.filter(v=>!v.mark||v.mark===menu);
+      // console.log(state.localMenu)
+      router.addRoutes(store.getters.menu)
+      // console.log(store.getters.menu)
     }
   },
 
   actions: {
     setLocalmenu({ commit },mark) {
-      commit('SET_LOCALMENU', mark)  
+      return new Promise((resolve, reject) => {
+        commit('SET_LOCALMENU', mark);
+        resolve();
+      })
     }
   }
 }
