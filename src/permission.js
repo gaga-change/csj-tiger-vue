@@ -16,10 +16,8 @@ router.beforeEach((to, from, next) => {
       store.dispatch('GetInfo').then(res => { 
         if(res.success){
           store.dispatch('gitMap');
-          store.dispatch('setLocalmenu',sessionStorage.getItem('mark')||store.getters.markArr[0]).then(res=>{
-            if(!sessionStorage.getItem('mark')){
-              sessionStorage.setItem('mark',store.getters.markArr[0])
-            }
+          // console.log(to)
+          store.dispatch('setLocalmenu',to.query&&to.query.mark||store.getters.markArr[0]).then(res=>{
             next({ ...to, replace: true })  
           }); 
         } else{
@@ -29,7 +27,7 @@ router.beforeEach((to, from, next) => {
        
       }).catch((err) => {
         console.log(err);
-        location.href = `/csj_logout`
+        // location.href = `/csj_logout`
       })
 
     } else {

@@ -92,7 +92,7 @@ export default {
       logoPath,
       TiggerUrl,
       modifyPasswordShow: false,
-      active:sessionStorage.getItem('mark')||'财务管理',
+      active:'财务管理',
       form: {
         oldpassword: '',
         newpassword: '',
@@ -120,12 +120,21 @@ export default {
       'userInfo'
     ])
   },
-  methods: {
 
+  mounted(){
+    this.active=this.$router.currentRoute.query.mark||'财务管理'
+  },
+
+  methods: {
     setLocalmenu(i){
-      sessionStorage.setItem('mark',i)
       this.$store.dispatch('setLocalmenu',i);
       this.active=i;
+      console.log(this.$router.currentRoute)
+      let { path,query }=this.$router.currentRoute;
+      this.$router.replace({
+        path:path,
+        query:{...query,mark:i}
+      })
     },
 
      modifyPassword() {
