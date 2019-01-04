@@ -92,7 +92,7 @@ export default {
       logoPath,
       TiggerUrl,
       modifyPasswordShow: false,
-      active:'财务管理',
+      active:sessionStorage.getItem('mark')||'财务管理',
       form: {
         oldpassword: '',
         newpassword: '',
@@ -123,8 +123,8 @@ export default {
   methods: {
 
     setLocalmenu(i){
-      this.$store.dispatch('setLocalmenu',i);
       sessionStorage.setItem('mark',i)
+      this.$store.dispatch('setLocalmenu',i);
       this.active=i;
     },
 

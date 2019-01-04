@@ -17,6 +17,9 @@ router.beforeEach((to, from, next) => {
         if(res.success){
           store.dispatch('gitMap');
           store.dispatch('setLocalmenu',sessionStorage.getItem('mark')||store.getters.markArr[0]).then(res=>{
+            if(!sessionStorage.getItem('mark')){
+              sessionStorage.setItem('mark',store.getters.markArr[0])
+            }
             next({ ...to, replace: true })  
           }); 
         } else{
