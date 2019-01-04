@@ -11,7 +11,7 @@
         <a :href="TiggerUrl" target="_blank">供应链</a>
       </li>
       <li  v-for="i in markArr">
-        <a  @click="setLocalmenu(i)"  :class="{navActive:active===i}"    target="_blank">{{i}}</a>
+        <a  @click="$store.dispatch('setLocalmenu',i);"  :class="{navActive:mark===i}"    target="_blank">{{i}}</a>
       </li>
     </ul>
     <el-dropdown class="avatar-container" trigger="click">
@@ -92,7 +92,6 @@ export default {
       logoPath,
       TiggerUrl,
       modifyPasswordShow: false,
-      active:'财务管理',
       form: {
         oldpassword: '',
         newpassword: '',
@@ -117,26 +116,13 @@ export default {
       'avatar',
       'company',
       'markArr',
-      'userInfo'
+      'userInfo',
+      'mark'
     ])
   },
 
-  mounted(){
-    this.active=this.$router.currentRoute.query.mark||'财务管理'
-  },
 
   methods: {
-    setLocalmenu(i){
-      this.$store.dispatch('setLocalmenu',i);
-      this.active=i;
-      console.log(this.$router.currentRoute)
-      let { path,query }=this.$router.currentRoute;
-      this.$router.replace({
-        path:path,
-        query:{...query,mark:i}
-      })
-    },
-
      modifyPassword() {
       this.$refs.ruleForm2.validate((valid) => {
         if (valid) {
