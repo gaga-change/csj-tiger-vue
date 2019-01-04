@@ -16,9 +16,9 @@ router.beforeEach((to, from, next) => {
       store.dispatch('GetInfo').then(res => { 
         if(res.success){
           store.dispatch('gitMap');
-          store.dispatch('setLocalmenu',store.getters.markArr[0]);
-          router.addRoutes(store.getters.menu)
-          next({ ...to, replace: true }) 
+          store.dispatch('setLocalmenu',store.getters.markArr[0]).then(res=>{
+            next({ ...to, replace: true })  
+          }); 
         } else{
           console.log(res);
           location.href = `/csj_logout`
