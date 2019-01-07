@@ -81,3 +81,43 @@ export const queryTableConfig=[//收款查询页面配置
   { label:'实收金额',prop:'paymentAmt'},
   { label:'货主',prop:'ownerCode', type:'ownerInfoMap',useApi:true},
 ]
+
+
+export const refundConfig=[//收款查询页面配置
+  { label:'客户退款号',prop:'refundNo',fixed:true,linkTo:'/receipt/refundDetail',query:[{key:'refundNo',value:'refundNo'}] },
+  { label:'货主',prop:''},
+  { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
+  { label:'客户名称',prop:''},
+  { label:'退款原因',prop:''},
+  { label:'来源数据',prop:''},
+  { label:'订单编号',prop:''},
+  { label:'合同编号',prop:''},
+  { label:'申请退款金额',prop:''},
+  { label:'退款类型',prop:''},
+  { label:'退款单状态',prop:''},
+  { label:'实际退款时间',prop:'',type:'time'},
+  { label:'实际金额',prop:''},
+  { label:'创建人',prop:''},
+  { label:'创建时间',prop:'',type:'time'},
+  { label:'操作',useLink:true,fixed:'right'},
+]
+
+export const refundDetailBaseConfig=[
+  { title:'客户名称', prop:'' },
+  { title:'退款原因', prop:'' },
+  { title:'款项性质', prop:'' },
+  { title:'来源单据', prop:'' },
+  { title:'订单编号', prop:'' },
+  { title:'合同编号', prop:'' },
+  { title:'业务板块', prop:'' },
+  { title:'申请退款金额', prop:'' },
+]
+
+export const refundDetailPayConfig=[
+  { title:'付款方式', prop:'' },
+  { title:'客户银行账户', prop:'' },
+  { title:'客户银行', prop:'' },
+  { title:'附件', prop:'' },
+  { title:'退款日期', prop:'' },
+  { title:'实退金额', prop:'' },
+]

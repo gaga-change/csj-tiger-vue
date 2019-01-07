@@ -18,8 +18,7 @@ export default [
         hidden:true,
         meta: {
           title: '新建收款单',
-          icon: 'form',
-          roles: ['service_finance']
+          noCache: true ,
         }
       },
       {
@@ -28,8 +27,7 @@ export default [
         name: 'register',
         meta: {
           title: '收款单',
-          icon: 'search',
-          roles: ['service_finance']
+          noCache: true ,
         }
       },
       {
@@ -39,8 +37,7 @@ export default [
         hidden: true,
         meta: {
           title: '收款单详情',
-          icon: 'search',
-          roles: ['service_finance']
+          noCache: true ,
         }
       },
       {
@@ -49,8 +46,7 @@ export default [
         name: 'associate',
         meta: {
           title: '收款关联业务单',
-          icon: 'search',
-          roles: ['service_finance']
+          noCache: true ,
         }
       },
       {
@@ -60,8 +56,7 @@ export default [
         hidden: true,
         meta: {
           title: '收款单业务详情',
-          icon: 'search',
-          roles: ['service_finance']
+          noCache: true ,
         }
       },
       {
@@ -70,8 +65,38 @@ export default [
         name: 'receiptquery',
         meta: {
           title: '收款查询',
-          icon: 'search',
-          roles: ['service_finance']
+          noCache: true ,
+        }
+      },
+      {
+        path: 'refundList',
+        component: _import('receipt/refund/list'),
+        name: 'refundList',
+        meta: {
+          title: '客户退款',
+          noCache: true ,
+        }
+      },
+
+      {
+        path: 'refundDetail',
+        component: _import('receipt/refund/detail'),
+        name: 'refundDetail',
+        hidden: false,
+        meta: {
+          title: '客户退款详情',
+          noCache: true ,
+        }
+      },
+
+      {
+        path: 'refundAdd',
+        component: _import('receipt/refund/add'),
+        name: 'refundAdd',
+        hidden: false,
+        meta: {
+          title: '新建退款',
+          noCache: false ,
         }
       },
     ]
