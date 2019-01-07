@@ -6,7 +6,6 @@ export default [
   {
     path: '/outgoing',
     component: Layout,
-    mark:'仓储运营',
     redirect: 'outgoing/businessorder',
     meta: { title: '出库调度', noCache: true,icon: 'out' },
     hidden: false,
@@ -63,7 +62,6 @@ export default [
   {
     path: '/warehousing',
     component: Layout,
-    mark:'仓储运营',
     redirect: 'warehousing/businessorder',
     meta: { title: '入库调度', noCache: true ,icon:'in'},
     hidden: false,
@@ -131,7 +129,6 @@ export default [
     path: '/inventory',
     component: Layout,
     redirect: 'inventory/quiry',
-    mark:'仓储运营',
     meta: { title: '库存管理', noCache: true,icon:'plan' },
     hidden: false,
     children: [
@@ -252,7 +249,6 @@ export default [
     redirect: 'reply/query',
     meta: { title: '回单管理', noCache: true,icon:'back' },
     hidden: false,
-    mark:'仓储运营',
     children: [
       {
         name: 'query',

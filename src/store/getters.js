@@ -46,9 +46,9 @@ const getters = {
       })
     })
 
-    // menutemp.push({
-    //   path: '*', redirect: '/404', hidden: true 
-    // })
+    menutemp.push({
+      path: '*', redirect: '/404', hidden: true 
+    })
 
 
     return menutemp
