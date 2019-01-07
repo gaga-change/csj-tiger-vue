@@ -7,6 +7,7 @@
             <el-select v-model="searchForm.paymenterId"
               :filter-method="cusCodeFilter" 
               clearable
+              size="small"
               filterable placeholder="请选择客户名称" @focus="clearCustomerFilterMark" @change="customerChange"  >
               <el-option 
                 value=""
@@ -35,7 +36,7 @@
         </el-col> -->
         <el-col :span="6">
           <el-form-item label="款项性质">
-            <el-select v-model="searchForm.moneyState" :clearable="true"   filterable placeholder="请选择款项性质">
+            <el-select v-model="searchForm.moneyState" size="small" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -48,7 +49,7 @@
 
           <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="货主" >
-              <el-select    v-model="searchForm.ownerCode"   placeholder="请选择货主">
+              <el-select    v-model="searchForm.ownerCode"  size="small"  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
