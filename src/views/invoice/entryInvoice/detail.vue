@@ -2,20 +2,20 @@
    <div class="entryInvoice-detail">
       <sticky  :className="'sub-navbar published'" style="margin-bottom: 8px">
         <template >
-          <el-button   v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="Modify({type:1})"   style="margin-left: 10px;"  size="small" type="success" >提交
+          <el-button   v-if="[0,2].includes(cardData.ticketStatus)"    @click="Modify({type:1})"   style="margin-left: 10px;"  size="small" type="success" >提交
           </el-button>
-          <el-button    v-if="cardData.ticketStatus===1"  @click="Modify({type:0,status:0,prompt:'请输入审核意见',successTips:'审核成功',errorTips:'审核失败'})" style="margin-left: 10px;"  size="small"  type="success" >审核
+          <el-button   v-if="[1].includes(cardData.ticketStatus)"    @click="Modify({type:0,status:0,prompt:'请输入审核意见',successTips:'审核成功',errorTips:'审核失败'})" style="margin-left: 10px;"  size="small"  type="success" >审核
           </el-button>
-           <el-button  v-if="cardData.ticketStatus===1"  @click="Modify({type:0,status:1,prompt:'请输入驳回意见',successTips:'驳回成功',errorTips:'驳回失败'})"    style="margin-left: 10px;"  size="small" type="success" >驳回
+           <el-button v-if="[1].includes(cardData.ticketStatus)"    @click="Modify({type:0,status:1,prompt:'请输入驳回意见',successTips:'驳回成功',errorTips:'驳回失败'})"    style="margin-left: 10px;"  size="small" type="success" >驳回
           </el-button>
-          <el-button   v-if="cardData.ticketStatus===3&&(cardData.cancelApplyStatus===0||cardData.cancelApplyStatus===3)&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:0,prompt:'确定要申请作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >作废申请
+          <el-button  v-if="[3].includes(cardData.ticketStatus)&&[0,3].includes(cardData.cancelApplyStatus)&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:0,prompt:'确定要申请作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >作废申请
           </el-button>
           <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:1,prompt:'确定要作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >确认作废
           </el-button>
           <el-button   v-if="cardData.ticketStatus===3&&cardData.cancelApplyStatus===1&&!(cardData.invoiceType===1&&cardData.invoiceStatus===1)"  @click="Modify({type:3,status:2,prompt:'确定要驳回作废吗?'})"   style="margin-left: 10px;"  size="small"  type="success" >驳回作废
           </el-button>
-          <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="modify"  style="margin-left: 10px;" size="small"  type="success" >修改 </el-button>
-          <el-button  v-if="cardData.ticketStatus===0||cardData.ticketStatus===2"  @click="dropPurInvoiceApi"  style="margin-left: 10px;" size="small"   >删除 </el-button>
+          <el-button   v-if="[0,2].includes(cardData.ticketStatus)"  @click="modify"  style="margin-left: 10px;" size="small"  type="success" >修改 </el-button>
+          <el-button    v-if="[0,2].includes(cardData.ticketStatus)"   @click="dropPurInvoiceApi"  style="margin-left: 10px;" size="small"   >删除 </el-button>
         </template> 
       </sticky>
       <item-title text="基本信息"/>

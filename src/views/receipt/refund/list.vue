@@ -2,7 +2,7 @@
   <div  class="refund">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button type="success"  size="small"  @click="addRefund"  >创建退款单</el-button>
+         <el-button type="success"  size="small" v-if="$haspermission('addRefund')"  @click="addRefund"  >创建退款单</el-button>
       </template>
     </sticky>
      <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
@@ -64,6 +64,11 @@ export default {
 
   mounted(){
     this.getCurrentTableData()
+    this.fomatDom()
+  },
+
+  updated(){
+    this.fomatDom()
   },
 
   created(){
@@ -115,6 +120,15 @@ export default {
   },
 
   methods:{
+
+    fomatDom(){
+      let dom=document.querySelectorAll('.sub-navbar >div');
+      [...dom].forEach(item=>{
+        if(item.innerHTML==='sticky'){
+          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
+        }
+      })
+    },
 
     display(busiBillNo){
        this.alertDisplay=true;

@@ -3,7 +3,7 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
          <el-button  type="success"
-          v-if="[1].includes(cardData.refundStatus)"
+          v-if="[1].includes(cardData.refundStatus)&&$haspermission('toExamineRefund')"
           v-loading="lodingConfig.toExamine"
           :disabled="disableConfig.toExamine"
           @click="refundModify({
@@ -20,7 +20,7 @@
           </el-button>
 
           <el-button  type="success"
-           v-if="[1].includes(cardData.refundStatus)"
+           v-if="[1].includes(cardData.refundStatus)&&$haspermission('rejectRefund')"
            v-loading="lodingConfig.reject"
            :disabled="disableConfig.reject"
            @click="refundModify({
@@ -38,13 +38,13 @@
 
           <el-button  type="success"
           @click="modify"
-          v-if="[0,2].includes(cardData.refundStatus)"
+          v-if="[0,2].includes(cardData.refundStatus)&&$haspermission('editRefund')"
           size="small">
             修改
           </el-button>
   
           <el-button  type="success"
-           v-if="[0,2].includes(cardData.refundStatus)"
+           v-if="[0,2].includes(cardData.refundStatus)&&$haspermission('submitRefund')"
             v-loading="lodingConfig.submit"
            :disabled="disableConfig.submit"
            @click="refundModify({
@@ -60,7 +60,7 @@
           </el-button>
 
           <el-button  
-          v-if="[0,2].includes(cardData.refundStatus)"
+          v-if="[0,2].includes(cardData.refundStatus)&&$haspermission('deleteRefund')"
            v-loading="lodingConfig.delete"
           :disabled="disableConfig.delete"
           @click="refundModify({
@@ -76,7 +76,7 @@
 
           <el-button  type="success"
            @click="refund"
-           v-if="[3].includes(cardData.refundStatus)&&!this.$route.query.refund"
+           v-if="[3].includes(cardData.refundStatus)&&!this.$route.query.refund&&$haspermission('registerRefund')"
            size="small">
             登记退款
           </el-button>
