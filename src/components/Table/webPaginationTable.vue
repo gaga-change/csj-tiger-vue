@@ -10,6 +10,7 @@
         :highlight-current-row="highlightCurrentRow"
          size="small"
         :height="height"
+        :max-height="maxHeight"
         :border="border"
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
@@ -73,6 +74,9 @@ export default {
       type: Function,
     },
     height:{
+      type: Number,
+    },
+    maxHeight:{
       type: Number,
     },
     showSummary:{

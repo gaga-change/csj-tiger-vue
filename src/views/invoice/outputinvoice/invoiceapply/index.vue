@@ -81,8 +81,8 @@
                 let id = row.id
                 let status = Number(row.ticketStatus)
                 switch(status){
-                    case 0: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>编辑</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/newoutputinvoice`,query:{id:id,from:'rebuild'}}} style={{color:'#3399ea'}}>提交</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>删除</router-link></div>
-                    case 5: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>编辑</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/newoutputinvoice`,query:{id:id,from:'rebuild'}}} style={{color:'#3399ea'}}>提交</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>删除</router-link></div>
+                    case 0: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>编辑</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/newoutputinvoice`,query:{id:id,from:'rebuild',time:moment().valueOf()}}} style={{color:'#3399ea'}}>提交</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>删除</router-link></div>
+                    case 5: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>编辑</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/newoutputinvoice`,query:{id:id,from:'rebuild',time:moment().valueOf()}}} style={{color:'#3399ea'}}>提交</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>删除</router-link></div>
                     case 1: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link>&nbsp;&nbsp;<router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>审核</router-link></div>
                     default: return <div><router-link  to={{path:`/invoice/outputinvoice/invoiceapply/detail`,query:{id:id}}} style={{color:'#3399ea'}}>查看</router-link></div>
                 }
@@ -97,7 +97,7 @@
       linkToInvoice(){
         if(this.$haspermission('salseinvoicecreate')){
           this.$router.push({
-            path:`/invoice/outputinvoice/newoutputinvoice?time=${moment().valueOf()}`,
+            path:`/invoice/outputinvoice/newoutputinvoice?time=${moment().valueOf()}&time=${moment().valueOf()}`,
           })
         }else{
           this.$message({type:'info',message:'您无法新建发票，请联系管理员',duration:2000})

@@ -89,6 +89,7 @@ import NestingTable from '@/components/Table/nestingTable'
 import { detailBaseInfoConfig,detailTableConfig,addChildTableConfig } from './components/config';
 import { registerDetail } from '@/api/provider'
 import { mapGetters } from 'vuex'
+import moment from 'moment';
 import _  from 'lodash';
 export default {
   components: { Sticky,NestingTable},
@@ -155,7 +156,7 @@ export default {
     edit(){
        this.$router.push({
           path:'/provider/add', 
-          query:{id:this.$route.query.id,planCode:this.$route.query.planCode,edit:true}
+          query:{id:this.$route.query.id,planCode:this.$route.query.planCode,edit:true,time:moment().valueOf()}
         })
     }
    

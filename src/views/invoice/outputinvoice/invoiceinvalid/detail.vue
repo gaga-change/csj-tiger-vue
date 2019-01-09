@@ -93,7 +93,7 @@
           cancelButtonText: '取消'
         }).then(({ value }) => {
           this.$router.push({
-            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy`,
+            path:`/invoice/outputinvoice/newoutputinvoice?id=${this.$route.query.id}&from=copy&time=${moment().valueOf()}`,
           })
         }) 
       },

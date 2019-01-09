@@ -10,12 +10,22 @@
             修改
           </el-button>
 
+          <el-button  
+          v-if="detailBaseInfoData.finaPaymentId===null"
+          @click="deleteorider"
+          v-loading="deleLoding"
+          size="small">
+            删除
+          </el-button>
+
           <el-button  type="success"
            v-if="detailBaseInfoData.finaPaymentId===null"
           @click="applay"
           size="small">
             生成付款申请
           </el-button>
+
+          
 
       </template>
     </sticky>
@@ -44,8 +54,9 @@
 <script>
 import Sticky from '@/components/Sticky'
 import { detailBaseInfoConfig,detailTableConfig } from './components/config';
-import { queryAccountBill,getInvoiceAmmount } from '@/api/reconciliation.js'; 
+import { queryAccountBill,getInvoiceAmmount,deleteAccountBill } from '@/api/reconciliation.js'; 
 import webPaginationTable from '@/components/Table/webPaginationTable'; 
+import { mapGetters } from 'vuex'
 import moment from 'moment';
 export default {
   components: { Sticky,webPaginationTable},
@@ -60,6 +71,7 @@ export default {
       detailTableData:[],
 
       totalData:{},
+      deleLoding:false
 
     }
   },
@@ -71,6 +83,12 @@ export default {
 
   updated(){
     this.fomatDom()
+  },
+
+  computed: {
+    ...mapGetters({
+      visitedViews: 'visitedViews',
+    }),
   },
 
 
@@ -85,9 +103,48 @@ export default {
       })
     },
 
+    deleteorider(){
+       const view = this.visitedViews.filter(v => v.path === this.$route.path)
+       this.$confirm('确定要删除吗?', '提示', {
+         confirmButtonText: '确定',
+         cancelButtonText: '取消'
+       }).then(()=>{
+          this.deleLoding=true;
+          deleteAccountBill({
+            id:this.$route.query.id
+          }).then(res=>{
+            this.deleLoding=false;
+            if(res.success){
+              this.$message({
+                type:'success',
+                message:'操作成功,1.5s后跳往列表页',
+                duration:1500,
+                onClose:()=>{
+                  this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                      this.$router.push({
+                        path:'/reconciliation/list',
+                      })
+                  }).catch(err=>{ 
+                    console.log(err)
+                  })  
+                }
+              })
+            } else{
+              this.$message.error('操作失败');
+            }
+          }).catch(err=>{
+            this.deleLoding=false;
+            this.$message.error('操作失败');
+            console.log(err)
+          })
+       }).catch(err=>{
+         console.log(err)
+       })
+    },
+
     modify(){
       this.$router.push({
-        path:`/reconciliation/add?id=${this.$route.query.id}`,
+        path:`/reconciliation/add?id=${this.$route.query.id}&time=${moment().valueOf()}`,
       }) 
     },
 

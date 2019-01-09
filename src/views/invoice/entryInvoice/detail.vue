@@ -35,6 +35,7 @@ import Modify from './components/modify'
 import webPaginationTable from '@/components/Table/headerTable'
 import { findFinaPurchaseInvoice,dropPurInvoice } from '@/api/void/list'
 import Sticky from '@/components/Sticky' 
+import moment from 'moment';
 import _  from 'lodash';
 export default {
   components: { webPaginationTable,Sticky},
@@ -75,7 +76,7 @@ export default {
     },
     modify(){
        this.$router.push({
-        path:`/invoice/entryInvoice/registrationAdd?finaPurchaseInvoiceId=${this.$route.query.finaPurchaseInvoiceId}`,
+        path:`/invoice/entryInvoice/registrationAdd?finaPurchaseInvoiceId=${this.$route.query.finaPurchaseInvoiceId}&time=${moment().valueOf()}`,
       })
     },
     findFinaPurchaseInvoiceApi(){

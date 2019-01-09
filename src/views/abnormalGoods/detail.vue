@@ -85,6 +85,7 @@
 <script>
 import Sticky from '@/components/Sticky'
 import Modify from './components/modify'
+import moment from 'moment';
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { detailBaseInfo,detailAbnormalReceipt,detailReturnBaseInfo } from './components/config';
 import { getPurcRejectApply } from '@/api/abnormalGoods/index';  
@@ -158,7 +159,7 @@ export default {
 
     modify(){
       this.$router.push({
-        path:`/abnormalGoods/add?id=${this.$route.query.id}`,
+        path:`/abnormalGoods/add?id=${this.$route.query.id}&time=${moment().valueOf()}`,
       })
     }
   }

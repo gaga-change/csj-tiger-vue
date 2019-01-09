@@ -44,6 +44,7 @@
  import { signDetail } from '@/api/reply'
  import { tableConfig,infoConfig } from './config';
  import { NatureInvoice } from '@/utils/enum'
+ import moment from 'moment';
  export default {
   components: { 
     Sticky,
@@ -106,7 +107,7 @@
      Edit(){
       this.$router.push({
         path: '/reply/newreceiptorder',
-        query:{modify:true,id:this.signId}
+        query:{modify:true,id:this.signId,time:moment().valueOf()}
       })
      }
    },

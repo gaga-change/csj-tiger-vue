@@ -22,34 +22,43 @@
       :pageSize="pageSize"
       :currentPage="pageNum"
       :tableData="tableData"/>
+      <alert-detail 
+      :alertDisplay="alertDisplay"
+      :busiBillNo="busiBillNo"
+      @close="close"/>
   </div> 
 </template>
 
 <script>
 import SearchInvoice from '../components/refundSearch'
+import AlertDetail from './alertDetail'
 import { refundConfig } from '../components/config';
+import { refundList } from '@/api/refund.js'
 import BaseTable from '@/components/Table'
 import Sticky from '@/components/Sticky'
 import _  from 'lodash';
 import moment from 'moment'; 
 export default {
-  components: { SearchInvoice,BaseTable,Sticky },
+  components: { SearchInvoice,BaseTable,Sticky ,AlertDetail},
    data() {
     return {
       searchForm:{
-        客户名称:'',
+        customerCode:'',
         busiPlate:'',
-        订单编号:'',
-        合同编号:'',
+        sourceOrderNo:'',
+        contractNo:'',
         ownerCode:'',
-        单据状态:''
+        refundStatus:''
       },
       pageSize:10,
       pageNum:1,
       total:0,
       loading:false,
       refundConfig,
-      tableData:[]
+      tableData:[],
+
+      alertDisplay:false,
+      busiBillNo:''
     }
   },
 
@@ -61,16 +70,60 @@ export default {
     this.refundConfig.forEach(item=>{
        if(item.useLink){
           item.dom=(row, column, cellValue, index)=>{
-              const path=`/receipt/refundDetail?refundNo=${row.refundNo}`
-              return <div style={{display:'flex',flexWrap: 'nowrap'}}>
-                  <router-link  to={path} class="routerLink" >查看</router-link>
-              </div>
+              const path=`/receipt/refundDetail?refundNo=${row.refundNo}&id=${row.id}`
+              const modifyPath=`/receipt/refundAdd?refundNo=${row.refundNo}&id=${row.id}&modify=true&time=${moment().valueOf()}`
+              if(item.prop&&item.prop==='busiBillNo'){
+                 return <span class="routerLink" onClick={this.display.bind(this,row.busiBillNo)}>{row.busiBillNo}</span> 
+              } else if(item.prop&&item.prop==='sourceOrderNo'){
+                let orderPath=`/outgoing/businessorder-detail?busiBillNo=${row.sourceOrderNo}`;
+                if(row.sourceOrderNo.includes('PO')){
+                   orderPath=`/warehousing/businessorder-detail?busiBillNo=${row.sourceOrderNo}`;
+                }
+                return <router-link  to={orderPath} class="routerLink" >{row.sourceOrderNo}</router-link>
+              } else{
+                  return <div style={{display:'flex',flexWrap: 'nowrap'}}>
+                    <router-link  to={path} class="routerLink" >查看</router-link>
+                    {
+                      [0,2].includes(row.refundStatus)&&
+                      <router-link  to={path} class="routerLink">提交</router-link>
+                    }
+                    {
+                      [0,2].includes(row.refundStatus)&&
+                      <router-link  to={modifyPath} class="routerLink">修改</router-link>
+                    }
+                    {
+                      [0,2].includes(row.refundStatus)&&
+                      <router-link  to={path} class="routerLink">删除</router-link>
+                    }
+                    {
+                      [1].includes(row.refundStatus)&&
+                      <router-link  to={path} class="routerLink">审核</router-link>
+                    }
+                    {
+                      [1].includes(row.refundStatus)&&
+                      <router-link  to={path} class="routerLink">驳回</router-link>
+                    }
+                    {
+                      [3].includes(row.refundStatus)&&
+                      <router-link  to={path} class="routerLink">登记退款</router-link>
+                    }
+                </div>
+              }
             }
        }
     })
   },
 
   methods:{
+
+    display(busiBillNo){
+       this.alertDisplay=true;
+       this.busiBillNo=busiBillNo;
+    },
+    
+    close(){
+      this.alertDisplay=false;
+    },
 
     addRefund(){
       this.$router.push({
@@ -110,9 +163,22 @@ export default {
           json[i]=this.searchForm[i]
         }
       }
-
       console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
-      this.loading=false;
+      refundList({
+        ...json,
+        pageSize:this.pageSize,
+        pageNum:this.pageNum
+      }).then(res=>{
+        this.loading=false;
+        if(res.success){
+          this.tableData=res.data&&res.data.list||[];
+          this.total=res.data&&res.data.total
+        }
+      }).catch(err=>{
+        this.loading=false;
+        console.log(err)
+      })
+    
     
     }
   }
@@ -125,6 +191,7 @@ export default {
       color:#3399ea;
       white-space:nowrap;
       margin-right: 10px;
+      cursor: pointer;
     }
   }
 </style>
