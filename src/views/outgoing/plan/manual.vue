@@ -17,7 +17,7 @@
           <item-title text="入库业务"/>
              <web-pagination-table 
               :loading="outBillNoLoading"
-              :maxHeight="300"
+              :maxHeight="200"
               :config="manualBaseInfoTableConfig" 
               :allTableData="outBillNoTableData"/> 
          </div>
@@ -372,6 +372,7 @@
               this.matchTable=matchTable.map(item=>{
                 let json=item;
                 json.planWarehouseCode=this.planCardData.planWarehouseCode;
+                return json;
               })
               let row= _.cloneDeep(this.row);
               row=this.matchTable.find(v=>v.id===row.id)||{};
@@ -417,7 +418,7 @@
         padding: 12px;
       }
       .manualBaseInfo-right{
-         width: 60%;
+         width: 80%;
          flex-grow: 0;
          border: 1px solid #ebeef5;
          padding: 12px;
