@@ -34,6 +34,14 @@
             </el-form-item>
           </el-col>
 
+           <el-col :span="6"  style="min-width:300px" v-if="searchForm.refundNo!==undefined">
+            <el-form-item 
+             label="客户退款号" 
+             label-width="100px" >
+              <el-input type="text" size="small"    placeholder="请输入合同编号"    v-model.trim="searchForm.refundNo" ></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="8" style="min-width:300px"  v-if="searchForm.moneyState!==undefined">
             <el-form-item 
              label="款项性质" 
@@ -79,7 +87,7 @@
               :rules="useRules?[
                 { required: true, message: '该项为必填'},
                ]:[]">
-              <el-input type="text" size="small" :disabled="useDisplay"   @keyup.enter.native="submit"  placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
+              <el-input type="text" size="small" :disabled="useDisplay"    placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -88,7 +96,7 @@
               label="订单编号"  
               label-width="80px"
               prop="sourceOrderNo"  >
-              <el-input type="text" size="small"    @keyup.enter.native="submit"  placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
+              <el-input type="text" size="small"    placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -100,7 +108,7 @@
              :rules="useRules?[
                { required: true, message: '该项为必填'},
              ]:[]">
-              <el-input type="text" size="small"  :disabled="useDisplay"  @keyup.enter.native="submit"  placeholder="请输入合同编号"    v-model.trim="searchForm.contractNo" ></el-input>
+              <el-input type="text" size="small"  :disabled="useDisplay"   placeholder="请输入合同编号"    v-model.trim="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -147,7 +155,7 @@
              :rules="useRules?[
                 { required: true, validator: this.numberValidator.bind(this,'applyRefundAmt'), },
              ]:[]">
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入申请退款金额"    v-model.trim="searchForm.applyRefundAmt" ></el-input>
+              <el-input type="text" size="small"   placeholder="请输入申请退款金额"    v-model.trim="searchForm.applyRefundAmt" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -184,13 +192,13 @@
       
           <el-col :span="8"  style="min-width:300px" v-if="searchForm.bankCode!==undefined">
             <el-form-item label="客户银行账户" label-width="100px"  >
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入客户银行账户"    v-model.trim="searchForm.bankCode" ></el-input>
+              <el-input type="text" size="small"     placeholder="请输入客户银行账户"    v-model.trim="searchForm.bankCode" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8"  style="min-width:300px" v-if="searchForm.bankName!==undefined">
             <el-form-item label="客户银行" label-width="90px"  >
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入客户银行"    v-model.trim="searchForm.bankName" ></el-input>
+              <el-input type="text" size="small"    placeholder="请输入客户银行"    v-model.trim="searchForm.bankName" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -220,7 +228,7 @@
              :rules="useRules?[
                 { required: true,validator: this.numberValidator.bind(this,'realRefundAmt'),},
              ]:[]">
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入实退金额"    v-model.trim="searchForm.realRefundAmt" ></el-input>
+              <el-input type="text" size="small"     placeholder="请输入实退金额"    v-model.trim="searchForm.realRefundAmt" ></el-input>
             </el-form-item>
           </el-col>
 

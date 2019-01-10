@@ -48,7 +48,8 @@ export default {
         sourceOrderNo:'',
         contractNo:'',
         ownerCode:'',
-        refundStatus:''
+        refundStatus:'',
+        refundNo:''
       },
       pageSize:10,
       pageNum:1,
