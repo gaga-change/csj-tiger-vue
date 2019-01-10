@@ -111,7 +111,8 @@ export const refundDetailBaseConfig=[
   { title:'合同编号', prop:'contractNo' },
   { title:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig'},
   { title:'申请退款金额', prop:'applyRefundAmt',type:'toFixed' },
-  { title:'单据状态',prop:'refundStatus',width:150,type:'getRefundStatus',useApi:true},
+  { title:'单据状态',prop:'refundStatus',type:'getRefundStatus',useApi:true},
+  { title:'审核意见',prop:'approveReason'},
 ]
 
 export const refundDetailPayConfig=[

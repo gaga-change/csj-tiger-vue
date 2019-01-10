@@ -17,7 +17,7 @@ export default function Modify({flag,status,prompt,successTips,errorTips,api,lod
        }
       Api({
         id:Number(this.$route.query.id),
-        value:value,
+        approveReason:value,
         flag:flag
       }).then(res=>{
         for(let i in this.lodingConfig){

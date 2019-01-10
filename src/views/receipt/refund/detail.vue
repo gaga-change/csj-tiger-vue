@@ -244,6 +244,26 @@ export default {
                 }
               })
            }
+
+           let refundDetailBaseConfig= _.cloneDeep(this.refundDetailBaseConfig);
+           let index=refundDetailBaseConfig.findIndex(v=>v.prop==='approveReason');
+           if(res.data){
+             if(index!==-1){
+               refundDetailBaseConfig.splice(index,1)
+             }
+             if(res.data.refundStatus===2){
+               refundDetailBaseConfig.push({
+                 title:'驳回意见',
+                 prop:'approveReason'
+               })
+             } else if(res.data.refundStatus===3){
+               refundDetailBaseConfig.push({
+                 title:'审核意见',
+                 prop:'approveReason'
+               })
+             }
+           }
+           this.refundDetailBaseConfig=refundDetailBaseConfig;
            this.cardData=res.data; 
            let busiBillNoRow=document.querySelector('.busiBillNoClick');
            let cardTextLink=busiBillNoRow.querySelector('.busiBillNoClick .card-text-link');
