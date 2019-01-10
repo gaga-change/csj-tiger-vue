@@ -61,6 +61,7 @@ export const manualBaseInfoTableConfig=[
   { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   { label:'供应商名称',prop:'providerName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
+  { label:'仓库',prop:'warehouseName'},
 ]
 
 //出库匹配详情配置
