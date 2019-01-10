@@ -2,7 +2,7 @@
   <div :style="boxStyle">
   <el-card class="box-card" v-loading="loading"  element-loading-text="加载中..." shadow="never" :body-style="bodyStyle" >
    <el-row>
-     <el-col  class="card-list"  v-for="item in config"  :key="item.prop||item.title"   :span="item.span||6" >
+     <el-col  :class="`card-list  ${item.class||''}`"  v-for="item in config"  :key="item.prop||item.title"   :span="item.span||6" >
         <span class="card-title"   :style="item.uesStringify&&'display: block;margin-bottom:12px'">{{item.title}}</span> {{!item.uesStringify?':':'' }}
         <span v-if="item.useIf=='files'">
             <el-dropdown v-if="item.prop&&cardData[item.prop]&&cardData[item.prop].length>0">

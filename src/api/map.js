@@ -86,15 +86,46 @@ export function getReceiveStatus() {
   })
 }
 
+//退货管理-单据状态枚举
+export function getRefundStatus() {
+  return request({
+    url: '/webApi/base/enum/getRefundStatus',
+    method: 'get',
+  })
+}
+
+//退货管理-退款原因枚举
+export function getRefundReason() {
+  return request({
+    url: '/webApi/base/enum/getRefundReason',
+    method: 'get',
+  })
+}
+
+//退货管理-款项性质枚举
+export function getMoneyState() {
+  return request({
+    url: '/webApi/base/enum/getMoneyState',
+    method: 'get',
+  })
+}
+
+//退货管理-退款方式枚举
+export function getPaymentMode() {
+  return request({
+    url: '/webApi/base/enum/getPaymentMode',
+    method: 'get',
+  })
+}
 
 
-
-
-
-
-
-
-
+//退货管理-退款类型枚举
+export function getRefundType() {
+  return request({
+    url: '/webApi/base/enum/getRefundType',
+    method: 'get',
+  })
+}
 
 
 

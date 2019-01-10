@@ -36,9 +36,8 @@
       stockRecord({warehouseCode,skuCode}).then(res=>{
         this.loading=false;
         if(res.success){
-          let data=res.data;
-          this.config=data;
-          this.tableData=Array.isArray(data.items)?data.items:[]
+          this.config=res.data||{};
+          this.tableData=(res.data&&res.data.items&&Array.isArray(res.data.items))?res.data.items:[]
         } 
       }).catch(err=>{
           this.loading=false;

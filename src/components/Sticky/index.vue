@@ -2,7 +2,7 @@
   <div :style="{height:height+'px',zIndex:zIndex}">
     <div :class="className" :style="{top:stickyTop+'px',zIndex:zIndex,position:position,width:width,height:height+'px'}">
       <slot>
-        <div>sticky</div>
+        <div> <el-button size="mini">暂无操作</el-button> </div>
       </slot>
     </div>
   </div>

@@ -89,6 +89,7 @@ import NestingTable from '@/components/Table/nestingTable'
 import { detailBaseInfoConfig,detailTableConfig,addChildTableConfig } from './components/config';
 import { registerDetail } from '@/api/provider'
 import { mapGetters } from 'vuex'
+import moment from 'moment';
 import _  from 'lodash';
 export default {
   components: { Sticky,NestingTable},
@@ -111,21 +112,6 @@ export default {
 
   mounted(){
     this.getCurrentTableData();
-    let dom=document.querySelectorAll('.sub-navbar >div');
-    [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-    });
-  },
-
-  updated(){
-     let dom=document.querySelectorAll('.sub-navbar >div');
-     [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-    })
   },
 
   computed: {
@@ -155,7 +141,7 @@ export default {
     edit(){
        this.$router.push({
           path:'/provider/add', 
-          query:{id:this.$route.query.id,planCode:this.$route.query.planCode,edit:true}
+          query:{id:this.$route.query.id,planCode:this.$route.query.planCode,edit:true,time:moment().valueOf()}
         })
     }
    

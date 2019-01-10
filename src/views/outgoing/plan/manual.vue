@@ -6,14 +6,18 @@
 
          <div class="manualBaseInfo-left">
            <item-title text="出库计划"/>
-           <item-card :config="manualBaseInfoConfigLeft" :loading="planLoading"   :cardData="planCardData"  />
+           <item-card :config="manualBaseInfoConfigLeft" :loading="planLoading" boxStyle="padding-bottom: 0;"  :cardData="planCardData" />
+           <div style="display:flex;justify-content: flex-end">
+              <el-button type="primary" v-loading="pushLoding"  v-if="[2,7].includes(planCardData.issuedState)"    size="mini" @click="onPlanPush(planCardData.id)" >推送</el-button>  
+          </div>
+         
          </div>
 
           <div class="manualBaseInfo-right">
           <item-title text="入库业务"/>
              <web-pagination-table 
               :loading="outBillNoLoading"
-              :height="outBillNoTableData.length&&outBillNoTableData.length>5&&300||200"
+              :maxHeight="200"
               :config="manualBaseInfoTableConfig" 
               :allTableData="outBillNoTableData"/> 
          </div>
@@ -62,7 +66,7 @@
                 <web-pagination-table 
                 :loading="false"
                 :highlightCurrentRow="true"
-                 :height="300"
+                 :maxHeight="300"
                 @currentRedioChange="currentRedioChange"
                 :config="detailsConfig" 
                 :allTableData="alertTableData"/> 
@@ -78,7 +82,7 @@
 
 <script>
  import { manualBaseInfoConfigLeft,manualBaseInfoTableConfig,matchingTableConfig,alertTopConfig, alertBottomConfig,detailsConfig} from './config';
- import { outPlanDetail,planGetBill,planAutoMatch,planHandMatch,planCancelMatch,getBillDetail} from '@/api/outgoing'
+ import { outPlanDetail,planGetBill,planAutoMatch,planHandMatch,planCancelMatch,getBillDetail,planPush} from '@/api/outgoing'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import { mapGetters } from 'vuex'
  import _  from 'lodash';
@@ -110,7 +114,9 @@
         sureLoding:false,
         cancelLoding:false,
 
-        alertTableData:[]
+        alertTableData:[],
+
+        pushLoding:false
         
       }
     },
@@ -158,7 +164,31 @@
   },
 
     methods:{
-      
+
+      onPlanPush(id){
+        this.pushLoding=true;
+        planPush({
+          id:id
+        }).then(res=>{
+          this.pushLoding=false;
+          if(res.success){
+            this.$message({
+              type: 'success',
+              message: '操作成功',
+            })
+             this.getOutPlanDetail()
+          } else{
+            this.$message({
+              type: 'error',
+              message:'操作失败'
+            })
+          }
+        }).catch(err=>{
+           this.pushLoding=false;
+          console.log(err)
+        })
+      },
+
       match(){
           this.matchingTableConfig.forEach(item=>{
             if(item.useLink){
@@ -301,7 +331,7 @@
           contractNo:contractNo
         }).then(res=>{
           if(res.success){
-            if(res.data.length){
+            if(res.data&&res.data.length){
                this.alertTableData=res.data.map((v,i)=>{
                  let json=v;
                  json.id=i;
@@ -338,7 +368,12 @@
         }).then(res=>{
           this.matchLoading=false;
           if(res.success){
-             this.matchTable=res.data||[]; 
+              let matchTable=res.data||[]; 
+              this.matchTable=matchTable.map(item=>{
+                let json=item;
+                json.planWarehouseCode=this.planCardData.planWarehouseCode;
+                return json;
+              })
               let row= _.cloneDeep(this.row);
               row=this.matchTable.find(v=>v.id===row.id)||{};
               this.row=row;
@@ -383,7 +418,7 @@
         padding: 12px;
       }
       .manualBaseInfo-right{
-         width: 60%;
+         width: 80%;
          flex-grow: 0;
          border: 1px solid #ebeef5;
          padding: 12px;

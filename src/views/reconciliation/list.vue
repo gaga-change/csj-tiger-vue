@@ -2,7 +2,7 @@
     <div>
       <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button  type="success" size="small" @click="add">新增对账单 </el-button>
+         <el-button  type="success" size="small" v-if="$haspermission('reconciliationAdd')"   @click="add">新增对账单 </el-button>
       </template>
     </sticky>
      
@@ -43,11 +43,24 @@
     this.listIndexConfig.forEach(item=>{
       if(item.useLink){
           item.dom=(row, column, cellValue, index)=>{
+            const path=`/reconciliation/detail?id=${row.id}`
+            let selectBtnShow=['reconciliationEidt','reconciliationDelete','reconciliationPayAplay'].some(v=>this.$haspermission(v))&&row.finaPaymentId===null
             return <div style={{display:'flex',flexWrap:'nowrap'}}>
-                <router-link  to={{path:'/reconciliation/detail',query:{id:row.id,}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>查看</router-link>
+                { 
+                   !selectBtnShow&&
+                  <router-link class="routerLink"   to={path} >查看</router-link>
+                }
                 {
-                  row.finaPaymentId===null&&
-                  <router-link  to={{path:'/reconciliation/detail',query:{id:row.id,}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>生成付款申请</router-link>
+                  row.finaPaymentId===null&&this.$haspermission('reconciliationEidt')&&
+                  <router-link  class="routerLink"   to={path} >修改</router-link>
+                }
+                {
+                   row.finaPaymentId===null&&this.$haspermission('reconciliationDelete')&&
+                  <router-link  class="routerLink"   to={path} >删除</router-link>
+                }
+                {
+                   row.finaPaymentId===null&&this.$haspermission('reconciliationPayAplay')&&
+                  <router-link  class="routerLink"   to={path} >生成付款申请</router-link>
                 }
             </div>
           }
@@ -100,6 +113,11 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-
+   .routerLink{
+      color:#3399ea;
+      white-space:nowrap;
+      margin-right: 10px;
+      cursor: pointer;
+    }
 
 </style>

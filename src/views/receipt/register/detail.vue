@@ -272,7 +272,7 @@
           cancelButtonText: '取消'
         }).then(({ value }) => {
         this.$router.push({
-              path:`/receipt/newreceipt?id=${this.$route.query.id}&from=rebuild`,
+              path:`/receipt/newreceipt?id=${this.$route.query.id}&from=rebuild&time=${+ (new Date())}`,
             })
         })
          

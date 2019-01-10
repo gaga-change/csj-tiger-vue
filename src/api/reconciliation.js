@@ -29,6 +29,14 @@ export function saveAccountBill(data={}) {
 }
 
 
+//删除对账单
+export function deleteAccountBill(data={}) {
+  return request({
+    url: `/webApi/accountbill/deleteAccountBill?${stringify(data)}`,
+    method: 'get',
+  })
+}
+
 
 
 

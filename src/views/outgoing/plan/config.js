@@ -49,28 +49,29 @@ export const indexTableConfig=[
 //手工出库页面基本配置
 //出库计划
 export  const manualBaseInfoConfigLeft=[
-  {title:'业务单号',prop:'busiBillNo',span:12},
-  {title:'总明细数',prop:'itemCount',span:12},
-  {title:'已匹配',prop:'matchCount',span:12},
-  {title:'未匹配',prop:'notMatchCount',span:12},
+  {title:'业务单号',prop:'busiBillNo',span:24,useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
+  {title:'总明细数',prop:'itemCount',span:24},
+  {title:'已匹配',prop:'matchCount',span:24},
+  {title:'未匹配',prop:'notMatchCount',span:24},
+  {title:'仓库',prop:'planWarehouseName',span:24},
 ]
 
 //table配置
 export const manualBaseInfoTableConfig=[
-  { label:'业务单号',prop:'busiBillNo'},
+  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
   { label:'供应商名称',prop:'providerName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
 ]
 
 //出库匹配详情配置
 export const matchingTableConfig=[
-  { label:'编号',prop:'skuCode',fixed:true},
+  { label:'编号',prop:'skuCode',fixed:true,linkTo:'/inventory/quiry-detail',query:[{key:'warehouseCode',value:'planWarehouseCode'},{key:'skuCode',value:'skuCode'}]},
   { label:'名称',prop:'skuName'},
   { label:'规格',prop:'skuFormat'},
   { label:'单位',prop:'skuUnitName'},
   { label:'计划出库数量',prop:'planOutQty'},
-  { label:'对应采购单号',prop:'matchPurNo',minWidth:120},
-  { label:'对应编码',prop:'matchSkuCode'},
+  { label:'对应采购单号',prop:'matchPurNo',minWidth:120,linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'matchPurNo'}]},
+  { label:'对应编码',prop:'matchSkuCode',linkTo:'/inventory/quiry-detail',query:[{key:'warehouseCode',value:'planWarehouseCode'},{key:'skuCode',value:'matchSkuCode'}]},
   { label:'对应名称',prop:'matchSkuName'},
   { label:'对应规格',prop:'matchSkuFormat'},
   { label:'对应单位',prop:'matchSkuUnitName'},

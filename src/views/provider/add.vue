@@ -200,17 +200,8 @@ export default {
       console.log(err)
     });
 
-    this.operationDom()
   },
 
-      operationDom(){
-         let dom=document.querySelectorAll('.sub-navbar >div');
-          [...dom].forEach(item=>{
-            if(item.innerHTML==='sticky'){
-              item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-            }
-          })
-      },
 
       goeditrow(index) {
         let data= _.cloneDeep(this.tableData);

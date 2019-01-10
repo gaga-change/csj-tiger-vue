@@ -4,15 +4,15 @@ import store from '@/store'
 const menu = {
   state: {
     localMenu: [],
-    markArr:['财务管理','仓储运营']
+    markArr:['财务管理','仓储运营'],
+    mark:'财务管理'
   },
 
   mutations: {
     SET_LOCALMENU:(state, menu)=>{
       state.localMenu=asyncRouterMap.filter(v=>!v.mark||v.mark===menu);
-      // console.log(state.localMenu)
+      state.mark=menu;
       router.addRoutes(store.getters.menu)
-      // console.log(store.getters.menu)
     }
   },
 
