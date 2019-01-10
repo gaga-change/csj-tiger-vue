@@ -49,25 +49,9 @@ computed: {
   },
   mounted(){
       this.selectSaleBillDetailFromSCMApi();
-      this.fomatDom()
     },
-
-
-  updated(){
-    this.fomatDom()
-  },
-  
   methods: {
-    
-    fomatDom(){
-     let dom=document.querySelectorAll('.sub-navbar >div');
-     [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-     })
-    },
-
+  
     submit(state,tips){
       this.$prompt(tips, '提示', {
       confirmButtonText: '确定',

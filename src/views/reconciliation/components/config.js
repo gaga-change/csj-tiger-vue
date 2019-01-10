@@ -1,5 +1,5 @@
 export  const listIndexConfig=[ //list页配置
-    { label:'对账单号',prop:'billNo',linkTo:'/reconciliation/detail',query:[{key:'id',value:'id'}]},
+    { label:'对账单号',prop:'billNo',fixed:true,linkTo:'/reconciliation/detail',query:[{key:'id',value:'id'}]},
     { label:'对账单标题',prop:'billTitle',},
     { label:'交易主体',prop:'ownerName',},
     { label:'对账起始日期',prop:'startTime',type:'time'},
@@ -7,7 +7,7 @@ export  const listIndexConfig=[ //list页配置
     { label:'创建时间',prop:'gmtCreate',type:'time'},
     { label:'对账金额',prop:'billAmt',},
     { label:'服务费金额',prop:'serviceChargeAmt',},
-    { label:'操作',useLink:true},
+    { label:'操作',useLink:true,fixed:'right',width:180},
   ]
 
 

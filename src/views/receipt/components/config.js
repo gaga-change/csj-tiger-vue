@@ -96,7 +96,7 @@ export const refundConfig=[//收款查询页面配置
   { label:'退款类型',prop:'refundType',type:'getRefundType',useApi:true,width:120},
   { label:'退款单状态',prop:'refundStatus',type:'getRefundStatus',useApi:true,width:100},
   { label:'实际退款时间',prop:'refundDate',type:'time',width:100},
-  { label:'实际金额',prop:'realRefundAmt',width:120,type:'toFixed'},
+  { label:'实退金额',prop:'realRefundAmt',width:120,type:'toFixed',format:'/'},
   { label:'创建人',prop:'createrName',width:100},
   { label:'创建时间',prop:'gmtCreate',type:'time',width:100},
   { label:'操作',useLink:true,fixed:'right',width:180},

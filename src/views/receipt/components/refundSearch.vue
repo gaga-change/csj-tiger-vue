@@ -50,7 +50,7 @@
 
           <el-col :span="8"  style="min-width:300px"  v-if="searchForm.busiBillNo!==undefined&&this.$route.path.includes('refundAdd')">
              <el-form-item 
-               label="来源数据"  
+               label="来源单据"  
                label-width="80px" 
                prop="busiBillNo" 
                :rules="useRules?[
@@ -59,7 +59,7 @@
               <el-select v-model="searchForm.busiBillNo" 
               @focus="busiBillNoFoucs"
               @change="busiBillNoChange"
-              size="small"  filterable clearable placeholder="请选择来源数据" prefix-icon="el-icon-search">
+              size="small"  filterable clearable placeholder="请选择来源单据" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in busiBillNoConfig"
                   :key="item.busiBillNo"
@@ -169,7 +169,12 @@
           </el-col>
 
           <el-col :span="8" style="min-width:300px"  v-if="searchForm.payWay!==undefined">
-            <el-form-item label="退款方式"  >
+            <el-form-item 
+             label="退款方式" 
+             prop="payWay"
+            :rules="useRules?[
+              { required: true, message: '该项为必填'},
+             ]:[]">
               <el-select  size="small"    v-model="searchForm.payWay"   placeholder="请选择付款方式">
                 <el-option   v-for="item in mapConfig['getPaymentMode']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
@@ -308,6 +313,8 @@ export default {
          callback(new Error('该项为必填'));
       } else if(isNaN(value)){
         callback(new Error('请输入数字类型'));
+      } else if(Number(value)<=0){
+        callback(new Error('申请退款金额必须大于0'))
       } else{
         callback()
       }

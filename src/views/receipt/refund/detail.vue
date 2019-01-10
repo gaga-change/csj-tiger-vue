@@ -44,7 +44,7 @@
           </el-button>
   
           <el-button  type="success"
-           v-if="[0,2].includes(cardData.refundStatus)&&$haspermission('submitRefund')"
+           v-if="[0].includes(cardData.refundStatus)&&$haspermission('submitRefund')"
             v-loading="lodingConfig.submit"
            :disabled="disableConfig.submit"
            @click="refundModify({
@@ -160,12 +160,8 @@ export default {
 
   mounted(){
     this.getCurrentTableData();
-    this.fomatDom()
   },
 
-  updated(){
-    this.fomatDom()
-  },
 
   computed: {
     ...mapGetters({
@@ -225,14 +221,6 @@ export default {
       }
     },
 
-     fomatDom(){
-      let dom=document.querySelectorAll('.sub-navbar >div');
-      [...dom].forEach(item=>{
-        if(item.innerHTML==='sticky'){
-          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-        }
-      })
-    },
 
     modify(){
       this.$router.push({

@@ -53,6 +53,7 @@ export  const manualBaseInfoConfigLeft=[
   {title:'总明细数',prop:'itemCount',span:24},
   {title:'已匹配',prop:'matchCount',span:24},
   {title:'未匹配',prop:'notMatchCount',span:24},
+  {title:'仓库',prop:'planWarehouseName',span:24},
 ]
 
 //table配置

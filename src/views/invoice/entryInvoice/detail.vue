@@ -105,21 +105,6 @@ export default {
   },
   mounted(){
     this.findFinaPurchaseInvoiceApi();
-    let dom=document.querySelectorAll('.sub-navbar >div');
-    [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-    })
-  },
-
-  updated(){
-     let dom=document.querySelectorAll('.sub-navbar >div');
-     [...dom].forEach(item=>{
-      if(item.innerHTML==='sticky'){
-         item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-      }
-    })
   },
 
 }

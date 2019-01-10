@@ -67,7 +67,6 @@ export default {
   },
 
   mounted(){
-    this.fomatDom();
     if(this.$route.query.modify){
       refundDetail({
         refundNo:this.$route.query.refundNo
@@ -83,9 +82,6 @@ export default {
     }
   },
 
-  updated(){
-    this.fomatDom()
-  },
 
   computed: {
     ...mapGetters({
@@ -108,6 +104,9 @@ export default {
              if(res.success){
                this.sumApplyAmt=res.data&&res.data.sumApplyAmt||0;
                searchForm['applyRefundAmt']=json['sumRefundAmt']-(json['sumRealAmt']||0)-this.sumApplyAmt;
+               if(searchForm['applyRefundAmt']<=0){
+                  searchForm['applyRefundAmt']=null
+               }
              }
           }).catch(err=>{
             console.log(err)
@@ -180,6 +179,9 @@ export default {
       value.applyRefundAmt=Number(value.applyRefundAmt)
       const json=this.sourceJson;
       let maxApplyRefundAmt=json['sumRefundAmt']-(json['sumRealAmt']||0)-this.sumApplyAmt;
+      if(maxApplyRefundAmt<0){
+        maxApplyRefundAmt=0;
+      }
       if(isNaN(maxApplyRefundAmt)){
         maxApplyRefundAmt=Infinity;
       } 
@@ -197,14 +199,6 @@ export default {
       }
     },
 
-     fomatDom(){
-      let dom=document.querySelectorAll('.sub-navbar >div');
-      [...dom].forEach(item=>{
-        if(item.innerHTML==='sticky'){
-          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-        }
-      })
-    },
 
   }
 }

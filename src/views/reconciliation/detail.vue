@@ -4,14 +4,14 @@
       <template >
 
          <el-button  type="success"
-          v-if="detailBaseInfoData.finaPaymentId===null"
+          v-if="detailBaseInfoData.finaPaymentId===null&&$haspermission('reconciliationEidt')"
           @click="modify"
           size="small">
             修改
           </el-button>
 
           <el-button  
-          v-if="detailBaseInfoData.finaPaymentId===null"
+          v-if="detailBaseInfoData.finaPaymentId===null&&$haspermission('reconciliationDelete')"
           @click="deleteorider"
           v-loading="deleLoding"
           size="small">
@@ -19,7 +19,7 @@
           </el-button>
 
           <el-button  type="success"
-           v-if="detailBaseInfoData.finaPaymentId===null"
+           v-if="detailBaseInfoData.finaPaymentId===null&&$haspermission('reconciliationPayAplay')"
           @click="applay"
           size="small">
             生成付款申请
@@ -78,12 +78,8 @@ export default {
 
   mounted(){
     this.getCurrentTableData();
-    this.fomatDom()
   },
 
-  updated(){
-    this.fomatDom()
-  },
 
   computed: {
     ...mapGetters({
@@ -93,15 +89,6 @@ export default {
 
 
   methods:{
-
-     fomatDom(){
-      let dom=document.querySelectorAll('.sub-navbar >div');
-      [...dom].forEach(item=>{
-        if(item.innerHTML==='sticky'){
-          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-        }
-      })
-    },
 
     deleteorider(){
        const view = this.visitedViews.filter(v => v.path === this.$route.path)

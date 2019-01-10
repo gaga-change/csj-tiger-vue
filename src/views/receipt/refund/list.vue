@@ -64,18 +64,15 @@ export default {
 
   mounted(){
     this.getCurrentTableData()
-    this.fomatDom()
   },
 
-  updated(){
-    this.fomatDom()
-  },
 
   created(){
     this.refundConfig.forEach(item=>{
        if(item.useLink){
           item.dom=(row, column, cellValue, index)=>{
               const path=`/receipt/refundDetail?refundNo=${row.refundNo}&id=${row.id}`
+              const registRefundPath=`/receipt/refundDetail?refundNo=${row.refundNo}&id=${row.id}&refund=true`
               const modifyPath=`/receipt/refundAdd?refundNo=${row.refundNo}&id=${row.id}&modify=true&time=${moment().valueOf()}`
               if(item.prop&&item.prop==='busiBillNo'){
                  return <span class="routerLink" onClick={this.display.bind(this,row.busiBillNo)}>{row.busiBillNo}</span> 
@@ -89,28 +86,28 @@ export default {
                   return <div style={{display:'flex',flexWrap: 'nowrap'}}>
                     <router-link  to={path} class="routerLink" >查看</router-link>
                     {
-                      [0,2].includes(row.refundStatus)&&
+                      [0].includes(row.refundStatus)&&this.$haspermission('submitRefund')&&
                       <router-link  to={path} class="routerLink">提交</router-link>
                     }
                     {
-                      [0,2].includes(row.refundStatus)&&
+                      [0,2].includes(row.refundStatus)&&this.$haspermission('editRefund')&&
                       <router-link  to={modifyPath} class="routerLink">修改</router-link>
                     }
                     {
-                      [0,2].includes(row.refundStatus)&&
+                      [0,2].includes(row.refundStatus)&&this.$haspermission('deleteRefund')&&
                       <router-link  to={path} class="routerLink">删除</router-link>
                     }
                     {
-                      [1].includes(row.refundStatus)&&
+                      [1].includes(row.refundStatus)&&this.$haspermission('toExamineRefund')&&
                       <router-link  to={path} class="routerLink">审核</router-link>
                     }
                     {
-                      [1].includes(row.refundStatus)&&
+                      [1].includes(row.refundStatus)&&this.$haspermission('rejectRefund')&&
                       <router-link  to={path} class="routerLink">驳回</router-link>
                     }
                     {
-                      [3].includes(row.refundStatus)&&
-                      <router-link  to={path} class="routerLink">登记退款</router-link>
+                      [3].includes(row.refundStatus)&&this.$haspermission('registerRefund')&&
+                      <router-link  to={registRefundPath} class="routerLink">登记退款</router-link>
                     }
                 </div>
               }
@@ -120,15 +117,6 @@ export default {
   },
 
   methods:{
-
-    fomatDom(){
-      let dom=document.querySelectorAll('.sub-navbar >div');
-      [...dom].forEach(item=>{
-        if(item.innerHTML==='sticky'){
-          item.innerHTML= '<button type="button" class="el-button  el-button--small" style="margin-left: 10px;"><span>暂无操作</span></button>'
-        }
-      })
-    },
 
     display(busiBillNo){
        this.alertDisplay=true;
