@@ -133,7 +133,19 @@ export default {
           })
           this.sourceJson=json;
           //查询已审核退款金额
-          this.refundApplyAmtApi(json.sourceOrderNo)
+          refundApplyAmt({
+            sourceOrderNo:json.sourceOrderNo
+          }).then(res=>{
+              if(res.success){
+                this.sumApplyAmt=res.data&&res.data.sumApplyAmt||0;
+                searchForm['applyRefundAmt']=json['sumRefundAmt']-(json['sumRealAmt']||0)-this.sumApplyAmt;
+                if(searchForm['applyRefundAmt']<=0){
+                  searchForm['applyRefundAmt']=null
+                }
+              }
+          }).catch(err=>{
+            console.log(err)
+          })  
         } else if(type==='customerChange'){
            searchForm.customerName=json.entName;
            ['busiBillNo','sourceOrderNo','contractNo','busiPlate','ownerCode','ownerName','refundType'].forEach(i=>{
@@ -150,6 +162,10 @@ export default {
       }).then(res=>{
           if(res.success){
             this.sumApplyAmt=res.data&&res.data.sumApplyAmt||0;
+            searchForm['applyRefundAmt']=json['sumRefundAmt']-(json['sumRealAmt']||0)-this.sumApplyAmt;
+            if(searchForm['applyRefundAmt']<=0){
+              searchForm['applyRefundAmt']=null
+            }
           }
       }).catch(err=>{
         console.log(err)
