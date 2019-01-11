@@ -38,7 +38,7 @@
             <el-form-item 
              label="客户退款号" 
              label-width="100px" >
-              <el-input type="text" size="small"    placeholder="请输入合同编号"    v-model.trim="searchForm.refundNo" ></el-input>
+              <el-input type="text" size="small"    placeholder="请输入客户退款号"    v-model.trim="searchForm.refundNo" ></el-input>
             </el-form-item>
           </el-col>
 

@@ -67,6 +67,7 @@ export default {
   },
 
   mounted(){
+    this.navFormat()   
     if(this.$route.query.modify){
       refundDetail({
         refundNo:this.$route.query.refundNo
@@ -82,6 +83,9 @@ export default {
     }
   },
 
+  updated(){
+    this.navFormat()   
+  },
 
   computed: {
     ...mapGetters({
@@ -90,6 +94,18 @@ export default {
   },
 
   methods:{
+    
+    navFormat(){
+      let dom=[...document.querySelectorAll('span.no-redirect')];
+      if(this.$route.query.modify){
+        dom.forEach(item=>{
+           if(item.innerHTML==='新建退款'){
+              item.innerHTML='修改退款单'
+           }
+        })
+      }
+    },
+
     propChange(type,json){
         let searchForm= _.cloneDeep(this.searchForm);
         if(type==='busiBillNoChange'){
