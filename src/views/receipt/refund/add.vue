@@ -32,7 +32,7 @@
 import Sticky from '@/components/Sticky'
 import SearchInvoice from '../components/refundSearch'
 import _  from 'lodash';
-import { refundSave,refundDetail,refundEdit,refundApplyAmt} from '@/api/refund.js'
+import { refundSave,refundDetail,refundEdit,refundApplyAmt,refundGetOrder } from '@/api/refund.js'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
 export default {
@@ -67,20 +67,39 @@ export default {
   },
 
   mounted(){
+
     this.navFormat()   
     if(this.$route.query.modify){
       refundDetail({
         refundNo:this.$route.query.refundNo
       }).then(res=>{
         if(res.success){
-        for(let i in this.searchForm){
-          this.searchForm[i]=res.data[i]
-        }
+          for(let i in this.searchForm){
+            this.searchForm[i]=res.data[i]
+          }
+          if(res.data&&res.data.customerCode){
+            refundGetOrder({
+              customerCode:res.data.customerCode
+            }).then(result=>{
+              if(result.success){
+                let busiBillNoArr=result.data||[];
+                this.sourceJson=busiBillNoArr.find(v=>v.busiBillNo===res.data.busiBillNo)||{};
+                if(this.sourceJson.sourceOrderNo){
+                   this.refundApplyAmtApi(this.sourceJson.sourceOrderNo);
+                }
+              }
+            }).catch(err=>{
+              console.log(err)
+            }) 
+          }
         }
       }).catch(err=>{
           console.log(err)
       })
     }
+
+
+
   },
 
   updated(){
@@ -114,19 +133,7 @@ export default {
           })
           this.sourceJson=json;
           //查询已审核退款金额
-          refundApplyAmt({
-            sourceOrderNo:json.sourceOrderNo
-          }).then(res=>{
-             if(res.success){
-               this.sumApplyAmt=res.data&&res.data.sumApplyAmt||0;
-               searchForm['applyRefundAmt']=json['sumRefundAmt']-(json['sumRealAmt']||0)-this.sumApplyAmt;
-               if(searchForm['applyRefundAmt']<=0){
-                  searchForm['applyRefundAmt']=null
-               }
-             }
-          }).catch(err=>{
-            console.log(err)
-          })
+          this.refundApplyAmtApi(json.sourceOrderNo)
         } else if(type==='customerChange'){
            searchForm.customerName=json.entName;
            ['busiBillNo','sourceOrderNo','contractNo','busiPlate','ownerCode','ownerName','refundType'].forEach(i=>{
@@ -136,7 +143,19 @@ export default {
         this.searchForm=searchForm;
         
     },
-    
+
+    refundApplyAmtApi(sourceOrderNo){
+      refundApplyAmt({
+        sourceOrderNo
+      }).then(res=>{
+          if(res.success){
+            this.sumApplyAmt=res.data&&res.data.sumApplyAmt||0;
+          }
+      }).catch(err=>{
+        console.log(err)
+      })   
+    },
+
     submitSure(type){
       this.$refs['addSearchFormDom'].submit(type)
     },
