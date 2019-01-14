@@ -213,6 +213,16 @@
             <el-input type="textarea" size="small" :maxlength="100" v-model="payment.remarkInfo" placeholder="一百字以内"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="6">
+          <el-form-item label="是否走审批流" label-width="100px" prop="remarkInfo">
+             <el-switch
+  v-model="payment.isAuditFlag"
+  active-text="是"
+  inactive-text="否">
+</el-switch>
+          </el-form-item>
+        </el-col>
+      
       </el-row>
       
       <el-row :gutter="20">
