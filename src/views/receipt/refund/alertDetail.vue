@@ -43,13 +43,18 @@ export default {
   watch:{
     alertDisplay:function(newVal, oldVal){
         if(newVal){
+            this.alertLoding=true;
             orderDetail({
               busiBillNo:this.busiBillNo
             }).then(res=>{
+               this.alertLoding=false;
               if(res.success){
                  this.tableData=res.data&&res.data.items||[];
                  this.cardData=res.data||{}
               }
+            }).catch(err=>{
+              this.alertLoding=false;
+              console.log(err)
             })
         }
     }
