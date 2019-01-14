@@ -214,7 +214,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="是否走审批流" label-width="100px" prop="remarkInfo">
+          <el-form-item label="是否走审批流" label-width="100px" prop="isAuditFlag">
              <el-switch
   v-model="payment.isAuditFlag"
   active-text="是"
@@ -296,6 +296,7 @@
           ownerCode:'',
           ownerName:'',
           remarkInfo:'',
+          isAuditFlag:false,
         }
   // //货物校验
   // const goodsRules = {
@@ -863,6 +864,7 @@
             this.submitloading = true
             postData.filePathList = this.filePathList
             postData.flag = type ? false : true
+            postData.isAuditFlag = !!postData.isAuditFlag
             let msg = '新建'
             msg = postData.id ? '修改' : '新建' 
             postData.operatorName = this.userInfo.truename
