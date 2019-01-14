@@ -296,7 +296,7 @@
           ownerCode:'',
           ownerName:'',
           remarkInfo:'',
-          isAuditFlag:false,
+          isAuditFlag:true,
         }
   // //货物校验
   // const goodsRules = {
@@ -512,15 +512,20 @@
         this.payment={}
         this.fileNew =[]
         this.filePathList = []
+        // this.$set(this.payment,'moneyState',0)
+
         let data= _.cloneDeep(this.payment);
         data.applyTitle=this.$route.query.applyTitle;
         data.moneyState=Number(this.$route.query.moneyState);
         data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
         this.payment=data
+        this.$set(this.payment,'isAuditFlag',true)
+
       } 
       else{
         this.payment={}
         this.$set(this.payment,'moneyState',0)
+        this.$set(this.payment,'isAuditFlag',true)
         this.fileNew =[]
         this.filePathList = []
       }
@@ -543,10 +548,14 @@
         data.moneyState=Number(this.$route.query.moneyState);
         data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
         this.payment=data
+        this.$set(this.payment,'isAuditFlag',true)
+
       } 
       else if(this.$route.params.from=='new'){
         this.payment={}
         this.$set(this.payment,'moneyState',0)
+        this.$set(this.payment,'isAuditFlag',true)
+
         this.fileNew =[]
         this.filePathList = []
         this.$refs['ruleForm'].resetFields();
@@ -727,6 +736,8 @@
             this.payment =  {
              ...payment
             }
+            this.$set(this.payment,'isAuditFlag',true)
+            
             let fileList = [],temp = []
            
             if(res.list[0].filePathList&&res.list[0].filePathList.length>0){
