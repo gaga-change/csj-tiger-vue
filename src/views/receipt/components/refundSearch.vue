@@ -292,6 +292,10 @@ export default {
        type:Boolean,
        default:false
      },
+     useType:{//用途，新增时过滤仅退货来源订单
+       type:String,
+       default:'notAdd'
+     }
   },
   
   computed: {
@@ -348,7 +352,15 @@ export default {
         customerCode:this.searchForm.customerCode
       }).then(res=>{
         if(res.success){
-          this.busiBillNoConfig=res.data;
+          
+          let busiBillNoConfig=res.data;
+          if(this.useType=='add'){
+            console.log(123);
+            
+            busiBillNoConfig = busiBillNoConfig.filter(item=> item.refundType!=1)
+            
+          }
+          this.busiBillNoConfig = [...busiBillNoConfig]
         }
       }).catch(err=>{
         console.log(err)

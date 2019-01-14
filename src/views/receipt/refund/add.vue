@@ -22,7 +22,7 @@
     </sticky>
 
       <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
-        <search-invoice  :searchForm="searchForm" @propChange="propChange" :useRules="true"  :useDisplay="true"  @submit="submit"  ref="addSearchFormDom" ></search-invoice>
+        <search-invoice  :searchForm="searchForm" @propChange="propChange" :useRules="true"  :useDisplay="true" :useType="'add'"  @submit="submit"  ref="addSearchFormDom" ></search-invoice>
      </el-card>
 
   </div> 
