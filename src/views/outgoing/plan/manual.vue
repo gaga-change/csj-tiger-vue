@@ -8,7 +8,7 @@
            <item-title text="出库计划"/>
            <item-card :config="manualBaseInfoConfigLeft" :loading="planLoading" boxStyle="padding-bottom: 0;"  :cardData="planCardData" />
            <div style="display:flex;justify-content: flex-end">
-              <el-button type="primary" v-loading="pushLoding"  v-if="[2,7].includes(planCardData.issuedState)"    size="mini" @click="onPlanPush(planCardData.id)" >推送</el-button>  
+              <el-button type="primary" v-loading="pushLoding"  v-if="true||[2,7].includes(planCardData.issuedState)"    size="mini" @click="onPlanPush(planCardData.id)" >推送</el-button>  
           </div>
          
          </div>

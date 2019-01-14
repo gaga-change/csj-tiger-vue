@@ -39,7 +39,7 @@ export default [
       {
         name: 'manual',
         path: 'manual',
-        meta: { title: '手工出库页面', noCache: true },
+        meta: { title: '手工出库', noCache: true },
         component: _import('outgoing/plan/manual'),
         hidden: true,
       },
