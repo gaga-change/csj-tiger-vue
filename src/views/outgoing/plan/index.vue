@@ -142,7 +142,9 @@
                     }
                     {
                       row.isHandOut&&
-                      <router-link  to={{path:'/outgoing/manual',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>手工出库</router-link>
+                       <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode,history:true}}} style={{color:'#3399ea'}}>手工出库</router-link>
+                      //新页面手工出库配置
+                      // <router-link  to={{path:'/outgoing/manual',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>手工出库</router-link>
                     }
                     {
                       row.isReceive&&
