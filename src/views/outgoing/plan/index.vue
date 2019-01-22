@@ -24,6 +24,12 @@
             </el-form-item>
           </el-col>
 
+           <el-col :span="6"  style="min-width:300px">
+            <el-form-item label="合同号" prop="contractNo">
+              <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入合同号"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="6"  style="min-width:300px">
             <el-form-item label="计划仓库" prop="planWarehouseName">
               <el-input v-model.lazy.trim="ruleForm.planWarehouseName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请选择计划仓库"></el-input>
@@ -116,6 +122,7 @@
           planCode:'',
           arrivalName:'',
           ownerCode:'',
+          contractNo:'',
           planWarehouseName:'',
           time:[],
           execStatus: '',
