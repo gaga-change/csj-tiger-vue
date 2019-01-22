@@ -82,7 +82,8 @@
             if(this.$route.query.history){
                this.tableData=tableData.map(v=>{
                  let json=v;
-                 json.qty=v.planOutQty-v.realOutQty;
+                //  json.qty=v.planOutQty-v.realOutQty;
+                 json.qty=json.handOutQty?json.handOutQty:0;
                  json.edit=true;
                  return json;
                })

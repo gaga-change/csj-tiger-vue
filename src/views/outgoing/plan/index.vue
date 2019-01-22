@@ -142,20 +142,27 @@
         this.tableConfig.forEach(item=>{
           if(item.useLink){
               item.dom=(row, column, cellValue, index)=>{
+                let queryPath=`/outgoing/plan-detail?planCode=${row.planCode}`;
+                let createPath=`/reply/newreceiptorder?id=${row.id}&time=${moment().valueOf()}`
+                let handOutPath=`/outgoing/plan-detail?planCode=${row.planCode}&history=${true}`
+                let newHandOutPath=`/outgoing/manual?planCode=${row.planCode}`
+                let receivePath=`/provider/add?id=${row.id}&planCode=${row.planCode}&time=${moment().valueOf()}`
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>
-                    <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>查看</router-link>
-                    { row.isCreate&&
-                      <router-link  to={{path:'/reply/newreceiptorder',query:{id:row.id,time:moment().valueOf()}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>创建回单</router-link>
+                    <router-link  to={queryPath}  class="routerLink">查看</router-link>
+                    {
+                       row.isCreate&&
+                      <router-link  to={createPath} class="routerLink">创建回单</router-link>
                     }
                     {
-                      row.isHandOut&&
-                       <router-link  to={{path:'/outgoing/plan-detail',query:{planCode:row.planCode,history:true}}} style={{color:'#3399ea'}}>手工出库</router-link>
+                       row.isHandOut&&
+                       <router-link to={handOutPath}  class="routerLink">手工出库</router-link>
+                       
                       //新页面手工出库配置
-                      // <router-link  to={{path:'/outgoing/manual',query:{planCode:row.planCode}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>手工出库</router-link>
+                      // <router-link  to={newHandOutPath} class="routerLink">手工出库</router-link>
                     }
                     {
                       row.isReceive&&
-                      <router-link  to={{path:'/provider/add',query:{id:row.id,planCode:row.planCode,time:moment().valueOf()}}} style={{color:'#3399ea',whiteSpace:'nowrap',margin:'0 10px 0 0'}}>收货登记</router-link>
+                      <router-link  to={receivePath} class="routerLink">收货登记</router-link>
                     }
                 </div>
               }
@@ -250,5 +257,15 @@
  }
 </script>
 
+<style rel="stylesheet/scss" lang="scss">
+  .outgoing-quiry-container{
+    .routerLink{
+      color:#3399ea;
+      white-space:nowrap;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  }
+</style>
 
 

@@ -21,6 +21,7 @@ export  const tableConfig=[
 
 export const infoConfig=[
   {title:'业务单号',prop:'busiBillNo'},
+  {title:'合同号',prop:'contractNo'},
   {title:'业务类型',prop:'busiBillType', type:'getBillType',useApi:true},
   {title:'来源系统',prop:'fromSysCode'},
   {title:'制单人',prop:'busiBillCreater'},

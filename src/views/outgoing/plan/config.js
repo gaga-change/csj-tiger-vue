@@ -27,6 +27,7 @@ export const tableConfig=[
 export  const infoConfig=[
   {title:'计划单号',prop:'planCode'},
   {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
+  {title:'合同号',prop:'contractNo'},
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'planName'},
   {title:'计划仓库',prop:'planWarehouseName'},
