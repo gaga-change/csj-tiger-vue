@@ -14,11 +14,10 @@
      <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
         <el-tab-pane label="相关计划单" name="plan">
           <edit-table 
-            :loading="loading"
-            :config="tableConfig" 
-            :allTableData="tableData"
-            @goeditrow="goeditrow"
-            @handleDelete="handleDelete"/>
+             :loading="loading"
+             :useRowColorKey="this.$route.query.history?'qty':null"
+             :config="tableConfig" 
+             :allTableData="tableData"/>
           </el-tab-pane>
         <el-tab-pane label="相关出库单" name="outgoing">
             <web-pagination-table 
@@ -80,10 +79,14 @@
             this.planCode=data.planCode;
             let tableData=Array.isArray(data.itemList)?data.itemList:[];
             if(this.$route.query.history){
-               this.tableData=tableData.map(v=>{
+               this.tableData=_.cloneDeep(tableData).map(v=>{
                  let json=v;
-                //  json.qty=v.planOutQty-v.realOutQty;
-                 json.qty=json.handOutQty?json.handOutQty:0;
+                 // json.qty=v.planOutQty-v.realOutQty;
+                 if(v.planOutQty-v.realOutQty>0){
+                   json.qty=json.handOutQty?json.handOutQty:0;
+                 } else{
+                    json.qty=0
+                 }
                  json.edit=true;
                  return json;
                })
@@ -100,6 +103,7 @@
 
         }).catch(err=>{
           this.loading=false;
+          console.log(err)
         })
       },
 
@@ -138,6 +142,7 @@
         }).catch(err=>{
           this.$message.error('操作失败');
           this.sureQtyLoding=false;
+          console.log(err)
         })
        
       },
@@ -156,7 +161,7 @@
                 }
                  this.outgoingLoding=false;
               }).catch(err=>{
-
+                 console.log(err)
               })
             }
         }

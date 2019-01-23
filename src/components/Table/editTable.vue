@@ -8,6 +8,7 @@
         :data="!usePagination?allTableData:tableData"
         :size="size"
         :border="border"
+        :row-class-name="tableRowClassName"
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
          @selection-change="handleSelectionChange"
@@ -37,8 +38,8 @@
                         v-else
                         :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
-                        :style="`width:${item.width-20}px`"
-                        v-model="scope.row[item.prop]" >
+                        :style="`width:${item.width-20}px;border:${useColor&&scope.row[item.prop]>0?'1px solid red':'1px solid transparent'}`"
+                        v-model.number="scope.row[item.prop]" >
                     </el-input-number>
                    </template>
                    <span v-else>
@@ -91,7 +92,13 @@ import { mapGetters } from 'vuex'
 import  * as Enum from "@/utils/enum.js";
 export default {
    props: {
+
      loading: {
+      type: Boolean,
+      default: false
+    },
+
+    useColor: {
       type: Boolean,
       default: false
     },
@@ -119,7 +126,9 @@ export default {
       type: Boolean,
       default: false    
     },
-    
+    useRowColorKey:{
+      type: String,
+    },
     layout:{
       type: String,
       default: "total, sizes, prev, pager, next, jumper"
@@ -197,6 +206,13 @@ export default {
 
 
   methods: { 
+      
+      tableRowClassName({row, rowIndex}) {
+        if (this.useRowColorKey&&row[this.useRowColorKey]>0) {
+          return 'success-row';
+        }
+        return '';
+      },
 
       formatter(row, column,cellValue, index){
         if(column.type){
@@ -305,8 +321,15 @@ export default {
 <style rel="stylesheet/scss" lang="scss" >
   .ctabel{
     width: 100%;
-   
-  }
+   .el-table .success-row {
+     background: #48752f;
+     color:#fff;
+     &:hover>td{
+       background-color:#417525;
+       color:#fff;
+     }
+    }
+  } 
   
   
 </style>
