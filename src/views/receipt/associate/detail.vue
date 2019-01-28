@@ -243,6 +243,7 @@
             </el-table-column>
              <el-table-column
               label="合同编号"
+              width="200"
               prop="contractNo" >
             </el-table-column>
             <el-table-column
