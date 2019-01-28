@@ -582,7 +582,11 @@
  }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-
+<style rel="stylesheet/scss" lang="scss" >
+ 
+ .el-table .cell {
+    white-space: normal !important;
+  }
+ 
 </style>
 
