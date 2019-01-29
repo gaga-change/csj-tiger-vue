@@ -53,6 +53,7 @@ export const execInfoConfig=[//收款单关联情况
 export const detailtableConfig=[//详情表格
   // { label:'序号',prop:'invoiceNo',},
   { label:'订单编号',prop:'busiBillNo', width:180,show:'register+associate' },
+  { label:'合同编号',prop:'contractNo', width:180,show:'register+associate' },
   { label:'订单金额',prop:'orderAmt', minWidth:90,show:'register+associate' },
   { label:'签收数量',prop:'signQty', minWidth:90,show:'register+associate'},
   { label:'签收金额',prop:'signAmt', minWidth:90,show:'register+associate'},
