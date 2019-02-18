@@ -31,7 +31,7 @@ export default function contractModify(type, params, needfresh, needValue) {
         contractno: this.$route.params.contractno,
         checkFlag: type,
         checkAdvice: value,
-        userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.truename
+        userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.id
       }).then(res => {
         console.log(res)
        
@@ -88,7 +88,7 @@ export default function contractModify(type, params, needfresh, needValue) {
         contractno: this.$route.params.contractno,
         checkFlag: type,
         checkAdvice: value,
-        userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.truename
+        userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.id
       }).then(res => {
         if(res.code == 200){
           this.$message({
