@@ -10,6 +10,7 @@ import PayReceivableInvoce from './PayReceivableInvoce'
 import Receipt from './receipt'
 import Payment from './payment'
 import Provider from './provider'
+import SaasErp from './saasErp' // 租户管理 租户管理员
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
@@ -43,6 +44,7 @@ export const asyncRouterMap = [
   ...Receipt,
   ...Payment,
   ...Provider,
+  ...SaasErp,
   {
     path: '/err',
     component: Layout,
@@ -61,4 +63,3 @@ export const asyncRouterMap = [
 
   { path: '*', redirect: '/404', hidden: true }
 ]
-

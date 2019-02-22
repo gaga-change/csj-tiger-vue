@@ -57,15 +57,15 @@ export default {
    props: {
      loading: {
       type: Boolean,
-      default: false      
+      default: false
     },
     highlightCurrentRow:{
        type: Boolean,
-       default: false    
+       default: false
     },
     useRadio:{
       type: Boolean,
-      default: false      
+      default: false
     },
     showSummary:{
       type:Boolean,
@@ -73,7 +73,7 @@ export default {
     },
     summaryMethod:{
       type: Function,
-      default: ()=>{}    
+      default: ()=>{}
     },
     tableData: {
       type: Array,
@@ -131,7 +131,7 @@ export default {
       type:Boolean,
       default:false
     }
-   
+
   },
 
   data() {
@@ -186,17 +186,17 @@ export default {
             })
             return  <router-link  to={{path:tableConfig[i].linkTo,query:json}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
           }
-          
+
         } else{
-          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
+          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:''
        }
     }
     this.tableConfig=tableConfig;
- 
+
   },
 
    computed: {
-     
+
     ...mapGetters([
       'mapConfig',
     ]),
@@ -206,7 +206,7 @@ export default {
        return this.pageSize
       },
       set:function(){
-        
+
       }
     },
 
@@ -221,22 +221,20 @@ export default {
 
   },
 
-  methods: { 
-    
+  methods: {
+
      handleSizeChange(val){
-        this.$emit('sizeChange', val); 
+        this.$emit('sizeChange', val);
      },
-     
+
      handleCurrentChange(val){
-        this.$emit('currentChange', val); 
+        this.$emit('currentChange', val);
      },
 
      handleCurrentRedioChange(currentRow, oldCurrentRow){
-       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow);
      },
      handleSelectionChange(val){
-       console.log(123,'ssss');
-       
        this.$emit('selectionPartentChange',val)
      }
 
@@ -254,4 +252,3 @@ export default {
     }
   }
 </style>
-

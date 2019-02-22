@@ -1,10 +1,10 @@
 'use strict'
 
 const path = require('path')
-// const ip='http://172.16.81.26:7878';//苗哥
+const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://192.168.2.167:7878';//修号
 // const ip='http://192.168.2.163:7878';//红兵
-const ip='http://192.168.2.139:7878';//陈姐
+// const ip='http://192.168.2.139:7878';//陈姐
 // const ip='http://172.16.80.138:7878';//亚雷
 // const ip='http://172.16.80.83:7878';//亚超
 // const ip='http://192.168.1.195:7979';//测试服务
@@ -17,7 +17,7 @@ let proxyTable={};
 
 proxyTableArr.forEach(item=>{
   proxyTable[item]={
-    target: ip, 
+    target: ip,
     changeOrigin: true
   }
 })
@@ -30,7 +30,7 @@ module.exports = {
     proxyTable: proxyTable,
 
     // Various Dev Server settings
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: '192.168.2.153', // can be overwritten by process.env.HOST
     port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
@@ -80,7 +80,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: false, 
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
