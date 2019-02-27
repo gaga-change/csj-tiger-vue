@@ -2,49 +2,37 @@
    <div class="entryInvoice-form">
 
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
-      <el-form  :model="searchForm"  ref="searchForm" label-width="70px" label-position="left">
+      <el-form  :model="searchForm"  ref="searchForm" label-width="70px" class="formb0">
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="用户名" label-width="80px" style="width:300px" >
+            <el-form-item label="用户名" style="width:300px" >
               <el-input type="text" size="small"   placeholder="请输入用户名"    v-model.trim="searchForm.receiveEnterprise" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6" style="min-width:300px">
-            <el-form-item label="手机" label-width="90px" style="width:300px" >
+            <el-form-item label="手机" style="width:300px" >
               <el-input type="text" size="small"   placeholder="请输入手机号"    v-model.trim="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="租户名称"  label-width="80px" style="width:300px">
+            <el-form-item label="租户名称"   style="width:300px">
               <el-input type="text" size="small"  placeholder="请输入租户名称"    v-model.trim="searchForm.planCode" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-             <el-form-item label="状态"  label-width="80px" style="width:300px" >
+             <el-form-item label="状态"   style="width:300px" >
               <el-select v-model="searchForm.receiveStatus"
               size="small"  placeholder="请选择状态" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in mapConfig['getReceiveStatus']"
-                  :label="item.value"
-                  :key="item.key"
-                  :value="item.key">
+                  label="启用"
+                  :value="0">
                 </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="6" style="min-width:300px">
-             <el-form-item label="用户角色"  label-width="80px" style="width:300px" >
-              <el-select v-model="searchForm.receiveStatus"
-              size="small"  placeholder="请选择用户角色" prefix-icon="el-icon-search">
                 <el-option
-                  v-for="item in mapConfig['getReceiveStatus']"
-                  :label="item.value"
-                  :key="item.key"
-                  :value="item.key">
+                  label="禁用"
+                  :value="1">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -52,7 +40,7 @@
 
 
           <el-col :span="24">
-            <el-form-item label-width="0">
+            <el-form-item label-width="0" style="margin-bottom:15px !important;">
               <el-button type="primary"  size="small"  @click="submit">查询</el-button>
               <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
             </el-form-item>

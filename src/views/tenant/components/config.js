@@ -1,15 +1,15 @@
 export  const listIndexConfig=[ //list页配置
-    { label:'序号',prop:'index', width:55},
-    { label:'租户编码',prop:'receiveCode',linkTo:'/tenant/detail',query:[{key:'id',value:'id'},{key:'planCode',value:'planCode'}]},
-    { label:'租户名称',prop:'receiveEnterprise',},
-    { label:'租户类型',prop:'planCode',},
-    { label:'角色类别',prop:'contractNo',},
-    { label:'仓库',prop:'providerName',},
-    { label:'启用状态',prop:'inBusiBillNo',},
-    { label:'创建日期',prop:'gmtCreate',type:'time'},
-    { label:'创建者',prop:'receiveCreateTime',type:'time'},
-    { label:'最后操作日期',prop:'receiveCreateTime',type:'time'},
-    { label:'最后操作者',prop:'receiveStatus'},
+    { label:'序号',type:'index', width:55},
+    { label:'租户编码',prop:'ownerCode',width:155,linkTo:'/tenant/detail',query:[{key:'id',value:'id'},{key:'ownerCode',value:'ownerCode'}]},
+    { label:'租户名称',prop:'ownerName',width:240,},
+    { label:'租户类型',prop:'ownerType',dom:filter('ownerType')},
+    { label:'角色类别',prop:'roleType',dom:filter('roleType')},
+    { label:'仓库',prop:'stores',width:240,},
+    { label:'启用状态',prop:'ownerState',dom:filter('ownerState')},
+    { label:'创建日期',prop:'gmtCreate',type:'time',width:120,},
+    { label:'创建者',prop:'createrName'},
+    { label:'最后操作日期',prop:'gmtModify',type:'time',width:120,},
+    { label:'最后操作者',prop:'modifierName'},
     { label:'操作',useLink:true,fixed:'right',width:150},
   ]
 
@@ -72,6 +72,49 @@ export  const listIndexConfig=[ //list页配置
           return row.detailList.reduce((a,b)=>{
             return a+(b.receiveQty||0);
           },0)
+        }
+      }
+    }
+  }
+
+  function filter(val) {
+    return (row, column, cellValue, index)=>{
+      if(val==='ownerType'){
+        if(row.ownerType){
+          switch (row.ownerType) {
+            case 1:
+              return '仓储客户'
+            case 2:
+              return '采购商'
+            case 3:
+              return '供应商'
+            case 4:
+              return '服务商'
+            default:
+              return ''
+          }
+        }
+      }
+      if(val==='roleType'){
+        if(row.roleType){
+          switch (row.roleType) {
+            case 1:
+              return '租户'
+            default:
+              return ''
+          }
+        }
+      }
+      if(val==='ownerState'){
+        if(row.ownerState){
+          switch (row.ownerState) {
+            case 1:
+              return '启用'
+            case 2:
+              return '禁用'
+            default:
+              return ''
+          }
         }
       }
     }

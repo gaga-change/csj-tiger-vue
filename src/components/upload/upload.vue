@@ -7,7 +7,7 @@
            @click="filesDialogVisible=true" >
           {{(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length ? '继续上传' : '上传附件'}}
         </el-button>
-        <span v-show="(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length">{{(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length}}个文件</span>
+        <span v-show="showNum && ((Array.isArray(localFileList)&&localFileList.length)||defailFileList.length)">{{(Array.isArray(localFileList)&&localFileList.length)||defailFileList.length}}个文件</span>
      </div>
 
     <el-dialog
@@ -25,7 +25,9 @@
         :limit="10"
         :on-exceed="handleFileExceed"
         :on-remove="handleRemove"
+        :isOnlyone="isOnlyone"
         :on-change="handelUploadChange"
+        :accept="accept"
         name="myFile"
         :on-success="handleEnclosureUploadSuccess"
         :auto-upload="false">
@@ -46,10 +48,19 @@ export default {
         localFileList:null,
         displayBtn:false,
         filesDialogVisible:false,
+        fileList: []
       }
     },
 
     props: {
+      showNum:{
+        type:Boolean,
+        default:true
+      },
+      isOnlyone:{
+        type:Boolean,
+        default:false
+      },
       defailFileList:{
         type:Array,
         default:()=>[]
@@ -58,7 +69,11 @@ export default {
       filesuploadUrl:{
         type:String,
         default:'/webApi/fileupload/common/filetoserver'
-      }
+      },
+      accept:{
+        type:String,
+        default:''
+      },
     },
 
 
@@ -125,6 +140,9 @@ export default {
     handleEnclosureUploadSuccess(res, file, fileList) {
         if (res.code === '200') {
           this.formatterLocalFileList(fileList)
+          if (this.isOnlyone) {
+            this.formatterLocalFileList([file])
+          }
         } else {
           this.$message({
             message: res.message,
@@ -149,4 +167,3 @@ export default {
     }
   }
 </style>
-
