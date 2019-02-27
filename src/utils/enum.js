@@ -1,6 +1,6 @@
 //发票性质
 export const NatureInvoice = [
-  
+
   {
     name: '蓝字发票',
     value: 1
@@ -15,7 +15,7 @@ export const NatureInvoice = [
 
 //发票性质枚举类型
 export const NatureInvoiceEnum = [
-  
+
   {
     name: '蓝字发票',
     value: 'BLUE_INVOICE'
@@ -270,7 +270,7 @@ export  const entryInvoiceTicketStatus=[
     value: 3
   },
 ]
-  
+
 
 //付款单据状态
 export const paymentStatusEnum = [
@@ -413,7 +413,7 @@ export  const deliverwayConfig=[
 
 //业务板块
 export const busiPlateConfig = [
-  
+
   {
     name: '钢铁',
     value: 0
@@ -561,3 +561,50 @@ export const backstatusConfig = [
   },
 ];
 
+
+export const ownerType = [
+  {
+    name: '仓储客户',
+    value: 1
+  },
+  {
+    name: '采购商',
+    value: 2
+  },
+  {
+    name: '供应商 ',
+    value: 3
+  },
+  {
+    name: '服务商 ',
+    value: 4
+  },
+];
+
+export const roleType = [
+  {
+    name: '租户',
+    value: 1
+  }
+];
+
+export const ownerState = [
+  {
+    name: '启用',
+    value: 1
+  },
+  {
+    name: '禁用',
+    value: 2
+  }
+];
+export const userStatus = [
+  {
+    name: '启用',
+    value: 0
+  },
+  {
+    name: '禁用',
+    value: 1
+  }
+];

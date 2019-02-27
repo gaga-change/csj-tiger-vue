@@ -3,7 +3,7 @@ export  const listIndexConfig=[ //list页配置
     { label:'租户名称',prop:'ownerName',width:240,},
     { label:'用户名',prop:'userName',width:155},
     { label:'手机',prop:'linkTel',width:155},
-    { label:'启用状态',prop:'userStatus',dom:filter('userStatus')},
+    { label:'启用状态',prop:'userStatus',type:'userStatus',useLocalEnum:true},
     { label:'创建日期',prop:'gmtCreate',type:'time',width:120,},
     { label:'创建者',prop:'createrName',width:120},
     { label:'最后操作日期',prop:'gmtModify',type:'time',width:120,},
@@ -70,59 +70,6 @@ export  const listIndexConfig=[ //list页配置
           return row.detailList.reduce((a,b)=>{
             return a+(b.receiveQty||0);
           },0)
-        }
-      }
-    }
-  }
-
-  function filter(val) {
-    return (row, column, cellValue, index)=>{
-      if(val==='ownerType'){
-        if(row.ownerType){
-          switch (row.ownerType) {
-            case 1:
-              return '仓储客户'
-            case 2:
-              return '采购商'
-            case 3:
-              return '供应商'
-            case 4:
-              return '服务商'
-            default:
-              return ''
-          }
-        }
-      }
-      if(val==='roleType'){
-        if(row.roleType){
-          switch (row.roleType) {
-            case 1:
-              return '租户'
-            default:
-              return ''
-          }
-        }
-      }
-      if(val==='ownerState'){
-        if(row.ownerState){
-          switch (row.ownerState) {
-            case 1:
-              return '启用'
-            case 2:
-              return '禁用'
-            default:
-              return ''
-          }
-        }
-      }
-      if(val==='userStatus'){
-        switch (row.userStatus) {
-          case 0:
-            return '启用'
-          case 1:
-            return '禁用'
-          default:
-            return ''
         }
       }
     }
