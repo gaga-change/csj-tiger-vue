@@ -18,7 +18,7 @@
 
           <el-col :span="6" style="min-width:250px" >
             <el-form-item label="仓库" label-width="40px"  prop="warehouseCode">
-             <el-select   v-model="searchForm.warehouses"   placeholder="请选择仓库">
+             <el-select   v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库">
                <el-option  v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
              </el-select>
            </el-form-item>
