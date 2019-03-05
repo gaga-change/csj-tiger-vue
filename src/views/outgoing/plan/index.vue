@@ -138,6 +138,7 @@
       }
     },
 
+  
       created(){
         this.tableConfig.forEach(item=>{
           if(item.useLink){
@@ -146,7 +147,6 @@
                 let createPath=`/reply/newreceiptorder?id=${row.id}&time=${moment().valueOf()}`
                 let handOutPath=`/outgoing/plan-detail?planCode=${row.planCode}&history=${true}`
                 let newHandOutPath=`/outgoing/manual?planCode=${row.planCode}`
-                let receivePath=`/provider/add?id=${row.id}&planCode=${row.planCode}&time=${moment().valueOf()}`
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>
                     <router-link  to={queryPath}  class="routerLink">查看</router-link>
                     {
@@ -156,13 +156,12 @@
                     {
                        row.isHandOut&&
                        <router-link to={handOutPath}  class="routerLink">手工出库</router-link>
-                       
                       //新页面手工出库配置
                       // <router-link  to={newHandOutPath} class="routerLink">手工出库</router-link>
                     }
                     {
                       row.isReceive&&
-                      <router-link  to={receivePath} class="routerLink">收货登记</router-link>
+                      <span style={{color:'#3399ea',cursor:'pointer'}} onClick={this.receivingRegistration.bind(this,row)}>收货登记</span>
                     }
                 </div>
               }
@@ -195,6 +194,12 @@
             return false;
           }
         });
+      },
+
+      receivingRegistration(row){
+        this.$store.dispatch('setLocalmenu','仓储运营')
+        let receivePath=`/provider/add?id=${row.id}&planCode=${row.planCode}&time=${moment().valueOf()}`
+        this.$router.push(receivePath)
       },
 
       resetForm(formName) {
