@@ -516,7 +516,9 @@ export default {
       };
       this.alertLoding=true;
       this.searchForm.saleSignId=id;
-      getSigningDetail({id}).then(res=>{
+      //修改于2019-3-5 吴宗庙让加了个signNo字段
+      let  signNo=this.signNoConfig.find(v=>v.id===id)&&this.signNoConfig.find(v=>v.id===id).signNo||''
+      getSigningDetail({id,signNo}).then(res=>{
         if(res.success){
            if(this.searchForm.invoiceNature==='CREDIT_NOTE'){
             this.tableData=res.data.filter(v=>v.whetherToInvoice).map(v=>{
