@@ -228,3 +228,8 @@ body .el-table colgroup.gutter{
 .formb0 .el-form-item {
   margin-bottom: 0 !important;
 }
+
+.treeclass .el-tree-node .el-tree-node__content {
+  height: 42px !important;
+  height: 100%;
+}
