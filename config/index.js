@@ -13,7 +13,15 @@ const ip='http://192.168.2.167:7878';//修号
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 
-let proxyTable={};
+let proxyTable={
+  '/wcl': {
+    target: 'http://172.16.81.219:8686',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/wcl': '/'
+    }
+  }
+};
 
 proxyTableArr.forEach(item=>{
   proxyTable[item]={

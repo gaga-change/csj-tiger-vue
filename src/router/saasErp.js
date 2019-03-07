@@ -66,6 +66,40 @@ export default [
         meta: {title: '租户管理员详情',noCache: true }
       },
     ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: 'category/list',
+    name: 'category',
+    mark:'仓储运营',
+    meta: { title: '商品分类管理', icon: 'plan',noCache: true },
+    hidden: false,
+    children: [
+      {
+        path: 'list',
+        component: _import('category/list'),
+        name: 'categoryList',
+        meta: {title: '商品分类管理',icon: 'plan', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/product',
+    component: Layout,
+    redirect: 'product/list',
+    name: 'product',
+    mark:'仓储运营',
+    meta: { title: '商品列表', icon: 'plan',noCache: true },
+    hidden: false,
+    children: [
+      {
+        path: 'list',
+        component: _import('product/list'),
+        name: 'productList',
+        meta: {title: '商品列表',icon: 'plan', noCache: true }
+      }
+    ]
   }
 
 ]
