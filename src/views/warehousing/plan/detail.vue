@@ -61,7 +61,7 @@
         if(res.success){
           let data=res.data;
           this.config=data;
-          if(this.config.busiBillNo.slice(0,2)=='SO'){
+          if(this.config.busiBillNo&&this.config.busiBillNo.slice(0,2)=='SO'){
               this.infoConfig.find(v=>v.prop==='busiBillNo').linkTo = '/outgoing/businessorder-detail'
           } 
           let list=data.skuDetails&&data.skuDetails.list||[]
