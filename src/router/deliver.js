@@ -30,7 +30,7 @@ export default [
         component: _import('outgoing/plan/index')
       },
       {
-        name: 'plan-detail',
+        name: 'out-detail',
         path: 'plan-detail',
         meta: { title: '出库计划详情', noCache: true },
         component: _import('outgoing/plan/detail'),
@@ -44,13 +44,13 @@ export default [
         hidden: true,
       },
       {
-        name: 'quiry',
+        name: 'outquiry',
         path: 'quiry',
         meta: { title: '出库单查询', noCache: true },
         component: _import('outgoing/quiry/index')
       },
       {
-        name: 'quiry-detail',
+        name: 'outquiry-detail',
         path: 'quiry-detail',
         meta: { title: '出库单查询详情', noCache: true },
         component: _import('outgoing/quiry/detail'),
@@ -67,20 +67,20 @@ export default [
     hidden: false,
     children: [
       {
-        name: 'businessorder',
+        name: 'businessorder-warehousing',
         path: 'businessorder',
         meta: { title: '入库业务单', noCache: true },
         component: _import('warehousing/businessorder/index')
       },
       {
-        name: 'businessorder-detail',
+        name: 'warehousing-detail',
         path: 'businessorder-detail',
         meta: { title: '入库业务单详情', noCache: true },
         component: _import('warehousing/businessorder/detail'),
         hidden: true,
       },
       {
-        name: 'plan',
+        name: 'warehousingplan',
         path: 'plan',
         meta: { title: '入库计划', noCache: true },
         component: _import('warehousing/plan/index')
@@ -92,15 +92,15 @@ export default [
         component: _import('warehousing/plan/detail'),
         hidden: true,
       },
-      
+
       {
-        name: 'quiry',
+        name: 'inquiry',
         path: 'quiry',
         meta: { title: '入库单查询', noCache: true },
         component: _import('warehousing/quiry/index')
       },
       {
-        name: 'quiry-detail',
+        name: 'inquiry-detail',
         path: 'quiry-detail',
         meta: { title: '入库单查询详情', noCache: true },
         component: _import('warehousing/quiry/detail'),

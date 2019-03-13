@@ -12,12 +12,17 @@ export function updatepassword(data) {
 
 //获取用户信息
 export function getInfo() {
-  return request({
-    url: '/webApi/base/user/info',
-    method: 'get'
+  // return request({
+  //   url: '/webApi/base/user/info',
+  //   method: 'get'
+  // })
+  return new Promise(function(resolve, reject) {
+    resolve({
+      success: true,
+      data: {
+        truename: 'outline',
+        id: 666
+      }
+    })
   })
 }
-
-
-
-

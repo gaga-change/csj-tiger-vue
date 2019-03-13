@@ -87,7 +87,7 @@
           type="text"
           v-model="addForm.ownerDcno"
           style="width:400px;"
-          placeholder="请输入组织机构代码"
+          placeholder="请输入组织机构代码,格式：12345678-1"
         ></el-input>
       </el-form-item>
       <el-form-item label="企业地址：">
