@@ -230,7 +230,7 @@
       </el-row>
     </el-card>
 
-    <el-row class="mt20">
+    <el-row class="mt20 mb30">
       <el-button
         type="primary"
         @click="onSubmit"

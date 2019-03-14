@@ -608,3 +608,10 @@ export const userStatus = [
     value: 1
   }
 ];
+
+export const paymentNature = [
+  {
+    name: '代支款',
+    value: 1
+  }
+]

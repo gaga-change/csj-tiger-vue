@@ -15,7 +15,6 @@ import Mis from './mis'
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
-  { path: '/404', component: _import('404'), hidden: true },
   { path: '/401', component: _import('401'), hidden: true },
   {
     path: '/',
@@ -63,5 +62,4 @@ export const asyncRouterMap = [
     ]
   },
 
-  { path: '*', redirect: '/404', hidden: true }
 ]

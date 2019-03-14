@@ -19,3 +19,57 @@ export function getOutStoreList(data={}) {
     })
   })
 }
+
+export function substituteList(data={}) {
+  // return request({
+  //   url: ``,
+  //   method: 'post',
+  //   data
+  // })
+  return new Promise((resolve, reject) => {
+    resolve({
+      success: true,
+      data: [
+        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1, status: 0, id:1},
+        {orderNo: 't1aacc001', orderName: 'aaab', orderNatrue: 1, status: 0,id:2},
+        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1,status: 1, id:3}
+      ]
+    })
+  })
+}
+
+export function getDeliveryList(data={}) {
+  // return request({
+  //   url: ``,
+  //   method: 'post',
+  //   data
+  // })
+  return new Promise((resolve, reject) => {
+    resolve({
+      success: true,
+      data: [
+        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1, id:1},
+        {orderNo: 't1aacc001', orderName: 'aaab', orderNatrue: 1, id:2},
+        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1,id:3}
+      ]
+    })
+  })
+}
+
+export function getProductList(data={}) {
+  // return request({
+  //   url: ``,
+  //   method: 'post',
+  //   data
+  // })
+  return new Promise((resolve, reject) => {
+    resolve({
+      success: true,
+      data: [
+        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1, status:0,id:1},
+        {orderNo: 't1aacc001', orderName: 'aaab', orderNatrue: 1, status:1,id:2},
+        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1,status:0,id:3}
+      ]
+    })
+  })
+}

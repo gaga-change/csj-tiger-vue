@@ -9,7 +9,7 @@ export default [
     component: Layout,
     redirect: '/invoice/entryInvoice/registrationList',
     name: 'entryInvoice',
-    meta: { title: '进项发票', icon: 'tree' }, 
+    meta: { title: '进项发票', icon: 'tree' },
     children: [
       {
         path: 'registrationList',
@@ -132,7 +132,7 @@ export default [
       {
         path: 'invoiceinvalid/detail',
         component: _import('invoice/outputinvoice/invoiceinvalid/detail'),
-        name: 'invoiceinvalid',
+        name: 'invoiceinvaliddetail',
         hidden:true,
         meta: {
           title: '发票作废详情',
@@ -160,7 +160,7 @@ export default [
     name: 'purchaseorder',
     alwaysShow: false,
     hidden: true,
-    meta: { title: '采购订单管理', icon: 'purchase'  }, 
+    meta: { title: '采购订单管理', icon: 'purchase'  },
     children: [
       {
         path: 'purchaseorderdetail',
@@ -182,7 +182,7 @@ export default [
     name: 'saleorder',
     alwaysShow: false,
     hidden: true,
-    meta: { title: '销售订单管理', icon: 'sale' }, 
+    meta: { title: '销售订单管理', icon: 'sale' },
     children: [
       {
         path: 'saleorderdetail',
