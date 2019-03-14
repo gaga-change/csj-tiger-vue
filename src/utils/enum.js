@@ -27,6 +27,7 @@ export const NatureInvoiceEnum = [
   },
 ]
 
+
 //单据状态
 export const TicketStatus = [
   {

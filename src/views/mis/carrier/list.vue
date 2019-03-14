@@ -3,7 +3,7 @@
       <search @submit="select" :searchForm="searchForm"></search>
     
       <div class="operationitem">
-           <router-link to="/carrier/add">
+           <router-link :to="`/carrier/add?time=${moment().valueOf()}`">
                 <el-button type="primary" size="small">创建承运商</el-button>
             </router-link>
       </div>
@@ -25,6 +25,7 @@
   import BaseTable from '@/components/Table'
   import { carrierListConfig } from './components/config'
   import _  from 'lodash';
+  import moment from 'moment';
   export default {
     components: { search,BaseTable},
     data() {
@@ -39,6 +40,7 @@
           pageNum:1
         },
         total:0,
+        
         //table配置
         loading:false,
         carrierListConfig,
@@ -47,7 +49,7 @@
     },
 
     mounted(){
-
+     
     },
 
     created(){
@@ -80,7 +82,7 @@
     },
 
     methods: {
-
+      moment,
       handleSizeChange(val) {
         this.searchForm={...this.searchForm,pageSize:val,pageNum:1};
         this.fetch()
@@ -120,6 +122,7 @@
     .tableLinkBox{
        display: flex;
       .tableLink{
+        cursor: pointer;
         color:#3399ea;
         margin-right:12px;
         &:last-child{

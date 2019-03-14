@@ -45,7 +45,8 @@ export default [
         path: 'add',
         component: _import('mis/carrier/add'),
         name: 'carrierAdd',
-        meta: { title:'创建承运商' }
+        hidden: true,
+        meta: { title:'创建承运商', noCache: false}
       },
       {
         path: 'detail',
@@ -53,7 +54,24 @@ export default [
         name: 'carrierDetail',
         hidden: true,
         meta: { title:'承运商详情' }
-      },
+      }
     ]
-  }
+  },
+
+  {
+    path: '/storagepoint',
+    component: Layout,
+    redirect: '/storagepoint/list',
+    name: 'storagepoint',
+    mark:'仓储运营',
+    meta: { title: '仓配点管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/storagepoint/list'),
+        name: 'storagepointList',
+        meta: { title: '仓配点管理',icon: 'sale'  }
+      }
+    ]
+  },
 ]

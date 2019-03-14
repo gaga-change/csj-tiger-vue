@@ -59,14 +59,16 @@ export const planTableConfig=[
 ]
 
 export const indexTableConfig=[
-  { label:'业务单号',prop:'busiBillNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
+  { label:'业务单号',fixed:true,prop:'busiBillNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}],width:140},
   { label:'合同编号',prop:'contractNo'},
-  { label:'客户名称',prop:'arrivalName'},
   { label:'货主',prop:'ownerName'},
-  { label:'出库金额',prop:'realOutAmt'},
-  { label:'出库数量',prop:'realOutQty'},
+  { label:'客户名称',prop:'arrivalName'},
+  { label:'计划出库数量',prop:''},
+  { label:'计划出库金额',prop:''},
+  { label:'实际出库数量',prop:''},
+  { label:'单据状态',prop:''},
+  { label:'执行状态',prop:''},
   { label:'制单人',prop:'busiBillCreater'},
-  { label:'是否越库',prop:'isCross',type:'Boolean'},
   { label:'制单时间',prop:'busiBillCreateTime',type:'time'},
-  { label:'操作',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}],linkText:'查看'},
+  { label:'操作',fixed:'right',useLink:true,width:140}
 ]

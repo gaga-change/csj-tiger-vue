@@ -13,7 +13,7 @@ router.beforeEach((to, from, next) => {
   } else if (store.getters.userInfo == null) {
       store.dispatch('GetInfo').then(res => {
         if(res.success){
-          // store.dispatch('gitMap');
+          store.dispatch('gitMap');
           let mark=findMark(asyncRouterMap,to.path);
           store.dispatch('setLocalmenu',mark||store.getters.markArr[0]).then(res=>{
             next({ ...to, replace: true })

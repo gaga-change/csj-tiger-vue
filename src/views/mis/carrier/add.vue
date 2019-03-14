@@ -70,13 +70,12 @@
        <el-button @click="submit('save')" type="primary">保存</el-button>
        <el-button @click="submit('submit')" type="primary">提交</el-button>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
-
+  name:'carrierAdd',
   data(){
     return {
       searchForm:{
