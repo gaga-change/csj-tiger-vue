@@ -1,9 +1,9 @@
 <template lang="html">
 <el-card shadow="hover">
-  <el-form :model="searchForm" labelWidth="80px" ref="searchForm">
+  <el-form :model="searchForm" :labelWidth="labelWidth + 'px'" ref="tcfForm">
     <el-row>
-      <el-col :sm="12" :md="8" :lg="8" :xl="6" v-for="(formitem, index) in searchConfig" :key="index">
-        <el-form-item :label="formitem.label" :prop="formitem.prop" :rules="formitem.rules">
+      <el-col :sm="12" :md="8" :lg="8" :xl="6" v-for="(formitem, index) in config" :key="index">
+        <el-form-item :label="formitem.label" :prop="formitem.prop" :rules="formitem.rules||[]">
           <el-select v-if="formitem.type==='select'"  v-model="searchForm[formitem.prop]" clearable  :placeholder="formitem.placeholder" size="small" class="formitem">
             <el-option v-for="item in formitem.selectOptions" :label="item.value" :key="item.key" :value="item.key"></el-option>
           </el-select>
@@ -34,14 +34,15 @@
             type="datetime"
             placeholder="选择日期时间">
           </el-date-picker>
-          <el-input-number v-else-if="formitem.type==='number'" v-model="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input-number>
+          <el-input v-else-if="formitem.type==='number'" type="number" v-model.number="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
+          <el-input v-else-if="formitem.type==='textarea'" type="textarea" v-model="searchForm[formitem.prop]" :rows="formitem.rows||1" :placeholder="formitem.placeholder" size="small" ></el-input>
           <el-input v-else v-model="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
-      <el-button @click="submit" type="primary">查询</el-button>
-      <el-button @click="resetForm" >重置</el-button>
+    <el-row type="flex" :justify="justify">
+      <el-button @click="submit" type="primary">{{confirmText}}</el-button>
+      <el-button @click="resetForm" v-show="showResetButton">重置</el-button>
     </el-row>
   </el-form>
 </el-card>
@@ -57,9 +58,29 @@
 */
 export default {
   props: {
-    searchConfig: {
+    config: {
       type: Array,
       default: () => []
+    },
+    formData: {
+      type: Object,
+      default: () => { return {} }
+    },
+    labelWidth: {
+      type: Number,
+      default: 80
+    },
+    justify: {
+      type: String,
+      default: 'start'
+    },
+    confirmText: {
+      type: String,
+      default: '查询'
+    },
+    showResetButton: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -68,16 +89,22 @@ export default {
     }
   },
   methods: {
+    loadData() {
+      this.$nextTick(() => {
+        this.searchForm = JSON.parse(JSON.stringify(this.formData))
+      })
+    },
     submit(){
-       this.$refs['searchForm'].validate((valid) => {
+       this.$refs['tcfForm'].validate((valid) => {
           if (valid) {
-             this.$emit('submitSearchForm',this.searchForm)
+             this.$emit('submitForm',this.searchForm)
           }
        })
     },
     resetForm(){
-      this.$refs['searchForm'].resetFields()
-      this.$emit('resetSearchForm')
+      this.$refs['tcfForm'].resetFields()
+      this.searchForm = {}
+      this.$emit('resetForm')
     }
   }
 }

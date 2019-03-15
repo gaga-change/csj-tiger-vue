@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="app-container">
-    <search :searchConfig="searchConfig" @submitSearchForm="submitSearchForm" @resetSearchForm="resetSearchForm"></search>
+    <search :config="searchConfig" @submitForm="submitSearchForm" @resetForm="resetSearchForm"></search>
     <el-row type="flex" justify="end">
       <el-button type="primary" size="small" style="margin:10px" @click="newProduct">创建商品</el-button>
       <el-button type="primary" size="small" style="margin:10px" @click="newProduct">批量导入商品</el-button>
