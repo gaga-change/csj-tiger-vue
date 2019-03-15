@@ -3,6 +3,7 @@ import ElementUI from 'element-ui'
 import ItemTitle from '@/components/ItemTitle/index'
 import ItemCard from '@/components/ItemCard/index'
 import UploadMode from '@/components/upload/index'
+import UploadExcel from '@/components/UploadExcel/index'
 
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 
@@ -31,6 +32,7 @@ Vue.use(EXTENDS)
 Vue.use(ItemTitle);
 Vue.use(ItemCard);
 Vue.use(UploadMode);
+Vue.use(UploadExcel);
 
 Vue.config.productionTip = false
 

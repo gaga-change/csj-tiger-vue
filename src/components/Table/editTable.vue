@@ -35,6 +35,7 @@
                     </el-input>
                     <el-input-number
                         size="mini"
+                        controls-position="right"
                         v-else
                         :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"

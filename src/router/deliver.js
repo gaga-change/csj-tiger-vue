@@ -17,6 +17,13 @@ export default [
         component: _import('outgoing/businessorder/index')
       },
       {
+        name: 'businessorderadd',
+        path: 'businessorderadd',
+        hidden: true,
+        meta: { title: '创建出库业务单', noCache: false },
+        component: _import('outgoing/businessorder/add')
+      },
+      {
         name: 'businessorder-detail',
         path: 'businessorder-detail',
         meta: { title: '出库业务单详情', noCache: true },

@@ -69,8 +69,12 @@
       </el-card>
      </div>
  
-      
-
+      <div class="operationitem">
+        <router-link :to="`/outgoing/businessorderadd?time=${moment().valueOf()}`">
+            <el-button type="primary" size="small">新建出库业务单</el-button>
+        </router-link>
+      </div>
+    
       <base-table 
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
@@ -89,6 +93,7 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
+    import moment from 'moment';
     
     export default {
       components: { BaseTable },
@@ -148,6 +153,7 @@
     ])},
 
     methods: { 
+       moment,
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
@@ -218,6 +224,11 @@
           margin-right: 0;
         }
       }
+    }
+    .operationitem{
+      display: flex;
+      justify-content: flex-end;
+      margin: 16px 0;
     }
 </style>
 

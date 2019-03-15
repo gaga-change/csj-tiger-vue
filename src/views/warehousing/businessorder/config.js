@@ -33,7 +33,7 @@ export const warehousingTableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'入库单号',prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
   { label:'计划单号',prop:'planCode',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
-  { label:'货主',prop:'ownerName'},
+  // { label:'货主',prop:'ownerName'},
   { label:'仓库',prop:'warehouseName'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time'},
 ];

@@ -609,3 +609,16 @@ export const userStatus = [
     value: 1
   }
 ];
+
+
+//mis枚举配置
+export const outgoingOrderTypeEnum = [
+  {
+    name: '销售出库',
+    value: 21
+  },
+  {
+    name: '退货出库',
+    value: 22
+  }
+];
