@@ -266,9 +266,45 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="供应商信息" name="third">角色管理</el-tab-pane>
+      <el-tab-pane label="供应商信息" name="third">
+        <search
+          :config="servicerConfig"
+          :justify="'end'"
+          :confirmText="servicerConfirmText"
+          :labelWidth="100"
+          :formData="servicerEditData"
+          :showResetButton="false"
+          ref="servicerForm"
+          @submitForm="submitServicerForm"></search>
+        <el-table
+          :data="servicerTableData"
+          border>
+          <el-table-column type="index" label="序号" width="55"></el-table-column>
+          <el-table-column v-for="(column, index) in servicerConfig" :key="index" :prop="column.prop" :label="column.label">
+            <template slot-scope="scope">
+              <span v-if="column.type === 'date'">{{scope.row[column.prop] | parseTime}}</span>
+              <span v-else>{{scope.row[column.prop]}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="150" fixed="right">
+            <template slot-scope="scope">
+              <a :style="linkstyle" @click="delServicerRow(scope.row)">删除</a>
+              <a :style="linkstyle" @click="editServicerRow(scope.row)">修改</a>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
     </el-tabs>
-
+    <el-row class="mt20 mb30">
+      <el-button
+        type="primary"
+        @click="onSubmit"
+        v-loading="submitloading"
+        :disabled="submitloading"
+        >保存</el-button
+      >
+      <el-button @click="onCancel">取消</el-button>
+    </el-row>
   </el-form>
 </div>
 </template>
@@ -292,20 +328,45 @@ export default {
         { label: '客户物料名称', prop: 'itemName', placeholder: '请输入客户物料名称' },
         { label: '备注', prop: 'memos', type: 'textarea' },
       ],
+      servicerConfig: [
+        { label: '供应商', prop: 'servicer', placeholder: '请选择供应商', type: 'select', selectOptions: [{ value: '供应商1', key: 1 }] },
+        { label: '进货价', prop: 'itemPrice', placeholder: '请输入进货价', type: 'number' },
+        { label: '价格有效期', prop: 'expiryDate', type: 'date' },
+        { label: '供应商物料编码', prop: 'servicerCode', placeholder: '请输入供应商编码' },
+        { label: '大包装单位', prop: 'bigunit', placeholder: '请输入大包装单位' },
+        { label: '订货计量单位', prop: 'orderUnit', placeholder: '请选择订货计量单位', type: 'select', selectOptions: [{ value: '大包装单位', key: 1 }] },
+        { label: '交货周期', prop: 'deliveryCycle', placeholder: '请输入交货周期' },
+        { label: '供应商物料名称', prop: 'servicerName', placeholder: '请输入供应商物料名称' },
+        { label: '中包装单位', prop: 'midunit', placeholder: '请输入中包装单位' },
+        { label: '订货计量重量', prop: 'itemWeight', placeholder: '请输入订货计量重量', type: 'number' },
+        { label: '订货计量体积', prop: 'itemSize', placeholder: '请输入订货计量体积', type: 'number' },
+        { label: '供应商物料分类', prop: 'servicerCategory', placeholder: '请输入供应商物料分类' },
+        { label: '备注', prop: 'memos', type: 'textarea' },
+      ],
       customerEditData: {},
       customerTableData: [],
+      servicerEditData: {},
+      servicerTableData: [],
       linkstyle: {
           color: '#3399ea',
           whiteSpace: 'nowrap',
           margin: '0 10px 0 0'
       },
-      confirmText: '添加'
+      confirmText: '添加',
+      servicerConfirmText: '添加',
+      submitloading: false
     }
   },
   computed: {
     ...mapGetters(['mapConfig'])
   },
   methods: {
+    onSubmit() {
+
+    },
+    onCancel() {
+      this.$router.back()
+    },
     submitCustomerForm(val) {
       console.log(val);
       if (val.edit) {
@@ -321,6 +382,21 @@ export default {
         this.customerTableData.push(JSON.parse(JSON.stringify(val)))
       }
     },
+    submitServicerForm(val) {
+      console.log(val);
+      if (val.edit) {
+        let position = -1
+        this.servicerTableData.forEach((item, index) => {
+          if(item.edit) position = index
+        })
+        console.log(position);
+        this.servicerTableData.splice(position, 1, JSON.parse(JSON.stringify({ ...val, edit: false })))
+        this.$refs.servicerForm.resetForm()
+        this.servicerConfirmText = '添加'
+      } else {
+        this.servicerTableData.push(JSON.parse(JSON.stringify(val)))
+      }
+    },
     delRow(row) {
       console.log(row);
       this.customerTableData = this.customerTableData.filter(item => item !== row)
@@ -330,6 +406,16 @@ export default {
       this.confirmText = '确定修改'
       this.customerEditData = row
       this.$refs.customerForm.loadData()
+    },
+    delServicerRow(row) {
+      console.log(row);
+      this.servicerTableData = this.servicerTableData.filter(item => item !== row)
+    },
+    editServicerRow(row) {
+      row.edit = true
+      this.servicerConfirmText = '确定修改'
+      this.servicerEditData = row
+      this.$refs.servicerForm.loadData()
     }
   }
 }

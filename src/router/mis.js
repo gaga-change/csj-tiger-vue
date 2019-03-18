@@ -60,5 +60,21 @@ export default [
         meta: { title: '编辑商品' }
       },
     ]
+  },
+  {
+    path: '/customer',
+    component: Layout,
+    redirect: '/customer/list',
+    name: 'customer',
+    mark:'仓储运营',
+    meta: { title: '客户管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/customer/list'),
+        name: 'customerList',
+        meta: { title: '客户管理', icon: 'sale' }
+      }
+    ]
   }
 ]
