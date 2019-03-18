@@ -70,7 +70,7 @@
      </div>
  
       <div class="operationitem">
-        <router-link :to="`/outgoing/businessorderadd?time=${moment().valueOf()}`">
+        <router-link :to="`/outgoing/businessorderadd?type=add&time=${moment().valueOf()}`">
             <el-button type="primary" size="small">新建出库业务单</el-button>
         </router-link>
       </div>

@@ -4,6 +4,14 @@
       <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
         <el-row>
 
+            <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.type==='revision'">
+              <el-form-item label="调整原因" prop="调整原因" :rules="[{ required: true, message: '该项为必填'}]">
+                <el-select  v-model="searchForm.调整原因" clearable placeholder="请选择调整原因" size="small" class="formitem">
+                   <el-option v-for="item in []" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col> 
+
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="业务单类型" prop="业务单类型" :rules="[{ required: true, message: '该项为必填'}]">
                 <el-select  v-model="searchForm.业务单类型" clearable placeholder="请选择业务单类型" size="small" class="formitem">
@@ -193,6 +201,10 @@ export default {
 
 
       };
+    },
+
+    mounted(){
+
     },
 
     methods: {

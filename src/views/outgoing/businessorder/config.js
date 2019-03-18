@@ -65,3 +65,36 @@ export const addtable_config=[
   { label:'客户销价',prop:''},
   { label:'金额',prop:''},
 ]
+
+export const addPlanOrder_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:''},
+  { label:'商品名称',prop:''},
+  { label:'规格',prop:''},
+  { label:'型号',prop:''},
+  { label:'数量',prop:''},
+  { label:'客户销价',prop:''},
+  { label:'金额',prop:''},
+  { label:'计划出库数量',prop:'num'},
+  { label:'出库仓库',prop:''},
+  { label:'操作',fixed:'right',useLink:true,width:140}
+]
+
+export const alertTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'仓库编码',prop:''},
+  { label:'仓库名称',prop:''},
+  { label:'可用库存',prop:''},
+  { label:'计划出库数量',prop:'num',useEdit:true,width:150},
+]
+
+export const printingTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:''},
+  { label:'商品名称',prop:''},
+  { label:'规格',prop:''},
+  { label:'型号',prop:''},
+  { label:'单位',prop:''},
+  { label:'发货数量',prop:''},
+  { label:'备注',prop:''},
+]

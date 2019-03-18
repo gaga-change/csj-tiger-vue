@@ -31,6 +31,13 @@ export default [
         hidden: true,
       },
       {
+        name: 'businessorderAddPlanOrder',
+        path: 'businessorderAddPlanOrder',
+        meta: { title: '创建计划单', noCache: true },
+        component: _import('outgoing/businessorder/addPlanOrder'),
+        hidden: true,
+      },
+      {
         name: 'plan',
         path: 'plan',
         meta: { title: '出库计划', noCache: true },
@@ -55,6 +62,12 @@ export default [
         path: 'quiry',
         meta: { title: '出库单查询', noCache: true },
         component: _import('outgoing/quiry/index')
+      },
+      {
+        name: 'outquiryrecord',
+        path: 'outquiryrecord',
+        meta: { title: '调整记录', noCache: true },
+        component: _import('outgoing/quiry/record')
       },
       {
         name: 'outquiry-detail',

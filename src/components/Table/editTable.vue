@@ -5,9 +5,11 @@
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
+         @current-change="handleCurrentRedioChange"
         :data="!usePagination?allTableData:tableData"
         :size="size"
         :border="border"
+        :highlight-current-row="highlightCurrentRow"
         :row-class-name="tableRowClassName"
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
@@ -165,7 +167,11 @@ export default {
     usePagination:{
       type: Boolean,
       default: false
-    }
+    },
+    highlightCurrentRow:{
+       type: Boolean,
+       default: false
+    },
   },
 
   data() {
@@ -264,6 +270,10 @@ export default {
 
       handleSelectionChange(val){
         this.$emit('SelectionChange', val); 
+      },
+
+      handleCurrentRedioChange(currentRow, oldCurrentRow){
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
       },
 
       getSummarie(param) {
