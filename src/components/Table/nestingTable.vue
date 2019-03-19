@@ -243,6 +243,7 @@ export default {
             case 'Boolean':return cellValue?'是':'否' ;break;
             case 'index':return (this.pageSize)*(this.currentPage-1)+index+1;break;
             case 'toFixed':return cellValue&&Number(Number(cellValue).toFixed(2));break;
+            case 'code':tableConfig[i].formatter=(row, column, cellValue, index)=> <bar-code code={cellValue}/> ;break;
            }
          }
        } else if(column.dom){

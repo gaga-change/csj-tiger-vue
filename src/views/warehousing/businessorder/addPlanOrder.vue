@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
   
      <item-title text="基本信息"/>
-     <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
+     <item-card :config="addPlanInfoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
       <div class="submitBtn">
@@ -33,21 +33,21 @@
 
 <script>
 
- import { addPlanOrder_config,infoConfig,alertTable_config} from './config';
+ import { addPlanOrder_config,addPlanInfoConfig,alertTable_config} from './config';
  import webPaginationTable from '@/components/Table/webPaginationTable';
  import editTable from '@/components/Table/editTable';
  import moment from 'moment';
  import _  from 'lodash';
 
  export default {
-    name: 'businessorderAddPlanOrder',
+    name: 'warehousingAddPlanOrder',
     components: { webPaginationTable,editTable},
     data() {
       return {
         //基本信息项
         loading:false,
         infoData:{},
-        infoConfig,
+        addPlanInfoConfig,
 
         //table项
         tableData:[{id:1},{id:2}], //需要id

@@ -14,7 +14,7 @@
           <span style="font-size: 12px;font-weight: 600;">客户地址 :</span><span style="font-size: 12px;"></span>
        </div>
      </div>
-     <div style="min-height:200px">
+     <div style="min-height:200px;margin-bottom:12px">
        <web-pagination-table :loading="false" :config="config" :allTableData="data"/>
      </div>
      <div style="margin-bottom: 12px;display: flex;justify-content: space-between;padding-right: 150px;">

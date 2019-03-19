@@ -156,6 +156,7 @@ export default {
             case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
             case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
             case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue&&Number(Number(cellValue).toFixed(2))||tableConfig[i].format||'';break;
+            case 'code':tableConfig[i].formatter=(row, column, cellValue, index)=> <bar-code code={cellValue}/> ;break;
             case 'files': tableConfig[i].formatter=(row, column, cellValue, index)=>{
                  let files=row.files;
                  if(!files||files.length<1){

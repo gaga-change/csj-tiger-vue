@@ -93,10 +93,24 @@ export default [
         component: _import('warehousing/businessorder/index')
       },
       {
+        name: 'warehousingBusinessorderAdd',
+        path: 'businessorderAdd',
+        hidden: true,
+        meta: { title: '创建入库业务单', noCache: false },
+        component: _import('warehousing/businessorder/add')
+      },
+      {
         name: 'warehousing-detail',
         path: 'businessorder-detail',
         meta: { title: '入库业务单详情', noCache: true },
         component: _import('warehousing/businessorder/detail'),
+        hidden: true,
+      },
+      {
+        name: 'warehousingAddPlanOrder',
+        path: 'warehousingAddPlanOrder',
+        meta: { title: '创建计划单', noCache: true },
+        component: _import('warehousing/businessorder/addPlanOrder'),
         hidden: true,
       },
       {
