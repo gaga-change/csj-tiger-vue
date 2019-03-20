@@ -74,4 +74,42 @@ export default [
       }
     ]
   },
+
+  {
+    path: '/correctionDocument',
+    component: Layout,
+    redirect: '/correctionDocument/warehousingList',
+    name: 'correctionDocument',
+    mark:'仓储运营',
+    meta: { title: '单据订正', icon: 'sale' },
+    children: [
+      {
+        path: 'warehousingList',
+        component: _import('mis/correctionDocument/warehousingList'),
+        name: 'warehousingList',
+        meta: { title: '入库业务单订正'}
+      },
+      {
+        path: 'warehousingAdd',
+        component: _import('mis/correctionDocument/warehousingAdd'),
+        name: 'warehousingAdd',
+        hidden: true,
+        meta: { title: '创建入库订正单'}
+      },
+      {
+        path: 'outgoingList',
+        component: _import('mis/correctionDocument/outgoingList'),
+        name: 'outgoingList',
+        meta: { title: '出库业务单订正'}
+      },
+      {
+        path: 'outgoingAdd',
+        component: _import('mis/correctionDocument/outgoingAdd'),
+        name: 'outgoingAdd',
+        hidden: true,
+        meta: { title: '创建出库订正单'}
+      }
+
+    ]
+  }
 ]

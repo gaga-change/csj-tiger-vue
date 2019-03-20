@@ -622,3 +622,16 @@ export const outgoingOrderTypeEnum = [
     value: 22
   }
 ];
+
+
+export const revisalTypeEnum = [
+  {
+    name: '金额订正',
+    value: 1
+  },
+  {
+    name: '数量订正',
+    value: 2
+  }
+];
+

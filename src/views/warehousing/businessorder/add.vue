@@ -193,6 +193,7 @@ export default {
 .addCarrier {
   .operationitem {
     display: flex;
+    justify-content: flex-end;
     margin: 16px 0;
   }
   .el-form-item {
