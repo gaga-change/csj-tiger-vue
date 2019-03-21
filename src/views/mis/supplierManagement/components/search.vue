@@ -47,7 +47,7 @@ export default {
      submit(){
        this.$refs['searchForm'].validate((valid) => {
           if (valid) {
-             this.$emit('submit',this.searchForm)
+             this.$emit('submit','select',this.searchForm)
           }
        })
     },
@@ -61,7 +61,7 @@ export default {
            json[i]=''
          }
       }
-      this.$emit('submit',{...json, pageSize:10,pageNum:1})
+      this.$emit('submit','select',{...json, pageSize:10,pageNum:1})
     }
 
   }
@@ -69,5 +69,3 @@ export default {
 
 </script>
 
-<style lang="css">
-</style>

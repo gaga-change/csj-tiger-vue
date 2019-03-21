@@ -111,5 +111,23 @@ export default [
       }
 
     ]
+  },
+
+  {
+    path: '/supplierManagement',
+    component: Layout,
+    redirect: '/supplierManagement/list',
+    name: 'correctionDocument',
+    mark:'仓储运营',
+    meta: { title: '供应商管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/supplierManagement/list'),
+        name: 'supplierManagementList',
+        meta: { title: '供应商管理列表'}
+      }
+    ]
   }
+
 ]
