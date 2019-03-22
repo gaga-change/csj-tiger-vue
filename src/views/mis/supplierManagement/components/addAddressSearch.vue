@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { Area } from '@/utils/addressConfig.js'
+import { Area } from '@/utils/area.js'
 export default {
   
   data(){
