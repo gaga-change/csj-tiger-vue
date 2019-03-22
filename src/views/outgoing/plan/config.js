@@ -134,3 +134,14 @@ export  const detailsConfig=[
   {label:'是否匹配',useIcon:true,width:100,align:'center'},
 ]
 
+
+export  const manual_config=[
+  {label:'序号',type:'index',width:50},
+  {label:'商品编号',prop:'skuCode',},
+  {label:'商品名称',prop:'skuName',},
+  {label:'品牌',prop:'',},
+  {label:'规格',prop:'',},
+  {label:'单位',prop:'',},
+  {label:'计划出库数量',prop:'',},
+  {label:'实际出库数量',prop:'num',useEdit:true,width:150},
+]

@@ -42,3 +42,11 @@ export const indexTableConfig=[
   { label:'出库日期',prop:'outStoreTime',type:'time'},
   { label:'操作',fixed:'right',width:80,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看' },
 ]
+
+export const record_config=[
+  { label:'序号',fixed:true,type:'index',width:50},
+  { label:'调整类型',prop:''},
+  { label:'业务单号',prop:''},
+  { label:'调整日期',prop:'',type:'time'},
+  { label:'调整日',prop:'',type:'time'},
+]

@@ -219,6 +219,7 @@ export default {
             case 'index':return (this.pageSize)*(this.currentPage-1)+index+1;break;
             case 'bracketsIndex':return `( ${(this.pageSize)*(this.currentPage-1)+index+1} )`;break;
             case 'toFixed':return cellValue&&Number(Number(cellValue).toFixed(2));break;
+            case 'code':tableConfig[i].formatter=(row, column, cellValue, index)=> <bar-code code={cellValue}/> ;break;
            }
          }
        } else if(column.dom){

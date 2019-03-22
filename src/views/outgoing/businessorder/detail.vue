@@ -1,118 +1,97 @@
 <template>
   <div class="outgoing-quirydetail-container">
+     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template >
+         <el-button   size="small">关闭</el-button>
+         <el-button   size="small">删除</el-button>
+         <router-link  :to="`/outgoing/businessorderadd?type=modify&time=${moment().valueOf()}`"  class="tableLink">
+            <el-button  type="success" size="small">修改</el-button>
+         </router-link>
+          <router-link  :to="`/outgoing/businessorderadd?type=revision&time=${moment().valueOf()}`"  class="tableLink">
+            <el-button  type="success" size="small">调整</el-button>
+         </router-link>
+         <el-button  type="success" size="small">审核</el-button>
+         <el-button  type="success" size="small" @click="printingVisible=true">打印</el-button>
+         <router-link  :to="`/outgoing/businessorderAddPlanOrder?time=${moment().valueOf()}`"  class="tableLink">
+            <el-button  type="success" size="small">创建计划单</el-button>
+         </router-link>
+      </template>
+    </sticky>
   
      <item-title text="基本信息"/>
-     <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
+     <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
-     <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
-         <el-tab-pane label="相关业务单" name="businessorder">
-          <web-pagination-table 
-            :loading="loading"
-            :config="tableConfig" 
-            :allTableData="tableData"/>
-          </el-tab-pane>
-        <el-tab-pane label="相关计划单" name="plan">
-          <web-pagination-table 
-            :loading="planLoading"
-            :config="planTableConfig" 
-            :allTableData="planTableData"/>
-          </el-tab-pane>
-        <el-tab-pane label="相关出库单" name="outgoing">
-          <web-pagination-table 
-          :loading="outgoingLoding"
-          :config="outgoingTableConfig" 
-          :allTableData="outgoingTableData"/> 
-        </el-tab-pane>
-     </el-tabs> 
+     <web-pagination-table 
+      :loading="loading"
+      :config="tableConfig" 
+      :allTableData="tableData"/>
+
+      <el-dialog
+        title="打印发货清单"
+        :visible.sync="printingVisible"
+         width="841px"
+        :before-close="handleClose">
+        <invoice id="invoice" :data="printingTable_data" :config="printingTable_config"/>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="handleClose">取 消</el-button>
+          <el-button type="primary" @click="surePrinting">打印</el-button>
+        </span>
+      </el-dialog>
 
   </div>
 </template>
 
 <script>
 
- import { outBillDetail,outOrderSelect,outPlanSelect} from '@/api/outgoing';
- import { tableConfig,infoConfig,outgoingTableConfig ,planTableConfig} from './config';
+ import { tableConfig,infoConfig,printingTable_config} from './config';
  import webPaginationTable from '@/components/Table/webPaginationTable';
+ import Sticky from '@/components/Sticky'
+ import Invoice from './conpoments/invoice'
+ import moment from 'moment';
+ import { MakePrint } from '@/utils'
 
  export default {
-    components: { webPaginationTable},
+    components: { webPaginationTable,Sticky,Invoice},
     data() {
       return {
-        config:{},
+        loading:false,
+        infoData:{},
         infoConfig,
 
         tableData:[],
         tableConfig,
-
-        loading:false,
-        tabActive:'businessorder',
-        busiBillNo:'',
-
-        outgoingLoding:false,
-        outgoingTableData:[],
-        outgoingTableConfig,
-
-        planLoading:false,
-        planTableData:[],
-        planTableConfig,
+        
+        //打印项
+        printingVisible:false,
+        printingTable_data:[{},{}],
+        printingTable_config
       }
     },
 
     mounted(){
-      let { busiBillNo}=this.$route.query||{};
-      this.busiBillNo=busiBillNo;
 
-      this.loading=true;
-      outBillDetail({busiBillNo}).then(res=>{
-        this.loading=false;
-        if(res.success){
-          let data=res.data;
-          this.config=data;
-          this.tableData=data.busiBillDetails||[];
-        } 
-      }).catch(err=>{
-          this.loading=false;
-      })
     },
 
     methods:{
-      activeChange(tab){
-          if(tab.name=='outgoing'){
-            if(!this.outgoingTableData.length){
-              this.outgoingLoding=true;
-              outOrderSelect({
-                  busiBillNo:this.busiBillNo,
-                  pageSize:500,
-                }).then(res=>{
-                if(res.success){
-                   this.outgoingTableData=res.data&&res.data.list||[]
-                }
-                 this.outgoingLoding=false;
-              }).catch(err=>{
-
-              })
-            }
-        } else if(tab.name=='plan'){
-          if(!this.planTableData.length){
-            this.planLoading=true;
-            outPlanSelect({
-              busiBillNo:this.busiBillNo,
-              pageSize:500,
-            }).then(res=>{
-              if(res.success){
-                 this.planTableData=res.data&&res.data.list||[]
-              }
-              this.planLoading=false;
-            }).catch(err=>{
-              this.planLoading=false;
-            })
-          }
-        }
-      }
+       moment,
+       //关闭弹框
+       handleClose(){
+        this.printingVisible=false;
+       },
+       surePrinting(){
+          let printContainer = document.getElementById('invoice').innerHTML;
+          MakePrint(printContainer);
+          this.printingVisible=false;
+       }
     }
  }
 
 </script>
 
+<style rel="stylesheet/scss" lang="scss">
+  .el-dialog__body{
+    padding-top: 12px;
+  }
+</style>
 

@@ -3,28 +3,29 @@
     <div style="marginBottom:12px">
       <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
       <el-row :gutter="16" >
-          <el-form :inline="true" :model="ruleForm"  size="small" label-width="70px"  label-position="left"  :rules="rules" ref="ruleForm"   class="demo-form-inline">
+          <el-form :inline="true" ref="ruleForm" :model="ruleForm"  size="small" label-width="70px"  label-position="left"  class="demo-form-inline">
             <el-col :span="6" style="min-width:300px" >
-              <el-form-item label="业务类型"   prop="busiBillType">
+              <el-form-item label="业务类型"  >
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
                   <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
+
             <el-col :span="6"  style="min-width:300px" >
-              <el-form-item label="业务单号" prop="busiBillNo">
+              <el-form-item label="业务单号">
                 <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入业务单号"></el-input>
               </el-form-item>
             </el-col>
 
           <el-col :span="6" style="min-width:320px">
-            <el-form-item label="合同编号" prop="contractNo">
+            <el-form-item label="合同编号" >
               <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入合同编号"></el-input>
             </el-form-item>
           </el-col>
 
             <el-col :span="6" style="min-width:300px"  >
-              <el-form-item label="货主"   prop="ownerCode">
+              <el-form-item label="货主"  >
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
                   <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
@@ -32,8 +33,24 @@
             </el-col>
 
             <el-col :span="6" style="min-width:300px"  >
-              <el-form-item label="客户名称" prop="arrivalName">
+              <el-form-item label="客户名称">
                 <el-input v-model.lazy.trim="ruleForm.arrivalName"   @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入客户名称"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="6" style="min-width:300px" >
+              <el-form-item label="单据状态" >
+                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.单据状态"   placeholder="请选择单据状态">
+                  <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="6" style="min-width:300px" >
+              <el-form-item label="执行状态" >
+                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.执行状态"   placeholder="请选择执行状态">
+                  <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
 
@@ -51,6 +68,13 @@
       </el-row>
       </el-card>
      </div>
+ 
+      <div class="operationitem">
+        <router-link :to="`/outgoing/businessorderadd?type=add&time=${moment().valueOf()}`">
+            <el-button type="primary" size="small">新建出库业务单</el-button>
+        </router-link>
+      </div>
+    
       <base-table 
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
@@ -69,15 +93,8 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
+    import moment from 'moment';
     
-    const validatorLinkTel = (rule, value, callback) => {
-      if (value==undefined||value==''||/^[1][3,4,5,7,8][0-9]{9}$/.test(value)) {
-        callback();
-      } else {
-        callback(new Error('请输入正确格式的号码'));
-      }
-    };
-
     export default {
       components: { BaseTable },
       data() {
@@ -93,14 +110,34 @@
         },
         total:0,
         tableConfig:indexTableConfig,
-        rules: {
-          linkTel: [
-            {  required: false, validator:validatorLinkTel,  message: '请输入正确的号码格式', trigger: 'blur' }
-          ],
-        },
          loading:false,
          tableData: [],
       }
+    },
+
+    created(){
+      this.tableConfig.forEach(item=>{
+        if(item.useLink){
+            item.dom=(row, column, cellValue, index)=>{
+              return(
+                <div class="tableLinkBox">
+                     {
+                        <router-link to={`/outgoing/businessorder-detail?busiBillNo=${row.busiBillNo}`}  class="tableLink">查看</router-link>
+                     }
+
+                     {
+                       <span class="tableLink">审核</span>
+                     }
+
+                     {
+                       <span class="tableLink">删除</span>
+                     }
+                    
+                </div> 
+              )
+            }
+        }
+      })
     },
 
      mounted(){
@@ -116,6 +153,7 @@
     ])},
 
     methods: { 
+       moment,
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
@@ -142,6 +180,7 @@
         this.ruleForm={...this.ruleForm,pageNum:val}
         this.getCurrentTableData()
       },
+
 
       getCurrentTableData(){
         this.$router.replace({
@@ -170,7 +209,26 @@
          })
       }
     }
+    
  }
 </script>
 
+<style rel="stylesheet/scss" lang="scss">
+    .tableLinkBox{
+       display: flex;
+      .tableLink{
+        cursor: pointer;
+        color:#3399ea;
+        margin-right:12px;
+        &:last-child{
+          margin-right: 0;
+        }
+      }
+    }
+    .operationitem{
+      display: flex;
+      justify-content: flex-end;
+      margin: 16px 0;
+    }
+</style>
 

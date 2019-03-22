@@ -27,6 +27,7 @@ export const NatureInvoiceEnum = [
   },
 ]
 
+
 //单据状态
 export const TicketStatus = [
   {
@@ -608,3 +609,35 @@ export const userStatus = [
     value: 1
   }
 ];
+
+
+//mis枚举配置
+export const outgoingOrderTypeEnum = [
+  {
+    name: '销售出库',
+    value: 21
+  },
+  {
+    name: '退货出库',
+    value: 22
+  }
+];
+
+
+export const revisalTypeEnum = [
+  {
+    name: '金额订正',
+    value: 1
+  },
+  {
+    name: '数量订正',
+    value: 2
+  }
+];
+
+export const paymentNature = [
+  {
+    name: '代支款',
+    value: 1
+  }
+]

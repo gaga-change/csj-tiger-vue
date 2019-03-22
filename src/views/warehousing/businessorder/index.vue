@@ -40,21 +40,36 @@
           </el-col>
 
          
-          <el-col :span="6" >
+          <el-col :span="6">
             <el-form-item label="货主电话" prop="linkTel">
               <el-input v-model.lazy.trim="ruleForm.linkTel" @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入货主电话"></el-input>
             </el-form-item>
           </el-col>
 
-           <el-col :span="16" >
+           <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="单据状态" >
+              <el-select   v-model="ruleForm.单据状态"  placeholder="请选择单据状态">
+                <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="执行状态" >
+              <el-select   v-model="ruleForm.执行状态"  placeholder="请选择执行状态">
+                <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+           <el-col :span="16">
             <el-form-item label="制单日期" prop="time">
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
                     type="daterange"
                     start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    >
+                    end-placeholder="结束日期">
                  </el-date-picker>
               </el-form-item>
           </el-col>
@@ -72,6 +87,12 @@
     </el-row>
     </el-card>
   </div> 
+
+    <div class="operationitem">
+      <router-link :to="`/warehousing/businessorderadd?type=add&time=${moment().valueOf()}`">
+          <el-button type="primary" size="small">新建入库业务单</el-button>
+      </router-link>
+    </div>
 
    <base-table 
       @sizeChange="handleSizeChange"
@@ -144,8 +165,41 @@
       ])
     },
 
+    created(){
+      this.tableConfig.forEach(item=>{
+        if(item.useLink){
+            item.dom=(row, column, cellValue, index)=>{
+              return(
+                <div class="tableLinkBox">
+                     {
+                        <router-link to={`/warehousing/businessorder-detail?busiBillNo=${row.busiBillNo}`}  class="tableLink">查看</router-link>
+                     }
 
-    methods: { 
+                     {
+                       <span class="tableLink">审核</span>
+                     }
+
+                     {
+                       <span class="tableLink">删除</span>
+                     }
+
+                     {
+                       <span class="tableLink">修改</span>
+                     }
+
+                     {
+                       <span class="tableLink">创建计划单</span>
+                     }
+                </div> 
+              )
+            }
+        }
+      })
+    },
+
+
+    methods: {
+      moment, 
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()
@@ -215,4 +269,22 @@
  }
 </script>
 
+<style rel="stylesheet/scss" lang="scss">
+    .tableLinkBox{
+       display: flex;
+      .tableLink{
+        cursor: pointer;
+        color:#3399ea;
+        margin-right:12px;
+        &:last-child{
+          margin-right: 0;
+        }
+      }
+    }
+    .operationitem{
+      display: flex;
+      justify-content: flex-end;
+      margin: 16px 0;
+    }
+</style>
 
