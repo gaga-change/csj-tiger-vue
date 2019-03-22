@@ -32,7 +32,7 @@ export default {
       total: 0,
       loading: false,
       listIndexConfig,
-      tableData: [{id:1, ownerCode:'afee00'}],
+      tableData: [],
       linkstyle: {
           color: '#3399ea',
           whiteSpace: 'nowrap',
@@ -44,36 +44,27 @@ export default {
     ...mapGetters(['mapConfig'])
   },
   created() {
-    this.listIndexConfig.map(column => {
-      if (column.useLink) {
-        column.dom = (row, column, cellValue, index) => {
+    this.listIndexConfig.map(item => {
+      if (item.useLink) {
+        item.dom = (row, column, cellValue, index) => {
           return (
             <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-              <router-link
-                to={{
-                  path: '/logistics/detail',
-                  query: { id: row.id }
-                }}
-                style={this.linkstyle}
-              >
-                查看
-              </router-link>
               <a
                 onClick={() => {
-                  this.delete({ ids: [row.id], ownerCode: row.ownerCode })
+                  this.edit({ id: row.id })
                 }}
                 style={this.linkstyle}
               >
-                删除
+                修改
               </a>
-              {row.ownerState === 1 && (
+              {row.status === 1 && (
                 <a
                   onClick={() => {
-                    this.setState({ id: row.id, ownerState: 2 })
+                    this.view({ id: row.id })
                   }}
                   style={this.linkstyle}
                 >
-                  修改
+                  查看
                 </a>
               )}
             </div>
@@ -95,7 +86,7 @@ export default {
       this.fetchData()
     },
     fetchData() {
-
+      this.tableData = [{id:1, ownerCode:'afee00', ownerName: 'adee'}]
     },
     handleSizeChange(val) {
       this.pageSize = val

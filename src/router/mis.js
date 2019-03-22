@@ -23,6 +23,57 @@ export default [
         name: 'newLogistics',
         hidden: true,
         meta: {title: '新建配送单'}
+      },
+      {
+        path: 'substitutePayment',
+        component: _import('mis/logistics/substitutepayment'),
+        name: 'substitutePayment',
+        meta: { title: '代支款项管理' }
+      },
+      {
+        path: 'deliverylist',
+        component: _import('mis/logistics/deliverylist'),
+        name: 'deliverylist',
+        meta: { title: '发货明细' }
+      },
+    ]
+  },
+  {
+    path: '/products',
+    component: Layout,
+    redirect: '/products/list',
+    name: 'products',
+    mark:'仓储运营',
+    meta: { title: '商品管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/products/list'),
+        name: 'productsList',
+        meta: { title: '商品管理' }
+      },
+      {
+        path: 'newproduct',
+        component: _import('mis/products/newproduct'),
+        name: 'newproduct',
+        hidden: true,
+        meta: { title: '编辑商品' }
+      },
+    ]
+  },
+  {
+    path: '/customer',
+    component: Layout,
+    redirect: '/customer/list',
+    name: 'customer',
+    mark:'仓储运营',
+    meta: { title: '客户管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/customer/list'),
+        name: 'customerList',
+        meta: { title: '客户管理', icon: 'sale' }
       }
     ]
   },

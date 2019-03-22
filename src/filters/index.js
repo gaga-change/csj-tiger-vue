@@ -1,3 +1,5 @@
+import { parseTime } from '@/utils'
+export { parseTime }
 export function quotationwayFilter(val) {
   switch (parseInt(val)) {
     case 0: return '供应商'

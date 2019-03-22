@@ -635,3 +635,9 @@ export const revisalTypeEnum = [
   }
 ];
 
+export const paymentNature = [
+  {
+    name: '代支款',
+    value: 1
+  }
+]
