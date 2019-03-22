@@ -36,6 +36,14 @@
           </el-date-picker>
           <el-input v-else-if="formitem.type==='number'" type="number" v-model.number="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
           <el-input v-else-if="formitem.type==='textarea'" type="textarea" v-model="searchForm[formitem.prop]" :rows="formitem.rows||1" :placeholder="formitem.placeholder" size="small" ></el-input>
+          <el-cascader
+            v-else-if="formitem.type==='cascader'"
+            :options="formitem.options"
+            v-model="searchForm[formitem.prop]"
+            size="small"
+            class="formitem"
+          >
+          </el-cascader>
           <el-input v-else v-model="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
         </el-form-item>
       </el-col>

@@ -26,10 +26,11 @@
           <span>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150" fixed="right">
+      <el-table-column label="操作" width="220" fixed="right">
         <template slot-scope="scope">
           <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
           <a :style="linkstyle" @click="unionOwner(scope.row)">关联货主</a>
+          <a :style="linkstyle" @click="viewAddress(scope.row)">维护地址</a>
         </template>
       </el-table-column>
     </el-table>
@@ -69,11 +70,60 @@
         <el-button>取消</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog
+      :visible.sync="addressVisible"
+      width="80%"
+      title="配送地址"
+    >
+    <el-row type="flex" justify="end">
+      <el-button
+        type="primary"
+        size="small"
+        style="margin:10px"
+        @click="newAddress"
+        >新增地址</el-button
+      >
+    </el-row>
+    <el-table :data="addressTableData" border>
+      <el-table-column type="index" label="序号" width="55"></el-table-column>
+      <el-table-column
+        v-for="(column, index) in addressTableConfig"
+        :key="index"
+        :prop="column.prop"
+        :label="column.label"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row[column.prop] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="150" fixed="right">
+        <template slot-scope="scope">
+          <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
+        </template>
+      </el-table-column>
+    </el-table>
+      <el-dialog
+        :visible.sync="addressEditVisible"
+        width="70%"
+        title="编辑地址"
+        append-to-body
+      >
+        <search
+          :config="addressTableConfig"
+          :border="false"
+          confirmText="保存"
+          @submitForm="submitAddressEditForm"
+          @resetForm="resetAddressEditForm"
+        ></search>
+      </el-dialog>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import search from '@/components/Search'
+import { Area } from '@/utils/area'
 const customerConfig = [
   {
     label: '客户状态',
@@ -105,6 +155,30 @@ const editConfig = [
   { label: 'FAX', prop: 'fax', placeholder: '请输入fax' },
   { label: '联系人', prop: 'linkUser', placeholder: '请输入联系人' }
 ]
+const addressTableConfig = [
+  {
+    label: '收货人',
+    prop: 'receiverName'
+  },
+  {
+    label:'所在地区',
+    prop: 'area',
+    type: 'cascader',
+    options: Area
+  },
+  {
+    label:'详细地址',
+    prop: 'customerAddress'
+  },
+  {
+    label:'邮编',
+    prop: 'postalCode'
+  },
+  {
+    label:'手机',
+    prop: 'receiverTel'
+  }
+]
 export default {
   components: { search },
   data() {
@@ -134,11 +208,21 @@ export default {
         owners: [
           { value: 'ABC000aaa5', name: '中通速输有限公司' }
         ]
-      }
+      },
+      addressTableConfig,
+      addressTableData: [{}],
+      addressVisible: false,
+      addressEditVisible: false
     }
   },
   methods: {
     fetchData() {},
+    newAddress() {
+      this.addressEditVisible = true
+    },
+    viewAddress() {
+      this.addressVisible = true
+    },
     unionOwner() {
       this.unionDialogVisible = true
     },
@@ -160,7 +244,13 @@ export default {
     resetEditForm() {
       this.editData = {}
     },
-    submitEdit(val) {}
+    submitEdit(val) {},
+    submitAddressEditForm(val) {
+
+    },
+    resetAddressEditForm() {
+
+    }
   }
 }
 </script>
