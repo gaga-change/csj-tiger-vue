@@ -32,7 +32,7 @@
         :before-close="()=>this.handleClose('relation')">
         <div class="relationDialog">
           <div class="operationitem">
-             <el-button type="primary" size="small" @click="showAddDialog('shipper')">增加</el-button>
+             <el-button type="primary" size="small" @click="showAddDialog('shipper')">重新关联</el-button>
           </div>
           <web-pagination-table 
             :loading="false"
