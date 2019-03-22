@@ -77,7 +77,7 @@
             width="800px"
             :modal="false"
             :before-close="()=>this.handleClose('addAddress')">
-             
+             <add-address-search  :searchForm="addAddressSearchForm" @submit="submit" @handleClose="handleClose('addAddress')"/>
             </el-dialog>
       </el-dialog>
 
@@ -87,13 +87,14 @@
 <script>
   import search from './components/search'
   import addSearch from './components/addsearch'
+  import addAddressSearch from './components/addAddressSearch'
   import BaseTable from '@/components/Table'
   import { supplierTbale_config ,relationShipper_config,selectionShipper_config,address_config} from './components/config'
   import webPaginationTable from '@/components/Table/webPaginationTable';
   import _  from 'lodash';
   import moment from 'moment';
   export default {
-    components: { search,BaseTable,addSearch,webPaginationTable},
+    components: { search,BaseTable,addSearch,webPaginationTable,addAddressSearch},
     data() {
       return {
 
@@ -139,6 +140,10 @@
         
         //新增地址弹框  子弹框
         addAddressVisible:false,
+        addAddressSearchForm:{
+
+        }
+
         
       }
     },
@@ -227,7 +232,8 @@
         } else if(type==='shipper'){
           this.shipperVisible=false
         } else if(type==='address'){
-          this.addressVisible=false 
+          this.addressVisible=false;
+          this.addAddressVisible=false
         } else if(type==='addAddress'){
           this.addAddressVisible=false
         }
@@ -253,7 +259,8 @@
         } else if(type==='addShipper'){
           console.log('addShipper',this.selectionData);
           this.shipperVisible=false
-
+        } else if(type==='addAddress'){
+          console.log(type,value)
         }
       },
 
