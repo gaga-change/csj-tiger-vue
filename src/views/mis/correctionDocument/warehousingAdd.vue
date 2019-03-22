@@ -134,7 +134,7 @@ export default {
        this.$refs['searchForm'].validate((valid) => {
           if (valid) {
             let json=_.cloneDeep(this.searchForm);
-            json.item=this.carrierDetail_data.find(v=>v.edit);
+            json.item=this.carrierDetail_data.filter(v=>v.edit);
             console.log({...json})
           }
        })
@@ -152,7 +152,7 @@ export default {
          if(v.id===_.cloneDeep(currentRow).id){
             return {...v,edit:true}
          } else {
-            return {...v,edit:false,调整数量:'/',调整金额:'/'} 
+            return {...v} 
          }
        })
 
@@ -167,10 +167,6 @@ export default {
             if(item.innerHTML.includes('el-input-number')){
               td.forEach(v=>{
                  v.style.cssText="color:#fff;background:green !important"
-              })
-            } else{
-              td.forEach(v=>{
-                 v.style.cssText=""
               })
             }
           })
