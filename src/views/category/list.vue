@@ -193,7 +193,11 @@ export default {
       categoryForm: {},
       ruleForm: {},
       loading: false,
-      addForm: {},
+      addForm: {
+        categoryName: '',
+        parentClassName: '',
+        isEnable: null
+      },
       formrules: {
         categoryName: [
           { required: true, message: '请输入分类名称', trigger: 'blur' }
@@ -240,16 +244,20 @@ export default {
           loading.close()
         })
     },
-    addnewcategory() {
-      this.$refs['createForm'].resetFields()
+    addnewcategory() {      
       this.createshow = true
+      this.$nextTick(() => {
+        this.$refs['createForm'].resetFields()
+      })
       this.type = 'add'
     },
     selectParentClass() {
       this.categoryVisible = true
     },
     formonCancel() {
-      this.$refs['createForm'].resetFields()
+      this.$nextTick(() => {
+        this.$refs['createForm'].resetFields()
+      })
       this.createshow = false
     },
     modifyCategory(row) {
