@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询所有的商品分类树形列表
 export function categoryList() {
   return request({
-    url: '/wcl/api/sku/category/trees',
+    url: '/webApi/sku/category/trees',
     method: 'get'
   })
 }
@@ -11,7 +11,7 @@ export function categoryList() {
 // 根据商品分类id查询商品分类列表
 export function getCategoryListById(parentId) {
   return request({
-    url: `/wcl/api/sku/category/list/${parentId}`,
+    url: `/webApi/sku/category/list/${parentId}`,
     method: 'get'
   })
 }
@@ -19,7 +19,7 @@ export function getCategoryListById(parentId) {
 // 新增商品分类
 export function categoryAdd(data) {
   return request({
-    url: '/wcl/api/sku/category/add',
+    url: '/webApi/sku/category/add',
     method: 'post',
     data: data
   })
@@ -28,7 +28,7 @@ export function categoryAdd(data) {
 // 商品分类详情
 export function getCategoryDetailById(skuCategoryId) {
   return request({
-    url: `/wcl/api/sku/category/initUpdate/${skuCategoryId}`,
+    url: `/webApi/sku/category/initUpdate/${skuCategoryId}`,
     method: 'get'
   })
 }
@@ -40,7 +40,7 @@ export function getCategoryDetailById(skuCategoryId) {
 // } = data
 export function editCategory(data) {
   return request({
-    url: `/wcl/api/sku/category/update`,
+    url: `/webApi/sku/category/update`,
     method: 'put',
     data
   })
@@ -52,7 +52,7 @@ export function disableOrEnableCategory({
   disOrEnable // "string //新的商品分类名称"
 }) {
   return request({
-    url: `/wcl/api/sku/category/disableOrEnable/${categoryCode}/${disOrEnable}`,
+    url: `/webApi/sku/category/disableOrEnable/${categoryCode}/${disOrEnable}`,
     method: 'put'
   })
 }
@@ -60,7 +60,7 @@ export function disableOrEnableCategory({
 // 删除商品分类
 export function deleteCategory(categoryCode) {
   return request({
-    url: `/wcl/api/sku/category/delete/${categoryCode}`,
+    url: `/webApi/sku/category/delete/${categoryCode}`,
     method: 'DELETE'
   })
 }
@@ -68,7 +68,7 @@ export function deleteCategory(categoryCode) {
 // 商品列表
 export function getProductList(data) {
   return request({
-    url: `/wcl/api/sku/category/skuList`,
+    url: `/webApi/sku/category/skuList`,
     method: 'get',
     params: data
   })

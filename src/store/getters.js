@@ -51,8 +51,8 @@ const getters = {
     })
 
 
-    return menutemp
-    // return state.menu.localMenu
+    // return menutemp
+    return state.menu.localMenu
   }
 }
 export default getters
