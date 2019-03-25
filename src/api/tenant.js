@@ -3,8 +3,8 @@ import request from '@/utils/request'
 export function tenantList(data) {
   return request({
     url: '/webApi/owner/info/list',
-    method: 'post',
-    data: data
+    method: 'get',
+    params: data
   })
 }
 export function tenantAdminList(data) {
@@ -42,8 +42,8 @@ export function effectTenant(data) {
 export function delTenant(data) {
   return request({
     url: '/webApi/owner/info/del',
-    method: 'post',
-    data: data
+    method: 'get',
+    params: data
   })
 }
 export function tenantDetail(data) {
@@ -51,5 +51,29 @@ export function tenantDetail(data) {
     url: '/webApi/owner/info/detail',
     method: 'get',
     params: data
+  })
+}
+// 分配仓库
+export function saveOwnerWarehouse(data) {
+  return request({
+    url: '/webApi/owner/info/saveOwnerWarehouse',
+    method: 'post',
+    data: data
+  })
+}
+// 查询货主仓库
+export function ownerWarehouseList(data) {
+  return request({
+    url: '/webApi/owner/info/ownerWarehouseList',
+    method: 'get',
+    params: data
+  })
+}
+// method：POST url: /webApi/owner/info/update
+export function tenantUpdate(data) {
+  return request({
+    url: '/webApi/owner/info/update',
+    method: 'post',
+    data: data
   })
 }

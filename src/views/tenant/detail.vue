@@ -23,7 +23,7 @@
 
       <item-title text="仓库信息" />
       <el-form-item label="所属仓库：">
-        {{detailForm.warehouses}}
+        {{curWarehouses}}
       </el-form-item>
 
       <item-title text="企业联系人" />
@@ -64,15 +64,25 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { tenantDetail } from '@/api/tenant'
+import { tenantDetail, ownerWarehouseList } from '@/api/tenant'
 export default {
   name: '',
   data() {
     return {
-      detailForm: {}
+      detailForm: {},
+      warehouses: []
     }
   },
   computed: {
+    curWarehouses() {
+      let warehouses = ''
+      this.warehouses.forEach(item => {
+        const stores = this.mapConfig['getWarehouse'] || []
+        const store = (stores.find(s => s.key === item) || {}).value
+        warehouses += ',' + store
+      })
+      return warehouses
+    },
     ...mapGetters(['mapConfig','visitedViews'])
   },
   created() {
@@ -92,6 +102,11 @@ export default {
       }).catch(err => {
         console.log(err)
         loading.close()
+      })
+      ownerWarehouseList({ ownerCode }).then(res => {
+        this.warehouses = res.data || []
+      }).catch(err => {
+        console.log(err)
       })
     },
     filter(type, val) {
