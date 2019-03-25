@@ -7,9 +7,9 @@ const path = require('path')
 // const ip='http://192.168.2.139:7878';//陈姐
 // const ip='http://172.16.80.138:7878';//亚雷
 // const ip='http://172.16.80.83:7878';//亚超
-const ip='http://192.168.1.195:7979';//测试服务
+// const ip='http://192.168.1.195:7979';//测试服务
 // const ip='http://testtiger.csjmro.com';//测试服务
-// const ip='http://172.16.81.219:7878';//龙
+const ip='http://172.16.81.219:7878';//龙
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 
