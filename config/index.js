@@ -4,24 +4,16 @@ const path = require('path')
 // const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://192.168.2.167:7878';//修号
 // const ip='http://192.168.2.163:7878';//红兵
-const ip='http://192.168.2.139:7878';//陈姐
+// const ip='http://192.168.2.139:7878';//陈姐
 // const ip='http://172.16.80.138:7878';//亚雷
 // const ip='http://172.16.80.83:7878';//亚超
 // const ip='http://192.168.1.195:7979';//测试服务
 // const ip='http://testtiger.csjmro.com';//测试服务
-// const ip='http://172.16.81.219:7878';//龙
+const ip='http://172.16.81.219:7878';//龙
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 
-let proxyTable={
-  '/wcl': {
-    target: 'http://172.16.81.219:8686',
-    changeOrigin: true,
-    pathRewrite: {
-      '^/wcl': '/'
-    }
-  }
-};
+let proxyTable={};
 
 proxyTableArr.forEach(item=>{
   proxyTable[item]={
@@ -29,6 +21,16 @@ proxyTableArr.forEach(item=>{
     changeOrigin: true
   }
 })
+
+//商品模块代理到其他模块
+proxyTable['/wcl']={
+  target: 'http://172.16.81.219:8686',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/wcl': '/'
+  }
+}
+
 
 module.exports = {
   dev: {
