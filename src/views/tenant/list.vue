@@ -31,6 +31,36 @@
       :currentPage="pageNum"
       :tableData="tableData"
     />
+    <el-dialog :visible.sync="dialogVisible">
+      <el-form :model="addForm" label-width="100px">
+        <el-form-item label="所属仓库：">
+          <el-select
+            v-model="addForm.warehouses"
+            placeholder="请选择"
+            multiple
+            style="width:400px;"
+            :disabled="storeLoading"
+          >
+            <el-option-group
+              v-for="group in storeoptions"
+              :key="group.label"
+              :label="group.label"
+            >
+              <el-option
+                v-for="item in group.options"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key"
+              ></el-option>
+            </el-option-group>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer">
+        <el-button @click="confirmStore" type="primary" :loading="storeLoading" :disabled="storeLoading">确定</el-button>
+        <el-button @click="cancelStore">取消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -38,7 +68,8 @@
 import SearchFrom from './components/search'
 import { listIndexConfig } from './components/config'
 import BaseTable from '@/components/Table'
-import { tenantList, delTenant, effectTenant } from '@/api/tenant'
+import { mapGetters } from 'vuex'
+import { tenantList, delTenant, effectTenant, saveOwnerWarehouse, ownerWarehouseList } from '@/api/tenant'
 import moment from 'moment'
 export default {
   components: { SearchFrom, BaseTable },
@@ -52,8 +83,41 @@ export default {
       tableData: [],
       loading: false,
       selection: [],
-      effectloading: false
+      effectloading: false,
+      linkstyle: {
+        color: '#3399ea',
+        whiteSpace: 'nowrap',
+        margin: '0 10px 0 0'
+      },
+      dialogVisible: false,
+      addForm: {
+        warehouses: [],
+      },
+      storeLoading: false
     }
+  },
+  computed: {
+    storeoptions() {
+      const stores = this.mapConfig['getWarehouse']
+      const checked = stores
+        ? stores.filter(store => this.addForm.warehouses.includes(store.key))
+        : []
+      const unchecked = stores
+        ? stores.filter(store => !this.addForm.warehouses.includes(store.key))
+        : []
+      return [
+        {
+          label: '已选择',
+          options: checked
+        },
+        {
+          label: '未选择',
+          options: unchecked
+        }
+      ]
+    },
+    ...mapGetters(['mapConfig'])
+
   },
 
   mounted() {
@@ -71,24 +135,41 @@ export default {
                   path: '/tenant/detail',
                   query: { id: row.id, ownerCode: row.ownerCode }
                 }}
-                style={{
-                  color: '#3399ea',
-                  whiteSpace: 'nowrap',
-                  margin: '0 10px 0 0'
-                }}
+                style={this.linkstyle}
               >
                 查看
               </router-link>
+              <router-link
+                to={{
+                  path: '/tenant/add',
+                  query: { id: row.id, ownerCode: row.ownerCode }
+                }}
+                style={this.linkstyle}
+              >
+                修改
+              </router-link>
+              <a
+                onClick={() => {
+                  this.showStore({ id: row.id, ownerCode: row.ownerCode })
+                }}
+                style={this.linkstyle}
+              >
+                查看仓库
+              </a>
+              <a
+                onClick={() => {
+                  this.delete({ ownerCode: row.ownerCode })
+                }}
+                style={this.linkstyle}
+              >
+                删除
+              </a>
               {row.ownerState === 1 && (
                 <a
                   onClick={() => {
-                    this.setState({ id: row.id, ownerState: 2 })
+                    this.setState({ ownerCode: row.ownerCode, ownerState: 2 })
                   }}
-                  style={{
-                    color: '#3399ea',
-                    whiteSpace: 'nowrap',
-                    margin: '0 10px 0 0'
-                  }}
+                  style={this.linkstyle}
                 >
                   禁用
                 </a>
@@ -96,29 +177,13 @@ export default {
               {row.ownerState === 2 && (
                 <a
                   onClick={() => {
-                    this.setState({ id: row.id, ownerState: 1 })
+                    this.setState({ ownerCode: row.ownerCode, ownerState: 1 })
                   }}
-                  style={{
-                    color: '#3399ea',
-                    whiteSpace: 'nowrap',
-                    margin: '0 10px 0 0'
-                  }}
+                  style={this.linkstyle}
                 >
                   启用
                 </a>
               )}
-              <a
-                onClick={() => {
-                  this.delete({ ids: [row.id], ownerCode: row.ownerCode })
-                }}
-                style={{
-                  color: '#3399ea',
-                  whiteSpace: 'nowrap',
-                  margin: '0 10px 0 0'
-                }}
-              >
-                删除
-              </a>
             </div>
           )
         }
@@ -127,6 +192,21 @@ export default {
   },
 
   methods: {
+    confirmStore() {
+      this.storeLoading = true
+      saveOwnerWarehouse(this.addForm).then(res => {
+        console.log(res)
+        this.storeLoading = false
+        this.dialogVisible = false
+      }).catch(err => {
+        console.log(err)
+        this.storeLoading = false
+        this.dialogVisible = false
+      })
+    },
+    cancelStore() {
+      this.dialogVisible = false
+    },
     setState(arg) {
       const loading = this.$loading({
         lock: true,
@@ -143,6 +223,18 @@ export default {
           loading.close()
           console.log(err)
         })
+    },
+    showStore(row) {
+      this.dialogVisible = true
+      this.storeLoading = true
+      ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
+        let result = res.data
+        this.addForm.warehouses = result
+        this.addForm.ownerCode = row.ownerCode
+        this.storeLoading = false
+      }).catch(err => {
+        console.log(err)
+      })
     },
     delete(arg) {
       this.$confirm('此操作将永久删除租户, 是否继续?', '提示', {
@@ -211,15 +303,6 @@ export default {
         .then(res => {
           this.loading = false
           if (res.success) {
-            if (res.data && res.data.list) {
-              res.data.list.forEach(tenant => {
-                let stores = ''
-                tenant.warehouseOwnerDetailList.forEach(warehouse => {
-                  stores = warehouse.warehouseName + ';'
-                })
-                tenant.stores = stores
-              })
-            }
             this.tableData = (res.data && res.data.list) || []
             this.total = res.data && res.data.total
           }
