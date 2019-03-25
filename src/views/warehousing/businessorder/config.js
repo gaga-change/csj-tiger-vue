@@ -11,7 +11,8 @@ export   const tableConfig=[
       return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
   }},
   { label:'入库金额',dom:(row, column, cellValue, index)=>{
-    return `${row.inPrice*row.realInQty}`
+    let num=row.inPrice*row.realInQty;
+    return isNaN(num)?null:num.toFixed(2)
   }},
 ];
 
