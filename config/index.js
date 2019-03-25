@@ -13,15 +13,7 @@ const ip='http://172.16.81.219:7878';//龙
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 
-let proxyTable={
-  '/wcl': {
-    target: 'http://172.16.81.219:8686',
-    changeOrigin: true,
-    pathRewrite: {
-      '^/wcl': '/'
-    }
-  }
-};
+let proxyTable={};
 
 proxyTableArr.forEach(item=>{
   proxyTable[item]={
