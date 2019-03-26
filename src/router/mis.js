@@ -168,7 +168,7 @@ export default [
     path: '/supplierManagement',
     component: Layout,
     redirect: '/supplierManagement/list',
-    name: 'correctionDocument',
+    name: 'supplierManagement',
     mark:'仓储运营',
     meta: { title: '供应商管理', icon: 'sale' },
     children: [
