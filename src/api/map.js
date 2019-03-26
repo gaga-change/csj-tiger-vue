@@ -128,6 +128,15 @@ export function getRefundType() {
 }
 
 
+//
+export function getRegional() {
+  return request({
+    url: '/webApi/base/enum/getRegional',
+    method: 'get',
+  })
+}
+
+
 
 
 

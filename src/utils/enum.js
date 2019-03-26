@@ -641,3 +641,17 @@ export const paymentNature = [
     value: 1
   }
 ]
+
+
+//仓配点管理票配置
+
+export const warehouseStateEnum=[
+  {
+    name: '启用',
+    value: 1
+  },
+  {
+    name: '禁用',
+    value: 2
+  }
+]

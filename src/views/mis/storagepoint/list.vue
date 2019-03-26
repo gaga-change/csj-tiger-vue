@@ -39,6 +39,7 @@
   import search from './components/search'
   import addForm from './components/addForm'
   import BaseTable from '@/components/Table'
+  import { warehouseSelect , warehouseSave ,warehouseUpdate ,warehouseDel } from '@/api/storagepoint'
   import { storagepointListConfig,storagepointDetailConfig} from './components/config'
   import _  from 'lodash';
   import moment from 'moment';
@@ -57,15 +58,15 @@
         addFormTitle:'新增仓配点',
         addVisible:false,
         addForm:{
-          区域中心:'',
-          仓配点名称:''
+          regionalCenter:'',
+          warehouseName:''
         },
 
         //搜索项
         searchForm:{
-          仓配点名称:'',
-          仓配点编码:'',
-          区域中心:'',
+          warehouseName:'',
+          warehouseNo:'',
+          regionalCenter:'',
           pageSize:10,
           pageNum:1
         },
@@ -74,12 +75,12 @@
         //table配置
         loading:false,
         storagepointListConfig,
-        tableData:[{}]
+        tableData:[]
       }
     },
 
     mounted(){
-     
+      this.fetch()
     },
 
     created(){
@@ -96,16 +97,13 @@
                        <span class="tableLink"  onClick={this.showDialog.bind(this,'update',row)}>修改</span>
                      }
 
-                     {
-                       <span class="tableLink">删除</span>
+                     { 
+                       [2].includes(row.warehouseState)&&  
+                       <span class="tableLink" onClick={this.operation.bind(this,'delete',row)}>删除</span>
                      }
 
-                     {
-                       <span class="tableLink">提交</span>
-                     }
-
-                     {
-                       <span class="tableLink">启用</span> 
+                     { 
+                       <span class="tableLink" onClick={this.operation.bind(this,'switch',row)}>{row.warehouseState===1?'禁用':'启用'}</span> 
                      }
                     
                 </div> 
@@ -127,12 +125,62 @@
         this.fetch()
       },
 
+      operation(type,row){
+        if(type==='switch'){
+           warehouseUpdate({
+             id:row.id,
+             warehouseNo:row.warehouseNo,
+             warehouseState:row.warehouseState===1?2:1
+           }).then(res=>{
+             if(res.success){
+               this.$message({type:'success', message:'操作成功' })
+               this.fetch();
+             } else{
+               this.$message.error('操作失败')
+             }
+           }).catch(err=>{
+              this.$message.error('操作失败')
+           })
+        } else if(type==='delete'){
+           warehouseDel({
+             id:row.id,
+           }).then(res=>{
+             if(res.success){
+               this.$message({type:'success', message:'操作成功' })
+               this.fetch();
+             } else{
+               this.$message.error('操作失败')
+             }
+           }).catch(err=>{
+              this.$message.error('操作失败')
+           })
+        } 
+      },
+
       submit(type,value){
         if(type==='select'){
            this.searchForm=_.cloneDeep(value);
            this.fetch()
         } else if(type==='add'){
-          console.log(type,value)
+          let api=warehouseSave;
+          if(this.addFormTitle==="修改仓储点"){
+            api=warehouseUpdate;
+          }
+          api(value).then(res=>{
+            if(res.success){
+               this.$message({
+                 type:'success',
+                 message:'操作成功'
+               })
+               this.fetch();
+            } else{
+               this.$message.error('操作失败')
+            }
+            this.addVisible=false;
+          }).catch(err=>{
+            this.$message.error('操作失败')
+            this.addVisible=false;
+          })
         } 
        
       },
@@ -144,7 +192,17 @@
              delete json[i]
            }
         }
-        console.log(json)
+        this.loading=true;
+        warehouseSelect(json).then(res=>{
+          if(res.success){
+            this.tableData=res.data&&Array.isArray(res.data.list)&& res.data.list||[] ;
+            this.total=res.data&&res.data.total
+          }
+           this.loading=false
+        }).catch(err=>{
+           this.loading=false
+           console.log(err)
+        })
       },
 
       handleClose(){
@@ -158,14 +216,19 @@
          if(type==="add"){
            this.addVisible=true;
            this.addFormTitle="新增仓储点"
-
+           this.addForm={ regionalCenter:'', warehouseName:''};
          } else if(type==='update'){
            this.addVisible=true;
            this.addFormTitle="修改仓储点"
-
+           this.addForm={
+             regionalCenter:row.regionalCenter,
+             warehouseName:row.warehouseName,
+             id:row.id,
+             warehouseNo:row.warehouseNo
+           };
          } else if(type==='detail'){
            this.detailVisible=true;
-           
+           this.baseinfoData=row;
          }
       }
     }
