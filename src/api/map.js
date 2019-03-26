@@ -128,15 +128,22 @@ export function getRefundType() {
 }
 
 
-//
-export function getRegional() {
+//仓配点管理-区域中心枚举
+export function getConsoildator() {
   return request({
-    url: '/webApi/base/enum/getRegional',
+    url: '/webApi/base/enum/getConsoildatorState',
     method: 'get',
   })
 }
 
 
+//仓配点管理-结算区分枚举
+export function getSettlementType() {
+  return request({
+    url: '/webApi/base/enum/getSettlementType',
+    method: 'get',
+  })
+}
 
 
 
