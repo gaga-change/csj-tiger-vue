@@ -75,12 +75,12 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-button type="primary" size="small" @click="searchSubmit"
-            >查询</el-button
-          >
-          <el-button size="small" @click="searchReset">重置</el-button>
-        </el-col>
+      </el-row>
+      <el-row type="flex" justify="start">
+        <el-button type="primary" size="small" @click="searchSubmit"
+          >查询</el-button
+        >
+        <el-button size="small" @click="searchReset">重置</el-button>
       </el-row>
     </el-form>
   </el-card>
