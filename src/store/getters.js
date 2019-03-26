@@ -45,12 +45,6 @@ const getters = {
         children: subchildren
       })
     })
-
-    menutemp.push({
-      path: '*', redirect: '/404', hidden: true
-    })
-
-
     // return menutemp
     return state.menu.localMenu
   }
