@@ -128,7 +128,7 @@ export function getRefundType() {
 }
 
 
-//仓配点管理-区域中心枚举
+//承运商状态
 export function getConsoildator() {
   return request({
     url: '/webApi/base/enum/getConsoildatorState',
@@ -144,6 +144,14 @@ export function getSettlementType() {
     method: 'get',
   })
 }
+
+export function getRegional() {
+  return request({
+    url: '/webApi/base/enum/getRegional',
+    method: 'get',
+  })
+}
+
 
 
 
