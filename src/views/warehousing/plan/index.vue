@@ -91,7 +91,6 @@
     </el-card>
  </div>
     <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
-         <el-button type="primary" size="small" style="margin-right:12px"  @click="Manual">手工入库录入</el-button> 
          <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
             <el-button type="primary" size="small" >导出Excel</el-button> 
          </a>
@@ -108,19 +107,6 @@
       :currentPage="ruleForm.pageNum"
       :tableData="tableData"/>
 
-    <el-dialog
-      title="手工出库录入"
-      :visible.sync="manualVisible"
-        width="1000px"
-      :before-close="handleClose">
-      <edit-Table 
-        :config="manual_config" 
-        :allTableData="manual_data"/>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="sureManual">生成出库单</el-button>
-        </span>
-     </el-dialog>
   </div>
 </template>
 
@@ -156,12 +142,7 @@
         },
          loading:false,
          tableData: [],
-         linkData:'',
-
-         //手工入库项
-         manualVisible:false,
-         manual_config,
-         manual_data:[{id:1,num:1,edit:true},{id:2,num:1,edit:true}]
+         linkData:''
       }
     },
 
@@ -182,20 +163,6 @@
 
     methods: {
        stringify,
-
-      //关闭弹框
-       handleClose(){
-        this.manualVisible=false;
-       },
-
-       sureManual(){
-        this.manualVisible=false;
-       },
-
-       Manual(){
-         this.manualVisible=true;
-       },
-
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {

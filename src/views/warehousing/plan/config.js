@@ -50,7 +50,7 @@ export   const indexTableConfig=[
   { label:'计划入库仓库',prop:'planWarehouseName'},
   { label:'执行状态',width:100,prop:'execStatus',type:'outbusibillstate',useApi:true},
   { label:'计划入库日期',prop:'planTime',type:'time'},
-  { label:'操作',width:50,fixed:'right',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}],linkText:'查看' },
+  { label:'操作',width:100,fixed:'right',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}],linkText:'查看' },
 ]
 
 export  const manual_config=[
