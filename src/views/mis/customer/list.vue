@@ -28,12 +28,23 @@
       </el-table-column>
       <el-table-column label="操作" width="220" fixed="right">
         <template slot-scope="scope">
-          <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
-          <a :style="linkstyle" @click="unionOwner(scope.row)">关联货主</a>
-          <a :style="linkstyle" @click="viewAddress(scope.row)">维护地址</a>
+          <div>
+            <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
+            <a :style="linkstyle" @click="unionOwner(scope.row)">关联货主</a>
+            <a :style="linkstyle" @click="viewAddress(scope.row)">维护地址</a>
+          <div>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentPageChange"
+      :current-page="currentPage"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
     <el-dialog
       :visible.sync="customerEditorVisible"
       width="80%"
@@ -123,6 +134,7 @@
 
 <script>
 import search from '@/components/Search'
+import { getCustomerList } from '@/api/mis'
 import { Area } from '@/utils/area'
 const customerConfig = [
   {
@@ -136,7 +148,7 @@ const customerConfig = [
   { label: '客户名称', prop: 'itemName', placeholder: '请输入客户物料名称' }
 ]
 const editConfig = [
-  { label: '客户名称', prop: 'itemName', placeholder: '请输入客户物料名称' },
+  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称' },
   {
     label: '客户等级',
     prop: 'customerLevel',
@@ -212,15 +224,45 @@ export default {
       addressTableConfig,
       addressTableData: [{}],
       addressVisible: false,
-      addressEditVisible: false
+      addressEditVisible: false,
+      pageNum: 1,
+      pageSize: 10,
+      total: 0,
+      currentPage: 1,
+      loading: false
     }
   },
+  created() {
+    this.fetchData()
+  },
   methods: {
-    fetchData() {},
+    fetchData() {
+      this.loading = true
+      getCustomerList({ pageNum: this.pageNum, pageSize: this.pageSize, ...this.searchData })
+        .then(res => {
+          const result = res.data
+          this.tableData = result && result.list
+          this.total = result.total
+          this.currentPage = result.pageNum
+          this.loading = false
+        }).catch(err => {
+          console.log(err)
+          this.loading = false
+        })
+
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.fetchData()
+    },
+    handleCurrentPageChange(val) {
+      this.pageNum = val
+      this.fetchData()
+    },
     newAddress() {
       this.addressEditVisible = true
     },
-    viewAddress() {
+    viewAddress(row) {
       this.addressVisible = true
     },
     unionOwner() {

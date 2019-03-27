@@ -73,3 +73,11 @@ export function getProductList(data={}) {
     })
   })
 }
+
+export function getCustomerList(data={}) {
+  return request({
+    url: `/webApi/customer/list`,
+    method: 'post',
+    data
+  })
+}
