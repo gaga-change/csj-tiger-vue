@@ -181,28 +181,28 @@ export default [
     ]
   },
 
-  {
-    path: '/shipper',
-    component: Layout,
-    redirect: '/shipper/list',
-    name: 'shipper',
-    mark:'仓储运营',
-    meta: { title: '货主管理', icon: 'sale' },
-    children: [
-      {
-        path: 'list',
-        component: _import('mis/shipper/list'),
-        name: 'shipperList',
-        meta: { title: '货主管理'}
-      },
-      {
-        path: 'add',
-        hidden: true,
-        component: _import('mis/shipper/add'),
-        name: 'shipperAdd',
-        meta: { title: '新增货主'}
-      }
-    ]
-  }
+  // {
+  //   path: '/shipper',
+  //   component: Layout,
+  //   redirect: '/shipper/list',
+  //   name: 'shipper',
+  //   mark:'仓储运营',
+  //   meta: { title: '货主管理', icon: 'sale' },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: _import('mis/shipper/list'),
+  //       name: 'shipperList',
+  //       meta: { title: '货主管理'}
+  //     },
+  //     {
+  //       path: 'add',
+  //       hidden: true,
+  //       component: _import('mis/shipper/add'),
+  //       name: 'shipperAdd',
+  //       meta: { title: '新增货主'}
+  //     }
+  //   ]
+  // }
 
 ]

@@ -4,20 +4,20 @@
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="仓配点名称:">
-              <el-input v-model="searchForm.仓配点名称" placeholder="请输入仓配点名称" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.warehouseName" placeholder="请输入仓配点名称" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="仓配点编码:">
-              <el-input v-model="searchForm.仓配点编码" placeholder="请输入仓配点编码" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.warehouseNo" placeholder="请输入仓配点编码" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="区域中心" >
-              <el-select  v-model="searchForm.区域中心" clearable  placeholder="请选择区域中心：" size="small" class="formitem">
-                 <el-option v-for="item in []" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+              <el-select  v-model="searchForm.regionalCenter" clearable  placeholder="请选择区域中心：" size="small" class="formitem">
+                 <el-option v-for="item in mapConfig['getRegional']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>  
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
 
   props:{
@@ -40,6 +41,12 @@ export default {
        type:Object,
        default:()=>{}
      },
+  },
+
+  computed: {
+      ...mapGetters([
+        'mapConfig',
+      ])
   },
 
   methods: {

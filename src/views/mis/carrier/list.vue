@@ -23,6 +23,7 @@
 <script>
   import search from './components/search'
   import BaseTable from '@/components/Table'
+  import { consoilInfoList,consoilInfoDel} from '@/api/carrier'
   import { carrierListConfig } from './components/config'
   import _  from 'lodash';
   import moment from 'moment';
@@ -33,9 +34,9 @@
 
         //搜索项
         searchForm:{
-          承运商编码:'',
-          承运商名称:'',
-          承运商状态:'',
+          consoildatorCode:'',
+          consoildatorName:'',
+          consoildatorState:'',
           pageSize:10,
           pageNum:1
         },
@@ -48,8 +49,8 @@
       }
     },
 
-    mounted(){
-     
+     mounted(){
+      this.fetch()
     },
 
     created(){
@@ -59,21 +60,17 @@
               return(
                 <div class="tableLinkBox">
                      {
-                        <router-link to="/carrier/detail"  class="tableLink">查看</router-link>
-                     }
-
-                     {
-                        <router-link  to="/carrier/add" class="tableLink">修改</router-link>
-                     }
-
-                     {
-                       <span class="tableLink">删除</span>
-                     }
-
-                     {
-                       <span class="tableLink">提交</span>
+                        <router-link to={`/carrier/detail?consoildatorCode=${row.consoildatorCode}`}  class="tableLink">查看</router-link>
                      }
                     
+                     {
+                        <router-link  to={`/carrier/add?consoildatorCode=${row.consoildatorCode}&id=${row.id}&type=modify`} class="tableLink">修改</router-link>
+                     }
+
+                     {
+                       <span class="tableLink" onClick={this.delete.bind(this,row)}>删除</span>
+                     }
+
                 </div> 
               )
             }
@@ -93,6 +90,18 @@
         this.fetch()
       },
 
+      delete(row){
+        consoilInfoDel({
+          carrierNo:row.consoildatorCode
+        }).then(res=>{
+          if(res.success){
+            this.fetch()
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+
       select(value){
         this.searchForm=_.cloneDeep(value);
         this.fetch()
@@ -105,7 +114,16 @@
              delete json[i]
            }
         }
-        console.log(json)
+        this.loading=true;
+        consoilInfoList(json).then(res=>{
+          if(res.success){
+            this.tableData=res.data&&Array.isArray(res.data.list)&& res.data.list||[] ;
+            this.total=res.data&&res.data.total
+          }
+           this.loading=false;
+        }).catch(err=>{
+          this.loading=false;
+        })
       }
 
     }
