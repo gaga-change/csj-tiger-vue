@@ -12,6 +12,8 @@ export   const tableConfig=[
   { label:'还应入',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.planInQty-row.realInQty}(${row.skuUnitName})`
   }},
+  //手工入库使用相关字段进行限制
+  { label:'手工入库',prop:'qty',useEdit:true,width:160,max:['planOutQty','realOutQty'],min:0},
  
 ];
 
@@ -50,5 +52,5 @@ export   const indexTableConfig=[
   { label:'计划入库仓库',prop:'planWarehouseName'},
   { label:'执行状态',width:100,prop:'execStatus',type:'outbusibillstate',useApi:true},
   { label:'计划入库日期',prop:'planTime',type:'time'},
-  { label:'操作',width:50,fixed:'right',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}],linkText:'查看' },
+  { label:'操作',width:150,fixed:'right',useLink:true },
 ]

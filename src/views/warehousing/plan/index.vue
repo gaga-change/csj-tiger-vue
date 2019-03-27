@@ -159,6 +159,24 @@
      
     },
 
+     created(){
+        this.tableConfig.forEach(item=>{
+          if(item.useLink){
+              item.dom=(row, column, cellValue, index)=>{
+                let queryPath=`/warehousing/plan-detail?planCode=${row.planCode}`;
+                let handOutPath=`/warehousing/plan-detail?planCode=${row.planCode}&history=${true}`
+                return <div style={{display:'flex',flexWrap: 'nowrap'}}>
+                    <router-link  to={queryPath}  class="routerLink">查看</router-link>
+                    { 
+                      //手工入库 需要标识过滤
+                      <router-link to={handOutPath}  class="routerLink">手工入库</router-link>
+                    }
+                </div>
+              }
+          }
+        })
+      },
+
     methods: {
        stringify,
        submitForm(formName) {
@@ -231,4 +249,13 @@
  }
 </script>
 
-
+<style rel="stylesheet/scss" lang="scss">
+  .outgoing-quiry-container{
+    .routerLink{
+      color:#3399ea;
+      white-space:nowrap;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  }
+</style>

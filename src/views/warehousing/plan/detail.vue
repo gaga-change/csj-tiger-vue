@@ -7,8 +7,9 @@
      <item-title text="相关明细"/>
      <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
         <el-tab-pane label="相关计划单" name="plan">
-          <web-pagination-table 
+          <edit-table  
             :loading="loading"
+            :useRowColorKey="this.$route.query.history?'qty':null"
             :config="tableConfig" 
             :allTableData="tableData"/>
           </el-tab-pane>
@@ -26,10 +27,10 @@
 <script>
  import {inPlanDetail,inOrderSelect} from '@/api/warehousing'
  import webPaginationTable from '@/components/Table/webPaginationTable'
+  import editTable from '@/components/Table/editTable'
  import { tableConfig,infoConfig,warehousingTableConfig } from './config';
-
  export default {
-    components: { webPaginationTable },
+    components: { editTable,webPaginationTable },
     data() {
       return {
         config:{},
@@ -65,7 +66,12 @@
               this.infoConfig.find(v=>v.prop==='busiBillNo').linkTo = '/outgoing/businessorder-detail'
           } 
           let list=data.skuDetails&&data.skuDetails.list||[]
-          this.tableData=list||[]
+          
+          //当为手工入库时进行相关配置 
+          this.tableData=list.map(v=>{
+            v.edit=true;
+            return v
+          })
         } 
       }).catch(err=>{
          this.loading=false

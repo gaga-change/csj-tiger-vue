@@ -208,6 +208,7 @@ export default {
   methods: { 
       
       tableRowClassName({row, rowIndex}) {
+        //只有输入值大于0的时候才高亮
         if (this.useRowColorKey&&row[this.useRowColorKey]>0) {
           return 'success-row';
         }
