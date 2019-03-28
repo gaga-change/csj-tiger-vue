@@ -151,17 +151,24 @@ export function getRegional() {
     method: 'get',
   })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 企业状态接口
+export function getEnterpriseState() {
+  return request({
+    url: '/webApi/base/enum/getEnterpriseState',
+    method: 'get',
+  })
+}
+// 企业等级接口
+export function getEnterpriseLevel() {
+  return request({
+    url: '/webApi/base/enum/getEnterpriseLevel',
+    method: 'get',
+  })
+}
+// 地址性质
+export function getAddrNature() {
+  return request({
+    url: '/webApi/base/enum/getAddrNature',
+    method: 'get',
+  })
+}

@@ -49,7 +49,7 @@
       </el-col>
     </el-row>
     <el-row type="flex" :justify="justify">
-      <el-button @click="submit" type="primary">{{confirmText}}</el-button>
+      <el-button @click="submit" type="primary" :loading="loading" :disabled="loading">{{confirmText}}</el-button>
       <el-button @click="resetForm" v-show="showResetButton">重置</el-button>
     </el-row>
   </el-form>
@@ -89,6 +89,10 @@ export default {
     showResetButton: {
       type: Boolean,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
