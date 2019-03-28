@@ -63,7 +63,14 @@ export function selectSumNo(data={}) {
   })
 }
 
-
+//手工创建入库单
+export function orderSave(data={}) {
+  return request({
+    url: `/webApi/in/order/save`,
+    method: 'post',
+    data: data,
+  })
+}
 
 
 

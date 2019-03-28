@@ -168,7 +168,7 @@
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>
                     <router-link  to={queryPath}  class="routerLink">查看</router-link>
                     { 
-                      //手工入库 需要标识过滤
+                       [0,5].includes(Number(row.execStatus))&&[1].includes(Number(row.deliverWay))&&
                       <router-link to={handOutPath}  class="routerLink">手工入库</router-link>
                     }
                 </div>

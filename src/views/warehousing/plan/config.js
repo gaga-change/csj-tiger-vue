@@ -6,14 +6,13 @@ export   const tableConfig=[
   { label:'单价',prop:'inPrice',type:'toFixed'},
   { label:'转换比',prop:'skuUnitConvert'},
   { label:'已入/总数',fixed:false,dom:(row, column, cellValue, index)=>{
-      return `${row.realInQty}/${row.planInQty}(${row.skuUnitName})`
+      return `${Number(row.realInQty).toFixed(0)}/${Number(row.planInQty).toFixed(0)}(${row.skuUnitName})`
   }},
 
   { label:'还应入',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${row.planInQty-row.realInQty}(${row.skuUnitName})`
   }},
-  //手工入库使用相关字段进行限制
-  { label:'手工入库',prop:'qty',useEdit:true,width:160,max:['planOutQty','realOutQty'],min:0},
+  { label:'手工入库',prop:'handInQty',useEdit:true,width:160,max:['planInQty','realInQty'],min:0},
  
 ];
 

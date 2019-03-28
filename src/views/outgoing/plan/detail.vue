@@ -81,8 +81,8 @@
             if(this.$route.query.history){
                this.tableData=_.cloneDeep(tableData).map(v=>{
                  let json=v;
-                 // json.qty=v.planOutQty-v.realOutQty;
                  if(v.planOutQty-v.realOutQty>0){
+                  //  json.qty=(v.planOutQty-v.realOutQty)||0
                    json.qty=json.handOutQty?json.handOutQty:0;
                  } else{
                     json.qty=0
@@ -144,7 +144,6 @@
           this.sureQtyLoding=false;
           console.log(err)
         })
-       
       },
 
       activeChange(tab){
