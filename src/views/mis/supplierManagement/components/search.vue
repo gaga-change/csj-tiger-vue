@@ -4,21 +4,21 @@
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="供应商编码:">
-              <el-input v-model="searchForm.供应商编码" placeholder="请输入供应商编码" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.providerCode" placeholder="请输入供应商编码" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
           
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="供运商状态" >
-              <el-select  v-model="searchForm.供运商状态" clearable  placeholder="请选择供运商状态" size="small" class="formitem">
-                 <el-option v-for="item in []" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="供运商状态:" >
+              <el-select  v-model="searchForm.providerState" clearable  placeholder="请选择供运商状态" size="small" class="formitem">
+                 <el-option v-for="item in mapConfig['getEnterpriseState']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>  
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="供应商名称:">
-              <el-input v-model="searchForm.供应商名称" placeholder="请输入供应商名称" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.providerName" placeholder="请输入供应商名称" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
     </el-row>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
 
   props:{
@@ -40,6 +41,12 @@ export default {
        type:Object,
        default:()=>{}
      },
+  },
+
+  computed: {
+    ...mapGetters([
+      'mapConfig',
+    ])
   },
 
   methods: {
