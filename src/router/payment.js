@@ -54,7 +54,7 @@ export default [
           roles: ['service_finance']
         }
       },
-    
+
       {
         path: 'apply/detail',
         component: _import('pay/apply/detail'),
@@ -89,6 +89,5 @@ export default [
         }
       },
     ]
-  },
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]

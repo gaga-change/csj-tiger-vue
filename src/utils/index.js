@@ -424,7 +424,7 @@ export const DistributeStatus = [
 ]
 
 export const NatureInvoice = [
-  
+
   {
     name: '篮字发票',
     value: 0
@@ -469,7 +469,7 @@ export const TiggerUrl = process.env.NODE_ENV === 'production' ? 'http://scm.csj
  * @returns
  */
 export function MakePrint(content, w = null, h = null) {
-  
+
   // Fixes dual-screen position                         Most browsers      Firefox
   const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
   const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;

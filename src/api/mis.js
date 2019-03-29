@@ -56,24 +56,6 @@ export function getDeliveryList(data={}) {
   })
 }
 
-export function getProductList(data={}) {
-  // return request({
-  //   url: ``,
-  //   method: 'post',
-  //   data
-  // })
-  return new Promise((resolve, reject) => {
-    resolve({
-      success: true,
-      data: [
-        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1, status:0,id:1},
-        {orderNo: 't1aacc001', orderName: 'aaab', orderNatrue: 1, status:1,id:2},
-        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1,status:0,id:3}
-      ]
-    })
-  })
-}
-
 export function getCustomerList(data={}) {
   return request({
     url: `/webApi/customer/list`,
@@ -137,6 +119,20 @@ export function delCustomerAddress(data={}) {
 export function updateCustomerAddress(data={}) {
   return request({
     url: `/webApi/customer/addr/update`,
+    method: 'post',
+    data
+  })
+}
+export function getOwnerCustList(data={}) {
+  return request({
+    url: `/webApi/base/info/getOwnerCustList`,
+    method: 'post',
+    data
+  })
+}
+export function getOwnerProviderList(data={}) {
+  return request({
+    url: `/webApi/base/info/getOwnerProviderList`,
     method: 'post',
     data
   })
