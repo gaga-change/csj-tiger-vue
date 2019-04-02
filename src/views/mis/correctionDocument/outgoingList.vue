@@ -25,6 +25,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { outgoing_carrierListConfig } from './components/config'
+import { outwarehouseList } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -50,7 +51,7 @@ export default {
   },
 
   mounted() {
-
+    this.fetch()
   },
 
   created() {
@@ -102,6 +103,9 @@ export default {
           delete json[i]
         }
       }
+      outwarehouseList(json).then(res => {
+        this.tableData = res.data.list
+      })
     }
   }
 }

@@ -38,14 +38,14 @@ export  const carrierDetail_Config=[
 
 //出库订正
 export  const outgoing_carrierListConfig=[ 
-  { label:'订正类型',prop:'id'},
-  { label:'业务单号',prop:''},
-  { label:'出库单号',prop:''},
-  { label:'订正单号',prop:''},
-  { label:'单据状态',prop:''},
-  { label:'创建日期',prop:''},
-  { label:'审核日期',prop:''},
-  { label:'审核人',prop:''},
+  { label:'订正类型',prop:'revisalType', useLocalEnum: true, type: 'misRevisalTypeEnum'},
+  { label:'业务单号',prop:'busiBillNo'},
+  { label:'出库单号',prop:'warehouseExeCode'},
+  { label:'订正单号',prop:'revisalCode'},
+  { label:'单据状态',prop:'revisalState', useLocalEnum:true, type:'misRevisalStateEnum'},
+  { label:'创建日期',prop:'gmtCreate', type: 'time'},
+  { label:'审核日期',prop:'approveDate', type: 'time'},
+  { label:'审核人',prop:'approveName'},
   { label:'操作',fixed:'right',useLink:true,width:180},
 ]
 

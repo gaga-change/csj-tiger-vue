@@ -25,7 +25,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { carrierListConfig } from './components/config'
-import {inwarehouseList} from '@/api/correction'
+import { inwarehouseList } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -106,7 +106,6 @@ export default {
         }
       }
       inwarehouseList(json).then(res => {
-        console.log(res)
         this.tableData = res.data.list
       })
     }
