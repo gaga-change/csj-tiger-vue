@@ -10,7 +10,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <template v-if="(searchForm._owner + '')">
+          <template v-if="searchForm._owner">
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="入库单号">
                 <el-select v-model="searchForm._orderCode" clearable placeholder="请选择入库单号：" size="small" class="formitem">
@@ -18,18 +18,20 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="业务单号:">
-                <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
+            <template v-if="searchForm._orderCode">
+              <el-col :sm="12" :md="8" :lg="8" :xl="6">
+                <el-form-item label="业务单号:">
+                  <el-input v-model="searchForm._busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"
+                    readonly="readonly"></el-input>
+                </el-form-item>
+              </el-col>
 
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="供应商:">
-                <el-input v-model="searchForm.供应商" placeholder="请输入供应商" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
+              <el-col :sm="12" :md="8" :lg="8" :xl="6">
+                <el-form-item label="供应商:">
+                  <el-input v-model="searchForm._supplier" placeholder="请输入供应商" size="small" class="formitem" readonly="readonly"></el-input>
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="订正类型">
                 <el-select @change="revisalTypeChange" v-model="searchForm.revisalType" clearable placeholder="请选择订正类型："
@@ -68,7 +70,7 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
-import { queryOwners, inOrderCode } from '@/api/correction'
+import { queryOwners, inOrderCode, inwarehouseBillInfo } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
@@ -79,6 +81,8 @@ export default {
         revisalType: 1,
         _owner: '',
         _orderCode: '',
+        _busiBillNo: '',
+        _supplier: ''
       },
       //标签项
       activeName: 'Inventory',
@@ -97,12 +101,18 @@ export default {
   },
   computed: {
     checkOwner() {
-      return (this.searchForm._owner + '') || ''
+      return this.searchForm._owner
+    },
+    checkOrderCode() {
+      return this.searchForm._orderCode
     }
   },
   watch: {
     checkOwner(newVal, oldVal) {
       this.initOrder(newVal)
+    },
+    checkOrderCode(newVal) {
+      this.initBillInfo(newVal)
     }
   },
   created() {
@@ -125,6 +135,18 @@ export default {
         })
       } else {
         this.orderCodes = []
+      }
+    },
+    /** 初始化 业务单号及供应商信息 */
+    initBillInfo(code) {
+      this.searchForm._busiBillNo = ''
+      this.searchForm._supplier = ''
+      if (code) {
+        inwarehouseBillInfo({ inWarehouseOrderCode: code }).then(res => {
+          console.log(res)
+        })
+      } else {
+
       }
     },
     revisalTypeChange(value) {
