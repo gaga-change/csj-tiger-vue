@@ -103,8 +103,13 @@ export default {
           delete json[i]
         }
       }
-      console.log(json)
-      outwarehouseList(json).then(res => {
+      let params = { ...json }
+      if (params.time) {
+        params.startDate = params.time[0]
+        params.endDate = params.time[1]
+        delete params.time
+      }
+      outwarehouseList(params).then(res => {
         this.tableData = res.data.list
       })
     }
