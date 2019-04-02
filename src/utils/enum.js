@@ -672,7 +672,7 @@ export const misWarehousingBillStatusEnum=[
   },
   {
     name: '已关闭',
-    value: 3
+    value: 4
   },
 ]
 

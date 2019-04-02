@@ -116,17 +116,34 @@ export function inbillPrint(inWarehouseBillId) {
 
 export function inBillUpdateStatus(data={}) {
   return request({
-    url: `/webApi/in/bill/updateStatus`,
-    method:'put',
-    data: data,
+    url: `/webApi/in/bill/updateStatus?${stringify(data)}`,
+    method:'put'
+  })
+}
+
+export function inPlanInitAdd(inWarehouseBillId) {
+  return request({
+    url: `/webApi/in/plan/initAdd/${inWarehouseBillId}`,
+    method: 'get'
   })
 }
 
 
+export function getRecommendStock(ownerCode,skuCode) {
+  return request({
+    url: `/webApi/sku/info/getRecommendStock/${ownerCode}/${skuCode}`,
+    method: 'get'
+  })
+}
 
 
-
-
+export function inPlanAdd(data={}) {
+  return request({
+    url: `/webApi/in/plan/add`,
+    method: 'post',
+    data: data,
+  })
+}
 
 
 
