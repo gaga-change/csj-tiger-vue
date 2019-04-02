@@ -655,3 +655,40 @@ export const warehouseStateEnum=[
     value: 2
   }
 ]
+
+//mis 入库单据状态枚举
+export const misWarehousingBillStatusEnum=[
+  {
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '已审核',
+    value: 1
+  },
+  {
+    name: '驳回',
+    value: 2
+  },
+  {
+    name: '已关闭',
+    value: 3
+  },
+]
+
+//mis 入库执行状态状态枚举
+export const misWarehousingBillStateEnum=[
+  {
+    name: '未入库',
+    value: 0
+  },
+  {
+    name: '部分入库',
+    value: 5
+  },
+  {
+    name: '全部入库',
+    value: 8
+  }
+]
+

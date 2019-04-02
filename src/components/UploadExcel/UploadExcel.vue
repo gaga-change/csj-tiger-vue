@@ -13,6 +13,7 @@
     title="提示"
     :visible.sync="filesDialogVisible"
     center
+    :modal="false"
     width="50%">
      <el-upload
         class="upload-demo"
@@ -24,7 +25,7 @@
         :on-exceed="handleFileExceed"
         :on-remove="handleRemove"
         :on-change="handelUploadChange"
-        name="myFile"
+        :name="name"
         :on-success="handleEnclosureUploadSuccess"
         :auto-upload="false">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -52,13 +53,18 @@ export default {
       //导入地址
       filesuploadUrl:{
         type:String,
-        default:'/webApi/fileupload/common/filetoserver'
+        default:''
       },
 
       //模板地址
       modelUrl:{
         type:String,
         default:''
+      },
+
+      name:{
+        type:String,
+        default:'myFile'
       }
     },
 
@@ -121,6 +127,7 @@ export default {
       span{
         font-size: 12px;
       }
+      display: inline-block;
     }
   }
 </style>

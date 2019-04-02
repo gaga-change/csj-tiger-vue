@@ -63,16 +63,64 @@ export function selectSumNo(data={}) {
   })
 }
 
+export function inBillAdd(data={}) {
+  return request({
+    url: `/webApi/in/bill/add`,
+    method: 'post',
+    data: data,
+  })
+}
+
+export function customerInfo(ownerCode) {
+
+  // return request({
+  //   url:`/webApi/customer/info/${ownerCode}`,
+  //   method: 'get',
+  // })
+
+  return new Promise(function(resolve, reject) {
+    resolve({
+      success: true,
+      data: [
+        {
+          customerName:'测试数据',
+          customerCode:'GY20190325000001'
+        }
+      ]
+    })
+  })
+}
+
+export function inbilldetail(inWarehouseBillId) {
+  return request({
+    url: `/webApi/in/bill/detail/${inWarehouseBillId}`,
+    method: 'get'
+  })
+}
 
 
+export function inBillUpdate(data={}) {
+  return request({
+    url: `/webApi/in/bill/update`,
+    method: 'post',
+    data: data,
+  })
+}
 
+export function inbillPrint(inWarehouseBillId) {
+  return request({
+    url: `/webApi/in/bill/print/${inWarehouseBillId}`,
+    method: 'get'
+  })
+}
 
-
-
-
-
-
-
+export function inBillUpdateStatus(data={}) {
+  return request({
+    url: `/webApi/in/bill/updateStatus`,
+    method:'put',
+    data: data,
+  })
+}
 
 
 
