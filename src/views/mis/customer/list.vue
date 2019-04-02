@@ -353,7 +353,7 @@ export default {
       this.addressVisible = true
       this.rowData = row
       this.addressLoading = true
-      customerAddressList({basicCustomerInfoId: row.id}).then(res => {
+      customerAddressList({basicCustomerInfoCode: row.customerCode}).then(res => {
         console.log(res)
         const result = res.data
         result.forEach(item => {

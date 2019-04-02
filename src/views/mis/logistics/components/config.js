@@ -1,15 +1,14 @@
 export const listIndexConfig = [
-  {label: '配送单号',prop: 'ownerCode'},
-  { label: '物流单号', prop: 'ownerName'},
-  { label: '货主', prop: 'ownerType' },
-  { label: '配送类型', prop: 'roleType'},
-  { label: '承运商', prop: 'stores' },
-  { label: '运费区分', prop: 'ownerState' },
-  { label: '客户名称', prop: 'ownerState' },
-  { label: '客户地址', prop: 'ownerState' },
-  { label: '配送状态', prop: 'roleType'},
-  { label: '制单人', prop: 'gmtCreate' },
-  { label: '制单时间', prop: 'gmtModify'},
+  {label: '配送单号',prop: 'dispatchNo', width: 120},
+  { label: '物流单号', prop: 'logisticsOrderCode', width: 180},
+  { label: '配送类型', prop: 'dispatchType', useLocalEnum: true, type: 'dispatchType'},
+  { label: '承运商', prop: 'consoildatorName', width: 150 },
+  { label: '运费区分', prop: 'costCalcWay', width: 150, useLocalEnum: true, type: 'costCalcWay' },
+  { label: '客户名称', prop: 'customerName', width: 150 },
+  { label: '客户地址', prop: 'dispatchAddr', width: 180 },
+  { label: '配送状态', prop: 'dispatchState', useLocalEnum: true, type: 'dispatchState'},
+  { label: '制单人', prop: 'createrName' },
+  { label: '制单时间', prop: 'gmtCreate', type: 'time', width: 120},
   { label: '操作', useLink: true, fixed: 'right', width: 150 }
 ]
 

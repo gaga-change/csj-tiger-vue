@@ -4,7 +4,7 @@
     <el-row type="flex" justify="end">
       <el-button type="primary" size="small" style="margin:10px" @click="newProduct">创建商品</el-button>
       <el-button type="primary" size="small" style="margin:10px" @click="importProduct">批量导入商品</el-button>
-      <el-button type="primary" size="small" style="margin:10px" @click="newProduct">批量修改</el-button>
+      <el-button type="primary" size="small" style="margin:10px" @click="editProducts">批量修改</el-button>
     </el-row>
     <base-table
       @sizeChange="handleSizeChange"
@@ -40,6 +40,30 @@
         </div>
       </el-upload>
     </el-dialog>
+    <!-- 上传弹框 -->
+    <el-dialog
+      title="提示"
+      :visible.sync="editDialogVisible"
+      center
+      width="50%">
+      <el-upload
+        class="upload-demo"
+        ref="editUpload"
+        :action="editUploadUrl"
+        :limit="1"
+        name="file"
+        :file-list="editFileList"
+        :accept="'.xls,.xlsx'"
+        :on-change="handelEditUploadChange"
+        :on-success="handleEditUploadSuccess"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="editSubmitUpload" v-show="editUploadButtonVisible">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M。
+          <a class="dlink" :href="editTempletUrl" >下载模板</a>
+        </div>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,7 +93,12 @@ export default {
       uploadUrl: '/webApi/sku/info/import',
       templetUrl: '/static/templet/product.xls',
       fileList: [],
-      uploadButtonVisible: false
+      uploadButtonVisible: false,
+      editDialogVisible: false,
+      editUploadUrl: '/webApi/sku/info/importUpdate',
+      editTempletUrl: '/static/templet/product.xls',
+      editFileList: [],
+      editUploadButtonVisible: false
     }
   },
   computed: {
@@ -131,7 +160,7 @@ export default {
         }).catch(_ => {})
       } else {
         this.$message({
-          message: res.message,
+          message: res.errorMsg,
           type: 'error'
         })
       }
@@ -148,8 +177,40 @@ export default {
     submitUpload() {
       this.$refs.upload.submit()
     },
+    handleEditUploadSuccess(res, file, fileList) {
+      if (res.code === '200') {
+        this.$confirm(res.message, '提示', {
+          confirmButtonText: '完成',
+          cancelButtonText: '继续导入',
+          type: 'success'
+        }).then(_ => {
+          this.editDialogVisible = false
+          this.fetchData()
+        }).catch(_ => {})
+      } else {
+        this.$message({
+          message: res.errorMsg,
+          type: 'error'
+        })
+      }
+      this.$refs['editUpload'].clearFiles()
+    },
+    handelEditUploadChange(file, fileList) {
+      // 选择文件时显示上传按钮
+      if (Object.keys(file).length && fileList.length) {
+        this.editUploadButtonVisible = true
+      } else {
+        this.editUploadButtonVisible = false
+      }
+    },
+    editSubmitUpload() {
+      this.$refs.editUpload.submit()
+    },
     importProduct() {
       this.dialogVisible = true
+    },
+    editProducts() {
+      this.editDialogVisible = true
     },
     edit(query) {
       this.$router.push({ name: 'newproduct', query })

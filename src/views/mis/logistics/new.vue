@@ -5,37 +5,37 @@
     <el-card shadow="hover">
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="配送类型" prop="sendtype">
-            <el-select  v-model="addForm.warehouseCode" clearable  placeholder="请选择配送类型" size="small" class="formitem">
-              <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+          <el-form-item label="配送类型" prop="dispatchType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-select  v-model="addForm.dispatchType" @change="handleDispatchTypeChange" clearable  placeholder="请选择配送类型" size="small" class="formitem">
+              <el-option v-for="item in localEnum['dispatchType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="承运商" prop="carrier">
+          <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-select  v-model="addForm.carrier" value-key="id" clearable  placeholder="请选择结算方式" size="small" class="formitem">
-              <el-option v-for="item in carrier" :label="item.name" :key="item.id"  :value="item">
-                <span style="float: left">{{ item.name }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+              <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
+                <span style="float: left">{{ item.consoildatorName }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :sm="12" :md="8" :lg="8" :xl="6" v-show="addForm.carrier&&addForm.carrier.value">
+        <el-col :sm="12" :md="8" :lg="8" :xl="6" v-show="addForm.carrier&&addForm.carrier.consoildatorCode">
           <el-form-item label="承运商编码" >
-            <el-input :value="addForm.carrier&&addForm.carrier.value" class="formitem" size="small" disabled></el-input>
+            <el-input :value="addForm.carrier&&addForm.carrier.consoildatorCode" class="formitem" size="small" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="结算方式" prop="sendtype">
-            <el-select  v-model="addForm.warehouseCode" clearable  placeholder="请选择结算方式" size="small" class="formitem">
-              <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+          <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-select  v-model="addForm.settlementType" clearable  placeholder="请选择结算方式" size="small" class="formitem">
+              <el-option v-for="item in localEnum['settlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="物流单号" prop="sendtype">
-            <el-input v-model="addForm.logisticsNo" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
+          <el-form-item label="物流单号" prop="logisticsOrderCode" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input v-model="addForm.logisticsOrderCode" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -69,22 +69,24 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="客户名称" >
-            <el-input v-model="outTableData[0]&&outTableData[0].customer" class="formitem" size="small" disabled placeholder="请关联出库单"></el-input>
+            <el-input v-model="addForm.customerName" class="formitem" size="small" disabled placeholder="请关联出库单"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="地址" >
-            <el-input v-model="outTableData[0]&&outTableData[0].address" class="formitem" size="small" placeholder="请关联出库单"></el-input>
+            <el-select  v-model="addForm.dispatchAddr" clearable  placeholder="请选择地址" size="small" class="formitem">
+              <el-option v-for="item in addressData" :label="item.value" :key="item.key"  :value="item.value"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="联系人" >
-            <el-input v-model="outTableData[0]&&outTableData[0].linkUser" class="formitem" size="small" disabled placeholder="请关联出库单"></el-input>
+          <el-form-item label="联系人" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input v-model="addForm.customerContact" class="formitem" size="small" disabled placeholder="请关联出库单"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="联系电话" >
-            <el-input v-model="outTableData[0]&&outTableData[0].phone" class="formitem" size="small" disabled placeholder="请关联出库单"></el-input>
+          <el-form-item label="联系电话" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input v-model="addForm.customerTel" class="formitem" size="small" disabled placeholder="请关联出库单"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,9 +96,9 @@
     <el-card shadow="hover" >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="费用计算区分" labelWidth="100px">
-            <el-select  v-model="addForm.computeType" value-key="id" clearable  placeholder="请选择结算方式" size="small" class="formitem">
-              <el-option v-for="item in computeTypes" :label="item.name" :key="item.value" :value="item.value"></el-option>
+          <el-form-item label="费用计算区分" labelWidth="100px" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-select  v-model="addForm.costCalcWay" value-key="id" clearable  placeholder="请选择结算方式" size="small" class="formitem">
+              <el-option v-for="item in localEnum['costCalcWay']" :label="item.name" :key="item.value" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -106,47 +108,47 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-show="addForm.computeType === 1">
+      <el-row v-show="addForm.costCalcWay === 1">
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="箱数" >
-            <el-input type="number" v-model.number="addForm.boxnum" class="formitem" size="small" placeholder="请输入箱数">
+          <el-form-item label="箱数" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number" v-model.number="addForm.boxQty" class="formitem" size="small" placeholder="请输入箱数">
               <span slot="suffix">箱</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="体积" >
-            <el-input type="number" v-model.number="addForm.size" class="formitem" size="small" placeholder="请输入体积">
+          <el-form-item label="体积" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number" v-model.number="addForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
               <span slot="suffix">m³</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="单价" >
-            <el-input type="number" v-model.number="addForm.price" class="formitem" size="small" placeholder="请输入体积">
+          <el-form-item label="单价" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number" v-model.number="addForm.skuPrice" class="formitem" size="small" placeholder="请输入体积">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-show="addForm.computeType === 2">
+      <el-row v-show="addForm.costCalcWay === 2">
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="重量" >
-            <el-input type="number" v-model.number="addForm.weight" class="formitem" size="small" placeholder="请输入重量">
+          <el-form-item label="重量" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number" v-model.number="addForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
               <span slot="suffix">kg</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="首重价格" >
+          <el-form-item label="首重价格" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.firstPrice" class="formitem" size="small" placeholder="请输入首重价格">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="续重单价" >
-            <el-input type="number" v-model.number="addForm.price" class="formitem" size="small" placeholder="请输入续重单价">
+          <el-form-item label="续重单价" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number" v-model.number="addForm.continuePrice" class="formitem" size="small" placeholder="请输入续重单价">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -154,76 +156,76 @@
       </el-row>
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="运费" >
-            <el-input type="number" v-model.number="addForm.freight" class="formitem" size="small" placeholder="请输入运费">
+          <el-form-item label="运费" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number" v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="配送费" >
-            <el-input type="number" v-model.number="addForm.distributionFee" class="formitem" size="small" placeholder="请输入配送费">
+            <el-input type="number" v-model.number="addForm.dispatchCost" class="formitem" size="small" placeholder="请输入配送费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="保价" >
-            <el-input type="number" v-model.number="addForm.parcel" class="formitem" size="small" placeholder="请输入保价">
+            <el-input type="number" v-model.number="addForm.insuredCost" class="formitem" size="small" placeholder="请输入保价">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="保费" >
-            <el-input type="number" v-model.number="addForm.premium" class="formitem" size="small" placeholder="请输入保费">
+            <el-input type="number" v-model.number="addForm.logisticsPremium" class="formitem" size="small" placeholder="请输入保费">
               <span slot="suffix">%</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="车牌号" >
-            <el-input type="text" v-model="addForm.carNumber" class="formitem" size="small" placeholder="请输入车牌号"></el-input>
+            <el-input type="text" v-model="addForm.licensePlateNo" class="formitem" size="small" placeholder="请输入车牌号"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="出发公里数" >
-            <el-input type="number" v-model.number="addForm.gokm" class="formitem" size="small" placeholder="请输入出发公里数">
+            <el-input type="number" v-model.number="addForm.startKilometrage" class="formitem" size="small" placeholder="请输入出发公里数">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="返回公里数" >
-            <el-input type="number" v-model.number="addForm.backkm" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model.number="addForm.returnKilometrage" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="过路费" >
-            <el-input type="number" v-model.number="addForm.backkm" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model.number="addForm.toll" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="油费" >
-            <el-input type="number" v-model.number="addForm.backkm" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model.number="addForm.oilCost" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="里程" >
-            <el-input type="number" v-model.number="addForm.backkm" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model.number="addForm.mileage" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="24" :md="24" :lg="16" :xl="12">
           <el-form-item label="备注" >
-            <el-input  type="textarea" v-model="addForm.memos" :rows="1" placeholder="请输入备注">
+            <el-input  type="textarea" v-model="addForm.remarkInfo" :rows="1" placeholder="请输入备注">
             </el-input>
           </el-form-item>
         </el-col>
@@ -253,55 +255,196 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+  mapGetters
+} from 'vuex'
+import * as localEnum from '@/utils/enum'
+import {
+  consoilInfoList
+} from '@/api/carrier'
+import {
+  getCustomerList,
+  customerAddressList,
+  createNewLogistics
+} from '@/api/mis'
 import outstore from './components/outstore'
 export default {
-  components: { outstore },
+  components: {
+    outstore
+  },
   data() {
     return {
       addForm: {
-        computeType: 1
+        costCalcWay: 1
       },
-      carrier: [
-        {value:'ABC000aaa4',name:'中通速读运输有限公司',id:1}
-      ],
+      carrier: [],
       submitloading: false,
-      columns: [
-        {label:'业务单号',prop:'orderNo'},
-        {label:'出库单号',prop:'outNo'},
-        {label:'货主',prop:'owner'},
-        {label:'客户名称',prop:'customer'}
+      columns: [{
+          label: '业务单号',
+          prop: 'busiBillNo'
+        },
+        {
+          label: '出库单号',
+          prop: 'warehouseExeCode'
+        },
+        {
+          label: '货主',
+          prop: 'ownerName'
+        },
+        {
+          label: '客户名称',
+          prop: 'arrivalName'
+        }
       ],
       outTableData: [],
       multipleData: [],
       linkstyle: {
-          color: '#3399ea',
-          whiteSpace: 'nowrap',
-          margin: '0 10px 0 0'
+        color: '#3399ea',
+        whiteSpace: 'nowrap',
+        margin: '0 10px 0 0'
       },
       outStoreVisible: false,
-      computeTypes: [
-        {name:'按体积计算',value:1},
-        {name:'按重量计算',value:2}
-      ]
+      localEnum,
+      addressData: []
     }
   },
   computed: {
-    ...mapGetters(['mapConfig'])
+    logisticsFare: {
+      get: function() {
+        // 如果按公式计算
+        if (this.addForm.isUseFormula) {
+          // 快递运费计算规则：重量大于等于20KG：重量*续重；重量小于20KG：（重量-1）*续重+首重
+          // 物流运费计算规则：体积或者重量*单价
+          if (this.addForm.costCalcWay === 2) {
+            return this.addForm.skuVolume * this.addForm.skuPrice || 0
+          } else if (this.addForm.costCalcWay === 1) {
+            if (this.addForm.dispatchType === 1) {
+              if (this.addForm.skuWeight > 20) {
+                return this.addForm.skuWeight * this.addForm.continuePrice || 0
+              } else {
+                return (this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0
+              }
+            } else if (this.addForm.dispatchType === 2) {
+              return this.addForm.skuWeight * this.addForm.skuPrice || 0
+            }
+          }
+        }
+        return this.addForm.logisticsFare
+      },
+      set: function(val) {
+        this.addForm.logisticsFare = val
+      }
+    },
+    arrivalAddress: {
+      get: function() {
+        return this.outTableData[0] && this.outTableData[0].arrivalAddress
+      },
+      set: function(val) {
+        this.addForm.arrivalAddress = val
+      }
+    },
+    ...mapGetters(['mapConfig', 'visitedViews'])
+  },
+  created() {
+    this.getConsoilInfoList()
   },
   methods: {
+    handleDispatchTypeChange(val) {
+      if (val === 1) {
+        this.$set(this.addForm, 'costCalcWay', 2)
+      }
+      if (val === 2) {
+        this.$set(this.addForm, 'costCalcWay', 1)
+      }
+    },
+    getConsoilInfoList() {
+      consoilInfoList({
+        consoildatorState: 31
+      }).then(res => {
+        this.carrier = res.data && res.data.list
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     outStoreSelectionChange(val) {
       this.multipleData = val
     },
     outStoreSure() {
       this.outTableData = this.multipleData
+      this.addressData = []
+      this.$set(this.addForm, 'customerName', this.outTableData[0].arrivalName)
+      this.$set(this.addForm, 'customerCode', this.outTableData[0].arrivalCode)
+      this.$set(this.addForm, 'dispatchAddr', this.outTableData[0].arrivalAddress)
+      this.getCustomerDetail({
+        customerCode: this.outTableData[0].arrivalCode
+      })
+      this.getCustomerAddressList({
+        basicCustomerInfoCode: this.outTableData[0].arrivalCode
+      })
       this.outStoreVisible = false
+    },
+    getCustomerDetail(params) {
+      getCustomerList(params)
+        .then(res => {
+          const result = res.data
+          const resultDetail = result && result.list && result.list[0]
+          this.$set(this.addForm, 'customerTel', resultDetail.customerLinkuserTel)
+          this.$set(this.addForm, 'customerContact', resultDetail.customerLinkUser)
+        }).catch(err => {
+          console.log(err)
+        })
+    },
+    getCustomerAddressList(params) {
+      customerAddressList(params)
+        .then(res => {
+          const result = res.data
+          result.forEach((item, index) => {
+            item.area = item.customerProvince + item.customerCity + item.customerArea
+            const address = {
+              key: index,
+              value: item.area + item.customerAddress
+            }
+            this.$set(this.addressData, index, address)
+          })
+        }).catch(err => {
+          console.log(err)
+        })
     },
     delOutStore(row) {
       this.outTableData = this.outTableData.filter(item => item !== row)
     },
     onSubmit() {
       console.log(this.addForm);
+      this.$refs['addForm'].validate((valid) => {
+        if (valid) {
+          this.submitloading = true
+          const {
+            carrier,
+            ...rest
+          } = this.addForm
+          const postData = {
+            consoildatorCode: carrier.consoildatorCode,
+            consoildatorName: carrier.consoildatorName,
+            ...rest
+          }
+          postData.relationList = this.outTableData
+          createNewLogistics(postData).then(res => {
+            console.log(res)
+            this.submitloading = false
+            if (res.success) {
+              const view = this.visitedViews.filter(v => v.path === this.$route.path)
+              this.$alert('操作成功').then(()=> {
+                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                  this.$router.push({name: 'logisticsList'})
+                })
+              })
+            }
+          }).catch(err => {
+            console.log(err)
+            this.submitloading = false
+          })
+        }
+      })
     },
     onCancel() {
 

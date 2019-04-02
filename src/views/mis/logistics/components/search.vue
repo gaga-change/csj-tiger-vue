@@ -3,31 +3,26 @@
     <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="承运商：" prop="warehouseCode">
-            <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择承运商" size="small" class="formitem">
-              <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+          <el-form-item label="承运商：" prop="consoildatorCode">
+            <el-select  v-model="searchForm.consoildatorCode" clearable  placeholder="请选择承运商" size="small" class="formitem">
+              <el-option v-for="item in consoil" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item.consoildatorCode"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="配送单号：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="searchForm.warehouseCode" placeholder="请输入配送单号" size="small" class="formitem"></el-input>
+          <el-form-item label="配送单号：" prop="dispatchNo" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="searchForm.dispatchNo" placeholder="请输入配送单号" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="物流单号：" prop="warehouseCode">
-            <el-input v-model="searchForm.warehouseCode" placeholder="请输入物流单号" size="small" class="formitem"></el-input>
+          <el-form-item label="物流单号：" prop="logisticsOrderCode">
+            <el-input v-model="searchForm.logisticsOrderCode" placeholder="请输入物流单号" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="业务单号：" prop="warehouseCode">
-            <el-input v-model="searchForm.warehouseCode" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="下单日期：" prop="warehouseCode">
+          <el-form-item label="下单日期：" prop="orderDate">
             <el-date-picker
-              v-model="searchForm.ReceivTime"
+              v-model="searchForm.orderDate"
               type="daterange"
               size="small"
               unlink-panels
@@ -39,8 +34,8 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="客户名称：" prop="warehouseCode">
-            <el-input v-model="searchForm.warehouseCode" placeholder="请输入客户名称" size="small" class="formitem"></el-input>
+          <el-form-item label="客户名称：" prop="customerName">
+            <el-input v-model="searchForm.customerName" placeholder="请输入客户名称" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -55,6 +50,12 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  props: {
+    consoil: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       searchForm: {}
@@ -73,6 +74,7 @@ export default {
     },
     resetForm(){
       this.$refs['searchForm'].resetFields()
+      this.searchForm = {}
       this.$emit('cancel')
     }
   }
