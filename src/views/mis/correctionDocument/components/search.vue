@@ -2,9 +2,9 @@
   <el-card shadow="hover">
     <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
       <el-row>
-          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'业务单号' in searchForm">
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'busiBillNo' in searchForm">
             <el-form-item label="业务单号:">
-              <el-input v-model="searchForm.业务单号" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 

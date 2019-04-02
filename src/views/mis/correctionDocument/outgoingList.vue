@@ -35,7 +35,7 @@ export default {
 
       //搜索项
       searchForm: {
-        业务单号: '',
+        busiBillNo: '',
         订正类型: '',
         time: '',
         pageSize: 10,
@@ -103,6 +103,7 @@ export default {
           delete json[i]
         }
       }
+      console.log(json)
       outwarehouseList(json).then(res => {
         this.tableData = res.data.list
       })

@@ -35,7 +35,7 @@ export default {
 
       //搜索项
       searchForm: {
-        业务单号: '',
+        busiBillNo: '',
         订正类型: '',
         货主: '',
         单据状态: '',
