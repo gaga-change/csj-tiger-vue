@@ -17,3 +17,19 @@ export function outwarehouseList(data) {
     data
   })
 }
+
+// 查询可操作的货主列表
+export function queryOwners() {
+  return request({
+    url: `/webApi/inwarehouse-revisal/query-owners`,
+    method: 'get'
+  })
+}
+
+// 查询指定货主入库单据
+export function inOrderCode(ownerCode) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/query-inwarehouse-order-code/${ownerCode}`,
+    method: 'get'
+  })
+}
