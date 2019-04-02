@@ -8,24 +8,24 @@
             </el-form-item>
           </el-col>
 
-          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'订正类型' in searchForm">
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'revisalType' in searchForm">
             <el-form-item label="订正类型" >
-              <el-select  v-model="searchForm.订正类型" clearable  placeholder="请选择订正类型：" size="small" class="formitem">
-                 <el-option v-for="item in []" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+              <el-select  v-model="searchForm.revisalType" clearable  placeholder="请选择订正类型：" size="small" class="formitem">
+                 <el-option v-for="item in misRevisalTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col> 
 
-          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'货主' in searchForm">
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'ownerCode' in searchForm">
             <el-form-item label="货主:">
-              <el-input v-model="searchForm.货主" placeholder="请输入货主" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.ownerCode" placeholder="请输入货主" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'单据状态' in searchForm">
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'revisalState' in searchForm">
             <el-form-item label="单据状态" >
-              <el-select  v-model="searchForm.单据状态" clearable  placeholder="请选择单据状态：" size="small" class="formitem">
-                 <el-option v-for="item in []" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+              <el-select  v-model="searchForm.revisalState" clearable  placeholder="请选择单据状态：" size="small" class="formitem">
+                 <el-option v-for="item in misRevisalStateEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -53,35 +53,42 @@
 </template>
 
 <script>
+import { misRevisalTypeEnum, misRevisalStateEnum } from '@/utils/enum'
 export default {
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
+  props: {
+    searchForm: {
+      type: Object,
+      default: () => { }
+    },
   },
 
+  data() {
+    return {
+      misRevisalTypeEnum,
+      misRevisalStateEnum
+    }
+  },
   methods: {
 
-     submit(){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             this.$emit('submit',this.searchForm)
-          }
-       })
+    submit() {
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.$emit('submit', this.searchForm)
+        }
+      })
     },
 
-    resetForm(){
-      let json={};
-      for(let i in this.searchForm){
-         if(Array.isArray(this.searchForm[i])){
-           json[i]=[]
-         } else{
-           json[i]=''
-         }
+    resetForm() {
+      let json = {};
+      for (let i in this.searchForm) {
+        if (Array.isArray(this.searchForm[i])) {
+          json[i] = []
+        } else {
+          json[i] = ''
+        }
       }
-      this.$emit('submit',{...json, pageSize:10,pageNum:1})
+      this.$emit('submit', { ...json, pageSize: 10, pageNum: 1 })
     }
 
   }

@@ -36,9 +36,9 @@ export default {
       //搜索项
       searchForm: {
         busiBillNo: '',
-        订正类型: '',
-        货主: '',
-        单据状态: '',
+        revisalType: '',
+        ownerCode: '',
+        revisalState: '',
         time: '',
         pageSize: 10,
         pageNum: 1

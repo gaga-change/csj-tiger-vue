@@ -36,7 +36,7 @@ export default {
       //搜索项
       searchForm: {
         busiBillNo: '',
-        订正类型: '',
+        revisalType: '',
         time: '',
         pageSize: 10,
         pageNum: 1
