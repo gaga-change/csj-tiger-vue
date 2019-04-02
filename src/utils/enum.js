@@ -692,3 +692,30 @@ export const misWarehousingBillStateEnum=[
   }
 ]
 
+// mis入库业务单订正 - 单据状态
+export const misRevisalStateEnum = [
+  {
+    name: '草稿',
+    value: 1
+  },
+  {
+    name: '已审核',
+    value: 2
+  },
+  {
+    name: '审核未通过',
+    value: 3
+  }
+]
+
+// mis入库业务单订正 - 订正类型
+export const misRevisalTypeEnum = [
+  {
+    name: '金额订正',
+    value: 1
+  },
+  {
+    name: '数量订正',
+    value: 2
+  }
+]
