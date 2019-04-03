@@ -69,7 +69,7 @@ export default {
     onSubmit() {
 
     },
-    onExport() {      
+    onExport() {
       const exportlist = this.tableData
       /* 参数{list,tHeader, filterVal} */
       exportExcel({

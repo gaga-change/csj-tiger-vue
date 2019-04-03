@@ -490,3 +490,9 @@ export function MakePrint(content, w = null, h = null) {
 
   return myWindow;
 }
+
+export function dealNameValueToKeyValue(nameValueArray) {
+  return nameValueArray.map(item => {
+    return { key: item.value, value: item.name }
+  })
+}

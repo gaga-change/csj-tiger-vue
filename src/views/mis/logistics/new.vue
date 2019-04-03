@@ -13,7 +13,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.carrier" value-key="id" clearable  placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.carrier" value-key="consoildatorCode" clearable  placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
                 <span style="float: left">{{ item.consoildatorName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>
@@ -108,46 +108,48 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-show="addForm.costCalcWay === 1">
+
+      <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="箱数" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="箱数" :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.boxQty" class="formitem" size="small" placeholder="请输入箱数">
               <span slot="suffix">箱</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="体积" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="体积"  :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
               <span slot="suffix">m³</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="单价" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="单价"  :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.skuPrice" class="formitem" size="small" placeholder="请输入体积">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-show="addForm.costCalcWay === 2">
+
+      <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="重量" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="重量" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
               <span slot="suffix">kg</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="首重价格" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="首重价格" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.firstPrice" class="formitem" size="small" placeholder="请输入首重价格">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="续重单价" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="续重单价" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.continuePrice" class="formitem" size="small" placeholder="请输入续重单价">
               <span slot="suffix">元</span>
             </el-input>
@@ -157,7 +159,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="运费" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
+            <el-input type="number" v-model.number="logisticsFare" :disabled="addForm.isUseFormula" class="formitem" size="small" placeholder="请输入运费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -265,7 +267,10 @@ import {
 import {
   getCustomerList,
   customerAddressList,
-  createNewLogistics
+  createNewLogistics,
+  queryLogisticsDetail,
+  updateLogisticsInfo,
+  updateLogisticsDetailInfo
 } from '@/api/mis'
 import outstore from './components/outstore'
 export default {
@@ -281,19 +286,19 @@ export default {
       submitloading: false,
       columns: [{
           label: '业务单号',
-          prop: 'busiBillNo'
+          prop: 'bussinessNo'
         },
         {
           label: '出库单号',
-          prop: 'warehouseExeCode'
+          prop: 'outWarehouseNo'
         },
         {
           label: '货主',
-          prop: 'ownerName'
+          prop: 'cargoOwner'
         },
         {
           label: '客户名称',
-          prop: 'arrivalName'
+          prop: 'customerName'
         }
       ],
       outTableData: [],
@@ -309,15 +314,18 @@ export default {
     }
   },
   computed: {
+    isEdit() {
+      return Boolean(this.$route.query.id)
+    },
     logisticsFare: {
       get: function() {
         // 如果按公式计算
         if (this.addForm.isUseFormula) {
           // 快递运费计算规则：重量大于等于20KG：重量*续重；重量小于20KG：（重量-1）*续重+首重
           // 物流运费计算规则：体积或者重量*单价
-          if (this.addForm.costCalcWay === 2) {
+          if (this.addForm.costCalcWay === 1) {
             return this.addForm.skuVolume * this.addForm.skuPrice || 0
-          } else if (this.addForm.costCalcWay === 1) {
+          } else if (this.addForm.costCalcWay === 2) {
             if (this.addForm.dispatchType === 1) {
               if (this.addForm.skuWeight > 20) {
                 return this.addForm.skuWeight * this.addForm.continuePrice || 0
@@ -332,7 +340,7 @@ export default {
         return this.addForm.logisticsFare
       },
       set: function(val) {
-        this.addForm.logisticsFare = val
+        this.$set(this.addForm, 'logisticsFare', val)
       }
     },
     arrivalAddress: {
@@ -347,8 +355,20 @@ export default {
   },
   created() {
     this.getConsoilInfoList()
+    if (this.isEdit) {
+      this.getDetail()
+    }
   },
   methods: {
+    getDetail() {
+      queryLogisticsDetail(this.$route.query.id).then(res => {
+        const { relationList, consoildatorName, consoildatorCode, ...rest } = res.data
+        this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest}
+        this.outTableData = relationList
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     handleDispatchTypeChange(val) {
       if (val === 1) {
         this.$set(this.addForm, 'costCalcWay', 2)
@@ -370,10 +390,21 @@ export default {
       this.multipleData = val
     },
     outStoreSure() {
-      this.outTableData = this.multipleData
+      this.outTableData = this.multipleData.map(item => {
+        const newitem = {
+          outWarehouseId: item.id,
+          bussinessNo: item.busiBillNo,
+          outWarehouseNo: item.warehouseExeCode,
+          customerName: item.arrivalName,
+          customerCode: item.arrivalCode,
+          cargoOwner: item.ownerName,
+          arrivalAddress: item.arrivalAddress
+        }
+        return newitem
+      })
       this.addressData = []
-      this.$set(this.addForm, 'customerName', this.outTableData[0].arrivalName)
-      this.$set(this.addForm, 'customerCode', this.outTableData[0].arrivalCode)
+      this.$set(this.addForm, 'customerName', this.outTableData[0].customerName)
+      this.$set(this.addForm, 'customerCode', this.outTableData[0].customerCode)
       this.$set(this.addForm, 'dispatchAddr', this.outTableData[0].arrivalAddress)
       this.getCustomerDetail({
         customerCode: this.outTableData[0].arrivalCode
@@ -425,10 +456,20 @@ export default {
           const postData = {
             consoildatorCode: carrier.consoildatorCode,
             consoildatorName: carrier.consoildatorName,
+            logisticsFare: this.logisticsFare,
             ...rest
           }
           postData.relationList = this.outTableData
-          createNewLogistics(postData).then(res => {
+          let FUNCTION = createNewLogistics
+          if (postData.id) {
+            if (postData.invoiceState === 2) {
+              // 部分修改
+              FUNCTION = updateLogisticsDetailInfo
+            } else if (postData.invoiceState === 1 || postData.invoiceState === 3) {
+              FUNCTION = updateLogisticsInfo
+            }
+          }
+          FUNCTION(postData).then(res => {
             console.log(res)
             this.submitloading = false
             if (res.success) {

@@ -8,21 +8,11 @@ export function getOutStoreList(data={}) {
   })
 }
 
-export function substituteList(data={}) {
-  // return request({
-  //   url: ``,
-  //   method: 'post',
-  //   data
-  // })
-  return new Promise((resolve, reject) => {
-    resolve({
-      success: true,
-      data: [
-        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1, status: 0, id:1},
-        {orderNo: 't1aacc001', orderName: 'aaab', orderNatrue: 1, status: 0,id:2},
-        {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1,status: 1, id:3}
-      ]
-    })
+export function queryLogisticsExpenseAll(data={}) {
+  return request({
+    url: `/webApi/logistics-expense/query-logistics-expense-all`,
+    method: 'get',
+    params: data
   })
 }
 
@@ -41,6 +31,13 @@ export function getDeliveryList(data={}) {
         {orderNo: 't1aacc001', orderName: 'aaa', orderNatrue: 1,id:3}
       ]
     })
+  })
+}
+export function createLogisticsExpense(data={}) {
+  return request({
+    url: `/webApi/logistics-expense/create-logistics-expense`,
+    method: 'post',
+    data: data
   })
 }
 
@@ -137,5 +134,44 @@ export function createNewLogistics(data={}) {
     url: `/webApi/logistics/create-new-logistics`,
     method: 'post',
     data
+  })
+}
+export function queryLogisticsDetail(id) {
+  return request({
+    url: `/webApi/logistics/query-logistics-detail/${id}`,
+    method: 'get'
+  })
+}
+export function updateLogisticsInfo(data={}) {
+  return request({
+    url: `/webApi/logistics/update-logistics-info`,
+    method: 'PUT',
+    data
+  })
+}
+export function updateLogisticsDetailInfo(data={}) {
+  return request({
+    url: `/webApi/logistics/update-logistics-detail-info`,
+    method: 'PUT',
+    data
+  })
+}
+export function approveLogistics(data={}) {
+  return request({
+    url: `/webApi/logistics/approve`,
+    method: 'post',
+    data
+  })
+}
+export function deleteLogistics(id) {
+  return request({
+    url: `/webApi/logistics/delete-logistics/${id}`,
+    method: 'DELETE'
+  })
+}
+export function queryLogisticsExpenseConfirmed() {
+  return request({
+    url: `/webApi/logistics-expense/query-logistics-expense-confirmed`,
+    method: 'get'
   })
 }

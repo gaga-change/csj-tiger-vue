@@ -25,6 +25,13 @@ export default [
         meta: {title: '新建配送单'}
       },
       {
+        path: 'detail',
+        component: _import('mis/logistics/detail'),
+        name: 'logisticsDetail',
+        hidden: true,
+        meta: {title: '配送单详情'}
+      },
+      {
         path: 'substitutePayment',
         component: _import('mis/logistics/substitutepayment'),
         name: 'substitutePayment',

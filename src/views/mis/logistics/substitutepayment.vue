@@ -4,30 +4,40 @@
     <el-row type="flex" justify="end">
       <el-button type="primary" size="small" style="margin:10px" @click="newPayment">新建款项</el-button>
     </el-row>
-    <base-table
-      @sizeChange="handleSizeChange"
-      @currentChange="handleCurrentChange"
+    <el-table
+      :data="tableData"
       :loading="loading"
-      :config="subsituteConfig"
-      :total="total"
-      :pageSize="pageSize"
-      :currentPage="pageNum"
-      :tableData="tableData"
-    />
+      border>
+      <el-table-column v-for="(column, index) in searchConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
+        <template slot-scope="scope">
+          <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
+          <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
+          <span v-else>{{scope.row[column.prop]}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="80" fixed="right">
+        <template slot-scope="scope">
+          <span v-if="scope.row.expenseState === 1">
+            <a :style="linkstyle" @click="delFeeRow(scope.row)">删除</a>
+            <a :style="linkstyle" @click="editFeeRow(scope.row)">修改</a>
+          </span>
+        </template>
+      </el-table-column>
+    </el-table>
     <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="paymentForm" labelWidth="80px">
-        <el-form-item label="活动名称">
-          <el-input v-model="paymentForm.name" autocomplete="off"></el-input>
+        <el-form-item label="款项名称">
+          <el-input v-model="paymentForm.expenseName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="款项性质">
-          <el-select v-model="paymentForm.natrue" placeholder="请选择款项性质">
-            <el-option label="代支款" :value="1"></el-option>
+          <el-select v-model="paymentForm.expenseType" placeholder="请选择款项性质">
+            <el-option v-for="item in expenseType" :label="item.name" :value="item.value" :key="item.value"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">保 存</el-button>
+        <el-button type="primary" @click="submitForm(2)" :disabled="submitloading">确 定</el-button>
+        <el-button type="primary" @click="submitForm(1)" :disabled="submitloading">保 存</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -36,22 +46,21 @@
 
 <script>
 import search from '@/components/Search'
-import { subsituteConfig } from './components/config'
-import { substituteList } from '@/api/mis'
+import { queryLogisticsExpenseAll, createLogisticsExpense } from '@/api/mis'
+import { dealNameValueToKeyValue } from '@/utils'
+import { expenseType } from '@/utils/enum'
 import BaseTable from '@/components/Table'
+import { mapGetters } from 'vuex'
 export default {
   components: { search, BaseTable },
   data() {
     return {
       searchConfig: [
-        { label: '款项编码:', prop: 'paymentCode', placeholder: '请输入款项编码' },
-        { label: '款项名称:', prop: 'paymentName', placeholder: '请输入款项名称' },
-        { label: '款项性质:', prop: 'paymentNature', placeholder: '请选择款项性质', type: 'select', selectOptions: [{ value: '代支款', key: 1 }] },
+        { label: '款项编码:', prop: 'expenseCode', placeholder: '请输入款项编码' },
+        { label: '款项名称:', prop: 'expenseName', placeholder: '请输入款项名称' },
+        { label: '款项性质:', prop: 'expenseType', localEnum:'expenseType', placeholder: '请选择款项性质', type: 'select', selectOptions: dealNameValueToKeyValue(expenseType) },
       ],
       searchData: {},
-      pageSize: 10,
-      pageNum: 1,
-      total: 0,
       loading: false,
       tableData: [],
       linkstyle: {
@@ -59,57 +68,40 @@ export default {
           whiteSpace: 'nowrap',
           margin: '0 10px 0 0'
       },
-      subsituteConfig,
       dialogFormVisible: false,
-      paymentForm: {}
+      submitloading: false,
+      paymentForm: {},
+      expenseType
     }
   },
-  created() {
-    this.subsituteConfig.map(item => {
-      if (item.useLink) {
-        item.dom = (row, column, cellValue, index) => {
-          return (
-            <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-              {row.status === 0 && (
-                <span>
-                  <a
-                    onClick={() => {
-                      this.edit({ id: row.id })
-                    }}
-                    style={this.linkstyle}
-                  >
-                    修改
-                  </a>
-                  <a
-                    onClick={() => {
-                      this.edit({ id: row.id })
-                    }}
-                    style={this.linkstyle}
-                  >
-                    修改
-                  </a>
-                </span>
-              )}
-              {row.status === 1 && (
-                <a
-                  onClick={() => {
-                    this.view({ id: row.id })
-                  }}
-                  style={this.linkstyle}
-                >
-                  查看
-                </a>
-              )}
-            </div>
-          )
-        }
-      }
-    })
+  computed: {
+    ...mapGetters(['mapConfig'])
   },
   mounted() {
     this.fetchData()
   },
   methods: {
+    submitForm(status) {
+      this.submitloading = true
+      createLogisticsExpense({
+        expenseState: status,
+        ...this.paymentForm
+      }).then(res => {
+        if (res.success) {
+          this.$message.success('操作成功~'),
+          this.dialogFormVisible = false
+          this.submitloading = false
+          this.paymentForm = {}
+          this.fetchData()
+        }
+      }).catch(err => {
+        console.log(err)
+        this.submitloading = false
+      })
+    },
+    delFeeRow(row) {
+
+    },
     newPayment() {
       this.dialogFormVisible = true
     },
@@ -123,23 +115,14 @@ export default {
     },
     fetchData() {
       this.loading = true
-      substituteList(this.searchData).then(res => {
+      queryLogisticsExpenseAll(this.searchData).then(res => {
         this.tableData = res.data
         this.loading = false
       }).catch(err => {
         console.log(err)
         this.loading = false
       })
-    },
-    handleSizeChange(val) {
-      this.pageSize = val
-      this.pageNum = 1
-      this.fetchData()
-    },
-    handleCurrentChange(val) {
-      this.pageNum = val
-      this.fetchData()
-    },
+    }
   }
 }
 </script>

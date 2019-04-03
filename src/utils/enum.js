@@ -635,7 +635,7 @@ export const revisalTypeEnum = [
   }
 ];
 
-export const paymentNature = [
+export const expenseType = [
   {
     name: '代支款',
     value: 1
@@ -699,5 +699,20 @@ export const dispatchState=[
   {
     name: '已完成',
     value: 2
+  }
+]
+
+export const invoiceState=[
+  {
+    name: '草稿',
+    value: 1
+  },
+  {
+    name: '审核通过',
+    value: 2
+  },
+  {
+    name: '审核未通过',
+    value: 3
   }
 ]
