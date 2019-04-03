@@ -29,9 +29,9 @@ export   const infoConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'入库单号',fixed:true,prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',width:180,query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
-  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]  },
-  { label:'计划单号',prop:'planCode',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
+  { label:'入库单号',fixed:true,prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',width:100,query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'业务单号',prop:'busiBillNo',width:150,linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]  },
+  { label:'计划单号',prop:'planCode',width:150,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'合同编号',prop:'contractNo'},
   { label:'供应商名称',prop:'providerName' },
   { label:'货主',prop:'ownerName'},
@@ -40,6 +40,6 @@ export   const indexTableConfig=[
   { label:'入库数量',prop:'inQty'},
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time'},
-  { label:'操作',width:50,fixed:'right',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看'},
+  { label:'操作',width:100,fixed:'right',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看'},
 ]
 
