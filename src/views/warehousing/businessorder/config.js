@@ -112,7 +112,6 @@ export const alertTable_config=[
   { label:'序号',type:'index',width:50},
   { label:'仓库编码',prop:'warehouseCode'},
   { label:'仓库名称',prop:'warehouseName'},
-  { label:'可用库存',prop:'canUseSkuQty'},
-  { label:'计划出库数量',prop:'planInQty',useEdit:true,width:150},
+  { label:'计划入库数量',prop:'planInQty',useEdit:true,width:150},
 ]
 

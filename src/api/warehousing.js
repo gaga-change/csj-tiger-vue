@@ -146,6 +146,11 @@ export function inPlanAdd(data={}) {
 }
 
 
-
+export function ownerWarehouseList(data={}) {
+  return request({
+    url: `/webApi/owner/info/ownerWarehouseList?${stringify(data)}`,
+    method: 'get'
+  })
+}
 
 

@@ -15,7 +15,7 @@
       :allTableData="tableData"/>
 
       <el-dialog
-        title="编辑计划出库数量并选择仓库"
+        title="编辑计划入库数量并选择仓库"
         :visible.sync="addVisible"
          width="800px"
         :before-close="handleClose">
@@ -38,8 +38,9 @@
 
  import { addPlanOrder_config,addPlanInfoConfig,alertTable_config} from './config';
  import webPaginationTable from '@/components/Table/webPaginationTable';
- import {inPlanInitAdd,getRecommendStock,inPlanAdd} from '@/api/warehousing'
+ import {inPlanInitAdd,inPlanAdd,ownerWarehouseList} from '@/api/warehousing'
  import editTable from '@/components/Table/editTable';
+ import { mapGetters } from 'vuex'
  import Sticky from '@/components/Sticky'
  import moment from 'moment';
  import _  from 'lodash';
@@ -69,6 +70,12 @@
 
       }
     },
+
+    computed: {
+      ...mapGetters({
+        visitedViews: 'visitedViews'
+      })
+   },
 
     created(){
       this.addPlanOrder_config.forEach(item=>{
@@ -108,6 +115,7 @@
     methods:{
       moment,
       submit(){
+        const view = this.visitedViews.filter(v => v.path === this.$route.path)
         let json={}
         json.inWarehouseBillId=this.$route.query.id;
         json.planItemList=_.cloneDeep(this.tableData).map(v=>{
@@ -117,7 +125,20 @@
         })
         inPlanAdd(json).then(res=>{
           if(res.success){
-             this.$message({type:'success', message:'操作成功' });
+            this.$message({
+              type:'success', 
+              message:'操作成功,即将跳转到计划单列表页！' ,
+              duration:1500,
+              onClose:()=>{
+                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                  this.$router.push({
+                    path:`/warehousing/plan`,
+                  })
+                }).catch(err=>{
+                  console.log(err)
+                })  
+              }
+            })
           }
         }).catch(err=>{
           console.log(err)
@@ -170,12 +191,26 @@
           this.tableData=tableData;
         } else if(type==='edit'){
            if(row.id!==this.editRow.id){
-             getRecommendStock(this.infoData.ownerCode,row.skuCode).then(res=>{
+             ownerWarehouseList({
+                 ownerCode:this.infoData.ownerCode
+             }).then(res=>{
                 if(res.success){
                   this.editRow=row;
                   this.currentRow={};
-                  this.originalTableData=_.cloneDeep(res.data)
-                  this.alertTableData=_.cloneDeep(res.data)
+                  this.originalTableData=_.cloneDeep(res.data).map(v=>{
+                    delete v.id;
+                    return v;
+                  })
+                  this.alertTableData=_.cloneDeep(this.originalTableData)
+                  
+                  let revisalEditTable=[...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr')];
+                  revisalEditTable.forEach(item=>{
+                    let td=[...item.querySelectorAll('td')]
+                    td.forEach(v=>{
+                        v.style.cssText=""
+                    })
+                  })
+
                 }
              }).catch(err=>{
                console.log(err)
