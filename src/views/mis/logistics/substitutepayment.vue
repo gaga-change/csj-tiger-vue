@@ -6,7 +6,7 @@
     </el-row>
     <el-table
       :data="tableData"
-      :loading="loading"
+      v-loading="loading"
       border>
       <el-table-column v-for="(column, index) in searchConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
         <template slot-scope="scope">
@@ -15,7 +15,7 @@
           <span v-else>{{scope.row[column.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="80" fixed="right">
+      <el-table-column label="操作" width="120" fixed="right">
         <template slot-scope="scope">
           <span v-if="scope.row.expenseState === 1">
             <a :style="linkstyle" @click="delFeeRow(scope.row)">删除</a>
@@ -46,7 +46,7 @@
 
 <script>
 import search from '@/components/Search'
-import { queryLogisticsExpenseAll, createLogisticsExpense } from '@/api/mis'
+import { queryLogisticsExpenseAll, createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
 import { dealNameValueToKeyValue } from '@/utils'
 import { expenseType } from '@/utils/enum'
 import BaseTable from '@/components/Table'
@@ -56,9 +56,9 @@ export default {
   data() {
     return {
       searchConfig: [
-        { label: '款项编码:', prop: 'expenseCode', placeholder: '请输入款项编码' },
-        { label: '款项名称:', prop: 'expenseName', placeholder: '请输入款项名称' },
-        { label: '款项性质:', prop: 'expenseType', localEnum:'expenseType', placeholder: '请选择款项性质', type: 'select', selectOptions: dealNameValueToKeyValue(expenseType) },
+        { label: '款项编码', prop: 'expenseCode', placeholder: '请输入款项编码' },
+        { label: '款项名称', prop: 'expenseName', placeholder: '请输入款项名称' },
+        { label: '款项性质', prop: 'expenseType', localEnum:'expenseType', placeholder: '请选择款项性质', type: 'select', selectOptions: dealNameValueToKeyValue(expenseType) },
       ],
       searchData: {},
       loading: false,
@@ -82,11 +82,14 @@ export default {
   },
   methods: {
     submitForm(status) {
+      console.log(status)
       this.submitloading = true
-      createLogisticsExpense({
-        expenseState: status,
-        ...this.paymentForm
-      }).then(res => {
+      const postData = {
+        ...this.paymentForm,
+        expenseState: status
+      }
+      const FUNCTION = postData.id ? updateLogisticsExpenseInfo : createLogisticsExpense
+      FUNCTION(postData).then(res => {
         if (res.success) {
           this.$message.success('操作成功~'),
           this.dialogFormVisible = false
@@ -99,15 +102,45 @@ export default {
         this.submitloading = false
       })
     },
+    editFeeRow(row) {
+      this.dialogFormVisible = true
+      this.paymentForm = JSON.parse(JSON.stringify(row))
+    },
     delFeeRow(row) {
-
+      this.$confirm('是否确认删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.loading = true
+        deleteLogisticsExpenseInfo(row.id).then(res => {
+          this.loading = false
+          if (res.success) {
+            this.$message.success('删除成功~')
+            this.fetchData()
+          }
+        }).catch(err => {
+          console.log(err)
+          this.loading = false
+        })
+      })
     },
     newPayment() {
       this.dialogFormVisible = true
     },
     submitSearchForm(val) {
+      function filterTable(tableData, attr, searchData) {
+        return tableData.filter(data => {
+          if (typeof data[attr] === 'number') {
+            return data[attr] === searchData[attr]
+          }
+          return data[attr].includes(searchData[attr])
+        })
+      }
       this.searchData = val
-      this.fetchData()
+      for (let key in this.searchData) {
+        this.tableData = filterTable(this.tableData, key, this.searchData)
+      }
     },
     resetSearchForm() {
       this.searchData = {}

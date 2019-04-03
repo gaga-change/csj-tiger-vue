@@ -4,13 +4,11 @@
     <el-form :inline="true" :model="searchForm">
       <el-form-item label="出库日期">
         <el-date-picker
-          v-model="searchForm.outdate"
-          type="daterange"
+          v-model="searchForm.date"
+          type="date"
           size="small"
-          unlink-panels
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          placeholder="请选择日期"
+          unlink-panels>
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -36,7 +34,7 @@
 
 <script>
 import { deliveryConfig } from './components/config'
-import { getDeliveryList } from '@/api/mis'
+import { queryDispatchDetail } from '@/api/mis'
 import BaseTable from '@/components/Table'
 import { exportExcel } from '@/utils/exportexcel'
 export default {
@@ -58,8 +56,14 @@ export default {
   methods: {
     fetchData() {
       this.loading = true
-      getDeliveryList(this.searchForm).then(res => {
-        this.tableData = res.data
+      const postData = {}
+      if(this.searchForm.date) {
+        postData.date = new Date(this.searchForm.date).getTime()
+      }
+      queryDispatchDetail(postData).then(res => {
+        const result = res.data.detailExcelVOS
+        result.forEach((item, index) => item.index = index + 1)
+        this.tableData = result
         this.loading = false
       }).catch(err => {
         console.log(err)
@@ -67,7 +71,7 @@ export default {
       })
     },
     onSubmit() {
-
+      this.fetchData()
     },
     onExport() {
       const exportlist = this.tableData
