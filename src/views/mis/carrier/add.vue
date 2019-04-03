@@ -12,7 +12,28 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="承运商名称:"  prop="consoildatorName"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-input v-model="searchForm.consoildatorName" placeholder="请输入承运商名称" size="small" class="formitem"></el-input>
+                <el-input v-model="searchForm.consoildatorName" @change="querySearchAsync" placeholder="请输入承运商名称" size="small" class="formitem"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="expressConfig.length">
+              <el-form-item label="快递编码:"  prop="companyCode"  :rules="[{ required: true, message: '该项为必填'}]" >
+                  <el-select v-model="searchForm.companyCode" filterable  size="small" class="formitem" placeholder="请选择快递编码"  >
+                    <el-option 
+                      value="" v-if="expressConfig.length" :disabled="true">
+                      <div class="providerList"> 
+                        <span>快递编码</span> 
+                        <span>快递名称</span> 
+                      </div>
+                    </el-option>
+                    <el-option
+                      v-for="item in expressConfig" :key="item.companyCode" :label="item.companyName" :value="item.companyCode">
+                        <div class="providerList">
+                          <span >{{ item.companyCode }}</span>
+                          <span >{{ item.companyName }}</span>
+                        </div>
+                    </el-option>
+                  </el-select>  
               </el-form-item>
             </el-col>
 
@@ -77,7 +98,7 @@
 <script>
 import Sticky from '@/components/Sticky'
 import { mapGetters } from 'vuex'
-import { consoilInfoSave,consoilInfoDetail,consoilInfoUpdate } from '@/api/carrier'
+import { consoilInfoSave,consoilInfoDetail,consoilInfoUpdate,infoAllCompany} from '@/api/carrier'
 export default {
   name:'carrierAdd',
   components: { Sticky},
@@ -85,7 +106,8 @@ export default {
     return {
       searchForm:{
 
-      }
+      },
+      expressConfig:[]
     }
   },
 
@@ -111,7 +133,17 @@ export default {
   },
 
   methods: {
-
+     querySearchAsync(queryString) {
+       infoAllCompany({
+         companyName:queryString
+       }).then(res=>{
+          if(res.success){
+            this.expressConfig=res.data
+          }
+       }).catch(err=>{
+         console.log(err)
+       })
+     },
      submit(type){
        const view = this.visitedViews.filter(v => v.path === this.$route.path)
        this.$refs['searchForm'].validate((valid) => {
@@ -163,6 +195,19 @@ export default {
       display: flex;
       justify-content: flex-end;
       margin: 16px 0;
+    }
+  }
+
+  .providerList{
+    display: flex;
+    justify-content: space-between;
+    >span{
+      &:first-child{
+        min-width: 150px;
+      }
+      &:nth-child(2){
+        min-width: 100px;
+      }
     }
   }
 
