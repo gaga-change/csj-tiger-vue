@@ -42,39 +42,46 @@ export function inwarehouseBillInfo(data) {
     params: data
   })
 }
- 
 
- // 查询指定入库单下的入库商品信息（用于创建入库订正单）
- export function inwarehouseOrderDetail(inWarehouseOrderCode) {
+
+// 查询指定入库单下的入库商品信息（用于创建入库订正单）
+export function inwarehouseOrderDetail(inWarehouseOrderCode) {
   return request({
     url: `/webApi/inwarehouse-revisal/query-inwarehouse-order-detail/${inWarehouseOrderCode}`,
     method: 'get'
   })
 }
- 
- // 查询指定入库单下的入库商品信息（用于创建入库订正单）
- export function createInwarehouseRevisal(data) {
+
+// 查询指定入库单下的入库商品信息（用于创建入库订正单）
+export function createInwarehouseRevisal(data) {
   return request({
     url: `/webApi/inwarehouse-revisal/create-inwarehouse-revisal`,
     method: 'post',
     data
   })
 }
- 
- // 删除入库订正单
- export function deleteInwarehouseRevisal(id) {
+
+// 删除入库订正单
+export function deleteInwarehouseRevisal(id) {
   return request({
     url: `/webApi/inwarehouse-revisal/delete-inwarehouse-revisal/${id}`,
     method: 'delete'
   })
 }
- 
- // 审核订正单
- export function approveRevisal(data) {
+
+// 审核订正单
+export function approveRevisal(data) {
   return request({
     url: `/webApi/inwarehouse-revisal/approve-revisal`,
     method: 'post',
     data
   })
 }
- 
+
+// 查看入库订正单详情内容
+export function queryInwarehouseRevisal(id) {
+  return request({
+    url: ` /webApi/inwarehouse-revisal/query-inwarehouse-revisal/${id}`,
+    method: 'post'
+  })
+}

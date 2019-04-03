@@ -52,7 +52,7 @@
               :config="carrierDetail_Config" :allTableData="carrierDetail_data" />
           </div>
         </el-tab-pane>
-        <el-tab-pane label="订正记录" name="records">
+        <el-tab-pane label="订正记录" name="records" v-if="isModify">
           <web-pagination-table :loading="loading" :config="carrierrecords_Config" :allTableData="carrierrecords_data" />
         </el-tab-pane>
       </el-tabs>
@@ -102,9 +102,13 @@ export default {
       owners: [], // 货主列表
       orderCodes: [], // 单号
       submitloading: false,
+      query: this.$route.query
     }
   },
   computed: {
+    isModify() {
+      return !!this.query.id
+    },
     checkOwner() {
       return this.searchForm.ownerCode
     },

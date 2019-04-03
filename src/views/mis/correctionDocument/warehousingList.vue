@@ -67,7 +67,7 @@ export default {
           return (row.revisalState == 1) && (
             <div class="tableLinkBox">
               {
-                <router-link to={`/correctionDocument/warehousingAdd?time=${moment().valueOf()}`} class="tableLink">修改</router-link>
+                <router-link to={`/correctionDocument/warehousingAdd?time=${moment().valueOf()}&id=${row.id}`} class="tableLink">修改</router-link>
               }
 
               {

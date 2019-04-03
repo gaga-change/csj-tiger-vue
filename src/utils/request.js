@@ -1,7 +1,5 @@
 import axios from 'axios'
-import store from '@/store'
 import {  MessageBox,Notification } from 'element-ui'
-import { LoginPath } from '@/utils'
 
 // 创建axios实例
 const service = axios.create({
