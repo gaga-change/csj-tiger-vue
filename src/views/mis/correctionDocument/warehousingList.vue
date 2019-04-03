@@ -10,6 +10,16 @@
 
     <base-table @sizeChange="handleSizeChange" @currentChange="handleCurrentChange" :pageSize="searchForm.pageSize"
       :currentPage="searchForm.pageNum" :loading="loading" :total="total" :config="carrierListConfig" :tableData="tableData" />
+    <el-dialog title="请审核" :visible.sync="dialogVisible" width="30%">
+      <el-switch v-model="approve" active-text="审核通过" inactive-text="审核不通过">
+      </el-switch>
+      <el-input type="textarea" :rows="2" placeholder="请输入审核意见" v-model="approveReason" style="margin-top:20px;">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false;approveRevisalConfirm()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -24,7 +34,6 @@ export default {
   components: { search, BaseTable },
   data() {
     return {
-
       //搜索项
       searchForm: {
         busiBillNo: '',
@@ -36,11 +45,14 @@ export default {
         pageNum: 1
       },
       total: 0,
-
       //table配置
       loading: false,
       carrierListConfig,
-      tableData: []
+      tableData: [],
+      dialogVisible: false,
+      approve: true,
+      approveRow: null,
+      approveReason: '',
     }
   },
 
@@ -63,7 +75,7 @@ export default {
               }
 
               {
-                <span class="tableLink" onClick={this.approveRevisal.bind(this, row)}>审核</span>
+                <span class="tableLink" onClick={this.approveRevisalOpen.bind(this, row)}>审核</span>
               }
 
             </div>
@@ -76,12 +88,38 @@ export default {
   methods: {
     moment,
     /** 审核 */
-    approveRevisal(row) {
-      // approveRevisal
+    approveRevisalOpen(row) {
+      this.dialogVisible = true
+      this.approve = true
+      this.approveRow = row
+      this.approveReason = ''
+    },
+    approveRevisalConfirm() {
+      const row = this.approveRow
+      const params = {
+        id: row.id,
+        approveState: this.approve ? 2 : 3,
+        approveReason: this.approveReason
+      }
+      approveRevisal(params).then(res => {
+        if (res.code == 200) {
+          this.$message({
+            type: 'success', message: '订正单审核完成！', duration: 1000
+          })
+          row.revisalState = params.approveState
+        } else {
+          this.$message({
+            type: 'success', message: res.data || '审核失败！', duration: 1000
+          })
+        }
+      }).catch(err => {
+        this.$message({
+          type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
+        })
+      })
     },
     /** 删除修正单 */
     deleteOrder(row) {
-
       this.$confirm('此操作将永久删除该订正单, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
