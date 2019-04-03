@@ -52,3 +52,12 @@ export function inwarehouseBillInfo(data) {
   })
 }
  
+ // 查询指定入库单下的入库商品信息（用于创建入库订正单）
+ export function createInwarehouseRevisal(data) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/create-inwarehouse-revisal`,
+    method: 'post',
+    data
+  })
+}
+ 

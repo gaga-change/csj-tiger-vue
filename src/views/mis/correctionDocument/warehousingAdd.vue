@@ -5,30 +5,31 @@
         <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主">
-              <el-select v-model="searchForm._owner" clearable placeholder="请选择货主：" size="small" class="formitem">
+              <el-select v-model="searchForm.ownerCode" clearable placeholder="请选择货主：" size="small" class="formitem">
                 <el-option v-for="item in owners" :label="item.ownerName" :key="item.ownerCode" :value="item.ownerCode"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <template v-if="searchForm._owner">
+          <template v-if="searchForm.ownerCode">
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="入库单号">
-                <el-select v-model="searchForm._orderCode" clearable placeholder="请选择入库单号：" size="small" class="formitem">
+                <el-select v-model="searchForm.warehouseExeCode" clearable placeholder="请选择入库单号：" size="small" class="formitem">
                   <el-option v-for="(item, index) in orderCodes" :label="item" :key="index" :value="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <template v-if="searchForm._orderCode">
+            <template v-if="searchForm.warehouseExeCode">
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="业务单号:">
-                  <el-input v-model="searchForm._busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"
+                  <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"
                     readonly="readonly"></el-input>
                 </el-form-item>
               </el-col>
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="供应商:">
-                  <el-input v-model="searchForm._supplier" placeholder="请输入供应商" size="small" class="formitem" readonly="readonly"></el-input>
+                  <el-input v-model="searchForm.providerName" placeholder="请输入供应商" size="small" class="formitem"
+                    readonly="readonly"></el-input>
                 </el-form-item>
               </el-col>
             </template>
@@ -58,8 +59,8 @@
     </el-card>
 
     <div class="operationitem">
-      <el-button @click="submit('save')" type="primary">保存</el-button>
-      <el-button @click="submit('submit')" type="primary">提交</el-button>
+      <!-- <el-button @click="submit('save')" type="primary">保存</el-button> -->
+      <el-button @click="submit('submit')" type="primary" v-loading="submitloading">提交</el-button>
     </div>
 
   </div>
@@ -70,7 +71,7 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
-import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail } from '@/api/correction'
+import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
@@ -79,10 +80,12 @@ export default {
     return {
       searchForm: {
         revisalType: 1,
-        _owner: '',
-        _orderCode: '',
-        _busiBillNo: '',
-        _supplier: ''
+        ownerCode: '',
+        warehouseExeCode: '',
+        busiBillNo: '',
+        providerCode: '',
+        providerName: '',
+        ownerName: ''
       },
       //标签项
       activeName: 'Inventory',
@@ -98,20 +101,22 @@ export default {
       carrierrecords_data: [],
       owners: [], // 货主列表
       orderCodes: [], // 单号
+      submitloading: false,
     }
   },
   computed: {
     checkOwner() {
-      return this.searchForm._owner
+      return this.searchForm.ownerCode
     },
     checkOrderCode() {
-      return this.searchForm._orderCode
+      return this.searchForm.warehouseExeCode
     }
   },
   watch: {
     // 货主更新
     checkOwner(newVal) {
       this.initOrder(newVal)
+      this.updateOwnerName(newVal)
     },
     // 单号更新
     checkOrderCode(newVal) {
@@ -123,6 +128,15 @@ export default {
     this.initOwner()
   },
   methods: {
+    /** 根据货主编号 更新货主名称 */
+    updateOwnerName(code) {
+      if (code) {
+        const temp = this.owners.filter(item => item.ownerCode === code)[0]
+        this.searchForm.ownerName = temp ? temp.ownerName : ''
+      } else {
+        this.searchForm.ownerName = ''
+      }
+    },
     /** 初始化 货主列表 */
     initOwner() {
       queryOwners().then(res => {
@@ -132,7 +146,7 @@ export default {
     /** 初始化 单号列表 */
     initOrder(code) {
       this.orderCodes = []
-      this.searchForm._orderCode = ''
+      this.searchForm.warehouseExeCode = ''
       if (code) {
         inOrderCode(code).then(res => {
           this.orderCodes = res.data
@@ -141,27 +155,27 @@ export default {
     },
     /** 初始化 业务单号及供应商信息 */
     initBillInfo(code) {
-      this.searchForm._busiBillNo = ''
-      this.searchForm._supplier = ''
+      this.searchForm.busiBillNo = ''
+      this.searchForm.providerName = ''
+      this.searchForm.providerCode = ''
       if (code) {
         inwarehouseBillInfo({ inWarehouseOrderCode: code }).then(res => {
-          const { providerName, busiBillNo } = res.data
-          this.searchForm._supplier = providerName
-          this.searchForm._busiBillNo = busiBillNo
+          const { providerName, busiBillNo, providerCode } = res.data
+          this.searchForm.providerName = providerName
+          this.searchForm.busiBillNo = busiBillNo
+          this.searchForm.providerCode = providerCode
         })
       }
     },
     /** 初始化商品列表 */
     initOrderDetail(code) {
-      // this.searchForm._busiBillNo = ''
-      // this.searchForm._supplier = ''
       this.carrierDetail_data = []
       if (code) {
         inwarehouseOrderDetail(code).then(res => {
           const temp = res.data || []
           this.carrierDetail_data = res.data.map(item => ({
             ...item,
-            ...{调整数量: '/', 调整金额: '/'}
+            ...{ 调整数量: '/', 调整金额: '/' }
           }))
         })
       }
@@ -194,8 +208,52 @@ export default {
       this.$refs['searchForm'].validate((valid) => {
         if (valid) {
           let json = _.cloneDeep(this.searchForm);
-          json.item = this.carrierDetail_data.filter(v => v.edit);
+          let itemArr = this.carrierDetail_data.filter(v => v.edit);
           console.log({ ...json })
+          if (!itemArr.length) {
+            return this.$message({
+              message: '请调整金额或数量!',
+              type: 'warning'
+            });
+          }
+          let revisalItems = itemArr.map(item => {
+            let temp = { ...item }
+            temp.revisalType = json.revisalType
+            if (temp.revisalType == 1) {  // 金额订正
+              temp.revisalAmt = temp['调整金额']
+            } else { // 数量订正
+              temp.revisalQty = temp['调整数量']
+            }
+            temp.isApproved = 0
+            delete temp['调整金额']
+            delete temp['调整数量']
+            return temp
+          })
+          this.submitloading = true
+          createInwarehouseRevisal({
+            ...json,
+            revisalItems
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message({
+                type: 'success', message: '入库订正单创建成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: () => {
+                  this.$router.push({
+                    path: '/correctionDocument/warehousingList'
+                  })
+                }
+              })
+            } else {
+              this.$message({
+                type: 'error', message: '入库订正单创建失败', duration: 1000
+              })
+            }
+          }).catch(err => {
+            this.$message({
+              type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
+            })
+          }).then(() => {
+            this.submitloading = false
+          })
         }
       })
     },
