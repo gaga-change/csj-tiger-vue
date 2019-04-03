@@ -17,7 +17,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { carrierListConfig } from './components/config'
-import { inwarehouseList, deleteInwarehouseRevisal } from '@/api/correction'
+import { inwarehouseList, deleteInwarehouseRevisal, approveRevisal } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -63,7 +63,7 @@ export default {
               }
 
               {
-                <span class="tableLink">审核</span>
+                <span class="tableLink" onClick={this.approveRevisal.bind(this, row)}>审核</span>
               }
 
             </div>
@@ -75,16 +75,32 @@ export default {
 
   methods: {
     moment,
+    /** 审核 */
+    approveRevisal(row) {
+      // approveRevisal
+    },
     /** 删除修正单 */
     deleteOrder(row) {
-      this.tableData = this.tableData.filter(item => item.id !== row.id)
-      deleteInwarehouseRevisal(row.id).then(res => {
-        this.$message({
-          type: 'success', message: '入库订正单删除成功！', duration: 1000
+
+      this.$confirm('此操作将永久删除该订正单, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableData = this.tableData.filter(item => item.id !== row.id)
+        deleteInwarehouseRevisal(row.id).then(res => {
+          this.$message({
+            type: 'success', message: '入库订正单删除成功！', duration: 1000
+          })
+        }).catch(err => {
+          this.$message({
+            type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
+          })
         })
-      }).catch(err => {
+      }).catch(() => {
         this.$message({
-          type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
+          type: 'info',
+          message: '已取消删除'
         })
       })
     },

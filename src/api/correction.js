@@ -69,3 +69,12 @@ export function inwarehouseBillInfo(data) {
   })
 }
  
+ // 审核订正单
+ export function approveRevisal(data) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/approve-revisal`,
+    method: 'post',
+    data
+  })
+}
+ 
