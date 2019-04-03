@@ -61,3 +61,11 @@ export function inwarehouseBillInfo(data) {
   })
 }
  
+ // 删除入库订正单
+ export function deleteInwarehouseRevisal(id) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/delete-inwarehouse-revisal/${id}`,
+    method: 'delete'
+  })
+}
+ 

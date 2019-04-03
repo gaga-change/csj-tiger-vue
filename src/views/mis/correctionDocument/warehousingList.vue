@@ -8,16 +8,8 @@
       </router-link>
     </div>
 
-    <base-table
-      @sizeChange="handleSizeChange"
-      @currentChange="handleCurrentChange"
-      :pageSize="searchForm.pageSize"
-      :currentPage="searchForm.pageNum"
-      :loading="loading"
-      :total="total"
-      :config="carrierListConfig"
-      :tableData="tableData"
-    />
+    <base-table @sizeChange="handleSizeChange" @currentChange="handleCurrentChange" :pageSize="searchForm.pageSize"
+      :currentPage="searchForm.pageNum" :loading="loading" :total="total" :config="carrierListConfig" :tableData="tableData" />
   </div>
 </template>
 
@@ -25,7 +17,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { carrierListConfig } from './components/config'
-import { inwarehouseList } from '@/api/correction'
+import { inwarehouseList, deleteInwarehouseRevisal } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -60,14 +52,14 @@ export default {
     this.carrierListConfig.forEach(item => {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
-          return (
+          return (row.revisalState == 1) && (
             <div class="tableLinkBox">
               {
                 <router-link to={`/correctionDocument/warehousingAdd?time=${moment().valueOf()}`} class="tableLink">修改</router-link>
               }
 
               {
-                <span class="tableLink">删除</span>
+                <span class="tableLink" onClick={this.deleteOrder.bind(this, row)}>删除</span>
               }
 
               {
@@ -83,6 +75,19 @@ export default {
 
   methods: {
     moment,
+    /** 删除修正单 */
+    deleteOrder(row) {
+      this.tableData = this.tableData.filter(item => item.id !== row.id)
+      deleteInwarehouseRevisal(row.id).then(res => {
+        this.$message({
+          type: 'success', message: '入库订正单删除成功！', duration: 1000
+        })
+      }).catch(err => {
+        this.$message({
+          type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
+        })
+      })
+    },
     handleSizeChange(val) {
       this.searchForm = { ...this.searchForm, pageSize: val, pageNum: 1 };
       this.fetch()
