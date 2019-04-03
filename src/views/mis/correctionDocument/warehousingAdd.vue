@@ -70,7 +70,7 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
-import { queryOwners, inOrderCode, inwarehouseBillInfo } from '@/api/correction'
+import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
@@ -90,7 +90,8 @@ export default {
       revisalTypeEnum,
       //商品明细
       carrierDetail_Config,
-      carrierDetail_data: [{ id: 1, 调整数量: '/', 调整金额: '/' }, { id: 3, 调整数量: '/', 调整金额: '/' }],//需要id
+      // carrierDetail_data: [{ id: 1, 调整数量: '/', 调整金额: '/' }, { id: 3, 调整数量: '/', 调整金额: '/' }],//需要id
+      carrierDetail_data: [],//需要id
       //订正记录
       loading: false,
       carrierrecords_Config,
@@ -108,11 +109,14 @@ export default {
     }
   },
   watch: {
-    checkOwner(newVal, oldVal) {
+    // 货主更新
+    checkOwner(newVal) {
       this.initOrder(newVal)
     },
+    // 单号更新
     checkOrderCode(newVal) {
       this.initBillInfo(newVal)
+      this.initOrderDetail(newVal)
     }
   },
   created() {
@@ -133,8 +137,6 @@ export default {
         inOrderCode(code).then(res => {
           this.orderCodes = res.data
         })
-      } else {
-        this.orderCodes = []
       }
     },
     /** 初始化 业务单号及供应商信息 */
@@ -143,10 +145,25 @@ export default {
       this.searchForm._supplier = ''
       if (code) {
         inwarehouseBillInfo({ inWarehouseOrderCode: code }).then(res => {
-          console.log(res)
+          const { providerName, busiBillNo } = res.data
+          this.searchForm._supplier = providerName
+          this.searchForm._busiBillNo = busiBillNo
         })
-      } else {
-
+      }
+    },
+    /** 初始化商品列表 */
+    initOrderDetail(code) {
+      // this.searchForm._busiBillNo = ''
+      // this.searchForm._supplier = ''
+      this.carrierDetail_data = []
+      if (code) {
+        inwarehouseOrderDetail(code).then(res => {
+          const temp = res.data || []
+          this.carrierDetail_data = res.data.map(item => ({
+            ...item,
+            ...{调整数量: '/', 调整金额: '/'}
+          }))
+        })
       }
     },
     revisalTypeChange(value) {
@@ -164,7 +181,6 @@ export default {
         v.edit = false;
         return v;
       });
-
 
       //操作dom样式
       let td = [...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr td')];

@@ -25,11 +25,11 @@ export  const carrierrecords_Config=[
 
 export  const carrierDetail_Config=[ 
   { label:'序号',prop:'',type:'index'},
-  { label:'商品编码',prop:''},
-  { label:'商品名称',prop:''},
-  { label:'规格',prop:''},
-  { label:'入库数量 ',prop:''},
-  { label:'入库金额',prop:''},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'入库数量 ',prop:'inStoreQty'},
+  { label:'入库金额',prop:'inStoreAmt'},
   { label:'调整金额 ',prop:'调整金额',useEdit:true,width:150},
 ]
 

@@ -38,7 +38,17 @@ export function inOrderCode(ownerCode) {
 export function inwarehouseBillInfo(data) {
   return request({
     url: `/webApi/inwarehouse-revisal/query-inwarehouse-bill-info`,
-    method: 'post',
-    data
+    method: 'get',
+    params: data
   })
 }
+ 
+
+ // 查询指定入库单下的入库商品信息（用于创建入库订正单）
+ export function inwarehouseOrderDetail(inWarehouseOrderCode) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/query-inwarehouse-order-detail/${inWarehouseOrderCode}`,
+    method: 'get'
+  })
+}
+ 
