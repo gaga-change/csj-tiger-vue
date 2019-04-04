@@ -30,7 +30,6 @@ export  const carrierDetail_Config=[
   { label:'规格',prop:'skuFormat'},
   { label:'入库数量 ',prop:'inStoreQty'},
   { label:'入库金额',prop:'inStoreAmt'},
-  { label:'调整金额 ',prop:'调整金额',useEdit:true,width:150},
 ]
 
 

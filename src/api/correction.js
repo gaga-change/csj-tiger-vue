@@ -81,7 +81,16 @@ export function approveRevisal(data) {
 // 查看入库订正单详情内容
 export function queryInwarehouseRevisal(id) {
   return request({
-    url: ` /webApi/inwarehouse-revisal/query-inwarehouse-revisal/${id}`,
-    method: 'post'
+    url: `/webApi/inwarehouse-revisal/query-inwarehouse-revisal/${id}`,
+    method: 'get'
+  })
+}
+
+// 修改订正单信息
+export function updateInwarehouseRevisal(data) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/update-inwarehouse-revisal`,
+    method: 'put',
+    data
   })
 }

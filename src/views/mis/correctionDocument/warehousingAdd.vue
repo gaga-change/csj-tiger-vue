@@ -5,7 +5,8 @@
         <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主">
-              <el-select v-model="searchForm.ownerCode" clearable placeholder="请选择货主：" size="small" class="formitem">
+              <el-select v-model="searchForm.ownerCode" clearable placeholder="请选择货主：" size="small" class="formitem"
+                :disabled="isModify">
                 <el-option v-for="item in owners" :label="item.ownerName" :key="item.ownerCode" :value="item.ownerCode"></el-option>
               </el-select>
             </el-form-item>
@@ -13,7 +14,8 @@
           <template v-if="searchForm.ownerCode">
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="入库单号">
-                <el-select v-model="searchForm.warehouseExeCode" clearable placeholder="请选择入库单号：" size="small" class="formitem">
+                <el-select v-model="searchForm.warehouseExeCode" clearable placeholder="请选择入库单号：" size="small" class="formitem"
+                  :disabled="isModify">
                   <el-option v-for="(item, index) in orderCodes" :label="item" :key="index" :value="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -22,21 +24,20 @@
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="业务单号:">
                   <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"
-                    readonly="readonly"></el-input>
+                    disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
-
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="供应商:">
                   <el-input v-model="searchForm.providerName" placeholder="请输入供应商" size="small" class="formitem"
-                    readonly="readonly"></el-input>
+                    disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
             </template>
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="订正类型">
                 <el-select @change="revisalTypeChange" v-model="searchForm.revisalType" clearable placeholder="请选择订正类型："
-                  size="small" class="formitem">
+                  size="small" class="formitem" :disabled="isModify">
                   <el-option v-for="item in revisalTypeEnum" :label="item.name" :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -71,7 +72,7 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
-import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal } from '@/api/correction'
+import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal, queryInwarehouseRevisal, updateInwarehouseRevisal } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
@@ -92,8 +93,8 @@ export default {
       //订正枚举
       revisalTypeEnum,
       //商品明细
-      carrierDetail_Config,
-      // carrierDetail_data: [{ id: 1, 调整数量: '/', 调整金额: '/' }, { id: 3, 调整数量: '/', 调整金额: '/' }],//需要id
+      carrierDetail_Config: [...carrierDetail_Config],
+      // carrierDetail_data: [{ id: 1, revisalQty: '/', revisalAmt: '/' }, { id: 3, revisalQty: '/', revisalAmt: '/' }],//需要id
       carrierDetail_data: [],//需要id
       //订正记录
       loading: false,
@@ -102,7 +103,7 @@ export default {
       owners: [], // 货主列表
       orderCodes: [], // 单号
       submitloading: false,
-      query: this.$route.query
+      query: this.$route.query,
     }
   },
   computed: {
@@ -119,19 +120,46 @@ export default {
   watch: {
     // 货主更新
     checkOwner(newVal) {
-      this.initOrder(newVal)
-      this.updateOwnerName(newVal)
+      if (!this.isModify) {
+        this.initOrder(newVal)
+        this.updateOwnerName(newVal)
+      }
     },
     // 单号更新
     checkOrderCode(newVal) {
-      this.initBillInfo(newVal)
-      this.initOrderDetail(newVal)
+      if (!this.isModify) {
+        this.initBillInfo(newVal)
+        this.initOrderDetail(newVal)
+      }
     }
   },
   created() {
-    this.initOwner()
+
+    this.isModify ? this.initDetail() : this.initOwner()
   },
   methods: {
+    initTable() {
+      let value = this.searchForm.revisalType
+      if (value === 1) {
+        this.carrierDetail_Config.push({ label: '调整金额 ', prop: 'revisalAmt', useEdit: true, width: 150 })
+      } else if (value === 2) {
+        this.carrierDetail_Config.push({ label: '调整数量 ', prop: 'revisalQty', useEdit: true, width: 150 })
+      }
+    },
+    initDetail() {
+      return queryInwarehouseRevisal(this.query.id).then(res => {
+        let detail = { ...res.data }
+        let revisalItems = detail.revisalItems
+        delete detail.revisalItems
+        this.searchForm = detail
+        this.initTable()
+        this.carrierDetail_data = revisalItems.map(item => ({
+          ...item,
+          edit: true,
+          ...{ revisalQty: item.revisalQty !== null ? item.revisalQty : '/', revisalAmt: item.revisalAmt !== null ? item.revisalAmt : '/' }
+        }))
+      })
+    },
     /** 根据货主编号 更新货主名称 */
     updateOwnerName(code) {
       if (code) {
@@ -143,6 +171,7 @@ export default {
     },
     /** 初始化 货主列表 */
     initOwner() {
+      this.initTable()
       queryOwners().then(res => {
         this.owners = res.data || []
       })
@@ -179,33 +208,33 @@ export default {
           const temp = res.data || []
           this.carrierDetail_data = res.data.map(item => ({
             ...item,
-            ...{ 调整数量: '/', 调整金额: '/' }
+            ...{ revisalQty: '/', revisalAmt: '/' }
           }))
+          console.log(this.carrierDetail_data)
         })
       }
     },
     revisalTypeChange(value) {
-      let config = _.cloneDeep(this.carrierDetail_Config);
-      let data = _.cloneDeep(this.carrierDetail_data);
+      let config = _.cloneDeep(this.carrierDetail_Config)
+      let data = _.cloneDeep(this.carrierDetail_data)
       if (value === 1) {
-        config[config.length - 1] = { label: '调整金额 ', prop: '调整金额', useEdit: true, width: 150 }
+        config[config.length - 1] = { label: '调整金额', prop: 'revisalAmt', useEdit: true, width: 150 }
       } else if (value === 2) {
-        config[config.length - 1] = { label: '调整数量 ', prop: '调整数量', useEdit: true, width: 150 }
+        config[config.length - 1] = { label: '调整数量', prop: 'revisalQty', useEdit: true, width: 150 }
       }
       this.carrierDetail_Config = config;
       this.carrierDetail_data = data.map(v => {
-        v.调整数量 = '/';
-        v.调整金额 = '/';
+        v.revisalQty = '/';
+        v.revisalAmt = '/';
         v.edit = false;
         return v;
-      });
+      })
 
       //操作dom样式
       let td = [...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr td')];
       td.forEach(v => {
         v.style.cssText = ""
       })
-
     },
 
     submit(type) {
@@ -213,7 +242,6 @@ export default {
         if (valid) {
           let json = _.cloneDeep(this.searchForm);
           let itemArr = this.carrierDetail_data.filter(v => v.edit);
-          console.log({ ...json })
           if (!itemArr.length) {
             return this.$message({
               message: '请调整金额或数量!',
@@ -224,40 +252,63 @@ export default {
             let temp = { ...item }
             temp.revisalType = json.revisalType
             if (temp.revisalType == 1) {  // 金额订正
-              temp.revisalAmt = Number(temp['调整金额']) || 0
+              temp.revisalAmt = Number(temp['revisalAmt']) || 0
+              temp.revisalQty = null
             } else { // 数量订正
-              temp.revisalQty = Number(temp['调整数量']) || 0
+              temp.revisalQty = Number(temp['revisalQty']) || 0
+              temp.revisalAmt = null
             }
             temp.isApproved = 0
-            delete temp['调整金额']
-            delete temp['调整数量']
             return temp
           })
           this.submitloading = true
-          createInwarehouseRevisal({
-            ...json,
-            revisalItems
-          }).then(res => {
-            if (res.code === '200') {
-              this.$message({
-                type: 'success', message: '入库订正单创建成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: () => {
-                  this.$router.push({
-                    path: '/correctionDocument/warehousingList'
-                  })
-                }
-              })
-            } else {
-              this.$message({
-                type: 'error', message: '入库订正单创建失败', duration: 1000
-              })
-            }
-          }).catch(err => {
-            this.$message({
-              type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
+          if (this.isModify) {
+            updateInwarehouseRevisal({
+              id: this.query.id,
+              ...json,
+              revisalItems
+            }).then(res => {
+              if (res.code === '200') {
+                this.$message({
+                  type: 'success', message: '入库订正单修改成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: () => {
+                    this.$router.push({
+                      path: '/correctionDocument/warehousingList'
+                    })
+                  }
+                })
+              } else {
+                this.$message({
+                  type: 'error', message: '入库订正单修改失败', duration: 1000
+                })
+              }
+            }).catch(err => {
+            }).then(() => {
+              this.submitloading = false
             })
-          }).then(() => {
-            this.submitloading = false
-          })
+          }
+          else {
+            createInwarehouseRevisal({
+              ...json,
+              revisalItems
+            }).then(res => {
+              if (res.code === '200') {
+                this.$message({
+                  type: 'success', message: '入库订正单创建成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: () => {
+                    this.$router.push({
+                      path: '/correctionDocument/warehousingList'
+                    })
+                  }
+                })
+              } else {
+                this.$message({
+                  type: 'error', message: '入库订正单创建失败', duration: 1000
+                })
+              }
+            }).catch(err => {
+            }).then(() => {
+              this.submitloading = false
+            })
+          }
         }
       })
     },
@@ -265,7 +316,7 @@ export default {
     //点击某一行的回调
     handleCurrentRedioChange(currentRow, oldCurrentRow) {
 
-      if (!currentRow) {
+      if (this.isModify || !currentRow) {
         return false
       }
 
