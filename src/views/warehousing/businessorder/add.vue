@@ -181,6 +181,7 @@ export default {
           searchForm=res.data;
           searchForm.detailItemList=res.data.items.map(v=>{
              v.purchasePrice=v.inPrice;
+             v.planInQty=v.skuInQty;
              return v;
           }); 
           this.searchForm=searchForm;
@@ -266,7 +267,15 @@ export default {
         }
         skuInfoList(this.searchForm.ownerCode,this.searchForm.providerCode).then(res=>{
           if(res.success){
-            this.commodityList=res.data;
+            let data=data?_.cloneDeep(res.data):[];
+            let arr=[];
+            data.forEach(v=>{
+              if(!arr.map(v=>v.skuCode).includes(v.skuCode)){
+                 arr.push(v)
+              }
+            });
+       
+            this.commodityList=arr;
           }
         }).catch(err=>{
           console.log(err)

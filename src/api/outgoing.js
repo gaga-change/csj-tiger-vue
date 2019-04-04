@@ -123,7 +123,12 @@ export function orderSave(data={}) {
   })
 }
 
-
+export function providerAddrList(data={}) {
+  return request({
+    url: `/webApi/provider/addr/list?${stringify(data)}`,
+    method: 'get',
+  })
+}
 
 
 

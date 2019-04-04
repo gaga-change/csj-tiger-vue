@@ -71,23 +71,11 @@ export function inBillAdd(data={}) {
   })
 }
 
-export function customerInfo(ownerCode) {
+export function customerInfo(ownerCode,busiBillType=22) {
 
-  // return request({
-  //   url:`/webApi/customer/info/${ownerCode}`,
-  //   method: 'get',
-  // })
-
-  return new Promise(function(resolve, reject) {
-    resolve({
-      success: true,
-      data: [
-        {
-          customerName:'测试数据',
-          customerCode:'GY20190325000001'
-        }
-      ]
-    })
+  return request({
+    url:`/webApi/customer/info/${ownerCode}/${busiBillType}`,
+    method: 'get',
   })
 }
 

@@ -1,7 +1,7 @@
 'use strict'
 
 const path = require('path')
-const ip='http://172.16.81.26:7878';//苗哥
+// const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://192.168.2.167:7878';//修号
 // const ip='http://192.168.2.163:7878';//红兵
 // const ip='http://192.168.2.139:7878';//陈姐
@@ -9,7 +9,7 @@ const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://172.16.80.83:7878';//亚超
 // const ip='http://192.168.1.195:7979';//测试服务
 // const ip='http://testtiger.csjmro.com';//测试服务
-// const ip='http://172.16.81.219:7878';//龙
+const ip='http://172.16.81.219:7878';//龙
 // const ip='http://192.168.2.150:7878';//姚旭
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
