@@ -129,9 +129,6 @@ export default {
             type: 'success', message: '入库订正单删除成功！', duration: 1000
           })
         }).catch(err => {
-          this.$message({
-            type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
-          })
         })
       }).catch(() => {
         this.$message({

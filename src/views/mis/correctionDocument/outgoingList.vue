@@ -25,7 +25,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { outgoing_carrierListConfig } from './components/config'
-import { outwarehouseList } from '@/api/correction'
+import { outwarehouseList, deleteOutwarehouseRevisal } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -65,7 +65,7 @@ export default {
               }
 
               {
-                <span class="tableLink">删除</span>
+                <span class="tableLink" onClick={this.deleteOrder.bind(this, row)}>删除</span>
               }
 
               {
@@ -81,6 +81,27 @@ export default {
 
   methods: {
     moment,
+    /** 删除修正单 */
+    deleteOrder(row) {
+      this.$confirm('此操作将永久删除该订正单, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableData = this.tableData.filter(item => item.id !== row.id)
+        deleteOutwarehouseRevisal(row.id).then(res => {
+          this.$message({
+            type: 'success', message: '出库订正单删除成功！', duration: 1000
+          })
+        }).catch(err => {
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     handleSizeChange(val) {
       this.searchForm = { ...this.searchForm, pageSize: val, pageNum: 1 };
       this.fetch()

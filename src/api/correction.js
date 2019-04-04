@@ -68,6 +68,13 @@ export function deleteInwarehouseRevisal(id) {
     method: 'delete'
   })
 }
+// 删除出库订正单
+export function deleteOutwarehouseRevisal(id) {
+  return request({
+    url: `/webApi/outwarehouse-revisal/delete-outwarehouse-revisal/${id}`,
+    method: 'delete'
+  })
+}
 
 // 审核订正单
 export function approveRevisal(data) {
@@ -94,7 +101,8 @@ export function updateInwarehouseRevisal(data) {
     data
   })
 }
-// 修改订正单信息
+
+// 查看审核记录
 export function queryApprovedItems(id) {
   return request({
     url: `/webApi/inwarehouse-revisal/query-approved-items/${id}`,
