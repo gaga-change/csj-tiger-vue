@@ -5,41 +5,51 @@
     <el-card shadow="hover">
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品分类：" prop="warehouseCode">
-            <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择商品分类" size="small" class="formitem">
-              <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+          <el-form-item label="货主：" prop="ownerCode">
+            <el-select  v-model="productForm.owner" clearable @change="ownerChange"  placeholder="请选择货主" size="small" class="formitem">
+              <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品编码：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入商品编码" size="small" class="formitem"></el-input>
+          <el-form-item label="货主商品编码：" prop="ownerSkuCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.ownerSkuCode" placeholder="请输入货主商品编码" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品名称：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入商品名称" size="small" class="formitem"></el-input>
+          <el-form-item label="商品分类：" prop="categoryCode">
+            <choice-category @categorySubmit="categorySubmit" ref="categoryChoice" :disabled="editable"></choice-category>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="editable">
+          <el-form-item label="商品编码：" prop="skuCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.skuCode" placeholder="请输入商品编码" size="small" class="formitem" :disabled="editable"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品简称：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入商品简称" size="small" class="formitem"></el-input>
+          <el-form-item label="商品名称：" prop="skuName" :rules="[{required: true, message:'必填项'},{max:30, message:'最长30位', trigger: 'blur'}]">
+            <el-input v-model="productForm.skuName" placeholder="请输入商品名称" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品描述：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入商品描述" size="small" class="formitem"></el-input>
+          <el-form-item label="商品简称：" prop="skuShortName" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.skuShortName" placeholder="请输入商品简称" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="包装单位：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入商品包装单位" size="small" class="formitem"></el-input>
+          <el-form-item label="商品描述：" prop="skuDesc" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.skuDesc" placeholder="请输入商品描述" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="采用开始日：" prop="warehouseCode" >
+          <el-form-item label="包装单位：" prop="packUnitName" :rules="[{required: true, message:'必填项'}]">
+            <el-input v-model="productForm.packUnitName" placeholder="请输入商品包装单位" size="small" class="formitem"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="采用开始日：" prop="useDate" :rules="[{required: true, message:'必填项', trigger: 'change'}]">
             <el-date-picker
-              v-model="productForm.beginDate"
+              v-model="productForm.useDate"
               size="small"
               class="formitem"
               type="date"
@@ -48,24 +58,24 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="品牌：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入品牌" size="small" class="formitem"></el-input>
+          <el-form-item label="品牌：" prop="brandName" :rules="[{required: true, message:'必填项', trigger: 'change'},{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.brandName" placeholder="请输入品牌" size="small" class="formitem" :disabled="editable"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="规格：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入规格" size="small" class="formitem"></el-input>
+          <el-form-item label="规格：" prop="skuFormat" :rules="[{required: true, message:'必填项', trigger: 'change'},{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.skuFormat" placeholder="请输入规格" size="small" class="formitem" :disabled="editable"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="型号：" prop="warehouseCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
-            <el-input v-model="productForm.warehouseCode" placeholder="请输入型号" size="small" class="formitem"></el-input>
+          <el-form-item label="型号：" prop="skuModel" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+            <el-input v-model="productForm.skuModel" placeholder="请输入型号" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="物料状态：" prop="warehouseCode">
-            <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择商品分类" size="small" class="formitem">
-              <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+          <el-form-item label="物料状态：" prop="materialState">
+            <el-select  v-model="productForm.materialState" clearable  placeholder="请选择物料状态" size="small" class="formitem">
+              <el-option v-for="item in productEnum['materialState']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -76,163 +86,161 @@
       <el-tab-pane label="基本信息" name="first">
         <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="订货区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择订货区分" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="订货区分：" prop="orderType">
+              <el-select  v-model="productForm.orderType" clearable  placeholder="请选择订货区分" size="small" class="formitem">
+                <el-option v-for="item in productEnum['orderType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="商品管理区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择商品管理" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="商品管理区分：" prop="mangerType">
+              <el-select  v-model="productForm.mangerType" clearable  placeholder="请选择商品管理" size="small" class="formitem">
+                <el-option v-for="item in productEnum['mangerType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="基准结算价：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入基准结算价">
+            <el-form-item label="基准结算价："  prop="baseSettlementPrice" :rules="[{required: true, message:'必填项', trigger: 'change'}]">
+              <el-input type="number" v-model.number="productForm.baseSettlementPrice" class="formitem" size="small" placeholder="请输入基准结算价">
                 <span slot="suffix">元</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="销售区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择销售区分" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="销售区分：" prop="saleType">
+              <el-select  v-model="productForm.saleType" clearable  placeholder="请选择销售区分" size="small" class="formitem">
+                <el-option v-for="item in productEnum['saleType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="进项税率：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入进项税率">
+              <el-input type="number" v-model.number="productForm.incomeTaxRate" class="formitem" size="small" placeholder="请输入进项税率">
                 <span slot="suffix">%</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="销项税率：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入销项税率">
+              <el-input type="number" v-model.number="productForm.outputTaxRate" class="formitem" size="small" placeholder="请输入销项税率">
                 <span slot="suffix">%</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="商品标签区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择商品标签" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
-              </el-select>
+            <el-form-item label="商品标签区分：" prop="skuTag">
+              <el-input type="text" v-model="productForm.skuTag" class="formitem" size="small" placeholder="请输入商品标签">
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="期望毛利率：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入期望毛利率">
+              <el-input type="number" v-model.number="productForm.expectGrossProfit" class="formitem" size="small" placeholder="请输入期望毛利率">
                 <span slot="suffix">%</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="尺寸单位区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择尺寸单位" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="尺寸单位区分：" prop="sizeUnitName">
+              <el-select  v-model="productForm.sizeUnitName" clearable  placeholder="请选择尺寸单位" size="small" class="formitem">
+                <el-option v-for="item in productEnum['sizeUnitName']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="重量：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入重量">
+              <el-input type="number" v-model.number="productForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
                 <span slot="suffix">kg</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="保质期区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择保质期区分" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="保质期区分：" prop="shelfLifeUnitName">
+              <el-select  v-model="productForm.shelfLifeUnitName" clearable  placeholder="请选择保质期区分" size="small" class="formitem">
+                <el-option v-for="item in productEnum['shelfLifeUnitName']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="安全库存系数：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入安全库存系数">
+              <el-input type="number" v-model.number="productForm.safeStockFactor" class="formitem" size="small" placeholder="请输入安全库存系数">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="长：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入长度">
+              <el-input type="number" v-model.number="productForm.skuLength" class="formitem" size="small" placeholder="请输入长度">
                 <span slot="suffix">m</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="体积：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入体积">
+              <el-input type="number" v-model.number="productForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
                 <span slot="suffix">m³</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="保质期：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入保质期">
+              <el-input type="number" v-model.number="productForm.shelfLife" class="formitem" size="small" placeholder="请输入保质期">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="目标周转日数：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入周转日数">
+              <el-input type="number" v-model.number="productForm.tagerTurnoverDays" class="formitem" size="small" placeholder="请输入周转日数">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="宽：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入宽度">
+              <el-input type="number" v-model.number="productForm.skuBreadth" class="formitem" size="small" placeholder="请输入宽度">
                 <span slot="suffix">m</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="等级：" >
-              <el-input type="text" v-model="productForm.boxnum" class="formitem" size="small" placeholder="请输入等级">
+              <el-input type="text" v-model="productForm.skuLevel" class="formitem" size="small" placeholder="请输入等级">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="退货区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择保质期区分" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            <el-form-item label="退货区分：" prop="skuReturnType">
+              <el-select  v-model="productForm.skuReturnType" clearable  placeholder="请选择退货区分" size="small" class="formitem">
+                <el-option v-for="item in productEnum['skuReturnType']"  :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="最大在库数量：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入最大在库数量">
+              <el-input type="number" v-model.number="productForm.maxStockQty" class="formitem" size="small" placeholder="请输入最大在库数量">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="高：" >
-              <el-input type="number" v-model.number="productForm.boxnum" class="formitem" size="small" placeholder="请输入高度">
+              <el-input type="number" v-model.number="productForm.skuHeight" class="formitem" size="small" placeholder="请输入高度">
                 <span slot="suffix">m</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="产地：" >
-              <el-input type="text" v-model="productForm.boxnum" class="formitem" size="small" placeholder="请输入产地">
+              <el-input type="text" v-model="productForm.productFactory" class="formitem" size="small" placeholder="请输入产地">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="在库区分：" prop="warehouseCode">
-              <el-select  v-model="productForm.warehouseCode" clearable  placeholder="请选择在库区分" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getWarehouse']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
-              </el-select>
+            <el-form-item label="在库区分：" prop="skuStockType">
+              <el-input type="text" v-model="productForm.skuStockType" class="formitem" size="small" placeholder="请输入在库区分">
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="备注：" prop="warehouseCode">
-              <el-input type="text" v-model="productForm.boxnum" class="formitem" size="small" placeholder="请输入产地">
+            <el-form-item label="备注：" prop="remarkInfo">
+              <el-input type="text" v-model="productForm.remarkInfo" class="formitem" size="small" placeholder="请输入产地">
               </el-input>
             </el-form-item>
           </el-col>
@@ -252,9 +260,9 @@
           :data="customerTableData"
           border>
           <el-table-column type="index" label="序号" width="55"></el-table-column>
-          <el-table-column v-for="(column, index) in customerConfig" :key="index" :prop="column.prop" :label="column.label">
+          <el-table-column v-for="(column, index) in customerConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
             <template slot-scope="scope">
-              <span v-if="column.type === 'date'">{{scope.row[column.prop] | parseTime}}</span>
+              <span v-if="column.type === 'date' &&　scope.row[column.prop]">{{scope.row[column.prop] | parseTime}}</span>
               <span v-else>{{scope.row[column.prop]}}</span>
             </template>
           </el-table-column>
@@ -280,9 +288,9 @@
           :data="servicerTableData"
           border>
           <el-table-column type="index" label="序号" width="55"></el-table-column>
-          <el-table-column v-for="(column, index) in servicerConfig" :key="index" :prop="column.prop" :label="column.label">
+          <el-table-column v-for="(column, index) in servicerConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
             <template slot-scope="scope">
-              <span v-if="column.type === 'date'">{{scope.row[column.prop] | parseTime}}</span>
+              <span v-if="column.type === 'date' &&　scope.row[column.prop]">{{scope.row[column.prop] | parseTime}}</span>
               <span v-else>{{scope.row[column.prop]}}</span>
             </template>
           </el-table-column>
@@ -312,37 +320,20 @@
 <script>
 import { mapGetters } from 'vuex'
 import search from '@/components/Search'
+import choiceCategory from './components/choiceCategory'
+import * as productEnum from './components/productEnum'
+import { customerConfig, servicerConfig } from './components/config'
+import { addProduct, updateProduct, productDetail } from '@/api/productcenter'
+import { getOwnerCustList, getOwnerProviderList } from '@/api/mis'
+import { findValue } from '@/utils'
 export default {
-  components: { search },
+  components: { search, choiceCategory },
   data() {
     return {
       productForm: {},
       activeTab: 'first',
-      customerConfig: [
-        { label: '客户', prop: 'customer', placeholder: '请选择客户', type: 'select', selectOptions: [{ value: '客户1', key: 1 }] },
-        { label: '客户物料编码', prop: 'itemCode', placeholder: '请输入物料编码' },
-        { label: '采用开始日', prop: 'useDate', type: 'date' },
-        { label: '客户销价', prop: 'salePrice', type: 'number', placeholder: '请输入客户销价' },
-        { label: '物料分类码', prop: 'categoryCode', placeholder: '请输入客户物料分类码' },
-        { label: '价格有效期', prop: 'expiryDate', type: 'date' },
-        { label: '客户物料名称', prop: 'itemName', placeholder: '请输入客户物料名称' },
-        { label: '备注', prop: 'memos', type: 'textarea' },
-      ],
-      servicerConfig: [
-        { label: '供应商', prop: 'servicer', placeholder: '请选择供应商', type: 'select', selectOptions: [{ value: '供应商1', key: 1 }] },
-        { label: '进货价', prop: 'itemPrice', placeholder: '请输入进货价', type: 'number' },
-        { label: '价格有效期', prop: 'expiryDate', type: 'date' },
-        { label: '供应商物料编码', prop: 'servicerCode', placeholder: '请输入供应商编码' },
-        { label: '大包装单位', prop: 'bigunit', placeholder: '请输入大包装单位' },
-        { label: '订货计量单位', prop: 'orderUnit', placeholder: '请选择订货计量单位', type: 'select', selectOptions: [{ value: '大包装单位', key: 1 }] },
-        { label: '交货周期', prop: 'deliveryCycle', placeholder: '请输入交货周期' },
-        { label: '供应商物料名称', prop: 'servicerName', placeholder: '请输入供应商物料名称' },
-        { label: '中包装单位', prop: 'midunit', placeholder: '请输入中包装单位' },
-        { label: '订货计量重量', prop: 'itemWeight', placeholder: '请输入订货计量重量', type: 'number' },
-        { label: '订货计量体积', prop: 'itemSize', placeholder: '请输入订货计量体积', type: 'number' },
-        { label: '供应商物料分类', prop: 'servicerCategory', placeholder: '请输入供应商物料分类' },
-        { label: '备注', prop: 'memos', type: 'textarea' },
-      ],
+      customerConfig,
+      servicerConfig,
       customerEditData: {},
       customerTableData: [],
       servicerEditData: {},
@@ -354,21 +345,99 @@ export default {
       },
       confirmText: '添加',
       servicerConfirmText: '添加',
-      submitloading: false
+      submitloading: false,
+      productEnum,
+      customerList: []
     }
   },
   computed: {
-    ...mapGetters(['mapConfig'])
+    editable() {
+      return Boolean(this.$route.query.skuCode)
+    },
+    ...mapGetters(['mapConfig', 'userInfo', 'visitedViews'])
+  },
+  created() {
+    if (this.$route.query.skuCode) {
+      this.getDetail()
+    }
   },
   methods: {
+    getDetail() {
+      const loading = this.$loading({text: '请稍后..'})
+      productDetail({ skuCode: this.$route.query.skuCode }).then(res => {
+        const result = res.data || {}
+        const { skuCustomerInfoRespList, skuProviderInfoRespList, ownerCode, ownerName, ...rest } = result
+        this.customerTableData = skuCustomerInfoRespList
+        this.servicerTableData = skuProviderInfoRespList
+        this.productForm = { owner: { key: ownerCode, value: ownerName }, ...rest}
+        this.$refs.categoryChoice.fetchCategory({ text: result.categoryName, currentCode: result.categoryCode })
+        this.ownerChange({ key: ownerCode, value: ownerName })
+        loading.close()
+      }).catch(err => {
+        console.log(err)
+        loading.close()
+      })
+    },
+    ownerChange(val) {
+      const ownerobj = val || {}
+      getOwnerCustList({ownerCode: ownerobj.key}).then(res => {
+        console.log(res)
+        const result = res.data || []
+        const options = []
+        result.forEach(item => options.push({ value: item.customerName, key: item.customerCode}))
+        this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions = options
+        console.log(options);
+      })
+      getOwnerProviderList({ownerCode: ownerobj.key}).then(res => {
+        console.log(res)
+        const result = res.data || []
+        const options = []
+        result.forEach(item => options.push({ value: item.providerName, key: item.providerCode}))
+        this.servicerConfig.find(customer => customer.prop === 'providerCode').selectOptions = options
+      })
+    },
+    categorySubmit(item) {
+      this.productForm.categoryCode = item.currentCode
+      this.productForm.categoryName = item.text
+    },
     onSubmit() {
-
+      this.submitloading = true
+      const { skuCode, owner, ...rest } = this.productForm
+      const postForm = {
+        ownerCode: owner.key,
+        ownerName: owner.value,
+        operator: this.userInfo.id,
+        operatorName: this.userInfo.truename,
+        skuCustomerReqList: this.customerTableData,
+        skuProviderInfoReqList: this.servicerTableData,
+        ...rest
+      }
+      const editMethod = skuCode ? updateProduct : addProduct
+      if (skuCode) {
+        postForm.skuCode = skuCode
+      }
+      editMethod(postForm).then(res => {
+        console.log(res)
+        this.submitloading = false
+        if (res.success) {
+          const view = this.visitedViews.filter(v => v.path === this.$route.path)
+          this.$alert('操作成功').then(()=> {
+            this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+              this.$router.push({name: 'productsList'})
+            })
+          })  
+        }
+      }).catch(err => {
+        console.log(err)
+        this.submitloading = false
+      })
     },
     onCancel() {
       this.$router.back()
     },
     submitCustomerForm(val) {
       console.log(val);
+      val.customerName = 'customer'
       if (val.edit) {
         let position = -1
         this.customerTableData.forEach((item, index) => {
@@ -383,7 +452,8 @@ export default {
       }
     },
     submitServicerForm(val) {
-      console.log(val);
+      console.log(val)
+      val.providerName = 'servicer'
       if (val.edit) {
         let position = -1
         this.servicerTableData.forEach((item, index) => {

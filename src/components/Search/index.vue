@@ -4,13 +4,14 @@
     <el-row>
       <el-col :sm="12" :md="8" :lg="8" :xl="6" v-for="(formitem, index) in config" :key="index">
         <el-form-item :label="formitem.label" :prop="formitem.prop" :rules="formitem.rules||[]">
-          <el-select v-if="formitem.type==='select'"  v-model="searchForm[formitem.prop]" clearable  :placeholder="formitem.placeholder" size="small" class="formitem">
+          <el-select v-if="formitem.type==='select'" :disabled="formitem.disabled" v-model="searchForm[formitem.prop]" clearable  :placeholder="formitem.placeholder" size="small" class="formitem">
             <el-option v-for="item in formitem.selectOptions" :label="item.value" :key="item.key" :value="item.key"></el-option>
           </el-select>
           <el-date-picker
             v-else-if="formitem.type==='daterange'"
             v-model="searchForm[formitem.prop]"
             type="daterange"
+            :disabled="formitem.disabled"
             size="small"
             unlink-panels
             class="formitem"
@@ -21,6 +22,7 @@
           <el-date-picker
             v-else-if="formitem.type==='date'"
             v-model="searchForm[formitem.prop]"
+            :disabled="formitem.disabled"
             size="small"
             class="formitem"
             type="date"
@@ -29,27 +31,29 @@
           <el-date-picker
             v-else-if="formitem.type==='datetime'"
             v-model="searchForm[formitem.prop]"
+            :disabled="formitem.disabled"
             size="small"
             class="formitem"
             type="datetime"
             placeholder="选择日期时间">
           </el-date-picker>
-          <el-input v-else-if="formitem.type==='number'" type="number" v-model.number="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
-          <el-input v-else-if="formitem.type==='textarea'" type="textarea" v-model="searchForm[formitem.prop]" :rows="formitem.rows||1" :placeholder="formitem.placeholder" size="small" ></el-input>
+          <el-input v-else-if="formitem.type==='number'" type="number" v-model.number="searchForm[formitem.prop]" :disabled="formitem.disabled" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
+          <el-input v-else-if="formitem.type==='textarea'" type="textarea" v-model="searchForm[formitem.prop]" :disabled="formitem.disabled" :rows="formitem.rows||1" :placeholder="formitem.placeholder" size="small" ></el-input>
           <el-cascader
             v-else-if="formitem.type==='cascader'"
             :options="formitem.options"
+            :disabled="formitem.disabled"
             v-model="searchForm[formitem.prop]"
             size="small"
             class="formitem"
           >
           </el-cascader>
-          <el-input v-else v-model="searchForm[formitem.prop]" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
+          <el-input v-else v-model="searchForm[formitem.prop]" :disabled="formitem.disabled" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row type="flex" :justify="justify">
-      <el-button @click="submit" type="primary" :loading="loading" :disabled="loading">{{confirmText}}</el-button>
+    <el-row type="flex" :justify="justify" v-show="showResetButton || showConfirmButton">
+      <el-button @click="submit" type="primary" :loading="loading" :disabled="loading" v-show="showConfirmButton">{{confirmText}}</el-button>
       <el-button @click="resetForm" v-show="showResetButton">重置</el-button>
     </el-row>
   </el-form>
@@ -87,6 +91,10 @@ export default {
       default: '查询'
     },
     showResetButton: {
+      type: Boolean,
+      default: true
+    },
+    showConfirmButton: {
       type: Boolean,
       default: true
     },

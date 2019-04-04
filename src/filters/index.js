@@ -2,7 +2,7 @@ import { parseTime } from '@/utils'
 export { parseTime }
 import * as Enums from '@/utils/enum'
 export function localEnum(value, type) {
-  const obj = Enums[type] && Enums[type].find(item => item.value === value)
+  const obj = Enums[type] && Enums[type].find(item => item.value === Number(value))
   return (obj || {}).name || ''
 }
 export function apiEnum(val, mapConfig, type) {

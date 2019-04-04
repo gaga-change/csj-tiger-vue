@@ -13,8 +13,8 @@
           </el-col>
 
           <el-col :span="6" style="min-width:300px" >
-            <el-form-item label="业务单号" prop="busiBillNo">
-              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
+            <el-form-item label="业务单号" prop="billNo">
+              <el-input v-model.lazy.trim="ruleForm.billNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
@@ -110,9 +110,9 @@
 
 <script>
     import moment from 'moment';
-    import {inBillSelect} from '@/api/warehousing'
+    import {inBillSelect,inBillUpdateStatus} from '@/api/warehousing'
     import  { misWarehousingBillStatusEnum,misWarehousingBillStateEnum } from "@/utils/enum.js";
-    import {getBillType,outbusibillstate,inBillUpdateStatus} from '@/api/map'
+    import {getBillType,outbusibillstate} from '@/api/map'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig } from './config';
@@ -179,25 +179,30 @@
                         <router-link to={`/warehousing/businessorder-detail?id=${row.id}`}  class="tableLink">查看</router-link>
                      }
 
-                     {
+                     { 
+                       [0,2].includes(row.billStatus)&&
                        <span class="tableLink"  onClick={this.operation.bind(this,'examine',row)}>审核</span>
                      }
 
                      {
+                       [0,2].includes(row.billStatus)&&
                        <span class="tableLink" onClick={this.operation.bind(this,'close',row)}>关闭</span>
                      }
 
 
                      {
+                       [0,2].includes(row.billStatus)&&
                        <span class="tableLink" onClick={this.operation.bind(this,'delete',row)}>删除</span>
                      }
 
-                     {
+                     {  
+                        [0,2].includes(row.billStatus)&&
                         <router-link to={`/warehousing/businessorderadd?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">修改</router-link>
                      }
 
-                     {
-                       <span class="tableLink">创建计划单</span>
+                     { 
+                        [1].includes(row.billStatus)&&
+                        <router-link to={`/warehousing/warehousingAddPlanOrder?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">创建计划单</router-link>
                      }
                 </div> 
               )
@@ -229,9 +234,13 @@
            statusFlag,
         }).then(res=>{
           if(res.success){
-
+            this.$message({type:'success', message:'操作成功' });
+            this.getCurrentTableData()
+          } else{
+            this.$message.error('操作失败')
           }
         }).catch(err=>{
+          this.$message.error('操作失败')
           console.log(err)
         })
 

@@ -635,7 +635,7 @@ export const revisalTypeEnum = [
   }
 ];
 
-export const paymentNature = [
+export const expenseType = [
   {
     name: '代支款',
     value: 1
@@ -656,6 +656,66 @@ export const warehouseStateEnum=[
   }
 ]
 
+export const dispatchType=[
+  {
+    name: '快递',
+    value: 1
+  },
+  {
+    name: '物流',
+    value: 2
+  },
+  {
+    name: '自有车队',
+    value: 3
+  }
+]
+
+export const settlementType=[
+  {
+    name: '月结',
+    value: 1
+  },
+  {
+    name: '现结',
+    value: 2
+  },
+  {
+    name: '到付',
+    value: 3
+  }
+]
+export const costCalcWay=[
+  {
+    name: '按照体积计算',
+    value: 1
+  },
+  {
+    name: '按照重量计算',
+    value: 2
+  }
+]
+export const dispatchState=[
+  {
+    name: '已完成',
+    value: 2
+  }
+]
+
+export const invoiceState=[
+  {
+    name: '草稿',
+    value: 1
+  },
+  {
+    name: '审核通过',
+    value: 2
+  },
+  {
+    name: '审核未通过',
+    value: 3
+  }
+]
 //mis 入库单据状态枚举
 export const misWarehousingBillStatusEnum=[
   {
@@ -672,7 +732,7 @@ export const misWarehousingBillStatusEnum=[
   },
   {
     name: '已关闭',
-    value: 3
+    value: 4
   },
 ]
 

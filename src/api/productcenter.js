@@ -68,7 +68,32 @@ export function deleteCategory(categoryCode) {
 // 商品列表
 export function getProductList(data) {
   return request({
-    url: `/webApi/sku/category/skuList`,
+    url: `/webApi/sku/info/skuListByCondition`,
+    method: 'post',
+    data: data
+  })
+}
+
+// 新增商品
+export function addProduct(data) {
+  return request({
+    url: `/webApi/sku/info/add`,
+    method: 'post',
+    data: data
+  })
+}
+// 修改商品
+export function updateProduct(data) {
+  return request({
+    url: `/webApi/sku/info/update`,
+    method: 'post',
+    data: data
+  })
+}
+// 商品详情
+export function productDetail(data) {
+  return request({
+    url: `/webApi/sku/info/selectDetail`,
     method: 'get',
     params: data
   })

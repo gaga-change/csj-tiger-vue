@@ -4,18 +4,20 @@
       <el-card shadow="hover">
         <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="货主" prop="sendtype">
-              <el-input v-model="searchForm.logisticsNo" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
+            <el-form-item label="货主" prop="ownerCode">
+              <el-select  v-model="searchForm.ownerCode" clearable  placeholder="请选择货主" size="small" class="formitem">
+                <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="客户" prop="sendtype">
-              <el-input v-model="searchForm.logisticsNo" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
+            <el-form-item label="客户编码" prop="arrivalCode">
+              <el-input v-model="searchForm.arrivalCode" class="formitem" size="small" placeholder="请输入客户编码"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="出库单号" prop="sendtype">
-              <el-input v-model="searchForm.logisticsNo" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
+            <el-form-item label="出库单号" prop="warehouseExeCode">
+              <el-input v-model="searchForm.warehouseExeCode" class="formitem" size="small" placeholder="请输入出库单号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -32,6 +34,7 @@
       @selection-change="handleSelectionChange"
       :loading="loading"
       row-key="id"
+      max-height="400"
     >
       <el-table-column type="selection" :selectable="checkSelectable" reserve-selection></el-table-column>
       <el-table-column type="index" label="序号" width="60"></el-table-column>
@@ -42,28 +45,33 @@
 
 <script>
 import { getOutStoreList } from '@/api/mis'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
       searchForm: {},
       tableData: [],
       columns: [
-        {label:'货主',prop:'owner'},
-        {label:'客户名称',prop:'customer'},
-        {label:'业务单号',prop:'orderNo'},
-        {label:'出库单号',prop:'outNo'},
-        {label:'配送地址',prop:'address'},
+        {label:'货主',prop:'ownerName'},
+        {label:'客户编码',prop:'arrivalCode'},
+        {label:'客户名称',prop:'arrivalName'},
+        {label:'业务单号',prop:'busiBillNo'},
+        {label:'出库单号',prop:'warehouseExeCode'},
+        {label:'配送地址',prop:'arrivalAddress'},
       ],
       loading: false,
       multipleData: []
     }
+  },
+  computed: {
+    ...mapGetters(['mapConfig'])
   },
   methods: {
     checkSelectable(row, index) {
       // 1、当选择的明细客户不一致时，提示：请选择同一客户的出库单；
       // 2、当选择的客户的配送地址不一致时，提示：请选择同一配送地址的出库单；
       if (this.multipleData.length) {
-        return row.customer === this.multipleData[0].customer && row.address === this.multipleData[0].address
+        return row.arrivalCode === this.multipleData[0].arrivalCode && row.arrivalAddress === this.multipleData[0].arrivalAddress
       }
       return true
     },

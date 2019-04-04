@@ -25,6 +25,13 @@ export default [
         meta: {title: '新建配送单'}
       },
       {
+        path: 'detail',
+        component: _import('mis/logistics/detail'),
+        name: 'logisticsDetail',
+        hidden: true,
+        meta: {title: '配送单详情'}
+      },
+      {
         path: 'substitutePayment',
         component: _import('mis/logistics/substitutepayment'),
         name: 'substitutePayment',
@@ -39,10 +46,9 @@ export default [
     ]
   },
   {
-    path: '/products',
+    path: '/mis/products',
     component: Layout,
-    redirect: '/products/list',
-    name: 'products',
+    redirect: '/mis/products/list',
     mark:'仓储运营',
     meta: { title: '商品管理', icon: 'sale' },
     children: [
@@ -59,13 +65,19 @@ export default [
         hidden: true,
         meta: { title: '编辑商品' }
       },
+      {
+        path: 'detail',
+        component: _import('mis/products/detail'),
+        name: 'misproductdetail',
+        hidden: true,
+        meta: { title: '商品详情' }
+      }
     ]
   },
   {
     path: '/customer',
     component: Layout,
     redirect: '/customer/list',
-    name: 'customer',
     mark:'仓储运营',
     meta: { title: '客户管理', icon: 'sale' },
     children: [
@@ -180,29 +192,5 @@ export default [
       }
     ]
   },
-
-  // {
-  //   path: '/shipper',
-  //   component: Layout,
-  //   redirect: '/shipper/list',
-  //   name: 'shipper',
-  //   mark:'仓储运营',
-  //   meta: { title: '货主管理', icon: 'sale' },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: _import('mis/shipper/list'),
-  //       name: 'shipperList',
-  //       meta: { title: '货主管理'}
-  //     },
-  //     {
-  //       path: 'add',
-  //       hidden: true,
-  //       component: _import('mis/shipper/add'),
-  //       name: 'shipperAdd',
-  //       meta: { title: '新增货主'}
-  //     }
-  //   ]
-  // }
 
 ]
