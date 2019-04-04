@@ -49,21 +49,20 @@ export  const outgoing_carrierListConfig=[
 ]
 
 export  const outgoing_carrierrecordsConfig=[ 
-  { label:'出库单号',prop:''},
-  { label:'商品编号',prop:''},
-  { label:'订正数量',prop:''},
-  { label:'订正金额 ',prop:''},
-  { label:'订正时间',prop:''},
-  { label:'订正人 ',prop:''},
+  { label:'出库单号',prop:'warehouseExeCode'},
+  { label:'商品编号',prop:'skuCode'},
+  { label:'订正数量',prop:'revisalQty'},
+  { label:'订正金额 ',prop:'revisalAmt'},
+  { label:'订正时间',prop:'revisalTime'},
+  { label:'订正人 ',prop:'revisalByName'},
 ]
 
 export  const outgoing_carrierDetailConfig=[ 
   { label:'序号',prop:'',type:'index'},
-  { label:'商品编码',prop:''},
-  { label:'商品名称',prop:''},
-  { label:'规格',prop:''},
-  { label:'出库数量 ',prop:''},
-  { label:'出库金额',prop:''},
-  { label:'调整金额 ',prop:'调整金额',useEdit:true,width:150},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'出库数量 ',prop:'inStoreQty'},
+  { label:'出库金额',prop:'inStoreAmt'},
 ]
 

@@ -68,7 +68,7 @@ export default {
           return (
             <div class="tableLinkBox">
               {
-                <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}`} class="tableLink">修改</router-link>
+                <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}`} class="tableLink">修改</router-link>
               }
 
               {

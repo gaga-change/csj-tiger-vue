@@ -33,6 +33,13 @@ export function inOrderCode(ownerCode) {
     method: 'get'
   })
 }
+// 查询指定货主出库单据
+export function outOrderCode(ownerCode) {
+  return request({
+    url: `/webApi/outwarehouse-revisal/query-outwarehouse-order-code/${ownerCode}`,
+    method: 'get'
+  })
+}
 
 // 根据入库单号查询业务单号及供应商信息
 export function inwarehouseBillInfo(data) {
