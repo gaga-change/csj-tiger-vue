@@ -72,7 +72,7 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
-import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal, queryInwarehouseRevisal, updateInwarehouseRevisal } from '@/api/correction'
+import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal, queryInwarehouseRevisal, updateInwarehouseRevisal, queryApprovedItems } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
@@ -147,6 +147,10 @@ export default {
       }
     },
     initDetail() {
+      queryApprovedItems(this.query.id).then(res => {
+        console.log(res)
+        this.carrierrecords_data = res.data || []
+      })
       return queryInwarehouseRevisal(this.query.id).then(res => {
         let detail = { ...res.data }
         let revisalItems = detail.revisalItems

@@ -94,3 +94,10 @@ export function updateInwarehouseRevisal(data) {
     data
   })
 }
+// 修改订正单信息
+export function queryApprovedItems(id) {
+  return request({
+    url: `/webApi/inwarehouse-revisal/query-approved-items/${id}`,
+    method: 'get'
+  })
+}

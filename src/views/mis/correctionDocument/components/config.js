@@ -15,12 +15,12 @@ export  const carrierListConfig=[
 
 
 export  const carrierrecords_Config=[ 
-  { label:'入库单号',prop:''},
-  { label:'商品编号',prop:''},
-  { label:'订正数量',prop:''},
-  { label:'订正金额 ',prop:''},
-  { label:'订正时间',prop:''},
-  { label:'订正人 ',prop:''},
+  { label:'入库单号',prop:'warehouseExeCode'},
+  { label:'商品编号',prop:'skuCode'},
+  { label:'订正数量',prop:'revisalQty'},
+  { label:'订正金额 ',prop:'revisalAmt'},
+  { label:'订正时间',prop:'revisalTime'},
+  { label:'订正人 ',prop:'revisalByName'},
 ]
 
 export  const carrierDetail_Config=[ 
