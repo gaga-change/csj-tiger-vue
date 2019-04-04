@@ -27,7 +27,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { carrierListConfig } from './components/config'
-import { inwarehouseList, deleteInwarehouseRevisal, approveRevisal } from '@/api/correction'
+import { inwarehouseList, deleteInwarehouseRevisal, inwarehouseApproveRevisal } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -101,7 +101,7 @@ export default {
         approveState: this.approve ? 2 : 3,
         approveReason: this.approveReason
       }
-      approveRevisal(params).then(res => {
+      inwarehouseApproveRevisal(params).then(res => {
         if (res.code == 200) {
           this.$message({
             type: 'success', message: '订正单审核完成！', duration: 1000
