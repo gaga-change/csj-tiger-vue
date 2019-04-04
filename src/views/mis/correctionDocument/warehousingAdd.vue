@@ -157,7 +157,8 @@ export default {
         delete detail.revisalItems
         this.searchForm = detail
         this.initTable()
-        this.carrierDetail_data = revisalItems.map(item => ({
+        this.carrierDetail_data = revisalItems.map((item, index) => ({
+          id: index,
           ...item,
           edit: true,
           ...{ revisalQty: item.revisalQty !== null ? item.revisalQty : '/', revisalAmt: item.revisalAmt !== null ? item.revisalAmt : '/' }
@@ -210,7 +211,8 @@ export default {
       if (code) {
         inwarehouseOrderDetail(code).then(res => {
           const temp = res.data || []
-          this.carrierDetail_data = res.data.map(item => ({
+          this.carrierDetail_data = res.data.map((item, index) => ({
+            id: index,
             ...item,
             ...{ revisalQty: '/', revisalAmt: '/' }
           }))
@@ -263,6 +265,7 @@ export default {
               temp.revisalAmt = null
             }
             temp.isApproved = 0
+            delete temp.id
             return temp
           })
           this.submitloading = true
