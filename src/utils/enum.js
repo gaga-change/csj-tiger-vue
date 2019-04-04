@@ -779,3 +779,14 @@ export const misRevisalTypeEnum = [
     value: 2
   }
 ]
+
+export const isApprovedEnum = [
+  {
+    name: '未订正审核',
+    value: 0
+  },
+  {
+    name: '已订正审核',
+    value: 1
+  }
+]

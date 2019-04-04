@@ -28,6 +28,7 @@ export  const carrierDetail_Config=[
   { label:'商品编码',prop:'skuCode'},
   { label:'商品名称',prop:'skuName'},
   { label:'规格',prop:'skuFormat'},
+  { label:'订正审核',prop:'isApproved',  useLocalEnum:true, type:'isApprovedEnum'},
   { label:'入库数量 ',prop:'inStoreQty'},
   { label:'入库金额',prop:'inStoreAmt'},
 ]
@@ -62,6 +63,7 @@ export  const outgoing_carrierDetailConfig=[
   { label:'商品编码',prop:'skuCode'},
   { label:'商品名称',prop:'skuName'},
   { label:'规格',prop:'skuFormat'},
+  { label:'订正审核',prop:'isApproved',  useLocalEnum:true, type:'isApprovedEnum'},
   { label:'出库数量 ',prop:'outStoreQty'},
   { label:'出库金额',prop:'outStoreAmt'},
 ]

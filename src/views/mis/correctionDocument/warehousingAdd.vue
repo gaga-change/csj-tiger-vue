@@ -148,7 +148,6 @@ export default {
     },
     initDetail() {
       queryApprovedItems(this.query.id).then(res => {
-        console.log(res)
         this.carrierrecords_data = res.data || []
       })
       return queryInwarehouseRevisal(this.query.id).then(res => {
@@ -216,7 +215,6 @@ export default {
             ...item,
             ...{ revisalQty: '/', revisalAmt: '/' }
           }))
-          console.log(this.carrierDetail_data)
         })
       }
     },
@@ -324,6 +322,13 @@ export default {
     handleCurrentRedioChange(currentRow, oldCurrentRow) {
 
       if (this.isModify || !currentRow) {
+        return false
+      }
+
+      if (currentRow.isApproved == 1) {
+        this.$message({
+          type: 'error', message: '该商品已订正审核，无法调整数量或金额！', duration: 3000
+        })
         return false
       }
 

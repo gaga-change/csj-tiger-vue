@@ -148,7 +148,6 @@ export default {
     },
     initDetail() {
       outQueryApprovedItems(this.query.id).then(res => {
-        console.log(res)
         this.carrierrecords_data = res.data || []
       })
       return queryOutwarehouseRevisal(this.query.id).then(res => {
@@ -216,7 +215,6 @@ export default {
             ...item,
             ...{ revisalQty: '/', revisalAmt: '/' }
           }))
-          console.log(this.carrierDetail_data)
         })
       }
     },
@@ -327,6 +325,13 @@ export default {
         return false
       }
 
+      if (currentRow.isApproved == 1) {
+        this.$message({
+          type: 'error', message: '该商品已订正审核，无法调整数量或金额！', duration: 3000
+        })
+        return false
+      }
+
       let data = _.cloneDeep(this.carrierDetail_data);
       data = data.map(v => {
         if (v.id === _.cloneDeep(currentRow).id) {
@@ -337,7 +342,6 @@ export default {
       })
 
       this.carrierDetail_data = data;
-
 
       //高亮效果  此处有异步问题
       setTimeout(() => {
