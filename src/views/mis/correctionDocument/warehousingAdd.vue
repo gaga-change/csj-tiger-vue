@@ -224,9 +224,9 @@ export default {
             let temp = { ...item }
             temp.revisalType = json.revisalType
             if (temp.revisalType == 1) {  // 金额订正
-              temp.revisalAmt = temp['调整金额']
+              temp.revisalAmt = Number(temp['调整金额']) || 0
             } else { // 数量订正
-              temp.revisalQty = temp['调整数量']
+              temp.revisalQty = Number(temp['调整数量']) || 0
             }
             temp.isApproved = 0
             delete temp['调整金额']

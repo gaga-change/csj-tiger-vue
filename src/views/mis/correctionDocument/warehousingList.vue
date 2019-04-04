@@ -113,9 +113,7 @@ export default {
           })
         }
       }).catch(err => {
-        this.$message({
-          type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
-        })
+        
       })
     },
     /** 删除修正单 */
