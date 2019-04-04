@@ -13,8 +13,8 @@
           </el-col>
 
           <el-col :span="6" style="min-width:300px" >
-            <el-form-item label="业务单号" prop="busiBillNo">
-              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
+            <el-form-item label="业务单号" prop="billNo">
+              <el-input v-model.lazy.trim="ruleForm.billNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
@@ -48,16 +48,16 @@
 
            <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="单据状态" >
-              <el-select   v-model="ruleForm.单据状态"  placeholder="请选择单据状态">
-                <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              <el-select   v-model="ruleForm.billStatus"  placeholder="请选择单据状态">
+                <el-option   v-for="item in misWarehousingBillStatusEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="执行状态" >
-              <el-select   v-model="ruleForm.执行状态"  placeholder="请选择执行状态">
-                <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              <el-select   v-model="ruleForm.billState"  placeholder="请选择执行状态">
+                <el-option   v-for="item in misWarehousingBillStateEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -110,7 +110,8 @@
 
 <script>
     import moment from 'moment';
-    import {inBillSelect} from '@/api/warehousing'
+    import {inBillSelect,inBillUpdateStatus} from '@/api/warehousing'
+    import  { misWarehousingBillStatusEnum,misWarehousingBillStateEnum } from "@/utils/enum.js";
     import {getBillType,outbusibillstate} from '@/api/map'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
@@ -147,7 +148,10 @@
         },
         loading:false,
         tableData: [],
-        tableConfig:indexTableConfig,  
+        tableConfig:indexTableConfig,
+        misWarehousingBillStatusEnum,
+        misWarehousingBillStateEnum
+
       }
     },
 
@@ -172,23 +176,33 @@
               return(
                 <div class="tableLinkBox">
                      {
-                        <router-link to={`/warehousing/businessorder-detail?busiBillNo=${row.busiBillNo}`}  class="tableLink">查看</router-link>
+                        <router-link to={`/warehousing/businessorder-detail?id=${row.id}`}  class="tableLink">查看</router-link>
+                     }
+
+                     { 
+                       [0,2].includes(row.billStatus)&&
+                       <span class="tableLink"  onClick={this.operation.bind(this,'examine',row)}>审核</span>
                      }
 
                      {
-                       <span class="tableLink">审核</span>
+                       [0,2].includes(row.billStatus)&&
+                       <span class="tableLink" onClick={this.operation.bind(this,'close',row)}>关闭</span>
                      }
 
-                     {
-                       <span class="tableLink">删除</span>
-                     }
 
                      {
-                       <span class="tableLink">修改</span>
+                       [0,2].includes(row.billStatus)&&
+                       <span class="tableLink" onClick={this.operation.bind(this,'delete',row)}>删除</span>
                      }
 
-                     {
-                       <span class="tableLink">创建计划单</span>
+                     {  
+                        [0,2].includes(row.billStatus)&&
+                        <router-link to={`/warehousing/businessorderadd?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">修改</router-link>
+                     }
+
+                     { 
+                        [1].includes(row.billStatus)&&
+                        <router-link to={`/warehousing/warehousingAddPlanOrder?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">创建计划单</router-link>
                      }
                 </div> 
               )
@@ -200,6 +214,51 @@
 
     methods: {
       moment, 
+      operation(type,row){
+        let tip='';
+        let statusFlag=null;
+        if(type==='examine'){
+          tip='确定要审核通过吗?'
+          statusFlag=1
+        } else if(type==='close'){
+          tip='确定要关闭吗?';
+          statusFlag=4
+        } else if(type==='delete'){
+          tip='确定要删除吗?';
+          statusFlag=9
+        }
+
+        //请求配置
+        let submit=()=>inBillUpdateStatus({
+           inWarehouseBillId:row.id,
+           statusFlag,
+        }).then(res=>{
+          if(res.success){
+            this.$message({type:'success', message:'操作成功' });
+            this.getCurrentTableData()
+          } else{
+            this.$message.error('操作失败')
+          }
+        }).catch(err=>{
+          this.$message.error('操作失败')
+          console.log(err)
+        })
+
+        //对话配置
+        this.$confirm(tip, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          submit()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });
+        });
+
+      },
+
       timeChange(value){
         this.ruleForm={...this.ruleForm, time:value};
         this.getCurrentTableData()

@@ -91,15 +91,29 @@
       },
 
       delete(row){
-        consoilInfoDel({
+        //请求配置
+        let submit=()=>consoilInfoDel({
           carrierNo:row.consoildatorCode
         }).then(res=>{
           if(res.success){
+            this.$message({type:'success', message:'操作成功' });
             this.fetch()
           }
         }).catch(err=>{
           console.log(err)
         })
+        //对话配置
+        this.$confirm('确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          submit()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
 
       select(value){

@@ -42,3 +42,11 @@ export function consoilInfoDel(data={}) {
     method: 'get',
   })
 }
+
+export function infoAllCompany(data={}) {
+  return request({
+    url: `/webApi/consoil/info/allCompany?${stringify(data)}`,
+    method: 'get',
+  })
+}
+

@@ -5,32 +5,32 @@
            <div style="width:200px;">
                <bar-code code="SO20190304000766"/>
            </div>
-           <div>SO20190304000766</div>
+           <div>{{baseData.billNo}}</div>
         </div>
         <div>
           <div style="margin-bottom:6px">
             <span style="font-weight:600;">采购订单 : </span>
-            <span>SO20190304000766</span>
+            <span>{{baseData.busiBillNo}}</span>
           </div>
           <div>
             <span style="font-weight:600;">合同单号 : </span>
-            <span>SO20190304000766</span>
+            <span>{{baseData.contractNo}}</span>
           </div>
         </div>
      </div>
      <h4 style="text-align: center;">采购订单</h4>
      <div style="display:flex;font-size:12px;margin-bottom:12px">
-       <div style="margin-right:20px"> <span style="font-weight:600;">供应商编码 ：</span><span style="border-bottom:1px solid #000;"> SO20190304000766 </span></div>
-       <div style="margin-right:20px"><span style="font-weight:600;">供应商名称 ：</span><span style="border-bottom:1px solid #000;"> SO20190304000766 </span> </div>
-       <div style="margin-right:20px"><span style="font-weight:600;">订货日期 ：</span><span style="border-bottom:1px solid #000;"> {{moment().format('YYYY-MM-DD HH:mm:ss')}} </span></div>
+       <div style="margin-right:20px"><span style="font-weight: 600;">供应商编码 : </span><div style="font-size: 12px; minWidth: 150px;border-bottom: 1px solid #000;display: inline-block">{{baseData.providerCode||null}}</div></div>
+       <div style="margin-right:20px"><span style="font-weight: 600;">供应商名称 : </span><div style="font-size: 12px; minWidth: 150px;border-bottom: 1px solid #000;display: inline-block">{{baseData.providerName||null}}</div></div>
+       <div style="margin-right:20px"><span style="font-weight: 600;">订货日期 : </span><div style="font-size: 12px; minWidth: 150px;border-bottom: 1px solid #000;display: inline-block">{{baseData.orderTime&&moment(baseData.orderTime).format('YYYY-MM-DD HH:mm:ss')||null}}</div></div>
      </div>
      <div style="display:flex;font-size:12px;margin-bottom:20px">
-        <div style="margin-right:20px"><span style="font-weight:600;">到货有效日 ：</span><span style="border-bottom:1px solid #000;"> {{moment().format('YYYY-MM-DD HH:mm:ss')}} </span></div>
-        <div style="margin-right:20px"><span style="font-weight:600;">电话 ：</span><span style="border-bottom:1px solid #000;"> 1991559873 </span> </div>
-        <div style="margin-right:20px"><span style="font-weight: 600;">送货地址 : </span><div style="font-size: 12px; width: 280px;border-bottom: 1px solid #000;display: inline-block"></div></div>
+        <div style="margin-right:20px"><span style="font-weight: 600;">到货有效日 : </span><div style="font-size: 12px; minWidth: 150px;border-bottom: 1px solid #000;display: inline-block">{{baseData.planInWarehouseTime&&moment(baseData.planInWarehouseTime).format('YYYY-MM-DD HH:mm:ss')||null}}</div></div>
+        <div style="margin-right:20px"><span style="font-weight: 600;">电话 : </span><div style="font-size: 12px; minWidth: 150px;border-bottom: 1px solid #000;display: inline-block">{{baseData.linkTel||null}}</div></div>
+        <div style="margin-right:20px"><span style="font-weight: 600;">送货地址 : </span><div style="font-size: 12px; minWidth: 150px;border-bottom: 1px solid #000;display: inline-block">{{baseData.linkAddress||null}}</div></div>
      </div>
      <div style="min-height:200px;margin-bottom:12px">
-       <web-pagination-table :loading="false" :config="config" :allTableData="data"/>
+       <web-pagination-table :loading="false" :config="config" :allTableData="baseData.inBillDetailVOList"/>
      </div>
     
      <div style="font-size:12px;margin-bottom:24px">
@@ -62,9 +62,11 @@
  export default {
    components: { webPaginationTable },
    props:{
-     data:{
-       type:Array,
-       default:()=>[]
+     baseData:{
+       type:Object,
+       default:()=>{
+         inBillDetailVOList:[]
+       }
      },
      config:{
        type:Array,

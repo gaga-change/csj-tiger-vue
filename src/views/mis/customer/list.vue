@@ -14,7 +14,7 @@
         >创建客户</el-button
       >
     </el-row>
-    <el-table :data="tableData" border :loading="loading">
+    <el-table :data="tableData" border :loading="loading" size="small" style="margin-bottom:12px">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
       <el-table-column
         v-for="(column, index) in tableConfig"
@@ -99,7 +99,7 @@
         >新增地址</el-button
       >
     </el-row>
-    <el-table :data="addressTableData" :loading="addressLoading" border>
+    <el-table :data="addressTableData" :loading="addressLoading" border size="small">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
       <el-table-column
         v-for="(column, index) in addressTableConfig"

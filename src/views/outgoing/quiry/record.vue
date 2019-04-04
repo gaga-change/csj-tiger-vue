@@ -1,6 +1,8 @@
 <template>
   <div class="carrier">
-      <search @submit="select" :searchForm="searchForm"></search>
+      <div style="margin-bottom:16px">
+         <search @submit="select" :searchForm="searchForm"></search>
+      </div>
       <base-table 
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
