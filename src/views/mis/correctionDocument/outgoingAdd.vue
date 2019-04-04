@@ -72,7 +72,7 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { outgoing_carrierrecordsConfig, outgoing_carrierDetailConfig } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
-import { queryOwners, outOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal, queryInwarehouseRevisal, updateInwarehouseRevisal, queryApprovedItems } from '@/api/correction'
+import { queryOwners, outOrderCode, outwarehouseBillInfo, outwarehouseOrderDetail, createOutwarehouseRevisal, queryOutwarehouseRevisal, updateOutwarehouseRevisal, outQueryApprovedItems } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
@@ -147,11 +147,11 @@ export default {
       }
     },
     initDetail() {
-      queryApprovedItems(this.query.id).then(res => {
+      outQueryApprovedItems(this.query.id).then(res => {
         console.log(res)
         this.carrierrecords_data = res.data || []
       })
-      return queryInwarehouseRevisal(this.query.id).then(res => {
+      return queryOutwarehouseRevisal(this.query.id).then(res => {
         let detail = { ...res.data }
         let revisalItems = detail.revisalItems
         delete detail.revisalItems
@@ -196,7 +196,7 @@ export default {
       this.searchForm.providerName = ''
       this.searchForm.providerCode = ''
       if (code) {
-        inwarehouseBillInfo({ inWarehouseOrderCode: code }).then(res => {
+        outwarehouseBillInfo({ outWarehouseOrderCode: code }).then(res => {
           const { providerName, busiBillNo, providerCode } = res.data
           this.searchForm.providerName = providerName
           this.searchForm.busiBillNo = busiBillNo
@@ -208,7 +208,7 @@ export default {
     initOrderDetail(code) {
       this.carrierDetail_data = []
       if (code) {
-        inwarehouseOrderDetail(code).then(res => {
+        outwarehouseOrderDetail(code).then(res => {
           const temp = res.data || []
           this.carrierDetail_data = res.data.map(item => ({
             ...item,
@@ -267,7 +267,7 @@ export default {
           })
           this.submitloading = true
           if (this.isModify) {
-            updateInwarehouseRevisal({
+            updateOutwarehouseRevisal({
               id: this.query.id,
               ...json,
               revisalItems
@@ -291,7 +291,7 @@ export default {
             })
           }
           else {
-            createInwarehouseRevisal({
+            createOutwarehouseRevisal({
               ...json,
               revisalItems
             }).then(res => {
