@@ -31,7 +31,7 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220" fixed="right">
+      <el-table-column label="操作" width="260" fixed="right">
         <template slot-scope="scope">
           <div style="display: flex; flexWrap: nowrap">
             <a @click="view({ id: scope.row.id })" :style="linkstyle">
@@ -75,7 +75,7 @@
               v-if="scope.row.invoiceState === 2"
               :style="linkstyle"
             >
-              审核
+              代支费用
             </a>
           </div>
         </template>
