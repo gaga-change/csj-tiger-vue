@@ -18,7 +18,7 @@ export   const tableConfig=[
 export   const infoConfig=[
   {title:'入库单号',prop:'warehouseExeCode'},
   {title:'计划单号',prop:'planCode',useIf:'link',linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
-  {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
+  {title:'业务单号',prop:'busiBillNo'},
   {title:'入库日期',prop:'inWarehouseTime',type:'time'},
   { title:'入库金额合计',prop:'inAmt'},
   { title:'入库数量合计',prop:'inQty'},
@@ -29,8 +29,8 @@ export   const infoConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'入库单号',fixed:true,prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',width:100,query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
-  { label:'业务单号',prop:'busiBillNo',width:150,linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]  },
+  { label:'入库单号',fixed:true,prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',width:150,query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'业务单号',prop:'busiBillNo',width:150 },
   { label:'计划单号',prop:'planCode',width:150,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'合同编号',prop:'contractNo'},
   { label:'供应商名称',prop:'providerName' },

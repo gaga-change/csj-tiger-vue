@@ -82,8 +82,10 @@
        moment,
        inbilldetailApi(){
           inbilldetail(this.$route.query.id).then(res=>{
-            this.infoData=res.data;
-            this.tableData=res.data.items;
+            if(res.success){
+              this.infoData=res.data;
+              this.tableData=res.data.items;
+            }
           }).catch(err=>{
             console.log(err)
           })

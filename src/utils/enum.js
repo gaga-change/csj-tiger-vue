@@ -779,3 +779,52 @@ export const misRevisalTypeEnum = [
     value: 2
   }
 ]
+
+// mis发货要求枚举
+export const sendOutRequireEnum = [
+  {
+    name: '整单',
+    value: 1
+  },
+  {
+    name: '拆单',
+    value: 2
+  }
+]
+
+
+//出库业务单单据状态 枚举
+export const outBillStatusEnum = [
+  {
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '已审核',
+    value: 1
+  },
+  {
+    name: '驳回',
+    value: 2
+  },
+  {
+    name: '已关闭',
+    value: 4
+  },
+]
+
+//出库业务单执行状态 枚举
+export const outBillStateEnum = [
+  {
+    name: '未出库',
+    value: 0
+  },
+  {
+    name: '部分出库',
+    value: 5
+  },
+  {
+    name: '全部出库',
+    value: 8
+  }
+]

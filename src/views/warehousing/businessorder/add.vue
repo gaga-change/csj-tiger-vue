@@ -267,14 +267,14 @@ export default {
         }
         skuInfoList(this.searchForm.ownerCode,this.searchForm.providerCode).then(res=>{
           if(res.success){
-            let data=data?_.cloneDeep(res.data):[];
+            let data=res.data&&_.cloneDeep(res.data)||[];
             let arr=[];
             data.forEach(v=>{
               if(!arr.map(v=>v.skuCode).includes(v.skuCode)){
                  arr.push(v)
               }
             });
-       
+         
             this.commodityList=arr;
           }
         }).catch(err=>{

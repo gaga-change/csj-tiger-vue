@@ -5,7 +5,7 @@
       <el-row :gutter="16" >
           <el-form :inline="true" ref="ruleForm" :model="ruleForm"  size="small" label-width="70px"  label-position="left"  class="demo-form-inline">
             <el-col :span="6" style="min-width:300px" >
-              <el-form-item label="业务类型"  >
+              <el-form-item label="业务类型"   >
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
                   <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
@@ -13,19 +13,19 @@
             </el-col>
 
             <el-col :span="6"  style="min-width:300px" >
-              <el-form-item label="业务单号">
-                <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入业务单号"></el-input>
+              <el-form-item label="业务单号" prop="billNo">
+                <el-input v-model.lazy.trim="ruleForm.billNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入业务单号"></el-input>
               </el-form-item>
             </el-col>
 
           <el-col :span="6" style="min-width:320px">
-            <el-form-item label="合同编号" >
+            <el-form-item label="合同编号" prop="contractNo">
               <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入合同编号"></el-input>
             </el-form-item>
           </el-col>
 
             <el-col :span="6" style="min-width:300px"  >
-              <el-form-item label="货主"  >
+              <el-form-item label="货主" prop="ownerCode" >
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
                   <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
@@ -33,23 +33,23 @@
             </el-col>
 
             <el-col :span="6" style="min-width:300px"  >
-              <el-form-item label="客户名称">
+              <el-form-item label="客户名称" prop="arrivalName">
                 <el-input v-model.lazy.trim="ruleForm.arrivalName"   @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入客户名称"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="6" style="min-width:300px" >
-              <el-form-item label="单据状态" >
-                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.单据状态"   placeholder="请选择单据状态">
-                  <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              <el-form-item label="单据状态" prop="billStatus" >
+                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.billStatus"   placeholder="请选择单据状态">
+                  <el-option   v-for="item in outBillStatusEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
 
             <el-col :span="6" style="min-width:300px" >
-              <el-form-item label="执行状态" >
-                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.执行状态"   placeholder="请选择执行状态">
-                  <el-option   v-for="item in []" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              <el-form-item label="执行状态" prop="billState">
+                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.billState"   placeholder="请选择执行状态">
+                  <el-option   v-for="item in outBillStateEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -89,12 +89,12 @@
 </template>
 
 <script>
-    import { outBillSelect } from '@/api/outgoing'
+    import { outBillList } from '@/api/outgoing'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
     import moment from 'moment';
-    
+    import {outBillStatusEnum,outBillStateEnum} from "@/utils/enum.js";
     export default {
       components: { BaseTable },
       data() {
@@ -110,8 +110,11 @@
         },
         total:0,
         tableConfig:indexTableConfig,
-         loading:false,
-         tableData: [{}],
+        loading:false,
+        tableData: [{}],
+        outBillStatusEnum,
+        outBillStateEnum
+
       }
     },
 
@@ -122,7 +125,7 @@
               return(
                 <div class="tableLinkBox">
                      {
-                        <router-link to={`/outgoing/businessorder-detail?busiBillNo=${row.busiBillNo}`}  class="tableLink">查看</router-link>
+                        <router-link to={`/outgoing/businessorder-detail?id=${row.id}`}  class="tableLink">查看</router-link>
                      }
 
                      {
@@ -196,7 +199,7 @@
           }
         }
         let data={...json}
-        outBillSelect(data).then(res=>{
+        outBillList(data).then(res=>{
         if(res.success){
           let data=res.data;
           this.tableData=data.list||[];

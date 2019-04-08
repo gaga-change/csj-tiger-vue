@@ -4,10 +4,10 @@
       <template >
          <el-button   size="small">关闭</el-button>
          <el-button   size="small">删除</el-button>
-         <router-link  :to="`/outgoing/businessorderadd?type=modify&time=${moment().valueOf()}`"  class="tableLink">
+         <router-link  :to="`/outgoing/businessorderadd?type=modify&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">修改</el-button>
          </router-link>
-          <router-link  :to="`/outgoing/businessorderadd?type=revision&time=${moment().valueOf()}`"  class="tableLink">
+          <router-link  :to="`/outgoing/businessorderadd?type=revision&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">调整</el-button>
          </router-link>
          <el-button  type="success" size="small">审核</el-button>
@@ -22,9 +22,9 @@
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
-     <web-pagination-table 
+     <edit-Table 
       :loading="loading"
-      :config="tableConfig" 
+      :config="detailTableConfig" 
       :allTableData="tableData"/>
 
       <el-dialog
@@ -45,14 +45,15 @@
 <script>
 
  import { tableConfig,infoConfig,printingTable_config} from './config';
- import webPaginationTable from '@/components/Table/webPaginationTable';
+ import editTable from '@/components/Table/editTable';
  import Sticky from '@/components/Sticky'
  import Invoice from './conpoments/invoice'
  import moment from 'moment';
+ import { outBillDetail } from '@/api/outgoing'
  import { MakePrint } from '@/utils'
 
  export default {
-    components: { webPaginationTable,Sticky,Invoice},
+    components: { editTable,Sticky,Invoice},
     data() {
       return {
         loading:false,
@@ -60,17 +61,33 @@
         infoConfig,
 
         tableData:[],
-        tableConfig,
+        detailTableConfig:tableConfig,
         
         //打印项
         printingVisible:false,
-        printingTable_data:[{},{}],
+        printingTable_data:[],
         printingTable_config
       }
     },
 
-    mounted(){
-
+    created(){
+      let detailTableConfig= _.cloneDeep(this.detailTableConfig);
+      let index=detailTableConfig.findIndex(v=>['客户销价','进货价'].includes(v.label));
+      outBillDetail(this.$route.query.id).then(res=>{
+        if(res.success){
+          let data= _.cloneDeep(res.data);
+          if(data&&data.busiBillType===21){
+            detailTableConfig[index]= { label:'客户销价',prop:'outStorePrice',}
+          } else {
+            detailTableConfig[index]= { label:'进货价',prop:'outStorePrice',}
+          }
+          this.detailTableConfig=detailTableConfig;
+          this.infoData=res.data;
+          this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     },
 
     methods:{

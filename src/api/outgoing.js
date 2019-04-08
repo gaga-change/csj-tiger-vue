@@ -2,20 +2,13 @@ import request from '@/utils/request'
 import {stringify} from 'qs';
 
 //出库业务单数据
-export function outBillSelect(data={}) {
+export function outBillList(data={}) {
   return request({
-    url: `/webApi/out/bill/select?${stringify(data)}`,
+    url: `/webApi/out/bill/list?${stringify(data)}`,
     method: 'get',
   })
 }
 
-//出库业务单详情数据
-export function outBillDetail(data={}) {
-  return request({
-    url: `/webApi/out/bill/detail?${stringify(data)}`,
-    method: 'get',
-  })
-}
 
 //出库计划数据
 export function outPlanSelect(data={}) {
@@ -123,13 +116,48 @@ export function orderSave(data={}) {
   })
 }
 
-export function providerAddrList(data={}) {
+export function customerAddrInfo(customerId,billType) {
   return request({
-    url: `/webApi/provider/addr/list?${stringify(data)}`,
+    url: `/webApi/customer/addr/info/${customerId}/${billType}`,
     method: 'get',
   })
 }
 
 
+export function skuInfoList(ownerCode,arrivalCode) {
+  return request({
+    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}`,
+    method: 'get',
+  })
+}
 
+export function outBillAdd(data={}) {
+  return request({
+    url: `/webApi/out/bill/add`,
+    method: 'post',
+    data: data,
+  })
+}
 
+export function outBillDetail(outWarehouseBillId) {
+  return request({
+    url: `/webApi/out/bill/detail/${outWarehouseBillId}`,
+    method: 'get',
+  })
+}
+
+export function outBillUpdate(data={}) {
+  return request({
+    url: `/webApi/out/bill/update`,
+    method: 'put',
+    data: data,
+  })
+}
+
+export function outBillImprove(data={}) {
+  return request({
+    url: `/webApi/out/bill/improve`,
+    method: 'put',
+    data: data,
+  })
+}
