@@ -160,9 +160,9 @@ export default {
         }
       }
       let params = { ...json }
-      if (params.time) {
-        params.startDate = params.time[0]
-        params.endDate = params.time[1]
+      if (params.time && params.time.length) {
+        params.startDate = moment(new Date(params.time[0]).getTime()).format('YYYY-MM-DD')
+        params.endDate = moment(new Date(params.time[1]).getTime()).format('YYYY-MM-DD')
         delete params.time
       }
       inwarehouseList(params).then(res => {
