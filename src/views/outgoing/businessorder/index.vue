@@ -89,10 +89,11 @@
 </template>
 
 <script>
-    import { outBillList } from '@/api/outgoing'
+    import { outBillList,outBillCheck,outBillDelete,outBillClose } from '@/api/outgoing'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfig } from './config';
+    import { operation } from './conpoments/lib';
     import moment from 'moment';
     import {outBillStatusEnum,outBillStateEnum} from "@/utils/enum.js";
     export default {
@@ -124,17 +125,39 @@
             item.dom=(row, column, cellValue, index)=>{
               return(
                 <div class="tableLinkBox">
-                     {
-                        <router-link to={`/outgoing/businessorder-detail?id=${row.id}`}  class="tableLink">查看</router-link>
+                     {  
+                        <router-link to={`/outgoing/businessorder-detail?id=${row.id}&busiBillNo=${row.busiBillNo}`}  class="tableLink">查看</router-link>
+                     }
+
+                     {  
+                        [0,2].includes(row.billStatus)&& 
+                        <router-link to={`/outgoing/businessorderadd?type=modify&id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">修改</router-link>
                      }
 
                      {
-                       <span class="tableLink">审核</span>
+                        [1].includes(row.billStatus)&& 
+                        <router-link to={`/outgoing/businessorderadd?type=revision&id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">调整</router-link>
+                     }
+
+                     { 
+                        [1].includes(row.billStatus)&& 
+                        <router-link to={`/outgoing/businessorderAddPlanOrder?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">创建计划单</router-link>
                      }
 
                      {
-                       <span class="tableLink">删除</span>
+                       [0,2].includes(row.billStatus)&& 
+                       <span class="tableLink" onClick={this.operation.bind(this,row,'outBillCheck','请输入审核意见 !')}>审核</span>
                      }
+
+                     {
+                       [0,2,4].includes(row.billStatus)&& 
+                       <span class="tableLink" onClick={this.operation.bind(this,row,'outBillDelete','确定要删除吗?')}>删除</span>
+                     }
+
+                     {
+                       <span class="tableLink" onClick={this.operation.bind(this,row,'outBillClose','确定要关闭吗?')}>关闭</span>
+                     }
+                     
                     
                 </div> 
               )
@@ -148,7 +171,7 @@
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
        this.getCurrentTableData();
-    },
+     },
 
     computed: {
     ...mapGetters([
@@ -157,6 +180,7 @@
 
     methods: { 
        moment,
+       operation,
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {

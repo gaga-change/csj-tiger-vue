@@ -22,6 +22,7 @@
           :formatter="item.formatter"
           :key="item.lable"
           :type="item.columnType"
+          :class-name="item.className"
           :fixed="item.fixed"
           :align="item.align"
           :width="item.width"

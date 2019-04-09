@@ -145,3 +145,14 @@ export  const manual_config=[
   {label:'计划出库数量',prop:'',},
   {label:'实际出库数量',prop:'num',useEdit:true,width:150},
 ]
+
+export const printingTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'型号',prop:'skuModel'},
+  { label:'单位',prop:'skuUnitName'},
+  { label:'计划出库数量',prop:'planOutQty'},
+]
+

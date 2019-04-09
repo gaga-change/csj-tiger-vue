@@ -3,7 +3,7 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template>
           <div style="display: inline-block;" v-if="!$route.query.id">
-              <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/in/bill/importTemplate" name="file"/>
+              <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" name="file"/>
           </div>
           <el-button @click="submit('save')" type="primary">保存</el-button>
       </template>
@@ -348,7 +348,33 @@ export default {
    
 
       uploadRes(res){
-        console.log(res)
+        if(res.success){
+            let addtable_config= _.cloneDeep(this.addtable_config);
+            let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
+            let searchForm= _.cloneDeep(this.searchForm);
+            searchForm=res.data;
+            searchForm.sendOutRequire=searchForm.sendOutRequire||1
+            searchForm.sendOutRequire=Number(searchForm.sendOutRequire);
+            searchForm.outWarehouseBillDetailList=(res.data&&Array.isArray(res.data.busiBillDetails)&&res.data.busiBillDetails||[]).map(v=>{
+              v.planOutQty=v.skuOutQty;
+              ['purchasePrice','sellPrice'].forEach(itme=>{
+                v[itme]=v.outStorePrice;
+              })
+              return v;
+            });
+            if(searchForm.busiBillType===21){
+              addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
+            } else {
+              addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
+            }
+            this.addtable_config=addtable_config;
+            this.searchForm=searchForm;
+            if(this.searchForm.ownerCode){
+              this.getCustomerInfo(this.searchForm.ownerCode);
+            }
+        } else {
+           this.$message.error('导入失败');
+        }
       },
 
       goeditrow(index,type) {
@@ -427,7 +453,7 @@ export default {
                       onClose:()=>{
                         this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                           this.$router.push({
-                            path:`/outgoing/businessorder-detail?id=${this.$route.query.id||res.data&&res.data.id}`,
+                            path:`/outgoing/businessorder-detail?id=${this.$route.query.id||(typeof res.data==='object'?res.data.id:res.data)}`,
                           })
                         }).catch(err=>{
                           console.log(err)

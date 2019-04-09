@@ -161,3 +161,59 @@ export function outBillImprove(data={}) {
     data: data,
   })
 }
+
+
+//出库业务单审核
+export function outBillCheck(outWarehouseBillId) {
+  return request({
+    url: `/webApi/out/bill/check/${outWarehouseBillId}`,
+    method: 'put',
+  })
+}
+
+//出库业务单删除功能
+export function outBillDelete(outWarehouseBillId) {
+  return request({
+    url: `/webApi/out/bill/delete/${outWarehouseBillId}`,
+    method: 'DELETE',
+  })
+}
+
+//出库业务单关闭功能
+export function outBillClose(busiBillNo) {
+  return request({
+    url: `/webApi/out/bill/close/${busiBillNo}`,
+    method: 'put',
+  })
+}
+
+
+export function skuInfoGetRecommendStock(ownerCode,skuCode) {
+  return request({
+    url: `/webApi/sku/info/getRecommendStock/${ownerCode}/${skuCode}`,
+    method: 'get',
+  })
+}
+
+
+export function outPlanAdd(data={}) {
+  return request({
+    url: ` /webApi/out/plan/add`,
+    method: 'post',
+    data: data,
+  })
+}
+
+export function outPlanPrint(planCode) {
+  return request({
+    url: `/webApi/out/plan/print/${planCode}`,
+    method: 'get',
+  })
+}
+
+export function outBillImproveList() {
+  return request({
+    url: `/webApi/out/bill/improve/list`,
+    method: 'get',
+  })
+}

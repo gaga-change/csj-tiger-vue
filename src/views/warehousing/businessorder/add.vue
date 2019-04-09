@@ -254,6 +254,8 @@ export default {
           return v;
         });
         this.searchForm=searchForm;
+      } else{
+        this.$message.error('导入失败');
       }
     },
 

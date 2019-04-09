@@ -2,17 +2,16 @@
   <div class="outgoing-quirydetail-container">
      <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button   size="small">关闭</el-button>
-         <el-button   size="small">删除</el-button>
-         <router-link  :to="`/outgoing/businessorderadd?type=modify&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
+         <el-button   size="small" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillClose','确定要关闭吗?')">关闭</el-button>
+         <el-button   v-if="[0,2,4].includes(infoData.billStatus)" size="small" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillDelete','确定要删除吗?')">删除</el-button>
+         <router-link v-if="[0,2].includes(infoData.billStatus)"  :to="`/outgoing/businessorderadd?type=modify&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">修改</el-button>
          </router-link>
-          <router-link  :to="`/outgoing/businessorderadd?type=revision&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
+          <router-link v-if="[1].includes(infoData.billStatus)" :to="`/outgoing/businessorderadd?type=revision&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">调整</el-button>
          </router-link>
-         <el-button  type="success" size="small">审核</el-button>
-         <el-button  type="success" size="small" @click="printingVisible=true">打印</el-button>
-         <router-link  :to="`/outgoing/businessorderAddPlanOrder?time=${moment().valueOf()}`"  class="tableLink">
+         <el-button v-if="[0,2].includes(infoData.billStatus)"  type="success" size="small" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillCheck','请输入审核意见 !')">审核</el-button>
+         <router-link v-if="[1].includes(infoData.billStatus)" :to="`/outgoing/businessorderAddPlanOrder?time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">创建计划单</el-button>
          </router-link>
       </template>
@@ -27,33 +26,23 @@
       :config="detailTableConfig" 
       :allTableData="tableData"/>
 
-      <el-dialog
-        title="打印发货清单"
-        :visible.sync="printingVisible"
-         width="841px"
-        :before-close="handleClose">
-        <invoice id="invoice" :data="printingTable_data" :config="printingTable_config"/>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="surePrinting">打印</el-button>
-        </span>
-      </el-dialog>
+
 
   </div>
 </template>
 
 <script>
 
- import { tableConfig,infoConfig,printingTable_config} from './config';
+ import { tableConfig,infoConfig} from './config';
  import editTable from '@/components/Table/editTable';
  import Sticky from '@/components/Sticky'
- import Invoice from './conpoments/invoice'
  import moment from 'moment';
  import { outBillDetail } from '@/api/outgoing'
- import { MakePrint } from '@/utils'
+ import { operation } from './conpoments/lib';
+ import _  from 'lodash';
 
  export default {
-    components: { editTable,Sticky,Invoice},
+    components: { editTable,Sticky},
     data() {
       return {
         loading:false,
@@ -61,12 +50,7 @@
         infoConfig,
 
         tableData:[],
-        detailTableConfig:tableConfig,
-        
-        //打印项
-        printingVisible:false,
-        printingTable_data:[],
-        printingTable_config
+        detailTableConfig:tableConfig
       }
     },
 
@@ -77,9 +61,9 @@
         if(res.success){
           let data= _.cloneDeep(res.data);
           if(data&&data.busiBillType===21){
-            detailTableConfig[index]= { label:'客户销价',prop:'outStorePrice',}
+            detailTableConfig[index]= { label:'客户销价',prop:'outStorePrice'}
           } else {
-            detailTableConfig[index]= { label:'进货价',prop:'outStorePrice',}
+            detailTableConfig[index]= { label:'进货价',prop:'outStorePrice'}
           }
           this.detailTableConfig=detailTableConfig;
           this.infoData=res.data;
@@ -92,15 +76,7 @@
 
     methods:{
        moment,
-       //关闭弹框
-       handleClose(){
-        this.printingVisible=false;
-       },
-       surePrinting(){
-          let printContainer = document.getElementById('invoice').innerHTML;
-          MakePrint(printContainer);
-          this.printingVisible=false;
-       }
+       operation
     }
  }
 

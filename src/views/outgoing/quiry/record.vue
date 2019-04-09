@@ -18,6 +18,7 @@
 <script>
   import search from './components/search'
   import BaseTable from '@/components/Table'
+  import {outBillImproveList} from '@/api/outgoing';
   import { record_config } from './config'
   import _  from 'lodash';
   import moment from 'moment';
@@ -28,9 +29,9 @@
 
         //搜索项
         searchForm:{
-          调整类型:'',
-          业务单号:'',
-          调整人:'',
+          improveReason:'',
+          billNo:'',
+          createrName:'',
           time:[],
           pageSize:10,
           pageNum:1
@@ -45,7 +46,7 @@
     },
 
     mounted(){
-     
+      this.fetch()
     },
 
     methods: {
@@ -66,13 +67,26 @@
       },
 
       fetch(){
+        this.loading=true;
         let json= _.cloneDeep(this.searchForm);
         for(let i in json){
            if(json[i]===''){
              delete json[i]
+           } else if(Array.isArray(json[i])){
+             json['start']= moment(json[i][0]).valueOf();
+             json['end']= moment(json[i][1]).valueOf();
            }
         }
-        console.log(json)
+        outBillImproveList(json).then(res=>{
+          this.loading=false;
+          if(res.success){
+            this.total=res.data&&res.data.total;
+            this.tableData=res.data&&Array.isArray(res.data.list)&&res.data.list;
+          }
+        }).catch(err=>{
+          this.loading=false;
+          console.log(err)
+        })
       }
 
     }

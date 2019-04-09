@@ -1,32 +1,38 @@
 <template>
   <div class="outgoing-quirydetail-container">
-  
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template>
+          <el-button type="primary" size="small" @click="submit" >生成计划单</el-button>
+      </template>
+   </sticky>
+
      <item-title text="基本信息"/>
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
-      <div class="submitBtn">
-         <el-button type="primary" size="small" @click="submit" >生成计划单</el-button>
-      </div>
-     <web-pagination-table 
-      :loading="loading"
-      :config="addPlanOrder_config" 
-      :allTableData="tableData"/>
-
+     <div class="detail">
+        <web-pagination-table
+          :loading="loading"
+          :config="addPlanOrder_config" 
+          :allTableData="tableData"/>
+     </div>
+    
       <el-dialog
         title="编辑计划出库数量并选择仓库"
         :visible.sync="addVisible"
-         width="800px"
+          width="800px"
         :before-close="handleClose">
-          <edit-Table
-            @currentRedioChange="handleCurrentRedioChange"
-            :highlightCurrentRow="true"
-            :config="alertTable_config" 
-            :allTableData="alertTableData"/> 
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <el-button type="primary" @click="sureWarehouse">确 定</el-button>
-              </span>
+          <div class="revisalEditTable">
+            <edit-Table
+              @currentRedioChange="handleCurrentRedioChange"
+              :highlightCurrentRow="true"
+              :config="alertTable_config" 
+              :allTableData="alertTableData"/> 
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="handleClose">取 消</el-button>
+            <el-button type="primary" @click="sureWarehouse">确 定</el-button>
+          </span>
       </el-dialog>
   </div>
 </template>
@@ -36,12 +42,15 @@
  import { addPlanOrder_config,infoConfig,alertTable_config} from './config';
  import webPaginationTable from '@/components/Table/webPaginationTable';
  import editTable from '@/components/Table/editTable';
+ import Sticky from '@/components/Sticky'
+ import { outBillDetail,skuInfoGetRecommendStock,outPlanAdd} from '@/api/outgoing'
  import moment from 'moment';
  import _  from 'lodash';
+ import { mapGetters } from 'vuex'
 
  export default {
     name: 'businessorderAddPlanOrder',
-    components: { webPaginationTable,editTable},
+    components: { webPaginationTable,editTable,Sticky},
     data() {
       return {
         //基本信息项
@@ -50,25 +59,29 @@
         infoConfig,
 
         //table项
-        tableData:[{id:1},{id:2}], //需要id
+        tableData:[], //需要id
         addPlanOrder_config,
 
         //弹框项
         addVisible:false,
-        originalTableData:[{id:1,num:1,edit:true},{id:2,num:1,edit:true}],//原始数据  需要id
-        alertTableData:[{id:1,num:1,edit:true},{id:2,num:1,edit:true}], //需要id
+        alertTableData:[], //需要id
         alertTable_config,
 
-        currentRow:{},//弹框中当前点中的项
         editRow:{}//当前正在编辑的行 并非弹框
 
 
       }
     },
 
+   computed: {
+    ...mapGetters({
+      visitedViews: 'visitedViews'
+    })
+   },
+
     created(){
       this.addPlanOrder_config.forEach(item=>{
-        if(item.useLink){
+        if(item.label==='操作'){
             item.dom=(row, column, cellValue, index)=>{
               return(
                 <div class="tableLinkBox">
@@ -88,13 +101,63 @@
     },
 
     mounted(){
-
+      outBillDetail(this.$route.query.id).then(res=>{
+        if(res.success){
+          let data= _.cloneDeep(res.data);
+          let dom=[...document.querySelectorAll('.detail .Price .cell')]
+          dom.forEach(item=>{
+            if(data&&data.busiBillType===21){
+               item.innerHTML='客户销价'
+            } else {
+               item.innerHTML='进货价'
+            }
+          })
+          this.infoData=res.data;
+          this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     },
 
     methods:{
       moment,
       submit(){
-        console.log(this.tableData)
+        const view = this.visitedViews.filter(v => v.path === this.$route.path)
+        if(this.tableData.some(v=>isNaN(v.planOutQty)||v.planOutQty===null)){
+          this.$message.error('其请输入正确的计划出库数量');
+          return 
+        }
+        outPlanAdd({
+          itemList:this.tableData.map((v,i)=>{
+            v.busiIndex=i+1;
+            v.outPrice=v.outStorePrice;
+            return v
+          }),
+          operateToken:moment().valueOf(),
+          outWarehouseBillId:this.$route.query.id
+        }).then(res=>{
+          if(res.success){
+            this.$message({
+              type:'success', 
+              message:'操作成功,即将跳转到计划单列表页！' ,
+              duration:1500,
+              onClose:()=>{
+                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                  this.$router.push({
+                    path:`/outgoing/plan`,
+                  })
+                }).catch(err=>{
+                  console.log(err)
+                })  
+              }
+            })
+          } else{
+            this.$message.error('操作失败');
+          }
+        }).catch(err=>{
+           this.$message.error('操作失败');
+        })
       },
       //关闭弹框
       handleClose(){
@@ -103,7 +166,35 @@
 
       //点击某一行的回调
       handleCurrentRedioChange(currentRow, oldCurrentRow){
-        this.currentRow=currentRow;
+        if(!currentRow){
+          return false
+        }
+        let alertTableData=_.cloneDeep(this.alertTableData);
+        alertTableData=alertTableData.map(v=>{
+          if(v.warehouseCode===_.cloneDeep(currentRow).warehouseCode){
+             v.edit=true;
+          } else{
+            v.edit=false;
+            v.planOutQty=null;
+          }
+          return v
+        })
+        this.alertTableData=alertTableData;
+
+      //高亮效果  此处有异步问题
+       setTimeout(()=>{
+         let revisalEditTable=[...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr')];
+         revisalEditTable.forEach(item=>{
+            let td=[...item.querySelectorAll('td')]
+              td.forEach(v=>{
+                 if(item.innerHTML.includes('el-input-number')){
+                    v.style.cssText="color:#fff;background:green !important"
+                 } else{
+                    v.style.cssText=""
+                 }
+              })
+          })
+       },20)
       },
 
       //展示弹框
@@ -114,30 +205,36 @@
           tableData.splice(index,1);
           this.tableData=tableData;
         } else if(type==='edit'){
-           if(row.id!==this.editRow.id){
-             this.editRow=row;
-             this.currentRow={};
-             this.alertTableData=_.cloneDeep(this.originalTableData)
+           if(row.skuCode!==this.editRow.skuCode){
+             skuInfoGetRecommendStock(this.infoData.ownerCode,'WC000023'||row.skuCode).then(res=>{
+               if(res.success){
+                 this.editRow=_.cloneDeep(row);
+                 this.currentRow={};
+                 this.alertTableData=_.cloneDeep(res.data)
+               }
+             }).catch(err=>{
+               console.log(err)
+             })
+             
            }
            this.addVisible=true;
         }
       },
 
+
       //点击确定
       sureWarehouse(){
-        if(!this.currentRow||!Object.keys(this.currentRow).length){
+        if(this.alertTableData.every(v=>!v.edit)){
           this.$message.error('请选择数据');
           return 
         }
         let tableData=_.cloneDeep(this.tableData);
         let index=tableData.findIndex(v=>v.id===this.editRow.id);
         if(index!==-1){
-          let currentRow=_.cloneDeep(this.currentRow);
-          delete currentRow.id;
-          tableData[index]={...tableData[index],...currentRow}
+          tableData[index]={...tableData[index],...this.alertTableData.filter(v=>v.edit)[0]}
         }
         this.tableData=tableData;
-         this.addVisible=false;
+        this.addVisible=false;
       }
     }
  }

@@ -45,8 +45,8 @@ export const indexTableConfig=[
 
 export const record_config=[
   { label:'序号',fixed:true,type:'index',width:50},
-  { label:'调整类型',prop:''},
-  { label:'业务单号',prop:''},
-  { label:'调整日期',prop:'',type:'time'},
-  { label:'调整日',prop:'',type:'time'},
+  { label:'调整类型',prop:'improveReason'},
+  { label:'业务单号',prop:'billNo'},
+  { label:'调整人',prop:'createrName'},
+  { label:'调整日期',prop:'gmtCreate',type:'time'}
 ]
