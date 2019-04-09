@@ -5,9 +5,11 @@
         v-loading="loading"
         :element-loading-text="elementLoadingText"
         :element-loading-background="elementLoadingBackground"
+         @current-change="handleCurrentRedioChange"
         :data="!usePagination?allTableData:tableData"
         :size="size"
         :border="border"
+        :highlight-current-row="highlightCurrentRow"
         :row-class-name="tableRowClassName"
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
@@ -33,14 +35,16 @@
                         :min="item.min||0"
                         v-model="scope.row[item.prop]" >
                     </el-input>
-                    <el-input-number
+                    <span v-else @click.stop>
+                      <el-input-number
                         size="mini"
-                        v-else
+                        controls-position="right"
                         :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
                         :style="`width:${item.width-20}px;border:${useColor&&scope.row[item.prop]>0?'1px solid red':'1px solid transparent'}`"
                         v-model.number="scope.row[item.prop]" >
-                    </el-input-number>
+                      </el-input-number>
+                    </span>
                    </template>
                    <span v-else>
                     {{formatter(scope.row,item,scope.row[item.prop],scope.$index)}}
@@ -164,7 +168,11 @@ export default {
     usePagination:{
       type: Boolean,
       default: false
-    }
+    },
+    highlightCurrentRow:{
+       type: Boolean,
+       default: false
+    },
   },
 
   data() {
@@ -229,6 +237,7 @@ export default {
             case 'index':return (this.pageSize)*(this.currentPage-1)+index+1;break;
             case 'bracketsIndex':return `( ${(this.pageSize)*(this.currentPage-1)+index+1} )`;break;
             case 'toFixed':return cellValue&&Number(Number(cellValue).toFixed(2));break;
+            case 'code':tableConfig[i].formatter=(row, column, cellValue, index)=> <bar-code code={cellValue}/> ;break;
            }
          }
        } else if(column.dom){
@@ -264,6 +273,10 @@ export default {
 
       handleSelectionChange(val){
         this.$emit('SelectionChange', val); 
+      },
+
+      handleCurrentRedioChange(currentRow, oldCurrentRow){
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
       },
 
       getSummarie(param) {

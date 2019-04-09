@@ -1,0 +1,514 @@
+<template lang="html">
+  <div class="addCarrier">
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template>
+          <div style="display: inline-block;" v-if="!$route.query.id">
+              <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" name="file"/>
+          </div>
+          <el-button @click="submit('save')" type="primary">保存</el-button>
+      </template>
+   </sticky>
+
+    <el-card shadow="hover">
+      <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
+        <el-row>
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.type==='revision'">
+              <el-form-item label="调整原因" prop="improveReason" :rules="[{ required: true, message: '该项为必填'}]">
+                <el-select  v-model="searchForm.improveReason" clearable placeholder="请选择调整原因" size="small" class="formitem">
+                   <el-option v-for="item in ['录入错误','客户业务单信息变动']" :label="item" :key="item"  :value="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col> 
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="业务单类型" prop="busiBillType" :rules="[{ required: true, message: '该项为必填'}]">
+                <el-select  v-model="searchForm.busiBillType" @change="busiBillTypeChange" clearable placeholder="请选择业务单类型" size="small" class="formitem">
+                   <el-option v-for="item in outgoingOrderTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>  
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
+              <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
+                <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="外部订单号:"  prop="busiBillNo"  :rules="[{ required: true, message: '该项为必填'}]" >
+                <el-input v-model="searchForm.busiBillNo" placeholder="请输入外部订单号" size="small" class="formitem"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
+                <el-select v-model="searchForm.ownerCode" filterable  size="small" @change="ownerCodeChange"  placeholder="请选择货主"  >
+                  <el-option 
+                    value="" v-if="mapConfig['ownerInfoMap']&&mapConfig['ownerInfoMap'].length" :disabled="true">
+                    <div class="providerList"> 
+                      <span>货主编号</span> 
+                      <span>货主名称</span> 
+                    </div>
+                  </el-option>
+                  <el-option
+                    v-for="item in mapConfig['ownerInfoMap']" :key="item.key" :label="item.value" :value="item.key">
+                      <div class="providerList">
+                        <span >{{ item.key }}</span>
+                        <span >{{ item.value }}</span>
+                      </div>
+                  </el-option>
+                </el-select>           
+              </el-form-item>
+            </el-col>
+
+              <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+                <el-form-item  :label="searchForm.busiBillType===21?'客户':'供应商'"  label-width="90px" prop="arrivalCode" :rules="[{ required: true, message: '该项为必填'}]">
+                  <el-select v-model="searchForm.arrivalCode" filterable  size="small"  @focus="providerFocus" @change="providerChange" :placeholder="searchForm.busiBillType===21?'请选择客户':'请选择供应商'"  >
+                    <el-option  value="" v-if="providerConfig.length" :disabled="true">
+                      <div class="providerList">
+                        <span>{{searchForm.busiBillType===21?'客户编号':'供应商编号'}}</span>
+                        <span>{{searchForm.busiBillType===21?'客户名称':'供应商名称'}}</span>
+                      </div>
+                    </el-option>
+                    <el-option v-for="item in providerConfig" :key="item.customerCode" :label="item.customerName" :value="item.customerCode">
+                      <div class="providerList">
+                        <span >{{ item.customerCode }}</span>
+                        <span >{{ item.customerName }}</span>
+                      </div>
+                    </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"  prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填'}]" >
+                <el-select  size="small"  @focus="arrivalAddressFocus"   v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
+                    <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
+                </el-select>
+                <el-input v-else v-model="searchForm.arrivalAddress" :placeholder="searchForm.busiBillType===21?'请输入客户地址':'请输入供应商地址'" size="small" class="formitem"></el-input>
+              </el-form-item>
+            </el-col>
+
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="联系电话:"  prop="arrivalLinkTel" :rules="[{ required: true, message:'请输入正确格式的手机号',pattern:/^1[34578]\d{9}$/ }]" >
+                <el-input v-model="searchForm.arrivalLinkTel" placeholder="请输入联系电话" size="small" class="formitem"></el-input>
+              </el-form-item>
+            </el-col>
+
+              <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="创建人:" v-if="$route.query.id" >
+                <el-input v-model="searchForm.createrName" placeholder="请输入创建人" size="small" class="formitem"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+               <el-form-item label="到货预定日"  label-width="100px" >
+                  <el-date-picker v-model="searchForm.arrivalPreDate" size="small" type="date" placeholder="选择日期"></el-date-picker>
+               </el-form-item>
+            </el-col>
+
+             <el-col :sm="12" :md="8" :lg="8" :xl="6">
+               <el-form-item label="到货有效日"  label-width="100px">
+                  <el-date-picker v-model="searchForm.arrivalEffectDate" size="small" type="date" placeholder="选择日期"></el-date-picker>
+               </el-form-item>
+            </el-col>
+
+  
+             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
+               <el-form-item label="创建日期"  label-width="100px" v-if="$route.query.id">
+                  <el-date-picker v-model="searchForm.gmtCreate" type="date" placeholder="选择日期"></el-date-picker>
+               </el-form-item>
+            </el-col>
+
+           <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="合同号:"  >
+                <el-input v-model="searchForm.contractNo" placeholder="请输入合同号" size="small" class="formitem"></el-input>
+              </el-form-item>
+          </el-col>
+
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
+            <el-form-item label="发货要求" >
+              <el-select  v-model="searchForm.sendOutRequire" clearable  placeholder="请选择发货要求" size="small" class="formitem">
+                <el-option v-for="item in sendOutRequireEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>  
+
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="[21].includes(searchForm.busiBillType)">
+              <el-form-item label="询价单号:"  >
+                <el-input v-model="searchForm.inquiryNo" placeholder="请输入询价单号" size="small" class="formitem"></el-input>
+              </el-form-item>
+          </el-col>
+
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
+              <el-form-item label="订单来源:"  >
+                <el-input v-model="searchForm.fromSysCode" placeholder="请输入订单来源" size="small" class="formitem"></el-input>
+              </el-form-item>
+          </el-col>
+      </el-row>
+
+      <div class="tableBox">
+        <div class="tableTitle">
+            <item-title text="商品明细"/>
+            <div class="tableBtn">
+               <el-button  size="mini" class="addCommodity" @click="showDialog('add')" type="primary">添加商品</el-button>
+            </div>
+        </div>
+          <edit-Table
+            :useEdit="true"
+            :config="addtable_config" 
+            @goeditrow="goeditrow"
+            @handleDelete="handleDelete"
+            :allTableData="searchForm.outWarehouseBillDetailList"/> 
+          </edit-Table >
+      </div>
+
+        <el-dialog
+          title="新增商品"
+          :visible.sync="addVisible"
+          width="30%"
+          :before-close="handleClose">
+            <add-form @submit="submit" :skuList="skuList" @skuCodeChange="skuCodeChange" :searchForm="addCommodityForm" @handleClose="handleClose" ></add-form>
+        </el-dialog>
+      </el-form>
+    </el-card>
+  </div>
+</template>
+
+<script>
+import { addtable_config } from './config';
+import editTable from '@/components/Table/editTable';
+import addForm from './conpoments/addForm'
+import  { outgoingOrderTypeEnum,sendOutRequireEnum} from "@/utils/enum.js";
+import {customerInfo} from '@/api/warehousing'
+import { customerAddrInfo,skuInfoList,outBillAdd,outBillDetail,outBillUpdate,outBillImprove} from '@/api/outgoing'
+import Sticky from '@/components/Sticky'
+import _  from 'lodash';
+import { mapGetters } from 'vuex'
+import moment from 'moment';
+export default {
+   name: "businessorderadd",
+   components: { editTable,addForm,Sticky},
+    data() {
+      return {
+        //表单项
+        searchForm:{
+          busiBillType:21,
+          outWarehouseBillDetailList:[]
+        },
+        //表单table配置项
+        addtable_config,
+
+        //新增项
+        addVisible:false,
+        addCommodityForm:{
+           
+        },
+        skuList:[],
+        //枚举项
+        outgoingOrderTypeEnum,//出库类型
+        sendOutRequireEnum,//发货要求
+
+        //供应商下拉配置
+        providerConfig:[],
+        //地址下拉配置
+        addrListConfig:[],
+      };
+    },
+
+    mounted(){
+      if(this.$route.query.id){
+        let addtable_config= _.cloneDeep(this.addtable_config);
+        let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
+        outBillDetail(this.$route.query.id).then(res=>{
+          if(res.success){
+            let searchForm= _.cloneDeep(this.searchForm);
+            searchForm=res.data;
+            searchForm.sendOutRequire=Number(searchForm.sendOutRequire);
+            searchForm.outWarehouseBillDetailList=(res.data&&Array.isArray(res.data.busiBillDetails)&&res.data.busiBillDetails||[]).map(v=>{
+              v.planOutQty=v.skuOutQty;
+              ['purchasePrice','sellPrice'].forEach(itme=>{
+                v[itme]=v.outStorePrice;
+              })
+              return v;
+            });
+            if(searchForm.busiBillType===21){
+              addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
+            } else {
+              addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
+            }
+            this.addtable_config=addtable_config;
+            this.searchForm=searchForm;
+            if(this.searchForm.ownerCode){
+              this.getCustomerInfo(this.searchForm.ownerCode);
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
+    },
+
+   computed: {
+      ...mapGetters({
+        'mapConfig':'mapConfig',
+         visitedViews: 'visitedViews'
+      })
+   },
+
+
+    methods: {
+
+      //添加商品时选择商品编码的回调
+      skuCodeChange(value){
+        console.log(value)
+        let skuList= _.cloneDeep(this.skuList);
+        this.addCommodityForm=skuList.find(v=>v.skuCode===value)
+      },
+    
+
+      //业务单类型变化回调
+      busiBillTypeChange(value){
+        let searchForm= _.cloneDeep(this.searchForm);
+        searchForm.arrivalCode='';
+        searchForm.arrivalAddress='';
+        searchForm.outWarehouseBillDetailList=[];
+        this.searchForm=searchForm;
+        this.providerConfig=[];
+        this.addrListConfig=[];
+        
+        let addtable_config= _.cloneDeep(this.addtable_config);
+        let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
+        if(value===21){
+          addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
+        } else{
+          addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
+        }
+        this.addtable_config=addtable_config;
+        this.getCustomerInfo(this.searchForm.ownerCode)
+      },
+
+      //选择货主
+      ownerCodeChange(value){
+        let searchForm= _.cloneDeep(this.searchForm);
+        searchForm.arrivalCode='';
+        searchForm.arrivalAddress='';
+        searchForm.outWarehouseBillDetailList=[];
+        this.searchForm=searchForm;
+        this.providerConfig=[];
+        this.addrListConfig=[];
+      },
+
+      //根据货主查供应商或者客户列表
+      getCustomerInfo(value){
+        customerInfo(value,this.searchForm.busiBillType).then(res=>{
+          if(res.success){
+           this.providerConfig=Array.isArray(res.data)&&res.data||[];
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+
+
+      //供应商获取焦点
+      providerFocus(){
+        if(!this.searchForm.ownerCode){
+          this.$message.error('请先选择货主');
+        } else{
+          this.getCustomerInfo(this.searchForm.ownerCode);
+        }
+      },
+      
+      //地址获取焦点
+      arrivalAddressFocus(){
+        if(!this.searchForm.arrivalCode){
+          this.$message.error('请先选择供应商');
+        }
+      },
+
+      //地址列表配置
+      providerChange(value){
+        let searchForm= _.cloneDeep(this.searchForm);
+        searchForm.arrivalAddress='';
+        searchForm.outWarehouseBillDetailList=[];
+        this.searchForm=searchForm;
+        this.addrListConfig=[];
+        let id=this.providerConfig.find(v=>v.customerCode===value).id
+        customerAddrInfo(id,this.searchForm.busiBillType).then(res=>{
+          if(res.success){
+            this.addrListConfig=Array.isArray(res.data)&&res.data||[];
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+   
+
+      uploadRes(res){
+        if(res.success){
+            let addtable_config= _.cloneDeep(this.addtable_config);
+            let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
+            let searchForm= _.cloneDeep(this.searchForm);
+            searchForm=res.data;
+            searchForm.sendOutRequire=searchForm.sendOutRequire||1
+            searchForm.sendOutRequire=Number(searchForm.sendOutRequire);
+            searchForm.outWarehouseBillDetailList=(res.data&&Array.isArray(res.data.busiBillDetails)&&res.data.busiBillDetails||[]).map(v=>{
+              v.planOutQty=v.skuOutQty;
+              ['purchasePrice','sellPrice'].forEach(itme=>{
+                v[itme]=v.outStorePrice;
+              })
+              return v;
+            });
+            if(searchForm.busiBillType===21){
+              addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
+            } else {
+              addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
+            }
+            this.addtable_config=addtable_config;
+            this.searchForm=searchForm;
+            if(this.searchForm.ownerCode){
+              this.getCustomerInfo(this.searchForm.ownerCode);
+            }
+        } else {
+           this.$message.error('导入失败');
+        }
+      },
+
+      goeditrow(index,type) {
+         let searchForm= _.cloneDeep(this.searchForm);
+         searchForm.outWarehouseBillDetailList[index].edit=!searchForm.outWarehouseBillDetailList[index].edit
+         this.searchForm=searchForm;
+      },
+
+      handleDelete(index, row) {
+         let searchForm= _.cloneDeep(this.searchForm);
+         searchForm.outWarehouseBillDetailList.splice(index,1)
+         this.searchForm=searchForm;
+      },
+
+      handleClose(){
+        this.addVisible=false;
+      },
+
+      showDialog(type){
+        if(type==='add'){
+          let {ownerCode,arrivalCode}=this.searchForm;
+          if(!ownerCode||!arrivalCode){
+             this.$message.error('请同时选择货主和客户(供应商)');
+             return ''
+          }
+          this.addVisible=true;
+          skuInfoList(ownerCode,arrivalCode).then(res=>{
+            if(res.success){
+              this.skuList=Array.isArray(res.data)&&res.data||[]
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+         
+        }
+       
+      },
+
+      submit(type,value) {
+        const view = this.visitedViews.filter(v => v.path === this.$route.path)
+        if(type==='addCommodity'){
+           let searchForm= _.cloneDeep(this.searchForm);
+           let index=searchForm.outWarehouseBillDetailList.findIndex(v=>v.skuCode===value.skuCode);
+           if(index!==-1){
+             searchForm.outWarehouseBillDetailList[index]=value;
+           } else{
+             searchForm.outWarehouseBillDetailList.push(value);
+           }
+           this.searchForm=searchForm;
+           this.addCommodityForm={};
+           this.addVisible=false;
+        } else {
+          this.$refs["searchForm"].validate(valid => {
+            if (valid) {
+                let json= _.cloneDeep(this.searchForm);
+                ['arrivalPreDate','arrivalEffectDate'].forEach(v=>{
+                  json[v]=moment(json[v]).valueOf()
+                })
+                json.ownerName=json.ownerName?json.ownerName:this.mapConfig['ownerInfoMap'].find(v=>v.key===json.ownerCode).value;
+                json.arrivalName=json.arrivalName?json.arrivalName:this.providerConfig.find(v=>v.customerCode===json.arrivalCode).customerName;
+                let api=outBillAdd;
+                if(this.$route.query.id){
+                  if(this.$route.query.type==='modify'){
+                    api=outBillUpdate;
+                  } else{
+                    api=outBillImprove;
+                  }
+                  json.outWarehouseBillId=this.$route.query.id;
+                }
+                api(json).then(res=>{
+                  if(res.success){
+                    this.$message({
+                      type:'success', 
+                      message:'操作成功,即将跳转到详情页！' ,
+                      duration:1500,
+                      onClose:()=>{
+                        this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                          this.$router.push({
+                            path:`/outgoing/businessorder-detail?id=${this.$route.query.id||(typeof res.data==='object'?res.data.id:res.data)}`,
+                          })
+                        }).catch(err=>{
+                          console.log(err)
+                        })  
+                      }
+                    }) 
+                  }
+                }).catch(err=>{
+                  console.log(err)
+                })
+            }
+          });
+        }
+      }
+    }
+};
+</script>
+
+<style rel="stylesheet/scss" lang="scss">
+.addCarrier {
+  .operationitem {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px 0;
+  }
+  .el-form-item {
+    height: 40px;
+  }
+  .tableBox{
+    .tableTitle{
+      display:flex;
+      justify-content: space-between;
+      margin: 16px 0;
+    }
+    .tableBtn{
+      display: flex;
+    }    
+    .addCommodity{
+      height:28px;
+      line-height:26px;
+      padding:0 12px;
+      margin-left: 12px;
+    }
+  }
+}
+  .providerList{
+    display: flex;
+    justify-content: space-between;
+    >span{
+      &:first-child{
+        min-width: 150px;
+      }
+      &:nth-child(2){
+        min-width: 100px;
+      }
+    }
+  }
+</style>

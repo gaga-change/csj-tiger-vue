@@ -128,16 +128,47 @@ export function getRefundType() {
 }
 
 
+//承运商状态
+export function getConsoildator() {
+  return request({
+    url: '/webApi/base/enum/getConsoildatorState',
+    method: 'get',
+  })
+}
 
 
+//仓配点管理-结算区分枚举
+export function getSettlementType() {
+  return request({
+    url: '/webApi/base/enum/getSettlementType',
+    method: 'get',
+  })
+}
 
-
-
-
-
-
-
-
-
-
-
+export function getRegional() {
+  return request({
+    url: '/webApi/base/enum/getRegional',
+    method: 'get',
+  })
+}
+// 企业状态接口
+export function getEnterpriseState() {
+  return request({
+    url: '/webApi/base/enum/getEnterpriseState',
+    method: 'get',
+  })
+}
+// 企业等级接口
+export function getEnterpriseLevel() {
+  return request({
+    url: '/webApi/base/enum/getEnterpriseLevel',
+    method: 'get',
+  })
+}
+// 地址性质
+export function getAddrNature() {
+  return request({
+    url: '/webApi/base/enum/getAddrNature',
+    method: 'get',
+  })
+}

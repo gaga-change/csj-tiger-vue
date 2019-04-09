@@ -24,7 +24,7 @@ export default [
       {
         path: 'register',
         component: _import('receipt/register/index'),
-        name: 'register',
+        name: 'registerorder',
         meta: {
           title: '收款单',
           noCache: true ,
@@ -33,7 +33,7 @@ export default [
       {
         path: 'register/detail',
         component: _import('receipt/register/detail'),
-        name: 'registerDetail',
+        name: 'registerorderDetail',
         hidden: true,
         meta: {
           title: '收款单详情',

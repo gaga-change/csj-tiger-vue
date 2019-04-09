@@ -110,10 +110,11 @@
     import { outPlanSelect} from '@/api/outgoing'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import {indexTableConfig } from './config';
+    import {indexTableConfig,manual_config } from './config';
+    import editTable from '@/components/Table/editTable';
     import {stringify} from 'qs';
     export default {
-      components: { BaseTable },
+      components: { BaseTable,editTable },
       data() {
       return {
         ruleForm: {
@@ -134,7 +135,8 @@
         loading:false,
         tableData: [],
         tableConfig:indexTableConfig,
-        linkData:''
+        linkData:'',
+        
       }
     },
 

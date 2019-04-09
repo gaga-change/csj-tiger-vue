@@ -63,6 +63,84 @@ export function selectSumNo(data={}) {
   })
 }
 
+export function inBillAdd(data={}) {
+  return request({
+    url: `/webApi/in/bill/add`,
+    method: 'post',
+    data: data,
+  })
+}
+
+export function customerInfo(ownerCode,busiBillType=22) {
+
+  return request({
+    url:`/webApi/customer/info/${ownerCode}/${busiBillType}`,
+    method: 'get',
+  })
+}
+
+export function inbilldetail(inWarehouseBillId) {
+  return request({
+    url: `/webApi/in/bill/detail/${inWarehouseBillId}`,
+    method: 'get'
+  })
+}
+
+
+export function inBillUpdate(data={}) {
+  return request({
+    url: `/webApi/in/bill/update`,
+    method: 'post',
+    data: data,
+  })
+}
+
+export function inbillPrint(inWarehouseBillId) {
+  return request({
+    url: `/webApi/in/bill/print/${inWarehouseBillId}`,
+    method: 'get'
+  })
+}
+
+export function inBillUpdateStatus(data={}) {
+  return request({
+    url: `/webApi/in/bill/updateStatus?${stringify(data)}`,
+    method:'put'
+  })
+}
+
+export function inPlanInitAdd(inWarehouseBillId) {
+  return request({
+    url: `/webApi/in/plan/initAdd/${inWarehouseBillId}`,
+    method: 'get'
+  })
+}
+
+
+export function getRecommendStock(ownerCode,skuCode) {
+  return request({
+    url: `/webApi/sku/info/getRecommendStock/${ownerCode}/${skuCode}`,
+    method: 'get'
+  })
+}
+
+
+export function inPlanAdd(data={}) {
+  return request({
+    url: `/webApi/in/plan/add`,
+    method: 'post',
+    data: data,
+  })
+}
+
+
+export function ownerWarehouseList(data={}) {
+  return request({
+    url: `/webApi/owner/info/ownerWarehouseList?${stringify(data)}`,
+    method: 'get'
+  })
+}
+
 //手工创建入库单
 export function orderSave(data={}) {
   return request({
@@ -71,21 +149,5 @@ export function orderSave(data={}) {
     data: data,
   })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

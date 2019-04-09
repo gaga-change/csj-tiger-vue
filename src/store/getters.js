@@ -45,13 +45,8 @@ const getters = {
         children: subchildren
       })
     })
-
-    menutemp.push({
-      path: '*', redirect: '/404', hidden: true 
-    })
-
-
-    return menutemp
+    // return menutemp
+    return state.menu.localMenu
   }
 }
 export default getters

@@ -1,3 +1,16 @@
+import { parseTime } from '@/utils'
+export { parseTime }
+import * as Enums from '@/utils/enum'
+export function localEnum(value, type) {
+  const obj = Enums[type] && Enums[type].find(item => item.value === Number(value))
+  return (obj || {}).name || ''
+}
+export function apiEnum(val, mapConfig, type) {
+  const config = mapConfig
+  const arrResult = config[type] || []
+  const result = arrResult.find(item => item.key === val) || {}
+  return result.value || ''
+}
 export function quotationwayFilter(val) {
   switch (parseInt(val)) {
     case 0: return '供应商'

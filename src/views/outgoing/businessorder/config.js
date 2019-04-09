@@ -2,71 +2,82 @@ export  const tableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'商品编码',prop:'skuCode'},
   { label:'商品名称',prop:'skuName',width:120},
-  { label:'规格型号',prop:'skuFormat',},
-  { label:'品牌',prop:'skuBrandName',},
-  { label:'单位',prop:'skuUnitName',},
-  { label:'单价',prop:'outStorePrice',},
-  { label:'签收量',prop:'signQty'},
-  { label:'拒收量',prop:'rejectQty'},
-  { label:'回收量',prop:'recoverQty'},
-  { label:'待回收量',prop:'toRecoverQty'},
-  { label:'已出/应出',fixed:false,dom:(row, column, cellValue, index)=>{
-      return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
-  }},
-  { label:'转换比',prop:'skuUnitConvert',width:"80"},
-  { label:'出库金额',dom:(row, column, cellValue, index)=>{
-    return `${row.outStorePrice*row.realOutQty}`
-  }},
+  { label:'客户商品编码',prop:'customerSkuCode'},
+  { label:'客户商品名称',prop:'customerSkuName'},
+  { label:'客户商品分类',prop:'customerSkuType'},
+  { label:'规格',prop:'skuFormat',},
+  { label:'型号',prop:'skuModel',},
+  { label:'数量',prop:'skuOutQty',},
+  { label:'客户销价',prop:'outStorePrice',},
+  { label:'金额',prop:'planOutAmt',}
 ];
 
 export const infoConfig=[
-  {title:'业务单号',prop:'busiBillNo'},
+  {title:'业务单类型',prop:'busiBillType',type:'getBillType',useApi:true},
+  {title:'业务单号',prop:'billNo'},
+  {title:'外部订单号',prop:'busiBillNo'},
+  {title:'货主编号',prop:'ownerCode'},
+  {title:'货主名称',prop:'ownerName'},
+  {title:'客户编码',prop:'arrivalCode'},
+  { title:'客户名称',prop:'arrivalName'},
+  { title:'客户地址',prop:'arrivalAddress'},
+  {title:'联系电话',prop:'arrivalLinkTel'},
+  {title:'到货预定日',prop:'arrivalPreDate',type:'time'},
+  {title:'到货有效日',prop:'arrivalEffectDate',type:'time'},
+  {title:'创建人',prop:'createrName'},
+  {title:'创建日期',prop:'gmtCreate'},
   {title:'合同号',prop:'contractNo'},
-  {title:'业务类型',prop:'busiBillType', type:'getBillType',useApi:true},
-  {title:'来源系统',prop:'fromSysCode'},
-  {title:'制单人',prop:'busiBillCreater'},
-  { title:'出库金额合计',prop:'realOutAmt'},
-  { title:'出库数量合计',prop:'realOutQty'},
-  {title:'状态',prop:'billState',type:'outbusibillstate',useApi:true},
-  {title:'是否越库',prop:'isCross',type:'boolean'},
-  {title:'是否可分批',prop:'isBatch',type:'boolean'},
-  {title:'制单时间',prop:'busiBillCreateTime',type:'time',},
-  {title:'客户编号',prop:'arrivalCode'},
-  {title:'客户名称',prop:'arrivalName'},
-  {title:'客户地址',prop:'arrivalAddress',span:12},
+  {title:'发货要求',prop:'sendOutRequire',type:'sendOutRequireEnum',useLocalEnum:true},
+  {title:'询价单号',prop:'inquiryNo'},
+  {title:'订单来源',prop:'fromSysCode'},
 ]
 
-export const outgoingTableConfig=[
-  { label:'序号',type:'index',width:50},
-  { label:'出库单号',prop:'warehouseExeCode',linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
-  { label:'计划单号',prop:'planCode',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
-  { label:'货主',prop:'ownerName'},
-  { label:'出库仓库名称',prop:'warehouseName'},
-  { label:'出库仓库编号',prop:'warehouseCode',},
-  { label:'是否越库',prop:'isCross',type:'Boolean',},
-  { label:'出库日期',prop:'outStoreTime',type:'time'},
-]
-
-
-export const planTableConfig=[
-  { label:'序号',type:'index',width:50},
-  { label:'计划单号',prop:'planCode',linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
-  { label:'货主',prop:'ownerName'},
-  { label:'计划出库仓库',prop:'planWarehouseName'},
-  { label:'下推状态',prop:'issuedState',type:'getIssuedState',useApi:true},
-  { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
-  { label:'计划出库日期',prop:'planOutTime',type:'time'},
-]
 
 export const indexTableConfig=[
-  { label:'业务单号',prop:'busiBillNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
-  { label:'合同编号',prop:'contractNo'},
-  { label:'客户名称',prop:'arrivalName'},
-  { label:'货主',prop:'ownerName'},
-  { label:'出库金额',prop:'realOutAmt'},
-  { label:'出库数量',prop:'realOutQty'},
-  { label:'制单人',prop:'busiBillCreater'},
-  { label:'是否越库',prop:'isCross',type:'Boolean'},
+  { label:'业务单号',fixed:true,prop:'billNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'id',value:'id'},{key:'busiBillNo',value:'busiBillNo'}],width:160},
+  { label:'合同编号',prop:'contractNo',width:120},
+  { label:'货主',prop:'ownerName',width:180},
+  { label:'客户名称',prop:'arrivalName',width:180},
+  { label:'计划出库数量',prop:'planOutQty',width:100},
+  { label:'计划出库金额',prop:'planOutAmt',width:100},
+  { label:'实际出库数量',prop:'realOutQty',width:100},
+  { label:'单据状态',prop:'billStatus',type:'outBillStatusEnum',useLocalEnum:true},
+  { label:'执行状态',prop:'billState',type:'outBillStateEnum',useLocalEnum:true},
+  { label:'制单人',prop:'busiBillCreater',width:180},
   { label:'制单时间',prop:'busiBillCreateTime',type:'time'},
-  { label:'操作',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}],linkText:'查看'},
+  { label:'操作',fixed:'right',useLink:true,width:300},
+]
+
+
+export const addtable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName',width:120},
+  { label:'客户商品编码',prop:'customerSkuCode',width:100},
+  { label:'客户商品名称',prop:'customerSkuName',width:120},
+  { label:'规格',prop:'skuFormat',width:120},
+  { label:'型号',prop:'skuModel',width:120},
+  { label:'数量',prop:'planOutQty',useEdit:true,width:120},
+  { label:'客户销价',prop:'sellPrice',},
+]
+
+export const addPlanOrder_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'型号',prop:'skuModel'},
+  { label:'数量',prop:'skuOutQty'},
+  { label:'客户销价',prop:'outStorePrice',className:'Price'},
+  { label:'计划出库数量',prop:'planOutQty'},
+  { label:'出库仓库',prop:'warehouseName'},
+  { label:'操作',fixed:'right',width:120},
+]
+
+export const alertTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'仓库编码',prop:'warehouseCode'},
+  { label:'仓库名称',prop:'warehouseName'},
+  { label:'可用库存',prop:'canUseSkuQty'},
+  { label:'计划出库数量',prop:'planOutQty',useEdit:true,width:150},
 ]

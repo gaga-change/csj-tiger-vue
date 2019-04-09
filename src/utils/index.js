@@ -64,13 +64,11 @@ export function printUrl(url,name, id) {
 }
 
 // http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/supply_invoice_export.cpt&id=3
-
-export function reportCenterUrl(name) {
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/' + name + '.cpt'
-  } else if (process.env.NODE_ENV === 'production') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL/' + name + '.cpt'
-  }
+export function reportCenterUrl(name, path) {
+  const truepath = path || 'mro'
+  return (
+    `http://bi.csjmro.com:3000/WebReport/ReportServer?reportlet=csj/csjreport/${truepath}/${name}.cpt&op=view`
+  )
 }
 
 export function debounce(func, wait, immediate) {
@@ -424,7 +422,7 @@ export const DistributeStatus = [
 ]
 
 export const NatureInvoice = [
-  
+
   {
     name: '篮字发票',
     value: 0
@@ -469,7 +467,7 @@ export const TiggerUrl = process.env.NODE_ENV === 'production' ? 'http://scm.csj
  * @returns
  */
 export function MakePrint(content, w = null, h = null) {
-  
+
   // Fixes dual-screen position                         Most browsers      Firefox
   const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
   const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
@@ -480,8 +478,8 @@ export function MakePrint(content, w = null, h = null) {
   h = +h === 0 ? height : h;
   const left = ((width / 2) - (w / 2)) + dualScreenLeft;
   const top = ((height / 2) - (h / 2)) + dualScreenTop;
-  var myWindow = window.open("", "打印", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-  var style = "<style type='text/css'>table {font-family: verdana,arial,sans-serif;font-size:11px;color:#333333;border-width: 1px;border-color: #666666;border-collapse: collapse;}table th {border-width: 1px;padding: 8px;border-style: solid;border-color: #666666;background-color: #dedede;}table td {border-width: 1px;padding: 8px;border-style: solid;border-color: #666666;background-color: #ffffff;} .card-list{margin-bottom: 6px;width:25%;display:inline-block} .el-dropdown{display:inline-block} </style>";
+  let myWindow = window.open("", "打印", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+  let style = "<style type='text/css'>table {font-family: verdana,arial,sans-serif;font-size:11px;color:#333333;border-width: 1px;border-color: #666666;border-collapse: collapse;}table th {border-width: 1px;padding: 8px;border-style: solid;border-color: #666666;background-color: #dedede;}table td {border-width: 1px;padding: 8px;border-style: solid;border-color: #666666;background-color: #ffffff;} .card-list{margin-bottom: 6px;width:25%;display:inline-block} .el-dropdown{display:inline-block} </style>";
   myWindow.document.write(content + style);
   myWindow.focus();
   myWindow.document.close();     //关闭document的输出流, 显示选定的数据
@@ -489,4 +487,10 @@ export function MakePrint(content, w = null, h = null) {
   window.title = '交付平台'
 
   return myWindow;
+}
+
+export function dealNameValueToKeyValue(nameValueArray) {
+  return nameValueArray.map(item => {
+    return { key: item.value, value: item.name }
+  })
 }

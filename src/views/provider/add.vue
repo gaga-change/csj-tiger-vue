@@ -285,10 +285,7 @@ export default {
                   }) 
                }
              }).catch(err=>{
-                this.$message({
-                  type: 'error',
-                  message:'操作失败'
-                })
+                this.$message({type: 'error',message:'操作失败'})
                 console.log(err)
                 this.saveLoading=false;
                 this.submitLoading=false;

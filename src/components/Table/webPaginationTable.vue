@@ -22,6 +22,7 @@
           :formatter="item.formatter"
           :key="item.lable"
           :type="item.columnType"
+          :class-name="item.className"
           :fixed="item.fixed"
           :align="item.align"
           :width="item.width"
@@ -145,6 +146,7 @@ export default {
             case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
             case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
             case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue&&Number(Number(cellValue).toFixed(2));break;
+            case 'code':tableConfig[i].formatter=(row, column, cellValue, index)=> <bar-code code={cellValue}/> ;break;
            }
          }
        } else if(tableConfig[i].dom){

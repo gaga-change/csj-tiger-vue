@@ -27,6 +27,7 @@ export const NatureInvoiceEnum = [
   },
 ]
 
+
 //单据状态
 export const TicketStatus = [
   {
@@ -608,3 +609,233 @@ export const userStatus = [
     value: 1
   }
 ];
+
+
+//mis枚举配置
+export const outgoingOrderTypeEnum = [
+  {
+    name: '销售出库',
+    value: 21
+  },
+  {
+    name: '退货出库',
+    value: 22
+  }
+];
+
+
+export const revisalTypeEnum = [
+  {
+    name: '金额订正',
+    value: 1
+  },
+  {
+    name: '数量订正',
+    value: 2
+  }
+];
+
+export const expenseType = [
+  {
+    name: '代支款',
+    value: 1
+  }
+]
+
+
+//仓配点管理票配置
+
+export const warehouseStateEnum=[
+  {
+    name: '启用',
+    value: 1
+  },
+  {
+    name: '禁用',
+    value: 2
+  }
+]
+
+export const dispatchType=[
+  {
+    name: '快递',
+    value: 1
+  },
+  {
+    name: '物流',
+    value: 2
+  },
+  {
+    name: '自有车队',
+    value: 3
+  }
+]
+
+export const settlementType=[
+  {
+    name: '月结',
+    value: 1
+  },
+  {
+    name: '现结',
+    value: 2
+  },
+  {
+    name: '到付',
+    value: 3
+  }
+]
+export const costCalcWay=[
+  {
+    name: '按照体积计算',
+    value: 1
+  },
+  {
+    name: '按照重量计算',
+    value: 2
+  }
+]
+export const dispatchState=[
+  {
+    name: '已完成',
+    value: 2
+  }
+]
+
+export const invoiceState=[
+  {
+    name: '草稿',
+    value: 1
+  },
+  {
+    name: '审核通过',
+    value: 2
+  },
+  {
+    name: '审核未通过',
+    value: 3
+  }
+]
+//mis 入库单据状态枚举
+export const misWarehousingBillStatusEnum=[
+  {
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '已审核',
+    value: 1
+  },
+  {
+    name: '驳回',
+    value: 2
+  },
+  {
+    name: '已关闭',
+    value: 4
+  },
+]
+
+//mis 入库执行状态状态枚举
+export const misWarehousingBillStateEnum=[
+  {
+    name: '未入库',
+    value: 0
+  },
+  {
+    name: '部分入库',
+    value: 5
+  },
+  {
+    name: '全部入库',
+    value: 8
+  }
+]
+
+// mis入库业务单订正 - 单据状态
+export const misRevisalStateEnum = [
+  {
+    name: '草稿',
+    value: 1
+  },
+  {
+    name: '已审核',
+    value: 2
+  },
+  {
+    name: '审核未通过',
+    value: 3
+  }
+]
+
+// mis入库业务单订正 - 订正类型
+export const misRevisalTypeEnum = [
+  {
+    name: '金额订正',
+    value: 1
+  },
+  {
+    name: '数量订正',
+    value: 2
+  }
+]
+
+// mis发货要求枚举
+export const sendOutRequireEnum = [
+  {
+    name: '整单',
+    value: 1
+  },
+  {
+    name: '拆单',
+    value: 2
+  }
+]
+
+
+//出库业务单单据状态 枚举
+export const outBillStatusEnum = [
+  {
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '已审核',
+    value: 1
+  },
+  {
+    name: '驳回',
+    value: 2
+  },
+  {
+    name: '已关闭',
+    value: 4
+  },
+]
+
+//出库业务单执行状态 枚举
+export const outBillStateEnum = [
+  {
+    name: '未出库',
+    value: 0
+  },
+  {
+    name: '部分出库',
+    value: 5
+  },
+  {
+    name: '全部出库',
+    value: 8
+  }
+]
+
+export const isApprovedEnum = [
+  {
+    name: '未订正审核',
+    value: 0
+  },
+  {
+    name: '已订正审核',
+    value: 1
+  }
+]

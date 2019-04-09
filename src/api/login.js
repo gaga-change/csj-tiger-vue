@@ -16,8 +16,13 @@ export function getInfo() {
     url: '/webApi/base/user/info',
     method: 'get'
   })
+  // return new Promise(function(resolve, reject) {
+  //   resolve({
+  //     success: true,
+  //     data: {
+  //       truename: 'outline',
+  //       id: 666
+  //     }
+  //   })
+  // })
 }
-
-
-
-

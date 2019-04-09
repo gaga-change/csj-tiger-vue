@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import ItemTitle from '@/components/ItemTitle/index' 
-import ItemCard from '@/components/ItemCard/index' 
-import UploadMode from '@/components/upload/index' 
+import ItemTitle from '@/components/ItemTitle/index'
+import ItemCard from '@/components/ItemCard/index'
+import UploadMode from '@/components/upload/index'
+import UploadExcel from '@/components/UploadExcel/index'
+import BarCode from '@/components/BarCode/index' 
 
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 
@@ -14,7 +16,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-import '@/icons' 
+import '@/icons'
 import '@/permission' 
 
 import * as filters from './filters' // global filters
@@ -28,9 +30,11 @@ Object.keys(filters).forEach(key => {
 
 Vue.use(ElementUI, { locale })
 Vue.use(EXTENDS)
-Vue.use(ItemTitle);  
-Vue.use(ItemCard);  
-Vue.use(UploadMode);  
+Vue.use(ItemTitle);
+Vue.use(ItemCard);
+Vue.use(UploadMode);
+Vue.use(UploadExcel);
+Vue.use(BarCode);
 
 Vue.config.productionTip = false
 

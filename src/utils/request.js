@@ -1,7 +1,5 @@
 import axios from 'axios'
-import store from '@/store'
 import {  MessageBox,Notification } from 'element-ui'
-import { LoginPath } from '@/utils'
 
 // 创建axios实例
 const service = axios.create({
@@ -46,7 +44,7 @@ service.interceptors.response.use(
       type: 'error',
       duration:5*1000,
       onClose:()=> Promise.reject(error)
-      
+
     })
   }
 )

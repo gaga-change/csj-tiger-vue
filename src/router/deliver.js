@@ -17,10 +17,24 @@ export default [
         component: _import('outgoing/businessorder/index')
       },
       {
+        name: 'businessorderadd',
+        path: 'businessorderadd',
+        hidden: true,
+        meta: { title: '创建出库业务单', noCache: false },
+        component: _import('outgoing/businessorder/add')
+      },
+      {
         name: 'businessorder-detail',
         path: 'businessorder-detail',
         meta: { title: '出库业务单详情', noCache: true },
         component: _import('outgoing/businessorder/detail'),
+        hidden: true,
+      },
+      {
+        name: 'businessorderAddPlanOrder',
+        path: 'businessorderAddPlanOrder',
+        meta: { title: '创建计划单', noCache: true },
+        component: _import('outgoing/businessorder/addPlanOrder'),
         hidden: true,
       },
       {
@@ -30,7 +44,7 @@ export default [
         component: _import('outgoing/plan/index')
       },
       {
-        name: 'plan-detail',
+        name: 'out-detail',
         path: 'plan-detail',
         meta: { title: '出库计划详情', noCache: true },
         component: _import('outgoing/plan/detail'),
@@ -44,13 +58,19 @@ export default [
         hidden: true,
       },
       {
-        name: 'quiry',
+        name: 'outquiry',
         path: 'quiry',
         meta: { title: '出库单查询', noCache: true },
         component: _import('outgoing/quiry/index')
       },
       {
-        name: 'quiry-detail',
+        name: 'outquiryrecord',
+        path: 'outquiryrecord',
+        meta: { title: '调整记录', noCache: true },
+        component: _import('outgoing/quiry/record')
+      },
+      {
+        name: 'outquiry-detail',
         path: 'quiry-detail',
         meta: { title: '出库单查询详情', noCache: true },
         component: _import('outgoing/quiry/detail'),
@@ -67,20 +87,34 @@ export default [
     hidden: false,
     children: [
       {
-        name: 'businessorder',
+        name: 'businessorder-warehousing',
         path: 'businessorder',
         meta: { title: '入库业务单', noCache: true },
         component: _import('warehousing/businessorder/index')
       },
       {
-        name: 'businessorder-detail',
+        name: 'warehousingBusinessorderAdd',
+        path: 'businessorderAdd',
+        hidden: true,
+        meta: { title: '创建入库业务单', noCache: false },
+        component: _import('warehousing/businessorder/add')
+      },
+      {
+        name: 'warehousing-detail',
         path: 'businessorder-detail',
         meta: { title: '入库业务单详情', noCache: true },
         component: _import('warehousing/businessorder/detail'),
         hidden: true,
       },
       {
-        name: 'plan',
+        name: 'warehousingAddPlanOrder',
+        path: 'warehousingAddPlanOrder',
+        meta: { title: '创建计划单', noCache: true },
+        component: _import('warehousing/businessorder/addPlanOrder'),
+        hidden: true,
+      },
+      {
+        name: 'warehousingplan',
         path: 'plan',
         meta: { title: '入库计划', noCache: true },
         component: _import('warehousing/plan/index')
@@ -92,15 +126,15 @@ export default [
         component: _import('warehousing/plan/detail'),
         hidden: true,
       },
-      
+
       {
-        name: 'quiry',
+        name: 'inquiry',
         path: 'quiry',
         meta: { title: '入库单查询', noCache: true },
         component: _import('warehousing/quiry/index')
       },
       {
-        name: 'quiry-detail',
+        name: 'inquiry-detail',
         path: 'quiry-detail',
         meta: { title: '入库单查询详情', noCache: true },
         component: _import('warehousing/quiry/detail'),

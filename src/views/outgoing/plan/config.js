@@ -26,7 +26,7 @@ export const tableConfig=[
 
 export  const infoConfig=[
   {title:'计划单号',prop:'planCode'},
-  {title:'业务单号',prop:'busiBillNo',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
+  {title:'业务单号',prop:'busiBillNo'},
   {title:'合同号',prop:'contractNo'},
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'planName'},
@@ -52,7 +52,7 @@ export const outgoingTableConfig=[
 
 export const indexTableConfig=[
   { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
-  { label:'业务单号',prop:'busiBillNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
+  { label:'业务单号',prop:'busiBillNo' },
   { label:'客户名称',prop:'arrivalName'},
   { label:'货主',prop:'ownerName'},
   { label:'计划出库仓库',prop:'planWarehouseName'},
@@ -64,7 +64,7 @@ export const indexTableConfig=[
 //手工出库页面基本配置
 //出库计划
 export  const manualBaseInfoConfigLeft=[
-  {title:'业务单号',prop:'busiBillNo',span:24,useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}] },
+  {title:'业务单号',prop:'busiBillNo',span:24,},
   {title:'总明细数',prop:'itemCount',span:24},
   {title:'已匹配',prop:'matchCount',span:24},
   {title:'未匹配',prop:'notMatchCount',span:24},
@@ -73,7 +73,7 @@ export  const manualBaseInfoConfigLeft=[
 
 //table配置
 export const manualBaseInfoTableConfig=[
-  { label:'业务单号',prop:'busiBillNo',linkTo:'/warehousing/businessorder-detail',query:[{key:'busiBillNo',value:'busiBillNo'}]},
+  { label:'业务单号',prop:'busiBillNo'},
   { label:'供应商名称',prop:'providerName'},
   { label:'制单时间',prop:'gmtCreate',type:'time'},
   { label:'仓库',prop:'warehouseName'},
@@ -132,5 +132,27 @@ export  const detailsConfig=[
   {label:'采购数量',prop:'planInQty',},
   {label:'入库数量',prop:'realInQty',},
   {label:'是否匹配',useIcon:true,width:100,align:'center'},
+]
+
+
+export  const manual_config=[
+  {label:'序号',type:'index',width:50},
+  {label:'商品编号',prop:'skuCode',},
+  {label:'商品名称',prop:'skuName',},
+  {label:'品牌',prop:'',},
+  {label:'规格',prop:'',},
+  {label:'单位',prop:'',},
+  {label:'计划出库数量',prop:'',},
+  {label:'实际出库数量',prop:'num',useEdit:true,width:150},
+]
+
+export const printingTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'型号',prop:'skuModel'},
+  { label:'单位',prop:'skuUnitName'},
+  { label:'计划出库数量',prop:'planOutQty'},
 ]
 

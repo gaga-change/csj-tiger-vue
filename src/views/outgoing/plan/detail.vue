@@ -7,6 +7,12 @@
         </template>
       </sticky>
 
+      <sticky :className="'sub-navbar published'" style="margin-bottom:12px" v-else >
+        <template >
+           <el-button  type="success" size="small" @click="printing">打印</el-button>
+        </template>
+      </sticky>
+
       <item-title text="基本信息"/>
       <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
 
@@ -26,20 +32,34 @@
             :allTableData="outgoingTableData"/> 
         </el-tab-pane>
      </el-tabs>
+
+    <el-dialog
+      title="打印发货清单"
+      :visible.sync="printingVisible"
+       width="841px"
+      :before-close="handleClose">
+      <invoice id="invoice" :data="printingTable_data" :config="printingTable_config"/>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button type="primary" @click="surePrinting">打印</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
- import {outPlanDetail,outOrderSelect,orderSave} from '@/api/outgoing';
+ import {outPlanDetail,outOrderSelect,orderSave,outPlanPrint} from '@/api/outgoing';
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import editTable from '@/components/Table/editTable'
- import {tableConfig,infoConfig,outgoingTableConfig } from './config';
+ import {tableConfig,infoConfig,outgoingTableConfig,printingTable_config} from './config';
  import Sticky from '@/components/Sticky' 
+ import Invoice from './invoice'
  import moment from 'moment';
+ import { MakePrint } from '@/utils'
  import _  from 'lodash';
  import { mapGetters } from 'vuex'
  export default {
-    components: { webPaginationTable,editTable,Sticky},
+    components: { webPaginationTable,editTable,Sticky,Invoice},
     data() {
       return {
         config:{},
@@ -55,7 +75,12 @@
 
         loading:false,
         tabActive:'plan',
-        sureQtyLoding:false
+        sureQtyLoding:false,
+
+        //打印项
+        printingVisible:false,
+        printingTable_data:{},
+        printingTable_config
       }
     },
 
@@ -70,6 +95,28 @@
   },
 
     methods:{
+
+       printing(){
+         this.printingVisible=true;
+         outPlanPrint(this.$route.query.planCode).then(res=>{
+           if(res.success){
+            this.printingTable_data=res.data;
+           }
+         }).catch(err=>{
+
+         })
+       },
+       //关闭弹框
+       handleClose(){
+         this.printingVisible=false;
+       },
+
+       surePrinting(){
+          let printContainer = document.getElementById('invoice').innerHTML;
+          MakePrint(printContainer);
+          this.printingVisible=false;
+       },
+
       getCurrentTableData(){
         this.loading=true;
         outPlanDetail({planCode:this.$route.query.planCode}).then(res=>{

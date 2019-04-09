@@ -11,6 +11,7 @@ const path = require('path')
 // const ip='http://192.168.1.195:7979';//测试服务
 // const ip='http://testtiger.csjmro.com';//测试服务
 const ip='http://172.16.81.219:7878';//龙
+// const ip='http://192.168.2.150:7878';//姚旭
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 

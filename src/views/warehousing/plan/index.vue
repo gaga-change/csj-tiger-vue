@@ -106,6 +106,7 @@
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
       :tableData="tableData"/>
+
   </div>
 </template>
 
@@ -113,11 +114,12 @@
     import moment from 'moment';
     import {inPlanSelect} from '@/api/warehousing'
     import BaseTable from '@/components/Table'
-    import { indexTableConfig } from './config';
+    import { indexTableConfig,manual_config } from './config';
+    import editTable from '@/components/Table/editTable';
     import { mapGetters } from 'vuex'
     import {stringify} from 'qs';
     export default {
-      components: { BaseTable },
+      components: { BaseTable,editTable },
       data() {
       return {
         ruleForm: {
