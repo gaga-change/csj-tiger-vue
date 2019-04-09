@@ -163,7 +163,7 @@ export default {
         this.carrierDetail_data = revisalItems.map((item, index) => ({
           id: index,
           ...item,
-          edit: !this.query.readOnly,
+          edit: (item.revisalQty !== null || item.revisalAmt !== null) && !this.query.readOnly,
           ...{ revisalQty: item.revisalQty !== null ? item.revisalQty : '/', revisalAmt: item.revisalAmt !== null ? item.revisalAmt : '/' }
         }))
       })
