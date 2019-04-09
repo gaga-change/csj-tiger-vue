@@ -64,13 +64,11 @@ export function printUrl(url,name, id) {
 }
 
 // http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/supply_invoice_export.cpt&id=3
-
-export function reportCenterUrl(name) {
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/' + name + '.cpt'
-  } else if (process.env.NODE_ENV === 'production') {
-    return 'http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL/' + name + '.cpt'
-  }
+export function reportCenterUrl(name, path) {
+  const truepath = path || 'mro'
+  return (
+    `http://bi.csjmro.com:3000/WebReport/ReportServer?reportlet=csj/csjreport/${truepath}/${name}.cpt&op=view`
+  )
 }
 
 export function debounce(func, wait, immediate) {
