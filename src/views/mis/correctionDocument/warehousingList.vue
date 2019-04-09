@@ -27,7 +27,7 @@
 import search from './components/search'
 import BaseTable from '@/components/Table'
 import { carrierListConfig } from './components/config'
-import { inwarehouseList, deleteInwarehouseRevisal, approveRevisal } from '@/api/correction'
+import { inwarehouseList, deleteInwarehouseRevisal, inwarehouseApproveRevisal } from '@/api/correction'
 import _ from 'lodash';
 import moment from 'moment';
 export default {
@@ -64,7 +64,7 @@ export default {
     this.carrierListConfig.forEach(item => {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
-          return (row.revisalState == 1) && (
+          return (row.revisalState == 1) ? (
             <div class="tableLinkBox">
               {
                 <router-link to={`/correctionDocument/warehousingAdd?time=${moment().valueOf()}&id=${row.id}`} class="tableLink">修改</router-link>
@@ -79,7 +79,11 @@ export default {
               }
 
             </div>
-          )
+          ) : (<div class="tableLinkBox">
+              {
+                <router-link to={`/correctionDocument/warehousingAdd?time=${moment().valueOf()}&id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
+              }
+            </div>)
         }
       }
     })
@@ -101,7 +105,7 @@ export default {
         approveState: this.approve ? 2 : 3,
         approveReason: this.approveReason
       }
-      approveRevisal(params).then(res => {
+      inwarehouseApproveRevisal(params).then(res => {
         if (res.code == 200) {
           this.$message({
             type: 'success', message: '订正单审核完成！', duration: 1000
@@ -113,9 +117,7 @@ export default {
           })
         }
       }).catch(err => {
-        this.$message({
-          type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
-        })
+        
       })
     },
     /** 删除修正单 */
@@ -131,9 +133,6 @@ export default {
             type: 'success', message: '入库订正单删除成功！', duration: 1000
           })
         }).catch(err => {
-          this.$message({
-            type: 'error', message: '服务器异常，请联系管理员！', duration: 1000
-          })
         })
       }).catch(() => {
         this.$message({
@@ -165,9 +164,9 @@ export default {
         }
       }
       let params = { ...json }
-      if (params.time) {
-        params.startDate = params.time[0]
-        params.endDate = params.time[1]
+      if (params.time && params.time.length) {
+        params.startDate = moment(new Date(params.time[0]).getTime()).format('YYYY-MM-DD')
+        params.endDate = moment(new Date(params.time[1]).getTime()).format('YYYY-MM-DD')
         delete params.time
       }
       inwarehouseList(params).then(res => {

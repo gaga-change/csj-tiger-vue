@@ -828,3 +828,14 @@ export const outBillStateEnum = [
     value: 8
   }
 ]
+
+export const isApprovedEnum = [
+  {
+    name: '未订正审核',
+    value: 0
+  },
+  {
+    name: '已订正审核',
+    value: 1
+  }
+]
