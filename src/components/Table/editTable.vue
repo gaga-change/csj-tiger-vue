@@ -35,15 +35,16 @@
                         :min="item.min||0"
                         v-model="scope.row[item.prop]" >
                     </el-input>
-                    <el-input-number
+                    <span v-else @click.stop>
+                      <el-input-number
                         size="mini"
                         controls-position="right"
-                        v-else
                         :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
                         :min="item.min||0"
                         :style="`width:${item.width-20}px;border:${useColor&&scope.row[item.prop]>0?'1px solid red':'1px solid transparent'}`"
                         v-model.number="scope.row[item.prop]" >
-                    </el-input-number>
+                      </el-input-number>
+                    </span>
                    </template>
                    <span v-else>
                     {{formatter(scope.row,item,scope.row[item.prop],scope.$index)}}

@@ -335,7 +335,7 @@ export default {
       let data = _.cloneDeep(this.carrierDetail_data);
       data = data.map(v => {
         if (v.id === _.cloneDeep(currentRow).id) {
-          return { ...v, edit: true }
+          return { ...v, edit: !currentRow.edit, revisalQty: '/', revisalAmt: '/' }
         } else {
           return { ...v }
         }
@@ -343,8 +343,8 @@ export default {
 
       this.carrierDetail_data = data;
 
-      //高亮效果  此处有异步问题
-      setTimeout(() => {
+      //高亮效果
+      this.$nextTick(() => {
         let revisalEditTable = [...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr')];
         revisalEditTable.forEach(item => {
           let td = [...item.querySelectorAll('td')]
@@ -352,9 +352,13 @@ export default {
             td.forEach(v => {
               v.style.cssText = "color:#fff;background:green !important"
             })
+          } else {
+            td.forEach(v => {
+              v.style.cssText = ""
+            })
           }
         })
-      }, 20)
+      })
     },
 
   }
