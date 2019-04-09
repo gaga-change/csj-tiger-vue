@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
@@ -107,6 +108,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      visitedViews: 'visitedViews'
+    }),
     isModify() {
       return !!this.query.id
     },
@@ -134,7 +138,6 @@ export default {
     }
   },
   created() {
-
     this.isModify ? this.initDetail() : this.initOwner()
   },
   methods: {
@@ -240,7 +243,14 @@ export default {
         v.style.cssText = ""
       })
     },
-
+    goBackList() {
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
+      this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+        this.$router.push({
+          path: '/correctionDocument/warehousingList'
+        })
+      })
+    },
     submit(type) {
       this.$refs['searchForm'].validate((valid) => {
         if (valid) {
@@ -275,11 +285,7 @@ export default {
             }).then(res => {
               if (res.code === '200') {
                 this.$message({
-                  type: 'success', message: '入库订正单修改成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: () => {
-                    this.$router.push({
-                      path: '/correctionDocument/warehousingList'
-                    })
-                  }
+                  type: 'success', message: '入库订正单修改成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: this.goBackList
                 })
               } else {
                 this.$message({
@@ -298,11 +304,7 @@ export default {
             }).then(res => {
               if (res.code === '200') {
                 this.$message({
-                  type: 'success', message: '入库订正单创建成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: () => {
-                    this.$router.push({
-                      path: '/correctionDocument/warehousingList'
-                    })
-                  }
+                  type: 'success', message: '入库订正单创建成功，1.5s后跳转至订正单列表页', duration: 1500, onClose: this.goBackList
                 })
               } else {
                 this.$message({
