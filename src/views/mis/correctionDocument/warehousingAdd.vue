@@ -59,7 +59,7 @@
       </el-tabs>
     </el-card>
 
-    <div class="operationitem">
+    <div class="operationitem" v-if="!query.readOnly">
       <!-- <el-button @click="submit('save')" type="primary">保存</el-button> -->
       <el-button @click="submit('submit')" type="primary" v-loading="submitloading">提交</el-button>
     </div>
@@ -159,7 +159,7 @@ export default {
         this.carrierDetail_data = revisalItems.map((item, index) => ({
           id: index,
           ...item,
-          edit: true,
+          edit: !this.query.readOnly,
           ...{ revisalQty: item.revisalQty !== null ? item.revisalQty : '/', revisalAmt: item.revisalAmt !== null ? item.revisalAmt : '/' }
         }))
       })

@@ -65,7 +65,7 @@ export default {
     this.outgoing_carrierListConfig.forEach(item => {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
-          return (
+          return (row.revisalState == 1) ? (
             <div class="tableLinkBox">
               {
                 <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}`} class="tableLink">修改</router-link>
@@ -79,7 +79,11 @@ export default {
                 <span class="tableLink" onClick={this.approveRevisalOpen.bind(this, row)}>审核</span>
               }
             </div>
-          )
+          ) : (<div class="tableLinkBox">
+              {
+                <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
+              }
+            </div>)
         }
       }
     })
