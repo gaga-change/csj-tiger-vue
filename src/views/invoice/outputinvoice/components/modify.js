@@ -1,5 +1,5 @@
 
-import { getSalesInvoiceBillingReview,obsoleteApplication,obsoleteDocument, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger/invoice'
+import { getSalesInvoiceBillingReview,obsoleteApplication,obsoleteDocument, getSalesInvoiceBillingReject,getSalesInvoiceComplex } from '@/api/invoicetigger'
 
 export default function Modify(type, name, needfresh, api,tips) {
   // 0 驳回

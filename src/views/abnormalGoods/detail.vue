@@ -88,7 +88,7 @@ import Modify from './components/modify'
 import moment from 'moment';
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { detailBaseInfo,detailAbnormalReceipt,detailReturnBaseInfo } from './components/config';
-import { getPurcRejectApply } from '@/api/abnormalGoods/index';  
+import { getPurcRejectApply } from '@/api/abnormalGoods';  
 export default {
   components: { Sticky,webPaginationTable,Modify},
    data() {

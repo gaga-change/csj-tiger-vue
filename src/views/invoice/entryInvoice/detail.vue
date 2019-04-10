@@ -33,7 +33,7 @@
 import { listDetailConfig,listDetailTableConfig } from './components/config';
 import Modify from './components/modify'
 import webPaginationTable from '@/components/Table/headerTable'
-import { findFinaPurchaseInvoice,dropPurInvoice } from '@/api/void/list'
+import { findFinaPurchaseInvoice,dropPurInvoice } from '@/api/void'
 import Sticky from '@/components/Sticky' 
 import moment from 'moment';
 import _  from 'lodash';

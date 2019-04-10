@@ -255,7 +255,7 @@
 
 <script>
 import { busiPlateConfig,MoneyStateEnum } from '@/utils/enum'
-import { infoCustomerInfo} from '@/api/invoicetigger/newoutputinvoice';
+import { infoCustomerInfo} from '@/api/newoutputinvoice';
 import { refundGetOrder } from '@/api/refund.js'
 import { mapGetters } from 'vuex'
 import AlertDetail from '../refund/alertDetail'

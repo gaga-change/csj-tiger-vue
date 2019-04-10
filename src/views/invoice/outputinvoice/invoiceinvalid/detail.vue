@@ -22,7 +22,7 @@
 
 <script>
     import moment from 'moment';
-    import { getSalesInvoiceDetails } from '@/api/invoicetigger/invoice'
+    import { getSalesInvoiceDetails } from '@/api/invoicetigger'
     import _  from 'lodash';
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'

@@ -26,7 +26,6 @@ export function findPurchaseOrder(data) {
   })
 }
 
-
 //出库确认
 export function finishOutWarehouse(data) {
   return request({
@@ -73,7 +72,6 @@ export function purcRejectApplyheck(data) {
   })
 }
 
-
 //提交
 export function submitPurcRejectApply(data) {
   return request({
@@ -82,7 +80,6 @@ export function submitPurcRejectApply(data) {
     data:data
   })
 }
-
 
 //删除
 export function deletePurcRejectApplyheck(data) {

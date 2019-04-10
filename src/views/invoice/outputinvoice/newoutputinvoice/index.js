@@ -3,8 +3,8 @@ import Sticky from '@/components/Sticky'
 import moment from 'moment';
 
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
-import { getSalesInvoiceDetails  } from '@/api/invoicetigger/invoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
+import { getSalesInvoiceDetails  } from '@/api/invoicetigger';  
 import { tableConfig,alertConfig } from './config';
 import {NatureInvoiceEnum , InvoiceType ,NatureInvoice } from "@/utils/enum.js"
 import BaseTable from '@/components/Table'

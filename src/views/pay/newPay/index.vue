@@ -267,7 +267,7 @@
   import moment from 'moment'
   import _  from 'lodash';
   import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum, busiPlateConfig } from '@/utils/enum'
-  import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
+  import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';
 
   import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime, getContractFiles} from '@/api/pay'
 

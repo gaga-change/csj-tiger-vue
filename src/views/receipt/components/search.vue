@@ -121,7 +121,7 @@
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
 import { MoneyStateEnum,RelationStatusEnum,ApproveStatusEnum } from '@/utils/enum'
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
 import _  from 'lodash';
 import { mapGetters } from 'vuex'
 let RelationStatusEnumFilter = RelationStatusEnum.filter(item=>{

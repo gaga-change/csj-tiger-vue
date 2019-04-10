@@ -47,7 +47,7 @@
 import SearchInvoice from './components/search'
 import EditTable from './components/table'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice ,findFinaPurchaseInvoice,updateFinaPurchaseInvoice} from '@/api/void/list'
+import { saveFinaPurchaseInvoice ,queryInWarehouseBillDetailList,commitFinaPurchaseInvoice ,findFinaPurchaseInvoice,updateFinaPurchaseInvoice} from '@/api/void'
 import { addAlertTableConfig } from './components/config';
 import _  from 'lodash';
 import moment from 'moment';

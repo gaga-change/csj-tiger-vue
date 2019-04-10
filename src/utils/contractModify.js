@@ -4,12 +4,6 @@ export default function contractModify(type, params, needfresh, needValue) {
   const CotractCheck = CotractCheck
   const checkUser = this.userInfo.truename
   const ticketNo = this.$route.params.ticketno
-  // if(!this.$route.params){
-  //   this.$message({
-  //     type: 'warn',
-  //     message: '审核失败，请刷新重试!'
-  //   })
-  // }
   // 1 审核
   if (type === 1) {
     this.$prompt('请输入审核意见', '提示', {

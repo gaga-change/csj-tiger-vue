@@ -33,11 +33,6 @@ export function getCategoryDetailById(skuCategoryId) {
   })
 }
 
-// 商品分类修改
-// {
-//   skuCategoryId, // "int //商品分类id",
-//   skuCategoryName // "string //新的商品分类名称"
-// } = data
 export function editCategory(data) {
   return request({
     url: `/webApi/sku/category/update`,

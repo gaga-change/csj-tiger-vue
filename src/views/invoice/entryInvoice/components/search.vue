@@ -354,7 +354,7 @@ import _  from 'lodash';
 import { InvoiceStatus,entryInvoiceTicketStatus,NatureInvoice,InvoiceType ,invoiceCancelStatusConfig,busiPlateConfig} from '@/utils/enum'
 import Sticky from '@/components/Sticky' 
 import { mapGetters } from 'vuex'
-import { queryInWarehouseBillList,queryListByFinaPurchaseInvoiceReq,getProvider } from '@/api/void/list'
+import { queryInWarehouseBillList,queryListByFinaPurchaseInvoiceReq,getProvider } from '@/api/void'
 export default {
   components: { Sticky},
   data() {

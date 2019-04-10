@@ -7,11 +7,11 @@
       供应链协同操作管理平台
     </div>
     <ul class="top-nav">
-      <li>
-        <a :href="TiggerUrl" target="_blank">供应链</a>
-      </li>
       <li  v-for="i in markArr">
         <a  @click="$store.dispatch('setLocalmenu',i)"  :class="{navActive:mark===i}"    target="_blank">{{i}}</a>
+      </li>
+      <li>
+        <a :href="TiggerUrl" target="_blank">供应链</a>
       </li>
     </ul>
     <el-dropdown class="avatar-container" trigger="click">

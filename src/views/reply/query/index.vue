@@ -45,7 +45,7 @@
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="单据状态" label-width="60px"  prop="approveStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.approveStatus"   placeholder="请选择审核状态">
-                <el-option   v-for="item in mapConfig['getApproveStatusMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getApproveStatus']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>

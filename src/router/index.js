@@ -5,13 +5,11 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 Vue.use(Router)
 
 import Layout from '../views/layout/Layout'
-import Deliver from './deliver'
-import PayReceivableInvoce from './PayReceivableInvoce'
-import Receipt from './receipt'
-import Payment from './payment'
-import Provider from './provider'
-import SaasErp from './saasErp' // 租户管理 租户管理员
-import Mis from './mis'
+import OutgoingWarehousing from './outgoingWarehousing' //出入库
+import Basics from './basics' //基本信息
+import Logistics from './logistics' //物流
+import Report from './report' //报表
+import Finance from './finance' //财务
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
@@ -39,17 +37,16 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  ...Deliver,
-  ...PayReceivableInvoce,
-  ...Receipt,
-  ...Payment,
-  ...Provider,
-  ...SaasErp,
-  ...Mis,
+  ...OutgoingWarehousing,
+  ...Basics,
+  ...Logistics,
+  ...Report,
+  ...Finance,
   {
     path: '/err',
     component: Layout,
     redirect: 'err/errIndex',
+    mark:'报表',
     meta: { title: '错误处理', noCache: true,icon:'back' },
     hidden: false,
     children: [

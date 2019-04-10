@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+
 // 获取类目POST /api/serviceCategory/category/list
 export function CategoryList(data) {
   return request({

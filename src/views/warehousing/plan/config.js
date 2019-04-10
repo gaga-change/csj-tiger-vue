@@ -30,7 +30,7 @@ export   const infoConfig=[
   {title:'供应商编号',prop:'providerCode'},
   {title:'联系电话',prop:'linkTel'},
   {title:'下推状态',prop:'issuedState', type:'getIssuedState',useApi:true},
-  {title:'执行状态',prop:'execStatus', type:'outbusibillstate',useApi:true},
+  {title:'执行状态',prop:'execStatus', type:'getExecState',useApi:true},
 ];
 
 export   const warehousingTableConfig=[
@@ -49,7 +49,7 @@ export   const indexTableConfig=[
   { label:'货主',prop:'ownerName'},
   { label:'制单人',prop:'createrName'},
   { label:'计划入库仓库',prop:'planWarehouseName'},
-  { label:'执行状态',width:100,prop:'execStatus',type:'outbusibillstate',useApi:true},
+  { label:'执行状态',width:100,prop:'execStatus',type:'getExecState',useApi:true},
   { label:'计划入库日期',prop:'planTime',type:'time'},
   { label:'操作',width:150,fixed:'right',useLink:true },
 ]

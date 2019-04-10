@@ -42,7 +42,7 @@
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="执行状态"  prop="execStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus"  placeholder="请选择执行状态">
-                <el-option   v-for="item in mapConfig['outbusibillstate']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['getExecState']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>

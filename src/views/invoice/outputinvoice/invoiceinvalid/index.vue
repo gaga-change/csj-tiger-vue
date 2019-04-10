@@ -25,7 +25,7 @@
     }
     
     import moment from 'moment';
-    import { obsoleteList } from '@/api/invoicetigger/invoice'
+    import { obsoleteList } from '@/api/invoicetigger'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import { indexTableConfigInvalid } from '../components/config';

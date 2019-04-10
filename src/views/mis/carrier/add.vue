@@ -40,7 +40,7 @@
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="承运商状态" >
                 <el-select  v-model="searchForm.consoildatorState" clearable  placeholder="请选择承运商状态：" size="small" class="formitem">
-                  <el-option v-for="item in  mapConfig['getConsoildator']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+                  <el-option v-for="item in  mapConfig['getConsoildatorState']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>  

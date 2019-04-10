@@ -61,7 +61,7 @@ import EditTable from './components/table'
 import { addAlertTableConfig } from './components/config';
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import { handleOpinionConfig } from '@/utils/enum'
-import { queryListByCustCodeAndOutBillCode , savePurcRejectApplyDO ,getPurcRejectApply } from '@/api/abnormalGoods/index';  
+import { queryListByCustCodeAndOutBillCode , savePurcRejectApplyDO ,getPurcRejectApply } from '@/api/abnormalGoods';  
 import _  from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';

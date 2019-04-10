@@ -112,7 +112,7 @@
     import moment from 'moment';
     import {inBillSelect,inBillUpdateStatus} from '@/api/warehousing'
     import  { misWarehousingBillStatusEnum,misWarehousingBillStateEnum } from "@/utils/enum.js";
-    import {getBillType,outbusibillstate} from '@/api/map'
+    import {getBillType,getExecState} from '@/api/map'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig } from './config';

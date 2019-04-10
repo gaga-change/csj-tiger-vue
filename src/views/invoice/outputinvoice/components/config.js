@@ -40,7 +40,7 @@ export const indexTableConfigRegistration=[//登记列表
   { label:'发票性质',prop:'invoiceNature',type:'NatureInvoice', useLocalEnum:true, minWidth:90},
   { label:'发票状态',prop:'invoiceStatus', width:120, type:'InvoiceStatus', useLocalEnum:true},
   { label:'单据状态',prop:'ticketStatus', type:'TicketStatus', useLocalEnum:true , minWidth:90},
-  { label:'开票人',prop:'issuer', width:90,type:'outbusibillstate',useApi:true, minWidth:90},
+  { label:'开票人',prop:'issuer', width:90,type:'getExecState',useApi:true, minWidth:90},
   { label:'操作',fixed:'right',userLink:true, width:100},
 ]
 export const indexTableConfigInvalid=[//待改

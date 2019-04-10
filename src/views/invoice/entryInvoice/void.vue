@@ -18,7 +18,7 @@
 import SearchInvoice from './components/search'
 import BaseTable from '@/components/Table'
 import { voidIndexConfig } from './components/config';
-import { finaPurchaseInvoiceList } from '@/api/void/list'
+import { finaPurchaseInvoiceList } from '@/api/void'
 import _  from 'lodash';
 export default {
   components: { SearchInvoice,BaseTable},

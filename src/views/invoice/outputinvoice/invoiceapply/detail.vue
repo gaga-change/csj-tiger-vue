@@ -50,7 +50,7 @@
 
 <script>
     import moment from 'moment';
-    import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit,dropSaleInvoice } from '@/api/invoicetigger/invoice'
+    import { getSalesInvoiceDetails, getSalesInvoiceBillingReview, getSalesInvoiceSubmit,dropSaleInvoice } from '@/api/invoicetigger'
     import { printUrl } from '@/utils'
     import { finaReportService  } from '@/api/public';
     import _  from 'lodash';

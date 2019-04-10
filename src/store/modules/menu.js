@@ -4,8 +4,8 @@ import store from '@/store'
 const menu = {
   state: {
     localMenu: [],
-    markArr:['财务管理','仓储运营'],
-    mark:'财务管理'
+    markArr:['出入库','基础档案','物流','报表','财务'],
+    mark:'财务'
   },
 
   mutations: {

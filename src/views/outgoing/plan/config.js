@@ -31,7 +31,7 @@ export  const infoConfig=[
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'planName'},
   {title:'计划仓库',prop:'planWarehouseName'},
-  {title:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true},
+  {title:'执行状态',prop:'execStatus',type:'getExecState',useApi:true},
   {title:'计划制定时间',prop:'planTime',type:'time'},
   {title:'客户编号',prop:'arrivalCode'},
   {title:'客户名称',prop:'arrivalName'},
@@ -56,7 +56,7 @@ export const indexTableConfig=[
   { label:'客户名称',prop:'arrivalName'},
   { label:'货主',prop:'ownerName'},
   { label:'计划出库仓库',prop:'planWarehouseName'},
-  { label:'执行状态',prop:'execStatus',type:'outbusibillstate',useApi:true,},
+  { label:'执行状态',prop:'execStatus',type:'getExecState',useApi:true,},
   { label:'计划出库日期',prop:'planOutTime',type:'time'},
   { label:'操作',fixed:'right',useLink:true,minWidth:120},
 ]

@@ -1,5 +1,5 @@
 
-import * as LocalApi from '@/api/abnormalGoods/index'; 
+import * as LocalApi from '@/api/abnormalGoods'; 
 
 export default function Modify({billStatus,prompt,successTips,errorTips,api}) {
     let component=this.$confirm;

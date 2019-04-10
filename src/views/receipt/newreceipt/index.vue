@@ -161,7 +161,7 @@
   import { addOrUpdateReceipt, getReceiptDetail } from '@/api/receipt'
   import { mapGetters } from 'vuex'
   import { PaymentModeEnum } from '@/utils/enum'
-  import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';
+  import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';
   // import orderchoice from './Component/orderchoice'
   export default {
     name: 'newreceipt',

@@ -1,5 +1,5 @@
 
-import { commitFinaPurchaseInvoice,checkFinaPurchaseInvoice ,invalidFinaPurchaseInvoice} from '@/api/void/list'
+import { commitFinaPurchaseInvoice,checkFinaPurchaseInvoice ,invalidFinaPurchaseInvoice} from '@/api/void'
 
 export default function Modify({type,status,prompt,successTips,errorTips}) {
 

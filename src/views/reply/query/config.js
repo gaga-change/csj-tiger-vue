@@ -9,7 +9,7 @@ export   const tableConfig=[
   { label:'货主',prop:'ownerName',width:'180px'},
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'发货仓库',prop:'planWarehouseName',width:'180px'},
-  { label:'单据状态',prop:'approveStatus',width:'80px',type:'getApproveStatusMap',useApi:true},
+  { label:'单据状态',prop:'approveStatus',width:'80px',type:'getApproveStatus',useApi:true},
   { label:'开票状态',prop:'signStatus',width:'80px',type:'getSignStatus',useApi:true},
   { label:'附件',width:'90px',type:'files'},
   { label:'签收人',prop:'signName',width:'150px'},

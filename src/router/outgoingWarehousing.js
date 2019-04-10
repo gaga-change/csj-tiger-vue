@@ -1,5 +1,4 @@
 const _import = require('./_import_' + process.env.NODE_ENV)
-/* Layout */
 import Layout from '../views/layout/Layout'
 
 export default [
@@ -8,6 +7,7 @@ export default [
     component: Layout,
     redirect: 'outgoing/businessorder',
     meta: { title: '出库调度', noCache: true,icon: 'out' },
+    mark:'出入库',
     hidden: false,
     children: [
       {
@@ -84,6 +84,7 @@ export default [
     component: Layout,
     redirect: 'warehousing/businessorder',
     meta: { title: '入库调度', noCache: true ,icon:'in'},
+    mark:'出入库',
     hidden: false,
     children: [
       {
@@ -143,144 +144,11 @@ export default [
     ]
   },
 
-  // {
-  //   path: '/transfer',
-  //   component: Layout,
-  //   redirect: 'transfer/transfermanagement',
-  //   meta: { title: '调拨管理', noCache: true },
-  //   hidden: false,
-  //   children: [
-  //     {
-  //       name: 'transfermanagement',
-  //       path: 'transfermanagement',
-  //       meta: { title: '调拨管理', noCache: true,icon:'sale' },
-  //       component: _import('transfer/transfermanagement/index')
-  //     }
-  //   ]
-  // },
-
-  {
-    path: '/inventory',
-    component: Layout,
-    redirect: 'inventory/quiry',
-    meta: { title: '库存管理', noCache: true,icon:'plan' },
-    hidden: false,
-    children: [
-      {
-        name: 'quiry',
-        path: 'quiry',
-        meta: { title: '库存查询', noCache: true },
-        component: _import('inventory/quiry/index')
-      },
-      {
-        name: 'quiry-detail',
-        path: 'quiry-detail',
-        meta: { title: '库存查询详情', noCache: true },
-        component: _import('inventory/quiry/detail'),
-        hidden: true,
-      },
-      // {
-      //   name: 'log',
-      //   path: 'log',
-      //   meta: { title: '出入库日志', noCache: true },
-      //   component: _import('inventory/log/index')
-      // },
-      //  {
-      //   name: 'deposit',
-      //   path: 'deposit',
-      //   meta: { title: '锁定库存一览', noCache: true },
-      //   component: _import('inventory/deposit/index')
-      // }
-    ]
-  },
-
-  {
-    path: '/businessset',
-    component: Layout,
-    mark:'仓储运营',
-    redirect: 'businessset/configuration',
-    meta: { title: '业务设置', noCache: true ,icon:'busyness'},
-    hidden: false,
-    children: [
-      // {
-      //   name: 'configuration',
-      //   path: 'configuration',
-      //   meta: { title: '仓储配置', noCache: true },
-      //   component: _import('businessset/configuration/index')
-      // },
-      {
-        name: 'owerinfo',
-        path: 'owerinfo',
-        meta: { title: '货主信息', noCache: true },
-        component: _import('businessset/owerinfo/index')
-      },
-      {
-        name: 'owerinfo-detail',
-        path: 'owerinfo-detail',
-        meta: { title: '货主信息详情', noCache: true },
-        component: _import('businessset/owerinfo/detail'),
-        hidden: true,
-      },
-      {
-        name: 'warehouseuser',
-        path: 'warehouseuser',
-        meta: { title: '仓库用户配置', noCache: true },
-        component: _import('businessset/warehouseuser/index')
-      },
-      // {
-      //   name: 'customerconfiguration',
-      //   path: 'customerconfiguration',
-      //   meta: { title: '客户仓库关系配置', noCache: true },
-      //   component: _import('businessset/customerconfiguration/index')
-      // },
-      // {
-      //   name: 'customerconfiguration-detail',
-      //   path: 'customerconfiguration-detail',
-      //   meta: { title: '客户仓库关系配置详情', noCache: true },
-      //   component: _import('businessset/customerconfiguration/detail'),
-      //   hidden: true,
-      // },
-      //  {
-      //   name: 'ownerconfiguration',
-      //   path: 'ownerconfiguration',
-      //   meta: { title: '货主开通仓储配置', noCache: true },
-      //   component: _import('businessset/ownerconfiguration/index')
-      // },
-      // {
-      //   name: 'cycleconfiguration',
-      //   path: 'cycleconfiguration',
-      //   meta: { title: '库存周期配置', noCache: true },
-      //   component: _import('businessset/cycleconfiguration/index')
-      // }
-    ]
-  },
-
-  // {
-  //   path: '/analysis',
-  //   component: Layout,
-  //   redirect: 'analysis/delivergoods',
-  //   meta: { title: '统计分析', noCache: true,icon:'back' },
-  //   hidden: false,
-  //   children: [
-  //     {
-  //       name: 'delivergoods',
-  //       path: 'delivergoods',
-  //       meta: { title: '发货时效分析', noCache: true },
-  //       component: _import('analysis/delivergoods/index')
-  //     },
-  //     {
-  //       name: 'arrival',
-  //       path: 'arrival',
-  //       meta: { title: '供应商到货率', noCache: true },
-  //       component: _import('analysis/arrival/index')
-  //     },
-  //   ]
-  // },
-
    {
     path: '/reply',
     component: Layout,
     redirect: 'reply/query',
+    mark:'出入库',
     meta: { title: '回单管理', noCache: true,icon:'back' },
     hidden: false,
     children: [
@@ -313,7 +181,7 @@ export default [
     redirect: 'abnormalGoods/list',
     meta: { title: '异常商品登记', noCache: true,icon:'back' },
     hidden: false,
-    mark:'仓储运营',
+    mark:'出入库',
     children: [
       {
         name: 'list',
@@ -346,39 +214,74 @@ export default [
     ]
   },
 
-
   {
-    path: '/reconciliation',
+    path: '/provider',
     component: Layout,
-    redirect: 'reconciliation/list',
-    mark:'财务管理',
-    meta: { title: '对账管理', noCache: true,icon:'back' },
+    redirect: '/provider/list',
+    name: 'provider',
+    mark:'出入库',
+    meta: { title: '供应商直发', icon: 'sale',noCache: true },
     hidden: false,
     children: [
       {
-        name: 'list',
         path: 'list',
-        meta: { title: '仓储服务费对账单', noCache: true},
-        component: _import('reconciliation/list'),
-        hidden: false,
+        component: _import('provider/list'),
+        name: 'providerlist',
+        hidden:false,
+        meta: {title: '客户收货登记',noCache: true }
       },
       {
-        name: 'reconciliationAdd',
         path: 'add',
-        meta: { title: '新增对账单', noCache: false },
-        component: _import('reconciliation/add'),
-        hidden: true,
+        component: _import('provider/add'),
+        name: 'providerAdd',
+        hidden:true,
+        meta: {title: '登记页面',noCache: false }
       },
       {
-        name: 'detail',
         path: 'detail',
-        meta: { title: '对账单详情', noCache: true },
-        component: _import('reconciliation/detail'),
-        hidden: true,
+        component: _import('provider/detail'),
+        name: 'providerdetail',
+        hidden:true,
+        meta: {title: '客户收货登记详情',noCache: true }
       },
-
     ]
   },
 
+  {
+    path: '/correctionDocument',
+    component: Layout,
+    redirect: '/correctionDocument/warehousingList',
+    name: 'correctionDocument',
+    mark:'出入库',
+    meta: { title: '单据订正', icon: 'sale' },
+    children: [
+      {
+        path: 'warehousingList',
+        component: _import('mis/correctionDocument/warehousingList'),
+        name: 'warehousingList',
+        meta: { title: '入库业务单订正'}
+      },
+      {
+        path: 'warehousingAdd',
+        component: _import('mis/correctionDocument/warehousingAdd'),
+        name: 'warehousingAdd',
+        hidden: true,
+        meta: { title: '创建入库订正单'}
+      },
+      {
+        path: 'outgoingList',
+        component: _import('mis/correctionDocument/outgoingList'),
+        name: 'outgoingList',
+        meta: { title: '出库业务单订正'}
+      },
+      {
+        path: 'outgoingAdd',
+        component: _import('mis/correctionDocument/outgoingAdd'),
+        name: 'outgoingAdd',
+        hidden: true,
+        meta: { title: '创建出库订正单'}
+      }
 
+    ]
+  },
 ]

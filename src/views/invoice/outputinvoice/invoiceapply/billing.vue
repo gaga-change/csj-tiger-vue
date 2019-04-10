@@ -19,7 +19,7 @@
 
 <script>
     import moment from 'moment';
-    import { getSalesInvoiceDetails, getSalesInvoiceFinancialBilling } from '@/api/invoicetigger/invoice'
+    import { getSalesInvoiceDetails, getSalesInvoiceFinancialBilling } from '@/api/invoicetigger'
     // import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import Sticky from '@/components/Sticky' // 粘性header组件

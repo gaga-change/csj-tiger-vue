@@ -33,7 +33,7 @@
 import SearchInvoice from './components/search'
 import BaseTable from '@/components/Table'
 import { listIndexConfig } from './components/config';
-import { finaPurchaseInvoiceList } from '@/api/void/list'
+import { finaPurchaseInvoiceList } from '@/api/void'
 import Sticky from '@/components/Sticky' 
 import _  from 'lodash';
 import moment from 'moment';

@@ -108,7 +108,7 @@
 <script>
 // import {  InvoiceType  as invoicetype  } from '@/utils'
 import { paymentStatusEnum,MoneyStateEnum,busiPlateConfig } from '@/utils/enum'
-import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/invoicetigger/newoutputinvoice';  
+import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';  
 import { getProvider } from '@/api/pay'
 import _  from 'lodash';
 import { mapGetters } from 'vuex'

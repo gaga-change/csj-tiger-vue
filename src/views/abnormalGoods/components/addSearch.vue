@@ -154,8 +154,8 @@
 
 <script>
 import Sticky from '@/components/Sticky'
-import { infoCustomerInfo} from '@/api/invoicetigger/newoutputinvoice';  
-import { queryOutBillInfoByCustCode} from '@/api/abnormalGoods/index';  
+import { infoCustomerInfo} from '@/api/newoutputinvoice';  
+import { queryOutBillInfoByCustCode} from '@/api/abnormalGoods';  
 import { handleOpinionConfig } from '@/utils/enum'
 export default {
   components: { Sticky },

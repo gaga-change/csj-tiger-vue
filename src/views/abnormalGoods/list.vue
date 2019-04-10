@@ -26,7 +26,7 @@ import BaseTable from '@/components/Table'
 import Sticky from '@/components/Sticky'
 import _  from 'lodash';
 import moment from 'moment';
-import { getPurcRejectApplyList } from '@/api/abnormalGoods/index';  
+import { getPurcRejectApplyList } from '@/api/abnormalGoods';  
 export default {
   components: { SearchInvoice,BaseTable,Sticky },
    data() {

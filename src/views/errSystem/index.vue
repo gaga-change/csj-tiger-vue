@@ -33,7 +33,7 @@
 import { listIndexConfig,listDetailConfig } from './config';
 import SearchInvoice from './search'
 import BaseTable from '@/components/Table'
-import { interactiveErrorDataSelect,interactiveErrorDataGet,interactiveErrorDataReset } from '@/api/errSystem/err'
+import { interactiveErrorDataSelect,interactiveErrorDataGet,interactiveErrorDataReset } from '@/api/errSystem'
 export default {
   components: { SearchInvoice,BaseTable },
    data() {

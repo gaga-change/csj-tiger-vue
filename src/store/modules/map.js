@@ -27,7 +27,9 @@ async function config() {
   for(let i in apiMap){
     await  apiMap[i]().then(res=>{
       if(res.success){
-        if(Array.isArray(res.data)){
+        if(i==='getEnum'){
+          config={...config,...res.data}
+        } else if(Array.isArray(res.data)){
           config[i]=res.data
         } else{
           let arr=[];

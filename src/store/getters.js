@@ -1,7 +1,7 @@
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 import Layout from '@/views/layout/Layout'
 import { reportCenterUrl} from '@/utils'
-import { deepSortMenu, sortMenu, deepExistMenu }  from '@/utils/deepSortMenu'
+import { deepExistMenu,jsonFamart}  from '@/utils/deepSortMenu'
 
 const getters = {
   sidebar: state => state.app.sidebar,
@@ -17,36 +17,9 @@ const getters = {
   mark:state=>state.menu.mark,
   menu: state => {
     let bakmenus = state.user.userInfo&&state.user.userInfo.menus&&JSON.parse(state.user.userInfo.menus)||[]
-    let bakmenu = deepExistMenu(bakmenus,state.menu.localMenu)
-    const menutemp = []
-    bakmenu.forEach(item => {
-      const subchildren = []
-      if (item.children && item.children.length) {
-        item.children.forEach(subitem => {
-          subchildren.push({
-            path: subitem.path,
-            component: subitem.component ? _import(subitem.component) : null,
-            name: subitem.code,
-            meta: JSON.parse(subitem.meta),
-            outLinkUrl: subitem.outLinkUrl ? reportCenterUrl(subitem.outLinkUrl) : '',
-            hidden: subitem.hidden === 'true'
-          })
-        })
-      }
-      menutemp.push({
-        path: item.path,
-        component: item.component === 'Layout' ? Layout : null,
-        redirect: item.redirect,
-        name: item.code,
-        outLinkUrl: item.outLinkUrl ? reportCenterUrl(item.outLinkUrl) : '',
-        hidden: item.hidden === 'true',
-        alwaysShow: item.alwaysShow,
-        meta: JSON.parse(item.meta),
-        children: subchildren
-      })
-    })
-    // return menutemp
-    return state.menu.localMenu
+    return deepExistMenu(jsonFamart(bakmenus,_import,Layout,reportCenterUrl),state.menu.localMenu)
+    // return state.menu.localMenu
   }
 }
+
 export default getters

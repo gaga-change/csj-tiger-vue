@@ -27,7 +27,7 @@
 import { todoDetailInfoConfig ,todoDetailTableConfig } from './components/config';
 import Sticky from '@/components/Sticky'
 import webPaginationTable from '@/components/Table/webPaginationTable'
-import { findPurchaseOrder ,finishOutWarehouse} from '@/api/abnormalGoods/index';
+import { findPurchaseOrder ,finishOutWarehouse} from '@/api/abnormalGoods';
 export default {
   components: { webPaginationTable,Sticky },
    data() {
