@@ -11,6 +11,14 @@
       <el-card shadow="hover">
         <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
           <el-row>
+              <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+                <el-form-item label="业务类型"  prop="busiBillType" :rules="[{ required: true, message: '该项为必填'}]">
+                  <el-select   v-model="searchForm.busiBillType"   placeholder="请选择业务类型">
+                    <el-option v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
               <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
@@ -209,7 +217,7 @@ export default {
     getCustomerInfo(value){
       customerInfo(value).then(res=>{
         if(res.success){
-         this.providerConfig=res.data;
+         this.providerConfig=res.data||[];
         }
       }).catch(err=>{
         console.log(err)

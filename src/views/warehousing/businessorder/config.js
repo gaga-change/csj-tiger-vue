@@ -7,7 +7,6 @@ export   const tableConfig=[
   { label:'供应商商品名称',prop:'customerSkuName'},
   { label:'订货进价',prop:'inPrice'},
   { label:'金额',prop:'realInAmt'},
-  { label:'入库仓库',prop:'planWarehouseName'},
 ];
 
 export  const infoConfig=[
@@ -16,6 +15,9 @@ export  const infoConfig=[
   {title:'货主编号',prop:'ownerCode'},
   {title:'货主名称',prop:'ownerName'},
   {title:'订单来源',prop:'fromSystemId'},
+  {title:'合同号',prop:'contractNo'},
+  {title:'供应商编码',prop:'providerCode'},
+  {title:'供应商名称',prop:'providerName'},
   {title:'订货日',prop:'orderTime',type:'time'},
   {title:'到货预定日',prop:'planInWarehouseTime',type:'time'},
   {title:'创建日期',prop:'gmtCreate',type:'time'},

@@ -19,6 +19,7 @@ import { stringify } from 'querystring';
 // 地址性质  getAddrNature
 //下推状态枚举 getIssuedState
 //出入库类型枚举 getStockDirectType
+//销售分区枚举 getSaleType
 
 //枚举接口 返回所有静态的
 export function getEnum() {

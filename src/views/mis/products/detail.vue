@@ -240,6 +240,8 @@ export default {
     }
   },
   created() {
+    this.customerConfig.find(v=>v.label==='客户').prop='customerName'
+    this.servicerConfig.find(v=>v.label==='供应商').prop='providerName'
     this.getDetail()
   },
   methods: {

@@ -380,6 +380,7 @@ export default {
       updateOwnerCust({customerCode: this.rowData.customerCode, ownerList: this.unionForm.owners}).then(res => {
         console.log(res)
         this.$message.success('操作成功~')
+        this.unionDialogVisible=false
       }).catch(err => {
         console.log(err)
       })

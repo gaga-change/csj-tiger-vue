@@ -67,6 +67,7 @@ export default {
         item.dom = (row, column, cellValue, index) => {
           return (row.revisalState == 1) ? (
             <div class="tableLinkBox">
+              <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
               {
                 <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}`} class="tableLink">修改</router-link>
               }
@@ -105,7 +106,7 @@ export default {
         approveState: this.approve ? 2 : 3,
         approveReason: this.approveReason
       }
-      inwarehouseApproveRevisal(params).then(res => {
+      outwarehouseApproveRevisal(params).then(res => {
         if (res.code == 200) {
           this.$message({
             type: 'success', message: '订正单审核完成！', duration: 1000

@@ -11,8 +11,8 @@
           </el-col>
 
           <el-col :span="6" >
-            <el-form-item label="用户名" prop="warehouseName">
-              <el-input v-model.lazy.trim="ruleForm.warehouseName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入用户名"></el-input>
+            <el-form-item label="用户名" prop="operatorName">
+              <el-input v-model.lazy.trim="ruleForm.operatorName"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入用户名"></el-input>
             </el-form-item>
           </el-col>
 
@@ -31,23 +31,12 @@
     </el-card>
   </div>
   <div style="marginBottom:12px">
-   <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
-    <el-row :gutter="16" >
-        <el-form :inline="true"  size="small"  class="demo-form-inline">
-          <el-col :span="24">
-            <el-form-item>
-              <el-button type="primary" size="small" :disabled="buttonDisabled||!$haspermission('warehouseuserAdd')" @click="addWarehouseuser">新增
-              </el-button>
-            </el-form-item>
 
-            <el-form-item> 
-              <el-button type="primary" size="small"  :disabled="buttonDisabled||!$haspermission('warehouseuserDelete')" @click="deleteWarehouseuser">删除
-              </el-button>
-            </el-form-item>
-          </el-col>
-      </el-form>
-    </el-row>
-    </el-card>
+  <div class="operationitem">
+    <el-button type="primary" size="small" :disabled="buttonDisabled||!$haspermission('warehouseuserAdd')" @click="addWarehouseuser">新增</el-button>
+    <el-button type="primary" size="small"  :disabled="buttonDisabled||!$haspermission('warehouseuserDelete')" @click="deleteWarehouseuser">删除</el-button>
+  </div>
+
   </div>
     <base-table 
       @sizeChange="handleSizeChange"
@@ -324,3 +313,11 @@
 </script>
 
 
+
+<style rel="stylesheet/scss" lang="scss">
+  .operationitem{
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px 0;
+  }
+</style>

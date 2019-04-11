@@ -13,6 +13,7 @@ export const productConfig = [
   { label: '创建日期', prop: 'gmtCreate', type: 'time', width: 155},
   { label: '操作', useLink: true, fixed: 'right', width: 100 }
 ]
+
 export const customerConfig = [
   { label: '客户', prop: 'customerCode', placeholder: '请选择客户', type: 'select', selectOptions: [],rules:[{required: true, message:'必填项'}] },
   { label: '客户物料编码', prop: 'customerSkuCode', placeholder: '请输入物料编码' },
@@ -23,6 +24,7 @@ export const customerConfig = [
   { label: '客户物料名称', prop: 'customerSkuName', placeholder: '请输入客户物料名称' },
   { label: '备注', prop: 'remarkInfo', type: 'textarea' },
 ]
+
 export const servicerConfig = [
   { label: '供应商', prop: 'providerCode', placeholder: '请选择供应商', type: 'select', selectOptions: [] ,rules:[{required: true, message:'必填项'}]},
   { label: '进货价', prop: 'purchasePrice', placeholder: '请输入进货价', type: 'number' ,rules:[{required: true, message:'必填项'}]},

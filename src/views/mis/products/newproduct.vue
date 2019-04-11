@@ -114,7 +114,7 @@
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="销售区分：" prop="saleType">
               <el-select  v-model="productForm.saleType" clearable  placeholder="请选择销售区分" size="small" class="formitem">
-                <el-option v-for="item in productEnum['saleType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                <el-option v-for="item in mapConfig['getSaleType']||[]" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>

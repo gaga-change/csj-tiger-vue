@@ -1,5 +1,12 @@
 <template>
   <div class="addCarrier">
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template >
+       <div v-if="!query.readOnly">
+          <el-button @click="submit('submit')" type="primary" v-loading="submitloading">提交</el-button>
+       </div>
+      </template>
+    </sticky>
     <el-card shadow="hover">
       <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
         <el-row>
@@ -58,12 +65,6 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-
-    <div class="operationitem" v-if="!query.readOnly">
-      <!-- <el-button @click="submit('save')" type="primary">保存</el-button> -->
-      <el-button @click="submit('submit')" type="primary" v-loading="submitloading">提交</el-button>
-    </div>
-
   </div>
 </template>
 
@@ -73,11 +74,12 @@ import { revisalTypeEnum } from "@/utils/enum.js";
 import { carrierrecords_Config, carrierDetail_Config } from './components/config'
 import webPaginationTable from '@/components/Table/webPaginationTable';
 import editTable from '@/components/Table/editTable';
+import Sticky from '@/components/Sticky'
 import { queryOwners, inOrderCode, inwarehouseBillInfo, inwarehouseOrderDetail, createInwarehouseRevisal, queryInwarehouseRevisal, updateInwarehouseRevisal, queryApprovedItems } from '@/api/correction'
 import _ from 'lodash';
 export default {
   name: 'warehousingAdd',
-  components: { webPaginationTable, editTable },
+  components: { webPaginationTable, editTable,Sticky },
   data() {
     return {
       searchForm: {
@@ -369,7 +371,6 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .addCarrier {
-  width: 1200px;
   .operationitem {
     display: flex;
     justify-content: flex-end;
