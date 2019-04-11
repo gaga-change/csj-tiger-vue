@@ -51,7 +51,7 @@ export function jsonFamart(bakmenu,_import,Layout,reportCenterUrl){
 }
 
 
-function isJSON(str) {
+export function isJSON(str) {
     if (typeof str == 'string') {
         try {
             JSON.parse(str);

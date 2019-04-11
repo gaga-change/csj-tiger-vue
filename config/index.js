@@ -1,8 +1,8 @@
 'use strict'
 
 const path = require('path')
-const ip='http://172.16.81.26:7878';//苗哥
-// const ip='http://172.16.81.26:5566';//苗哥2
+// const ip='http://172.16.81.26:7878';//苗哥
+const ip='http://172.16.81.26:5566';//苗哥2
 // const ip='http://192.168.2.167:7878';//修号
 // const ip='http://192.168.2.163:7878';//红兵
 // const ip='http://192.168.2.139:7878';//陈姐

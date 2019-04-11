@@ -33,28 +33,19 @@
     />
     <el-dialog :visible.sync="dialogVisible">
       <el-form :model="addForm" label-width="100px">
-        <el-form-item label="所属仓库：">
-          <el-select
-            v-model="addForm.warehouses"
-            placeholder="请选择"
-            multiple
-            style="width:400px;"
-            :disabled="storeLoading"
-          >
-            <el-option-group
-              v-for="group in storeoptions"
-              :key="group.label"
-              :label="group.label"
-            >
-              <el-option
-                v-for="item in group.options"
-                :label="item.value"
-                :key="item.key"
-                :value="item.key"
-              ></el-option>
-            </el-option-group>
+        <el-form-item label="所属仓库：" >
+          <el-select v-model="addForm.warehouses" multiple placeholder="请选择需要关联的货主" style="width:400px">
+            <el-option
+              v-for="item in mapConfig['getWarehouse']"
+              :key="item.key"
+              :label="item.value"
+              :value="item.key">
+              <span style="float: left">{{ item.key }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px; margin-right: 30px">{{item.value}}</span>
+            </el-option>
           </el-select>
         </el-form-item>
+
       </el-form>
       <span slot="footer">
         <el-button @click="confirmStore" type="primary" :loading="storeLoading" :disabled="storeLoading">确定</el-button>
@@ -97,25 +88,6 @@ export default {
     }
   },
   computed: {
-    storeoptions() {
-      const stores = this.mapConfig['getWarehouse']
-      const checked = stores
-        ? stores.filter(store => this.addForm.warehouses.includes(store.key))
-        : []
-      const unchecked = stores
-        ? stores.filter(store => !this.addForm.warehouses.includes(store.key))
-        : []
-      return [
-        {
-          label: '已选择',
-          options: checked
-        },
-        {
-          label: '未选择',
-          options: unchecked
-        }
-      ]
-    },
     ...mapGetters(['mapConfig'])
 
   },
@@ -194,12 +166,12 @@ export default {
   methods: {
     confirmStore() {
       this.storeLoading = true
-      saveOwnerWarehouse(this.addForm).then(res => {
-        console.log(res)
+      saveOwnerWarehouse({
+        ...this.addForm
+      }).then(res => {
         this.storeLoading = false
         this.dialogVisible = false
       }).catch(err => {
-        console.log(err)
         this.storeLoading = false
         this.dialogVisible = false
       })
@@ -228,8 +200,14 @@ export default {
       this.dialogVisible = true
       this.storeLoading = true
       ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
-        let result = res.data
-        this.addForm.warehouses = result
+        let result = res.data.map(v=>v.warehouseCode);
+        let arr=[];
+        result.forEach(v=>{
+          if(!arr.includes(v)){
+            arr.push(v)
+          }
+        })
+        this.addForm.warehouses = arr
         this.addForm.ownerCode = row.ownerCode
         this.storeLoading = false
       }).catch(err => {

@@ -1,17 +1,20 @@
 import { asyncRouterMap }  from '@/router'
 import router from '@/router';
 import store from '@/store'
+import _  from 'lodash';
 const menu = {
   state: {
     localMenu: [],
     markArr:['出入库','基础档案','物流','报表','财务'],
-    mark:'财务'
+    mark:'基础档案'
   },
 
   mutations: {
     SET_LOCALMENU:(state, menu)=>{
       state.localMenu=asyncRouterMap.filter(v=>!v.mark||v.mark===menu);
       state.mark=menu;
+      let group=_.groupBy(store.getters.fetchMapLocationMenu,v=>v.mark);
+      state.markArr=Object.keys(group).filter(v=>v!=='undefined')
       router.addRoutes(store.getters.menu)
     }
   },

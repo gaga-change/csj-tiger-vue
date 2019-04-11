@@ -86,7 +86,7 @@ export default {
       this.loading = true
       categoryList()
         .then(res => {
-          this.tree = res.data.children || []
+          this.tree= res.data.children || [];
           this.loading = false
         })
         .catch(err => {
@@ -95,8 +95,13 @@ export default {
         })
     },
     getNewparentcategory() {
-      this.$emit('categorySubmit', this.choice)
-      this.categoryVisible = false
+       if(this.choice.currentCode.split('-').length>=3){
+         this.$emit('categorySubmit', this.choice)
+         this.categoryVisible = false
+       } else{
+         this.$message.error('菜单至少选择到三级')
+       }
+      
     }
   }
 }

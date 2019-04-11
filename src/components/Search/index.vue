@@ -76,7 +76,7 @@ export default {
     },
     formData: {
       type: Object,
-      default: () => { return {} }
+      default: () =>{}
     },
     labelWidth: {
       type: Number,
@@ -108,6 +108,7 @@ export default {
       searchForm: {}
     }
   },
+  
   methods: {
     loadData() {
       this.$nextTick(() => {

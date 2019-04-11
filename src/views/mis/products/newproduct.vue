@@ -1,23 +1,28 @@
 <template lang="html">
 <div class="app-container">
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template >
+          <el-button type="primary" @click="onSubmit" v-loading="submitloading" :disabled="submitloading">保存</el-button>
+      </template>
+    </sticky>
   <el-form :model="productForm" ref="productForm" labelWidth="100px">
     <item-title text="商品明细" />
     <el-card shadow="hover">
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="货主：" prop="ownerCode">
+          <el-form-item label="货主：" prop="owner" :rules="[{required: true, message:'必填项'}]">
             <el-select  v-model="productForm.owner" clearable @change="ownerChange"  placeholder="请选择货主" size="small" class="formitem">
               <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="货主商品编码：" prop="ownerSkuCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+          <el-form-item label="货主商品编码："labelWidth="110px"  prop="ownerSkuCode" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
             <el-input v-model="productForm.ownerSkuCode" placeholder="请输入货主商品编码" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品分类：" prop="categoryCode">
+          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{required: true,trigger: 'blur', message:'必填(菜单必须选择到三级)'}]">
             <choice-category @categorySubmit="categorySubmit" ref="categoryChoice" :disabled="editable"></choice-category>
           </el-form-item>
         </el-col>
@@ -268,8 +273,10 @@
           </el-table-column>
           <el-table-column label="操作" width="150" fixed="right">
             <template slot-scope="scope">
-              <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
-              <a :style="linkstyle" @click="editRow(scope.row)">修改</a>
+              <span>
+                <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
+                <a :style="linkstyle" @click="editRow(scope.row)">修改</a>
+              </span>
             </template>
           </el-table-column>
         </el-table>
@@ -303,16 +310,6 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-row class="mt20 mb30">
-      <el-button
-        type="primary"
-        @click="onSubmit"
-        v-loading="submitloading"
-        :disabled="submitloading"
-        >保存</el-button
-      >
-      <el-button @click="onCancel">取消</el-button>
-    </el-row>
   </el-form>
 </div>
 </template>
@@ -323,11 +320,13 @@ import search from '@/components/Search'
 import choiceCategory from './components/choiceCategory'
 import * as productEnum from './components/productEnum'
 import { customerConfig, servicerConfig } from './components/config'
+import Sticky from '@/components/Sticky'
 import { addProduct, updateProduct, productDetail } from '@/api/productcenter'
 import { getOwnerCustList, getOwnerProviderList } from '@/api/mis'
 import { findValue } from '@/utils'
+import _  from 'lodash';
 export default {
-  components: { search, choiceCategory },
+  components: { search, choiceCategory,Sticky },
   data() {
     return {
       productForm: {},
@@ -381,59 +380,71 @@ export default {
     ownerChange(val) {
       const ownerobj = val || {}
       getOwnerCustList({ownerCode: ownerobj.key}).then(res => {
-        console.log(res)
+        let customerEditData=_.cloneDeep(this.customerEditData);
+        customerEditData.customerCode='';
+        this.customerEditData=customerEditData;
         const result = res.data || []
         const options = []
         result.forEach(item => options.push({ value: item.customerName, key: item.customerCode}))
-        this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions = options
-        console.log(options);
+        this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions = options;
+        this.$refs['customerForm'].loadData()
       })
       getOwnerProviderList({ownerCode: ownerobj.key}).then(res => {
-        console.log(res)
+        let servicerEditData=_.cloneDeep(this.servicerEditData);
+        servicerEditData.providerCode='';
+        this.servicerEditData=servicerEditData;
+
         const result = res.data || []
         const options = []
         result.forEach(item => options.push({ value: item.providerName, key: item.providerCode}))
         this.servicerConfig.find(customer => customer.prop === 'providerCode').selectOptions = options
+        this.$refs['servicerForm'].loadData()
       })
     },
     categorySubmit(item) {
       this.productForm.categoryCode = item.currentCode
       this.productForm.categoryName = item.text
+      this.$refs['productForm'].clearValidate(['categoryCode'])
     },
     onSubmit() {
-      this.submitloading = true
-      const { skuCode, owner, ...rest } = this.productForm
-      const postForm = {
-        ownerCode: owner.key,
-        ownerName: owner.value,
-        operator: this.userInfo.id,
-        operatorName: this.userInfo.truename,
-        skuCustomerReqList: this.customerTableData,
-        skuProviderInfoReqList: this.servicerTableData,
-        ...rest
-      }
-      const editMethod = skuCode ? updateProduct : addProduct
-      if (skuCode) {
-        postForm.skuCode = skuCode
-      }
-      editMethod(postForm).then(res => {
-        console.log(res)
-        this.submitloading = false
-        if (res.success) {
-          const view = this.visitedViews.filter(v => v.path === this.$route.path)
-          this.$alert('操作成功').then(()=> {
-            this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-              this.$router.push({name: 'productsList'})
-            })
-          })  
+      
+       this.$refs['customerForm'].$refs['tcfForm'].clearValidate(['customerCode'])
+       this.$refs['servicerForm'].$refs['tcfForm'].clearValidate(['providerCode'])
+
+       this.$refs['productForm'].validate((valid) => {
+        if (valid) {
+          this.submitloading = true
+          const { skuCode, owner, ...rest } = this.productForm
+          const postForm = {
+            ownerCode: owner.key,
+            ownerName: owner.value,
+            operator: this.userInfo.id,
+            operatorName: this.userInfo.truename,
+            skuCustomerReqList: this.customerTableData,
+            skuProviderInfoReqList: this.servicerTableData,
+            ...rest
+          }
+          const editMethod = skuCode ? updateProduct : addProduct
+          if (skuCode) {
+            postForm.skuCode = skuCode
+          }
+          editMethod(postForm).then(res => {
+            console.log(res)
+            this.submitloading = false
+            if (res.success) {
+              const view = this.visitedViews.filter(v => v.path === this.$route.path)
+              this.$alert('操作成功').then(()=> {
+                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                  this.$router.push({name: 'productsList'})
+                })
+              })  
+            }
+          }).catch(err => {
+            console.log(err)
+            this.submitloading = false
+          })
         }
-      }).catch(err => {
-        console.log(err)
-        this.submitloading = false
       })
-    },
-    onCancel() {
-      this.$router.back()
     },
     submitCustomerForm(val) {
       console.log(val);
@@ -467,6 +478,7 @@ export default {
         this.servicerTableData.push(JSON.parse(JSON.stringify(val)))
       }
     },
+
     delRow(row) {
       console.log(row);
       this.customerTableData = this.customerTableData.filter(item => item !== row)

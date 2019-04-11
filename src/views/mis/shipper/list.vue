@@ -1,7 +1,11 @@
 <template>
   <div class="carrier">
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+      <template >
+        <el-button type="primary" size="small" @click="submit('addWarehouse')">确定</el-button>
+      </template>
+    </sticky>
       <search @submit="submit" :searchForm="searchForm"></search>
-    
       <div class="operationitem">
            <router-link :to="`/shipper/add?time=${moment().valueOf()}`">
                 <el-button type="primary" size="small">增加货主</el-button>
@@ -42,8 +46,6 @@
              @SelectionChange="SelectionChange"
              :config="selectionShipper_config" 
              :allTableData="selectionShipper_data"/>
-             <el-button type="primary" size="small" @click="submit('addWarehouse')">确定</el-button>
-             <el-button size="small" @click="()=>this.handleClose('addWarehouse')">取消</el-button>
           </el-dialog>
       </el-dialog>
   </div>
@@ -55,9 +57,10 @@
   import { carrierListConfig ,shipperList_config,warehouseList_config,selectionShipper_config} from './components/config'
   import _  from 'lodash';
   import moment from 'moment';
+  import Sticky from '@/components/Sticky'
   import webPaginationTable from '@/components/Table/webPaginationTable';
   export default {
-    components: { search,BaseTable,webPaginationTable},
+    components: { search,BaseTable,webPaginationTable,Sticky},
     data() {
       return {
 
