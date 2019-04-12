@@ -80,19 +80,29 @@ export default {
         }
         return {}
       }
-      this.choice = findCategory(this.tree, params)
+      if (!this.tree.length) {
+        this.getTree().then(() => {
+          this.choice = findCategory(this.tree, params)
+        })
+      } else {
+        this.choice = findCategory(this.tree, params)
+      }
     },
     getTree() {
-      this.loading = true
-      categoryList()
-        .then(res => {
-          this.tree= res.data.children || [];
-          this.loading = false
-        })
-        .catch(err => {
-          console.log(err)
-          this.loading = false
-        })
+      return new Promise((resolve, reject) => {
+        this.loading = true
+        categoryList()
+          .then(res => {
+            this.tree= res.data.children || [];
+            this.loading = false
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            this.loading = false
+            reject()
+          })
+      })
     },
     getNewparentcategory() {
        if(this.choice.currentCode.split('-').length>=3){
@@ -101,7 +111,7 @@ export default {
        } else{
          this.$message.error('菜单至少选择到三级')
        }
-      
+
     }
   }
 }
