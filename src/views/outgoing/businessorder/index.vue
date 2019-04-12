@@ -155,6 +155,7 @@
                      }
 
                      {
+                       [0,1,2].includes(row.billStatus)&& 
                        <span class="tableLink" onClick={this.operation.bind(this,row,'outBillClose','确定要关闭吗?')}>关闭</span>
                      }
                      

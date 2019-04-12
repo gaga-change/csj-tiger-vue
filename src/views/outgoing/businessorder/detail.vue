@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
      <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button   size="small" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillClose','确定要关闭吗?')">关闭</el-button>
+         <el-button   size="small" v-if="$route.query.busiBillNo" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillClose','确定要关闭吗?')">关闭</el-button>
          <el-button   v-if="[0,2,4].includes(infoData.billStatus)" size="small" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillDelete','确定要删除吗?')">删除</el-button>
          <router-link v-if="[0,2].includes(infoData.billStatus)"  :to="`/outgoing/businessorderadd?type=modify&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">修改</el-button>
@@ -55,28 +55,31 @@
     },
 
     created(){
-      let detailTableConfig= _.cloneDeep(this.detailTableConfig);
-      let index=detailTableConfig.findIndex(v=>['客户销价','进货价'].includes(v.label));
-      outBillDetail(this.$route.query.id).then(res=>{
-        if(res.success){
-          let data= _.cloneDeep(res.data);
-          if(data&&data.busiBillType===21){
-            detailTableConfig[index]= { label:'客户销价',prop:'outStorePrice'}
-          } else {
-            detailTableConfig[index]= { label:'进货价',prop:'outStorePrice'}
-          }
-          this.detailTableConfig=detailTableConfig;
-          this.infoData=res.data;
-          this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+      this.getCurrentTableData()
     },
 
     methods:{
        moment,
-       operation
+       operation,
+       getCurrentTableData(){
+          let detailTableConfig= _.cloneDeep(this.detailTableConfig);
+          let index=detailTableConfig.findIndex(v=>['客户销价','进货价'].includes(v.label));
+          outBillDetail(this.$route.query.id).then(res=>{
+            if(res.success){
+              let data= _.cloneDeep(res.data);
+              if(data&&data.busiBillType===21){
+                detailTableConfig[index]= { label:'客户销价',prop:'outStorePrice'}
+              } else {
+                detailTableConfig[index]= { label:'进货价',prop:'outStorePrice'}
+              }
+              this.detailTableConfig=detailTableConfig;
+              this.infoData=res.data;
+              this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+       }
     }
  }
 
