@@ -262,6 +262,8 @@
           ref="customerForm"
           @submitForm="submitCustomerForm"></search>
         <el-table
+           size="small"
+           style="margin-top:16px"
           :data="customerTableData"
           border>
           <el-table-column type="index" label="序号" width="55"></el-table-column>
@@ -292,6 +294,8 @@
           ref="servicerForm"
           @submitForm="submitServicerForm"></search>
         <el-table
+           size="small"
+           style="margin-top:16px"
           :data="servicerTableData"
           border>
           <el-table-column type="index" label="序号" width="55"></el-table-column>
