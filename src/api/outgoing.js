@@ -217,3 +217,10 @@ export function outBillImproveList() {
     method: 'get',
   })
 }
+
+export function outImproveDetail(outImproveRecordId) {
+  return request({
+    url: `/webApi/out/bill/improve/detail/${outImproveRecordId}`,
+    method: 'get',
+  })
+}

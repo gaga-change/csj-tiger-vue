@@ -49,6 +49,22 @@
       this.fetch()
     },
 
+    created(){
+      this.record_config.forEach(item=>{
+        if(item.prop==='billNo'){
+            item.dom=(row, column, cellValue, index)=>{
+              return(
+                <div class="tableLinkBox">
+                     {  
+                       <router-link to={`/outgoing/businessorderadd?type=revision&from=record&id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">{cellValue}</router-link>
+                     }
+                </div> 
+              )
+            }
+        }
+      })
+    },
+
     methods: {
       moment,
       handleSizeChange(val) {
