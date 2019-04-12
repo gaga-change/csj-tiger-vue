@@ -30,7 +30,7 @@
       </el-form-item>
 
       <item-title text="企业联系人" />
-      <el-form-item label="联系人：" prop="ownerLinkUser">
+      <el-form-item label="联系人：" prop="ownerLinkUser" :rules="[{ required: true, message: '必填'}]">
         <el-input
           type="text"
           v-model="addForm.ownerLinkUser"
@@ -38,7 +38,7 @@
           placeholder="请输入联系人"
         ></el-input>
       </el-form-item>
-      <el-form-item label="电话：" :rules="[{ validator: validateTel, trigger: 'blur' }]" prop="ownerLinkuserTel">
+      <el-form-item label="电话：" :rules="[{ required: true,validator: validateTel, trigger: 'blur' }]" prop="ownerLinkuserTel">
         <el-input
           type="tel"
           v-model="addForm.ownerLinkuserTel"
@@ -48,7 +48,7 @@
       </el-form-item>
 
       <item-title text="开票信息" />
-      <el-form-item label="组织机构代码：" :rules="[{ validator: validateDcno, trigger: 'blur' },{ required: true, message: '必填', trigger: ['bulr','change'] }]" prop="ownerDcno">
+      <el-form-item label="组织机构代码：" :rules="[{ validator: validateDcno, trigger: 'blur' },{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]" prop="ownerDcno">
         <el-input
           type="text"
           v-model="addForm.ownerDcno"

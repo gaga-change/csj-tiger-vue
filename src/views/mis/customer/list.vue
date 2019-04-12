@@ -95,7 +95,7 @@
         type="primary"
         size="small"
         style="margin:10px"
-        @click="newAddress"
+        @click="newAddress('新增地址')"
         >新增地址</el-button
       >
     </el-row>
@@ -116,14 +116,14 @@
       <el-table-column label="操作" width="150" fixed="right">
         <template slot-scope="scope">
           <a :style="linkstyle" @click="delAddressRow(scope.row)">删除</a>
-          <a :style="linkstyle" @click="updateAddressRow(scope.row)">编辑</a>
+          <a :style="linkstyle" @click="updateAddressRow(scope.row,'编辑地址')">编辑</a>
         </template>
       </el-table-column>
     </el-table>
       <el-dialog
         :visible.sync="addressEditVisible"
         width="70%"
-        title="编辑地址"
+        :title="alertTitle"
         append-to-body
       >
         <search
@@ -186,17 +186,20 @@ const addressTableConfig = [
     type: 'select',
     placeholder: '请选择地址性质',
     apiEnum: 'getAddrNature',
-    selectOptions: []
+    selectOptions: [],
+    rules:[{required: true, message:'必填项'}]
   },
   {
     label:'所在地区',
     prop: 'area',
     type: 'cascader',
-    options: Area
+    options: Area,
+    rules:[{required: true, message:'必填项'}]
   },
   {
     label:'详细地址',
-    prop: 'customerAddress'
+    prop: 'customerAddress',
+    rules:[{required: true, message:'必填项'}]
   },
   {
     label:'邮编',
@@ -204,11 +207,13 @@ const addressTableConfig = [
   },
   {
     label:'联系电话',
-    prop: 'receiverTel'
+    prop: 'receiverTel',
+    rules:[{required: true, message:'必填项'}]
   },
   {
     label:'联系人',
-    prop: 'receiverName'
+    prop: 'receiverName',
+    rules:[{required: true, message:'必填项'}]
   }
 ]
 export default {
@@ -244,7 +249,9 @@ export default {
       loading: false,
       editloading: false,
       addressLoading: false,
-      addressData: {}
+      addressData: {},
+
+      alertTitle:'新增地址'
     }
   },
   computed: {
@@ -281,7 +288,8 @@ export default {
     this.fetchData()
   },
   methods: {
-    updateAddressRow(row) {
+    updateAddressRow(row,title) {
+      this.alertTitle=title;
       this.addressEditVisible = true
       row.area = [row.customerProvince, row.customerCity, row.customerArea]
       this.addressData = row
@@ -346,7 +354,8 @@ export default {
       this.pageNum = val
       this.fetchData()
     },
-    newAddress() {
+    newAddress(title) {
+      this.alertTitle=title;
       this.addressEditVisible = true
     },
     viewAddress(row) {

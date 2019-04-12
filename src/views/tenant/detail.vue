@@ -14,7 +14,7 @@
       <el-form-item label="状态：" prop="ownerState">
         {{filter('ownerState',detailForm.ownerState)}}
       </el-form-item>
-      <el-form-item label="营业执照：">
+      <el-form-item label="营业执照:">
         <div v-for="file in detailForm.files" class="photoview">
           <img :src="file.path" height="150" />
           <i class="el-icon-close close" style="pointer:cursor"></i>
@@ -77,11 +77,9 @@ export default {
     curWarehouses() {
       let warehouses = ''
       this.warehouses.forEach(item => {
-        const stores = this.mapConfig['getWarehouse'] || []
-        const store = (stores.find(s => s.key === item) || {}).value
-        warehouses += ',' + store
+        warehouses += ',' + item.warehouseName
       })
-      return warehouses
+      return warehouses.slice(1)
     },
     ...mapGetters(['mapConfig','visitedViews'])
   },
