@@ -5,7 +5,7 @@
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商：" prop="consoildatorCode">
             <el-select  v-model="searchForm.consoildatorCode" clearable  placeholder="请选择承运商" size="small" class="formitem">
-              <el-option v-for="item in consoil" :label="item.consolidatorName" :key="item.consoildatorCode"  :value="item.consolidatorCode"></el-option>
+              <el-option v-for="item in consoil" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item.consoildatorCode"></el-option>
             </el-select>
           </el-form-item>
         </el-col>

@@ -158,7 +158,7 @@ const customerConfig = [
   { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称' }
 ]
 const editConfig = [
-  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称' },
+  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称',rules:[{required: true, message:'必填项'}] },
   {
     label: '客户等级',
     prop: 'customerLevel',
@@ -417,7 +417,15 @@ export default {
       saveCustomer(val).then(res => {
         console.log(res)
         this.editloading = false
+        this.customerEditorVisible=false
+        if(res.success){
+          this.$message({type:'success', message:'操作成功' });
+          this.fetchData()
+        } else {
+          this.$message.error('操作失败')
+        }
       }).catch(err => {
+        this.$message.error('操作失败')
         this.editloading = false
       })
     },

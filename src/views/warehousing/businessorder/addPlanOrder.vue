@@ -158,6 +158,7 @@
         alertTableData=alertTableData.map(v=>{
           if(v.warehouseCode===_.cloneDeep(currentRow).warehouseCode){
              v.edit=true;
+             v.planInQty=_.cloneDeep(this.editRow).planInQty
           } else{
             v.edit=false;
             v.planInQty=null;

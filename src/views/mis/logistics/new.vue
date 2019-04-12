@@ -154,7 +154,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="运费" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
+            <el-input type="number"   v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -315,25 +315,27 @@ export default {
     logisticsFare: {
       get: function() {
         // 如果按公式计算
+        let data=0;
         if (this.addForm.logisticsFare) {
-          return this.addForm.logisticsFare
+           data=this.addForm.logisticsFare
         } else {
           // 快递运费计算规则：重量大于等于20KG：重量*续重；重量小于20KG：（重量-1）*续重+首重
           // 物流运费计算规则：体积或者重量*单价
           if (this.addForm.costCalcWay === 1) {
-            return this.addForm.skuVolume * this.addForm.skuPrice || 0
+            data=this.addForm.skuVolume * this.addForm.skuPrice || 0
           } else if (this.addForm.costCalcWay === 2) {
             if (this.addForm.dispatchType === 1) {
               if (this.addForm.skuWeight > 20) {
-                return this.addForm.skuWeight * this.addForm.continuePrice || 0
+                data=this.addForm.skuWeight * this.addForm.continuePrice || 0
               } else {
-                return (this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0
+                data=(this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0
               }
             } else if (this.addForm.dispatchType === 2) {
-              return this.addForm.skuWeight * this.addForm.skuPrice || 0
+                data=this.addForm.skuWeight * this.addForm.skuPrice || 0
             }
           }
         }
+         return Number(data).toFixed(2)
       },
       set: function(val) {
         this.$set(this.addForm, 'logisticsFare', val)

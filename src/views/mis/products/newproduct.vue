@@ -114,7 +114,7 @@
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="销售区分：" prop="saleType">
               <el-select  v-model="productForm.saleType" clearable  placeholder="请选择销售区分" size="small" class="formitem">
-                <el-option v-for="item in mapConfig['getSaleType']||[]" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                <el-option v-for="item in mapConfig['getSaleType']||[]" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -390,7 +390,11 @@ export default {
         const result = res.data || []
         const options = []
         result.forEach(item => options.push({ value: item.customerName, key: item.customerCode}))
-        this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions = options;
+        this.customerConfig.forEach(v=>{
+          if(['customerCode','customerName'].includes(v.prop)){
+            v.selectOptions=options
+          }
+        })
         this.$refs['customerForm'].loadData()
       })
       getOwnerProviderList({ownerCode: ownerobj.key}).then(res => {
@@ -451,10 +455,9 @@ export default {
       })
     },
     submitCustomerForm(val) {
-      console.log(val);
+      val=JSON.parse(JSON.stringify(val));
       const customers = this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions
       val.customerName = customers.find(customer => customer.key === val.customerCode).value
-
       if (val.edit) {
         let position = -1
         this.customerTableData.forEach((item, index) => {
@@ -467,6 +470,8 @@ export default {
       } else {
         this.customerTableData.push(JSON.parse(JSON.stringify(val)))
       }
+      this.customerEditData={};
+      this.$refs['customerForm'].loadData()
     },
     submitServicerForm(val) {
       console.log(val)
@@ -484,6 +489,8 @@ export default {
       } else {
         this.servicerTableData.push(JSON.parse(JSON.stringify(val)))
       }
+      this.servicerEditData={};
+      this.$refs['servicerForm'].loadData()
     },
 
     delRow(row) {

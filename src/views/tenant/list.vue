@@ -128,15 +128,12 @@ export default {
               >
                 查看仓库
               </a>
-              <a
-                onClick={() => {
-                  this.delete({ ownerCode: row.ownerCode })
-                }}
-                style={this.linkstyle}
-              >
-                删除
-              </a>
-              {row.ownerState === 1 && (
+              { 
+                row.ownerState === 2 &&
+                <a onClick={() => {this.delete({ ownerCode: row.ownerCode })}} style={this.linkstyle}>删除</a>
+              }
+              {
+                row.ownerState === 1 && (
                 <a
                   onClick={() => {
                     this.setState({ ownerCode: row.ownerCode, ownerState: 2 })
