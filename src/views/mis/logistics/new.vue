@@ -102,11 +102,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="16">
-          <el-form-item labelWidth="0">
-            <el-checkbox v-model="addForm.isUseFormula" :checked="true">使用公司计算运费</el-checkbox>
-          </el-form-item>
-        </el-col>
       </el-row>
 
       <el-row>
@@ -159,7 +154,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="运费" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="logisticsFare" :disabled="addForm.isUseFormula" class="formitem" size="small" placeholder="请输入运费">
+            <el-input type="number" v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -320,7 +315,9 @@ export default {
     logisticsFare: {
       get: function() {
         // 如果按公式计算
-        if (this.addForm.isUseFormula) {
+        if (this.addForm.logisticsFare) {
+          return this.addForm.logisticsFare
+        } else {
           // 快递运费计算规则：重量大于等于20KG：重量*续重；重量小于20KG：（重量-1）*续重+首重
           // 物流运费计算规则：体积或者重量*单价
           if (this.addForm.costCalcWay === 1) {
@@ -337,7 +334,6 @@ export default {
             }
           }
         }
-        return this.addForm.logisticsFare
       },
       set: function(val) {
         this.$set(this.addForm, 'logisticsFare', val)
