@@ -407,7 +407,7 @@ export default {
       this.$refs['productForm'].clearValidate(['categoryCode'])
     },
     onSubmit() {
-      
+
        this.$refs['customerForm'].$refs['tcfForm'].clearValidate(['customerCode'])
        this.$refs['servicerForm'].$refs['tcfForm'].clearValidate(['providerCode'])
 
@@ -437,7 +437,7 @@ export default {
                 this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                   this.$router.push({name: 'productsList'})
                 })
-              })  
+              })
             }
           }).catch(err => {
             console.log(err)
@@ -448,7 +448,9 @@ export default {
     },
     submitCustomerForm(val) {
       console.log(val);
-      val.customerName = 'customer'
+      const customers = this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions
+      val.customerName = customers.find(customer => customer.key === val.customerCode).value
+
       if (val.edit) {
         let position = -1
         this.customerTableData.forEach((item, index) => {
@@ -464,7 +466,8 @@ export default {
     },
     submitServicerForm(val) {
       console.log(val)
-      val.providerName = 'servicer'
+      const providers = this.servicerConfig.find(provider => provider.prop === 'providerCode').selectOptions
+      val.providerName = providers.find(provider => provider.key === val.providerCode).value
       if (val.edit) {
         let position = -1
         this.servicerTableData.forEach((item, index) => {
