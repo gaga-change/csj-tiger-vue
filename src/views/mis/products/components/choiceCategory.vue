@@ -72,10 +72,10 @@ export default {
     fetchCategory(params) {
       function findCategory(trees=[], params={}) {
         for (let i = 0; i < trees.length; i++) {
-          if (trees[i].text === params.text && trees[i].currentCode === params.currentCode) {
+          if (trees[i].currentCode === params.currentCode) {
             return trees[i]
           } else if (trees[i].children && trees[i].children.length) {
-            findCategory(trees[i].children, params)
+            return findCategory(trees[i].children, params)
           }
         }
         return {}
