@@ -23,7 +23,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{required: true,trigger: 'blur', message:'必填(菜单必须选择到三级)'}]">
-            <choice-category @categorySubmit="categorySubmit" ref="categoryChoice" :disabled="editable"></choice-category>
+            <choice-category @categorySubmit="categorySubmit"  ref="categoryChoice" :disabled="editable"></choice-category>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="editable">

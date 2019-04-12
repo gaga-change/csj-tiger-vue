@@ -2,6 +2,9 @@
 export const LoginPath = process.env.NODE_ENV === 'production' ? 'http://sso.csjscm.com' : 'http://192.168.1.224:8099'
 // export const LoginPath = 'http://sso.csjscm.com'
 export function parseTime(time, cFormat) {
+  if(!time){
+    return 
+  }
   if (arguments.length === 0) {
     return null
   }
