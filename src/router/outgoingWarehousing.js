@@ -70,6 +70,13 @@ export default [
         component: _import('outgoing/quiry/record')
       },
       {
+        name: 'recordDetail',
+        path: 'recordDetail',
+        meta: { title: '调整记录详情', noCache: true },
+        hidden: true,
+        component: _import('outgoing/quiry/recordDetail')
+      },
+      {
         name: 'outquiry-detail',
         path: 'quiry-detail',
         meta: { title: '出库单查询详情', noCache: true },

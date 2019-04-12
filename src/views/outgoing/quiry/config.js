@@ -50,3 +50,34 @@ export const record_config=[
   { label:'调整人',prop:'createrName'},
   { label:'调整日期',prop:'gmtCreate',type:'time'}
 ]
+
+
+export const recordDetailConfig=[
+  {title:'调整原因',prop:'improveReason'},
+  {title:'业务单类型',prop:'busiBillType'},
+  {title:'业务单号',prop:'billNo'},
+  {title:'外部订单号',prop:'busiBillNo'},
+  {title:'货主',prop:'ownerName'},
+  { title:'供应商',prop:'arrivalName'},
+  { title:'供应商地址',prop:'arrivalAddress'},
+  {title:'联系电话',prop:'arrivalLinkTel'},
+  {title:'创建人',prop:'createrName'},
+  {title:'到货预定日',prop:'arrivalPreDate',type:'time'},
+  {title:'到货有效日',prop:'arrivalEffectDate',type:'time'},
+  {title:'创建日期',prop:'gmtCreate',type:'time'},
+  {title:'合同号',prop:'contractNo'},
+  {title:'发货要求',prop:'sendOutRequire',useLocalEnum:true,type:'sendOutRequireEnum'},
+  {title:'订单来源',prop:'fromSysCode'},
+]
+
+export const recordDetailTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'客户商品编码',prop:'customerSkuCode'},
+  { label:'客户商品名称',prop:'customerSkuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'型号',prop:'skuModel'},
+  { label:'数量',prop:'skuOutQty'},
+  { label:'客户销价',prop:'sellPrice',},
+]

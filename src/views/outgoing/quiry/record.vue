@@ -56,7 +56,7 @@
               return(
                 <div class="tableLinkBox">
                      {  
-                       <router-link to={`/outgoing/businessorderadd?type=revision&from=record&id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">{cellValue}</router-link>
+                       <router-link to={`/outgoing/recordDetail?id=${row.id}`}  class="tableLink">{cellValue}</router-link>
                      }
                 </div> 
               )

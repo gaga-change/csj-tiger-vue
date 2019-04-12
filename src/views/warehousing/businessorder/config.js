@@ -6,7 +6,7 @@ export   const tableConfig=[
   { label:'供应商商品编码',prop:'customerSkuCode'},
   { label:'供应商商品名称',prop:'customerSkuName'},
   { label:'订货进价',prop:'inPrice'},
-  { label:'金额',prop:'realInAmt'},
+  { label:'金额',prop:'planInAmt'},
 ];
 
 export  const infoConfig=[

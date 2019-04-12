@@ -183,7 +183,7 @@ import editTable from '@/components/Table/editTable';
 import addForm from './conpoments/addForm'
 import  { outgoingOrderTypeEnum,sendOutRequireEnum} from "@/utils/enum.js";
 import {customerInfo} from '@/api/warehousing'
-import { customerAddrInfo,skuInfoList,outBillAdd,outBillDetail,outBillUpdate,outBillImprove,outImproveDetail} from '@/api/outgoing'
+import { customerAddrInfo,skuInfoList,outBillAdd,outBillDetail,outBillUpdate,outBillImprove} from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
 import _  from 'lodash';
 import { mapGetters } from 'vuex'
@@ -223,9 +223,6 @@ export default {
         let addtable_config= _.cloneDeep(this.addtable_config);
         let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
         let api=outBillDetail;
-        if(this.$route.query.from==='record'){
-          api=outImproveDetail;
-        }
         api(this.$route.query.id).then(res=>{
           if(res.success){
             let searchForm= _.cloneDeep(this.searchForm);

@@ -81,3 +81,4 @@ export const alertTable_config=[
   { label:'可用库存',prop:'canUseSkuQty'},
   { label:'计划出库数量',prop:'planOutQty',useEdit:true,width:150},
 ]
+
