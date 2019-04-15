@@ -13,8 +13,8 @@
           </el-col>
 
           <el-col :span="6" >
-            <el-form-item label="业务单号" prop="busiBillNo">
-              <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
+            <el-form-item label="业务单号" prop="billNo">
+              <el-input v-model.lazy.trim="ruleForm.billNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
