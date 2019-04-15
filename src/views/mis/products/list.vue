@@ -72,6 +72,7 @@ import search from '@/components/Search'
 import { productConfig } from './components/config'
 import { getProductList } from '@/api/productcenter'
 import BaseTable from '@/components/Table'
+import moment from 'moment';
 import { mapGetters } from 'vuex'
 export default {
   components: { search, BaseTable },
@@ -145,6 +146,9 @@ export default {
     })
   },
   mounted() {
+    if(this.$route.query.data){
+      let { pageSize,pageNum }=JSON.parse(this.$route.query.data)
+    }
     this.fetchData()
   },
   methods: {
@@ -234,9 +238,23 @@ export default {
     },
     fetchData() {
       this.loading = true
-      const { gmtCreate, ...rest } = this.searchData
-      const postData = {startDate: gmtCreate && new Date(gmtCreate[0]).getTime(), endDate: gmtCreate && new Date(gmtCreate[1]).getTime(), ...rest}
-      getProductList({ ...postData, pageSize: this.pageSize, pageNum: this.pageNum }).then(res => {
+      const { gmtCreate, ...rest} = this.searchData
+      const postData = {
+        startDate: gmtCreate && new Date(gmtCreate[0]).getTime(), 
+        endDate: gmtCreate && new Date(gmtCreate[1]).getTime(), 
+        pageSize: this.pageSize, 
+        pageNum: this.pageNum,
+        ...rest
+      }
+      this.$router.replace({
+        path:'/mis/products/list',
+        query:{data:JSON.stringify({
+           pageSize: this.pageSize, 
+           pageNum: this.pageNum,
+        })}
+      })
+
+      getProductList(postData).then(res => {
         this.tableData = res.data && res.data.list
         this.total = res.data.total
         this.pageNum = res.data.pageNum

@@ -104,6 +104,7 @@
           this.infoData=res.data;
           this.tableData=res.data&&Array.isArray(res.data.items)&&res.data.items.map(v=>{
             v.warehouseName=v.planWarehouseName;
+            v.warehouseCode=v.planWarehouseCode;
             return v;
           })
          }
@@ -120,9 +121,13 @@
         json.inWarehouseBillId=this.$route.query.id;
         json.planItemList=_.cloneDeep(this.tableData).map(v=>{
            v.planInWarehouseCode=v.warehouseCode;
+           v.planInWarehouseName=v.warehouseName;
+           delete v.warehouseCode;
+           delete v.warehouseName;
            v.billDetailId=v.id;
            return v
         })
+        console.log(json.planItemList)
         inPlanAdd(json).then(res=>{
           if(res.success){
             this.$message({

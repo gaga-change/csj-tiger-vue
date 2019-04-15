@@ -4,7 +4,7 @@
           <el-row>
               <el-col>
                 <el-form-item label="商品编码"   prop="skuCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.skuCode" filterable   @change="skuCodeChange"  placeholder="请选择货主"  >
+                  <el-select v-model="searchForm.skuCode" filterable   @change="skuCodeChange"  placeholder="请选择商品"  >
                     <el-option 
                       value="" v-if="commodityList.length" :disabled="true">
                       <div class="providerList"> 

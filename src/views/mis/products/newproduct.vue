@@ -78,8 +78,8 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="物料状态：" prop="materialState">
-            <el-select  v-model="productForm.materialState" clearable  placeholder="请选择物料状态" size="small" class="formitem">
+          <el-form-item label="商品状态：" prop="materialState">
+            <el-select  v-model="productForm.materialState" clearable  placeholder="请选择商品状态" size="small" class="formitem">
               <el-option v-for="item in productEnum['materialState']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
@@ -471,8 +471,9 @@ export default {
         this.customerTableData.push(JSON.parse(JSON.stringify(val)))
       }
       this.customerEditData={};
-      this.$refs['customerForm'].loadData()
+      this.$refs['customerForm'].$refs['tcfForm'].resetFields()
     },
+
     submitServicerForm(val) {
       console.log(val)
       const providers = this.servicerConfig.find(provider => provider.prop === 'providerCode').selectOptions
@@ -489,8 +490,7 @@ export default {
       } else {
         this.servicerTableData.push(JSON.parse(JSON.stringify(val)))
       }
-      this.servicerEditData={};
-      this.$refs['servicerForm'].loadData()
+      this.$refs['servicerForm'].$refs['tcfForm'].resetFields()
     },
 
     delRow(row) {

@@ -48,7 +48,7 @@
       </el-form-item>
 
       <item-title text="开票信息" />
-      <el-form-item label="组织机构代码：" :rules="[{ validator: validateDcno, trigger: 'blur' },{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]" prop="ownerDcno">
+      <el-form-item label="组织机构代码：" :rules="[{ validator: validateDcno, trigger: 'blur'},{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]" prop="ownerDcno">
         <el-input
           type="text"
           v-model="addForm.ownerDcno"
@@ -149,14 +149,15 @@ export default {
         }
         const validateDcno = (rule, value, callback) => {
             if (!value) {
-              return callback(new Error('必填'));
+              // return callback(new Error('必填'));
+            } else{
+              setTimeout(() => {
+                if (!/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]$/.test(value)) {
+                  callback(new Error('格式不正确,格式:xxxxxxxx-x'));
+                }
+                callback();
+              }, 300);
             }
-            setTimeout(() => {
-              if (!/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]$/.test(value)) {
-                callback(new Error('格式不正确,格式:xxxxxxxx-x'));
-              }
-              callback();
-            }, 300);
           }
     return {
       addForm: {},
