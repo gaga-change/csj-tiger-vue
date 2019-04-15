@@ -19,7 +19,7 @@ export   const tableConfig=[
 
 export   const infoConfig=[
   {title:'计划单号',prop:'planCode'},
-  {title:'业务单号',prop:'busiBillNo' },
+  {title:'业务单号',prop:'billNo' },
   {title:'入库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'busiBillCreater'},
   {title:'计划仓库',prop:'planWarehouseName'},
