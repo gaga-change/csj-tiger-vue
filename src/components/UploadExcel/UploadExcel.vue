@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { Notification } from 'element-ui'
 export default {
 
     data(){
@@ -86,9 +87,12 @@ export default {
                 this.$refs.filesupload.clearFiles();
             }})
         } else {
-          this.$message({
-            message:'导入失败',
-            type: 'error'
+          Notification({
+            title:'错误信息',
+            message: res.errorMsg||'导入失败',
+            type: 'error',
+            duration:5*1000,
+            onClose:()=> Promise.reject(error)
           })
         }
     },

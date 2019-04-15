@@ -39,6 +39,14 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="单据状态" >
+              <el-select   v-model="ruleForm.planState"  placeholder="请选择单据状态">
+                <el-option   v-for="item in warehousingPlanBillStatus" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="执行状态"  prop="execStatus">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.execStatus"  placeholder="请选择执行状态">
@@ -70,8 +78,7 @@
                     @change="timeChange"
                     type="daterange"
                     start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    >
+                    end-placeholder="结束日期">
                  </el-date-picker>
               </el-form-item>
           </el-col>
@@ -114,7 +121,8 @@
     import moment from 'moment';
     import {inPlanSelect} from '@/api/warehousing'
     import BaseTable from '@/components/Table'
-    import { indexTableConfig,manual_config } from './config';
+    import { indexTableConfig } from './config';
+    import  { warehousingPlanBillStatus } from "@/utils/enum.js";
     import editTable from '@/components/Table/editTable';
     import { mapGetters } from 'vuex'
     import {stringify} from 'qs';
@@ -137,6 +145,7 @@
         },
         total:0,
         tableConfig:indexTableConfig,
+        warehousingPlanBillStatus,
         rules: {
          
         },

@@ -36,7 +36,7 @@ export   const infoConfig=[
 export   const warehousingTableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'入库单号',prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
-  { label:'业务单号',prop:'busiBillNo' },
+  { label:'业务单号',prop:'billNo' },
   { label:'货主',prop:'ownerName'},
   { label:'仓库',prop:'warehouseName'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time'},
@@ -44,7 +44,8 @@ export   const warehousingTableConfig=[
 
 export   const indexTableConfig=[
   { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
-  { label:'业务单号',prop:'busiBillNo', },
+  { label:'业务单号',prop:'billNo',},
+  { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true },
   { label:'供应商名称',prop:'providerName'},
   { label:'货主',prop:'ownerName'},
   { label:'制单人',prop:'createrName'},
@@ -54,13 +55,3 @@ export   const indexTableConfig=[
   { label:'操作',width:150,fixed:'right',useLink:true },
 ]
 
-export  const manual_config=[
-  {label:'序号',type:'index',width:50},
-  {label:'商品编号',prop:'skuCode',},
-  {label:'商品名称',prop:'skuName',},
-  {label:'品牌',prop:'',},
-  {label:'规格',prop:'',},
-  {label:'单位',prop:'',},
-  {label:'计划入库数量',prop:'',},
-  {label:'实际入库数量',prop:'num',useEdit:true,width:150},
-]

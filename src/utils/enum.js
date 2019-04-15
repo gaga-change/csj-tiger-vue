@@ -839,3 +839,35 @@ export const isApprovedEnum = [
     value: 1
   }
 ]
+
+
+export const warehousingPlanBillStatus =[
+  {
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '待审核',
+    value: 1
+  },
+  {
+    name: '审核通过',
+    value: 2
+  },
+  {
+    name: '驳回',
+    value: 3
+  },
+  {
+    name: '取消',
+    value: 4
+  },
+  {
+    name: '部分执行',
+    value: 5
+  },
+  {
+    name: '执行完成',
+    value: 6
+  },
+]
