@@ -48,7 +48,7 @@
       </el-form-item>
 
       <item-title text="开票信息" />
-      <el-form-item label="组织机构代码：" :rules="[{ validator: validateDcno, trigger: 'blur'},{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]" prop="ownerDcno">
+      <el-form-item label="组织机构代码：" :rules="[{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]" prop="ownerDcno">
         <el-input
           type="text"
           v-model="addForm.ownerDcno"
