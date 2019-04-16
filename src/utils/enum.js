@@ -859,7 +859,7 @@ export const warehousingPlanBillStatus =[
     value: 3
   },
   {
-    name: '取消',
+    name: '已关闭',
     value: 4
   },
   {
@@ -867,7 +867,7 @@ export const warehousingPlanBillStatus =[
     value: 5
   },
   {
-    name: '执行完成',
+    name: '已完结',
     value: 6
   },
 ]

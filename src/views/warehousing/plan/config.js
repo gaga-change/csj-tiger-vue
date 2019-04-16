@@ -43,7 +43,7 @@ export   const warehousingTableConfig=[
 ]
 
 export   const indexTableConfig=[
-  { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
+  { label:'计划单号',prop:'planCode',width:150,fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'业务单号',prop:'billNo',},
   { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true },
   { label:'供应商名称',prop:'providerName'},
