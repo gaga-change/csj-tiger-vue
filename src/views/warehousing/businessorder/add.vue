@@ -35,14 +35,14 @@
                 <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-select v-model="searchForm.ownerCode" filterable  @change="ownerCodeChange"  placeholder="请选择货主"  >
                     <el-option 
-                      value="" v-if="mapConfig['ownerInfoMap']&&mapConfig['ownerInfoMap'].length" :disabled="true">
+                      value="" v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length" :disabled="true">
                       <div class="providerList"> 
                         <span>货主编号</span> 
                         <span>货主名称</span> 
                       </div>
                     </el-option>
                     <el-option
-                      v-for="item in mapConfig['ownerInfoMap']" :key="item.key" :label="item.value" :value="item.key">
+                      v-for="item in mapConfig['billOwnerInfoMap']" :key="item.key" :label="item.value" :value="item.key">
                         <div class="providerList">
                           <span >{{ item.key }}</span>
                           <span >{{ item.value }}</span>
@@ -259,6 +259,7 @@ export default {
         })
         searchForm.detailItemList=data.items.map((v,i)=>{
           v.purchasePrice=v.inPrice;
+          v.planInQty=v.skuInQty;
           return v;
         });
         this.searchForm=searchForm;
@@ -310,7 +311,7 @@ export default {
         this.$refs["searchForm"].validate(valid => {
           if (valid) {
               let json=_.cloneDeep(this.searchForm);
-              json.ownerName=this.mapConfig['ownerInfoMap'].find(v=>v.key===json.ownerCode).value;
+              json.ownerName=this.mapConfig['billOwnerInfoMap'].find(v=>v.key===json.ownerCode).value;
               json.providerName=this.providerConfig.find(v=>v.customerCode===json.providerCode).customerName;
               ['orderTime','planInWarehouseTime'].forEach(v=>{
                 json[v]=moment(json[v]).valueOf()

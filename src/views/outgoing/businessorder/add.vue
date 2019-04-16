@@ -5,7 +5,7 @@
           <div style="display: inline-block;" v-if="!$route.query.id">
               <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" name="file"/>
           </div>
-          <el-button @click="submit('save')" type="primary">保存</el-button>
+          <el-button @click="submit('save')" type="primary" size="mini">保存</el-button>
       </template>
    </sticky>
 
@@ -45,14 +45,14 @@
               <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
                 <el-select v-model="searchForm.ownerCode" filterable  size="small" @change="ownerCodeChange"  placeholder="请选择货主"  >
                   <el-option 
-                    value="" v-if="mapConfig['ownerInfoMap']&&mapConfig['ownerInfoMap'].length" :disabled="true">
+                    value="" v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length" :disabled="true">
                     <div class="providerList"> 
                       <span>货主编号</span> 
                       <span>货主名称</span> 
                     </div>
                   </el-option>
                   <el-option
-                    v-for="item in mapConfig['ownerInfoMap']" :key="item.key" :label="item.value" :value="item.key">
+                    v-for="item in mapConfig['billOwnerInfoMap']" :key="item.key" :label="item.value" :value="item.key">
                       <div class="providerList">
                         <span >{{ item.key }}</span>
                         <span >{{ item.value }}</span>
@@ -434,7 +434,7 @@ export default {
                 ['arrivalPreDate','arrivalEffectDate'].forEach(v=>{
                   json[v]=moment(json[v]).valueOf()
                 })
-                json.ownerName=json.ownerName?json.ownerName:this.mapConfig['ownerInfoMap'].find(v=>v.key===json.ownerCode).value;
+                json.ownerName=json.ownerName?json.ownerName:this.mapConfig['billOwnerInfoMap'].find(v=>v.key===json.ownerCode).value;
                 json.arrivalName=json.arrivalName?json.arrivalName:this.providerConfig.find(v=>v.customerCode===json.arrivalCode).customerName;
                 let api=outBillAdd;
                 if(this.$route.query.id){

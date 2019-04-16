@@ -45,7 +45,15 @@
           <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="货主"   prop="ownerCode">
               <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
-                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+           <el-col :span="6" style="min-width:300px"  >
+            <el-form-item label="单据状态" >
+              <el-select   v-model="ruleForm.planState"  placeholder="请选择单据状态">
+                <el-option   v-for="item in warehousingPlanBillStatus" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -111,6 +119,7 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig,manual_config } from './config';
+    import  { warehousingPlanBillStatus } from "@/utils/enum.js"; 
     import editTable from '@/components/Table/editTable';
     import {stringify} from 'qs';
     export default {
@@ -135,6 +144,7 @@
         loading:false,
         tableData: [],
         tableConfig:indexTableConfig,
+        warehousingPlanBillStatus,
         linkData:'',
         
       }

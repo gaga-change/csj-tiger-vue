@@ -43,7 +43,7 @@
  import webPaginationTable from '@/components/Table/webPaginationTable';
  import editTable from '@/components/Table/editTable';
  import Sticky from '@/components/Sticky'
- import { outBillDetail,skuInfoGetRecommendStock,outPlanAdd} from '@/api/outgoing'
+ import {skuInfoGetRecommendStock,outPlanAdd,outPlanInitAdd} from '@/api/outgoing'
  import moment from 'moment';
  import _  from 'lodash';
  import { mapGetters } from 'vuex'
@@ -101,7 +101,7 @@
     },
 
     mounted(){
-      outBillDetail(this.$route.query.id).then(res=>{
+      outPlanInitAdd(this.$route.query.id).then(res=>{
         if(res.success){
           let data= _.cloneDeep(res.data);
           let dom=[...document.querySelectorAll('.detail .Price .cell')]
@@ -173,6 +173,7 @@
         alertTableData=alertTableData.map(v=>{
           if(v.warehouseCode===_.cloneDeep(currentRow).warehouseCode){
              v.edit=true;
+             v.planOutQty=_.cloneDeep(this.editRow).planOutQty
           } else{
             v.edit=false;
             v.planOutQty=null;
@@ -206,7 +207,7 @@
           this.tableData=tableData;
         } else if(type==='edit'){
            if(row.skuCode!==this.editRow.skuCode){
-             skuInfoGetRecommendStock(this.infoData.ownerCode,'WC000023'||row.skuCode).then(res=>{
+             skuInfoGetRecommendStock(this.infoData.ownerCode,row.skuCode).then(res=>{
                if(res.success){
                  this.editRow=_.cloneDeep(row);
                  this.currentRow={};

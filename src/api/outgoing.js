@@ -224,3 +224,12 @@ export function outImproveDetail(outImproveRecordId) {
     method: 'get',
   })
 }
+
+
+
+export function outPlanInitAdd(outWarehouseBillId) {
+  return request({
+    url: `/webApi/out/plan/initAdd/${outWarehouseBillId}`,
+    method: 'get',
+  })
+}

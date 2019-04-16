@@ -35,6 +35,14 @@ export function getEnum() {
 //货主枚举
 export function ownerInfoMap() {
   return request({
+    url: 'webApi/base/info/getOwner',
+    method: 'get',
+  })
+}
+
+//单据页面货主 主要为出入库
+export function billOwnerInfoMap() {
+  return request({
     url: '/webApi/owner/info/getOwner',
     method: 'get',
   })
