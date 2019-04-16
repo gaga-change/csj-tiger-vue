@@ -229,7 +229,9 @@ export default {
       this.$router.push({ name: 'misproductdetail', query })
     },
     newProduct() {
-      this.$router.push('newproduct')
+      this.$router.replace({
+        path:`/mis/products/newproduct?time=${moment().valueOf()}`
+      })
     },
     newPayment() {
       this.dialogFormVisible = true

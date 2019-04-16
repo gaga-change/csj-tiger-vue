@@ -330,6 +330,7 @@ import { getOwnerCustList, getOwnerProviderList } from '@/api/mis'
 import { findValue } from '@/utils'
 import _  from 'lodash';
 export default {
+  name:'newproduct',
   components: { search, choiceCategory,Sticky },
   data() {
     return {

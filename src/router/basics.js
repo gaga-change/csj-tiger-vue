@@ -15,7 +15,7 @@ export default [
         path: 'newproduct',
         component: _import('mis/products/newproduct'),
         name: 'newproduct',
-        meta: { title: '新增商品' }
+        meta: { title: '新增商品',noCache: false }
       },
       {
         path: 'list',

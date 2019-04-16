@@ -33,7 +33,7 @@ export default [
       {
         name: 'businessorderAddPlanOrder',
         path: 'businessorderAddPlanOrder',
-        meta: { title: '创建计划单', noCache: true },
+        meta: { title: '创建出库计划单', noCache: true },
         component: _import('outgoing/businessorder/addPlanOrder'),
         hidden: true,
       },
@@ -117,7 +117,7 @@ export default [
       {
         name: 'warehousingAddPlanOrder',
         path: 'warehousingAddPlanOrder',
-        meta: { title: '创建计划单', noCache: true },
+        meta: { title: '创建入库计划单', noCache: true },
         component: _import('warehousing/businessorder/addPlanOrder'),
         hidden: true,
       },
