@@ -16,6 +16,15 @@
               </el-form-item>
             </el-col>
 
+            <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="配送类型" prop="dispatchType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+                <el-select  v-model="searchForm.dispatchType"   placeholder="请选择配送类型" size="small" class="formitem">
+                  <el-option v-for="item in localEnum['dispatchType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+
             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="expressConfig.length">
               <el-form-item label="快递编码:"  prop="companyCode"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-select v-model="searchForm.companyCode" filterable  size="small" class="formitem" placeholder="请选择快递编码"  >
@@ -99,6 +108,7 @@
 import Sticky from '@/components/Sticky'
 import { mapGetters } from 'vuex'
 import { consoilInfoSave,consoilInfoDetail,consoilInfoUpdate,infoAllCompany} from '@/api/carrier'
+import * as localEnum from '@/utils/enum'
 export default {
   name:'carrierAdd',
   components: { Sticky},
@@ -107,7 +117,8 @@ export default {
       searchForm:{
 
       },
-      expressConfig:[]
+      expressConfig:[],
+      localEnum
     }
   },
 

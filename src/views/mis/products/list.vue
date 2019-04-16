@@ -154,14 +154,20 @@ export default {
   methods: {
     handleUploadSuccess(res, file, fileList) {
       if (res.code === '200') {
-        this.$confirm(res.message, '提示', {
-          confirmButtonText: '完成',
-          cancelButtonText: '继续导入',
-          type: 'success'
-        }).then(_ => {
+        if(res.success){
           this.dialogVisible = false
           this.fetchData()
-        }).catch(_ => {})
+        } else {
+          this.$message({message: res.errorMsg,type: 'error'})
+        }
+        // this.$confirm(res.message, '提示', {
+        //   confirmButtonText: '完成',
+        //   cancelButtonText: '继续导入',
+        //   type: 'success'
+        // }).then(_ => {
+        //   this.dialogVisible = false
+        //   this.fetchData()
+        // }).catch(_ => {})
       } else {
         this.$message({
           message: res.errorMsg,
