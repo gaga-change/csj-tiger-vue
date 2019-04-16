@@ -18,7 +18,7 @@ export const customerConfig = [
   { label: '客户', prop: 'customerCode', placeholder: '请选择客户', type: 'select', selectOptions: [],rules:[{required: true, message:'必填项'}] },
   { label: '客户商品编码', prop: 'customerSkuCode', placeholder: '请输入商品编码' },
   { label: '客户商品名称', prop: 'customerSkuName', placeholder: '请输入客户商品名称' },
-  { label: '商品分类码', prop: 'skuCode', placeholder: '请输入客户商品分类码' },
+  { label: '商品分类码', prop: 'customerSkuType', placeholder: '请输入客户商品分类码' },
   { label: '客户销价', prop: 'sellPrice', type: 'number', placeholder: '请输入客户销价',rules:[{required: true, message:'必填项'}] },
   { label: '采用开始日', prop: 'useDate', type: 'date', width: 155 },
   { label: '价格有效期', prop: 'priceValid', type: 'date', width: 155 ,rules:[{required: true, message:'必填项'}]},

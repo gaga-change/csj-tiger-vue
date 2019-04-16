@@ -105,7 +105,7 @@ export const addPlanOrder_config=[
   { label:'商品供应商编码',prop:'customerSkuCode'},
   { label:'商品供应商名称',prop:'customerSkuName'},
   { label:'订货进价',prop:'inPrice'},
-  { label:'金额',prop:'realInAmt'},
+  { label:'金额',prop:'planInAmt'},
   { label:'入库仓库',prop:'warehouseName',width:150},
   { label:'操作',fixed:'right',useLink:true,width:140}
 ]

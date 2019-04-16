@@ -223,13 +223,16 @@ export default {
       this.editDialogVisible = true
     },
     edit(query) {
-      this.$router.push({ name: 'newproduct', query })
+      this.$router.push({
+        path:`/mis/products/newproduct`,
+        query:{...query,time:moment().valueOf()}
+      })
     },
     view(query) {
       this.$router.push({ name: 'misproductdetail', query })
     },
     newProduct() {
-      this.$router.replace({
+      this.$router.push({
         path:`/mis/products/newproduct?time=${moment().valueOf()}`
       })
     },
