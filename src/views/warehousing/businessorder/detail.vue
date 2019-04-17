@@ -91,11 +91,13 @@
           })
        },
        operation(type,row){
+        let component=this.$confirm;
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         let tip='';
         let statusFlag=null;
         if(type==='examine'){
-          tip='确定要审核通过吗?'
+          component=this.$prompt;
+          tip='请输入审核意见！'
           statusFlag=1
         } else if(type==='close'){
           tip='确定要关闭吗?';
@@ -127,6 +129,7 @@
                   }
               })
             } else{
+              this.$message({type:'success', message:'操作成功' });
               this.inbilldetailApi()
             }
           }
@@ -135,7 +138,7 @@
         })
 
         //对话配置
-        this.$confirm(tip, '提示', {
+        component(tip, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(() => {
