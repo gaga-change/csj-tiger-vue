@@ -70,7 +70,7 @@ export const indexTableConfig=[
   { label:'单据状态',prop:'billStatus',type:'misWarehousingBillStatusEnum',useLocalEnum:true},
   { label:'执行状态',prop:'billState',type:'misWarehousingBillStateEnum',useLocalEnum:true},
   { label:'制单人',prop:'createrName'},
-  { label:'制单时间',prop:'gmtCreate',type:'time',width:100},
+  { label:'制单时间',prop:'gmtCreate',type:'time',width:140},
   { label:'操作',fixed:'right',useLink:true,width:280},
  ]
 

@@ -35,17 +35,16 @@ export const infoConfig=[
 
 export const indexTableConfig=[
   { label:'业务单号',fixed:true,prop:'billNo',linkTo:'/outgoing/businessorder-detail',query:[{key:'id',value:'id'},{key:'busiBillNo',value:'busiBillNo'}],width:160},
-  { label:'单据状态',prop:'billStatus', type:'outBillStatusEnum',useLocalEnum:true },
   { label:'合同编号',prop:'contractNo',width:120},
-  { label:'货主',prop:'ownerName',width:180},
-  { label:'客户名称',prop:'arrivalName',width:180},
+  { label:'货主',prop:'ownerName'},
+  { label:'客户名称',prop:'arrivalName'},
   { label:'计划出库数量',prop:'planOutQty',width:100},
   { label:'计划出库金额',prop:'planOutAmt',width:100},
   { label:'实际出库数量',prop:'realOutQty',width:100},
-  { label:'单据状态',prop:'billStatus',type:'outBillStatusEnum',useLocalEnum:true},
-  { label:'执行状态',prop:'billState',type:'outBillStateEnum',useLocalEnum:true},
-  { label:'制单人',prop:'busiBillCreater',width:100},
-  { label:'制单时间',prop:'busiBillCreateTime',type:'time'},
+  { label:'单据状态',prop:'billStatus',type:'outBillStatusEnum',useLocalEnum:true,width:80},
+  { label:'执行状态',prop:'billState',type:'outBillStateEnum',useLocalEnum:true,width:80},
+  { label:'制单人',prop:'busiBillCreater',width:120},
+  { label:'制单时间',prop:'busiBillCreateTime',type:'time',width:140},
   { label:'操作',fixed:'right',useLink:true,width:300},
 ]
 

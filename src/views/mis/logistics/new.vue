@@ -5,15 +5,8 @@
     <el-card shadow="hover">
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="配送类型" prop="dispatchType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.dispatchType" @change="handleDispatchTypeChange" clearable  placeholder="请选择配送类型" size="small" class="formitem">
-              <el-option v-for="item in localEnum['dispatchType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.carrier" value-key="consoildatorCode" clearable  placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.carrier" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
                 <span style="float: left">{{ item.consoildatorName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>
@@ -21,6 +14,15 @@
             </el-select>
           </el-form-item>
         </el-col>
+
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="配送类型" prop="dispatchType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-select  v-model="addForm.dispatchType" disabled  @change="handleDispatchTypeChange" clearable  placeholder="请选择配送类型" size="small" class="formitem">
+              <el-option v-for="item in localEnum['dispatchType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
         <el-col :sm="12" :md="8" :lg="8" :xl="6" v-show="addForm.carrier&&addForm.carrier.consoildatorCode">
           <el-form-item label="承运商编码" >
             <el-input :value="addForm.carrier&&addForm.carrier.consoildatorCode" class="formitem" size="small" disabled></el-input>
@@ -367,6 +369,12 @@ export default {
         console.log(err)
       })
     },
+
+    consoildatorChange(val){
+      this.addForm.dispatchType=val.dispatchType
+    },
+
+    //未知功能的函数
     handleDispatchTypeChange(val) {
       if (val === 1) {
         this.$set(this.addForm, 'costCalcWay', 2)
@@ -375,6 +383,8 @@ export default {
         this.$set(this.addForm, 'costCalcWay', 1)
       }
     },
+
+
     getConsoilInfoList() {
       consoilInfoList({
         consoildatorState: 31

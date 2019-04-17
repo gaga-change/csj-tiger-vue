@@ -1,7 +1,7 @@
 export   const tableConfig=[
   { label:'序号',fixed:true,type:'index',width:50},
   { label:'商品编码',prop:'skuCode'},
-  { label:'商品名称',prop:'skuName'},
+  { label:'商品名称',prop:'skuName',width:180},
   { label:'品牌',prop:'skuBrandName'},
   { label:'规格',prop:'skuFormat',},
   { label:'单位',prop:'skuUnitName'},

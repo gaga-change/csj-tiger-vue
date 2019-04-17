@@ -6,7 +6,7 @@ export const indexTableConfigApply=[//申请列表
   { label:'货主名称',prop:'ownerName', width:120 },
   { label:'计划开票金额',prop:'realInvoiceAmt',type:'money', width:120 },
   { label:'计划开票数量',prop:'numberOfInvoices', width:120 },
-  { label:'单据创建时间',prop:'gmtCreate',type:'time', width:120 },
+  { label:'单据创建时间',prop:'gmtCreate',type:'time', width:140 },
   { label:'创建人',prop:'createrName', width:120 },
   { label:'业务板块',prop:'busiPlate',useLocalEnum:true,type:'busiPlateConfig',},
   { label:'发票类型',prop:'invoiceType',type:'InvoiceType', useLocalEnum:true, width:120 },

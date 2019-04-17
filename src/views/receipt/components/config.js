@@ -67,13 +67,13 @@ export const recordConfig=[//操作记录
   { label:'序号',prop:'invoiceNo'},
   { label:'操作',prop:'applyCode'},
   { label:'操作者',prop:'applyCode'},
-  { label:'发票日期',prop:'cusName',type:'time',}
+  { label:'发票日期',prop:'cusName',type:'time'}
 ]
 
 
 export const queryTableConfig=[//收款查询页面配置
-  { label:'客户名称',prop:'paymenterName'},
-  { label:'订单编号',prop:'busiBillNo'},
+  { label:'客户名称',prop:'paymenterName',width:160},
+  { label:'订单编号',prop:'busiBillNo',width:150},
   { label:'合同编号',prop:'contractNo'},
   { label:'业务板块',prop:'busiPlate',type:'busiPlateConfig', useLocalEnum:true,},
   { label:'款项性质',prop:'moneyState',type:'MoneyStateEnum', useLocalEnum:true,},
@@ -97,10 +97,10 @@ export const refundConfig=[//收款查询页面配置
   { label:'申请退款金额',prop:'applyRefundAmt',width:120,type:'toFixed'},
   { label:'退款类型',prop:'refundType',type:'getRefundType',useApi:true,width:120},
   { label:'退款单状态',prop:'refundStatus',type:'getRefundStatus',useApi:true,width:100},
-  { label:'实际退款时间',prop:'refundDate',type:'time',width:100},
+  { label:'实际退款时间',prop:'refundDate',type:'time',width:140},
   { label:'实退金额',prop:'realRefundAmt',width:120,type:'toFixed',format:'/'},
   { label:'创建人',prop:'createrName',width:100},
-  { label:'创建时间',prop:'gmtCreate',type:'time',width:100},
+  { label:'创建时间',prop:'gmtCreate',type:'time',width:140},
   { label:'操作',useLink:true,fixed:'right',width:180},
 ]
 
@@ -122,7 +122,7 @@ export const refundDetailPayConfig=[
   { title:'客户银行账户', prop:'bankCode' },
   { title:'客户银行', prop:'bankName' },
   { title:'附件', prop:'files',useIf:'files' },
-  { title:'退款日期', prop:'refundDate',type:'time' },
+  { title:'退款日期', prop:'refundDate',type:'time',width:140},
   { title:'实退金额', prop:'realRefundAmt' ,type:'toFixed'},
 ]
 

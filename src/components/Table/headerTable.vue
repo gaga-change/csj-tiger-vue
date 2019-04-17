@@ -213,7 +213,7 @@ export default {
             return Enum[column.type]&&Enum[column.type].find(v=>v.value==cellValue)&&Enum[column.type].find(v=>v.value==cellValue).name||cellValue
          } else{
           switch(column.type){
-            case 'time':return cellValue?moment(cellValue).format(column.format||'YYYY-MM-DD'):'';break;
+            case 'time':return cellValue?moment(cellValue).format(column.format||'YYYY-MM-DD HH:mm:ss'):'';break;
             case 'rate':return cellValue+'%';break;
             case 'Boolean':return cellValue?'是':'否' ;break;
             case 'index':return (this.pageSize)*(this.currentPage-1)+index+1;break;

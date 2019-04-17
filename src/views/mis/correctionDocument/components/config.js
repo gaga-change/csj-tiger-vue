@@ -1,14 +1,14 @@
 //入库订正
 export  const carrierListConfig=[ 
   { label:'订正类型',prop:'revisalType', useLocalEnum: true, type: 'misRevisalTypeEnum'},
-  { label:'业务单号',prop:'busiBillNo'},
-  { label:'货主编码',prop:'ownerCode'},
-  { label:'货主名称',prop:'ownerName'},
-  { label:'入库单号',prop:'warehouseExeCode'},
-  { label:'订正单号',prop:'revisalCode'},
+  { label:'业务单号',prop:'busiBillNo',width:150},
+  { label:'货主编码',prop:'ownerCode',width:150},
+  { label:'货主名称',prop:'ownerName',width:180},
+  { label:'入库单号',prop:'warehouseExeCode',width:170},
+  { label:'订正单号',prop:'revisalCode',width:170},
   { label:'单据状态',prop:'revisalState', useLocalEnum:true, type:'misRevisalStateEnum'},
-  { label:'创建日期',prop:'gmtCreate', type:'time'},
-  { label:'审核日期',prop:'approveDate',type:'time'},
+  { label:'创建日期',prop:'gmtCreate', type:'time',width:140},
+  { label:'审核日期',prop:'approveDate',type:'time',width:140},
   { label:'审核人',prop:'approveName'},
   { label:'操作',fixed:'right',useLink:true,width:180},
 ]
@@ -39,12 +39,12 @@ export  const carrierDetail_Config=[
 //出库订正
 export  const outgoing_carrierListConfig=[ 
   { label:'订正类型',prop:'revisalType', useLocalEnum: true, type: 'misRevisalTypeEnum'},
-  { label:'业务单号',prop:'busiBillNo'},
-  { label:'出库单号',prop:'warehouseExeCode'},
-  { label:'订正单号',prop:'revisalCode'},
+  { label:'业务单号',prop:'busiBillNo',width:150},
+  { label:'出库单号',prop:'warehouseExeCode',width:170},
+  { label:'订正单号',prop:'revisalCode',width:170},
   { label:'单据状态',prop:'revisalState', useLocalEnum:true, type:'misRevisalStateEnum'},
-  { label:'创建日期',prop:'gmtCreate', type: 'time'},
-  { label:'审核日期',prop:'approveDate', type: 'time'},
+  { label:'创建日期',prop:'gmtCreate', type: 'time',width:140},
+  { label:'审核日期',prop:'approveDate', type: 'time',width:140},
   { label:'审核人',prop:'approveName'},
   { label:'操作',fixed:'right',useLink:true,width:180},
 ]

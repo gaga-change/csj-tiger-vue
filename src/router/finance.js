@@ -266,7 +266,7 @@ export default [
         path: 'refundDetail',
         component: _import('receipt/refund/detail'),
         name: 'refundDetail',
-        hidden: false,
+        hidden: true,
         meta: {
           title: '客户退款详情',
           noCache: true ,
@@ -277,7 +277,7 @@ export default [
         path: 'refundAdd',
         component: _import('receipt/refund/add'),
         name: 'refundAdd',
-        hidden: false,
+        hidden: true,
         meta: {
           title: '新建退款',
           noCache: false ,

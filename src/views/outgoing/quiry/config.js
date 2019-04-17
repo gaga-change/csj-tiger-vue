@@ -29,17 +29,17 @@ export  const infoConfig=[
 
 export const indexTableConfig=[
   { label:'出库单号',prop:'warehouseExeCode', minWidth:150,fixed:true,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
-  { label:'业务单号',prop:'billNo',minWidth:150 },
+  { label:'业务单号',prop:'billNo',minWidth:170 },
   { label:'计划单号',prop:'planCode',minWidth:150,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
   { label:'合同编号',prop:'contractNo',minWidth:120 },
-  { label:'客户名称',prop:'arrivalName',minWidth:180 }, 
-  { label:'货主',prop:'ownerName',minWidth:180 },
+  { label:'客户名称',prop:'arrivalName' }, 
+  { label:'货主',prop:'ownerName'},
   { label:'出库仓库名称',prop:'warehouseName',minWidth:180 },
   { label:'出库数量',prop:'outQty'},
   { label:'出库金额',prop:'outAmt'},
   { label:'是否越库',prop:'isCross',width:100,type:'Boolean',},
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
-  { label:'出库日期',prop:'outStoreTime',type:'time',minWidth:120 },
+  { label:'出库日期',prop:'outStoreTime',type:'time',minWidth:140 },
   { label:'操作',fixed:'right',width:80,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看' },
 ]
 

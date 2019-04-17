@@ -1,12 +1,12 @@
 export  const listIndexConfig=[ //list页配置
-    { label:'客户收货登记号',prop:'receiveCode',fixed:true,linkTo:'/provider/detail',query:[{key:'id',value:'id'},{key:'planCode',value:'planCode'}]},
-    { label:'客户名称',prop:'receiveEnterprise',},
-    { label:'出库计划单号',prop:'planCode',},
+    { label:'客户收货登记号',prop:'receiveCode',width:150,fixed:true,linkTo:'/provider/detail',query:[{key:'id',value:'id'},{key:'planCode',value:'planCode'}]},
+    { label:'客户名称',prop:'receiveEnterprise',width:180},
+    { label:'出库计划单号',prop:'planCode',width:150,},
     { label:'销售合同号',prop:'contractNo',},
     { label:'供应商',prop:'providerName',},
-    { label:'入库业务单',prop:'inBusiBillNo',},
-    { label:'创建日期',prop:'gmtCreate',type:'time'},
-    { label:'收货日期',prop:'receiveCreateTime',type:'time'},
+    { label:'入库业务单',prop:'inBusiBillNo',width:150},
+    { label:'创建日期',prop:'gmtCreate',type:'time',width:140},
+    { label:'收货日期',prop:'receiveCreateTime',type:'time',width:140},
     { label:'单据状态',prop:'receiveStatus',type:'getReceiveStatus',useApi:true},
     { label:'操作',useLink:true,fixed:'right',width:150},
   ]

@@ -5,7 +5,7 @@
       <el-row :gutter="16" >
           <el-form :inline="true" ref="ruleForm" :model="ruleForm"  size="small" label-width="70px"  label-position="left"  class="demo-form-inline">
             <el-col :span="6" style="min-width:300px" >
-              <el-form-item label="业务类型"   >
+              <el-form-item label="业务类型"  prop="busiBillType" >
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
                   <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>

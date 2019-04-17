@@ -109,7 +109,7 @@
           >添加</el-button
         >
       </el-row>
-      <el-table :data="feeTableData" v-loading="tableLoading" border>
+      <el-table :data="feeTableData" v-loading="tableLoading" border size="small">
         <el-table-column
           v-for="(column, index) in subsituteConfig"
           :key="index"

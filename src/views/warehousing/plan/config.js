@@ -44,14 +44,14 @@ export   const warehousingTableConfig=[
 
 export   const indexTableConfig=[
   { label:'计划单号',prop:'planCode',width:150,fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
-  { label:'业务单号',prop:'billNo',},
-  { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true },
-  { label:'供应商名称',prop:'providerName'},
-  { label:'货主',prop:'ownerName'},
+  { label:'业务单号',prop:'billNo',width:170},
+  { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true,width:80},
+  { label:'供应商名称',prop:'providerName',width:180},
+  { label:'货主',prop:'ownerName',width:180},
   { label:'制单人',prop:'createrName'},
   { label:'计划入库仓库',prop:'planWarehouseName'},
-  { label:'执行状态',width:100,prop:'execStatus',type:'getExecState',useApi:true},
-  { label:'计划入库日期',prop:'planTime',type:'time'},
+  { label:'执行状态',width:80,prop:'execStatus',type:'getExecState',useApi:true},
+  { label:'计划入库日期',prop:'planTime',type:'time',width:140},
   { label:'操作',width:150,fixed:'right',useLink:true },
 ]
 
