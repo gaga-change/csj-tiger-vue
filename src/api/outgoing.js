@@ -211,9 +211,9 @@ export function outPlanPrint(planCode) {
   })
 }
 
-export function outBillImproveList() {
+export function outBillImproveList(data) {
   return request({
-    url: `/webApi/out/bill/improve/list`,
+    url: `/webApi/out/bill/improve/list?${stringify(data)}`,
     method: 'get',
   })
 }

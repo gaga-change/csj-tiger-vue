@@ -88,7 +88,7 @@
         for(let i in json){
            if(json[i]===''){
              delete json[i]
-           } else if(Array.isArray(json[i])){
+           } else if(Array.isArray(json[i])&&json[i].length){
              json['start']= moment(json[i][0]).valueOf();
              json['end']= moment(json[i][1]).valueOf();
            }
