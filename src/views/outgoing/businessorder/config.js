@@ -25,7 +25,7 @@ export const infoConfig=[
   {title:'到货预定日',prop:'arrivalPreDate',type:'time'},
   {title:'到货有效日',prop:'arrivalEffectDate',type:'time'},
   {title:'创建人',prop:'createrName'},
-  {title:'创建日期',prop:'gmtCreate'},
+  {title:'创建日期',prop:'gmtCreate',type:'time'},
   {title:'合同号',prop:'contractNo'},
   {title:'发货要求',prop:'sendOutRequire',type:'sendOutRequireEnum',useLocalEnum:true},
   {title:'询价单号',prop:'inquiryNo'},

@@ -432,7 +432,10 @@ export default {
             if (valid) {
                 let json= _.cloneDeep(this.searchForm);
                 ['arrivalPreDate','arrivalEffectDate'].forEach(v=>{
-                  json[v]=moment(json[v]).valueOf()
+                  console.log(json[v])
+                  if(json[v]){
+                    json[v]=moment(json[v]).valueOf()
+                  }
                 })
                 json.ownerName=json.ownerName?json.ownerName:this.mapConfig['billOwnerInfoMap'].find(v=>v.key===json.ownerCode).value;
                 json.arrivalName=json.arrivalName?json.arrivalName:this.providerConfig.find(v=>v.customerCode===json.arrivalCode).customerName;
