@@ -85,6 +85,9 @@
 
       <el-col :span="6" style="min-width:300px">
         <el-form-item 
+          :rules="[
+            { required: true, message: '该项为必填'},
+          ]"
           label="上传附件">
           <el-button
             size="mini"
@@ -94,7 +97,7 @@
           </el-button>
           <span v-show="files.length">{{filelength}}个文件</span>
         </el-form-item>
-          <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:84px;position: absolute;"> 附件为必选</span>
+          <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:132px;left:0;position: absolute;"> 附件为必选</span>
         </el-col>
 
         
