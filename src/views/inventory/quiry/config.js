@@ -27,7 +27,7 @@ export   const infoConfig=[
 export const indexTableConfig=[
   { label:'商品编号',prop:'skuCode',width:'150px',fixed:true,linkTo:'/inventory/quiry-detail',query:[{key:'warehouseCode',value:'warehouseCode'},{key:'skuCode',value:'skuCode'},]},
   { label:'商品名称',prop:'skuName',width:'150px' },
-  { label:'库存结算金额',prop:'',width:'150px' },
+  { label:'库存结算金额',prop:'settleAmt',width:'150px' },
   { label:'货主',prop:'ownerName',width:'150px' },
   { label:'规格型号',prop:'skuFormat',width:'190px'},
   { label:'品牌',prop:'brandName',width:'150px'},
