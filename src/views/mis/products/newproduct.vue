@@ -106,7 +106,7 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="基准结算价："  prop="baseSettlementPrice" :rules="[{required: true, message:'必填项', trigger: 'change'}]">
-              <el-input type="number" v-model.number="productForm.baseSettlementPrice" class="formitem" size="small" placeholder="请输入基准结算价">
+              <el-input type="number" v-model="productForm.baseSettlementPrice" class="formitem" size="small" placeholder="请输入基准结算价">
                 <span slot="suffix">元</span>
               </el-input>
             </el-form-item>
@@ -423,11 +423,12 @@ export default {
        this.$refs['productForm'].validate((valid) => {
         if (valid) {
           this.submitloading = true
-          const { skuCode, owner, ...rest } = this.productForm
+          const { skuCode, owner,baseSettlementPrice, ...rest } = this.productForm
           const postForm = {
             ownerCode: owner.key,
             ownerName: owner.value,
             operator: this.userInfo.id,
+            baseSettlementPrice:Number(baseSettlementPrice),
             operatorName: this.userInfo.truename,
             skuCustomerReqList: this.customerTableData,
             skuProviderInfoReqList: this.servicerTableData,
