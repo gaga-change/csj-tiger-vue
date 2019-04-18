@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     searchConfig() {
-      const selectOptions = this.mapConfig['ownerInfoMap']
+      const selectOptions = this.mapConfig['billOwnerInfoMap']
       return  [
         { label: '商品名称:', prop: 'skuName', placeholder: '请输入商品名称' },
         { label: '商品编码:', prop: 'skuCode', placeholder: '请输入商品编码' },
