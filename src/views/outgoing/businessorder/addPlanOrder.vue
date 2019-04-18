@@ -68,8 +68,6 @@
         alertTable_config,
 
         editRow:{}//当前正在编辑的行 并非弹框
-
-
       }
     },
 
