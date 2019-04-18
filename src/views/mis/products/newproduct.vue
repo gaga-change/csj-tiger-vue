@@ -425,7 +425,7 @@ export default {
        this.$refs['productForm'].validate((valid) => {
         if (valid) {
           this.submitloading = true
-          const { skuCode, owner,baseSettlementPrice,categoryCode, ...rest } = this.productForm
+          const { skuCode, owner,baseSettlementPrice, ...rest } = this.productForm
           const postForm = {
             ownerCode: owner.key,
             ownerName: owner.value,
