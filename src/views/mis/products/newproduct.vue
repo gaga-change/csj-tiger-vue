@@ -441,7 +441,6 @@ export default {
             postForm.skuCode = skuCode
           }
           editMethod(postForm).then(res => {
-            console.log(res)
             this.submitloading = false
             if (res.success) {
               const view = this.visitedViews.filter(v => v.path === this.$route.path)
@@ -452,7 +451,6 @@ export default {
               })
             }
           }).catch(err => {
-            console.log(err)
             this.submitloading = false
           })
         } else if(this.productForm.categoryCode){

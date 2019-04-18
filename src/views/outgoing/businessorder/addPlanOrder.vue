@@ -157,10 +157,10 @@
               }
             })
           } else{
-            this.$message.error('操作失败');
+            console.log(res)
           }
         }).catch(err=>{
-           this.$message.error('操作失败');
+           console.log(err)
         })
       },
       //关闭弹框
