@@ -113,7 +113,10 @@
             }
           })
           this.infoData=res.data;
-          this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
+          this.tableData=(data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[]).map(v=>{
+            v.id=v.skuCode
+            return v;
+          });
         }
       }).catch(err=>{
         console.log(err)
@@ -129,9 +132,10 @@
           return 
         }
         outPlanAdd({
-          itemList:this.tableData.map((v,i)=>{
+          itemList:_.cloneDeep(this.tableData).map((v,i)=>{
             v.busiIndex=i+1;
             v.outPrice=v.outStorePrice;
+            delete v.id
             return v
           }),
           operateToken:moment().valueOf(),

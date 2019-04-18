@@ -22,7 +22,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{required: true,trigger: 'blur', message:'必填(菜单必须选择到三级)'}]">
+          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{required: true, message:'必填(菜单必须选择到三级)'}]">
             <choice-category @categorySubmit="categorySubmit"  ref="categoryChoice" :disabled="editable"></choice-category>
           </el-form-item>
         </el-col>
@@ -419,11 +419,13 @@ export default {
 
        this.$refs['customerForm'].$refs['tcfForm'].clearValidate(['customerCode'])
        this.$refs['servicerForm'].$refs['tcfForm'].clearValidate(['providerCode'])
-
+       if(this.productForm.categoryCode){
+        this.$refs['productForm'].clearValidate(['categoryCode'])
+       }
        this.$refs['productForm'].validate((valid) => {
         if (valid) {
           this.submitloading = true
-          const { skuCode, owner,baseSettlementPrice, ...rest } = this.productForm
+          const { skuCode, owner,baseSettlementPrice,categoryCode, ...rest } = this.productForm
           const postForm = {
             ownerCode: owner.key,
             ownerName: owner.value,
@@ -453,6 +455,8 @@ export default {
             console.log(err)
             this.submitloading = false
           })
+        } else if(this.productForm.categoryCode){
+           this.$refs['productForm'].clearValidate(['categoryCode'])
         }
       })
     },
@@ -477,7 +481,6 @@ export default {
     },
 
     submitServicerForm(val) {
-      console.log(val)
       const providers = this.servicerConfig.find(provider => provider.prop === 'providerCode').selectOptions
       val.providerName = providers.find(provider => provider.key === val.providerCode).value
       if (val.edit) {

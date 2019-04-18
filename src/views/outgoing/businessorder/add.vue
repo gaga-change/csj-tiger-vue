@@ -130,7 +130,7 @@
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="发货要求" >
-              <el-select  v-model="searchForm.sendOutRequire" clearable  placeholder="请选择发货要求" size="small" class="formitem">
+              <el-select  v-model="searchForm.sendOutRequire||''" clearable  placeholder="请选择发货要求" size="small" class="formitem">
                 <el-option v-for="item in sendOutRequireEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
