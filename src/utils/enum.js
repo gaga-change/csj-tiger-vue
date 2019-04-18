@@ -871,3 +871,31 @@ export const warehousingPlanBillStatus =[
     value: 6
   },
 ]
+
+export const hangUpTypeEnum = [
+  {
+    name: '正常未挂起',
+    value: 0
+  },
+  {
+    name: '商品不足',
+    value: 1
+  },
+  {
+    name: '商品充足推送失败',
+    value:2
+  },
+  {
+    name: '付款未完成',
+    value:3
+  },
+  {
+    name: '付款已完成',
+    value:4
+  },
+  {
+    name: '先货后款',
+    value:5
+  },
+]
+

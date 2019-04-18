@@ -461,40 +461,53 @@ export default {
       })
     },
     submitCustomerForm(val) {
+      let customerTableData=_.cloneDeep(this.customerTableData);
       val=JSON.parse(JSON.stringify(val));
       const customers = this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions
       val.customerName = customers.find(customer => customer.key === val.customerCode).value
       if (val.edit) {
         let position = -1
-        this.customerTableData.forEach((item, index) => {
+        customerTableData.forEach((item, index) => {
           if(item.edit) position = index
         })
-        console.log(position);
-        this.customerTableData.splice(position, 1, JSON.parse(JSON.stringify({ ...val, edit: false })))
+        customerTableData.splice(position, 1, JSON.parse(JSON.stringify({ ...val, edit: false })))
         this.$refs.customerForm.resetForm()
         this.confirmText = '添加'
       } else {
-        this.customerTableData.push(JSON.parse(JSON.stringify(val)))
+        let index=customerTableData.findIndex(v=>v.customerCode===val.customerCode);
+        if(index===-1){
+          customerTableData.push(JSON.parse(JSON.stringify(val)))
+        } else{
+          customerTableData[index]=JSON.parse(JSON.stringify(val))
+        }
       }
+      this.customerTableData=customerTableData;
       this.customerEditData={};
       this.$refs['customerForm'].$refs['tcfForm'].resetFields()
     },
 
     submitServicerForm(val) {
+      let servicerTableData=_.cloneDeep(this.servicerTableData);
       const providers = this.servicerConfig.find(provider => provider.prop === 'providerCode').selectOptions
       val.providerName = providers.find(provider => provider.key === val.providerCode).value
       if (val.edit) {
         let position = -1
-        this.servicerTableData.forEach((item, index) => {
+        servicerTableData.forEach((item, index) => {
           if(item.edit) position = index
         })
         console.log(position);
-        this.servicerTableData.splice(position, 1, JSON.parse(JSON.stringify({ ...val, edit: false })))
+        servicerTableData.splice(position, 1, JSON.parse(JSON.stringify({ ...val, edit: false })))
         this.$refs.servicerForm.resetForm()
         this.servicerConfirmText = '添加'
       } else {
-        this.servicerTableData.push(JSON.parse(JSON.stringify(val)))
+        let index=servicerTableData.findIndex(v=>v.providerCode===val.providerCode);
+        if(index===-1){
+          servicerTableData.push(JSON.parse(JSON.stringify(val)))
+        } else{
+          servicerTableData[index]=JSON.parse(JSON.stringify(val))
+        }
       }
+      this.servicerTableData=servicerTableData;
       this.$refs['servicerForm'].$refs['tcfForm'].resetFields()
     },
 

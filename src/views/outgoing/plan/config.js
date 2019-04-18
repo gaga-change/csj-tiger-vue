@@ -54,6 +54,7 @@ export const indexTableConfig=[
   { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}],width:150},
   { label:'业务单号',prop:'billNo',width:160},
   { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true ,width:80},
+  { label:'挂起类型',prop:'hangUpType',type:'hangUpTypeEnum',useLocalEnum:true ,width:80},
   { label:'客户名称',prop:'arrivalName'},
   { label:'货主',prop:'ownerName'},
   { label:'计划出库仓库',prop:'planWarehouseName',width:130},
