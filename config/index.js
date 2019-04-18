@@ -103,7 +103,6 @@ module.exports = {
   test: {
     // Template for index.html
     index: path.resolve(__dirname, '../test/index.html'),
-
     // Paths
     assetsRoot: path.resolve(__dirname, '../test'),
     assetsSubDirectory: 'static',
