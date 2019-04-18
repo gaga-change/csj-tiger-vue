@@ -21,11 +21,26 @@
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
-     <edit-Table 
-      :loading="loading"
-      :config="detailTableConfig" 
-      :allTableData="tableData"/>
-
+     <el-tabs v-model="activeName" type="card">
+      <el-tab-pane label="业务单" name="business">
+        <edit-Table 
+        :loading="loading"
+        :config="detailTableConfig" 
+        :allTableData="tableData"/>
+      </el-tab-pane>
+      <el-tab-pane label="计划单" name="plan">
+         <edit-Table 
+        :loading="loading"
+        :config="detail_planTableConfig" 
+        :allTableData="detail_planTableData"/>
+      </el-tab-pane>
+      <el-tab-pane label="出库单" name="outgonging">
+        <edit-Table 
+        :loading="loading"
+        :config="detail_outGoingTableConfig" 
+        :allTableData="detail_outGoingTableData"/>
+      </el-tab-pane>
+     </el-tabs>
 
 
   </div>
@@ -33,11 +48,11 @@
 
 <script>
 
- import { tableConfig,infoConfig} from './config';
+ import { tableConfig,infoConfig,detail_planTableConfig,detail_outGoingTableConfig} from './config';
  import editTable from '@/components/Table/editTable';
  import Sticky from '@/components/Sticky'
  import moment from 'moment';
- import { outBillDetail } from '@/api/outgoing'
+ import { outBillDetail,outPlanSelect,outOrderSelect} from '@/api/outgoing'
  import { operation } from './conpoments/lib';
  import _  from 'lodash';
 
@@ -50,7 +65,15 @@
         infoConfig,
 
         tableData:[],
-        detailTableConfig:tableConfig
+        detailTableConfig:tableConfig,
+        activeName:'business',
+
+        detail_planTableConfig,
+        detail_planTableData:[],
+
+        detail_outGoingTableConfig,
+        detail_outGoingTableData:[],
+
       }
     },
 
@@ -75,6 +98,32 @@
               this.detailTableConfig=detailTableConfig;
               this.infoData=res.data;
               this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
+              
+              //查询相关计划单
+              outPlanSelect({
+                 pageNum: 1,
+                 pageSize:1000,
+                 billNo:data.billNo
+              }).then(result=>{
+                if(result.success){
+                   this.detail_planTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
+                }
+              }).catch(err=>{
+                console.log(err)
+              })
+
+              //查询相关出库单
+              outOrderSelect({
+                 pageNum: 1,
+                 pageSize:1000,
+                 billNo:data.billNo
+              }).then(result=>{
+                 if(result.success){
+                   this.detail_outGoingTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
+                 }
+              }).catch(err=>{
+                console.log(err)
+              })
             }
           }).catch(err=>{
             console.log(err)

@@ -82,3 +82,30 @@ export const alertTable_config=[
   { label:'计划出库数量',prop:'planOutQty',useEdit:true,width:150},
 ]
 
+
+export const detail_planTableConfig=[
+  { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}],width:150},
+  { label:'业务单号',prop:'billNo',width:160},
+  { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true ,width:80},
+  { label:'客户名称',prop:'arrivalName'},
+  { label:'货主',prop:'ownerName'},
+  { label:'计划出库仓库',prop:'planWarehouseName',width:130},
+  { label:'执行状态',prop:'execStatus',type:'getExecState',useApi:true,width:80},
+  { label:'计划出库日期',prop:'planOutTime',type:'time',width:140}
+]
+
+export const detail_outGoingTableConfig=[
+  { label:'出库单号',prop:'warehouseExeCode', minWidth:150},
+  { label:'业务单号',prop:'billNo',minWidth:170 },
+  { label:'计划单号',prop:'planCode',minWidth:150,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
+  { label:'合同编号',prop:'contractNo',minWidth:120 },
+  { label:'客户名称',prop:'arrivalName' }, 
+  { label:'货主',prop:'ownerName'},
+  { label:'出库仓库名称',prop:'warehouseName',minWidth:180 },
+  { label:'出库数量',prop:'outQty'},
+  { label:'出库金额',prop:'outAmt'},
+  { label:'是否越库',prop:'isCross',width:100,type:'Boolean',},
+  { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
+  { label:'出库日期',prop:'outStoreTime',type:'time',minWidth:140 },
+]
+

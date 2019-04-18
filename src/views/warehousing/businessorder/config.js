@@ -117,3 +117,28 @@ export const alertTable_config=[
   { label:'计划入库数量',prop:'planInQty',useEdit:true,width:150},
 ]
 
+export   const detail_planTableConfig=[
+  { label:'计划单号',prop:'planCode',width:150,fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
+  { label:'业务单号',prop:'billNo',width:170},
+  { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true,width:80},
+  { label:'供应商名称',prop:'providerName',width:180},
+  { label:'货主',prop:'ownerName',width:180},
+  { label:'制单人',prop:'createrName'},
+  { label:'计划入库仓库',prop:'planWarehouseName'},
+  { label:'执行状态',width:80,prop:'execStatus',type:'getExecState',useApi:true},
+  { label:'计划入库日期',prop:'planTime',type:'time',width:140}
+]
+
+export   const detail_warehousingTableConfig=[
+  { label:'入库单号',fixed:true,prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',width:150,query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'业务单号',prop:'billNo',width:180 },
+  { label:'计划单号',prop:'planCode',width:150,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
+  { label:'合同编号',prop:'contractNo',width:100},
+  { label:'供应商名称',prop:'providerName',width:180},
+  { label:'货主',prop:'ownerName',width:180},
+  { label:'仓库',prop:'warehouseName',width:140},
+  { label:'入库金额',prop:'inAmt'},
+  { label:'入库数量',prop:'inQty'},
+  { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
+  { label:'入库日期',prop:'inWarehouseTime',type:'time',width:140},
+]

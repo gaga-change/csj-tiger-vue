@@ -115,7 +115,7 @@
     import {getBillType,getExecState} from '@/api/map'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
-    import {indexTableConfig } from './config';
+    import {indexTableConfig} from './config';
     
     const validatorLinkTel = (rule, value, callback) => {
       if (value==undefined||value==''||/^[1][3,4,5,7,8][0-9]{9}$/.test(value)) {
@@ -150,8 +150,7 @@
         tableData: [],
         tableConfig:indexTableConfig,
         misWarehousingBillStatusEnum,
-        misWarehousingBillStateEnum
-
+        misWarehousingBillStateEnum,
       }
     },
 

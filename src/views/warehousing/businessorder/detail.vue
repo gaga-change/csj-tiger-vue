@@ -19,10 +19,26 @@
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
-     <web-pagination-table 
-      :loading="loading"
-      :config="tableConfig" 
-      :allTableData="tableData"/>
+      <el-tabs v-model="activeName" type="card">
+        <el-tab-pane label="业务单" name="business">
+          <web-pagination-table 
+            :loading="loading"
+            :config="tableConfig" 
+            :allTableData="tableData"/>
+        </el-tab-pane>
+        <el-tab-pane label="计划单" name="plan">
+          <web-pagination-table 
+            :loading="loading"
+            :config="detail_planTableConfig" 
+            :allTableData="detail_planTableData"/>
+        </el-tab-pane>
+        <el-tab-pane label="入库单" name="warehousing">
+           <web-pagination-table 
+            :loading="loading"
+            :config="detail_warehousingTableConfig" 
+            :allTableData="detail_warehousingTableData"/>
+        </el-tab-pane>
+     </el-tabs>
 
       <el-dialog
          title="入库业务单打印"
@@ -42,9 +58,9 @@
 
 <script>
 
- import { tableConfig,infoConfig,printingTable_config} from './config';
+ import { tableConfig,infoConfig,printingTable_config,detail_planTableConfig,detail_warehousingTableConfig} from './config';
  import webPaginationTable from '@/components/Table/webPaginationTable';
- import {inbilldetail,inbillPrint,inBillUpdateStatus} from '@/api/warehousing'
+ import {inbilldetail,inbillPrint,inBillUpdateStatus,inPlanSelect,inOrderSelect} from '@/api/warehousing'
  import Sticky from '@/components/Sticky'
  import Invoice from './conpoments/invoice'
  import { mapGetters } from 'vuex'
@@ -65,7 +81,15 @@
         //打印项
         printingVisible:false,
         baseData:{},
-        printingTable_config
+        printingTable_config,
+
+        detail_planTableConfig,
+        detail_planTableData:[],
+
+        detail_warehousingTableConfig,
+        detail_warehousingTableData:[],
+
+        activeName:'business'
       }
     },
 
@@ -85,6 +109,32 @@
             if(res.success){
               this.infoData=res.data;
               this.tableData=res.data.items;
+              //相关计划单数据
+              inPlanSelect({
+                 pageNum: 1,
+                 pageSize:1000,
+                 billNo:res.data&&res.data.billNo
+              }).then(result=>{
+                if(result.success){
+                  this.detail_planTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
+                }
+              }).catch(err=>{
+                console.log(err)
+              })
+
+              //相关入库单数据
+              inOrderSelect({
+                 pageNum: 1,
+                 pageSize:1000,
+                 billNo:res.data&&res.data.billNo
+              }).then(result=>{
+                if(result.success){
+                  this.detail_warehousingTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
+                }
+              }).catch(err=>{
+                console.log(err)
+              })
+
             }
           }).catch(err=>{
             console.log(err)

@@ -270,6 +270,7 @@
           <el-table-column v-for="(column, index) in customerConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
             <template slot-scope="scope">
               <span v-if="column.type === 'date' &&　scope.row[column.prop]">{{scope.row[column.prop] | parseTime}}</span>
+              <span v-else-if="column.prop === 'customerCode' &&　scope.row[column.prop]">{{scope.row['customerName']}}</span>
               <span v-else>{{scope.row[column.prop]}}</span>
             </template>
           </el-table-column>
@@ -302,6 +303,7 @@
           <el-table-column v-for="(column, index) in servicerConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
             <template slot-scope="scope">
               <span v-if="column.type === 'date' &&　scope.row[column.prop]">{{scope.row[column.prop] | parseTime}}</span>
+              <span v-else-if="column.prop === 'providerCode' &&　scope.row[column.prop]">{{scope.row['providerName']}}</span>
               <span v-else>{{scope.row[column.prop]}}</span>
             </template>
           </el-table-column>
