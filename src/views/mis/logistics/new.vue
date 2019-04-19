@@ -150,7 +150,7 @@
       </el-row>
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="运费"  prop="logisticsFare" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="运费"  :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number"   v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
               <span slot="suffix">元</span>
             </el-input>

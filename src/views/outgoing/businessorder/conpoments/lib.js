@@ -2,6 +2,7 @@
 import { outBillCheck,outBillDelete,outBillClose } from '@/api/outgoing'
 
 export  function operation(row,api,tip){
+  //接口配置
   let apiConfig={ outBillCheck,outBillDelete,outBillClose };
   let data=row.id;
   if(api==='outBillClose'){
