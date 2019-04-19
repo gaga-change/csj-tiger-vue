@@ -5,7 +5,6 @@
 //   { label:'商品名称',prop:'skuName'},
 //   { label:'规格型号',prop:'skuFormat'},
 //   { label:'品牌',prop:'skuBrandName'},
-//   { label:'转换比',prop:'skuUnitConvert'},
 //   { label:'已出/应出',fixed:false,dom:(row, column, cellValue, index)=>{
 //       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
 //   }},

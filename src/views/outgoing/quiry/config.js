@@ -6,7 +6,6 @@ export const tableConfig=[
   { label:'品牌',prop:'skuBrandName'},
   { label:'单位',prop:'skuUnitName'},
   { label:'单价',prop:'skuOutPrice'},
-  { label:'转换比',prop:'skuUnitConvert'},
   { label:'出库数量',prop:'outStoreQty'},
   { label:'出库金额',dom:(row, column, cellValue, index)=>{
     return `${row.skuOutPrice*row.outStoreQty}`
