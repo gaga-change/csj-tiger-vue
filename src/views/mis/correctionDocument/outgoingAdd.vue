@@ -78,7 +78,7 @@ import Sticky from '@/components/Sticky'
 import { queryOwners, outOrderCode, outwarehouseBillInfo, outwarehouseOrderDetail, createOutwarehouseRevisal, queryOutwarehouseRevisal, updateOutwarehouseRevisal, outQueryApprovedItems } from '@/api/correction'
 import _ from 'lodash';
 export default {
-  name: 'warehousingAdd',
+  name: 'outgoingAdd',
   components: { webPaginationTable, editTable ,Sticky},
   data() {
     return {

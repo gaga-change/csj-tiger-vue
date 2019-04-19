@@ -67,7 +67,7 @@ export default {
         item.dom = (row, column, cellValue, index) => {
           return (row.revisalState == 1) ? (
             <div class="tableLinkBox">
-              <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
+              <router-link to={`/correctionDocument/outgoingAdd?id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
               {
                 <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}`} class="tableLink">修改</router-link>
               }
@@ -82,7 +82,7 @@ export default {
             </div>
           ) : (<div class="tableLinkBox">
               {
-                <router-link to={`/correctionDocument/outgoingAdd?time=${moment().valueOf()}&id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
+                <router-link to={`/correctionDocument/outgoingAdd?id=${row.id}&readOnly=true`} class="tableLink">查看</router-link>
               }
             </div>)
         }

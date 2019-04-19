@@ -273,7 +273,7 @@ export default [
         component: _import('mis/correctionDocument/warehousingAdd'),
         name: 'warehousingAdd',
         hidden: true,
-        meta: { title: '创建入库订正单'}
+        meta: { title: '创建入库订正单',noCache: false}
       },
       {
         path: 'outgoingList',
@@ -286,7 +286,7 @@ export default [
         component: _import('mis/correctionDocument/outgoingAdd'),
         name: 'outgoingAdd',
         hidden: true,
-        meta: { title: '创建出库订正单'}
+        meta: { title: '创建出库订正单',noCache: false}
       }
 
     ]
