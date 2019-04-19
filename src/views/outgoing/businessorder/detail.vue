@@ -52,6 +52,7 @@
  import editTable from '@/components/Table/editTable';
  import Sticky from '@/components/Sticky'
  import moment from 'moment';
+ import { mapGetters } from 'vuex'
  import { outBillDetail,outPlanSelect,outOrderSelect} from '@/api/outgoing'
  import { operation } from './conpoments/lib';
  import _  from 'lodash';
@@ -79,6 +80,12 @@
 
     created(){
       this.getCurrentTableData()
+    },
+
+    computed: {
+      ...mapGetters({
+         visitedViews: 'visitedViews'
+      })
     },
 
     methods:{

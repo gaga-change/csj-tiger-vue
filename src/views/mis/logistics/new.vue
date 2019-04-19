@@ -6,7 +6,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.carrier" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.carrier" :disabled="$route.query.id" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
                 <span style="float: left">{{ item.consoildatorName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>
@@ -30,14 +30,14 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.settlementType" clearable  placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.settlementType" clearable  :disabled="$route.query.id" placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in localEnum['settlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="物流单号" prop="logisticsOrderCode" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input v-model="addForm.logisticsOrderCode" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
+            <el-input v-model="addForm.logisticsOrderCode" class="formitem" :disabled="$route.query.id" size="small" placeholder="请输入物流单号"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -46,21 +46,16 @@
     <item-title text="出库单信息" class="mt10" />
     <el-card shadow="hover">
       <el-row>
-        <el-button type="primary" @click="unionOutStore" size="mini">关联出库单</el-button>
+        <el-button type="primary" @click="unionOutStore" :disabled="$route.query.id" size="mini">关联出库单</el-button>
       </el-row>
       <el-table
         :data="outTableData"
       >
         <el-table-column type="index" label="序号"></el-table-column>
         <el-table-column v-for="column in columns" :label="column.label" :prop="column.prop" :key="column.prop"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="!$route.query.id">
           <template slot-scope="scope">
-            <a
-              @click="delOutStore(scope.row)"
-              :style="linkstyle"
-            >
-              删除
-            </a>
+              <a @click="delOutStore(scope.row)"  :style="linkstyle">删除</a>
           </template>
         </el-table-column>
       </el-table>
@@ -76,7 +71,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="地址" >
-            <el-select  v-model="addForm.dispatchAddr" clearable  placeholder="请选择地址" size="small" class="formitem">
+            <el-select  v-model="addForm.dispatchAddr" clearable  :disabled="$route.query.id" placeholder="请选择地址" size="small" class="formitem">
               <el-option v-for="item in addressData" :label="item.value" :key="item.key"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
@@ -98,7 +93,7 @@
     <el-card shadow="hover" >
       <el-row>
         <el-col :span="8">
-          <el-form-item label="费用计算区分" labelWidth="100px" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="费用计算区分" labelWidth="100px" prop="costCalcWay" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-select  v-model="addForm.costCalcWay" value-key="id" clearable  placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in localEnum['costCalcWay']" :label="item.name" :key="item.value" :value="item.value"></el-option>
             </el-select>
@@ -108,21 +103,21 @@
 
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="箱数" :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="箱数" prop="boxQty"  :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.boxQty" class="formitem" size="small" placeholder="请输入箱数">
               <span slot="suffix">箱</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="体积"  :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="体积"  prop="skuVolume" :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
               <span slot="suffix">m³</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="单价"  :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="单价"  prop="skuPrice" :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.skuPrice" class="formitem" size="small" placeholder="请输入体积">
               <span slot="suffix">元</span>
             </el-input>
@@ -132,21 +127,21 @@
 
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="重量" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="重量" prop="skuWeight" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
               <span slot="suffix">kg</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="首重价格" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="首重价格" prop="firstPrice" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.firstPrice" class="formitem" size="small" placeholder="请输入首重价格">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="续重单价" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="续重单价" prop="continuePrice" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number" v-model.number="addForm.continuePrice" class="formitem" size="small" placeholder="请输入续重单价">
               <span slot="suffix">元</span>
             </el-input>
@@ -155,75 +150,75 @@
       </el-row>
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="运费" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+          <el-form-item label="运费"  prop="logisticsFare" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input type="number"   v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="配送费" >
+          <el-form-item label="配送费"  prop="dispatchCost" >
             <el-input type="number" v-model.number="addForm.dispatchCost" class="formitem" size="small" placeholder="请输入配送费">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="保价" >
+          <el-form-item label="保价"   prop="insuredCost">
             <el-input type="number" v-model.number="addForm.insuredCost" class="formitem" size="small" placeholder="请输入保价">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="保费" >
+          <el-form-item label="保费" prop="logisticsPremium">
             <el-input type="number" v-model.number="addForm.logisticsPremium" class="formitem" size="small" placeholder="请输入保费">
               <span slot="suffix">%</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="车牌号" >
+          <el-form-item label="车牌号" prop="licensePlateNo">
             <el-input type="text" v-model="addForm.licensePlateNo" class="formitem" size="small" placeholder="请输入车牌号"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="出发公里数" >
+          <el-form-item label="出发公里数" prop="startKilometrage">
             <el-input type="number" v-model.number="addForm.startKilometrage" class="formitem" size="small" placeholder="请输入出发公里数">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="返回公里数" >
+          <el-form-item label="返回公里数" prop="returnKilometrage">
             <el-input type="number" v-model.number="addForm.returnKilometrage" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="过路费" >
+          <el-form-item label="过路费" prop="toll">
             <el-input type="number" v-model.number="addForm.toll" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="油费" >
+          <el-form-item label="油费" prop="oilCost">
             <el-input type="number" v-model.number="addForm.oilCost" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="里程" >
+          <el-form-item label="里程" prop="mileage">
             <el-input type="number" v-model.number="addForm.mileage" class="formitem" size="small" placeholder="请输入返回公里数">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="24" :md="24" :lg="16" :xl="12">
-          <el-form-item label="备注" >
+          <el-form-item label="备注" prop="remarkInfo">
             <el-input  type="textarea" v-model="addForm.remarkInfo" :rows="1" placeholder="请输入备注">
             </el-input>
           </el-form-item>

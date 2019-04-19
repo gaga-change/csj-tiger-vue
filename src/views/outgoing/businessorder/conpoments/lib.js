@@ -12,7 +12,16 @@ export  function operation(row,api,tip){
   let submit=()=>apiConfig[api](data).then(res=>{
     if(res.success){
       this.$message({type:'success', message:'操作成功' });
-      this.getCurrentTableData()
+      if(api==='outBillDelete'&&this.$router.history.current.path==='/outgoing/businessorder-detail'){
+        const view = this.visitedViews.filter(v => v.path === this.$route.path)
+        this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+          this.$router.push({path:'/outgoing/businessorder'})
+        }).catch(err=>{
+          console.log(err)
+        })
+      } else{
+        this.getCurrentTableData()
+      }
     } else{
       this.$message.error('操作失败')
     }

@@ -147,9 +147,9 @@ export default {
     initTable() {
       let value = this.searchForm.revisalType
       if (value === 1) {
-        this.outgoing_carrierDetailConfig.push({ label: '调整金额 ', prop: 'revisalAmt', useEdit: true, width: 150 })
+        this.outgoing_carrierDetailConfig.push({ label: '调整金额 ', prop: 'revisalAmt', useEdit: true, width: 150,min:-Infinity})
       } else if (value === 2) {
-        this.outgoing_carrierDetailConfig.push({ label: '调整数量 ', prop: 'revisalQty', useEdit: true, width: 150 })
+        this.outgoing_carrierDetailConfig.push({ label: '调整数量 ', prop: 'revisalQty', useEdit: true, width: 150 ,min:-Infinity})
       }
     },
     initDetail() {
@@ -228,9 +228,9 @@ export default {
       let config = _.cloneDeep(this.outgoing_carrierDetailConfig)
       let data = _.cloneDeep(this.carrierDetail_data)
       if (value === 1) {
-        config[config.length - 1] = { label: '调整金额', prop: 'revisalAmt', useEdit: true, width: 150 }
+        config[config.length - 1] = { label: '调整金额', prop: 'revisalAmt', useEdit: true, width: 150,min:-Infinity }
       } else if (value === 2) {
-        config[config.length - 1] = { label: '调整数量', prop: 'revisalQty', useEdit: true, width: 150 }
+        config[config.length - 1] = { label: '调整数量', prop: 'revisalQty', useEdit: true, width: 150 ,min:-Infinity}
       }
       this.outgoing_carrierDetailConfig = config;
       this.carrierDetail_data = data.map(v => {
