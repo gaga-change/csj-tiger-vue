@@ -104,10 +104,10 @@
       </a>
   </div>
 
-  <div class="tableTotal" v-if="inTotal&&inTotal.totInAmt!==undefined&&inTotal.totInQty!==undefined">
+  <!-- <div class="tableTotal" v-if="inTotal&&inTotal.totInAmt!==undefined&&inTotal.totInQty!==undefined">
       <span>入库总金额</span> : <span>{{inTotal&&inTotal.totInAmt&&Number(inTotal.totInAmt).toFixed(2)}}</span>
       <span>入库总数量</span> : <span>{{inTotal&&inTotal.totInQty&&Number(inTotal.totInQty).toFixed(2)}}</span>
-  </div>
+  </div> -->
 
   <base-table 
     @sizeChange="handleSizeChange"
