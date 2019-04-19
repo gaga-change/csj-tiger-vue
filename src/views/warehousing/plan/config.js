@@ -4,7 +4,6 @@ export   const tableConfig=[
   { label:'规格型号',prop:'skuFormat'},
   { label:'品牌',prop:'skuBrandName'},
   { label:'单价',prop:'inPrice',type:'toFixed'},
-  { label:'转换比',prop:'skuUnitConvert'},
   { label:'已入/总数',fixed:false,dom:(row, column, cellValue, index)=>{
       return `${Number(row.realInQty).toFixed(0)}/${Number(row.planInQty).toFixed(0)}(${row.skuUnitName})`
   }},

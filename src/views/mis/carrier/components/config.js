@@ -11,6 +11,7 @@ export  const carrierListConfig=[
 export  const carrierDetailConfig=[ 
   { title:'承运商名称',prop:'consoildatorName'},
   { title:'承运商状态',prop:'consoildatorState',useApi:true,type:'getConsoildatorState'},
+  { title: '配送类型', prop: 'dispatchType', useLocalEnum: true, type: 'dispatchType'},
   { title:'结算区分',prop:'settlementWay',useApi:true,type:'getSettlementType'},
   { title:'联系电话',prop:'linkTel'},
   { title:'联系人',prop:'linkUser'},

@@ -23,11 +23,8 @@ export  function operation(row,api,tip){
       } else{
         this.getCurrentTableData()
       }
-    } else{
-      this.$message.error('操作失败')
     }
   }).catch(err=>{
-    this.$message.error('操作失败')
     console.log(err)
   })
   
