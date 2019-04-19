@@ -36,7 +36,7 @@ export const subsituteConfig = [
 
 export const deliveryConfig = [
   { label: '序号', type: 'index', prop: 'index', width: 60 },
-  { label: '业务单号', prop: 'busiBillNo', width:150 },
+  { label: '业务单号', prop: 'billNo', width:150 },
   { label: '计划单号', prop: 'planCode', width:150},
   { label: '出库单号', prop: 'warehouseExeCode', width:150},
   { label: '客户编码', prop: 'customerCode', width:150},
