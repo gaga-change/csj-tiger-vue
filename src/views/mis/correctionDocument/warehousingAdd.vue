@@ -258,6 +258,15 @@ export default {
         if (valid) {
           let json = _.cloneDeep(this.searchForm);
           let itemArr = this.carrierDetail_data.filter(v => v.edit);
+          if(this.searchForm.revisalType===1){//金额订正
+            if(itemArr.some(v=>Math.abs(v.revisalAmt)>v.inStoreAmt)){
+              return this.$message({message: '调整金额绝对值不能大于出库金额!',type: 'warning'});
+            }
+          } else if(this.searchForm.revisalType===2){//数量订正
+            if(itemArr.some(v=>Math.abs(v.revisalQty)>v.inStoreQty)){
+              return this.$message({message: '调整数量绝对值不能大于出库数量!',type: 'warning'});
+            }
+          }
           if (!itemArr.length) {
             return this.$message({
               message: '请调整金额或数量!',
