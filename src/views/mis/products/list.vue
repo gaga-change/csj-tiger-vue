@@ -36,7 +36,7 @@
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M。
-          <a class="dlink" :href="templetUrl" >下载模板</a>
+          <a class="dlink" :href="templetUrl" style="color:#409EFF;" >下载模板</a>
         </div>
       </el-upload>
     </el-dialog>
@@ -60,7 +60,7 @@
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="editSubmitUpload" v-show="editUploadButtonVisible">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M。
-          <a class="dlink" :href="editTempletUrl" >下载模板</a>
+          <a class="dlink" :href="editTempletUrl" style="color:#409EFF;">下载模板</a>
         </div>
       </el-upload>
     </el-dialog>
@@ -92,12 +92,12 @@ export default {
       productConfig,
       dialogVisible: false,
       uploadUrl: '/webApi/sku/info/import',
-      templetUrl: '/static/templet/product.xls',
+      templetUrl: '/static/templet/skuImport.xlsx',
       fileList: [],
       uploadButtonVisible: false,
       editDialogVisible: false,
       editUploadUrl: '/webApi/sku/info/importUpdate',
-      editTempletUrl: '/static/templet/product.xls',
+      editTempletUrl: '/static/templet/skuImport.xlsx',
       editFileList: [],
       editUploadButtonVisible: false
     }
