@@ -147,6 +147,12 @@
                 <el-input v-model="searchForm.fromSysCode" placeholder="请输入订单来源" size="small" class="formitem"></el-input>
               </el-form-item>
           </el-col>
+
+           <el-col :sm="12" :md="8" :lg="8" :xl="6">
+              <el-form-item label="备注:"  >
+                <el-input v-model="searchForm.remarkInfo" placeholder="请输入备注" size="small" class="formitem"></el-input>
+              </el-form-item>
+          </el-col>
       </el-row>
 
       <div class="tableBox">

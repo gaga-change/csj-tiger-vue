@@ -316,19 +316,17 @@ export default {
         if (this.addForm.logisticsFare) {
            data=this.addForm.logisticsFare
         } else {
-          // 快递运费计算规则：重量大于等于20KG：重量*续重；重量小于20KG：（重量-1）*续重+首重
-          // 物流运费计算规则：体积或者重量*单价
-          if (this.addForm.costCalcWay === 1) {
-            data=this.addForm.skuVolume * this.addForm.skuPrice || 0
-          } else if (this.addForm.costCalcWay === 2) {
-            if (this.addForm.dispatchType === 1) {
-              if (this.addForm.skuWeight > 20) {
-                data=this.addForm.skuWeight * this.addForm.continuePrice || 0
+          if (this.addForm.costCalcWay === 1) {//按照体积计算
+            data=this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
+          } else if (this.addForm.costCalcWay === 2) {//按照重量计算
+            if (this.addForm.dispatchType === 1) {//快递
+              if (this.addForm.skuWeight >=20 && !['EP201904230002','EP201904230003'].includes(this.addForm.carrier) ) {
+                data=this.addForm.skuWeight * this.addForm.continuePrice || 0  //重量*续重价格
               } else {
-                data=(this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0
+                data=(this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0 //（重量-1）*续重+首重
               }
-            } else if (this.addForm.dispatchType === 2) {
-                data=this.addForm.skuWeight * this.addForm.skuPrice || 0
+            } else if (this.addForm.dispatchType === 2) {//物流
+                data=this.addForm.skuWeight * this.addForm.skuPrice || 0  //重量*单价
             }
           }
         }
