@@ -49,7 +49,6 @@ export default [
         name: 'registrationList',
         meta: {
           title: '发票登记',
-          icon: 'form',
         }
       },
 
@@ -60,7 +59,6 @@ export default [
         hidden: true,
         meta: {
           title: '新增发票页面',
-          icon: 'form',
           noCache: false
         }
       },
@@ -72,7 +70,6 @@ export default [
         name: 'registrationVoid',
         meta: {
           title: '发票作废',
-          icon: 'form',
         }
       },
 
@@ -104,7 +101,6 @@ export default [
         name: 'invoiceapply',
         meta: {
           title: '发票申请',
-          icon: 'form',
           roles: ['service_finance']
         }
       },
@@ -115,7 +111,6 @@ export default [
         meta: {
           title: '发票申请详情',
           hidden: true,
-          icon: 'form',
           roles: ['service_finance']
         },
         hidden: true
@@ -127,7 +122,6 @@ export default [
         hidden: true,
         meta: {
           title: '财务开票',
-          icon: 'form',
           roles: ['service_finance']
         }
       },
@@ -137,7 +131,6 @@ export default [
         name: 'invoiceregistration',
         meta: {
           title: '发票登记',
-          icon: 'form',
           roles: ['service_finance']
         }
       },
@@ -148,7 +141,6 @@ export default [
         hidden: true,
         meta: {
           title: '发票登记详情',
-          icon: 'form',
           roles: ['service_finance']
         }
       },
@@ -158,7 +150,6 @@ export default [
         name: 'invoiceinvalid',
         meta: {
           title: '发票作废',
-          icon: 'form',
           roles: ['service_finance']
         }
       },
@@ -169,7 +160,6 @@ export default [
         hidden:true,
         meta: {
           title: '发票作废详情',
-          icon: 'form',
           roles: ['service_finance']
         }
       },
@@ -179,7 +169,6 @@ export default [
         name: 'newoutputinvoiceDelivery',
         meta: {
           title: '申请销项发票',
-          icon: 'form',
           noCache: false
         },
         hidden: true
@@ -301,7 +290,6 @@ export default [
         hidden:true,
         meta: {
           title: '新建付款单',
-          icon: 'form',
           noCache:false,
           roles: ['service_finance']
         }
@@ -312,7 +300,6 @@ export default [
         name: 'apply',
         meta: {
           title: '付款申请',
-          icon: 'search',
           roles: ['service_finance']
         }
       },
@@ -322,7 +309,6 @@ export default [
         name: 'register',
         meta: {
           title: '付款登记',
-          icon: 'search',
           roles: ['service_finance']
         }
       },
@@ -333,7 +319,6 @@ export default [
         hidden: true,
         meta: {
           title: '付款登记详情',
-          icon: 'search',
           roles: ['service_finance']
         }
       },
@@ -345,7 +330,6 @@ export default [
         hidden: true,
         meta: {
           title: '付款申请详情',
-          icon: 'search',
           roles: ['service_finance']
         }
       },
@@ -356,7 +340,6 @@ export default [
         hidden: true,
         meta: {
           title: '订单入库信息',
-          icon: 'search',
           roles: ['service_finance']
         }
       },
@@ -367,7 +350,6 @@ export default [
         hidden: true,
         meta: {
           title: '订单发票信息',
-          icon: 'search',
           roles: ['service_finance']
         }
       },
@@ -391,7 +373,6 @@ export default [
         hidden: true,
         meta: {
           title: '采购订单详情',
-          icon: 'form',
           noCache: true,
         }
       }
@@ -413,7 +394,6 @@ export default [
         hidden: true,
         meta: {
           title: '销售订单详情',
-          icon: 'form',
           noCache: true,
         }
       }
@@ -435,7 +415,6 @@ export default [
         hidden: true,
         meta: {
           title: '采购合同详情',
-          icon: 'form',
           noCache: true,
           roles: ['service_business', 'service_business_verify', 'service_finance', 'service_market']
         }
@@ -458,7 +437,6 @@ export default [
         hidden: true,
         meta: {
           title: '销售合同详情',
-          icon: 'form',
           noCache: true,
           roles: ['service_business', 'service_business_verify', 'service_finance', 'service_market']
         }
