@@ -6,7 +6,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.carrier" :disabled="$route.query.id" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.carrier" :disabled="Boolean($route.query.id)" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
                 <span style="float: left">{{ item.consoildatorName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>
@@ -30,14 +30,14 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.settlementType" clearable  :disabled="$route.query.id" placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.settlementType" clearable  :disabled="Boolean($route.query.id)" placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in localEnum['settlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="物流单号" prop="logisticsOrderCode" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input v-model="addForm.logisticsOrderCode" class="formitem" :disabled="$route.query.id" size="small" placeholder="请输入物流单号"></el-input>
+            <el-input v-model="addForm.logisticsOrderCode" class="formitem" :disabled="Boolean($route.query.id)" size="small" placeholder="请输入物流单号"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -46,7 +46,7 @@
     <item-title text="出库单信息" class="mt10" />
     <el-card shadow="hover">
       <el-row>
-        <el-button type="primary" @click="unionOutStore" :disabled="$route.query.id" size="mini">关联出库单</el-button>
+        <el-button type="primary" @click="unionOutStore" :disabled="Boolean($route.query.id)" size="mini">关联出库单</el-button>
       </el-row>
       <el-table
         :data="outTableData"
@@ -71,7 +71,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="地址" >
-            <el-select  v-model="addForm.dispatchAddr" clearable  :disabled="$route.query.id" placeholder="请选择地址" size="small" class="formitem">
+            <el-select  v-model="addForm.dispatchAddr" clearable  :disabled="Boolean($route.query.id)" placeholder="请选择地址" size="small" class="formitem">
               <el-option v-for="item in addressData" :label="item.value" :key="item.key"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
@@ -219,12 +219,12 @@
         </el-col>
         <el-col :sm="24" :md="24" :lg="16" :xl="12">
           <el-form-item label="备注" prop="remarkInfo">
-            <el-input  type="textarea" v-model="addForm.remarkInfo" :rows="1" placeholder="请输入备注">
+            <el-input  type="textarea" v-model="addForm.remarkInfo" style="maxWidth:400px"  :rows="1" placeholder="请输入备注">
             </el-input>
           </el-form-item>
         </el-col>
 
-         <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6">
+         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="接货费"  prop="receptCost">
             <el-input type="number" v-model.number="addForm.receptCost" class="formitem" size="small" placeholder="请输入接货费">
               <span slot="suffix">元</span>
@@ -242,11 +242,11 @@
 
          <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="总费用" prop="totalCost">
-            <el-input type="number" v-model.number="addForm.totalCost" class="formitem" size="small" placeholder="请输入总费用">
+            <el-input type="number" v-model.number="totalCost" class="formitem" size="small" placeholder="请输入总费用">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
-        </el-col> -->
+        </el-col>
 
       </el-row>
     </el-card>
@@ -337,11 +337,29 @@ export default {
       return Boolean(this.$route.query.id)
     },
 
+    totalCost:{
+      get:function(){
+        let data=0;
+        if(this.addForm.totalCost){
+            data=this.addForm.totalCost;
+        } else{
+          ['dispatchCost','logisticsPremium','toll','oilCost','receptCost','otherCost'].forEach(v=>{
+            data+=Number(this.addForm[v])||0
+          })
+          data+=Number(this.logisticsFare)||0
+        }
+        return Number(data);
+      },
+      set:function(val){
+        this.$set(this.addForm, 'totalCost', val)
+      }
+    },
+
     logisticsFare: {
       get: function() {
         let data=0;
         if (this.addForm.logisticsFare) {
-           data=this.addForm.logisticsFare
+           data=this.addForm.logisticsFare;
         } else {
           if (this.addForm.costCalcWay === 1) {//按照体积计算
             data=this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
@@ -357,7 +375,7 @@ export default {
             }
           }
         }
-        return Number(data).toFixed(2);
+        return Number(data);
       },
       set: function(val) {
         this.$set(this.addForm, 'logisticsFare', val)
@@ -384,7 +402,7 @@ export default {
       queryLogisticsDetail(this.$route.query.id).then(res => {
         const { relationList, consoildatorName, consoildatorCode, ...rest } = res.data
         this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest}
-        this.outTableData = relationList
+        this.outTableData = relationList;
       }).catch(err => {
         console.log(err)
       })
@@ -488,6 +506,7 @@ export default {
             consoildatorCode: carrier.consoildatorCode,
             consoildatorName: carrier.consoildatorName,
             logisticsFare: this.logisticsFare,
+            totalCost:this.totalCost,
             ...rest
           }
           postData.relationList = this.outTableData
