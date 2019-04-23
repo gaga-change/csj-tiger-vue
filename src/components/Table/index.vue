@@ -250,6 +250,6 @@ export default {
     width: 100%;
     .el-radio__label{
       display: none;
-    }
+    }     
   }
 </style>
