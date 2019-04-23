@@ -223,6 +223,31 @@
             </el-input>
           </el-form-item>
         </el-col>
+
+         <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="接货费"  prop="receptCost">
+            <el-input type="number" v-model.number="addForm.receptCost" class="formitem" size="small" placeholder="请输入接货费">
+              <span slot="suffix">元</span>
+            </el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="其他费用" prop="otherCost">
+            <el-input type="number" v-model.number="addForm.otherCost" class="formitem" size="small" placeholder="请输入其他费用">
+              <span slot="suffix">元</span>
+            </el-input>
+          </el-form-item>
+        </el-col>
+
+         <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="总费用" prop="totalCost">
+            <el-input type="number" v-model.number="addForm.totalCost" class="formitem" size="small" placeholder="请输入总费用">
+              <span slot="suffix">元</span>
+            </el-input>
+          </el-form-item>
+        </el-col> -->
+
       </el-row>
     </el-card>
 
@@ -305,13 +330,15 @@ export default {
       addressData: []
     }
   },
+
+
   computed: {
     isEdit() {
       return Boolean(this.$route.query.id)
     },
+
     logisticsFare: {
       get: function() {
-        // 如果按公式计算
         let data=0;
         if (this.addForm.logisticsFare) {
            data=this.addForm.logisticsFare
@@ -320,7 +347,7 @@ export default {
             data=this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
           } else if (this.addForm.costCalcWay === 2) {//按照重量计算
             if (this.addForm.dispatchType === 1) {//快递
-              if (this.addForm.skuWeight >=20 && !['EP201904230002','EP201904230003'].includes(this.addForm.carrier) ) {
+              if (this.addForm.skuWeight >=20 && !['EP201904230002','EP201904230003'].includes(this.addForm.carrier.consoildatorCode) ) {
                 data=this.addForm.skuWeight * this.addForm.continuePrice || 0  //重量*续重价格
               } else {
                 data=(this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0 //（重量-1）*续重+首重
@@ -330,7 +357,7 @@ export default {
             }
           }
         }
-         return Number(data).toFixed(2)
+        return Number(data).toFixed(2);
       },
       set: function(val) {
         this.$set(this.addForm, 'logisticsFare', val)
@@ -364,7 +391,10 @@ export default {
     },
 
     consoildatorChange(val){
-      this.addForm.dispatchType=val.dispatchType
+      this.addForm.dispatchType=val.dispatchType;
+      if(val.dispatchType===1){
+        this.addForm.costCalcWay=2;
+      }
     },
 
     //未知功能的函数
