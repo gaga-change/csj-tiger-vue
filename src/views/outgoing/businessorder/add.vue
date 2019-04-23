@@ -3,7 +3,7 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template>
           <div style="display: inline-block;" v-if="!$route.query.id">
-              <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" name="file"/>
+              <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" modelUrl="/static/templet/销售出库.xlsx" name="file"/>
           </div>
           <el-button @click="submit('save')" type="primary" size="mini">保存</el-button>
       </template>
