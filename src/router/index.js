@@ -53,7 +53,7 @@ export const asyncRouterMap = [
       {
         name: 'errIndex',
         path: 'errIndex',
-        meta: { title: '错误处理', noCache: true ,icon:'back'},
+        meta: { title: '错误处理', noCache: true},
         component: _import('errSystem/index')
       },
     ]

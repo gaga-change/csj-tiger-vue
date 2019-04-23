@@ -90,7 +90,7 @@ export default [
     path: '/warehousing',
     component: Layout,
     redirect: 'warehousing/businessorder',
-    meta: { title: '入库调度', noCache: true ,icon:'in'},
+    meta: { title: '入库调度', noCache: true,icon: 'in'},
     mark:'出入库',
     hidden: false,
     children: [

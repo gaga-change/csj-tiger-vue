@@ -83,7 +83,7 @@ export default [
         path: 'list',
         component: _import('mis/customer/list'),
         name: 'customerList',
-        meta: { title: '客户管理', icon: 'sale' }
+        meta: { title: '客户管理' }
       }
     ]
   },
@@ -101,7 +101,7 @@ export default [
         path: 'list',
         component: _import('mis/supplierManagement/list'),
         name: 'supplierManagementList',
-        meta: { title: '供应商管理',icon: 'sale' }
+        meta: { title: '供应商管理' }
       }
     ]
   },
@@ -149,7 +149,7 @@ export default [
         path: 'list',
         component: _import('mis/storagepoint/list'),
         name: 'storagepointList',
-        meta: { title: '仓配点管理',icon: 'sale'  }
+        meta: { title: '仓配点管理'  }
       }
     ]
   },
@@ -196,7 +196,7 @@ export default [
       {
         name: 'warehouseuser',
         path: 'warehouseuser',
-        meta: { title: '仓库用户配置', noCache: true,icon:'plan'  },
+        meta: { title: '仓库用户配置', noCache: true },
         component: _import('businessset/warehouseuser/index')
       },
     ]
