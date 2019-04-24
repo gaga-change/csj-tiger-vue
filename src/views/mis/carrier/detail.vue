@@ -2,7 +2,7 @@
   <div  class="carrier_detail">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-          <router-link  :to="`/carrier/add?consoildatorCode=${this.$route.query.consoildatorCode}&id=${this.$route.query.id}&type=modify`"  class="tableLink">
+          <router-link  :to="`/carrier/add?consoildatorCode=${this.$route.query.consoildatorCode}&type=modify`"  class="tableLink">
             <el-button  type="success" size="small">修改</el-button>
          </router-link>
 

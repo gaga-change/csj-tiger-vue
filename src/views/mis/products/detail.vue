@@ -45,7 +45,7 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="采用开始日：" prop="useDate" >
-              <span>{{productForm.useDate}}</span>
+              <span>{{ productForm.useDate?this.moment(productForm.useDate).format('YYYY-MM-DD HH:mm:ss'):null }}</span>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
@@ -230,6 +230,7 @@
 <script>
 import { customerConfig, servicerConfig } from './components/config'
 import { productDetail } from '@/api/productcenter'
+import moment from 'moment';
 export default {
   data() {
     return {
@@ -245,6 +246,7 @@ export default {
     this.getDetail()
   },
   methods: {
+    moment,
     getDetail() {
       this.loading = true
       productDetail({ skuCode: this.$route.query.skuCode }).then(res => {

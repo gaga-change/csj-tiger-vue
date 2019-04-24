@@ -64,7 +64,7 @@
                      }
                     
                      {
-                        <router-link  to={`/carrier/add?consoildatorCode=${row.consoildatorCode}&id=${row.id}&type=modify`} class="tableLink">修改</router-link>
+                        <router-link  to={`/carrier/add?consoildatorCode=${row.consoildatorCode}&type=modify`} class="tableLink">修改</router-link>
                      }
 
                      {

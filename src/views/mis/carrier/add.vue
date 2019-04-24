@@ -162,7 +162,6 @@ export default {
             let api=consoilInfoSave;
             if(this.$route.query.type==='modify'){
               api=consoilInfoUpdate;
-              this.searchForm.id=this.$route.query.id
               this.searchForm.consoildatorCode=this.$route.query.consoildatorCode
             } else {
               delete this.searchForm.id
