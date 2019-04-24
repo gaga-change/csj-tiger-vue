@@ -87,7 +87,6 @@ export default {
       } else {
         this.choice = findCategory(this.tree, params)
       }
-      console.log(this.choice)
     },
     getTree() {
       return new Promise((resolve, reject) => {
