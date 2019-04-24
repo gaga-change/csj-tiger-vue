@@ -3,6 +3,7 @@ export   const tableConfig=[
   { label:'商品编码',prop:'skuCode'},
   { label:'商品名称',prop:'skuName'},
   { label:'数量',prop:'skuInQty'},
+  { label:'已入',prop:'realInQty'},
   { label:'供应商商品编码',prop:'customerSkuCode'},
   { label:'供应商商品名称',prop:'customerSkuName'},
   { label:'订货进价',prop:'inPrice'},

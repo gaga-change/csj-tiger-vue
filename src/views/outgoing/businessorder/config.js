@@ -8,6 +8,7 @@ export  const tableConfig=[
   { label:'规格',prop:'skuFormat',},
   { label:'型号',prop:'skuModel',},
   { label:'数量',prop:'skuOutQty',},
+  { label:'已出',prop:'realOutQty',},
   { label:'客户销价',prop:'outStorePrice',},
   { label:'金额',prop:'planOutAmt',}
 ];
