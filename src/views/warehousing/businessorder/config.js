@@ -64,7 +64,7 @@ export const indexTableConfig=[
   { label:'业务单号',fixed:true,prop:'billNo',width:180,linkTo:'/warehousing/businessorder-detail',query:[{key:'id',value:'id'}] },
   { label:'合同编号',prop:'contractNo',width:120},
   { label:'货主',prop:'ownerName',width:180},
-  { label:'供应商名称',prop:'providerName',width:150},
+  { label:'供应商名称',prop:'providerName',width:180},
   { label:'应入库数量',prop:'planInQty',width:120},
   { label:'已计划入库数量',prop:'planInQtyForPlan',width:130},
   { label:'实际入库数量',prop:'realInQty',width:120},

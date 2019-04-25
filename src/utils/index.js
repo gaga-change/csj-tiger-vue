@@ -70,7 +70,7 @@ export function printUrl(url,name, id) {
 export function reportCenterUrl(name, path) {
   const truepath = path || 'mro'
   return (
-    `http://bi.csjmro.com:3000/WebReport/ReportServer?reportlet=csj/csjreport/${truepath}/${name}.cpt&op=view`
+    `http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/${truepath}/${name}.cpt&op=view`
   )
 }
 
