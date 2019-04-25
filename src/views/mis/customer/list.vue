@@ -10,7 +10,7 @@
         type="primary"
         size="small"
         style="margin:10px"
-        @click="newCustomer"
+        @click="newCustomer(null)"
         >创建客户</el-button
       >
     </el-row>
@@ -31,6 +31,7 @@
       <el-table-column label="操作" width="220" fixed="right">
         <template slot-scope="scope">
           <div>
+            <a :style="linkstyle" @click="newCustomer(scope.row)">修改</a>
             <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
             <a :style="linkstyle" @click="unionOwner(scope.row)">关联货主</a>
             <a :style="linkstyle" @click="viewAddress(scope.row)">维护地址</a>
@@ -57,8 +58,10 @@
         :border="false"
         confirmText="保存"
         :loading="editloading"
+        :formData="editData"
         @submitForm="submitEditForm"
         @resetForm="resetEditForm"
+        ref="saveRef"
       ></search>
     </el-dialog>
     <el-dialog :visible.sync="unionDialogVisible">
@@ -142,7 +145,7 @@
 
 <script>
 import search from '@/components/Search'
-import { getCustomerList, saveCustomer, updateOwnerCust, ownerCustList, delCustomer, customerAddressList, saveCustomerAddress, delCustomerAddress, updateCustomerAddress } from '@/api/mis'
+import { getCustomerList, saveCustomer, updateOwnerCust, ownerCustList, delCustomer, customerAddressList, saveCustomerAddress, delCustomerAddress, updateCustomerAddress,customerUpdate } from '@/api/mis'
 import { Area } from '@/utils/area'
 import { mapGetters } from 'vuex'
 const customerConfig = [
@@ -394,8 +397,13 @@ export default {
         console.log(err)
       })
     },
-    newCustomer() {
+    newCustomer(val) {
       this.customerEditorVisible = true
+      setTimeout(()=>{
+         this.editData=val?JSON.parse(JSON.stringify(val)):Object.create({});
+         this.$refs['saveRef'].loadData()
+      },100)
+     
     },
     submitSearchForm(val) {
       this.searchData = val
@@ -413,8 +421,12 @@ export default {
       this.editData = {}
     },
     submitEdit(val) {
+      let api=saveCustomer;
+      if(val.id){
+        api=customerUpdate;
+      }
       this.editloading = true
-      saveCustomer(val).then(res => {
+      api(val).then(res => {
         console.log(res)
         this.editloading = false
         this.customerEditorVisible=false

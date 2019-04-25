@@ -44,6 +44,16 @@ export function updateOwnerCust(data={}) {
     data
   })
 }
+
+export function customerUpdate(data={}) {
+  return request({
+    url: `/webApi/customer/update`,
+    method: 'post',
+    data
+  })
+}
+
+
 export function ownerCustList(data={}) {
   return request({
     url: `/webApi/customer/ownerCustList`,

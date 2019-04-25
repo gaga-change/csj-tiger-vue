@@ -83,7 +83,7 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"  prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-select  size="small"  @focus="arrivalAddressFocus"   v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
+                <el-select  size="small"  @focus="arrivalAddressFocus"  v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
                     <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
                 </el-select>
                 <el-input v-else v-model="searchForm.arrivalAddress" :placeholder="searchForm.busiBillType===21?'请输入客户地址':'请输入供应商地址'" size="small" class="formitem"></el-input>
@@ -279,7 +279,6 @@ export default {
         let skuList= _.cloneDeep(this.skuList);
         this.addCommodityForm=skuList.find(v=>v.skuCode===value)
       },
-    
 
       //业务单类型变化回调
       busiBillTypeChange(value){
@@ -343,12 +342,17 @@ export default {
 
       //地址列表配置
       providerChange(value){
+        let provider=this.providerConfig.find(v=>v.customerCode===value)
         let searchForm= _.cloneDeep(this.searchForm);
+        searchForm.arrivalLinkUser=provider.customerLinkUser;
+        searchForm.arrivalLinkTel=provider.customerLinkuserTel;
         searchForm.arrivalAddress='';
         searchForm.outWarehouseBillDetailList=[];
         this.searchForm=searchForm;
         this.addrListConfig=[];
-        let id=this.providerConfig.find(v=>v.customerCode===value).id
+       
+        
+        let id=provider.id
         customerAddrInfo(id,this.searchForm.busiBillType).then(res=>{
           if(res.success){
             this.addrListConfig=Array.isArray(res.data)&&res.data||[];
