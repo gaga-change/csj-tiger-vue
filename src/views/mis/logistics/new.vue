@@ -348,7 +348,7 @@ export default {
           })
           data+=Number(this.logisticsFare)||0
         }
-        return Number(data);
+        return Number(data).toFixed(2);
       },
       set:function(val){
         this.$set(this.addForm, 'totalCost', val)
@@ -365,7 +365,7 @@ export default {
             data=this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
           } else if (this.addForm.costCalcWay === 2) {//按照重量计算
             if (this.addForm.dispatchType === 1) {//快递
-              if (this.addForm.skuWeight >=20 && !['EP201904230002','EP201904230003'].includes(this.addForm.carrier.consoildatorCode) ) {
+              if (this.addForm.skuWeight >=20 && !(this.addForm.carrier.consoildatorName.indexOf('百世')!==-1||this.addForm.carrier.consoildatorName.indexOf('顺丰')!==-1) ) {
                 data=this.addForm.skuWeight * this.addForm.continuePrice || 0  //重量*续重价格
               } else {
                 data=(this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0 //（重量-1）*续重+首重
@@ -375,7 +375,7 @@ export default {
             }
           }
         }
-        return Number(data);
+        return Number(data).toFixed(2);
       },
       set: function(val) {
         this.$set(this.addForm, 'logisticsFare', val)
@@ -412,6 +412,8 @@ export default {
       this.addForm.dispatchType=val.dispatchType;
       if(val.dispatchType===1){
         this.addForm.costCalcWay=2;
+      } else if(val.dispatchType===2){
+        this.addForm.costCalcWay=1;
       }
     },
 
@@ -435,9 +437,11 @@ export default {
         console.log(err)
       })
     },
+
     outStoreSelectionChange(val) {
       this.multipleData = val
     },
+
     outStoreSure() {
       this.outTableData = this.multipleData.map(item => {
         const newitem = {
@@ -447,7 +451,9 @@ export default {
           customerName: item.arrivalName,
           customerCode: item.arrivalCode,
           cargoOwner: item.ownerName,
-          arrivalAddress: item.arrivalAddress
+          arrivalAddress: item.arrivalAddress,
+          customerContact: item.customerContact ,
+          customerTel: item.customerTel
         }
         return newitem
       })
@@ -455,25 +461,35 @@ export default {
       this.$set(this.addForm, 'customerName', this.outTableData[0].customerName)
       this.$set(this.addForm, 'customerCode', this.outTableData[0].customerCode)
       this.$set(this.addForm, 'dispatchAddr', this.outTableData[0].arrivalAddress)
+      this.addForm.customerContact=this.outTableData[0].customerContact
+      this.addForm.customerTel=this.outTableData[0].customerTel
       this.getCustomerDetail({
         customerCode: this.outTableData[0].arrivalCode
       })
+
       this.getCustomerAddressList({
         basicCustomerInfoCode: this.outTableData[0].arrivalCode
       })
+
       this.outStoreVisible = false
     },
+
     getCustomerDetail(params) {
       getCustomerList(params)
         .then(res => {
           const result = res.data
           const resultDetail = result && result.list && result.list[0]
-          this.$set(this.addForm, 'customerTel', resultDetail.customerLinkuserTel)
-          this.$set(this.addForm, 'customerContact', resultDetail.customerLinkUser)
+          if(resultDetail.customerLinkuserTel){
+            this.$set(this.addForm, 'customerTel', resultDetail.customerLinkuserTel)
+          }
+          if(resultDetail.customerLinkUser){
+            this.$set(this.addForm, 'customerContact', resultDetail.customerLinkUser)
+          }
         }).catch(err => {
           console.log(err)
         })
     },
+
     getCustomerAddressList(params) {
       customerAddressList(params)
         .then(res => {
@@ -490,11 +506,12 @@ export default {
           console.log(err)
         })
     },
+
     delOutStore(row) {
       this.outTableData = this.outTableData.filter(item => item !== row)
     },
+
     onSubmit() {
-      console.log(this.addForm);
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
           this.submitloading = true

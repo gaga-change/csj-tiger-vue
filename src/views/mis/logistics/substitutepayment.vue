@@ -27,7 +27,7 @@
     <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="paymentForm" labelWidth="80px">
         <el-form-item label="款项名称">
-          <el-input v-model="paymentForm.expenseName" autocomplete="off"></el-input>
+          <el-input v-model="paymentForm.expenseName" autocomplete="off" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="款项性质">
           <el-select v-model="paymentForm.expenseType" placeholder="请选择款项性质">

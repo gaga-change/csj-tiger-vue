@@ -1,7 +1,7 @@
 
 export function deepExistMenu(menu,deepExist) {
     var arr =[], index = 0;
-    if(!Array.isArray(menu)){
+    if(!menu||!Array.isArray(menu)){
         return arr
     }
     for(var i = 0;i<deepExist.length;i++){
@@ -29,7 +29,7 @@ export function jsonFamart(bakmenu,_import,Layout,reportCenterUrl){
               path: subitem.path,
               component: subitem.component ? _import(subitem.component) : null,
               name: subitem.code,
-              meta: isJSON(item.meta)&&JSON.parse(subitem.meta),
+              meta: isJSON(item.meta,item)&&JSON.parse(subitem.meta),
               outLinkUrl: subitem.outLinkUrl ? reportCenterUrl(subitem.outLinkUrl) : '',
               hidden: subitem.hidden === 'true'
             })
@@ -43,7 +43,7 @@ export function jsonFamart(bakmenu,_import,Layout,reportCenterUrl){
           outLinkUrl: item.outLinkUrl ? reportCenterUrl(item.outLinkUrl) : '',
           hidden: item.hidden === 'true',
           alwaysShow: item.alwaysShow,
-          meta: isJSON(item.meta)&&JSON.parse(item.meta),
+          meta: isJSON(item.meta,item)&&JSON.parse(item.meta),
           children: subchildren
         })
       })
@@ -51,13 +51,15 @@ export function jsonFamart(bakmenu,_import,Layout,reportCenterUrl){
 }
 
 
-export function isJSON(str) {
+export function isJSON(str,item) {
     if (typeof str == 'string') {
         try {
             JSON.parse(str);
             return true;
         } catch(e) {
-            console.log(e);
+            if(item.meta!==""){
+              console.log(item,'菜单配置出错')
+            }
             return false;
         }
     }
