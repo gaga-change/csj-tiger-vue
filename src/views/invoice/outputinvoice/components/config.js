@@ -62,7 +62,7 @@ export const applyinfoConfig=[//发票申请信息
   { title:'开票单号',prop:'invoiceNo', show:'register+invalid' },
   { title:'发票申请单号',prop:'applyCode', show:'apply+register+invalid+billing' },
   { title:'客户名称',prop:'cusName', show:'apply+register+invalid+billing',width:120},
-  { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing',useIf:'link',linkTo:'/outgoing/businessorder-detail',query:[{key:'busiBillNo',value:'outBusiBillNo'}]  },
+  { title:'订单编号',prop:'outBusiBillNo',  show:'apply+register+invalid+billing'  },
   { title:'合同编号',prop:'contractNo', show:'apply+register+invalid+billing' },
   { title:'发票种类',prop:'invoiceType', userFormatter: (cellValue)=>{
     let invoice = ''

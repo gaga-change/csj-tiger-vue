@@ -83,8 +83,8 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"  prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-select  size="small"  @focus="arrivalAddressFocus"  v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
-                    <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
+                <el-select  size="small"  @focus="arrivalAddressFocus" @change="arrivalAddressChange"   v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
+                    <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalLinkTel||item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
                 </el-select>
                 <el-input v-else v-model="searchForm.arrivalAddress" :placeholder="searchForm.busiBillType===21?'请输入客户地址':'请输入供应商地址'" size="small" class="formitem"></el-input>
               </el-form-item>
@@ -283,8 +283,9 @@ export default {
       //业务单类型变化回调
       busiBillTypeChange(value){
         let searchForm= _.cloneDeep(this.searchForm);
-        searchForm.arrivalCode='';
-        searchForm.arrivalAddress='';
+        ['arrivalCode','arrivalAddress','arrivalLinkUser','arrivalLinkTel'].forEach(v=>{
+          searchForm[v]=''
+        })
         searchForm.outWarehouseBillDetailList=[];
         this.searchForm=searchForm;
         this.providerConfig=[];
@@ -306,6 +307,8 @@ export default {
         let searchForm= _.cloneDeep(this.searchForm);
         searchForm.arrivalCode='';
         searchForm.arrivalAddress='';
+        searchForm.arrivalLinkUser='';
+        searchForm.arrivalLinkTel='';
         searchForm.outWarehouseBillDetailList=[];
         this.searchForm=searchForm;
         this.providerConfig=[];
@@ -340,13 +343,22 @@ export default {
         }
       },
 
+     //地址变化
+      arrivalAddressChange(val){
+        let add=this.addrListConfig.find(v=>v.arrivalAddress===val)||{}
+        let searchForm= _.cloneDeep(this.searchForm);
+        searchForm.arrivalLinkUser=add.arrivalLinkUser;
+        searchForm.arrivalLinkTel=add.arrivalLinkTel;
+        this.searchForm=searchForm;
+      },
+
       //地址列表配置
       providerChange(value){
         let provider=this.providerConfig.find(v=>v.customerCode===value)
         let searchForm= _.cloneDeep(this.searchForm);
-        searchForm.arrivalLinkUser=provider.customerLinkUser;
-        searchForm.arrivalLinkTel=provider.customerLinkuserTel;
         searchForm.arrivalAddress='';
+        searchForm.arrivalLinkUser='';
+        searchForm.arrivalLinkTel='';
         searchForm.outWarehouseBillDetailList=[];
         this.searchForm=searchForm;
         this.addrListConfig=[];

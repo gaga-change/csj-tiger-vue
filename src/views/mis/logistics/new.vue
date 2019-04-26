@@ -463,6 +463,7 @@ export default {
       this.$set(this.addForm, 'dispatchAddr', this.outTableData[0].arrivalAddress)
       this.addForm.customerContact=this.outTableData[0].customerContact
       this.addForm.customerTel=this.outTableData[0].customerTel
+      
       this.getCustomerDetail({
         customerCode: this.outTableData[0].arrivalCode
       })
