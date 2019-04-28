@@ -59,7 +59,7 @@
               </el-col>
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
-                <el-form-item label="订货日:"  prop="orderTime"  :rules="[{ required: true, message: '该项为必填'}]" >
+                <el-form-item label="预计到货日期:"  label-width="120px" prop="orderTime"  :rules="[{ required: true, message: '该项为必填'}]" >
                     <el-date-picker v-model="searchForm.orderTime" type="date" placeholder="选择日期"></el-date-picker>
                 </el-form-item>
                 </el-form-item>
@@ -85,7 +85,7 @@
             </el-col>
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
-                <el-form-item label="到货预定日"  label-width="100px" :rules="[{ required: true, message: '该项为必填'}]">
+                <el-form-item label="订单有效期"  label-width="100px" :rules="[{ required: true, message: '该项为必填'}]">
                     <el-date-picker v-model="searchForm.planInWarehouseTime" type="date" placeholder="选择日期"></el-date-picker>
                 </el-form-item>
               </el-col>
