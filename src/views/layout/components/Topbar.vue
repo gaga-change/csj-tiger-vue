@@ -121,6 +121,23 @@ export default {
     ])
   },
 
+  mounted() {
+    const that = this
+    var script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.id = 'otherdatascript'
+    script.src = `http://bi.csjmro.com:3000/WebReport/ReportServer?op=fs_load&cmd=sso&fr_username=${this.userInfo.email}&fr_password=${this.userInfo.password}&validity=-1&callback=fwie`
+    document.body.appendChild(script)
+    window.fwie = function(data) {
+      if (data.url) {
+        that.dataUrl = data.url
+      }
+      // 成功后删除script及回调方法
+      const script = document.getElementById('otherdatascript')
+      document.body.removeChild(script)
+      delete window['fwie']
+    }
+  },
 
   methods: {
      modifyPassword() {
@@ -135,10 +152,10 @@ export default {
               if(JSON.parse(res.data).code=='success'){
                  this.$message.success('修改密码成功')
                  this.modifyPasswordShow = false
-              }  
+              }
             }
           ).catch(err => {
-       
+
           })
         } else {
           console.log('error submit!!')
