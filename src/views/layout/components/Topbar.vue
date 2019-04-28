@@ -126,7 +126,7 @@ export default {
     var script = document.createElement('script')
     script.type = 'text/javascript'
     script.id = 'otherdatascript'
-    script.src = `http://bi.csjmro.com:3000/WebReport/ReportServer?op=fs_load&cmd=sso&fr_username=${this.userInfo.email}&fr_password=${this.userInfo.password}&validity=-1&callback=fwie`
+    script.src = `http://bi.csjmro.com/WebReport/ReportServer?op=fs_load&cmd=sso&fr_username=${this.userInfo.email}&fr_password=${this.userInfo.password}&validity=-1&callback=fwie`
     document.body.appendChild(script)
     window.fwie = function(data) {
       if (data.url) {
