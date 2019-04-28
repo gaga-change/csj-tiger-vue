@@ -34,7 +34,7 @@
           <el-col :span="6" style="min-width:300px" >
             <el-form-item label="入库仓库"  prop="planWarehouseCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.planWarehouseCode"  placeholder="请选择入库仓库">
-                <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="(item,index) in mapConfig['getWarehouse']" :label="item.value"   :key="index"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -223,10 +223,6 @@
       },
 
       getCurrentTableData(){
-        this.$router.replace({
-          path:'/warehousing/plan',
-          query:{data:JSON.stringify(this.ruleForm)}
-        })
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
@@ -242,6 +238,10 @@
             }
           }
         }
+        this.$router.replace({
+          path:'/warehousing/plan',
+          query:{data:JSON.stringify(json)}
+        })
         let data={...json}
         this.linkData=data;
        inPlanSelect(data).then(res=>{

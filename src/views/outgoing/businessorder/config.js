@@ -31,6 +31,7 @@ export const infoConfig=[
   {title:'发货要求',prop:'sendOutRequire',type:'sendOutRequireEnum',useLocalEnum:true},
   {title:'询价单号',prop:'inquiryNo'},
   {title:'订单来源',prop:'fromSysCode'},
+  {title:'备注',prop:'remarkInfo',span:12},
 ]
 
 

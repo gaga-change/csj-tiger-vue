@@ -71,7 +71,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="地址" >
-            <el-select  v-model="addForm.dispatchAddr" clearable  :disabled="Boolean($route.query.id)" placeholder="请选择地址" size="small" class="formitem">
+            <el-select  v-model="addForm.dispatchAddr" clearable @change="dispatchAddrChange"  :disabled="Boolean($route.query.id)" placeholder="请选择地址" size="small" class="formitem">
               <el-option v-for="item in addressData" :label="item.value" :key="item.key"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
@@ -408,6 +408,12 @@ export default {
       })
     },
 
+    dispatchAddrChange(value){
+      let index=this.addressData.findIndex(v=>v.value===value);
+      this.$set(this.addForm, 'customerTel', this.addressData[index]['receiverName']);
+      this.$set(this.addForm, 'customerContact', this.addressData[index]['receiverTel']);
+    },
+
     consoildatorChange(val){
       this.addForm.dispatchType=val.dispatchType;
       if(val.dispatchType===1){
@@ -461,34 +467,12 @@ export default {
       this.$set(this.addForm, 'customerName', this.outTableData[0].customerName)
       this.$set(this.addForm, 'customerCode', this.outTableData[0].customerCode)
       this.$set(this.addForm, 'dispatchAddr', this.outTableData[0].arrivalAddress)
-      this.addForm.customerContact=this.outTableData[0].customerContact
-      this.addForm.customerTel=this.outTableData[0].customerTel
-      
-      this.getCustomerDetail({
-        customerCode: this.outTableData[0].arrivalCode
-      })
 
       this.getCustomerAddressList({
-        basicCustomerInfoCode: this.outTableData[0].arrivalCode
+        basicCustomerInfoCode: this.outTableData[0].customerCode
       })
 
       this.outStoreVisible = false
-    },
-
-    getCustomerDetail(params) {
-      getCustomerList(params)
-        .then(res => {
-          const result = res.data
-          const resultDetail = result && result.list && result.list[0]
-          if(resultDetail.customerLinkuserTel){
-            this.$set(this.addForm, 'customerTel', resultDetail.customerLinkuserTel)
-          }
-          if(resultDetail.customerLinkUser){
-            this.$set(this.addForm, 'customerContact', resultDetail.customerLinkUser)
-          }
-        }).catch(err => {
-          console.log(err)
-        })
     },
 
     getCustomerAddressList(params) {
@@ -499,9 +483,13 @@ export default {
             item.area = item.customerProvince + item.customerCity + item.customerArea
             const address = {
               key: index,
-              value: item.area + item.customerAddress
+              value: item.area + item.customerAddress,
+              receiverName:item.receiverName,
+              receiverTel:item.receiverTel
             }
             this.$set(this.addressData, index, address)
+            this.$set(this.addForm, 'customerTel', address.receiverTel)
+            this.$set(this.addForm, 'customerContact', address.receiverName)
           })
         }).catch(err => {
           console.log(err)
