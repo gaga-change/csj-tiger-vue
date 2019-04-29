@@ -63,7 +63,6 @@ export  const listDetailConfig=[
       { label:'规格型号',prop:'skuFormat',},
       { label:'已收票数量',dom:formatter(3)},
       { label:'单位',prop:'skuUnitName',},
-      { label:'税率',dom:formatter(5)},
     ]},
     { label:'入库信息',children:[
       { label:'入库单价',prop:'incomingUnitPrice',},
