@@ -111,7 +111,6 @@ export const detailtableConfig=[//详情表格
   { label:'单位',prop:'skuUnitName', minWidth:90}, 
   { label:'签收数量',prop:'numberOfReceipts', minWidth:90},
   { label:'单价',prop:'taxPrice', minWidth:90},
-  { label:'税率',prop:'taxRate', minWidth:90},
   { label:'开票数量',prop:'actualInvoiceNumber', minWidth:90},
   { label:'含税金额',prop:'actualAmt', minWidth:90},
   { label:'税额',prop:'invoiceTax', minWidth:90},
