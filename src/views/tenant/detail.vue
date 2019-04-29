@@ -2,18 +2,18 @@
   <div>
     <el-form ref="detailForm" label-width="120px" class="formb0">
       <item-title text="基本信息" />
-      <el-form-item
-        label="客户类型："
-        prop="ownerType"
-      >
-      {{filter('ownerType',detailForm.ownerType)}}
+      <el-form-item label="客户类型："prop="ownerType">
+        {{filter('ownerType',detailForm.ownerType)}}
       </el-form-item>
+
       <el-form-item label="租户名称：" prop="ownerName">
         {{detailForm.ownerName}}
       </el-form-item>
+
       <el-form-item label="状态：" prop="ownerState">
         {{filter('ownerState',detailForm.ownerState)}}
       </el-form-item>
+
       <el-form-item label="营业执照:">
         <div v-for="file in detailForm.files" class="photoview">
           <img :src="file.path" height="150" />
@@ -26,6 +26,7 @@
         {{curWarehouses}}
       </el-form-item>
 
+
       <item-title text="企业联系人" />
       <el-form-item label="联系人：" prop="ownerLinkUser">
         {{detailForm.ownerLinkUser}}
@@ -33,6 +34,7 @@
       <el-form-item label="电话：" >
         {{detailForm.ownerLinkuserTel}}
       </el-form-item>
+
 
       <item-title text="开票信息" />
       <el-form-item label="组织机构代码：" prop="ownerDcno">
@@ -53,12 +55,12 @@
       <el-form-item label="银行账户：">
         {{detailForm.openBankAccount}}
       </el-form-item>
-
       <item-title text="其他" />
       <el-form-item label="备注：">
         {{detailForm.remarkInfo}}
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
@@ -153,5 +155,8 @@ export default {
 .photoview .close{
   position: absolute;
   top: 0;
+}
+.el-form-item {
+  min-height: 40px;
 }
 </style>
