@@ -88,6 +88,9 @@ export default {
         if(res.success){
           this.tableData=res.data&&res.data.finaPurchaseInvoiceDetailBOList;
           this.cardData=res.data;
+          if(this.cardData.taxRate){
+            this.cardData.taxRate=this.cardData.taxRate/100
+          }
           this.cardData.notInvoiceAmt=Number(res.data.invoiceAmt-res.data.invoiceTaxAmt).toFixed(2);
 
           if(!this.cardData.oldInvoiceNo){

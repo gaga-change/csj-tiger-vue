@@ -80,6 +80,8 @@ export const applyinfoConfig=[//发票申请信息
   { title:'发票开具金额',prop:'applyInvoiceAmt',userFormatter: (cellValue)=>{
     return (cellValue-0).toFixed(2)}, show:'apply+register+invalid+billing'
   },
+  { title:'税率',prop:'taxRate',userFormatter: (cellValue)=>{
+    return cellValue/100}, show:'apply+register+invalid+billing'},
   { title:'税额',prop:'realInvoiceTaxAmt',userFormatter: (cellValue)=>{
     return (cellValue-0).toFixed(2)}, show:'apply+register+invalid'
   },

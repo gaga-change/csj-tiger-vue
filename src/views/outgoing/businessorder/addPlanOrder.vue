@@ -8,8 +8,16 @@
 
      <item-title text="基本信息"/>
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
+     
 
-     <item-title text="相关明细"/>
+    <div class="itemBox">
+      <item-title text="相关明细" boxStyle="width:100px"/>
+      <div class="itemBox_date">
+        <span>计划出库日期:</span>
+        <el-date-picker size="small" v-model="infoData.planOutTime" type="date" placeholder="选择日期"/>
+      </div>
+    </div>
+    
      <div class="detail">
         <web-pagination-table
           :loading="loading"
@@ -55,7 +63,9 @@
       return {
         //基本信息项
         loading:false,
-        infoData:{},
+        infoData:{
+          planOutTime:this.moment().valueOf()
+        },
         infoConfig,
 
         //table项
@@ -111,6 +121,9 @@
             }
           })
           this.infoData=res.data;
+          if(!this.infoData.planOutTime){
+            this.infoData.planOutTime=moment().valueOf()
+          }
           this.tableData=(data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[]).map(v=>{
             v.id=v.skuCode
             return v;
@@ -136,6 +149,7 @@
             delete v.id
             return v
           }),
+          planOutTime:moment(this.infoData.planOutTime).valueOf(),
           operateToken:moment().valueOf(),
           outWarehouseBillId:this.$route.query.id
         }).then(res=>{
@@ -264,5 +278,20 @@
     .submitBtn{
       display: flex;
       margin: 12px 0;
+    }
+
+   .itemBox{
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      .itemBox_date{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        >span{
+          padding: 0 12px;
+        }
+      }
     }
 </style>

@@ -35,9 +35,7 @@ export  const addPlanInfoConfig=[
   {title:'订单来源',prop:'fromSystemId'},
   {title:'预计到货日期',prop:'planInWarehouseTime',type:'time'},
   {title:'订单有效期',prop:'orderTime',type:'time'},
-  {title:'创建日期',prop:'gmtCreate',type:'time'},
   {title:'审核人',prop:'auditName'},
-  {title:'审核日期',prop:'auditDate',type:'time'},
 ]
 
 export const warehousingTableConfig=[

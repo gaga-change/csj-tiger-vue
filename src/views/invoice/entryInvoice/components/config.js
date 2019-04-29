@@ -49,9 +49,11 @@ export  const listDetailConfig=[
   { title:'发票号码',prop:'invoiceNo',},
   { title:'实际开票金额',prop:'invoiceAmt',},
   { title:'税额',prop:'invoiceTaxAmt',},
+  { title:'税率',prop:'taxRate'},
   { title:'发票开具日期',prop:'makeDate',type:'time',format:'YYYY-MM-DD'},
   { title:'到票日期',prop:'arriveDate',type:'time',format:'YYYY-MM-DD'},
-  { title:'不含税金额',prop:'notInvoiceAmt'}
+  { title:'不含税金额',prop:'notInvoiceAmt'},
+  
 ]
 
 //详情页表格信息
