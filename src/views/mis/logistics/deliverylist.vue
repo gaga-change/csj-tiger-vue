@@ -37,12 +37,14 @@ import { deliveryConfig } from './components/config'
 import { queryDispatchDetail } from '@/api/mis'
 import BaseTable from '@/components/Table'
 import { exportExcel } from '@/utils/exportexcel'
+import moment from 'moment';
 export default {
   components: { BaseTable },
   data() {
     return {
       searchForm: {
-        outdate: []
+        outdate: [],
+        date:moment().subtract(1, 'days').valueOf()
       },
       loading: false,
       tableData: [],
@@ -58,7 +60,7 @@ export default {
       this.loading = true
       const postData = {}
       if(this.searchForm.date) {
-        postData.date = new Date(this.searchForm.date).getTime()
+        postData.date = moment(this.searchForm.date).valueOf()
       }
       queryDispatchDetail(postData).then(res => {
         const result = res.data.detailExcelVOS

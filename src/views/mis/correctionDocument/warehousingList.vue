@@ -158,6 +158,7 @@ export default {
     },
 
     fetch() {
+      this.loading=true;
       let json = _.cloneDeep(this.searchForm);
       for (let i in json) {
         if (json[i] === '') {
@@ -171,7 +172,11 @@ export default {
         delete params.time
       }
       inwarehouseList(params).then(res => {
-        this.tableData = res.data.list
+        this.tableData = res.data.list;
+        this.total=res.data.total
+        this.loading=false;
+      }).catch(err=>{
+        this.loading=false;
       })
     }
   }

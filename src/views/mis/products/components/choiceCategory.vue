@@ -105,13 +105,8 @@ export default {
       })
     },
     getNewparentcategory() {
-       if(this.choice.currentCode.split('-').length>=3){
-         this.$emit('categorySubmit', this.choice)
-         this.categoryVisible = false
-       } else{
-         this.$message.error('菜单至少选择到三级')
-       }
-
+        this.$emit('categorySubmit', this.choice)
+        this.categoryVisible = false
     }
   }
 }
