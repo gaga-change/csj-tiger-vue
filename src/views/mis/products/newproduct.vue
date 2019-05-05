@@ -11,7 +11,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="货主：" prop="owner" :rules="[{required: true, message:'必填项'}]">
-            <el-select  v-model="productForm.owner" size="small" :disabled="Boolean(this.$route.query.skuCode)" clearable @change="ownerChange"  placeholder="请选择货主"  class="formitem">
+            <el-select  v-model="productForm.owner" size="small" :disabled="Boolean(this.$route.query.skuCode)" filterable clearable @change="ownerChange"  placeholder="请选择货主"  class="formitem">
               <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item"></el-option>
             </el-select>
           </el-form-item>

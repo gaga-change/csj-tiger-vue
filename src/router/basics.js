@@ -3,7 +3,7 @@ import Layout from '../views/layout/Layout'
 import { reportCenterUrl } from '@/utils'
 
 export default [
-  
+
   {
     path: '/mis/products',
     component: Layout,
@@ -13,6 +13,7 @@ export default [
     children: [
       {
         path: 'newproduct',
+        query: { time: Date.now() },
         component: _import('mis/products/newproduct'),
         name: 'newproduct',
         meta: { title: '新增商品',noCache: false }
