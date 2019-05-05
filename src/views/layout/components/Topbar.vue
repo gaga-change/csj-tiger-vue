@@ -46,7 +46,7 @@
         <el-form-item label="新密码" label-width="120px" prop="newpassword">
           <el-input type="password" v-model="form.newpassword" auto-complete="off" style="width:180px"></el-input>
         </el-form-item>
-        <el-form-item label="原密码" label-width="120px" prop="renewpassword">
+        <el-form-item label="确认密码" label-width="120px" prop="renewpassword">
           <el-input type="password" v-model="form.renewpassword" auto-complete="off" style="width:180px"></el-input>
         </el-form-item>
       </el-form>
@@ -154,12 +154,7 @@ export default {
                  this.modifyPasswordShow = false
               }
             }
-          ).catch(err => {
-
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+          )
         }
       })
     },

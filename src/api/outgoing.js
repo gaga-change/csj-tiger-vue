@@ -25,7 +25,7 @@ export function outPlanDetail(data={}) {
     method: 'get',
   })
 }
-  
+
 //出库单查询数据
 export function outOrderSelect(data={}) {
   return request({
@@ -43,7 +43,7 @@ export function outOrderDetail(data={}) {
 }
 
 
-// 出库单查询 合计接口 
+// 出库单查询 合计接口
 export function selectTotal(data={}) {
   return request({
     url: `/webApi/out/order/select/total?${stringify(data)}`,
@@ -124,9 +124,9 @@ export function customerAddrInfo(customerId,billType) {
 }
 
 
-export function skuInfoList(ownerCode,arrivalCode) {
+export function skuInfoList(ownerCode,arrivalCode,customerType) {
   return request({
-    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}`,
+    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}/${customerType}`,
     method: 'get',
   })
 }

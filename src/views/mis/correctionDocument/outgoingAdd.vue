@@ -36,7 +36,7 @@
               </el-col>
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="客户:">
-                  <el-input v-model="searchForm.providerName" placeholder="请输入客户" size="small" class="formitem"
+                  <el-input v-model="searchForm.arrivalName" placeholder="请输入客户" size="small" class="formitem"
                     disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>

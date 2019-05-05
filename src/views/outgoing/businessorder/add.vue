@@ -19,7 +19,7 @@
                    <el-option v-for="item in ['录入错误','客户业务单信息变动']" :label="item" :key="item"  :value="item"></el-option>
                 </el-select>
               </el-form-item>
-            </el-col> 
+            </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="业务单类型" prop="busiBillType" :rules="[{ required: true, message: '该项为必填'}]">
@@ -27,7 +27,7 @@
                    <el-option v-for="item in outgoingOrderTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
-            </el-col>  
+            </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
               <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
@@ -44,11 +44,11 @@
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
                 <el-select v-model="searchForm.ownerCode" filterable  size="small" @change="ownerCodeChange"  placeholder="请选择货主"  >
-                  <el-option 
+                  <el-option
                     value="" v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length" :disabled="true">
-                    <div class="providerList"> 
-                      <span>货主编号</span> 
-                      <span>货主名称</span> 
+                    <div class="providerList">
+                      <span>货主编号</span>
+                      <span>货主名称</span>
                     </div>
                   </el-option>
                   <el-option
@@ -58,7 +58,7 @@
                         <span >{{ item.value }}</span>
                       </div>
                   </el-option>
-                </el-select>           
+                </el-select>
               </el-form-item>
             </el-col>
 
@@ -84,7 +84,7 @@
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"  prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填'}]" >
                 <el-select  size="small"  @focus="arrivalAddressFocus" @change="arrivalAddressChange"   v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
-                    <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalLinkTel||item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
+                    <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalLinkTel+item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
                 </el-select>
                 <el-input v-else v-model="searchForm.arrivalAddress" :placeholder="searchForm.busiBillType===21?'请输入客户地址':'请输入供应商地址'" size="small" class="formitem"></el-input>
               </el-form-item>
@@ -120,7 +120,7 @@
                </el-form-item>
             </el-col>
 
-  
+
              <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                <el-form-item label="创建日期"  label-width="100px" v-if="$route.query.id">
                   <el-date-picker v-model="searchForm.gmtCreate" type="date" placeholder="选择日期"></el-date-picker>
@@ -139,7 +139,7 @@
                 <el-option v-for="item in sendOutRequireEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
-          </el-col>  
+          </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="[21].includes(searchForm.busiBillType)">
               <el-form-item label="询价单号:"  >
@@ -169,10 +169,10 @@
         </div>
           <edit-Table
             :useEdit="true"
-            :config="addtable_config" 
+            :config="addtable_config"
             @goeditrow="goeditrow"
             @handleDelete="handleDelete"
-            :allTableData="searchForm.outWarehouseBillDetailList"/> 
+            :allTableData="searchForm.outWarehouseBillDetailList"/>
           </edit-Table >
       </div>
 
@@ -215,7 +215,7 @@ export default {
         //新增项
         addVisible:false,
         addCommodityForm:{
-           
+
         },
         skuList:[],
         //枚举项
@@ -290,7 +290,7 @@ export default {
         this.searchForm=searchForm;
         this.providerConfig=[];
         this.addrListConfig=[];
-        
+
         let addtable_config= _.cloneDeep(this.addtable_config);
         let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
         if(value===21){
@@ -335,7 +335,7 @@ export default {
           this.getCustomerInfo(this.searchForm.ownerCode);
         }
       },
-      
+
       //地址获取焦点
       arrivalAddressFocus(){
         if(!this.searchForm.arrivalCode){
@@ -362,8 +362,8 @@ export default {
         searchForm.outWarehouseBillDetailList=[];
         this.searchForm=searchForm;
         this.addrListConfig=[];
-       
-        
+
+
         let id=provider.id
         customerAddrInfo(id,this.searchForm.busiBillType).then(res=>{
           if(res.success){
@@ -373,7 +373,7 @@ export default {
           console.log(err)
         })
       },
-   
+
 
       uploadRes(res){
         if(res.success){
@@ -423,22 +423,23 @@ export default {
 
       showDialog(type){
         if(type==='add'){
-          let {ownerCode,arrivalCode}=this.searchForm;
+          let {ownerCode,arrivalCode, busiBillType}=this.searchForm;
           if(!ownerCode||!arrivalCode){
              this.$message.error('请同时选择货主和客户(供应商)');
              return ''
           }
+          const customerType = busiBillType === 21 ? 1 : busiBillType === 22 ? 2 : null
           this.addVisible=true;
-          skuInfoList(ownerCode,arrivalCode).then(res=>{
+          skuInfoList(ownerCode,arrivalCode, customerType).then(res=>{
             if(res.success){
               this.skuList=Array.isArray(res.data)&&res.data||[]
             }
           }).catch(err=>{
             console.log(err)
           })
-         
+
         }
-       
+
       },
 
       submit(type,value) {
@@ -478,7 +479,7 @@ export default {
                 api(json).then(res=>{
                   if(res.success){
                     this.$message({
-                      type:'success', 
+                      type:'success',
                       message:'操作成功,即将跳转到详情页！' ,
                       duration:1500,
                       onClose:()=>{
@@ -488,9 +489,9 @@ export default {
                           })
                         }).catch(err=>{
                           console.log(err)
-                        })  
+                        })
                       }
-                    }) 
+                    })
                   }
                 }).catch(err=>{
                   console.log(err)
@@ -521,7 +522,7 @@ export default {
     }
     .tableBtn{
       display: flex;
-    }    
+    }
     .addCommodity{
       height:28px;
       line-height:26px;

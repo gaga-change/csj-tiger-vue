@@ -34,11 +34,11 @@
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-select v-model="searchForm.ownerCode" filterable  @change="ownerCodeChange"  placeholder="请选择货主"  >
-                    <el-option 
+                    <el-option
                       value="" v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length" :disabled="true">
-                      <div class="providerList"> 
-                        <span>货主编号</span> 
-                        <span>货主名称</span> 
+                      <div class="providerList">
+                        <span>货主编号</span>
+                        <span>货主名称</span>
                       </div>
                     </el-option>
                     <el-option
@@ -48,7 +48,7 @@
                           <span >{{ item.value }}</span>
                         </div>
                     </el-option>
-                  </el-select>           
+                  </el-select>
                 </el-form-item>
               </el-col>
 
@@ -95,7 +95,7 @@
                   <el-input v-model="searchForm.fromSystemId" placeholder="请输入订单来源" size="small" class="formitem"></el-input>
                 </el-form-item>
               </el-col>
-          
+
                 <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="创建人:"  >
                   <el-input v-model="searchForm.createrName" placeholder="请输入创建人" size="small" class="formitem"></el-input>
@@ -124,10 +124,10 @@
           </div>
             <edit-Table
               :useEdit="true"
-              :config="addtable_config" 
+              :config="addtable_config"
               @goeditrow="goeditrow"
               @handleDelete="handleDelete"
-              :allTableData="searchForm.detailItemList"/> 
+              :allTableData="searchForm.detailItemList"/>
             </edit-Table >
         </div>
 
@@ -171,7 +171,7 @@ export default {
         addCommodityForm:{
 
         },
-        
+
         //供应商下拉配置
         providerConfig:[],
         commodityList:[]//商品列表
@@ -197,7 +197,7 @@ export default {
              v.purchasePrice=v.inPrice;
              v.planInQty=v.skuInQty;
              return v;
-          }); 
+          });
           this.searchForm=searchForm;
         }).catch(err=>{
           console.log(err)
@@ -206,7 +206,7 @@ export default {
     },
 
     methods: {
-  
+
     //选择货主
     ownerCodeChange(value){
       if(this.searchForm.providerCode){
@@ -229,7 +229,7 @@ export default {
         console.log(err)
       })
     },
-   
+
 
     //供应商获取焦点
     providerFocus(){
@@ -237,7 +237,7 @@ export default {
         this.$message.error('请先选择货主');
       }
     },
-    
+
     //供应商改变触发
     providerChange(value){
       let searchForm= _.cloneDeep(this.searchForm);
@@ -251,7 +251,7 @@ export default {
       let commodityList= _.cloneDeep(this.commodityList);
       this.addCommodityForm=commodityList.find(v=>v.skuCode===value)
     },
-    
+
     //导入的回调
     uploadRes(res){
       if(res.success){
@@ -280,9 +280,9 @@ export default {
       if(type==='add'){
         if(!this.searchForm.ownerCode||!this.searchForm.providerCode){
             this.$message.error('请先选择供应商和货主');
-            return 
+            return
         }
-        skuInfoList(this.searchForm.ownerCode,this.searchForm.providerCode).then(res=>{
+        skuInfoList(this.searchForm.ownerCode,this.searchForm.providerCode, 2).then(res=>{
           if(res.success){
             let data=res.data&&_.cloneDeep(res.data)||[];
             let arr=[];
@@ -291,7 +291,7 @@ export default {
                  arr.push(v)
               }
             });
-         
+
             this.commodityList=arr;
           }
         }).catch(err=>{
@@ -329,7 +329,7 @@ export default {
               Api(json).then(res=>{
                 if(res.success){
                   this.$message({
-                    type:'success', 
+                    type:'success',
                     message:'操作成功,即将跳转到详情页！' ,
                     duration:1500,
                     onClose:()=>{
@@ -339,10 +339,10 @@ export default {
                         })
                       }).catch(err=>{
                         console.log(err)
-                      })  
+                      })
                     }
                   })
-                } 
+                }
               }).catch(err=>{
                 console.log(err)
               })
@@ -401,7 +401,7 @@ export default {
     }
     .tableBtn{
       display: flex;
-    }    
+    }
     .addCommodity{
       height:28px;
       line-height:26px;

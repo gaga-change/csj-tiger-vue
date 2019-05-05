@@ -170,6 +170,21 @@
             <span>{{addForm.remarkInfo}}</span>
           </el-form-item>
         </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="接货费" >
+            <span>{{addForm.receptCost}}元</span>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="其他费用" >
+            <span>{{addForm.otherCost}}元</span>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="总费用" >
+            <span>{{addForm.totalCost}}元</span>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-card>
   </el-form>

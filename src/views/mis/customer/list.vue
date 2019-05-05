@@ -292,7 +292,7 @@ export default {
   },
   methods: {
     updateAddressRow(row,title) {
-      this.alertTitle=title;
+      this.alertTitle=title
       this.addressEditVisible = true
       row.area = [row.customerProvince, row.customerCity, row.customerArea]
       this.addressData = row
@@ -403,7 +403,7 @@ export default {
          this.editData=val?JSON.parse(JSON.stringify(val)):Object.create({});
          this.$refs['saveRef'].loadData()
       },100)
-     
+
     },
     submitSearchForm(val) {
       this.searchData = val
@@ -447,9 +447,8 @@ export default {
       const customerCity = area[1]
       const customerArea = area[2]
       const saveFun = id ? updateCustomerAddress : saveCustomerAddress
-      const postData = { basicCustomerInfoId: this.rowData.id, basicCustomerInfoCode: this.rowData.customerCode,
-        customerProvince, customerCity, customerArea,
-        ...rest}
+      const postData = { ...rest, basicCustomerInfoId: this.rowData.id, basicCustomerInfoCode: this.rowData.customerCode,
+        customerProvince, customerCity, customerArea }
       if (id) {
         postData.id = id
       }

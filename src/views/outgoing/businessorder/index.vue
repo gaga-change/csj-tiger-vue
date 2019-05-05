@@ -20,7 +20,7 @@
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="合同编号" prop="contractNo">
-              <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"  style="width:210px"  placeholder="请输入合同编号"></el-input>
+              <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入合同编号"></el-input>
             </el-form-item>
           </el-col>
 
@@ -54,7 +54,7 @@
               </el-form-item>
             </el-col>
 
-          
+
             <el-col :span="24">
               <el-form-item>
                 <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
@@ -68,19 +68,19 @@
       </el-row>
       </el-card>
      </div>
- 
+
       <div class="operationitem">
         <router-link :to="`/outgoing/businessorderadd?type=add&time=${moment().valueOf()}`">
             <el-button type="primary" size="small">新建出库业务单</el-button>
         </router-link>
       </div>
-    
-      <base-table 
+
+      <base-table
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :loading="loading"
-        :config="tableConfig"  
-        :total="total" 
+        :config="tableConfig"
+        :total="total"
         :maxTotal="10"
         :pageSize="ruleForm.pageSize"
         :currentPage="ruleForm.pageNum"
@@ -125,42 +125,42 @@
             item.dom=(row, column, cellValue, index)=>{
               return(
                 <div class="tableLinkBox">
-                     {  
+                     {
                         <router-link to={`/outgoing/businessorder-detail?id=${row.id}&busiBillNo=${row.busiBillNo}`}  class="tableLink">查看</router-link>
                      }
 
-                     {  
-                        [0,2].includes(row.billStatus)&& 
+                     {
+                        [0,2].includes(row.billStatus)&&
                         <router-link to={`/outgoing/businessorderadd?type=modify&id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">修改</router-link>
                      }
 
                      {
-                        [1].includes(row.billStatus)&& 
+                        [1].includes(row.billStatus)&&
                         <router-link to={`/outgoing/businessorderadd?type=revision&id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">调整</router-link>
                      }
 
-                     { 
-                        [1].includes(row.billStatus)&& 
+                     {
+                        [1].includes(row.billStatus)&&
                         <router-link to={`/outgoing/businessorderAddPlanOrder?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">创建计划单</router-link>
                      }
 
                      {
-                       [0,2].includes(row.billStatus)&& 
+                       [0,2].includes(row.billStatus)&&
                        <span class="tableLink" onClick={this.operation.bind(this,row,'outBillCheck','请输入审核意见 !')}>审核</span>
                      }
 
                      {
-                       [0,2,4].includes(row.billStatus)&& 
+                       [0,2,4].includes(row.billStatus)&&
                        <span class="tableLink" onClick={this.operation.bind(this,row,'outBillDelete','确定要删除吗?')}>删除</span>
                      }
 
                      {
-                       [0,1,2].includes(row.billStatus)&& 
+                       [0,1,2].includes(row.billStatus)&&
                        <span class="tableLink" onClick={this.operation.bind(this,row,'outBillClose','确定要关闭吗?')}>关闭</span>
                      }
-                     
-                    
-                </div> 
+
+
+                </div>
               )
             }
         }
@@ -179,7 +179,7 @@
       'mapConfig',
     ])},
 
-    methods: { 
+    methods: {
        moment,
        operation,
        submitForm(formName) {
@@ -229,7 +229,7 @@
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-        } 
+        }
         this.loading=false;
 
       }).catch(err=>{
@@ -237,7 +237,7 @@
          })
       }
     }
-    
+
  }
 </script>
 
@@ -259,4 +259,3 @@
       margin: 16px 0;
     }
 </style>
-
