@@ -465,8 +465,9 @@ export default {
                     json[v]=moment(json[v]).valueOf()
                   }
                 })
+                const provider = this.providerConfig.find(v=>v.customerCode===json.arrivalCode) || {}
                 json.ownerName=json.ownerName?json.ownerName:this.mapConfig['billOwnerInfoMap'].find(v=>v.key===json.ownerCode).value;
-                json.arrivalName=json.arrivalName?json.arrivalName:this.providerConfig.find(v=>v.customerCode===json.arrivalCode).customerName;
+                json.arrivalName=json.arrivalName || provider.customerName
                 let api=outBillAdd;
                 if(this.$route.query.id){
                   if(this.$route.query.type==='modify'){
