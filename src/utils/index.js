@@ -3,7 +3,7 @@ export const LoginPath = process.env.NODE_ENV === 'production' ? 'http://sso.csj
 // export const LoginPath = 'http://sso.csjscm.com'
 export function parseTime(time, cFormat) {
   if(!time){
-    return 
+    return
   }
   if (arguments.length === 0) {
     return null
@@ -67,10 +67,10 @@ export function printUrl(url,name, id) {
 }
 
 // http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/supply_invoice_export.cpt&id=3
-export function reportCenterUrl(name, path) {
+export function reportCenterUrl(name, path, isView) {
   const truepath = path || 'mro'
   return (
-    `http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/${truepath}/${name}.cpt&op=view`
+    `http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/${truepath}/${name}.cpt${isView ? '&op=view' : ''}`
   )
 }
 

@@ -3,7 +3,7 @@ import Layout from '../views/layout/Layout'
 import { reportCenterUrl } from '@/utils'
 
 export default [
- 
+
   {
     path: '/inventory',
     component: Layout,
@@ -27,7 +27,7 @@ export default [
       },
     ]
   },
-  
+
   {
     name: 'reportdaily',
     path: '/reportdaily',
@@ -78,7 +78,7 @@ export default [
       {
         name: 'mis_goods_main',
         path: 'mis_goods_main',
-        outLinkUrl: reportCenterUrl('mis_goods_main', 'mis'),
+        outLinkUrl: reportCenterUrl('mis_goods_main', 'mis', true),
         meta: {
           title: '单品进销存查询'
         }

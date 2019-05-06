@@ -367,6 +367,14 @@ export default {
       this.getDetail()
     }
   },
+  watch: {
+    $route(route) {
+      console.log(route)
+      if (route.name === 'newproduct' && !route.query.skuCode) {
+        this.$router.go(0)
+      }
+    }
+  },
   methods: {
     getDetail() {
       const loading = this.$loading({text: '请稍后..'})
@@ -461,9 +469,10 @@ export default {
       })
     },
     submitCustomerForm(val) {
-      let customerTableData=_.cloneDeep(this.customerTableData);
-      val=JSON.parse(JSON.stringify(val));
-      const customers = this.customerConfig.find(customer => customer.prop === 'customerCode').selectOptions
+      let customerTableData=_.cloneDeep(this.customerTableData)
+      val=JSON.parse(JSON.stringify(val))
+      const config = this.customerConfig.find(customer => customer.prop === 'customerCode') || {}
+      const customers = config.selectOptions
       val.customerName = customers.find(customer => customer.key === val.customerCode).value
       if (val.edit) {
         let position = -1

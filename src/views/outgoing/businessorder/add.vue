@@ -97,7 +97,7 @@
             </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="联系电话:"  prop="arrivalLinkTel" :rules="[{ required: true, message:'请输入正确格式的手机号',pattern:/^1[34578]\d{9}$/ }]" >
+              <el-form-item label="联系电话:"  prop="arrivalLinkTel" :rules="[{ required: true, message:'请输入联系电话' }]" >
                 <el-input v-model="searchForm.arrivalLinkTel" placeholder="请输入联系电话" size="small" class="formitem"></el-input>
               </el-form-item>
             </el-col>

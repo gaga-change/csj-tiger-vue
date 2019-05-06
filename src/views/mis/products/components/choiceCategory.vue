@@ -75,17 +75,18 @@ export default {
           if (trees[i].currentCode === params.currentCode) {
             return trees[i]
           } else if (trees[i].children && trees[i].children.length) {
-            return findCategory(trees[i].children, params)
+            let temp = findCategory(trees[i].children, params)
+            if (temp) return temp
           }
         }
-        return {}
+        return null
       }
       if (!this.tree.length) {
         this.getTree().then(() => {
-          this.choice = findCategory(this.tree, params)
+          this.choice = findCategory(this.tree, params) || {}
         })
       } else {
-        this.choice = findCategory(this.tree, params)
+        this.choice = findCategory(this.tree, params) || {}
       }
     },
     getTree() {

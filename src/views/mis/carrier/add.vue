@@ -28,11 +28,11 @@
             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="expressConfig.length">
               <el-form-item label="快递编码:"  prop="companyCode"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-select v-model="searchForm.companyCode" filterable  size="small" class="formitem" placeholder="请选择快递编码"  >
-                    <el-option 
+                    <el-option
                       value="" v-if="expressConfig.length" :disabled="true">
-                      <div class="providerList"> 
-                        <span>快递编码</span> 
-                        <span>快递名称</span> 
+                      <div class="providerList">
+                        <span>快递编码</span>
+                        <span>快递名称</span>
                       </div>
                     </el-option>
                     <el-option
@@ -42,7 +42,7 @@
                           <span >{{ item.companyName }}</span>
                         </div>
                     </el-option>
-                  </el-select>  
+                  </el-select>
               </el-form-item>
             </el-col>
 
@@ -52,7 +52,7 @@
                   <el-option v-for="item in  mapConfig['getConsoildatorState']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
-            </el-col>  
+            </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="结算区分" >
@@ -60,7 +60,7 @@
                   <el-option v-for="item in mapConfig['getSettlementType']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
-            </el-col>  
+            </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="联系电话:"  prop="linkTel"  :rules="[{ required: false, message:'请输入正确格式的手机号',pattern:/^1[34578]\d{9}$/ }]" >
@@ -128,22 +128,28 @@ export default {
          visitedViews: 'visitedViews'
       })
   },
+  watch: {
+    '$route': 'getDetail'
+  },
 
   mounted(){
-   if(this.$route.query.type==='modify'){
-      consoilInfoDetail({
-        consoildatorCode:this.$route.query.consoildatorCode
-      }).then(res=>{
-        if(res.success){
-          this.searchForm=res.data;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
-    }
+    this.getDetail()
   },
 
   methods: {
+    getDetail() {
+      if(this.$route.query.type==='modify'){
+         consoilInfoDetail({
+           consolidatorCode:this.$route.query.consoildatorCode
+         }).then(res=>{
+           if(res.success){
+             this.searchForm=res.data;
+           }
+         }).catch(err=>{
+           console.log(err)
+         })
+       }
+    },
      querySearchAsync(queryString) {
        infoAllCompany({
          companyName:queryString
@@ -170,7 +176,7 @@ export default {
             api(this.searchForm).then(res=>{
               if(res.success){
                 this.$message({
-                  type:'success', 
+                  type:'success',
                   message:'操作成功,即将跳转到详情页！' ,
                   duration:1500,
                   onClose:()=>{
@@ -180,7 +186,7 @@ export default {
                       })
                     }).catch(err=>{
                       console.log(err)
-                    })  
+                    })
                   }
                 })
               } else{

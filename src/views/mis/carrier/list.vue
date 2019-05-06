@@ -1,21 +1,21 @@
 <template>
   <div class="carrier">
       <search @submit="select" :searchForm="searchForm"></search>
-    
+
       <div class="operationitem">
            <router-link :to="`/carrier/add?time=${moment().valueOf()}`">
                 <el-button type="primary" size="small">创建承运商</el-button>
             </router-link>
       </div>
 
-      <base-table 
+      <base-table
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :pageSize="searchForm.pageSize"
         :currentPage="searchForm.pageNum"
         :loading="loading"
-        :total="total" 
-        :config="carrierListConfig"  
+        :total="total"
+        :config="carrierListConfig"
         :tableData="tableData"/>
   </div>
 </template>
@@ -41,7 +41,7 @@
           pageNum:1
         },
         total:0,
-        
+
         //table配置
         loading:false,
         carrierListConfig,
@@ -62,7 +62,7 @@
                      {
                         <router-link to={`/carrier/detail?consoildatorCode=${row.consoildatorCode}`}  class="tableLink">查看</router-link>
                      }
-                    
+
                      {
                         <router-link  to={`/carrier/add?consoildatorCode=${row.consoildatorCode}&type=modify`} class="tableLink">修改</router-link>
                      }
@@ -71,7 +71,7 @@
                        <span class="tableLink" onClick={this.delete.bind(this,row)}>删除</span>
                      }
 
-                </div> 
+                </div>
               )
             }
         }
@@ -164,5 +164,3 @@
     }
   }
 </style>
-
-

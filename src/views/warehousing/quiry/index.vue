@@ -39,7 +39,7 @@
            <el-col :span="6" style="min-width:250px" >
              <el-form-item label="仓库" label-width="40px"  prop="warehouseCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.warehouseCode"   placeholder="请选择仓库">
-                <el-option   v-for="item in mapConfig['getWarehouse']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="(item, index) in mapConfig['getWarehouse']" :label="item.value"   :key="item.key+item.value+index"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -100,7 +100,7 @@
 
   <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
       <a :href="`/webApi/in/order/export?${stringify(this.linkData)}`" >
-        <el-button type="primary" size="small" >导出Excel</el-button> 
+        <el-button type="primary" size="small" >导出Excel</el-button>
       </a>
   </div>
 
@@ -109,12 +109,12 @@
       <span>入库总数量</span> : <span>{{inTotal&&inTotal.totInQty&&Number(inTotal.totInQty).toFixed(2)}}</span>
   </div> -->
 
-  <base-table 
+  <base-table
     @sizeChange="handleSizeChange"
     @currentChange="handleCurrentChange"
     :loading="loading"
-    :config="tableConfig"  
-    :total="total" 
+    :config="tableConfig"
+    :total="total"
     :maxTotal="10"
     :pageSize="ruleForm.pageSize"
     :currentPage="ruleForm.pageNum"
@@ -152,7 +152,7 @@
          },
         total:0,
         rules: {
-         
+
         },
         loading:false,
         tableData: [],
@@ -162,7 +162,7 @@
         busiPlateConfig,
       }
     },
-    
+
     computed: {
       ...mapGetters([
         'mapConfig',
@@ -177,7 +177,7 @@
        }
 
        this.getCurrentTableData();
-     
+
     },
 
     methods: {
@@ -229,7 +229,7 @@
               if(arr.every(v=>v)&&arr.length>1){
                  json['inStoreBeginDate']=arr[0];
                  json['inStoreEndDate']=arr[1];
-               } 
+               }
             } else{
                json[i]=this.ruleForm[i]
             }
@@ -239,13 +239,13 @@
         let data={...json}
         this.linkData=data;
 
-       selectSumNo(data).then(res=>{
-          if(res.success){
-            this.inTotal=res.data;
-          }
-        }).catch(err=>{
-          console.log(err)
-        })
+       // selectSumNo(data).then(res=>{
+       //    if(res.success){
+       //      this.inTotal=res.data;
+       //    }
+       //  }).catch(err=>{
+       //    console.log(err)
+       //  })
 
 
        inOrderSelect(data).then(res=>{
@@ -253,7 +253,7 @@
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-       } 
+       }
         this.loading=false;
 
      }).catch(err=>{
@@ -277,10 +277,10 @@
           font-weight: 600;
          }
          &:nth-child(2n){
-          padding-right: 20px; 
+          padding-right: 20px;
          }
       }
-     
+
     }
   }
 </style>
