@@ -65,7 +65,7 @@
               </el-select>
             </el-form-item>
           </el-col>
- 
+
           <el-col :span="12"  style="min-width:600px">
             <el-form-item label="计划出库日期" prop="time" label-width="100px" >
                  <el-date-picker
@@ -96,16 +96,16 @@
 
    <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
       <a :href="`/webApi/out/plan/export?${stringify(this.linkData)}`" >
-        <el-button type="primary" size="small" >导出Excel</el-button> 
+        <el-button type="primary" size="small" >导出Excel</el-button>
       </a>
   </div>
 
-   <base-table 
+   <base-table
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
       :loading="loading"
-      :config="tableConfig"  
-      :total="total" 
+      :config="tableConfig"
+      :total="total"
       :maxTotal="10"
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
@@ -119,7 +119,7 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig,manual_config } from './config';
-    import  { warehousingPlanBillStatus } from "@/utils/enum.js"; 
+    import  { warehousingPlanBillStatus } from "@/utils/enum.js";
     import editTable from '@/components/Table/editTable';
     import {stringify} from 'qs';
     export default {
@@ -146,11 +146,11 @@
         tableConfig:indexTableConfig,
         warehousingPlanBillStatus,
         linkData:'',
-        
+
       }
     },
 
-  
+
       created(){
         this.tableConfig.forEach(item=>{
           if(item.useLink){
@@ -181,13 +181,24 @@
         })
       },
 
+      watch: {
+        mapConfig: {
+          immediate: true,
+          deep: true,
+          handler(newMap, oldMap) {
+            const billOwnerInfoMap = newMap['billOwnerInfoMap']
+            this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
+          }
+        }
+      },
+
      mounted(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
       this.getCurrentTableData();
-     
+
     },
 
     computed: {
@@ -249,11 +260,11 @@
                if(arr.every(v=>v)&&arr.length>1){
                  json['planTimeFrom']=arr[0];
                  json['planTimeTo']=arr[1];
-               } 
+               }
             } else{
                json[i]=this.ruleForm[i]
             }
-            
+
           }
         }
         let data={...json}
@@ -284,5 +295,3 @@
     }
   }
 </style>
-
-

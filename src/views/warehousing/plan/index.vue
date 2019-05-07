@@ -68,7 +68,7 @@
               </el-select>
             </el-form-item>
           </el-col>
- 
+
 
           <el-col :span="16" >
             <el-form-item label="计划入库日期" label-width="100px" prop="time">
@@ -99,16 +99,16 @@
  </div>
     <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
          <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
-            <el-button type="primary" size="small" >导出Excel</el-button> 
+            <el-button type="primary" size="small" >导出Excel</el-button>
          </a>
     </div>
 
-    <base-table 
+    <base-table
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
       :loading="loading"
-      :config="tableConfig"  
-      :total="total" 
+      :config="tableConfig"
+      :total="total"
       :maxTotal="10"
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
@@ -147,7 +147,7 @@
         tableConfig:indexTableConfig,
         warehousingPlanBillStatus,
         rules: {
-         
+
         },
          loading:false,
          tableData: [],
@@ -161,13 +161,24 @@
       ])
     },
 
+    watch: {
+      mapConfig: {
+        immediate: true,
+        deep: true,
+        handler(newMap, oldMap) {
+          const billOwnerInfoMap = newMap['billOwnerInfoMap']
+          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
+        }
+      }
+    },
+
      mounted(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
 
       this.getCurrentTableData();
-     
+
     },
 
      created(){
@@ -178,7 +189,7 @@
                 let handOutPath=`/warehousing/plan-detail?planCode=${row.planCode}&history=${true}`
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>
                     <router-link  to={queryPath}  class="routerLink">查看</router-link>
-                    { 
+                    {
                        [1].includes(Number(row.operator))&&
                       <router-link to={handOutPath}  class="routerLink">手工入库</router-link>
                     }
@@ -232,7 +243,7 @@
                if(arr.every(v=>v)&&arr.length>1){
                  json['planInTimeStart']=arr[0];
                  json['planInTimeEnd']=arr[1];
-               } 
+               }
             } else{
                json[i]=this.ruleForm[i]
             }
@@ -249,7 +260,7 @@
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-       } 
+       }
         this.loading=false;
 
      }).catch(err=>{

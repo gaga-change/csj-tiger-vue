@@ -68,9 +68,10 @@
           <el-col :span="12" style="minWidth:400px" >
             <el-form-item label="出库日期" prop="time">
                  <el-date-picker
-                    style="minWidth:340px" 
+                    style="minWidth:340px"
                     v-model="ruleForm.time"
                     @change="timeChange"
+                    :picker-options="pickerOptions"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
@@ -95,7 +96,7 @@
 
   <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
       <a :href="`/webApi/out/order/export?${stringify(this.linkData)}`" >
-        <el-button type="primary" size="small" >导出Excel</el-button> 
+        <el-button type="primary" size="small" >导出Excel</el-button>
       </a>
   </div>
 
@@ -104,12 +105,12 @@
        <span>出库总数量</span> : <span>{{outTotal&&outTotal.totalOutStoreQty&&Number(outTotal.totalOutStoreQty).toFixed(2)}}</span>
     </div> -->
 
-    <base-table 
+    <base-table
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
       :loading="loading"
-      :config="tableConfig"  
-      :total="total" 
+      :config="tableConfig"
+      :total="total"
       :maxTotal="10"
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
@@ -125,7 +126,7 @@
     import { mapGetters } from 'vuex'
     import {stringify} from 'qs';
     import {busiPlateConfig} from '@/utils/enum'
-    
+
     export default {
       components: { BaseTable },
       data() {
@@ -146,13 +147,40 @@
         total:0,
         tableConfig:indexTableConfig,
         rules: {
-         
+
         },
         busiPlateConfig,
-         loading:false,
-         tableData: [],
-         linkData:'',
-         outTotal:{}
+       loading:false,
+       tableData: [],
+       linkData:'',
+       outTotal:{},
+       pickerOptions: {
+         shortcuts: [{
+           text: '最近一周',
+           onClick(picker) {
+             const end = new Date();
+             const start = new Date();
+             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+             picker.$emit('pick', [start, end])
+           }
+         }, {
+           text: '最近一个月',
+           onClick(picker) {
+             const end = new Date();
+             const start = new Date();
+             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+             picker.$emit('pick', [start, end])
+           }
+         }, {
+           text: '最近三个月',
+           onClick(picker) {
+             const end = new Date()
+             const start = new Date()
+             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+             picker.$emit('pick', [start, end])
+           }
+         }]
+       }
       }
     },
 
@@ -167,7 +195,22 @@
       if(this.$route.query.data){
         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
       }
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      this.$set(this.ruleForm, 'time', [start, end])
       this.getCurrentTableData();
+    },
+
+    watch: {
+      mapConfig: {
+        immediate: true,
+        deep: true,
+        handler(newMap, oldMap) {
+          const billOwnerInfoMap = newMap['billOwnerInfoMap']
+          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
+        }
+      }
     },
 
     methods: {
@@ -213,15 +256,16 @@
         for(let i in this.ruleForm){
         if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD'));
+              const timeArr = this.ruleForm[i] || []
+               let arr=timeArr.map(v=>moment(v).format('YYYY-MM-DD'));
                if(arr.every(v=>v)&&arr.length>1){
                  json['outStoreBeginDate']=arr[0];
                  json['outStoreEndDate']=arr[1];
-               } 
+               }
             } else{
                json[i]=this.ruleForm[i]
             }
-            
+
           }
         }
         let data={...json}
@@ -240,7 +284,7 @@
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-       } 
+       }
         this.loading=false;
 
      }).catch(err=>{
@@ -265,10 +309,10 @@
           font-weight: 600;
          }
          &:nth-child(2n){
-          padding-right: 20px; 
+          padding-right: 20px;
          }
       }
-     
+
     }
   }
 </style>

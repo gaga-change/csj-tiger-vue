@@ -25,7 +25,7 @@
           <el-col :span="6"  style="min-width:300px" >
             <el-form-item label="货主"  prop="ownerCode">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.ownerCode"  placeholder="请选择货主">
-                <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -115,18 +115,18 @@
     </el-row>
   </el-card>
  </div>
-      <base-table 
+      <base-table
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :loading="loading"
-        :config="tableConfig"  
-        :total="total" 
+        :config="tableConfig"
+        :total="total"
         :maxTotal="10"
         :pageSize="ruleForm.pageSize"
         :currentPage="ruleForm.pageNum"
         :tableData="tableData"/>
   </div>
-  
+
 </template>
 
 <script>
@@ -156,7 +156,7 @@
          },
         total:0,
         rules: {
-         
+
         },
         loading:false,
         tableData: [],
@@ -171,7 +171,7 @@
        }
 
        this.getCurrentTableData();
-     
+
     },
 
     computed: {
@@ -233,11 +233,11 @@
                if(arr.every(v=>v)){
                  json['signBeginDate']=arr[0];
                  json['signEndDate']=arr[1];
-               } 
+               }
             } else{
                json[i]=this.ruleForm[i]
             }
-            
+
           }
         }
         let data={...json}
@@ -246,7 +246,7 @@
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-       } 
+       }
         this.loading=false;
 
      }).catch(err=>{

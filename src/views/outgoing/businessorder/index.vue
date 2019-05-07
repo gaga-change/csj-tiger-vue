@@ -7,7 +7,7 @@
             <el-col :span="6" style="min-width:300px" >
               <el-form-item label="业务类型"  prop="busiBillType" >
                 <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
-                  <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
+                  <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))" :label="item.value"  :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -166,12 +166,22 @@
         }
       })
     },
+    watch: {
+      mapConfig: {
+        immediate: true,
+        deep: true,
+        handler(newMap, oldMap) {
+          const billOwnerInfoMap = newMap['billOwnerInfoMap']
+          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
+        }
+      }
+    },
 
      mounted(){
        if(this.$route.query.data){
          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-       this.getCurrentTableData();
+       this.getCurrentTableData()
      },
 
     computed: {

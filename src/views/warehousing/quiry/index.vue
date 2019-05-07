@@ -76,6 +76,7 @@
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
+                    :picker-options="pickerOptions"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
@@ -160,6 +161,33 @@
         linkData:'',
         inTotal:{},
         busiPlateConfig,
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+        }
       }
     },
 
@@ -169,13 +197,26 @@
       ])
     },
 
+    watch: {
+      mapConfig: {
+        immediate: true,
+        deep: true,
+        handler(newMap, oldMap) {
+          const billOwnerInfoMap = newMap['billOwnerInfoMap']
+          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
+        }
+      }
+    },
 
      mounted(){
 
        if(this.$route.query.data){
           this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-
+       const end = new Date();
+       const start = new Date();
+       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+       this.$set(this.ruleForm, 'time', [start, end])
        this.getCurrentTableData();
 
     },
@@ -225,7 +266,8 @@
         for(let i in this.ruleForm){
         if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).format('YYYY-MM-DD'));
+              const timeArr = this.ruleForm[i] || []
+               let arr=timeArr.map(v=>moment(v).format('YYYY-MM-DD'));
               if(arr.every(v=>v)&&arr.length>1){
                  json['inStoreBeginDate']=arr[0];
                  json['inStoreEndDate']=arr[1];

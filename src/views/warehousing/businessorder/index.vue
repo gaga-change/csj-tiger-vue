@@ -39,7 +39,7 @@
             </el-form-item>
           </el-col>
 
-         
+
           <el-col :span="6">
             <el-form-item label="货主电话" prop="linkTel">
               <el-input v-model.lazy.trim="ruleForm.linkTel" @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入货主电话"></el-input>
@@ -67,6 +67,7 @@
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
+                    :picker-options="pickerOptions"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期">
@@ -86,7 +87,7 @@
       </el-form>
     </el-row>
     </el-card>
-  </div> 
+  </div>
 
     <div class="operationitem">
       <router-link :to="`/warehousing/businessorderadd?type=add&time=${moment().valueOf()}`">
@@ -94,12 +95,12 @@
       </router-link>
     </div>
 
-   <base-table 
+   <base-table
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
       :loading="loading"
-      :config="tableConfig"  
-      :total="total" 
+      :config="tableConfig"
+      :total="total"
       :maxTotal="10"
       :pageSize="ruleForm.pageSize"
       :currentPage="ruleForm.pageNum"
@@ -116,7 +117,7 @@
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig} from './config';
-    
+
     const validatorLinkTel = (rule, value, callback) => {
       if (value==undefined||value==''||/^[1][3,4,5,7,8][0-9]{9}$/.test(value)) {
         callback();
@@ -151,6 +152,33 @@
         tableConfig:indexTableConfig,
         misWarehousingBillStatusEnum,
         misWarehousingBillStateEnum,
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+        }
       }
     },
 
@@ -158,8 +186,22 @@
        if(this.$route.query.data){
         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
        }
-
+       const end = new Date();
+       const start = new Date();
+       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+       this.$set(this.ruleForm, 'time', [start, end])
        this.getCurrentTableData();
+    },
+
+    watch: {
+      mapConfig: {
+        immediate: true,
+        deep: true,
+        handler(newMap, oldMap) {
+          const billOwnerInfoMap = newMap['billOwnerInfoMap']
+          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
+        }
+      }
     },
 
     computed: {
@@ -178,7 +220,7 @@
                         <router-link to={`/warehousing/businessorder-detail?id=${row.id}`}  class="tableLink">查看</router-link>
                      }
 
-                     { 
+                     {
                        [0,2].includes(row.billStatus)&&
                        <span class="tableLink"  onClick={this.operation.bind(this,'examine',row)}>审核</span>
                      }
@@ -194,16 +236,16 @@
                        <span class="tableLink" onClick={this.operation.bind(this,'delete',row)}>删除</span>
                      }
 
-                     {  
+                     {
                         [0,2].includes(row.billStatus)&&
                         <router-link to={`/warehousing/businessorderadd?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">修改</router-link>
                      }
 
-                     { 
+                     {
                         [1].includes(row.billStatus)&&
                         <router-link to={`/warehousing/warehousingAddPlanOrder?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">创建计划单</router-link>
                      }
-                </div> 
+                </div>
               )
             }
         }
@@ -212,7 +254,7 @@
 
 
     methods: {
-      moment, 
+      moment,
       operation(type,row){
         let component=this.$confirm;
         let tip='';
@@ -302,11 +344,12 @@
         for(let i in this.ruleForm){
           if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
+              const timeArr = this.ruleForm[i] || []
+               let arr=timeArr.map(v=>moment(v).valueOf());
                if(arr.every(v=>v)&&arr.length>1){
                  json['createTimeFrom']=arr[0];
                  json['createTimeTo']=arr[1];
-               } 
+               }
             } else{
                json[i]=this.ruleForm[i]
             }
@@ -318,7 +361,7 @@
           let data=res.data;
           this.tableData=data.list||[];
           this.total=data.total;
-       } 
+       }
         this.loading=false;
 
      }).catch(err=>{
@@ -347,4 +390,3 @@
       margin: 16px 0;
     }
 </style>
-
