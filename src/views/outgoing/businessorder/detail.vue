@@ -16,28 +16,28 @@
          </router-link>
       </template>
     </sticky>
-  
+
      <item-title text="基本信息"/>
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
      <el-tabs v-model="activeName" type="card">
       <el-tab-pane label="业务单" name="business">
-        <edit-Table 
+        <edit-Table
         :loading="loading"
-        :config="detailTableConfig" 
+        :config="detailTableConfig"
         :allTableData="tableData"/>
       </el-tab-pane>
       <el-tab-pane label="计划单" name="plan">
-         <edit-Table 
+         <edit-Table
         :loading="loading"
-        :config="detail_planTableConfig" 
+        :config="detail_planTableConfig"
         :allTableData="detail_planTableData"/>
       </el-tab-pane>
       <el-tab-pane label="出库单" name="outgonging">
-        <edit-Table 
+        <edit-Table
         :loading="loading"
-        :config="detail_outGoingTableConfig" 
+        :config="detail_outGoingTableConfig"
         :allTableData="detail_outGoingTableData"/>
       </el-tab-pane>
      </el-tabs>
@@ -105,12 +105,13 @@
               this.detailTableConfig=detailTableConfig;
               this.infoData=res.data;
               this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
-              
+
               //查询相关计划单
               outPlanSelect({
                  pageNum: 1,
                  pageSize:1000,
-                 billNo:data.billNo
+                 billNo:data.billNo,
+                 ownerCode: data.ownerCode
               }).then(result=>{
                 if(result.success){
                    this.detail_planTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
@@ -123,7 +124,8 @@
               outOrderSelect({
                  pageNum: 1,
                  pageSize:1000,
-                 billNo:data.billNo
+                 billNo:data.billNo,
+                 ownerCode: data.ownerCode
               }).then(result=>{
                  if(result.success){
                    this.detail_outGoingTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
@@ -146,4 +148,3 @@
     padding-top: 12px;
   }
 </style>
-

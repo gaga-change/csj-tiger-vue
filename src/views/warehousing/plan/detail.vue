@@ -14,18 +14,18 @@
      <item-title text="相关明细"/>
      <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
         <el-tab-pane label="相关计划单" name="plan">
-          <edit-table  
+          <edit-table
             :loading="loading"
             :useRowColorKey="this.$route.query.history?'handInQty':null"
-            :config="tableConfig" 
+            :config="tableConfig"
             :allTableData="tableData"/>
           </el-tab-pane>
-          
+
         <el-tab-pane label="相关入库单" name="warehousing">
-             <web-pagination-table 
+             <web-pagination-table
             :loading="warehousingLoding"
-            :config="warehousingTableConfig" 
-            :allTableData="warehousingTableData"/> 
+            :config="warehousingTableConfig"
+            :allTableData="warehousingTableData"/>
         </el-tab-pane>
      </el-tabs>
   </div>
@@ -35,7 +35,7 @@
  import {inPlanDetail,inOrderSelect,orderSave} from '@/api/warehousing'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import editTable from '@/components/Table/editTable'
- import Sticky from '@/components/Sticky' 
+ import Sticky from '@/components/Sticky'
  import _  from 'lodash';
  import { mapGetters } from 'vuex'
  import { tableConfig,infoConfig,warehousingTableConfig } from './config';
@@ -87,9 +87,9 @@
             this.config=data;
             if(this.config.busiBillNo&&this.config.busiBillNo.slice(0,2)=='SO'){
                 this.infoConfig.find(v=>v.prop==='busiBillNo').linkTo = '/outgoing/businessorder-detail'
-            } 
+            }
             let list=data.skuDetails&&data.skuDetails.list||[]
-      
+
             this.tableData=list.map(v=>{
               if(this.$route.query.history){
                 if(v.planInQty-v.realInQty>0){
@@ -102,12 +102,12 @@
               }
               return v
             })
-          } 
+          }
         }).catch(err=>{
           this.loading=false
         })
       },
-       
+
       sureQty(){
         let json={};
         json.remarkInfo='手动入库';
@@ -145,7 +145,8 @@
               inOrderSelect({
                   planCode:this.planCode,
                   pageSize:500,
-                  pageNum:1
+                  pageNum:1,
+                  ownerCode: this.config.ownerCode
                 }).then(res=>{
                 if(res.success){
                    this.warehousingTableData=res.data&&res.data.list||[]

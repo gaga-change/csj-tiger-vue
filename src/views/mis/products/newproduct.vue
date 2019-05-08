@@ -369,7 +369,6 @@ export default {
   },
   watch: {
     $route(route) {
-      console.log(route)
       if (route.name === 'newproduct' && !route.query.skuCode) {
         this.$router.go(0)
       }
@@ -496,8 +495,9 @@ export default {
     },
 
     submitServicerForm(val) {
-      let servicerTableData=_.cloneDeep(this.servicerTableData);
-      const providers = this.servicerConfig.find(provider => provider.prop === 'providerCode').selectOptions
+      let servicerTableData=_.cloneDeep(this.servicerTableData)
+      const servicer = this.servicerConfig.find(provider => provider.prop === 'providerCode') || {}
+      const providers = servicer.selectOptions
       val.providerName = providers.find(provider => provider.key === val.providerCode).value
       if (val.edit) {
         let position = -1
