@@ -472,8 +472,8 @@ export default {
       let customerTableData=_.cloneDeep(this.customerTableData)
       val=JSON.parse(JSON.stringify(val))
       const config = this.customerConfig.find(customer => customer.prop === 'customerCode') || {}
-      const customers = config.selectOptions
-      val.customerName = customers.find(customer => customer.key === val.customerCode).value
+      const customers = config.selectOptions || []
+      val.customerName = (customers.find(customer => customer.key === val.customerCode) || {}).value
       if (val.edit) {
         let position = -1
         customerTableData.forEach((item, index) => {
