@@ -471,8 +471,8 @@ export default {
       let customerTableData=_.cloneDeep(this.customerTableData)
       val=JSON.parse(JSON.stringify(val))
       const config = this.customerConfig.find(customer => customer.prop === 'customerCode') || {}
-      const customers = config.selectOptions
-      val.customerName = customers.find(customer => customer.key === val.customerCode).value
+      const customers = config.selectOptions || []
+      val.customerName = (customers.find(customer => customer.key === val.customerCode) || {}).value
       if (val.edit) {
         let position = -1
         customerTableData.forEach((item, index) => {
@@ -497,8 +497,8 @@ export default {
     submitServicerForm(val) {
       let servicerTableData=_.cloneDeep(this.servicerTableData)
       const servicer = this.servicerConfig.find(provider => provider.prop === 'providerCode') || {}
-      const providers = servicer.selectOptions
-      val.providerName = providers.find(provider => provider.key === val.providerCode).value
+      const providers = servicer.selectOptions || []
+      val.providerName = (providers.find(provider => provider.key === val.providerCode) || {}).value
       if (val.edit) {
         let position = -1
         servicerTableData.forEach((item, index) => {
