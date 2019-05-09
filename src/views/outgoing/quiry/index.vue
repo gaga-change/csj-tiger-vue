@@ -145,7 +145,6 @@
             pageSize:10,
          },
         total:0,
-        tableConfig:indexTableConfig,
         rules: {
 
         },
@@ -185,6 +184,19 @@
     },
 
     computed: {
+      tableConfig() {
+        const config = [...indexTableConfig]
+        const oprateColumn = config.find(item => item.prop === 'oprate') || {}
+        oprateColumn.dom = (row, column, cellValue, index) => {
+          let view = <router-link to={{path:'/outgoing/quiry-detail',query:{warehouseExeCode: row.warehouseExeCode} }} style={{color:'#3399ea'}}>查看</router-link>
+          if (row.settleUnit === 2) {
+            view = <span><router-link to={{path:'/outgoing/quiry-detail',query:{warehouseExeCode: row.warehouseExeCode} }} style={{color:'#3399ea'}}>查看</router-link>
+              <router-link to={{path:'/outgoing/quiry-detail',query:{warehouseExeCode: row.warehouseExeCode, settleUnit: 2} }} style={{color:'#3399ea',marginLeft:'10px'}}>维护重量</router-link></span>
+          }
+          return view
+        }
+        return config
+      },
       ...mapGetters([
         'mapConfig',
       ])

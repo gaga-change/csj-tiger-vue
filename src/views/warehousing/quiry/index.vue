@@ -4,7 +4,7 @@
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
         <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px" size="small"  label-position="left">
-          <el-col :span="6" style="min-width:300px">
+          <el-col :span="6" >
             <el-form-item label="入库类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择入库类型">
                 <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -44,13 +44,13 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px" >
+          <el-col :span="6" >
             <el-form-item label="供应商名称" prop="providerName"   label-width="78px">
               <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px"  >
+          <el-col :span="6"  >
             <el-form-item label="货主"   prop="ownerCode">
               <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -58,7 +58,7 @@
             </el-form-item>
           </el-col>
 
-        <el-col :span="6"  style="min-width:320px">
+        <el-col :span="6"  >
           <el-form-item label="业务板块"  prop="busiPlate">
             <el-select v-model="ruleForm.busiPlate"  @change="submitForm('ruleForm')" placeholder="请选择业务板块">
               <el-option
@@ -157,7 +157,6 @@
         },
         loading:false,
         tableData: [],
-        tableConfig:indexTableConfig,
         linkData:'',
         inTotal:{},
         busiPlateConfig,
@@ -192,6 +191,19 @@
     },
 
     computed: {
+      tableConfig() {
+        const config = [...indexTableConfig]
+        const oprateColumn = config.find(item => item.prop === 'oprate') || {}
+        oprateColumn.dom = (row, column, cellValue, index) => {
+          let view = <router-link to={{path:'/warehousing/quiry-detail',query:{warehouseExeCode: row.warehouseExeCode} }} style={{color:'#3399ea'}}>查看</router-link>
+          if (row.settleUnit === 2) {
+            view = <span><router-link to={{path:'/warehousing/quiry-detail',query:{warehouseExeCode: row.warehouseExeCode} }} style={{color:'#3399ea'}}>查看</router-link>
+              <router-link to={{path:'/warehousing/quiry-detail',query:{warehouseExeCode: row.warehouseExeCode, settleUnit: 2} }} style={{color:'#3399ea',marginLeft:'10px'}}>维护重量</router-link></span>
+          }
+          return view
+        }
+        return config
+      },
       ...mapGetters([
         'mapConfig',
       ])

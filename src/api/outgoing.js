@@ -233,3 +233,12 @@ export function outPlanInitAdd(outWarehouseBillId) {
     method: 'get',
   })
 }
+
+// /webApi/out/order/update
+export function outDependWeight(data) {
+  return request({
+    url: `/webApi/out/order/update`,
+    method: 'post',
+    data: data,
+  })
+}

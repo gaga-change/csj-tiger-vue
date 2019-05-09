@@ -38,7 +38,7 @@
               {{planform.planWarehouseName}}
             </el-form-item>
           </el-col>
-          
+
           <el-col :span="6" style="min-width:300px;margin-right:20px">
             <el-form-item
              label="签收人"
@@ -51,22 +51,22 @@
           </el-col>
 
           <el-col :span="6" style="min-width:300px;margin-right:20px">
-            <el-form-item 
+            <el-form-item
               label="签收人电话"
               label-width="90px"
               :rules="[
                 { required: true,pattern:/^[1][3,4,5,7,8][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/,message: '请输入正确规则的手机号或电话号'},
               ]"
              prop="signTel">
-              <el-input  
+              <el-input
               v-model="planform.signTel"
                 placeholder="请输入签收人电话"></el-input>
             </el-form-item>
           </el-col>
 
         <el-col :span="6">
-          <el-form-item 
-            label="签收日期" 
+          <el-form-item
+            label="签收日期"
             label-width="74px"
             style="min-width:330px;margin-right:20px"
             :rules="[
@@ -84,7 +84,7 @@
         </el-col>
 
       <el-col :span="6" style="min-width:300px">
-        <el-form-item 
+        <el-form-item
           :rules="[
             { required: true, message: '该项为必填'},
           ]"
@@ -100,7 +100,7 @@
           <span v-show="filesRequired" style="color:#f56c6c;font-size:12px;margin-left:70px;top:132px;left:0;position: absolute;"> 附件为必选</span>
         </el-col>
 
-        
+
         <el-col :span="6" style="min-width:300px">
             <el-form-item
              label="签收依据"
@@ -122,7 +122,7 @@
           </el-col>
       </el-row>
       </el-card>
-      </div> 
+      </div>
 
        <item-title text="相关明细"/>
         <el-row >
@@ -131,7 +131,7 @@
               :data="planform.details"
               size="small"
               v-loading="loading"
-              
+
               max-height="600">
               <el-table-column
                 label="序号"
@@ -175,14 +175,34 @@
               prop="skuUnitConvert">
             </el-table-column>
             <el-table-column
+              label="签收重量"
+              fixed="right"
+               width="130">
+              <template slot-scope="scope">
+                <template v-if="scope.row.edit && scope.row.settleUnit">
+                  <el-input-number
+                    size="mini"
+                    :max="scope.row.planOutWeight"
+                    :min="0"
+                     style="width:120px"
+                     v-model="scope.row.signWeight" >
+                   </el-input-number>
+                </template>
+                <span v-else>
+                  {{scope.row.signWeight}}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column
               label="签收数量"
+              fixed="right"
                width="130">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
-                  <el-input-number 
+                  <el-input-number
                     size="mini"
-                    :max="planform.type===0?scope.row.realOutQty-scope.row.rejectQty:scope.row.planOutQty-scope.row.rejectQty" 
-                    :min="0" 
+                    :max="planform.type===0?scope.row.realOutQty-scope.row.rejectQty:scope.row.planOutQty-scope.row.rejectQty"
+                    :min="0"
                      style="width:120px"
                      v-model="scope.row.signQty" >
                    </el-input-number>
@@ -195,12 +215,13 @@
 
              <el-table-column
               label="拒收数量"
+              fixed="right"
               width="130">
               <template slot-scope="scope">
                 <template v-if="scope.row.edit">
-                  <el-input-number 
-                  :max="planform.type===0?scope.row.realOutQty-scope.row.signQty:scope.row.planOutQty-scope.row.signQty" 
-                  :min="0" 
+                  <el-input-number
+                  :max="planform.type===0?scope.row.realOutQty-scope.row.signQty:scope.row.planOutQty-scope.row.signQty"
+                  :min="0"
                   size="mini"
                   style="width:120px"
                    v-model="scope.row.rejectQty" >
@@ -211,9 +232,10 @@
                 </span>
               </template>
             </el-table-column>
-   
+
             <el-table-column
               label="操作"
+              fixed="right"
               width="150">
               <template slot-scope="scope">
                 <div style="width:150px">
@@ -225,7 +247,7 @@
             </el-table-column>
           </el-table>
           </el-form-item>
-        </el-row>   
+        </el-row>
       </el-form>
     </div>
 
@@ -295,7 +317,7 @@
 
         reply:'',
       }
-      
+
     },
 
     computed:{
@@ -332,11 +354,11 @@
     //   this.onload()
     // },
 
-    methods:{ 
+    methods:{
      onload(){
       let {id,modify}=this.$route.query||{};
       this.id=id;
-      let data=_.cloneDeep(this.planform); 
+      let data=_.cloneDeep(this.planform);
       this.planform=data;
       this.loading=true;
       if(modify){
@@ -375,6 +397,7 @@
             dataList=dataList.map(v=>{
                 let json=v;
                 json['signQty']=json.realOutQty
+                json.signWeight = json.planOutWeight
                 json['rejectQty']=0;
                 return json;
             })
@@ -411,22 +434,24 @@
             if(modify){
               json['saleSignId']=this.id;
             }
-          
+
             json['details']=data['details'].map(v=>{
               if(modify){
                 return {
                   signDetailId:v.id,
                   signQty:v.signQty,
-                  rejectQty:v.rejectQty
+                  rejectQty:v.rejectQty,
+                  signWeight: v.signWeight
                 }
               } else{
                 return {
                   outPlanDetailId:v.id,
                   signQty:v.signQty,
-                  rejectQty:v.rejectQty
+                  rejectQty:v.rejectQty,
+                  signWeight: v.signWeight
                 }
               }
-              
+
             })
 
             if(!json['details'].every(v=>v.signQty!==undefined&&v.rejectQty!==undefined)){
@@ -451,12 +476,12 @@
                        path: '/reply/newreceiptorder-detail',
                        query:{
                         id:modify?this.id:this.replyid,
-                        approveStatus:0,         
+                        approveStatus:0,
                         }
                       })
                      })
                     }
-                  })   
+                  })
             }).catch(err=>{
               this.submitloading=false;
             })
@@ -475,7 +500,7 @@
       handleDelete(index, row) {
         let {modify}=this.$route.query||{};
         this.planform.details.splice(index, 1)
-        this.planform.deleteSignDetailIds.push(row.id) 
+        this.planform.deleteSignDetailIds.push(row.id)
       },
 
 
@@ -539,4 +564,3 @@
      white-space: nowrap;
   }
 </style>
-

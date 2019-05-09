@@ -7,8 +7,12 @@ export   const tableConfig=[
   { label:'单价',prop:'inPrice'},
   { label:'生产厂家',prop:'productFactory'},
   { label:'入库数量',prop:'inStoreQty'},
-  { label:'入库金额',dom:(row, column, cellValue, index)=>{
-    return `${row.inPrice*row.inStoreQty}`
+  { label:'入库金额',prop:'inStoreAmt',dom:(row, column, cellValue, index)=>{
+    let amount = row.inPrice*row.inStoreQty
+    if (row.settleUnit ===2) {
+      amount = amount * (row.inStoreWeight || 0)
+    }
+    return amount.toFixed(2)
   }},
 ];
 
@@ -38,6 +42,5 @@ export   const indexTableConfig=[
   { label:'入库数量',prop:'inQty'},
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'入库日期',prop:'inWarehouseTime',type:'time',width:140},
-  { label:'操作',width:100,fixed:'right',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看'},
+  { label:'操作',width:140,fixed:'right',prop:'oprate'},
 ]
-

@@ -1,5 +1,5 @@
 export const tableConfig=[
-  { label:'序号',fixed:true,type:'index',width:50},
+  { label:'序号',fixed:true,type:'index',width:50,prop:'index'},
   { label:'商品编码',prop:'skuCode'},
   { label:'商品名称',prop:'skuName'},
   { label:'规格型号',prop:'skuFormat'},
@@ -7,8 +7,12 @@ export const tableConfig=[
   { label:'单位',prop:'skuUnitName'},
   { label:'单价',prop:'skuOutPrice'},
   { label:'出库数量',prop:'outStoreQty'},
-  { label:'出库金额',dom:(row, column, cellValue, index)=>{
-    return `${row.skuOutPrice*row.outStoreQty}`
+  { label:'出库金额',prop:'outStoreAmt',dom:(row, column, cellValue, index)=>{
+    let amount = row.skuOutPrice*row.outStoreQty
+    if (row.settleUnit ===2) {
+      amount = amount * (row.outStoreWeight || 0)
+    }
+    return amount.toFixed(2)
   }},
 ];
 
@@ -31,7 +35,7 @@ export const indexTableConfig=[
   { label:'业务单号',prop:'billNo',minWidth:170 },
   { label:'计划单号',prop:'planCode',minWidth:150,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
   { label:'合同编号',prop:'contractNo',minWidth:120 },
-  { label:'客户名称',prop:'arrivalName' ,width:180}, 
+  { label:'客户名称',prop:'arrivalName' ,width:180},
   { label:'货主',prop:'ownerName',width:180},
   { label:'出库仓库名称',prop:'warehouseName',minWidth:180 },
   { label:'出库数量',prop:'outQty'},
@@ -39,7 +43,7 @@ export const indexTableConfig=[
   { label:'是否越库',prop:'isCross',width:100,type:'Boolean',},
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'出库日期',prop:'outStoreTime',type:'time',minWidth:140 },
-  { label:'操作',fixed:'right',width:80,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}],linkText:'查看' },
+  { label:'操作', prop:'oprate',fixed:'right',width:140},
 ]
 
 export const record_config=[

@@ -54,7 +54,7 @@ export function inOrderDetail(data={}) {
   })
 }
 
-// 入库单查询 合计接口 
+// 入库单查询 合计接口
 export function selectSumNo(data={}) {
   return request({
     url: `api/in/order/selectSumNo`,
@@ -150,4 +150,11 @@ export function orderSave(data={}) {
   })
 }
 
-
+// /webApi/in/order/update
+export function inDependWeight(data) {
+  return request({
+    url: `/webApi/in/order/update`,
+    method: 'post',
+    data: data,
+  })
+}
