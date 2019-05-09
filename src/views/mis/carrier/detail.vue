@@ -13,7 +13,7 @@
         <item-title text="基本信息"/>
         <item-card :config="carrierDetailConfig" :loading="loading"   :cardData="baseinfoData"  />
      </div>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
 
   mounted(){
     consoilInfoDetail({
-      consoildatorCode:this.$route.query.consoildatorCode
+      consolidatorCode:this.$route.query.consoildatorCode
     }).then(res=>{
       if(res.success){
         this.baseinfoData=res.data;
@@ -60,7 +60,7 @@ export default {
         }).then(res=>{
           if(res.success){
              this.$message({
-                type:'success', 
+                type:'success',
                 message:'操作成功,即将跳转到列表页！' ,
                 duration:1500,
                 onClose:()=>{
@@ -70,7 +70,7 @@ export default {
                     })
                   }).catch(err=>{
                     console.log(err)
-                  })  
+                  })
                 }
             })
           } else{
@@ -89,6 +89,5 @@ export default {
    .carrier_detail{
 
    }
-  
-</style>
 
+</style>
