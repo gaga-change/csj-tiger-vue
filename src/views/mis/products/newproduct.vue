@@ -22,8 +22,9 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{required: true,message:'必填项'}]">
+          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{ validator: categoryValidator, trigger: 'change' }]">
             <choice-category @categorySubmit="categorySubmit"  ref="categoryChoice" ></choice-category>
+            <el-input type="hidden" v-model="productForm.categoryCode" style="margin-top:-34px;display: block;"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="editable">
@@ -353,7 +354,19 @@ export default {
       servicerConfirmText: '添加',
       submitloading: false,
       productEnum,
-      customerList: []
+      customerList: [],
+      categoryValidator: (rule, value, callback) => {
+        console.log(rule,value,callback)
+        if (!value) {
+          return callback(new Error('必填项'))
+        }
+        setTimeout(() => {
+          if(value.split('-').length < 3) {
+            return callback(new Error('请选到三级分类'))
+          }
+          callback()
+        }, 300)
+      }
     }
   },
   computed: {
@@ -420,9 +433,11 @@ export default {
       })
     },
     categorySubmit(item) {
-      this.productForm.categoryCode = item.currentCode
-      this.productForm.categoryName = item.text
-      this.$refs['productForm'].clearValidate(['categoryCode'])
+      // this.productForm.categoryCode = item.currentCode
+      // this.productForm.categoryName = item.text
+      this.$set(this.productForm, 'categoryCode', item.currentCode)
+      this.$set(this.productForm, 'categoryName', item.text)
+      // this.$refs['productForm'].clearValidate(['categoryCode'])
     },
     onSubmit() {
 
