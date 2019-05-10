@@ -32,7 +32,7 @@
       border
       class="mt10 cantselectall"
       @selection-change="handleSelectionChange"
-      :loading="loading"
+      v-loading="loading"
       row-key="id"
       max-height="400"
     >
