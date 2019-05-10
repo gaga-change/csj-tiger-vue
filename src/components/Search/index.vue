@@ -4,7 +4,7 @@
     <el-row>
       <el-col :sm="12" :md="8" :lg="8" :xl="6" v-for="(formitem, index) in config" :key="index">
         <el-form-item :label="formitem.label" :prop="formitem.prop" :rules="formitem.rules||[]">
-          <el-select v-if="formitem.type==='select'" :disabled="formitem.disabled" v-model="searchForm[formitem.prop]" clearable  :placeholder="formitem.placeholder" size="small" class="formitem">
+          <el-select v-if="formitem.type==='select' && formitem.selectOptions" :disabled="formitem.disabled" v-model="searchForm[formitem.prop]" clearable  :placeholder="formitem.placeholder" size="small" class="formitem">
             <el-option v-for="item in formitem.selectOptions" :label="item.value" :key="item.key" :value="item.key"></el-option>
           </el-select>
           <el-date-picker
@@ -108,7 +108,7 @@ export default {
       searchForm: {}
     }
   },
-  
+
   methods: {
     loadData() {
       this.$nextTick(() => {
