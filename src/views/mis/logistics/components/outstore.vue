@@ -21,7 +21,7 @@
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="外部订单号" prop="busiBillNo">
+            <el-form-item label="外部订单号" prop="busiBillNo" labelWidth="75px">
               <el-input v-model="searchForm.busiBillNo" class="formitem" size="small" placeholder="请输入外部订单号"></el-input>
             </el-form-item>
           </el-col>
