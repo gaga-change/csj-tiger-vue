@@ -19,17 +19,17 @@
      <item-title text="相关明细"/>
      <el-tabs v-model="tabActive" type="card" @tab-click="activeChange">
         <el-tab-pane label="相关计划单" name="plan">
-          <edit-table 
+          <edit-table
              :loading="loading"
              :useRowColorKey="this.$route.query.history?'qty':null"
-             :config="tableConfig" 
+             :config="tableConfig"
              :allTableData="tableData"/>
           </el-tab-pane>
         <el-tab-pane label="相关出库单" name="outgoing">
-            <web-pagination-table 
+            <web-pagination-table
             :loading="outgoingLoding"
-            :config="outgoingTableConfig" 
-            :allTableData="outgoingTableData"/> 
+            :config="outgoingTableConfig"
+            :allTableData="outgoingTableData"/>
         </el-tab-pane>
      </el-tabs>
 
@@ -52,7 +52,7 @@
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import editTable from '@/components/Table/editTable'
  import {tableConfig,infoConfig,outgoingTableConfig,printingTable_config} from './config';
- import Sticky from '@/components/Sticky' 
+ import Sticky from '@/components/Sticky'
  import Invoice from './invoice'
  import moment from 'moment';
  import { MakePrint } from '@/utils'
@@ -69,7 +69,7 @@
         tableConfig,
         tableData:[],
 
-        outgoingLoding:false, 
+        outgoingLoding:false,
         outgoingTableConfig,
         outgoingTableData:[],
 
@@ -144,7 +144,7 @@
                  return json;
                })
             }
-           
+
           }
           this.loading=false;
 
@@ -200,7 +200,8 @@
               outOrderSelect({
                   planCode:this.planCode,
                   pageSize:500,
-                  pageNum:1
+                  pageNum:1,
+                  ownerCode: this.config.ownerCode
                 }).then(res=>{
                 if(res.success){
                    this.outgoingTableData=res.data&&res.data.list||[]

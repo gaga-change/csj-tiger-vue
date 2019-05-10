@@ -234,8 +234,8 @@ import moment from 'moment';
 export default {
   data() {
     return {
-      customerConfig,
-      servicerConfig,
+      customerConfig: [...customerConfig],
+      servicerConfig: [...servicerConfig],
       loading: false,
       productForm: {}
     }

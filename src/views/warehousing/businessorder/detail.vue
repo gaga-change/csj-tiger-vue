@@ -14,28 +14,28 @@
          </router-link>
       </template>
     </sticky>
-  
+
      <item-title text="基本信息"/>
      <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
 
      <item-title text="相关明细"/>
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="业务单" name="business">
-          <web-pagination-table 
+          <web-pagination-table
             :loading="loading"
-            :config="tableConfig" 
+            :config="tableConfig"
             :allTableData="tableData"/>
         </el-tab-pane>
         <el-tab-pane label="计划单" name="plan">
-          <web-pagination-table 
+          <web-pagination-table
             :loading="loading"
-            :config="detail_planTableConfig" 
+            :config="detail_planTableConfig"
             :allTableData="detail_planTableData"/>
         </el-tab-pane>
         <el-tab-pane label="入库单" name="warehousing">
-           <web-pagination-table 
+           <web-pagination-table
             :loading="loading"
-            :config="detail_warehousingTableConfig" 
+            :config="detail_warehousingTableConfig"
             :allTableData="detail_warehousingTableData"/>
         </el-tab-pane>
      </el-tabs>
@@ -77,7 +77,7 @@
 
         tableData:[],
         tableConfig,
-        
+
         //打印项
         printingVisible:false,
         baseData:{},
@@ -113,7 +113,8 @@
               inPlanSelect({
                  pageNum: 1,
                  pageSize:1000,
-                 billNo:res.data&&res.data.billNo
+                 billNo:res.data&&res.data.billNo,
+                 ownerCode: res.data&&res.data.ownerCode
               }).then(result=>{
                 if(result.success){
                   this.detail_planTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
@@ -126,7 +127,8 @@
               inOrderSelect({
                  pageNum: 1,
                  pageSize:1000,
-                 billNo:res.data&&res.data.billNo
+                 billNo:res.data&&res.data.billNo,
+                 ownerCode: res.data&&res.data.ownerCode
               }).then(result=>{
                 if(result.success){
                   this.detail_warehousingTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
@@ -165,7 +167,7 @@
           if(res.success){
             if(type==='delete'){
               this.$message({
-                  type:'success', 
+                  type:'success',
                   message:'操作成功,即将跳转到列表页！' ,
                   duration:1500,
                   onClose:()=>{
@@ -175,7 +177,7 @@
                       })
                     }).catch(err=>{
                       console.log(err)
-                    })  
+                    })
                   }
               })
             } else{
@@ -230,4 +232,3 @@
     padding-top: 12px;
   }
 </style>
-
