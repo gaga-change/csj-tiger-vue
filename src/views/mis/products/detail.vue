@@ -231,11 +231,12 @@
 import { customerConfig, servicerConfig } from './components/config'
 import { productDetail } from '@/api/productcenter'
 import moment from 'moment';
+import _ from 'lodash'
 export default {
   data() {
     return {
-      customerConfig: [].push.apply([], customerConfig),
-      servicerConfig: [].push.apply([], servicerConfig),
+      customerConfig: _.cloneDeep(customerConfig),
+      servicerConfig: _.cloneDeep(servicerConfig),
       loading: false,
       productForm: {}
     }
