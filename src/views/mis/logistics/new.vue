@@ -306,6 +306,10 @@ export default {
           prop: 'bussinessNo'
         },
         {
+          label: '外部订单号',
+          prop: 'outBusiBillNo'
+        },
+        {
           label: '出库单号',
           prop: 'outWarehouseNo'
         },
@@ -452,7 +456,8 @@ export default {
       this.outTableData = this.multipleData.map(item => {
         const newitem = {
           outWarehouseId: item.id,
-          bussinessNo: item.busiBillNo,
+          bussinessNo: item.billNo,
+          outBussinessNo: item.busiBillNo,
           outWarehouseNo: item.warehouseExeCode,
           customerName: item.arrivalName,
           customerCode: item.arrivalCode,
