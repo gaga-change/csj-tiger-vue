@@ -6,7 +6,6 @@ export   const tableConfig=[
   { label:'规格',prop:'skuFormat',},
   { label:'单位',prop:'skuUnitName'},
   { label:'单价',prop:'skuPrice'},
-  { label:'签收重量',prop:'signWeight'},
   { label:'签收数量',prop:'signQty'},
   { label:'拒收数量',prop:'rejectQty'},
   { label:'发票号',useList:true,width:200},

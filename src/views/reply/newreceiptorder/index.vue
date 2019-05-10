@@ -175,25 +175,6 @@
               prop="skuUnitConvert">
             </el-table-column>
             <el-table-column
-              label="签收重量"
-              fixed="right"
-               width="130">
-              <template slot-scope="scope">
-                <template v-if="scope.row.edit && scope.row.settleUnit">
-                  <el-input-number
-                    size="mini"
-                    :max="scope.row.planOutWeight"
-                    :min="0"
-                     style="width:120px"
-                     v-model="scope.row.signWeight" >
-                   </el-input-number>
-                </template>
-                <span v-else>
-                  {{scope.row.signWeight}}
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column
               label="签收数量"
               fixed="right"
                width="130">
@@ -397,7 +378,6 @@
             dataList=dataList.map(v=>{
                 let json=v;
                 json['signQty']=json.realOutQty
-                json.signWeight = json.planOutWeight
                 json['rejectQty']=0;
                 return json;
             })
@@ -440,15 +420,13 @@
                 return {
                   signDetailId:v.id,
                   signQty:v.signQty,
-                  rejectQty:v.rejectQty,
-                  signWeight: v.signWeight
+                  rejectQty:v.rejectQty
                 }
               } else{
                 return {
                   outPlanDetailId:v.id,
                   signQty:v.signQty,
-                  rejectQty:v.rejectQty,
-                  signWeight: v.signWeight
+                  rejectQty:v.rejectQty
                 }
               }
 
