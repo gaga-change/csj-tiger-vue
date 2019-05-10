@@ -20,6 +20,11 @@
               <el-input v-model="searchForm.warehouseExeCode" class="formitem" size="small" placeholder="请输入出库单号"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
+            <el-form-item label="外部订单号" prop="busiBillNo">
+              <el-input v-model="searchForm.busiBillNo" class="formitem" size="small" placeholder="请输入外部订单号"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-button @click="submit" size="small" type="primary">查询</el-button>
@@ -55,8 +60,9 @@ export default {
         {label:'货主',prop:'ownerName'},
         {label:'客户编码',prop:'arrivalCode'},
         {label:'客户名称',prop:'arrivalName'},
-        {label:'业务单号',prop:'busiBillNo'},
+        {label:'业务单号',prop:'billNo'},
         {label:'出库单号',prop:'warehouseExeCode'},
+        {label:'外部订单号',prop:'busiBillNo'},
         {label:'配送地址',prop:'arrivalAddress'},
       ],
       loading: false,
