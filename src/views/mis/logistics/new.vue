@@ -498,6 +498,14 @@ export default {
 
     delOutStore(row) {
       this.outTableData = this.outTableData.filter(item => item !== row)
+      if (this.outTableData.length === 0) {
+        this.addressData.length = 0
+        this.$set(this.addForm, 'customerName', null)
+        this.$set(this.addForm, 'customerCode', null)
+        this.$set(this.addForm, 'dispatchAddr', null)
+        this.$set(this.addForm, 'customerTel', null)
+        this.$set(this.addForm, 'customerContact', null)
+      }
     },
 
     onSubmit() {
