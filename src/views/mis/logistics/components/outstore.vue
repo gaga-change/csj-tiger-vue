@@ -42,9 +42,22 @@
       max-height="400"
     >
       <el-table-column type="selection" :selectable="checkSelectable" reserve-selection></el-table-column>
-      <el-table-column type="index" label="序号" width="60"></el-table-column>
+      <el-table-column label="序号" width="60">
+        <template slot-scope="scope">
+          {{ (pageNum - 1) * pageSize + scope.$index + 1 }}
+        </template>
+      </el-table-column>
       <el-table-column v-for="column in columns" :label="column.label" :prop="column.prop" :key="column.prop"></el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pageNum"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
   </div>
 </template>
 
@@ -66,7 +79,10 @@ export default {
         {label:'配送地址',prop:'arrivalAddress'},
       ],
       loading: false,
-      multipleData: []
+      multipleData: [],
+      pageNum: 1,
+      pageSize: 10,
+      total: 0
     }
   },
   computed: {
@@ -83,8 +99,11 @@ export default {
     },
     fetchData() {
       this.loading = true
-      getOutStoreList(this.searchForm).then(res => {
-        this.tableData = res.data
+      getOutStoreList({ ...this.searchForm, pageSize: this.pageSize, pageNum: this.pageNum }).then(res => {
+        const result = res.data
+        this.tableData = result.list
+        this.pageNum = result.pageNum
+        this.total = result.total
         this.loading = false
       }).catch(err => {
         console.log(err)
@@ -96,10 +115,20 @@ export default {
     },
     resetForm() {
       this.$refs.searchForm.resetFields()
+      this.fetchData()
     },
     handleSelectionChange(val) {
       this.multipleData = val
       this.$emit('selectionChange', val)
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.pageNum = 1
+      this.fetchData()
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val
+      this.fetchData()
     }
   }
 }

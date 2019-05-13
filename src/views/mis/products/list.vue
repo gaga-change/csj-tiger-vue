@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     searchConfig() {
-      const selectOptions = this.mapConfig['billOwnerInfoMap']
+      const selectOptions = this.mapConfig['ownerInfoMap']
       return  [
         { label: '商品名称:', prop: 'skuName', placeholder: '请输入商品名称' },
         { label: '商品编码:', prop: 'skuCode', placeholder: '请输入商品编码' },
@@ -251,16 +251,16 @@ export default {
       this.loading = true
       const { gmtCreate, ...rest} = this.searchData
       const postData = {
-        startDate: gmtCreate && new Date(gmtCreate[0]).getTime(), 
-        endDate: gmtCreate && new Date(gmtCreate[1]).getTime(), 
-        pageSize: this.pageSize, 
+        startDate: gmtCreate && new Date(gmtCreate[0]).getTime(),
+        endDate: gmtCreate && new Date(gmtCreate[1]).getTime(),
+        pageSize: this.pageSize,
         pageNum: this.pageNum,
         ...rest
       }
       this.$router.replace({
         path:'/mis/products/list',
         query:{data:JSON.stringify({
-           pageSize: this.pageSize, 
+           pageSize: this.pageSize,
            pageNum: this.pageNum,
         })}
       })
