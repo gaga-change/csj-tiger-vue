@@ -32,6 +32,7 @@ import { outwarehouseList, deleteOutwarehouseRevisal, outwarehouseApproveRevisal
 import _ from 'lodash';
 import moment from 'moment';
 export default {
+  name: 'outgoingList',
   components: { search, BaseTable },
   data() {
     return {
@@ -203,5 +204,3 @@ export default {
   }
 }
 </style>
-
-

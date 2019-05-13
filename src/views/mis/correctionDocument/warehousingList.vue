@@ -31,6 +31,7 @@ import { inwarehouseList, deleteInwarehouseRevisal, inwarehouseApproveRevisal } 
 import _ from 'lodash';
 import moment from 'moment';
 export default {
+  name: 'warehousingList',
   components: { search, BaseTable },
   data() {
     return {
@@ -118,7 +119,7 @@ export default {
           })
         }
       }).catch(err => {
-        
+
       })
     },
     /** 删除修正单 */
@@ -203,5 +204,3 @@ export default {
   }
 }
 </style>
-
-

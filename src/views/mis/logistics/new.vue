@@ -415,8 +415,8 @@ export default {
 
     dispatchAddrChange(value){
       let index=this.addressData.findIndex(v=>v.value===value);
-      this.$set(this.addForm, 'customerTel', this.addressData[index]['receiverName']);
-      this.$set(this.addForm, 'customerContact', this.addressData[index]['receiverTel']);
+      this.$set(this.addForm, 'customerTel', this.addressData[index]['receiverTel']);
+      this.$set(this.addForm, 'customerContact', this.addressData[index]['receiverName']);
     },
 
     consoildatorChange(val){

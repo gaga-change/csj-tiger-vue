@@ -202,6 +202,7 @@ import {
   subsituteConfig
 } from './components/config'
 export default {
+  name: 'logisticsList',
   components: { search, BaseTable, SearchHead },
   data() {
     return {
