@@ -3,14 +3,14 @@
       <div style="margin-bottom:16px">
          <search @submit="select" :searchForm="searchForm"></search>
       </div>
-      <base-table 
+      <base-table
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :pageSize="searchForm.pageSize"
         :currentPage="searchForm.pageNum"
         :loading="loading"
-        :total="total" 
-        :config="record_config"  
+        :total="total"
+        :config="record_config"
         :tableData="tableData"/>
   </div>
 </template>
@@ -23,6 +23,7 @@
   import _  from 'lodash';
   import moment from 'moment';
   export default {
+    name: 'out-quiry-record',
     components: { search,BaseTable},
     data() {
       return {
@@ -37,7 +38,7 @@
           pageNum:1
         },
         total:0,
-        
+
         //table配置
         loading:false,
         record_config,
@@ -55,10 +56,10 @@
             item.dom=(row, column, cellValue, index)=>{
               return(
                 <div class="tableLinkBox">
-                     {  
+                     {
                        <router-link to={`/outgoing/recordDetail?id=${row.id}`}  class="tableLink">{cellValue}</router-link>
                      }
-                </div> 
+                </div>
               )
             }
         }
@@ -129,5 +130,3 @@
     }
   }
 </style>
-
-

@@ -68,6 +68,11 @@
               <span>{{productForm.materialState}}</span>
             </el-form-item>
           </el-col>
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
+            <el-form-item label="基准结算价："  prop="baseSettlementPrice">
+              <span>{{productForm.baseSettlementPrice}}</span>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-card>
 
@@ -81,11 +86,6 @@
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="商品管理区分：" prop="mangerType">
             <span>{{productForm.mangerType}}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="基准结算价："  prop="baseSettlementPrice">
-            <span>{{productForm.baseSettlementPrice}}</span>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">

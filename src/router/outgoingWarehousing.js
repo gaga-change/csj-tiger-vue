@@ -11,9 +11,9 @@ export default [
     hidden: false,
     children: [
       {
-        name: 'businessorder',
+        name: 'outgoing-businessorder-index',
         path: 'businessorder',
-        meta: { title: '出库业务单', noCache: true },
+        meta: { title: '出库业务单', noCache: false },
         component: _import('outgoing/businessorder/index')
       },
       {
@@ -38,9 +38,9 @@ export default [
         hidden: true,
       },
       {
-        name: 'plan',
+        name: 'outgoing-plan-index',
         path: 'plan',
-        meta: { title: '出库计划', noCache: true },
+        meta: { title: '出库计划', noCache: false },
         component: _import('outgoing/plan/index')
       },
       {
@@ -58,15 +58,15 @@ export default [
         hidden: true,
       },
       {
-        name: 'outquiry',
+        name: 'outgoing-quiry-index',
         path: 'quiry',
-        meta: { title: '出库单查询', noCache: true },
+        meta: { title: '出库单查询', noCache: false },
         component: _import('outgoing/quiry/index')
       },
       {
-        name: 'outquiryrecord',
+        name: 'out-quiry-record',
         path: 'outquiryrecord',
-        meta: { title: '调整记录', noCache: true },
+        meta: { title: '调整记录', noCache: false },
         component: _import('outgoing/quiry/record')
       },
       {
@@ -95,9 +95,9 @@ export default [
     hidden: false,
     children: [
       {
-        name: 'businessorder-warehousing',
+        name: 'warehousing-businessorder-index',
         path: 'businessorder',
-        meta: { title: '入库业务单', noCache: true },
+        meta: { title: '入库业务单', noCache: false },
         component: _import('warehousing/businessorder/index')
       },
       {
@@ -122,9 +122,9 @@ export default [
         hidden: true,
       },
       {
-        name: 'warehousingplan',
+        name: 'warehousing-plan-index',
         path: 'plan',
-        meta: { title: '入库计划', noCache: true },
+        meta: { title: '入库计划', noCache: false },
         component: _import('warehousing/plan/index')
       },
       {
@@ -136,9 +136,9 @@ export default [
       },
 
       {
-        name: 'inquiry',
+        name: 'warehousing-quiry-index',
         path: 'quiry',
-        meta: { title: '入库单查询', noCache: true },
+        meta: { title: '入库单查询', noCache: false },
         component: _import('warehousing/quiry/index')
       },
       {

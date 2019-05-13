@@ -22,7 +22,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{ validator: categoryValidator, trigger: 'change' }]">
+          <el-form-item label="商品分类：" prop="categoryCode"  :rules="[{ validator: categoryValidator, required: true, trigger: 'change' }]">
             <choice-category @categorySubmit="categorySubmit"  ref="categoryChoice" ></choice-category>
             <el-input type="hidden" v-model="productForm.categoryCode" style="margin-top:-34px;display: block;"></el-input>
           </el-form-item>
@@ -74,7 +74,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="型号：" prop="skuModel" :rules="[{max:20, message:'最长20位', trigger: 'blur'}]">
+          <el-form-item label="型号：" prop="skuModel" :rules="[{required: true, message:'必填项', trigger: 'change'},{max:20, message:'最长20位', trigger: 'blur'}]">
             <el-input v-model="productForm.skuModel" placeholder="请输入型号" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
@@ -83,6 +83,13 @@
             <el-select  v-model="productForm.materialState" clearable  placeholder="请选择商品状态" size="small" class="formitem">
               <el-option v-for="item in productEnum['materialState']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="基准结算价："  prop="baseSettlementPrice" :rules="[{required: true, message:'必填项', trigger: 'change'}]">
+            <el-input type="number" v-model="productForm.baseSettlementPrice" class="formitem" size="small" placeholder="请输入基准结算价">
+              <span slot="suffix">元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,13 +110,6 @@
               <el-select  v-model="productForm.mangerType" clearable  placeholder="请选择商品管理" size="small" class="formitem">
                 <el-option v-for="item in productEnum['mangerType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="基准结算价："  prop="baseSettlementPrice" :rules="[{required: true, message:'必填项', trigger: 'change'}]">
-              <el-input type="number" v-model="productForm.baseSettlementPrice" class="formitem" size="small" placeholder="请输入基准结算价">
-                <span slot="suffix">元</span>
-              </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
@@ -356,7 +356,6 @@ export default {
       productEnum,
       customerList: [],
       categoryValidator: (rule, value, callback) => {
-        console.log(rule,value,callback)
         if (!value) {
           return callback(new Error('必填项'))
         }

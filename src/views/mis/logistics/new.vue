@@ -1,6 +1,25 @@
 <template lang="html">
 <div class="app-container">
   <el-form :model="addForm" ref="addForm" label-width="80px">
+
+    <item-title text="出库单信息" class="mt10" />
+    <el-card shadow="hover">
+      <el-row>
+        <el-button type="primary" @click="unionOutStore" :disabled="Boolean($route.query.id)" size="mini">关联出库单</el-button>
+      </el-row>
+      <el-table
+        :data="outTableData"
+      >
+        <el-table-column type="index" label="序号"></el-table-column>
+        <el-table-column v-for="column in columns" :label="column.label" :prop="column.prop" :key="column.prop"></el-table-column>
+        <el-table-column label="操作" v-if="!$route.query.id">
+          <template slot-scope="scope">
+              <a @click="delOutStore(scope.row)"  :style="linkstyle">删除</a>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+
     <item-title text="承运商信息" />
     <el-card shadow="hover">
       <el-row>
@@ -41,24 +60,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-    </el-card>
-
-    <item-title text="出库单信息" class="mt10" />
-    <el-card shadow="hover">
-      <el-row>
-        <el-button type="primary" @click="unionOutStore" :disabled="Boolean($route.query.id)" size="mini">关联出库单</el-button>
-      </el-row>
-      <el-table
-        :data="outTableData"
-      >
-        <el-table-column type="index" label="序号"></el-table-column>
-        <el-table-column v-for="column in columns" :label="column.label" :prop="column.prop" :key="column.prop"></el-table-column>
-        <el-table-column label="操作" v-if="!$route.query.id">
-          <template slot-scope="scope">
-              <a @click="delOutStore(scope.row)"  :style="linkstyle">删除</a>
-          </template>
-        </el-table-column>
-      </el-table>
     </el-card>
 
     <item-title text="客户信息" class="mt10"  />

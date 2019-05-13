@@ -26,7 +26,7 @@
 
             <el-col :span="6" style="min-width:300px"  >
               <el-form-item label="货主" prop="ownerCode" >
-                <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+                <el-select   @change="submitForm('ruleForm')" clearable  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
                   <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
@@ -53,6 +53,19 @@
                 </el-select>
               </el-form-item>
             </el-col>
+
+            <el-col :span="16">
+             <el-form-item label="制单日期" prop="time">
+                  <el-date-picker
+                     v-model="ruleForm.time"
+                     @change="timeChange"
+                     :picker-options="$pickerOptions"
+                     type="daterange"
+                     start-placeholder="开始日期"
+                     end-placeholder="结束日期">
+                  </el-date-picker>
+               </el-form-item>
+           </el-col>
 
 
             <el-col :span="24">
@@ -97,6 +110,7 @@
     import moment from 'moment';
     import {outBillStatusEnum,outBillStateEnum} from "@/utils/enum.js";
     export default {
+      name: 'outgoing-businessorder-index',
       components: { BaseTable },
       data() {
       return {
@@ -166,21 +180,12 @@
         }
       })
     },
-    watch: {
-      mapConfig: {
-        immediate: true,
-        deep: true,
-        handler(newMap, oldMap) {
-          const billOwnerInfoMap = newMap['billOwnerInfoMap']
-          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
-        }
-      }
-    },
 
      mounted(){
-       if(this.$route.query.data){
-         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-       }
+       const end = new Date();
+       const start = new Date();
+       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+       this.$set(this.ruleForm, 'time', [start, end])
        this.getCurrentTableData()
      },
 
@@ -209,6 +214,11 @@
         this.getCurrentTableData()
       },
 
+      timeChange(value){
+        this.ruleForm={...this.ruleForm, time:value};
+        this.getCurrentTableData()
+      },
+
       handleSizeChange(val) {
         this.ruleForm={...this.ruleForm,pageSize:val,pageNum:1}
         this.getCurrentTableData()
@@ -221,16 +231,21 @@
 
 
       getCurrentTableData(){
-        this.$router.replace({
-          path:'/outgoing/businessorder',
-          query:{data:JSON.stringify(this.ruleForm)}
-        })
         this.loading=true;
         let json={};
 
         for(let i in this.ruleForm){
           if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
-            json[i]=this.ruleForm[i]
+            if(i==='time'){
+              const timeArr = this.ruleForm[i] || []
+               let arr=timeArr.map(v=>moment(v).valueOf());
+               if(arr.every(v=>v)&&arr.length>1){
+                 json['createTimeFrom']=arr[0];
+                 json['createTimeTo']=arr[1];
+               }
+            } else{
+               json[i]=this.ruleForm[i]
+            }
           }
         }
         let data={...json}
