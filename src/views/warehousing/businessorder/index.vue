@@ -4,7 +4,7 @@
     <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
         <el-form :inline="true" :model="ruleForm" size="small"  :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="6"   style="min-width:300px" >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="业务类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
                 <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -12,19 +12,19 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px" >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="业务单号" prop="billNo">
               <el-input v-model.lazy.trim="ruleForm.billNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px" >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="合同编号" prop="contractNo">
               <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入合同编号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px"  >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6"  >
             <el-form-item label="货主"   prop="ownerCode">
               <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode" clearable  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -33,20 +33,20 @@
           </el-col>
 
 
-           <el-col :span="6"   style="min-width:300px" >
+           <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="供应商名称" label-width="72px" prop="providerName">
               <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="6">
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主电话" prop="linkTel">
               <el-input v-model.lazy.trim="ruleForm.linkTel" @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入货主电话"></el-input>
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" style="min-width:300px"  >
+           <el-col :sm="12" :md="8" :lg="8" :xl="6"  >
             <el-form-item label="单据状态" >
               <el-select   v-model="ruleForm.billStatus"  placeholder="请选择单据状态">
                 <el-option   v-for="item in misWarehousingBillStatusEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
@@ -54,7 +54,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px"  >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="执行状态" >
               <el-select   v-model="ruleForm.billState"  placeholder="请选择执行状态">
                 <el-option   v-for="item in misWarehousingBillStateEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>

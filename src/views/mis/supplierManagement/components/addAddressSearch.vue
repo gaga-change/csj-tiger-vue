@@ -7,19 +7,19 @@
                  <el-option v-for="item in mapConfig['getAddrNature']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
-          </el-col>  
-          
+          </el-col>
+
           <el-col :span="12">
             <el-form-item label="所在地区" prop="area" :rules="[{ required: true, message: '该项为必填'}]" >
                 <el-cascader :options="options" v-model="searchForm.area" size="small"  ></el-cascader>
             </el-form-item>
-          </el-col>  
+          </el-col>
 
           <el-col :span="12">
             <el-form-item label="详细地址" prop="providerAddress" :rules="[{ required: true, message: '该项为必填'}]">
               <el-input v-model="searchForm.providerAddress" placeholder="请输入详细地址" size="small" class="formitem"></el-input>
             </el-form-item>
-          </el-col>  
+          </el-col>
 
           <el-col :span="12">
             <el-form-item label="联系人:" prop="receiverName" :rules="[{ required: true, message: '该项为必填'}]">
@@ -38,8 +38,14 @@
               <el-input v-model="searchForm.postalCode" placeholder="请输入邮政编码" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
+
+          <el-col :span="12">
+            <el-form-item label="地址编码:">
+              <el-input v-model="searchForm.addrCode" placeholder="请输入地址编码" size="small" class="formitem"></el-input>
+            </el-form-item>
+          </el-col>
     </el-row>
-    
+
       <div class="btn_box">
         <el-button @click="submit" type="primary">保存</el-button>
         <el-button @click="$emit('handleClose')" >取消</el-button>
@@ -52,7 +58,7 @@
 import { Area } from '@/utils/area.js'
 import { mapGetters } from 'vuex'
 export default {
-  
+
   data(){
     return {
       options:Area

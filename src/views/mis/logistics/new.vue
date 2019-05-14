@@ -25,7 +25,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.carrier" :disabled="Boolean($route.query.id)" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.carrier" :disabled="Boolean($route.query.id)" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择" size="small" class="formitem">
               <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
                 <span style="float: left">{{ item.consoildatorName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>

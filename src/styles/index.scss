@@ -245,3 +245,17 @@ body .el-table colgroup.gutter{
 .mb30 {
   margin-bottom: 30px;
 }
+
+// margin。如: mt20（margin-top:20px;）、ml15(margin-left:15)
+$dirList: 'l''r''t''b';
+$dirMap: ('l': 'left', 'r': 'right', 't': 'top', 'b': 'bottom');
+
+$dirSizeList: 5 10 15 20;
+
+@each $dir in $dirList {
+  @each $size in $dirSizeList {
+    .m#{$dir}#{$size} {
+      margin-#{map-get($dirMap, $dir)}: #{$size}px;
+    }
+  }
+}

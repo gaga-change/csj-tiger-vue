@@ -212,3 +212,12 @@ export function queryRouteInfo(id) {
     method: 'get'
   })
 }
+
+// /webApi/customer/addr/default
+export function customerSetDefaultAddress(data) {
+  return request({
+    url: `/webApi/customer/addr/default`,
+    method: 'get',
+    params: data
+  })
+}

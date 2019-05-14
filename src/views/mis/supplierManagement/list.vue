@@ -2,37 +2,37 @@
   <div class="carrier">
 
       <search @submit="submit" :searchForm="searchForm"></search>
-    
+
       <div class="operationitem">
           <el-button type="primary" size="small" @click="showAddDialog('add')">创建供应商</el-button>
       </div>
 
-      <base-table 
+      <base-table
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :pageSize="searchForm.pageSize"
         :currentPage="searchForm.pageNum"
         :loading="loading"
-        :total="total" 
-        :config="supplierTbale_config"  
+        :total="total"
+        :config="supplierTbale_config"
         :tableData="tableData"/>
-       
+
       <el-dialog
         :title="dialogTitle"
         :visible.sync="addVisible"
-         width="800px"
+         width="80%"
         :before-close="()=>this.handleClose('addform')">
          <add-search @submit="submit" :searchForm="addForm"  @handleClose="()=>this.handleClose('addform')"></add-search>
       </el-dialog>
 
       <el-dialog
         :visible.sync="relationVisible"
-         width="800px"
+         width="80%"
         :before-close="()=>this.handleClose('relation')">
         <div class="relationDialog">
             <el-form :model="ownerListForm" ref="unionForm">
               <el-form-item label="关联货主" prop="owners">
-                <el-select v-model="ownerListForm.ownerList" multiple placeholder="请选择需要关联的货主" style="width:400px">
+                <el-select v-model="ownerListForm.ownerList" multiple filterable placeholder="请选择需要关联的货主" style="width:400px">
                   <el-option
                     v-for="item in mapConfig['ownerInfoMap']"
                     :key="item.key"
@@ -54,20 +54,20 @@
       <el-dialog
         title="地址列表"
         :visible.sync="addressVisible"
-         width="800px"
+         width="80%"
         :before-close="()=>this.handleClose('address')">
           <div class="btnBox" style="margin-bottom:12px">
             <el-button type="primary" size="small"  @click="showAddDialog('addAddress')">新增地址</el-button>
-          </div> 
-          <web-pagination-table 
+          </div>
+          <web-pagination-table
             :loading="false"
-            :config="address_config" 
-            :allTableData="address_data"/>  
+            :config="address_config"
+            :allTableData="address_data"/>
 
           <el-dialog
             :title="addAddressDialogTitle"
             :visible.sync="addAddressVisible"
-            width="800px"
+            width="80%"
             :modal="false"
             :before-close="()=>this.handleClose('addAddress')">
              <add-address-search  :searchForm="addAddressSearchForm" @submit="submit" @handleClose="handleClose('addAddress')"/>
@@ -84,7 +84,8 @@
   import BaseTable from '@/components/Table'
   import { supplierTbale_config ,address_config} from './components/config'
   import webPaginationTable from '@/components/Table/webPaginationTable';
-  import { providerPagelist,providerSave,providerUpdate,providerDel,ownerProviderList,updateOwnerProvider,providerAddrSave,providerAddrList,providerAddrUpdate,providerAddrDel} from '@/api/supplierManagement'
+  import { providerPagelist,providerSave,providerUpdate,providerDel,ownerProviderList,updateOwnerProvider,providerAddrSave,providerAddrList,
+    providerAddrUpdate,providerAddrDel, providerSetDefaultAddress} from '@/api/supplierManagement'
   import _  from 'lodash';
   import { mapGetters } from 'vuex'
   import moment from 'moment';
@@ -102,12 +103,12 @@
           pageNum:1
         },
         total:0,
-        
+
         // list列表 table配置
         loading:false,
         supplierTbale_config,
         tableData:[],
-        
+
         //添加项
         dialogTitle:'新增供应商',
         addVisible:false,
@@ -127,13 +128,13 @@
         address_config,
         address_data:[{}],
         addAddressDialogTitle:'新增地址',
-        
+
         //新增地址弹框  子弹框
         addAddressVisible:false,
         addAddressSearchForm:{
 
         },
-    
+
         //当前选中的行
         activeRow:{},
         addAddressEditRow:{}
@@ -172,8 +173,8 @@
                      {
                        <span class="tableLink" onClick={this.showAddDialog.bind(this,'address',row,true)}>退换货地址</span>
                      }
-                    
-                </div> 
+
+                </div>
               )
             }
         }
@@ -183,14 +184,20 @@
             item.dom=(row, column, cellValue, index)=>{
               return(
                 <div class="tableLinkBox">
-                
+
                      {
                        <span class="tableLink" onClick={this.delete.bind(this,'deleteAddAddress',row)}>删除</span>
                      }
                      {
                        <span class="tableLink"  onClick={this.showAddDialog.bind(this,'editAddAddress',row,false)}>编辑</span>
                      }
-                </div> 
+                     { row.isDefault === 1 &&
+                       <el-tag type="success">默认地址</el-tag>
+                     }
+                     { row.isDefault !== 1 &&
+                       <span class="tableLink"  onClick={this.setDefault.bind(this,row)}>设为默认</span>
+                     }
+                </div>
               )
             }
         }
@@ -199,6 +206,18 @@
 
     methods: {
       moment,
+      setDefault(row = {}) {
+        const { id } = row
+        providerSetDefaultAddress({ id }).then(res => {
+          console.log(res)
+          if (res.success) {
+            this.$message.success('操作成功')
+            this.showAddDialog('address',this.activeRow)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       //展示弹框
       showAddDialog(type,row,saveRow){
         if(row&&saveRow){
@@ -214,7 +233,7 @@
           this.addForm={
             providerLevel:1,
             providerState:1
-          }  
+          }
         } else if(type==='relation'){
           this.relationVisible=true;
           this.ownerProviderListApi()
@@ -298,7 +317,7 @@
             api=providerAddrUpdate;
             json.id=this.addAddressEditRow.id;
           }
-         
+
           json.providerId=this.activeRow.id;
           delete json.area;
           if(value.area&&Array.isArray(value.area)){
@@ -312,7 +331,7 @@
               this.providerAddrListApi({providerId:this.activeRow.id});
               this.addAddressVisible=false
             } else{
-              this.$message.error('操作失败') 
+              this.$message.error('操作失败')
             }
           }).catch(err=>{
             console.log(err)
@@ -321,7 +340,7 @@
 
         }
       },
-      
+
       delete(type,row){
         //基础数据准备
         let api=providerDel;
@@ -342,7 +361,7 @@
             } else{
               this.providerAddrListApi({providerId:this.activeRow.id});
             }
-            
+
           } else{
             this.$message.error('操作失败')
           }
@@ -449,7 +468,7 @@
       }
     }
     .relationDialog{
-      
+
     }
     .el-dialog__body{
       padding-top: 16px;
@@ -461,5 +480,3 @@
     }
   }
 </style>
-
-

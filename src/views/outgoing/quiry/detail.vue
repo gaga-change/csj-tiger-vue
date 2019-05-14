@@ -17,7 +17,7 @@
           :formatter="column.dom"></el-table-column>
         <el-table-column label="重量" width="150" fixed="right">
           <template slot-scope="scope">
-            <el-input type="number" :min="0.0001" v-model.number.trim="scope.row.outStoreWeight" v-if="isDependWeight && !isCompelete"></el-input>
+            <el-input type="number" :min="0.0001" v-model.number.trim="scope.row.outStoreWeight" v-if="isDependWeight && scope.row.settleUnit === 2 && !isCompelete"></el-input>
             <span v-else>{{scope.row.outStoreWeight}}</span>
           </template>
         </el-table-column>
@@ -41,7 +41,8 @@
         infoConfig,
         tableData:[],
         tableConfig,
-        loading:false
+        loading:false,
+        initData: []
       }
     },
     computed: {
