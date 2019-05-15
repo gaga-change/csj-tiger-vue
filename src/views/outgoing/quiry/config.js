@@ -92,5 +92,5 @@ export const printingTable_config=[
   { label:'规格',prop:'skuFormat'},
   { label:'型号',prop:'skuModel'},
   { label:'单位',prop:'skuUnitName'},
-  { label:'发货数量',prop:'outStoreQty'},
+  { label:'发货数量',prop:'outStoreQty', useSum: true, toFixed: 0},
 ]

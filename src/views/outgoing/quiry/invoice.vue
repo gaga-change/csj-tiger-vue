@@ -15,7 +15,7 @@
        </div>
      </div>
      <div style="min-height:100px;margin-bottom:12px">
-       <web-pagination-table :loading="false" :config="config" :allTableData="data.itemList||[]"/>
+       <web-pagination-table :loading="false" :config="config" :showSummary="true" :allTableData="data.itemList||[]"/>
      </div>
      <div style="margin-bottom: 12px;display: flex;justify-content: space-between;padding-right: 150px;">
         <div><span style="font-size: 12px;font-weight: 600;">制单人 : </span><div style="font-size: 12px; width: 100px;height: 30px; border-bottom: 1px solid #000;display: inline-block"></div></div>

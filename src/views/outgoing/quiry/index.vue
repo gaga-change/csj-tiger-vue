@@ -123,7 +123,8 @@
          width="841px"
         :before-close="handleClose">
         <div id="invoice" class="scrolldiv">
-          <invoice v-for="invoice in printingTable_data" :data="invoice" :key="invoice.id" :config="printingTable_config"/>
+          <invoice v-for="invoice in printingTable_data"            
+            :data="invoice" :key="invoice.id" :config="printingTable_config"/>
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="handleClose">取 消</el-button>

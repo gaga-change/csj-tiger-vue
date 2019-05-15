@@ -57,7 +57,7 @@ export default {
    props: {
     highlightCurrentRow:{
        type: Boolean,
-       default: false    
+       default: false
     },
      loading: {
       type: Boolean,
@@ -82,7 +82,7 @@ export default {
     },
     showSummary:{
       type: Boolean,
-      default: false    
+      default: false
     },
     pageSizes:{
       type: Array,
@@ -130,7 +130,7 @@ export default {
       pageSize:10,
     }
   },
-  
+
   beforeMount(){
     let tableConfig=_.cloneDeep(this.config);
     for(let i in tableConfig){
@@ -159,9 +159,9 @@ export default {
             })
             return  <router-link  to={{path:tableConfig[i].linkTo,query:json}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
           }
-          
+
         } else{
-          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:'' 
+          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:''
        }
     }
     this.tableConfig=tableConfig;
@@ -177,7 +177,7 @@ export default {
        return this.allTableData&&this.allTableData.length||0
       },
       set:function(){
-        
+
       }
     },
      tableData:{
@@ -190,27 +190,27 @@ export default {
        return this.allTableData.slice(from,to)
       },
       set:function(){
-        
+
       }
     }
   },
 
 
-  methods: { 
+  methods: {
      handleSizeChange(val){
         this.pageSize=val
      },
-     
+
      handleCurrentChange(val){
        this.currentPage=val
      },
 
      handleSelectionChange(val){
-       this.$emit('SelectionChange', val); 
+       this.$emit('SelectionChange', val);
      },
 
       handleCurrentRedioChange(currentRow, oldCurrentRow){
-       this.$emit('currentRedioChange', currentRow, oldCurrentRow); 
+       this.$emit('currentRedioChange', currentRow, oldCurrentRow);
      },
 
     getSummarie(param) {
@@ -224,11 +224,11 @@ export default {
         if(index===0){
           sums[index] = '合计';
           return ;
-        } 
-        
+        }
+
         if(!column.useSum){
           return ''
-        } 
+        }
 
         const values = data.map(item =>{
           if(column.useSum.includes&&column.useSum.includes(',')){
@@ -237,7 +237,7 @@ export default {
                 return Number(a)*Number(item[b])
               },1)
           } else{
-              return Number(item[column.prop])     
+              return Number(item[column.prop])
           }
         });
 
@@ -250,12 +250,13 @@ export default {
               return prev;
             }
           }, 0);
+          const fix = column.toFixed === undefined ? 2 : column.toFixed
           if(column.unitName){
-              sums[index]=Number(sums[index]).toFixed(column.fixed||2) + column.unitName;
+              sums[index]=Number(sums[index]).toFixed(fix) + column.unitName;
           } else{
-              sums[index]=Number(sums[index]).toFixed(column.fixed||2)
+              sums[index]=Number(sums[index]).toFixed(fix)
           }
-        
+
         } else {
           sums[index] = '';
         }
@@ -270,6 +271,5 @@ export default {
   .ctabel{
     width: 100%;
   }
-  
-</style>
 
+</style>
