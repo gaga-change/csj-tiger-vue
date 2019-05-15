@@ -63,15 +63,15 @@
             </el-col>
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6" >
-                <el-form-item  :label="searchForm.busiBillType===21?'客户':'供应商'"  label-width="90px" prop="arrivalCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.arrivalCode" filterable  size="small"  @focus="providerFocus" @change="providerChange" :placeholder="searchForm.busiBillType===21?'请选择客户':'请选择供应商'"  >
+                <el-form-item :label="searchForm.busiBillType===21?'客户':'供应商'" label-width="90px" prop="arrivalCode" :rules="[{ required: true, message: '该项为必填'}]">
+                  <el-select v-model="searchForm.arrivalCode" filterable  size="small"  @focus="providerFocus" @change="providerChange" placeholder="请选择"  >
                     <el-option  value="" v-if="providerConfig.length" :disabled="true">
                       <div class="providerList">
                         <span>{{searchForm.busiBillType===21?'客户编号':'供应商编号'}}</span>
                         <span>{{searchForm.busiBillType===21?'客户名称':'供应商名称'}}</span>
                       </div>
                     </el-option>
-                    <el-option v-for="item in providerConfig" :key="item.customerCode" :label="item.customerName" :value="item.customerCode">
+                    <el-option v-for="item in providerConfig" :key="item.id" :label="item.customerName" :value="item.customerCode">
                       <div class="providerList">
                         <span >{{ item.customerCode }}</span>
                         <span >{{ item.customerName }}</span>
@@ -82,11 +82,23 @@
             </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"  prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-select  size="small"  @focus="arrivalAddressFocus" @change="arrivalAddressChange"   v-if="addrListConfig.length" v-model="searchForm.arrivalAddress"   placeholder="请选择供应商地址">
-                    <el-option   v-for="item in addrListConfig" :label="item.arrivalAddress"   :key="item.arrivalLinkTel+item.arrivalAddress"  :value="item.arrivalAddress"></el-option>
+              <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"
+                prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填', trigger: ['blur', 'change']}]" >
+                <el-select  size="small"  @change="arrivalAddressChange" v-if="addrListConfig.length" v-model="searchForm.arrivalAddress" placeholder="请选择地址">
+                  <el-option :value="null" v-if="addrListConfig.length" :disabled="true">
+                    <div class="providerList">
+                      <span>地址</span>
+                      <span>地址编码</span>
+                    </div>
+                  </el-option>
+                  <el-option  v-for="item in addrListConfig" :label="item.arrivalAddress" :key="item.arrivalLinkTel+item.arrivalAddress"  :value="item.arrivalAddress">
+                    <div class="providerList">
+                      <span >{{ item.arrivalAddress }}</span>
+                      <span >{{ item.addrCode }}</span>
+                    </div>
+                  </el-option>
                 </el-select>
-                <el-input v-else v-model="searchForm.arrivalAddress" :placeholder="searchForm.busiBillType===21?'请输入客户地址':'请输入供应商地址'" size="small" class="formitem"></el-input>
+                <el-input v-else v-model="searchForm.arrivalAddress" @focus="arrivalAddressFocus" placeholder="请输入地址" size="small" class="formitem"></el-input>
               </el-form-item>
             </el-col>
 
@@ -368,6 +380,11 @@ export default {
         customerAddrInfo(id,this.searchForm.busiBillType).then(res=>{
           if(res.success){
             this.addrListConfig=Array.isArray(res.data)&&res.data||[];
+            const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
+            this.$nextTick(() => {
+              this.searchForm.arrivalAddress = defaultAddress.arrivalAddress
+              this.arrivalAddressChange(defaultAddress.arrivalAddress)
+            })
           }
         }).catch(err=>{
           console.log(err)
