@@ -26,6 +26,7 @@ export  const infoConfig=[
   {title:'计划单号',prop:'planCode'},
   {title:'业务单号',prop:'billNo'},
   {title:'合同号',prop:'contractNo'},
+  {title:'外部订单号',prop:'busiBillNo'},
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'planName'},
   {title:'计划仓库',prop:'planWarehouseName'},
@@ -51,6 +52,7 @@ export const outgoingTableConfig=[
 export const indexTableConfig=[
   { label:'计划单号',prop:'planCode',fixed:true,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}],width:150},
   { label:'业务单号',prop:'billNo',width:160},
+  { label:'外部订单号',prop:'busiBillNo',width:160},
   { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true ,width:80},
   { label:'挂起类型',prop:'hangUpType',type:'hangUpTypeEnum',useLocalEnum:true ,width:100},
   { label:'客户名称',prop:'arrivalName',width:180},
@@ -97,7 +99,7 @@ export const matchingTableConfig=[
     } else{
        return ''
     }
-    
+
   }},
   { label:'操作',prop:'',fixed:'right',useLink:true},
 ]
@@ -155,4 +157,3 @@ export const printingTable_config=[
   { label:'单位',prop:'skuUnitName'},
   { label:'计划出库数量',prop:'planOutQty'},
 ]
-

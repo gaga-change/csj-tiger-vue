@@ -65,6 +65,12 @@
           </el-form-item>
         </el-col>
 
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+         <el-form-item label="外部订单号" prop="busiBillNo" labelWidth="85px">
+           <el-input v-model.lazy.trim="ruleForm.busiBillNo" @keyup.enter.native="submitForm('ruleForm')" placeholder="请输入外部订单号"></el-input>
+         </el-form-item>
+       </el-col>
+
           <el-col :span="12">
             <el-form-item label="出库日期" prop="time">
                  <el-date-picker
@@ -123,7 +129,7 @@
          width="841px"
         :before-close="handleClose">
         <div id="invoice" class="scrolldiv">
-          <invoice v-for="invoice in printingTable_data"            
+          <invoice v-for="invoice in printingTable_data"
             :data="invoice" :key="invoice.id" :config="printingTable_config"/>
         </div>
         <span slot="footer" class="dialog-footer">

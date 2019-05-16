@@ -84,6 +84,14 @@ export default [
         }
       },
       {
+        name: 'mis_owner_customer_info',
+        path: 'mis_owner_customer_info',
+        outLinkUrl: reportCenterUrl('mis_owner_customer_info', 'mis', true),
+        meta: {
+          title: '货主客户关系表'
+        }
+      },
+      {
         name: 'mis_goods_main',
         path: 'mis_goods_main',
         outLinkUrl: reportCenterUrl('mis_goods_main', 'mis', true),

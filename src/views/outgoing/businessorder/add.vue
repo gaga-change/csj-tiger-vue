@@ -329,12 +329,17 @@ export default {
 
       //根据货主查供应商或者客户列表
       getCustomerInfo(value){
-        customerInfo(value,this.searchForm.busiBillType).then(res=>{
-          if(res.success){
-           this.providerConfig=Array.isArray(res.data)&&res.data||[];
-          }
-        }).catch(err=>{
-          console.log(err)
+        return new Promise((resolve, reject) => {
+          customerInfo(value,this.searchForm.busiBillType).then(res=>{
+            if(res.success){
+             this.providerConfig=Array.isArray(res.data)&&res.data||[];
+             resolve()
+            }
+            reject()
+          }).catch(err=>{
+            console.log(err)
+            reject()
+          })
         })
       },
 
@@ -365,13 +370,15 @@ export default {
       },
 
       //地址列表配置
-      providerChange(value){
+      providerChange(value, isClear){
         let provider=this.providerConfig.find(v=>v.customerCode===value)
         let searchForm= _.cloneDeep(this.searchForm);
         searchForm.arrivalAddress='';
         searchForm.arrivalLinkUser='';
         searchForm.arrivalLinkTel='';
-        searchForm.outWarehouseBillDetailList=[];
+        if (!isClear) {
+          searchForm.outWarehouseBillDetailList=[];
+        }
         this.searchForm=searchForm;
         this.addrListConfig=[];
 
@@ -392,7 +399,7 @@ export default {
       },
 
 
-      uploadRes(res){
+      async uploadRes(res){
         if(res.success){
             let addtable_config= _.cloneDeep(this.addtable_config);
             let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
@@ -415,8 +422,10 @@ export default {
             this.addtable_config=addtable_config;
             this.searchForm=searchForm;
             if(this.searchForm.ownerCode){
-              this.getCustomerInfo(this.searchForm.ownerCode);
+              await this.getCustomerInfo(this.searchForm.ownerCode);
             }
+            this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode, true)
+
         } else {
            this.$message.error('导入失败');
         }

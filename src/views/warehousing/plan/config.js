@@ -12,13 +12,14 @@ export   const tableConfig=[
       return `${row.planInQty-row.realInQty}(${row.skuUnitName})`
   }},
   { label:'手工入库',prop:'handInQty',useEdit:true,width:160,max:['planInQty','realInQty'],min:0},
- 
+
 ];
 
 
 export   const infoConfig=[
   {title:'计划单号',prop:'planCode'},
   {title:'业务单号',prop:'billNo' },
+  {title:'外部订单号',prop:'busiBillNo'},
   {title:'入库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'busiBillCreater'},
   {title:'计划仓库',prop:'planWarehouseName'},
@@ -46,6 +47,7 @@ export   const warehousingTableConfig=[
 export   const indexTableConfig=[
   { label:'计划单号',prop:'planCode',width:150,fixed:true,linkTo:'/warehousing/plan-detail',query:[{key:'planCode',value:'planCode'}]},
   { label:'业务单号',prop:'billNo',width:170},
+  { label:'外部订单号',prop:'busiBillNo',width:160},
   { label:'单据状态',prop:'planState', type:'warehousingPlanBillStatus',useLocalEnum:true,width:80},
   { label:'供应商名称',prop:'providerName',width:180},
   { label:'货主',prop:'ownerName',width:180},
@@ -55,4 +57,3 @@ export   const indexTableConfig=[
   { label:'计划入库日期',prop:'planTime',type:'time',width:140},
   { label:'操作',width:150,fixed:'right',useLink:true },
 ]
-
