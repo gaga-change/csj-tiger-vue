@@ -9,11 +9,11 @@
       <!-- <el-col :span="9">
         <watch-message></watch-message>
       </el-col> -->
-    </el-row> 
+    </el-row>
 
   <!-- <template>
   <div>
-    <el-table :data="tableData6" :span-method="objectSpanMethod" border 
+    <el-table :data="tableData6" :span-method="objectSpanMethod" border
     align="center" style="width: 100%; margin-top: 20px">
       <el-table-column prop="id" label="ID" width="180">
       </el-table-column>
@@ -45,44 +45,6 @@ let count = 0
      data() {
       return {
         curId:'12987122',
-
-        tableData6: [{
-          id: '12987122',
-          name: '王小虎',
-          amount1: '234',
-          amount2: '3.2',
-          amount3: 10
-        }, {
-          id: '12987122',
-          name: '王小虎',
-          amount1: '165',
-          amount2: '4.43',
-          amount3: 12
-        }, {
-          id: '12987122',
-          name: '王小虎',
-          amount1: '324',
-          amount2: '1.9',
-          amount3: 9
-        }, {
-          id: '12987125',
-          name: '王小虎',
-          amount1: '621',
-          amount2: '2.2',
-          amount3: 17
-        },{
-          id: '12987125',
-          name: '王小虎',
-          amount1: '621',
-          amount2: '2.2',
-          amount3: 17
-        }, {
-          id: '12987128',
-          name: '王小虎',
-          amount1: '539',
-          amount2: '4.1',
-          amount3: 15
-        },]
       };
     },
     created(){
@@ -90,8 +52,8 @@ let count = 0
     },
      methods: {
       objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      
-            
+
+
         let tableData6 = this.tableData6
         let equalRow = 0,total=0
         tableData6.map(item=>{
@@ -100,10 +62,10 @@ let count = 0
             total += Number(item.amount1)
           }
         })
-        
+
         if (/0|1/.test(columnIndex)) {
           if (rowIndex-count === 0) {
-         
+
             return {
               rowspan: equalRow,
               colspan: 1
@@ -117,7 +79,7 @@ let count = 0
         }
         if(columnIndex==2){
           if (rowIndex-count === 0) {
-               count += equalRow       
+               count += equalRow
             return {
               rowspan: equalRow,
               colspan: 1,
@@ -130,7 +92,7 @@ let count = 0
           }
         }
       },
-      addTotal({...params}) {          
+      addTotal({...params}) {
         let total=0
         this.tableData6.map(item=>{
           if(item.id == params.id){
@@ -139,9 +101,9 @@ let count = 0
         })
         return total
       }
-        
+
       },
-  
+
   computed: {
      ...mapGetters([
       'userInfo'
