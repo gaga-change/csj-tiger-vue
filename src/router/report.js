@@ -76,6 +76,14 @@ export default [
         }
       },
       {
+        name: 'mis_sku_info',
+        path: 'mis_sku_info',
+        outLinkUrl: reportCenterUrl('mis_sku_info', 'mis', true),
+        meta: {
+          title: '平台商品查询'
+        }
+      },
+      {
         name: 'mis_goods_main',
         path: 'mis_goods_main',
         outLinkUrl: reportCenterUrl('mis_goods_main', 'mis', true),
