@@ -73,7 +73,7 @@
           <el-col :span="16" >
             <el-form-item label="计划入库日期" label-width="100px" prop="time">
                  <el-date-picker
-                    :clearable="false"
+                    :clearable="true"
                     v-model="ruleForm.time"
                     @change="timeChange"
                     :picker-options="$pickerOptions"
@@ -228,9 +228,10 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''&&this.ruleForm[i]!==null){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
+              const timeArr = this.ruleForm[i] || []
+               let arr=timeArr.map(v=>moment(v).valueOf());
                if(arr.every(v=>v)&&arr.length>1){
                  json['planInTimeStart']=arr[0];
                  json['planInTimeEnd']=arr[1];
