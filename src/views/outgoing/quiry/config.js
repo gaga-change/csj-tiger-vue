@@ -84,3 +84,13 @@ export const recordDetailTable_config=[
   { label:'数量',prop:'skuOutQty'},
   { label:'客户销价',prop:'sellPrice',},
 ]
+
+export const printingTable_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode'},
+  { label:'商品名称',prop:'skuName'},
+  { label:'规格',prop:'skuFormat'},
+  { label:'型号',prop:'skuModel'},
+  { label:'单位',prop:'skuUnitName'},
+  { label:'发货数量',prop:'outStoreQty', useSum: true, toFixed: 0},
+]

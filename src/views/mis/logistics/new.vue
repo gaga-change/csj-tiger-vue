@@ -1,12 +1,32 @@
 <template lang="html">
 <div class="app-container">
   <el-form :model="addForm" ref="addForm" label-width="80px">
+
+    <item-title text="出库单信息" class="mt10" />
+    <el-card shadow="hover">
+      <el-row>
+        <el-button type="primary" @click="unionOutStore" :disabled="Boolean($route.query.id)" size="mini">关联出库单</el-button>
+      </el-row>
+      <el-table
+        :data="outTableData"
+      >
+        <el-table-column type="index" label="序号"></el-table-column>
+        <el-table-column v-for="column in columns" :label="column.label" :prop="column.prop" :key="column.prop"></el-table-column>
+        <el-table-column label="操作" v-if="!$route.query.id">
+          <template slot-scope="scope">
+              <a @click="delOutStore(scope.row)"  :style="linkstyle">删除</a>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+
     <item-title text="承运商信息" />
     <el-card shadow="hover">
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="承运商" prop="carrier" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.carrier" :disabled="Boolean($route.query.id)" value-key="consoildatorCode" clearable  @change="consoildatorChange" placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.carrier" value-key="consoildatorCode"
+              clearable  @change="consoildatorChange" placeholder="请选择" size="small" class="formitem">
               <el-option v-for="item in carrier" :label="item.consoildatorName" :key="item.consoildatorCode"  :value="item">
                 <span style="float: left">{{ item.consoildatorName }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.consoildatorCode }}</span>
@@ -30,35 +50,17 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-select  v-model="addForm.settlementType" clearable  :disabled="Boolean($route.query.id)" placeholder="请选择结算方式" size="small" class="formitem">
+            <el-select  v-model="addForm.settlementType" clearable  placeholder="请选择结算方式" size="small" class="formitem">
               <el-option v-for="item in localEnum['settlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="物流单号" prop="logisticsOrderCode" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input v-model="addForm.logisticsOrderCode" class="formitem" :disabled="Boolean($route.query.id)" size="small" placeholder="请输入物流单号"></el-input>
+            <el-input v-model="addForm.logisticsOrderCode" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-    </el-card>
-
-    <item-title text="出库单信息" class="mt10" />
-    <el-card shadow="hover">
-      <el-row>
-        <el-button type="primary" @click="unionOutStore" :disabled="Boolean($route.query.id)" size="mini">关联出库单</el-button>
-      </el-row>
-      <el-table
-        :data="outTableData"
-      >
-        <el-table-column type="index" label="序号"></el-table-column>
-        <el-table-column v-for="column in columns" :label="column.label" :prop="column.prop" :key="column.prop"></el-table-column>
-        <el-table-column label="操作" v-if="!$route.query.id">
-          <template slot-scope="scope">
-              <a @click="delOutStore(scope.row)"  :style="linkstyle">删除</a>
-          </template>
-        </el-table-column>
-      </el-table>
     </el-card>
 
     <item-title text="客户信息" class="mt10"  />

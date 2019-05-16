@@ -63,7 +63,7 @@
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="货主"   prop="ownerCode">
-              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode" clearable  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -73,9 +73,10 @@
           <el-col :span="16" >
             <el-form-item label="计划入库日期" label-width="100px" prop="time">
                  <el-date-picker
-                    :clearable="false"
+                    :clearable="true"
                     v-model="ruleForm.time"
                     @change="timeChange"
+                    :picker-options="$pickerOptions"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期">
@@ -127,6 +128,7 @@
     import { mapGetters } from 'vuex'
     import {stringify} from 'qs';
     export default {
+      name: 'warehousing-plan-index',
       components: { BaseTable,editTable },
       data() {
       return {
@@ -161,23 +163,12 @@
       ])
     },
 
-    watch: {
-      mapConfig: {
-        immediate: true,
-        deep: true,
-        handler(newMap, oldMap) {
-          const billOwnerInfoMap = newMap['billOwnerInfoMap']
-          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
-        }
-      }
-    },
-
      mounted(){
-       if(this.$route.query.data){
-         this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-       }
-
-      this.getCurrentTableData();
+       const end = new Date();
+       const start = new Date();
+       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+       this.$set(this.ruleForm, 'time', [start, end])
+       this.getCurrentTableData();
 
     },
 
@@ -237,9 +228,10 @@
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){
-          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''){
+          if(this.ruleForm[i]!==undefined&&this.ruleForm[i]!==''&&this.ruleForm[i]!==null){
             if(i==='time'){
-               let arr=this.ruleForm[i].map(v=>moment(v).valueOf());
+              const timeArr = this.ruleForm[i] || []
+               let arr=timeArr.map(v=>moment(v).valueOf());
                if(arr.every(v=>v)&&arr.length>1){
                  json['planInTimeStart']=arr[0];
                  json['planInTimeEnd']=arr[1];
@@ -249,10 +241,6 @@
             }
           }
         }
-        this.$router.replace({
-          path:'/warehousing/plan',
-          query:{data:JSON.stringify(json)}
-        })
         let data={...json}
         this.linkData=data;
        inPlanSelect(data).then(res=>{

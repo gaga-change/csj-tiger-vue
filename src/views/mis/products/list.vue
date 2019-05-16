@@ -75,6 +75,7 @@ import BaseTable from '@/components/Table'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
 export default {
+  name: 'productsList',
   components: { search, BaseTable },
   data() {
     return {
@@ -146,9 +147,6 @@ export default {
     })
   },
   mounted() {
-    if(this.$route.query.data){
-      let { pageSize,pageNum }=JSON.parse(this.$route.query.data)
-    }
     this.fetchData()
   },
   methods: {
@@ -257,13 +255,6 @@ export default {
         pageNum: this.pageNum,
         ...rest
       }
-      this.$router.replace({
-        path:'/mis/products/list',
-        query:{data:JSON.stringify({
-           pageSize: this.pageSize,
-           pageNum: this.pageNum,
-        })}
-      })
 
       getProductList(postData).then(res => {
         this.tableData = res.data && res.data.list

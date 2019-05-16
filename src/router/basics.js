@@ -22,7 +22,7 @@ export default [
         path: 'list',
         component: _import('mis/products/list'),
         name: 'productsList',
-        meta: { title: '商品列表' }
+        meta: { title: '商品列表',noCache: false }
       },
       {
         path: 'categoryList',

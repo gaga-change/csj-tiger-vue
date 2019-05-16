@@ -86,11 +86,10 @@ export function providerAddrDel(data={}) {
   })
 }
 
-
-
-
-
-
-
-
-
+export function providerSetDefaultAddress(data={}) {
+  return request({
+    url: `/webApi/provider/addr/default`,
+    method: 'get',
+    params: data
+  })
+}

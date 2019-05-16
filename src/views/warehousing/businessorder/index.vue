@@ -4,7 +4,7 @@
     <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
         <el-form :inline="true" :model="ruleForm" size="small"  :rules="rules" ref="ruleForm"   class="demo-form-inline">
-          <el-col :span="6"   style="min-width:300px" >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="业务类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择业务类型">
                 <el-option   v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
@@ -12,41 +12,41 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px" >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="业务单号" prop="billNo">
               <el-input v-model.lazy.trim="ruleForm.billNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入业务单号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px" >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="合同编号" prop="contractNo">
               <el-input v-model.lazy.trim="ruleForm.contractNo" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请输入合同编号"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px"  >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6"  >
             <el-form-item label="货主"   prop="ownerCode">
-              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode" clearable  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
 
-           <el-col :span="6"   style="min-width:300px" >
+           <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="供应商名称" label-width="72px" prop="providerName">
               <el-input v-model.lazy.trim="ruleForm.providerName" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入供应商名称"></el-input>
             </el-form-item>
           </el-col>
 
 
-          <el-col :span="6">
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主电话" prop="linkTel">
               <el-input v-model.lazy.trim="ruleForm.linkTel" @keyup.enter.native="submitForm('ruleForm')"  placeholder="请输入货主电话"></el-input>
             </el-form-item>
           </el-col>
 
-           <el-col :span="6" style="min-width:300px"  >
+           <el-col :sm="12" :md="8" :lg="8" :xl="6"  >
             <el-form-item label="单据状态" >
               <el-select   v-model="ruleForm.billStatus"  placeholder="请选择单据状态">
                 <el-option   v-for="item in misWarehousingBillStatusEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
@@ -54,7 +54,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6" style="min-width:300px"  >
+          <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="执行状态" >
               <el-select   v-model="ruleForm.billState"  placeholder="请选择执行状态">
                 <el-option   v-for="item in misWarehousingBillStateEnum" :label="item.name"   :key="item.value"  :value="item.value"></el-option>
@@ -67,7 +67,7 @@
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
-                    :picker-options="pickerOptions"
+                    :picker-options="$pickerOptions"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期">
@@ -127,6 +127,7 @@
     };
 
     export default {
+      name: 'warehousing-businessorder-index',
       components: { BaseTable },
       data() {
       return {
@@ -151,57 +152,16 @@
         tableData: [],
         tableConfig:indexTableConfig,
         misWarehousingBillStatusEnum,
-        misWarehousingBillStateEnum,
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }]
-        }
+        misWarehousingBillStateEnum
       }
     },
 
      mounted(){
-       if(this.$route.query.data){
-        this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-       }
        const end = new Date();
        const start = new Date();
-       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
        this.$set(this.ruleForm, 'time', [start, end])
        this.getCurrentTableData();
-    },
-
-    watch: {
-      mapConfig: {
-        immediate: true,
-        deep: true,
-        handler(newMap, oldMap) {
-          const billOwnerInfoMap = newMap['billOwnerInfoMap']
-          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
-        }
-      }
     },
 
     computed: {
@@ -335,10 +295,6 @@
       },
 
       getCurrentTableData(){
-        this.$router.replace({
-          path:'/warehousing/businessorder',
-          query:{data:JSON.stringify(this.ruleForm)}
-        })
         this.loading=true;
         let json={};
         for(let i in this.ruleForm){

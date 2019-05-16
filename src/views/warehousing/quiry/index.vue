@@ -52,7 +52,7 @@
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主"   prop="ownerCode">
-              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode"   placeholder="请选择货主">
+              <el-select   @change="submitForm('ruleForm')"  v-model="ruleForm.ownerCode" clearable  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['billOwnerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -76,7 +76,7 @@
                  <el-date-picker
                     v-model="ruleForm.time"
                     @change="timeChange"
-                    :picker-options="pickerOptions"
+                    :picker-options="$pickerOptions"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
@@ -133,6 +133,7 @@
     import {busiPlateConfig} from '@/utils/enum'
 
     export default {
+      name: 'warehousing-quiry-index',
       components: { BaseTable },
       data() {
       return {
@@ -159,34 +160,7 @@
         tableData: [],
         linkData:'',
         inTotal:{},
-        busiPlateConfig,
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }]
-        }
+        busiPlateConfig
       }
     },
 
@@ -209,25 +183,11 @@
       ])
     },
 
-    watch: {
-      mapConfig: {
-        immediate: true,
-        deep: true,
-        handler(newMap, oldMap) {
-          const billOwnerInfoMap = newMap['billOwnerInfoMap']
-          this.$set(this.ruleForm, 'ownerCode', billOwnerInfoMap&&billOwnerInfoMap[0]&&billOwnerInfoMap[0].key)
-        }
-      }
-    },
-
      mounted(){
 
-       if(this.$route.query.data){
-          this.ruleForm={...this.ruleForm,...JSON.parse(this.$route.query.data)}
-       }
        const end = new Date();
        const start = new Date();
-       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
        this.$set(this.ruleForm, 'time', [start, end])
        this.getCurrentTableData();
 
@@ -267,11 +227,6 @@
       },
 
       getCurrentTableData(){
-
-        this.$router.replace({
-          path:'/warehousing/quiry',
-          query:{data:JSON.stringify(this.ruleForm)}
-        })
 
         this.loading=true;
         let json={};

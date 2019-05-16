@@ -4,7 +4,7 @@
       <img :src="logoPath" />
     </div>
     <div class="plant-text">
-      供应链协同操作管理平台
+      物流交付协同平台
     </div>
     <ul class="top-nav">
       <li  v-for="i in markArr">

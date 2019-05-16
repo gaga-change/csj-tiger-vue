@@ -1,4 +1,4 @@
-export  const supplierTbale_config=[ 
+export  const supplierTbale_config=[
   { label:'供应商编码',prop:'providerCode'},
   { label:'供应商名称',prop:'providerName'},
   { label:'供应商状态',prop:'providerState',useApi:true,type:'getEnterpriseState'},
@@ -8,12 +8,13 @@ export  const supplierTbale_config=[
   { label:'操作',fixed:'right',useLink:true,width:280},
 ]
 
-export  const address_config=[ 
+export  const address_config=[
   { label:'序号',type:'index',width:50},
   { label:'地址性质',prop:'addrNature',useApi:true,type:'getAddrNature'},
   { label:'地址',prop:'providerAddress'},
   { label:'联系人',prop:'receiverName'},
   { label:'联系电话',prop:'receiverTel'},
   { label:'邮政编码',prop:'postalCode'},
-  { label:'操作',fixed:'right',useLink:true,width:120},
+  { label:'地址编码',prop:'addrCode'},
+  { label:'操作',fixed:'right',useLink:true,width:180},
 ]

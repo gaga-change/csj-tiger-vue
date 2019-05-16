@@ -14,7 +14,7 @@
         >创建客户</el-button
       >
     </el-row>
-    <el-table :data="tableData" border :loading="loading" size="small" style="margin-bottom:12px">
+    <el-table :data="tableData" border v-loading="loading" size="small" style="margin-bottom:12px">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
       <el-table-column
         v-for="(column, index) in tableConfig"
@@ -67,7 +67,7 @@
     <el-dialog :visible.sync="unionDialogVisible">
       <el-form :model="unionForm" ref="unionForm">
         <el-form-item label="关联货主" prop="owners">
-          <el-select v-model="unionForm.owners" multiple placeholder="请选择" style="width:400px">
+          <el-select v-model="unionForm.owners" multiple filterable placeholder="请选择" style="width:400px">
             <el-option
               v-for="item in mapConfig['ownerInfoMap']"
               :key="item.key"
@@ -102,7 +102,7 @@
         >新增地址</el-button
       >
     </el-row>
-    <el-table :data="addressTableData" :loading="addressLoading" border size="small">
+    <el-table :data="addressTableData" v-loading="addressLoading" border size="small">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
       <el-table-column
         v-for="(column, index) in addressTableConfig"
@@ -116,10 +116,12 @@
           <span v-else>{{scope.row[column.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150" fixed="right">
+      <el-table-column label="操作" width="180" fixed="right">
         <template slot-scope="scope">
           <a :style="linkstyle" @click="delAddressRow(scope.row)">删除</a>
           <a :style="linkstyle" @click="updateAddressRow(scope.row,'编辑地址')">编辑</a>
+          <el-tag type="success" v-if="scope.row.isDefault === 1">默认地址</el-tag>
+          <a :style="linkstyle" v-else @click="setDefault(scope.row)">设为默认</a>
         </template>
       </el-table-column>
     </el-table>
@@ -145,7 +147,8 @@
 
 <script>
 import search from '@/components/Search'
-import { getCustomerList, saveCustomer, updateOwnerCust, ownerCustList, delCustomer, customerAddressList, saveCustomerAddress, delCustomerAddress, updateCustomerAddress,customerUpdate } from '@/api/mis'
+import { getCustomerList, saveCustomer, updateOwnerCust, ownerCustList, delCustomer, customerAddressList, saveCustomerAddress, delCustomerAddress,
+  updateCustomerAddress,customerUpdate, customerSetDefaultAddress } from '@/api/mis'
 import { Area } from '@/utils/area'
 import { mapGetters } from 'vuex'
 const customerConfig = [
@@ -217,6 +220,11 @@ const addressTableConfig = [
     label:'联系人',
     prop: 'receiverName',
     rules:[{required: true, message:'必填项'}]
+  },
+  {
+    label:'地址编码',
+    prop: 'addrCode',
+    rules:[{max: 50, message:'最长50字符'}]
   }
 ]
 export default {
@@ -291,6 +299,21 @@ export default {
     this.fetchData()
   },
   methods: {
+    setDefault(row = {}) {
+      const { id } = row
+      this.addressLoading = true
+      customerSetDefaultAddress({ id }).then(res => {
+        console.log(res)
+        if (res.success) {
+          this.$message.success('操作成功')
+          this.viewAddress(this.rowData)
+        }
+        this.addressLoading = false
+      }).catch(err => {
+        console.log(err)
+        this.addressLoading = false
+      })
+    },
     updateAddressRow(row,title) {
       this.alertTitle=title
       this.addressEditVisible = true
@@ -358,8 +381,12 @@ export default {
       this.fetchData()
     },
     newAddress(title) {
-      this.alertTitle=title;
+      this.alertTitle=title
       this.addressEditVisible = true
+      this.addressData = {}
+      this.$nextTick(() => {
+        this.$refs.addressForm.loadData()
+      })
     },
     viewAddress(row) {
       this.addressVisible = true
@@ -431,7 +458,7 @@ export default {
         this.editloading = false
         this.customerEditorVisible=false
         if(res.success){
-          this.$message({type:'success', message:'操作成功' });
+          this.$message.success('操作成功')
           this.fetchData()
         } else {
           this.$message.error('操作失败')
