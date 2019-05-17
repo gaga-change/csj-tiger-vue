@@ -1,25 +1,24 @@
 <template>
   <div class="storagepoint">
       <search @submit="submit" :searchForm="searchForm"></search>
-    
+
       <div class="operationitem">
           <el-button type="primary" size="small"  @click="showDialog('add')">新增仓配点</el-button>
       </div>
 
-      <base-table 
+      <base-table
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         :pageSize="searchForm.pageSize"
         :currentPage="searchForm.pageNum"
         :loading="loading"
-        :total="total" 
-        :config="storagepointListConfig"  
+        :total="total"
+        :config="storagepointListConfig"
         :tableData="tableData"/>
 
       <el-dialog
         :title="addFormTitle"
         :visible.sync="addVisible"
-         width="30%"
         :before-close="handleClose">
           <add-form @submit="submit" :searchForm="addForm" @handleClose="handleClose" ></add-form>
       </el-dialog>
@@ -71,7 +70,7 @@
           pageNum:1
         },
         total:0,
-        
+
         //table配置
         loading:false,
         storagepointListConfig,
@@ -97,16 +96,16 @@
                        <span class="tableLink"  onClick={this.showDialog.bind(this,'update',row)}>修改</span>
                      }
 
-                     { 
-                       [2].includes(row.warehouseState)&&  
+                     {
+                       [2].includes(row.warehouseState)&&
                        <span class="tableLink" onClick={this.operation.bind(this,'delete',row)}>删除</span>
                      }
 
-                     { 
-                       <span class="tableLink" onClick={this.operation.bind(this,'switch',row)}>{row.warehouseState===1?'禁用':'启用'}</span> 
+                     {
+                       <span class="tableLink" onClick={this.operation.bind(this,'switch',row)}>{row.warehouseState===1?'禁用':'启用'}</span>
                      }
-                    
-                </div> 
+
+                </div>
               )
             }
         }
@@ -169,7 +168,7 @@
               message: '已取消删除'
             });
           });
-        } 
+        }
       },
 
       submit(type,value){
@@ -196,8 +195,8 @@
             this.$message.error('操作失败')
             this.addVisible=false;
           })
-        } 
-       
+        }
+
       },
 
       fetch(){
@@ -223,7 +222,7 @@
       handleClose(){
         this.addVisible=false;
       },
-      
+
 
       showDialog(type,row){
          console.log(type,row)
@@ -236,10 +235,7 @@
            this.addVisible=true;
            this.addFormTitle="修改仓储点"
            this.addForm={
-             regionalCenter:row.regionalCenter,
-             warehouseName:row.warehouseName,
-             id:row.id,
-             warehouseNo:row.warehouseNo
+             ...row
            };
          } else if(type==='detail'){
            this.detailVisible=true;
@@ -273,5 +269,3 @@
     }
   }
 </style>
-
-

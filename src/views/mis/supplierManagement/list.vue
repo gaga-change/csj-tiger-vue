@@ -27,7 +27,6 @@
 
       <el-dialog
         :visible.sync="relationVisible"
-         width="80%"
         :before-close="()=>this.handleClose('relation')">
         <div class="relationDialog">
             <el-form :model="ownerListForm" ref="unionForm">

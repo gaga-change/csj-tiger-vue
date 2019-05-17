@@ -34,7 +34,7 @@
     <el-dialog :visible.sync="dialogVisible">
       <el-form :model="addForm" label-width="100px">
         <el-form-item label="所属仓库：" >
-          <el-select v-model="addForm.warehouses" multiple placeholder="请选择需要关联的货主" style="width:400px">
+          <el-select v-model="addForm.warehouses" multiple filterable placeholder="请选择需要关联的货主" style="width:400px">
             <el-option
               v-for="item in mapConfig['getWarehouse']"
               :key="item.key"
@@ -128,7 +128,7 @@ export default {
               >
                 查看仓库
               </a>
-              { 
+              {
                 row.ownerState === 2 &&
                 <a onClick={() => {this.delete({ ownerCode: row.ownerCode })}} style={this.linkstyle}>删除</a>
               }

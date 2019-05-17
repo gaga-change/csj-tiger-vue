@@ -8,11 +8,19 @@
                     <el-option v-for="item in mapConfig['getRegional']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>  
+              </el-col>
 
               <el-col>
                 <el-form-item label="仓配点名称:" prop="warehouseName" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-input v-model="searchForm.warehouseName" placeholder="请输入仓配点名称" size="small" class="formitem"></el-input>
+                </el-form-item>
+              </el-col>
+
+              <el-col>
+                <el-form-item label="WMS:" prop="warehouseSysCode" :rules="[{ required: true, message: '该项为必填'}]" >
+                  <el-select  v-model="searchForm.warehouseSysCode" clearable  placeholder="请选择WMS系统" size="small" class="formitem">
+                    <el-option v-for="item in mapConfig['getWarehouseArea']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
           </el-row>
@@ -22,7 +30,7 @@
           <el-button @click="$emit('handleClose')">取 消</el-button>
           <el-button type="primary" @click="submit">确 定</el-button>
         </div>
-    </div> 
+    </div>
 </template>
 
 <script>

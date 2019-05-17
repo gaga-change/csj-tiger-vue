@@ -113,7 +113,7 @@
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="销售区分：" prop="saleType">
+            <el-form-item label="销售区分：" prop="saleType" :rules="[{required: true, message:'必填项', trigger: 'change'}]">
               <el-select  v-model="productForm.saleType" clearable  placeholder="请选择销售区分" size="small" class="formitem">
                 <el-option v-for="item in mapConfig['getSaleType']||[]" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
