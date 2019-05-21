@@ -121,14 +121,14 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="进项税率：" >
-              <el-input type="number" v-model.number="productForm.incomeTaxRate" class="formitem" size="small" placeholder="请输入进项税率">
+              <el-input type="number" v-model="productForm.incomeTaxRate" class="formitem" size="small" placeholder="请输入进项税率">
                 <span slot="suffix">%</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="销项税率：" >
-              <el-input type="number" v-model.number="productForm.outputTaxRate" class="formitem" size="small" placeholder="请输入销项税率">
+              <el-input type="number" v-model="productForm.outputTaxRate" class="formitem" size="small" placeholder="请输入销项税率">
                 <span slot="suffix">%</span>
               </el-input>
             </el-form-item>
@@ -141,7 +141,7 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="期望毛利率：" >
-              <el-input type="number" v-model.number="productForm.expectGrossProfit" class="formitem" size="small" placeholder="请输入期望毛利率">
+              <el-input type="number" v-model="productForm.expectGrossProfit" class="formitem" size="small" placeholder="请输入期望毛利率">
                 <span slot="suffix">%</span>
               </el-input>
             </el-form-item>
@@ -155,7 +155,7 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="重量：" >
-              <el-input type="number" v-model.number="productForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
+              <el-input type="number" v-model="productForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
                 <span slot="suffix">kg</span>
               </el-input>
             </el-form-item>
@@ -169,39 +169,39 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="安全库存系数：" >
-              <el-input type="number" v-model.number="productForm.safeStockFactor" class="formitem" size="small" placeholder="请输入安全库存系数">
+              <el-input type="number" v-model="productForm.safeStockFactor" class="formitem" size="small" placeholder="请输入安全库存系数">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="长：" >
-              <el-input type="number" v-model.number="productForm.skuLength" class="formitem" size="small" placeholder="请输入长度">
+              <el-input type="number" v-model="productForm.skuLength" class="formitem" size="small" placeholder="请输入长度">
                 <span slot="suffix">m</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="体积：" >
-              <el-input type="number" v-model.number="productForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
+              <el-input type="number" v-model="productForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
                 <span slot="suffix">m³</span>
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="保质期：" >
-              <el-input type="number" v-model.number="productForm.shelfLife" class="formitem" size="small" placeholder="请输入保质期">
+              <el-input type="number" v-model="productForm.shelfLife" class="formitem" size="small" placeholder="请输入保质期">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="目标周转日数：" >
-              <el-input type="number" v-model.number="productForm.tagerTurnoverDays" class="formitem" size="small" placeholder="请输入周转日数">
+              <el-input type="number" v-model="productForm.tagerTurnoverDays" class="formitem" size="small" placeholder="请输入周转日数">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="宽：" >
-              <el-input type="number" v-model.number="productForm.skuBreadth" class="formitem" size="small" placeholder="请输入宽度">
+              <el-input type="number" v-model="productForm.skuBreadth" class="formitem" size="small" placeholder="请输入宽度">
                 <span slot="suffix">m</span>
               </el-input>
             </el-form-item>
@@ -221,13 +221,13 @@
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="最大在库数量：" >
-              <el-input type="number" v-model.number="productForm.maxStockQty" class="formitem" size="small" placeholder="请输入最大在库数量">
+              <el-input type="number" v-model="productForm.maxStockQty" class="formitem" size="small" placeholder="请输入最大在库数量">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="高：" >
-              <el-input type="number" v-model.number="productForm.skuHeight" class="formitem" size="small" placeholder="请输入高度">
+              <el-input type="number" v-model="productForm.skuHeight" class="formitem" size="small" placeholder="请输入高度">
                 <span slot="suffix">m</span>
               </el-input>
             </el-form-item>

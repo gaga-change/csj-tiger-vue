@@ -5,7 +5,7 @@
           size="mini"
           type="primary"
            @click="filesDialogVisible=true" >
-            导入
+            {{importText}}
         </el-button>
      </div>
 
@@ -50,6 +50,10 @@ export default {
     },
 
     props: {
+      importText: {
+        type:String,
+        default:'导入'
+      },
 
       //导入地址
       filesuploadUrl:{
@@ -83,7 +87,7 @@ export default {
             duration:1000,
             onClose:()=>{
                 this.filesDialogVisible=false;
-                this.fileList=[]   
+                this.fileList=[]
                 this.$refs.filesupload.clearFiles();
             }})
         } else {
@@ -92,8 +96,9 @@ export default {
             message: res.errorMsg||'导入失败',
             type: 'error',
             duration:5*1000,
-            onClose:()=> Promise.reject(error)
+            onClose:()=> Promise.reject()
           })
+          this.$refs.filesupload.clearFiles()
         }
     },
 
@@ -112,7 +117,7 @@ export default {
       this.fileList=fileList;
     },
 
-    
+
     handelUploadChange(file, fileList) {
       this.fileList=fileList;
     },

@@ -8,11 +8,18 @@
     <el-row type="flex" justify="end">
       <el-button
         type="primary"
-        size="small"
         style="margin:10px"
+        size="mini"
         @click="newCustomer(null)"
         >创建客户</el-button
       >
+      <upload-excel
+        style="margin:10px"
+        @uploadRes="uploadRes"
+        :name="'file'"
+        :importText="'批量导入客户信息'"
+        :modelUrl="'/static/templet/customerTemp.xlsx'"
+        :filesuploadUrl="'/webApi/customer/importCustomerInfo'"></upload-excel>
     </el-row>
     <el-table :data="tableData" border v-loading="loading" size="small" style="margin-bottom:12px">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
@@ -299,6 +306,10 @@ export default {
     this.fetchData()
   },
   methods: {
+    uploadRes(result) {
+      console.log(result)
+      this.fetchData()
+    },
     setDefault(row = {}) {
       const { id } = row
       this.addressLoading = true

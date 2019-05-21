@@ -37,7 +37,7 @@
             type="datetime"
             placeholder="选择日期时间">
           </el-date-picker>
-          <el-input v-else-if="formitem.type==='number'" type="number" v-model.number="searchForm[formitem.prop]" :disabled="formitem.disabled" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
+          <el-input v-else-if="formitem.type==='number'" type="number" v-model="searchForm[formitem.prop]" :disabled="formitem.disabled" :placeholder="formitem.placeholder" size="small" class="formitem"></el-input>
           <el-input v-else-if="formitem.type==='textarea'" type="textarea" v-model="searchForm[formitem.prop]" :disabled="formitem.disabled" :rows="formitem.rows||1" :placeholder="formitem.placeholder" size="small" ></el-input>
           <el-cascader
             v-else-if="formitem.type==='cascader'"
