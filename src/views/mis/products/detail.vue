@@ -90,7 +90,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="销售区分：" prop="saleType">
-            <span>{{productForm.saleType}}</span>
+            <span>{{productForm.saleType|apiEnum(mapConfig, 'getSaleType')}}</span>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
@@ -231,6 +231,7 @@
 import { customerConfig, servicerConfig } from './components/config'
 import { productDetail } from '@/api/productcenter'
 import moment from 'moment';
+import { mapGetters } from 'vuex'
 import _ from 'lodash'
 export default {
   data() {
@@ -240,6 +241,11 @@ export default {
       loading: false,
       productForm: {}
     }
+  },
+  computed: {
+    ...mapGetters({
+       mapConfig: 'mapConfig'
+    })
   },
   created() {
     this.customerConfig.find(v=>v.label==='客户').prop='customerName'
