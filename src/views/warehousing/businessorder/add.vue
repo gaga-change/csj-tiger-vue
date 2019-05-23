@@ -13,7 +13,7 @@
           <el-row>
               <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item label="业务类型"  prop="busiBillType" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select   v-model="searchForm.busiBillType"   placeholder="请选择业务类型">
+                  <el-select   v-model="searchForm.busiBillType" size="small"  placeholder="请选择业务类型">
                     <el-option v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('入库'))" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
                   </el-select>
                 </el-form-item>
@@ -33,7 +33,7 @@
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.ownerCode" filterable  @change="ownerCodeChange"  placeholder="请选择货主"  >
+                  <el-select v-model="searchForm.ownerCode" filterable size="small"  @change="ownerCodeChange"  placeholder="请选择货主"  >
                     <el-option
                       value="" v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length" :disabled="true">
                       <div class="providerList">
@@ -60,14 +60,14 @@
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="预计到货日期:"  label-width="120px" prop="planInWarehouseTime"  :rules="[{ required: true, message: '该项为必填'}]" >
-                    <el-date-picker v-model="searchForm.planInWarehouseTime" type="date" placeholder="选择日期"></el-date-picker>
+                    <el-date-picker v-model="searchForm.planInWarehouseTime" size="small" type="date" placeholder="选择日期"></el-date-picker>
                 </el-form-item>
                 </el-form-item>
               </el-col>
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item  label="供应商名称"  label-width="90px" prop="providerCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.providerCode" filterable  @change="providerChange" @focus="providerFocus" placeholder="请选择供应商"  >
+                  <el-select v-model="searchForm.providerCode" filterable size="small"  @change="providerChange" @focus="providerFocus" placeholder="请选择供应商"  >
                     <el-option  value="" v-if="providerConfig.length" :disabled="true">
                       <div class="providerList">
                         <span>供应商编号</span>
@@ -86,7 +86,7 @@
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="订单有效期"  label-width="100px" :rules="[{ required: true, message: '该项为必填'}]">
-                    <el-date-picker v-model="searchForm.orderTime" type="date" placeholder="选择日期"></el-date-picker>
+                    <el-date-picker v-model="searchForm.orderTime" size="small" type="date" placeholder="选择日期"></el-date-picker>
                 </el-form-item>
               </el-col>
 
@@ -105,6 +105,14 @@
               <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="创建日期"  label-width="100px">
                     <el-date-picker v-model="searchForm.gmtCreate" type="date" placeholder="选择日期"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :sm="12" :md="8" :lg="8" :xl="6">
+                <el-form-item label="仓库" >
+                  <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem">
+                    <el-option v-for="item in warehouseList" :label="item.warehouseName" :key="item.warehouseCode"  :value="item.warehouseCode"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
 
@@ -149,6 +157,7 @@ import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import addForm from './conpoments/addForm'
 import {inBillAdd,customerInfo,inbilldetail,inBillUpdate} from '@/api/warehousing'
+import { ownerWarehouseList } from '@/api/tenant'
 import { skuInfoList } from '@/api/sku'
 import { mapGetters } from 'vuex'
 import _  from 'lodash';
@@ -174,7 +183,8 @@ export default {
 
         //供应商下拉配置
         providerConfig:[],
-        commodityList:[]//商品列表
+        commodityList:[], //商品列表
+        warehouseList: []
       };
     },
 
@@ -212,11 +222,23 @@ export default {
       if(this.searchForm.providerCode){
         let searchForm= _.cloneDeep(this.searchForm);
         searchForm.providerCode='';
+        searchForm.warehouseCode='';
         searchForm.detailItemList=[];
         this.searchForm=searchForm;
       }
       this.providerConfig=[];
       this.getCustomerInfo(value);
+      this.warehouseList.length = 0
+      this.showStore({ ownerCode: value })
+    },
+
+    showStore(row) {
+      ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
+        let result = res.data
+        this.warehouseList = result
+      }).catch(err => {
+        console.log(err)
+      })
     },
 
     //根据货主查供应商列表

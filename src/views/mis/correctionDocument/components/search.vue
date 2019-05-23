@@ -14,7 +14,7 @@
                  <el-option v-for="item in misRevisalTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
-          </el-col> 
+          </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'ownerCode' in searchForm">
             <el-form-item label="货主:">
@@ -34,13 +34,14 @@
               <el-form-item label="订正日期" prop="time">
                  <el-date-picker
                     v-model="searchForm.time"
+                    size="small"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期">
                  </el-date-picker>
               </el-form-item>
           </el-col>
- 
+
     </el-row>
 
       <el-row>

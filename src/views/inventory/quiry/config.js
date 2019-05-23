@@ -35,7 +35,6 @@ export const indexTableConfig=[
   { label:'成本价',prop:'costPrice'},
   { label:'总数量',prop:'skuQty'},
   { label:'锁定数量',prop:'lockQty'},
+  { label:'库存金额',prop:'costPriceAmt',width:'120px' },
   { label:'操作',width:'150px',fixed:'right',linkTo:'/inventory/quiry-detail',query:[{key:'warehouseCode',value:'warehouseCode'},{key:'skuCode',value:'skuCode'},],linkText:'查看' },
 ]
-
-

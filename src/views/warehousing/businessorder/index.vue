@@ -91,8 +91,15 @@
 
     <div class="operationitem">
       <router-link :to="`/warehousing/businessorderadd?type=add&time=${moment().valueOf()}`">
-          <el-button type="primary" size="small">新建入库业务单</el-button>
+          <el-button type="primary" size="mini">新建入库业务单</el-button>
       </router-link>
+      <upload-excel
+        style="margin:0 10px"
+        @uploadRes="uploadRes"
+        :name="'file'"
+        :importText="'批量导入入库业务单'"
+        :modelUrl="'/static/templet/warehousingTemp.xlsx'"
+        :filesuploadUrl="'/webApi/in/bill/import/batch'"></upload-excel>
     </div>
 
    <base-table
@@ -215,6 +222,10 @@
 
     methods: {
       moment,
+      uploadRes(result) {
+        console.log(result)
+        this.getCurrentTableData()
+      },
       operation(type,row){
         let component=this.$confirm;
         let tip='';

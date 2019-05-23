@@ -165,6 +165,14 @@
               </el-form-item>
           </el-col>
 
+          <el-col :sm="12" :md="8" :lg="8" :xl="6">
+            <el-form-item label="仓库" >
+              <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem">
+                <el-option v-for="item in warehouseList" :label="item.warehouseName" :key="item.warehouseCode"  :value="item.warehouseCode"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
            <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="备注:"  >
                 <el-input v-model="searchForm.remarkInfo" placeholder="请输入备注" size="small" class="formitem"></el-input>
@@ -206,6 +214,7 @@ import editTable from '@/components/Table/editTable';
 import addForm from './conpoments/addForm'
 import  { outgoingOrderTypeEnum,sendOutRequireEnum} from "@/utils/enum.js";
 import {customerInfo} from '@/api/warehousing'
+import { ownerWarehouseList } from '@/api/tenant'
 import { customerAddrInfo,skuInfoList,outBillAdd,outBillDetail,outBillUpdate,outBillImprove} from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
 import _  from 'lodash';
@@ -238,6 +247,7 @@ export default {
         providerConfig:[],
         //地址下拉配置
         addrListConfig:[],
+        warehouseList: []
       };
     },
 
@@ -321,10 +331,22 @@ export default {
         searchForm.arrivalAddress='';
         searchForm.arrivalLinkUser='';
         searchForm.arrivalLinkTel='';
+        searchForm.warehouseCode='';
         searchForm.outWarehouseBillDetailList=[];
         this.searchForm=searchForm;
         this.providerConfig=[];
         this.addrListConfig=[];
+        this.warehouseList.length = 0
+        this.showStore({ ownerCode: value })
+      },
+
+      showStore(row) {
+        ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
+          let result = res.data
+          this.warehouseList = result
+        }).catch(err => {
+          console.log(err)
+        })
       },
 
       //根据货主查供应商或者客户列表

@@ -84,8 +84,15 @@
 
       <div class="operationitem">
         <router-link :to="`/outgoing/businessorderadd?type=add&time=${moment().valueOf()}`">
-            <el-button type="primary" size="small">新建出库业务单</el-button>
+            <el-button type="primary" size="mini">新建出库业务单</el-button>
         </router-link>
+        <upload-excel
+          style="margin:0 10px"
+          @uploadRes="uploadRes"
+          :name="'file'"
+          :importText="'批量导入出库业务单'"
+          :modelUrl="'/static/templet/outgoingTemp.xlsx'"
+          :filesuploadUrl="'/webApi/out/bill/import/batch'"></upload-excel>
       </div>
 
       <base-table
@@ -197,6 +204,10 @@
     methods: {
        moment,
        operation,
+       uploadRes(result) {
+         console.log(result)
+         this.getCurrentTableData()
+       },
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
