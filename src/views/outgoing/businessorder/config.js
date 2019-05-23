@@ -28,6 +28,7 @@ export const infoConfig=[
   {title:'合同号',prop:'contractNo'},
   {title:'发货要求',prop:'sendOutRequire',type:'sendOutRequireEnum',useLocalEnum:true},
   {title:'询价单号',prop:'inquiryNo'},
+  {title:'仓库',prop:'warehouseCode', type:'getWarehouse', useApi:true},
   {title:'订单来源',prop:'fromSysCode'},
   {title:'备注',prop:'remarkInfo',span:12},
 ]
@@ -99,7 +100,7 @@ export const detail_outGoingTableConfig=[
   { label:'业务单号',prop:'billNo',minWidth:170 },
   { label:'计划单号',prop:'planCode',minWidth:150,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
   { label:'合同编号',prop:'contractNo',minWidth:120 },
-  { label:'客户名称',prop:'arrivalName' }, 
+  { label:'客户名称',prop:'arrivalName' },
   { label:'货主',prop:'ownerName'},
   { label:'出库仓库名称',prop:'warehouseName',minWidth:180 },
   { label:'出库数量',prop:'outQty'},
@@ -108,4 +109,3 @@ export const detail_outGoingTableConfig=[
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'出库日期',prop:'outStoreTime',type:'time',minWidth:140 },
 ]
-

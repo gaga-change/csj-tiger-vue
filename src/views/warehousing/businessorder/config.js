@@ -19,6 +19,7 @@ export  const infoConfig=[
   {title:'合同号',prop:'contractNo'},
   {title:'供应商编码',prop:'providerCode'},
   {title:'供应商名称',prop:'providerName'},
+  {title:'仓库',prop:'warehouseCode', type:'getWarehouse', useApi:true},
   {title:'预计到货日期',prop:'planInWarehouseTime',type:'time'},
   {title:'订单有效期',prop:'orderTime',type:'time'},
   {title:'创建日期',prop:'gmtCreate',type:'time'},
