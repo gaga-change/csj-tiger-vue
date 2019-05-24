@@ -147,7 +147,7 @@
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="发货要求" >
-              <el-select  v-model="searchForm.sendOutRequire||''" clearable  placeholder="请选择发货要求" size="small" class="formitem">
+              <el-select  v-model="searchForm.sendOutRequire" clearable  placeholder="请选择发货要求" size="small" class="formitem">
                 <el-option v-for="item in sendOutRequireEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -406,7 +406,7 @@ export default {
 
 
         let id=provider.id
-        customerAddrInfo(id,this.searchForm.busiBillType).then(res=>{
+        customerAddrInfo(value,this.searchForm.busiBillType).then(res=>{
           if(res.success){
             this.addrListConfig=Array.isArray(res.data)&&res.data||[];
             const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}

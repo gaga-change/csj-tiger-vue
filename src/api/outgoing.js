@@ -116,9 +116,9 @@ export function orderSave(data={}) {
   })
 }
 
-export function customerAddrInfo(customerId,billType) {
+export function customerAddrInfo(customerCode,billType) {
   return request({
-    url: `/webApi/customer/addr/info/${customerId}/${billType}`,
+    url: `/webApi/customer/addr/info/${customerCode}/${billType}`,
     method: 'get',
   })
 }
