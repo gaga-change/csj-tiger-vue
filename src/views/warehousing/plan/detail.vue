@@ -1,9 +1,11 @@
 <template>
   <div class="warehousing-quirydetail-container">
 
-    <sticky :className="'sub-navbar published'" style="margin-bottom:12px" v-if="this.$route.query.history">
+    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-        <el-button type="success"  size="small" @click="sureQty"  :loading="sureQtyLoding">确认并生成入库单</el-button>
+        <el-button v-if="this.$route.query.history" type="success"  size="small" @click="sureQty"  :loading="sureQtyLoding">确认并生成入库单</el-button>
+        <el-button v-if="config.planState === 1 ||　config.planState === 3" type="success"  size="small" @click="planCheck(1)"  :loading="sureQtyLoding">审核</el-button>
+        <el-button v-if="config.planState === 1" type="warning"  size="small" @click="planCheck(0)"  :loading="sureQtyLoding">驳回</el-button>
       </template>
     </sticky>
 
@@ -32,10 +34,11 @@
 </template>
 
 <script>
- import {inPlanDetail,inOrderSelect,orderSave} from '@/api/warehousing'
+ import {inPlanDetail,inOrderSelect,orderSave, inPlanCheck} from '@/api/warehousing'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import editTable from '@/components/Table/editTable'
  import Sticky from '@/components/Sticky'
+ import Check from '@/components/Check'
  import _  from 'lodash';
  import { mapGetters } from 'vuex'
  import { tableConfig,infoConfig,warehousingTableConfig } from './config';
@@ -72,7 +75,18 @@
     },
 
     methods:{
-
+      planCheck(isAgree) {
+        Check({
+          global: this,
+          api: inPlanCheck,
+          agree: isAgree,
+          planCode: this.config.planCode,
+          loading: this.sureQtyLoding
+        }).then(res => {
+          console.log(res)
+          this.getCurrentTableData()
+        })
+      },
       getCurrentTableData(){
         let { planCode}=this.$route.query||{};
         this.planCode=planCode;

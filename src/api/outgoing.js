@@ -242,3 +242,12 @@ export function outDependWeight(data) {
     data: data,
   })
 }
+
+// /api/out/plan/approve
+export function outPlanCheck(data) {
+  return request({
+    url: `/api/out/plan/approve`,
+    method: 'post',
+    data: data,
+  })
+}

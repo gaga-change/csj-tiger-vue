@@ -1,15 +1,12 @@
 <template>
   <div class="outgoing-quirydetail-container">
 
-      <sticky :className="'sub-navbar published'" style="margin-bottom:12px" v-if="this.$route.query.history">
+      <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
         <template >
-          <el-button type="success"  size="small" @click="sureQty"  :loading="sureQtyLoding">确认并生成出库单</el-button>
-        </template>
-      </sticky>
-
-      <sticky :className="'sub-navbar published'" style="margin-bottom:12px" v-else >
-        <template >
-           <el-button  type="success" size="small" @click="printing">打印</el-button>
+          <el-button v-if="$route.query.history" type="success"  size="small" @click="sureQty"  :loading="sureQtyLoding">确认并生成入库单</el-button>
+          <el-button v-if="config.planState === 5 || config.planState === 6" size="small" @click="printing">打印</el-button>
+          <el-button v-if="config.planState === 1 ||　config.planState === 3" type="success"  size="small" @click="planCheck(1)"  :loading="sureQtyLoding">审核</el-button>
+          <el-button v-if="config.planState === 1" type="warning"  size="small" @click="planCheck(0)"  :loading="sureQtyLoding">驳回</el-button>
         </template>
       </sticky>
 
@@ -48,11 +45,12 @@
 </template>
 
 <script>
- import {outPlanDetail,outOrderSelect,orderSave,outPlanPrint} from '@/api/outgoing';
+ import {outPlanDetail,outOrderSelect,orderSave,outPlanPrint,outPlanCheck} from '@/api/outgoing';
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import editTable from '@/components/Table/editTable'
  import {tableConfig,infoConfig,outgoingTableConfig,printingTable_config} from './config';
  import Sticky from '@/components/Sticky'
+ import Check from '@/components/Check'
  import Invoice from './invoice'
  import moment from 'moment';
  import { MakePrint } from '@/utils'
@@ -95,6 +93,18 @@
   },
 
     methods:{
+      planCheck(isAgree) {
+        Check({
+          global: this,
+          api: outPlanCheck,
+          agree: isAgree,
+          planCode: this.config.planCode,
+          loading: this.sureQtyLoding
+        }).then(res => {
+          console.log(res)
+          this.getCurrentTableData()
+        })
+      },
 
        printing(){
          this.printingVisible=true;

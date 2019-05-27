@@ -158,3 +158,12 @@ export function inDependWeight(data) {
     data: data,
   })
 }
+
+// /api/in/plan/approve
+export function inPlanCheck(data) {
+  return request({
+    url: `/api/in/plan/approve`,
+    method: 'post',
+    data: data,
+  })
+}
