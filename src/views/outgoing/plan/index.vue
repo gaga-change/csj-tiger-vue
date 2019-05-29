@@ -164,7 +164,7 @@
           if(item.useLink){
               item.dom=(row, column, cellValue, index)=>{
                 let queryPath=`/outgoing/plan-detail?planCode=${row.planCode}`;
-                let createPath=`/reply/newreceiptorder?id=${row.id}&time=${moment().valueOf()}`
+                let createPath=`/reply/newreceiptorder?planCode=${row.planCode}&time=${moment().valueOf()}`
                 let handOutPath=`/outgoing/plan-detail?planCode=${row.planCode}&history=${true}`
                 let newHandOutPath=`/outgoing/manual?planCode=${row.planCode}`
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>

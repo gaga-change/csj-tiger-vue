@@ -22,9 +22,9 @@
      <item-card :config="infoConfig" :loading="loading"   :cardData="config"  />
 
     <item-title text="相关明细"/>
-    <web-pagination-table 
+    <web-pagination-table
      :loading="loading"
-     :config="tableConfig" 
+     :config="tableConfig"
      :allTableData="tableData"/>
 
     <div class="tableTotal">
@@ -38,7 +38,7 @@
 </template>
 
 <script>
- import Sticky from '@/components/Sticky' 
+ import Sticky from '@/components/Sticky'
  import webPaginationTable from '@/components/Table/webPaginationTable'
  import {Prompt} from './prompt'
  import { signDetail } from '@/api/reply'
@@ -46,9 +46,9 @@
  import { NatureInvoice } from '@/utils/enum'
  import moment from 'moment';
  export default {
-  components: { 
+  components: {
     Sticky,
-    webPaginationTable 
+    webPaginationTable
   },
    data(){
      return {
@@ -60,7 +60,7 @@
         loading:false,
         infoConfig,
         config:{},
-        
+
      }
    },
 
@@ -130,10 +130,10 @@
           font-weight: 600;
          }
          &:nth-child(2n){
-          padding-right: 20px; 
+          padding-right: 20px;
          }
       }
-     
+
     }
   }
 </style>

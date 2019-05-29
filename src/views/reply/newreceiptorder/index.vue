@@ -290,7 +290,7 @@
         fetchSuccess: true,
         submitloading: false,
         loading:false,
-        id:'',
+        planCode:'',
 
         filesDialogVisible:false,
         filesuploadUrl: '/webApi/fileupload/common/filetoserver',
@@ -337,8 +337,9 @@
 
     methods:{
      onload(){
-      let {id,modify}=this.$route.query||{};
-      this.id=id;
+      let {planCode,modify,id}=this.$route.query||{};
+      this.planCode=planCode;
+      this.id=id
       let data=_.cloneDeep(this.planform);
       this.planform=data;
       this.loading=true;
@@ -370,7 +371,7 @@
            this.loading=false;
         })
       } else {
-        planDetail({id}).then(res=>{
+        planDetail({planCode}).then(res=>{
           this.loading=false;
           if(res.data&&Array.isArray(res.data.itemList)){
             data={...data,...res.data}
