@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template>
-           <el-button type="primary" size="small" @click="submit" >生成计划单</el-button>
+           <el-button type="primary" size="small" @click="submit" :disabled="submitLoading">生成计划单</el-button>
       </template>
     </sticky>
      <item-title text="基本信息"/>
@@ -64,7 +64,7 @@
         originalTableData:[],//原始数据  需要id
         alertTableData:[], //需要id
         alertTable_config,
-
+        submitLoading: false,
         editRow:{}//当前正在编辑的行 并非弹框
 
 
@@ -127,7 +127,7 @@
            v.billDetailId=v.id;
            return v
         })
-        console.log(json.planItemList)
+        this.submitLoading = true
         inPlanAdd(json).then(res=>{
           if(res.success){
             this.$message({
@@ -147,6 +147,8 @@
           }
         }).catch(err=>{
           console.log(err)
+        }).then(() => {
+          this.submitLoading = false
         })
       },
       //关闭弹框
