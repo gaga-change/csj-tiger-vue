@@ -17,7 +17,7 @@
           :formatter="column.dom"></el-table-column>
         <el-table-column label="重量" width="150" fixed="right">
           <template slot-scope="scope">
-            <el-input type="number" :min="0.0001" v-model.number.trim="scope.row.outStoreWeight" v-if="isDependWeight && scope.row.settleUnit === 2 && !isCompelete"></el-input>
+            <el-input type="number" :min="0.0001" v-model.trim="scope.row.outStoreWeight" v-if="isDependWeight && scope.row.settleUnit === 2 && !isCompelete"></el-input>
             <span v-else>{{scope.row.outStoreWeight}}</span>
           </template>
         </el-table-column>
@@ -76,7 +76,7 @@
       submit() {
         console.log(this.tableData)
         this.tableData = this.tableData.map(row => {
-          let amount = row.skuOutPrice*row.outStoreQty
+          let amount = row.skuOutPrice
           if (row.settleUnit === 2 ) {
             amount = amount * (row.outStoreWeight || 0)
           }

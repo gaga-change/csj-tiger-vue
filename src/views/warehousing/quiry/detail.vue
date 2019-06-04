@@ -17,7 +17,7 @@
           :formatter="column.dom"></el-table-column>
         <el-table-column label="重量" width="150" fixed="right">
           <template slot-scope="scope">
-            <el-input type="number" v-model.number.trim="scope.row.inStoreWeight" v-if="isDependWeight && !isCompelete && scope.row.settleUnit ===2"></el-input>
+            <el-input type="number" v-model.trim="scope.row.inStoreWeight" v-if="isDependWeight && !isCompelete && scope.row.settleUnit ===2"></el-input>
             <span v-else>{{scope.row.inStoreWeight}}</span>
           </template>
         </el-table-column>
@@ -76,7 +76,7 @@
       },
       submit() {
         this.tableData = this.tableData.map(row => {
-          let amount = row.inPrice*row.inStoreQty
+          let amount = row.inPrice
           if (row.settleUnit === 2 ) {
             amount = amount * (row.inStoreWeight || 0)
           }
