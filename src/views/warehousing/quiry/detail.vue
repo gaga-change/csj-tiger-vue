@@ -76,12 +76,11 @@
       },
       submit() {
         this.tableData = this.tableData.map(row => {
-          let amount = row.inPrice
-          if (row.settleUnit === 2 ) {
-            amount = amount * (row.inStoreWeight || 0)
+          let amount = row.inStoreAmt
+          if (row.settleUnit ===2) {
+            amount = row.inPrice * (row.inStoreWeight || 0)
           }
-          row.inStoreAmt = amount
-          return row
+          return amount.toFixed(2)
         })
         this.btnloading = true
         inDependWeight(this.tableData).then(res => {
