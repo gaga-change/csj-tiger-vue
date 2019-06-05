@@ -1,0 +1,41 @@
+variables:
+  DOCKER_DRIVER: overlay
+services:
+  - docker:dind
+stages:
+  - build
+  - pack
+  - deploy
+
+before_script:
+  - export IMAGE_TAG=$(echo -en $CI_COMMIT_REF_NAME | tr -c '[:alnum:]_.-' '-')
+  - export IMAGE=$CI_REGISTRY_IMAGE:$IMAGE_TAG
+
+build:
+  stage: build
+  script:
+    - docker build --pull -t "${CI_REGISTRY_IMAGE}_build:latest" . -f Dockerfile.build
+    - docker push "${CI_REGISTRY_IMAGE}_build:latest"
+    - docker create --name extract "${CI_REGISTRY_IMAGE}_build:latest"
+    - docker cp extract:/usr/src/app/dist ./dist
+    - docker rm -f extract
+  artifacts:
+    expire_in: 3 mins
+    paths:
+      - dist/
+      - Dockerfile
+      - nginx.conf
+  only:
+    - tags
+
+pack:
+  stage: pack
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - build
+  script:
+    - docker build --pull -t "$IMAGE" .
+    - docker push "$IMAGE"
+  only:
+    - tags
