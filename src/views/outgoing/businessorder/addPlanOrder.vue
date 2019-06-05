@@ -2,12 +2,12 @@
   <div class="outgoing-quirydetail-container">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template>
-          <el-button type="primary" size="small" @click="submit" >生成计划单</el-button>
+          <el-button type="primary" size="small" @click="submit" :disabled="submitLoading">生成计划单</el-button>
       </template>
    </sticky>
 
      <item-title text="基本信息"/>
-     <item-card :config="infoConfig" :loading="loading"   :cardData="infoData"  />
+     <item-card :config="infoConfig" :loading="loading" :cardData="infoData"  />
      
 
     <div class="itemBox">
@@ -76,7 +76,7 @@
         addVisible:false,
         alertTableData:[], //需要id
         alertTable_config,
-
+        submitLoading: false,
         editRow:{}//当前正在编辑的行 并非弹框
       }
     },
@@ -142,6 +142,7 @@
           this.$message.error('其请输入正确的计划出库数量');
           return 
         }
+        this.submitLoading = true
         outPlanAdd({
           itemList:_.cloneDeep(this.tableData).map((v,i)=>{
             v.busiIndex=i+1;
@@ -173,6 +174,8 @@
           }
         }).catch(err=>{
            console.log(err)
+        }).then(() => {
+          this.submitLoading = true
         })
       },
       //关闭弹框
