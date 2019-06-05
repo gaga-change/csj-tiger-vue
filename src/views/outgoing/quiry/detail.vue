@@ -76,11 +76,10 @@
       submit() {
         console.log(this.tableData)
         this.tableData = this.tableData.map(row => {
-          let amount = row.outStoreAmt
           if (row.settleUnit ===2) {
-            amount = row.skuOutPrice * (row.outStoreWeight || 0)
+            row.outStoreAmt = row.skuOutPrice * (row.outStoreWeight || 0)
           }
-          return amount.toFixed(2)
+          return row
         })
         this.btnloading = true
         outDependWeight(this.tableData).then(res => {
