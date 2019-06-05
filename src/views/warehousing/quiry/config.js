@@ -8,9 +8,9 @@ export   const tableConfig=[
   { label:'生产厂家',prop:'productFactory'},
   { label:'入库数量',prop:'inStoreQty'},
   { label:'入库金额',prop:'inStoreAmt',dom:(row, column, cellValue, index)=>{
-    let amount = row.inPrice
+    let amount = row.inStoreAmt
     if (row.settleUnit ===2) {
-      amount = amount * (row.inStoreWeight || 0)
+      amount = row.inPrice * (row.inStoreWeight || 0)
     }
     return amount.toFixed(2)
   }},
