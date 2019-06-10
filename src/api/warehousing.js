@@ -36,6 +36,22 @@ export function inPlanDetail(data={}) {
   })
 }
 
+//入库计划关闭
+export function inPlanClose(planCode) {
+  return request({
+    url: `/webApi/in/plan/close/${planCode}`,
+    method: 'get',
+  })
+}
+
+//入库计划修改
+export function inPlanUpdate(data={}) {
+  return request({
+    url: `/webApi/in/plan/update`,
+    method: 'put',
+    data,
+  })
+}
 
 //入库单查询数据
 export function inOrderSelect(data={}) {

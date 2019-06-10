@@ -870,6 +870,10 @@ export const warehousingPlanBillStatus =[
     name: '已完结',
     value: 6
   },
+  {
+    name: '已关闭',
+    value: 7
+  }
 ]
 
 export const hangUpTypeEnum = [

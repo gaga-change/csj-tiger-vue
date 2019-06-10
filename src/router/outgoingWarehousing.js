@@ -38,6 +38,13 @@ export default [
         hidden: true,
       },
       {
+        name: 'out-plan-modify',
+        path: 'out-plan-modify',
+        meta: { title: '出库计划修改', noCache: true },
+        component: _import('outgoing/businessorder/outPlanModify'),
+        hidden: true,
+      },
+      {
         name: 'outgoing-plan-index',
         path: 'plan',
         meta: { title: '出库计划', noCache: false },
@@ -128,13 +135,19 @@ export default [
         component: _import('warehousing/plan/index')
       },
       {
+        name: 'plan-modify',
+        path: 'plan-modify',
+        meta: { title: '入库计划修改', noCache: true },
+        component: _import('warehousing/businessorder/planModify'),
+        hidden: true,
+      },
+      {
         name: 'plan-detail',
         path: 'plan-detail',
         meta: { title: '入库计划详情', noCache: true },
         component: _import('warehousing/plan/detail'),
         hidden: true,
       },
-
       {
         name: 'warehousing-quiry-index',
         path: 'quiry',

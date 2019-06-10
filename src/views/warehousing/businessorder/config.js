@@ -39,6 +39,19 @@ export  const addPlanInfoConfig=[
   {title:'审核人',prop:'auditName'},
 ]
 
+export  const modifyPlanInfoConfig=[
+  {title:'业务单号',prop:'billNo',},
+  {title:'外部订单号',prop:'busiBillNo',},
+  {title:'货主编号',prop:'ownerCode'},
+  {title:'货主名称',prop:'ownerName'},
+  {title:'订单来源',prop:'fromSysCode'},
+  {title:'预计到货日期',prop:'planInWarehouseTime',type:'time'},
+  {title:'订单有效期',prop:'orderTime',type:'time'},
+  {title:'审核人',prop:'auditName'},
+  {title:'供应商编码',prop:'providerCode'},
+  {title:'供应商名称',prop:'providerName'},
+]
+
 export const warehousingTableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'入库单号',prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
@@ -104,6 +117,21 @@ export const addPlanOrder_config=[
   { label:'计划入库数量',prop:'planInQty'},
   { label:'商品供应商编码',prop:'customerSkuCode'},
   { label:'商品供应商名称',prop:'customerSkuName'},
+  { label:'订货进价',prop:'inPrice'},
+  { label:'金额',prop:'planInAmt'},
+  { label:'入库仓库',prop:'warehouseName',width:150},
+  { label:'操作',fixed:'right',useLink:true,width:140}
+]
+
+
+export const modifyPlanOrder_config=[
+  { label:'序号',type:'index',width:50},
+  { label:'商品编码',prop:'skuCode',width:100},
+  { label:'商品名称',prop:'skuName'},
+  { label:'数量',prop:'skuInQty',width:100},
+  { label:'计划入库数量',prop:'planInQty'},
+  {label:'商品供应商编码',prop:'providerCode'},
+  {label:'商品供应商名称',prop:'providerName'},
   { label:'订货进价',prop:'inPrice'},
   { label:'金额',prop:'planInAmt'},
   { label:'入库仓库',prop:'warehouseName',width:150},

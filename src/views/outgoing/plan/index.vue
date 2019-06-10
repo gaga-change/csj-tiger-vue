@@ -165,9 +165,11 @@
               item.dom=(row, column, cellValue, index)=>{
                 let queryPath=`/outgoing/plan-detail?planCode=${row.planCode}`;
                 let createPath=`/reply/newreceiptorder?planCode=${row.planCode}&time=${moment().valueOf()}`
+                let updatePath = `/outgoing/out-plan-modify?id=${row.id}&planCode=${row.planCode}`
                 let handOutPath=`/outgoing/plan-detail?planCode=${row.planCode}&history=${true}`
                 let newHandOutPath=`/outgoing/manual?planCode=${row.planCode}`
                 return <div style={{display:'flex',flexWrap: 'nowrap'}}>
+                    {row.planState === 0 && <router-link to={updatePath} class="routerLink">修改</router-link>}
                     <router-link  to={queryPath}  class="routerLink">查看</router-link>
                     {
                        row.isCreate&&
