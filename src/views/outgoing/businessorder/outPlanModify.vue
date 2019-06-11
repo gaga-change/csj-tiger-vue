@@ -66,8 +66,7 @@
 import { infoConfig } from '@/views/outgoing/plan/config';
 import { addPlanOrder_config, alertTable_config } from './config';
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { ownerWarehouseList, inPlanUpdate } from '@/api/warehousing'
-import { skuInfoGetRecommendStock, outPlanClose } from '@/api/outgoing'
+import { skuInfoGetRecommendStock, outPlanClose, outPlanUpdate } from '@/api/outgoing'
 import { outPlanDetail } from '@/api/outgoing'
 import editTable from '@/components/Table/editTable';
 import { mapGetters } from 'vuex'
@@ -148,7 +147,7 @@ export default {
             onClose: () => {
               this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                 this.$router.push({
-                  path: `/warehousing/plan?t=${Date.now()}`,
+                  path: `/outgoing/plan?t=${Date.now()}`,
                 })
               }).catch(err => {
                 console.log(err)
@@ -200,18 +199,18 @@ export default {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       let { planCode } = this.$route.query || {};
       let json = { planCode }
-      json.inWarehouseBillId = this.$route.query.id;
+      // json.inWarehouseBillId = this.$route.query.id;
       json.updatePlanDetailReqList = this.tableData.map(v => {
         return {
           skuCode: v.skuCode,
           planOutQty: v.planOutQty,
           planWarehouseCode: v.warehouseCode,
           planWarehouseName: v.warehouseName,
-          inWarehousePlanDetailId: v.inWarehousePlanDetailId
+          outWarehousePlanDetailId: v.id
         }
       })
       this.submitLoading = true
-      inPlanUpdate(json).then(res => {
+      outPlanUpdate(json).then(res => {
         if (res.success) {
           this.$message({
             type: 'success',
@@ -220,7 +219,7 @@ export default {
             onClose: () => {
               this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                 this.$router.push({
-                  path: `/warehousing/plan`,
+                  path: `/outgoing/plan`,
                 })
               }).catch(err => {
                 console.log(err)

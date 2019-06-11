@@ -34,6 +34,15 @@ export function outPlanClose(planCode) {
   })
 }
 
+//出库计划修改
+export function outPlanUpdate(data={}) {
+  return request({
+    url: `/webApi/out/plan/update`,
+    method: 'put',
+    data,
+  })
+}
+
 //出库单查询数据
 export function outOrderSelect(data={}) {
   return request({
