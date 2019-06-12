@@ -6,25 +6,25 @@
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="用户名" style="width:300px" >
-              <el-input type="text" size="small"   placeholder="请输入用户名"    v-model.trim="searchForm.receiveEnterprise" ></el-input>
+              <el-input type="text" size="small"   placeholder="请输入用户名"    v-model.trim="searchForm.userName" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6" style="min-width:300px">
             <el-form-item label="手机" style="width:300px" >
-              <el-input type="text" size="small"   placeholder="请输入手机号"    v-model.trim="searchForm.contractNo" ></el-input>
+              <el-input type="text" size="small"   placeholder="请输入手机号"    v-model.trim="searchForm.linkTel" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="租户名称"   style="width:300px">
-              <el-input type="text" size="small"  placeholder="请输入租户名称"    v-model.trim="searchForm.planCode" ></el-input>
+              <el-input type="text" size="small"  placeholder="请输入租户名称"    v-model.trim="searchForm.ownerName" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
              <el-form-item label="状态"   style="width:300px" >
-              <el-select v-model="searchForm.receiveStatus"
+              <el-select v-model="searchForm.userStatus"
               size="small"  placeholder="请选择状态" prefix-icon="el-icon-search">
                 <el-option
                   label="启用"
