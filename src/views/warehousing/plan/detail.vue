@@ -4,8 +4,8 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
         <el-button v-if="this.$route.query.history" type="success"  size="small" @click="sureQty"  :loading="sureQtyLoding">确认并生成入库单</el-button>
-        <el-button v-if="config.planState === 1 ||　config.planState === 3" type="success"  size="small" @click="planCheck(1)"  :loading="sureQtyLoding">审核</el-button>
-        <el-button v-if="config.planState === 1" type="warning"  size="small" @click="planCheck(0)"  :loading="sureQtyLoding">驳回</el-button>
+        <el-button v-if="config.planState === 1 || config.planState === 0" type="success"  size="small" @click="planCheck(1)"  :loading="sureQtyLoding">审核</el-button>
+        <el-button v-if="config.planState === 1 || config.planState === 0" type="warning"  size="small" @click="planCheck(0)"  :loading="sureQtyLoding">驳回</el-button>
       </template>
     </sticky>
 
