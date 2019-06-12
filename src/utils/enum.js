@@ -843,7 +843,7 @@ export const isApprovedEnum = [
 
 export const warehousingPlanBillStatus =[
   {
-    name: '草稿',
+    name: '待审核',
     value: 0
   },
   {

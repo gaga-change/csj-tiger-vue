@@ -356,7 +356,7 @@ export default {
           let createPath = `/warehousing/plan-modify?id=${row.id}&planCode=${row.planCode}`
           let handOutPath = `/warehousing/plan-detail?planCode=${row.planCode}&history=${true}`
           return <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-            {row.planState === '0' && <router-link to={createPath} class="routerLink">修改</router-link>}
+            {(row.planState === '0' || row.planState === '1') && <router-link to={createPath} class="routerLink">修改</router-link>}
             <router-link to={queryPath} class="routerLink">查看</router-link>
             {
               [1].includes(Number(row.operator)) &&
