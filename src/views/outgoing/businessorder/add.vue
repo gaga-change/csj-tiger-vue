@@ -166,8 +166,8 @@
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="仓库" >
-              <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem">
+            <el-form-item label="仓库"  prop="warehouseCode"  :rules="[{ required: true, message: '该项为必填'}]">
+              <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem" @focus="warehouseCodeFocus">
                 <el-option v-for="item in warehouseList" :label="item.warehouseName" :key="item.warehouseCode"  :value="item.warehouseCode"></el-option>
               </el-select>
             </el-form-item>
@@ -379,6 +379,12 @@ export default {
       arrivalAddressFocus(){
         if(!this.searchForm.arrivalCode){
           this.$message.error('请先选择供应商');
+        }
+      },
+
+      warehouseCodeFocus(){
+        if(!this.searchForm.ownerCode){
+          this.$message.error('请先选择货主');
         }
       },
 
