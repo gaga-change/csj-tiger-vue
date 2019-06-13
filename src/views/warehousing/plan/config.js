@@ -31,6 +31,7 @@ export   const infoConfig=[
   {title:'联系电话',prop:'linkTel'},
   {title:'下推状态',prop:'issuedState', type:'getIssuedState',useApi:true},
   {title:'执行状态',prop:'execStatus', type:'getExecState',useApi:true},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
   {title:'预计到货日期',prop:'planInWarehouseTime',type:'time'},
   {title:'订单有效期',prop:'orderTime',type:'time'},
 ];

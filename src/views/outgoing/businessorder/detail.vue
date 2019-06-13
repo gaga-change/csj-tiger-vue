@@ -103,9 +103,8 @@
                 detailTableConfig[index]= { label:'进货价',prop:'outStorePrice'}
               }
               this.detailTableConfig=detailTableConfig;
-              this.infoData=res.data;
+              this.infoData=res.data
               this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
-
               //查询相关计划单
               outPlanSelect({
                  pageNum: 1,

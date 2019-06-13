@@ -141,9 +141,9 @@ export function customerAddrInfo(customerCode,billType) {
 }
 
 
-export function skuInfoList(ownerCode,arrivalCode,customerType) {
+export function skuInfoList(ownerCode,arrivalCode,customerType, data={}) {
   return request({
-    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}/${customerType}`,
+    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}/${customerType}?${stringify(data)}`,
     method: 'get',
   })
 }

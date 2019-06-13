@@ -15,6 +15,7 @@ export  const tableConfig=[
 
 export const infoConfig=[
   {title:'业务单类型',prop:'busiBillType',type:'getBillType',useApi:true},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
   {title:'业务单号',prop:'billNo'},
   {title:'外部订单号',prop:'busiBillNo'},
   {title:'货主编号',prop:'ownerCode'},

@@ -18,13 +18,18 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-
+              <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+                <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
+                  <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
+                    <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
                 </el-form-item>
               </el-col>
-
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="外部订单号:"  prop="busiBillNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-input v-model="searchForm.busiBillNo" placeholder="请输入外部订单号" size="small" class="formitem"></el-input>
@@ -156,79 +161,81 @@ import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import addForm from './conpoments/addForm'
-import {inBillAdd,customerInfo,inbilldetail,inBillUpdate} from '@/api/warehousing'
+import { saleTypeEnum } from "@/utils/enum.js";
+import { inBillAdd, customerInfo, inbilldetail, inBillUpdate } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
 import { skuInfoList } from '@/api/sku'
 import { mapGetters } from 'vuex'
-import _  from 'lodash';
+import _ from 'lodash';
 import moment from 'moment';
 export default {
-   name: 'warehousingBusinessorderAdd',
-   components: { editTable,addForm,Sticky},
-    data() {
-      return {
+  name: 'warehousingBusinessorderAdd',
+  components: { editTable, addForm, Sticky },
+  data() {
+    return {
+      saleTypeEnum,
+      warehouseCodeLoading: false,
 
-        warehouseCodeLoading: false,
+      //表单项
+      searchForm: {
+        saleType: 1,
+        detailItemList: []
+      },
+      //表单table配置项
+      addtable_config,
 
-        //表单项
-        searchForm:{
-          detailItemList:[]
-        },
-        //表单table配置项
-        addtable_config,
+      //新增项
+      addVisible: false,
+      addCommodityForm: {
 
-        //新增项
-        addVisible:false,
-        addCommodityForm:{
+      },
 
-        },
-
-        //供应商下拉配置
-        providerConfig:[],
-        commodityList:[], //商品列表
-        warehouseList: []
-      };
-    },
+      //供应商下拉配置
+      providerConfig: [],
+      commodityList: [], //商品列表
+      warehouseList: []
+    };
+  },
 
   computed: {
     ...mapGetters({
-      'mapConfig':'mapConfig',
-        visitedViews: 'visitedViews'
+      'mapConfig': 'mapConfig',
+      visitedViews: 'visitedViews'
     })
   },
 
-    mounted(){
-      if(this.$route.query.id){
-        inbilldetail(this.$route.query.id).then(res=>{
-          if(res.data.ownerCode){
-            this.getCustomerInfo(res.data.ownerCode);
-          }
-          let searchForm= _.cloneDeep(this.searchForm);
-          searchForm=res.data;
-          searchForm.detailItemList=res.data.items.map(v=>{
-             v.purchasePrice=v.inPrice;
-             v.planInQty=v.skuInQty;
-             return v;
-          });
-          this.searchForm=searchForm;
-        }).catch(err=>{
-          console.log(err)
-        })
-      }
-    },
+  mounted() {
+    if (this.$route.query.id) {
+      inbilldetail(this.$route.query.id).then(res => {
+        if (res.data.ownerCode) {
+          this.getCustomerInfo(res.data.ownerCode);
+        }
+        let searchForm = _.cloneDeep(this.searchForm);
+        searchForm = res.data;
+        searchForm.detailItemList = res.data.items.map(v => {
+          v.purchasePrice = v.inPrice;
+          v.planInQty = v.skuInQty;
+          return v;
+        });
+        this.searchForm = searchForm;
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
 
-    methods: {
+  methods: {
 
     //选择货主
-    ownerCodeChange(value){
-      if(this.searchForm.providerCode){
-        let searchForm= _.cloneDeep(this.searchForm);
-        searchForm.providerCode='';
-        searchForm.warehouseCode='';
-        searchForm.detailItemList=[];
-        this.searchForm=searchForm;
+    ownerCodeChange(value) {
+      if (this.searchForm.providerCode) {
+        let searchForm = _.cloneDeep(this.searchForm);
+        searchForm.providerCode = '';
+        searchForm.warehouseCode = '';
+        searchForm.detailItemList = [];
+        this.searchForm = searchForm;
       }
-      this.providerConfig=[];
+      this.providerConfig = [];
       this.getCustomerInfo(value);
       this.warehouseList.length = 0
       this.showStore({ ownerCode: value })
@@ -247,169 +254,169 @@ export default {
     },
 
     //根据货主查供应商列表
-    getCustomerInfo(value){
-      customerInfo(value).then(res=>{
-        if(res.success){
-         this.providerConfig=res.data||[];
+    getCustomerInfo(value) {
+      customerInfo(value).then(res => {
+        if (res.success) {
+          this.providerConfig = res.data || [];
         }
-      }).catch(err=>{
+      }).catch(err => {
         console.log(err)
       })
     },
 
 
     //供应商获取焦点
-    providerFocus(){
-      if(!this.searchForm.ownerCode){
+    providerFocus() {
+      if (!this.searchForm.ownerCode) {
         this.$message.error('请先选择货主');
       }
     },
 
     //供应商改变触发
-    providerChange(value){
-      let searchForm= _.cloneDeep(this.searchForm);
-      searchForm.detailItemList=[];
-      this.searchForm=searchForm;
+    providerChange(value) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.detailItemList = [];
+      this.searchForm = searchForm;
     },
 
     //添加商品时选择商品编码的回调
-    skuCodeChange(value){
-      let commodityList= _.cloneDeep(this.commodityList);
-      this.addCommodityForm=commodityList.find(v=>v.skuCode===value)
+    skuCodeChange(value) {
+      let commodityList = _.cloneDeep(this.commodityList);
+      this.addCommodityForm = commodityList.find(v => v.skuCode === value)
     },
 
     //导入的回调
-    uploadRes(res){
-      if(res.success){
-        let data= _.cloneDeep(res.data);
-        let searchForm= _.cloneDeep(this.searchForm);
-        if(data.ownerCode){
+    uploadRes(res) {
+      if (res.success) {
+        let data = _.cloneDeep(res.data);
+        let searchForm = _.cloneDeep(this.searchForm);
+        if (data.ownerCode) {
           this.getCustomerInfo(data.ownerCode);
         }
-        ['busiBillNo','ownerCode','contractNo','orderTime','providerCode','planInWarehouseTime'].forEach(v=>{
-          searchForm[v]=data[v]
+        ['busiBillNo', 'ownerCode', 'contractNo', 'orderTime', 'providerCode', 'planInWarehouseTime'].forEach(v => {
+          searchForm[v] = data[v]
         })
-        searchForm.detailItemList=data.items.map((v,i)=>{
-          v.purchasePrice=v.inPrice;
-          v.planInQty=v.skuInQty;
+        searchForm.detailItemList = data.items.map((v, i) => {
+          v.purchasePrice = v.inPrice;
+          v.planInQty = v.skuInQty;
           return v;
         });
-        this.searchForm=searchForm;
-      } else{
+        this.searchForm = searchForm;
+      } else {
         this.$message.error('导入失败');
       }
     },
 
 
     //添加弹框
-    showDialog(type){
-      if(type==='add'){
-        if(!this.searchForm.ownerCode||!this.searchForm.providerCode){
-            this.$message.error('请先选择供应商和货主');
-            return
+    showDialog(type) {
+      if (type === 'add') {
+        if (!this.searchForm.ownerCode || !this.searchForm.providerCode) {
+          this.$message.error('请先选择供应商和货主');
+          return
         }
-        skuInfoList(this.searchForm.ownerCode,this.searchForm.providerCode, 2).then(res=>{
-          if(res.success){
-            let data=res.data&&_.cloneDeep(res.data)||[];
-            let arr=[];
-            data.forEach(v=>{
-              if(!arr.map(v=>v.skuCode).includes(v.skuCode)){
-                 arr.push(v)
+        skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2, {saleType: this.searchForm.saleType}).then(res => {
+          if (res.success) {
+            let data = res.data && _.cloneDeep(res.data) || [];
+            let arr = [];
+            data.forEach(v => {
+              if (!arr.map(v => v.skuCode).includes(v.skuCode)) {
+                arr.push(v)
               }
             });
 
-            this.commodityList=arr;
+            this.commodityList = arr;
           }
-        }).catch(err=>{
+        }).catch(err => {
           console.log(err)
         })
-        this.addVisible=true;
-        this.addCommodityForm=Object.create({})
+        this.addVisible = true;
+        this.addCommodityForm = Object.create({})
       }
     },
 
 
-    submit(type,value) {
+    submit(type, value) {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
-      if(type==='addCommodity'){
-          let searchForm= _.cloneDeep(this.searchForm);
-          searchForm.detailItemList.push(value);
-          searchForm.detailItemList=searchForm.detailItemList.map((v,i)=>{
-            return v;
-          });
-          this.searchForm=searchForm;
-          this.addVisible=false;
+      if (type === 'addCommodity') {
+        let searchForm = _.cloneDeep(this.searchForm);
+        searchForm.detailItemList.push(value);
+        searchForm.detailItemList = searchForm.detailItemList.map((v, i) => {
+          return v;
+        });
+        this.searchForm = searchForm;
+        this.addVisible = false;
       } else {
         this.$refs["searchForm"].validate(valid => {
           if (valid) {
-              let json=_.cloneDeep(this.searchForm);
-              json.ownerName=this.mapConfig['billOwnerInfoMap'].find(v=>v.key===json.ownerCode).value;
-              json.providerName=this.providerConfig.find(v=>v.customerCode===json.providerCode).customerName;
-              ['orderTime','planInWarehouseTime'].forEach(v=>{
-                json[v]=moment(json[v]).valueOf()
-              })
-              let Api=inBillAdd;
-              if(this.$route.query.id){
-                 Api=inBillUpdate
-              }
-              Api(json).then(res=>{
-                if(res.success){
-                  this.$message({
-                    type:'success',
-                    message:'操作成功,即将跳转到详情页！' ,
-                    duration:1500,
-                    onClose:()=>{
-                      this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                        this.$router.push({
-                          path:`/warehousing/businessorder-detail?id=${this.$route.query.id||res.data&&res.data.id}`,
-                        })
-                      }).catch(err=>{
-                        console.log(err)
+            let json = _.cloneDeep(this.searchForm);
+            json.ownerName = this.mapConfig['billOwnerInfoMap'].find(v => v.key === json.ownerCode).value;
+            json.providerName = this.providerConfig.find(v => v.customerCode === json.providerCode).customerName;
+            ['orderTime', 'planInWarehouseTime'].forEach(v => {
+              json[v] = moment(json[v]).valueOf()
+            })
+            let Api = inBillAdd;
+            if (this.$route.query.id) {
+              Api = inBillUpdate
+            }
+            Api(json).then(res => {
+              if (res.success) {
+                this.$message({
+                  type: 'success',
+                  message: '操作成功,即将跳转到详情页！',
+                  duration: 1500,
+                  onClose: () => {
+                    this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                      this.$router.push({
+                        path: `/warehousing/businessorder-detail?id=${this.$route.query.id || res.data && res.data.id}`,
                       })
-                    }
-                  })
-                }
-              }).catch(err=>{
-                console.log(err)
-              })
+                    }).catch(err => {
+                      console.log(err)
+                    })
+                  }
+                })
+              }
+            }).catch(err => {
+              console.log(err)
+            })
           }
         });
       }
 
     },
 
-    goeditrow(index,type) {
-      let searchForm= _.cloneDeep(this.searchForm);
-      searchForm.detailItemList[index].edit=!searchForm.detailItemList[index].edit
-      this.searchForm=searchForm;
+    goeditrow(index, type) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.detailItemList[index].edit = !searchForm.detailItemList[index].edit
+      this.searchForm = searchForm;
     },
 
     handleDelete(index, row) {
-      let searchForm= _.cloneDeep(this.searchForm);
-      searchForm.detailItemList.splice(index,1)
-      this.searchForm=searchForm;
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.detailItemList.splice(index, 1)
+      this.searchForm = searchForm;
     },
 
-    handleClose(){
-      this.addVisible=false;
+    handleClose() {
+      this.addVisible = false;
     },
   }
 };
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-    .providerList{
-      display: flex;
-      justify-content: space-between;
-      >span{
-        &:first-child{
-          min-width: 150px;
-        }
-        &:nth-child(2){
-          min-width: 100px;
-        }
-      }
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
     }
+    &:nth-child(2) {
+      min-width: 100px;
+    }
+  }
+}
 .addCarrier {
   .operationitem {
     display: flex;
@@ -419,19 +426,19 @@ export default {
   .el-form-item {
     height: 40px;
   }
-  .tableBox{
-    .tableTitle{
-      display:flex;
+  .tableBox {
+    .tableTitle {
+      display: flex;
       justify-content: space-between;
       margin: 16px 0;
     }
-    .tableBtn{
+    .tableBtn {
       display: flex;
     }
-    .addCommodity{
-      height:28px;
-      line-height:26px;
-      padding:0 12px;
+    .addCommodity {
+      height: 28px;
+      line-height: 26px;
+      padding: 0 12px;
       margin-left: 12px;
     }
   }

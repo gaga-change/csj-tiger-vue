@@ -26,6 +26,7 @@ export  const infoConfig=[
   {title:'审核人',prop:'auditName'},
   {title:'审核日期',prop:'auditDate',type:'time'},
   {title:'单据状态',prop:'billStatus',type:'misWarehousingBillStatusEnum',useLocalEnum:true},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
 ]
 
 export  const addPlanInfoConfig=[
@@ -37,6 +38,7 @@ export  const addPlanInfoConfig=[
   {title:'预计到货日期',prop:'planInWarehouseTime',type:'time'},
   {title:'订单有效期',prop:'orderTime',type:'time'},
   {title:'审核人',prop:'auditName'},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
 ]
 
 export  const modifyPlanInfoConfig=[

@@ -31,6 +31,7 @@ export  const infoConfig=[
   {title:'计划人',prop:'planName'},
   {title:'计划仓库',prop:'planWarehouseName'},
   {title:'执行状态',prop:'execStatus',type:'getExecState',useApi:true},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
   {title:'计划制定时间',prop:'planTime',type:'time'},
   {title:'客户编号',prop:'arrivalCode'},
   {title:'客户名称',prop:'arrivalName'},
