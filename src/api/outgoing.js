@@ -260,7 +260,7 @@ export function outDependWeight(data) {
   })
 }
 
-// /api/out/plan/approve
+// 出库计划审核
 export function outPlanCheck(data) {
   return request({
     url: `/api/out/plan/approve`,

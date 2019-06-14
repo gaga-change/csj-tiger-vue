@@ -5,7 +5,7 @@
             <div style="display: inline-block;" v-if="!$route.query.id">
                <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/in/bill/importTemplate"  modelUrl="/static/templet/采购入库.xlsx" name="file"/>
             </div>
-            <el-button @click="submit('save')" type="primary" size="mini">保存</el-button>
+            <el-button @click="submit('save')" type="primary" size="mini" :loading="saveLoading">保存</el-button>
         </template>
       </sticky>
       <el-card shadow="hover">
@@ -175,6 +175,7 @@ export default {
     return {
       saleTypeEnum,
       warehouseCodeLoading: false,
+      saveLoading: false,
 
       //表单项
       searchForm: {
@@ -359,6 +360,7 @@ export default {
             if (this.$route.query.id) {
               Api = inBillUpdate
             }
+            this.saveLoading = true
             Api(json).then(res => {
               if (res.success) {
                 this.$message({
@@ -378,6 +380,8 @@ export default {
               }
             }).catch(err => {
               console.log(err)
+            }).then(() => {
+              this.saveLoading = false
             })
           }
         });

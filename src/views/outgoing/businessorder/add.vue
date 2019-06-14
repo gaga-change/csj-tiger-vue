@@ -5,7 +5,7 @@
           <div style="display: inline-block;" v-if="!$route.query.id">
               <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" modelUrl="/static/templet/销售出库.xlsx" name="file"/>
           </div>
-          <el-button @click="submit('save')" type="primary" size="mini">保存</el-button>
+          <el-button @click="submit('save')" type="primary" size="mini" :loading="saveLoading">保存</el-button>
       </template>
    </sticky>
 
@@ -232,6 +232,7 @@ export default {
   data() {
     return {
       warehouseCodeLoading: false,
+      saveLoading: false,
       //表单项
       searchForm: {
         saleType: 1,
@@ -542,6 +543,7 @@ export default {
               }
               json.outWarehouseBillId = this.$route.query.id;
             }
+            this.saveLoading = true
             api(json).then(res => {
               if (res.success) {
                 this.$message({
@@ -561,7 +563,7 @@ export default {
               }
             }).catch(err => {
               console.log(err)
-            })
+            }).then(() => this.saveLoading = false)
           }
         });
       }

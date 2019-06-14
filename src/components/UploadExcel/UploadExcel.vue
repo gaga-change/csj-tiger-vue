@@ -145,8 +145,11 @@ export default {
       this.fileList = fileList;
     },
 
-    //上传到服务器
+    // 上传到服务器
     submitEnclosureUpload() {
+      if (this.fileList.length === this.$refs.filesupload.uploadFiles.length) {
+        return this.$message('请重新选取文件！')
+      }
       this.loading = true
       this.$refs.filesupload.submit()
     },
