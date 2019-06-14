@@ -142,7 +142,7 @@
                 <span class="tableLink" @click="operation('delete', scope.row)" >删除</span>
                 <router-link :to="`/warehousing/businessorderadd?id=${scope.row.id}&time=${moment().valueOf()}`"  class="tableLink">修改</router-link>
               </template>
-              <router-link v-if="scope.row.billStatus === 1" :to="`/warehousing/warehousingAddPlanOrder?id=${scope.row.id}&time=${moment().valueOf()}`"  class="tableLink">创建计划单</router-link>
+              <router-link v-if="scope.row.billStatus === 1 && scope.row.planInQty > scope.row.planInQtyForPlan" :to="`/warehousing/warehousingAddPlanOrder?id=${scope.row.id}&time=${moment().valueOf()}`"  class="tableLink">创建计划单</router-link>
             </div>
           </template>
         </el-table-column>
@@ -163,7 +163,7 @@
 
 <script>
     import moment from 'moment';
-    import {inBillSelect,inBillUpdateStatus} from '@/api/warehousing'
+    import {inBillSelect,inBillUpdateStatus, batchInBill, batchAdd} from '@/api/warehousing'
     import  { misWarehousingBillStatusEnum,misWarehousingBillStateEnum } from "@/utils/enum.js";
     import {getBillType,getExecState} from '@/api/map'
     import BaseTable from '@/components/Table'
@@ -231,14 +231,14 @@
           return
         }
         const Methods = {
-          check: outBillCheckBatch,
-          del: outBillDeleteBatch,
-          add: outBillAddBatch
+          del: batchInBill,
+          check: batchInBill,
+          add: batchAdd
         }
         const Filters = {
           check: item => item.billStatus === 0,
           del: item => item.billStatus === 0,
-          add: item => item.billStatus === 1 && item.planOutQty > item.planOutQtyForPlan
+          add: item => item.billStatus === 1 && item.planInQty > item.planInQtyForPlan
         }
         const items = this.selectionList.filter(Filters[type])
 
@@ -253,12 +253,24 @@
           this.$message.warning('没有符合条件的项~')
           return
         }
+        const postData = {
+          check: {
+            statusFlag: 1,
+            inWarehouseBillIdList: ids
+          },
+          del: {
+            statusFlag: 9,
+            inWarehouseBillIdList: ids
+          },
+          add: [...ids]
+        }
         this.batchLoading = true
-        Methods[type](ids).then(res => {
+        Methods[type](postData[type]).then(res => {
           console.log(res)
           this.batchLoading = false
           if(res.success) {
             this.$message.success('操作成功~')
+            this.$refs.listTable.clearSelection()
             this.getCurrentTableData()
           }
         }).catch(err => {
