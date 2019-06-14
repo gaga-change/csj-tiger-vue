@@ -47,8 +47,7 @@ export const indexTableConfig=[
   { label:'单据状态',prop:'billStatus',type:'outBillStatusEnum',useLocalEnum:true,width:80},
   { label:'执行状态',prop:'billState',type:'outBillStateEnum',useLocalEnum:true,width:80},
   { label:'制单人',prop:'busiBillCreater',width:120},
-  { label:'制单时间',prop:'busiBillCreateTime',type:'time',width:140},
-  { label:'操作',fixed:'right',useLink:true,width:300},
+  { label:'制单时间',prop:'busiBillCreateTime',type:'time',width:140}
 ]
 
 
