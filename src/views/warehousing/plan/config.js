@@ -39,6 +39,7 @@ export   const infoConfig=[
 export   const warehousingTableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'入库单号',prop:'warehouseExeCode',linkTo:'/warehousing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'WMS单号',prop:'warehouseUk'},
   { label:'业务单号',prop:'billNo' },
   { label:'货主',prop:'ownerName'},
   { label:'仓库',prop:'warehouseName'},

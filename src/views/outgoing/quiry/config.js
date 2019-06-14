@@ -33,6 +33,7 @@ export  const infoConfig=[
 
 export const indexTableConfig=[
   { label:'出库单号',prop:'warehouseExeCode', minWidth:150,fixed:true,linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'WMS单号',prop:'warehouseUk',width:180 },
   { label:'业务单号',prop:'billNo',minWidth:170 },
   { label:'计划单号',prop:'planCode',minWidth:150,linkTo:'/outgoing/plan-detail',query:[{key:'planCode',value:'planCode'}] },
   { label:'外部订单号',prop:'busiBillNo',width:160},
