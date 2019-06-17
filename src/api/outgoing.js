@@ -143,8 +143,9 @@ export function customerAddrInfo(customerCode,billType) {
 
 export function skuInfoList(ownerCode,arrivalCode,customerType, data={}) {
   return request({
-    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}/${customerType}?${stringify(data)}`,
+    url: `/webApi/sku/info/list`,
     method: 'get',
+    params: { ownerCode, arrivalCode, customerType, ...data }
   })
 }
 

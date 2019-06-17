@@ -5,25 +5,25 @@
       <el-form  :model="searchForm"  ref="searchForm" label-width="70px" class="formb0">
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="用户名" style="width:300px" >
-              <el-input type="text" size="small"   placeholder="请输入用户名"    v-model.trim="searchForm.userName" ></el-input>
+            <el-form-item label="用户名" style="width:300px" prop="userName">
+              <el-input type="text" size="small"   placeholder="请输入用户名" v-model.trim="searchForm.userName" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6" style="min-width:300px">
-            <el-form-item label="手机" style="width:300px" >
+            <el-form-item label="手机" style="width:300px" prop="linkTel">
               <el-input type="text" size="small"   placeholder="请输入手机号"    v-model.trim="searchForm.linkTel" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="租户名称"   style="width:300px">
+            <el-form-item label="租户名称"   style="width:300px" prop="ownerName">
               <el-input type="text" size="small"  placeholder="请输入租户名称"    v-model.trim="searchForm.ownerName" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-             <el-form-item label="状态"   style="width:300px" >
+             <el-form-item label="状态"   style="width:300px"  prop="userStatus">
               <el-select v-model="searchForm.userStatus"
               size="small"  placeholder="请选择状态" prefix-icon="el-icon-search">
                 <el-option
@@ -89,16 +89,8 @@ export default {
     },
 
     resetForm(){
-      let data = _.cloneDeep(this.searchForm);
-      let json={};
-      for(let i in data){
-        if(Array.isArray(data[i])){
-          json[i]=[]
-        } else{
-          json[i]=''
-        }
-      }
-      this.$emit('submit',json)
+      this.$refs['searchForm'].resetFields()
+      this.$emit('submit',this.searchForm)
     }
   }
 
