@@ -183,3 +183,30 @@ export function inPlanCheck(data) {
     data: data,
   })
 }
+
+//  /webApi/in/bill/batchDelete
+export function batchInBill(data) {
+  return request({
+    url: `/webApi/in/bill/batchDelete`,
+    method: 'PUT',
+    data: data,
+  })
+}
+
+//  //webApi/in/plan/batchAdd
+export function batchAdd(data) {
+  return request({
+    url: `/webApi/in/plan/batchAdd`,
+    method: 'POST',
+    data: data,
+  })
+}
+
+// /api/in/plan/batchApprovePlan
+export function batchApprovePlan(data={}) {
+  return request({
+    url: `/api/in/plan/batchApprovePlan`,
+    method: 'post',
+    data: data
+  })
+}

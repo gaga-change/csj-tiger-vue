@@ -102,27 +102,69 @@
   </div>
 
    <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+     <PopoverBtn @onOk="oprateBatch('plancheck')" text="确定批量审核吗？" :loading="batchLoading">审核</PopoverBtn>
       <a :href="`/webApi/out/plan/export?${stringify(this.linkData)}`" >
-        <el-button type="primary" size="small" >导出Excel</el-button>
+        <el-button type="primary" size="mini" >导出Excel</el-button>
       </a>
   </div>
 
-   <base-table
-      @sizeChange="handleSizeChange"
-      @currentChange="handleCurrentChange"
-      :loading="loading"
-      :config="tableConfig"
-      :total="total"
-      :maxTotal="10"
-      :pageSize="ruleForm.pageSize"
-      :currentPage="ruleForm.pageNum"
-      :tableData="tableData"/>
+      <el-table :data="tableData" v-loading="loading" ref="listTable"
+        row-key="id"
+        @selection-change="selectionChange" size="small" border>
+        <el-table-column
+          fixed="left"
+          :reserve-selection="true"
+          type="selection">
+        </el-table-column>
+        <el-table-column
+          v-for="(column, index) in tableConfig"
+          :key="index"
+          :prop="column.prop"
+          :label="column.label"
+          :width="column.width"
+        >
+          <template slot-scope="scope">
+            <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
+            <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
+              scope.row[column.prop] | parseTime
+            }}</span>
+            <span v-else-if="column.useLocalEnum && column.type">{{
+              scope.row[column.prop] | localEnum(column.type)
+            }}</span>
+            <span v-else>{{ scope.row[column.prop] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="260" fixed="right">
+          <template slot-scope="scope">
+            <div class="tableLinkBox">
+              <router-link :to="`/outgoing/plan-detail?planCode=${scope.row.planCode}`" class="tableLink">查看</router-link>
+              <router-link v-if="scope.row.planState === 0 || scope.row.planState === 1"
+                :to="`/outgoing/out-plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"  class="tableLink">修改</router-link>
+              <router-link v-if="scope.row.isCreate"
+                :to="`/reply/newreceiptorder?planCode=${scope.row.planCode}&time=${Date.now()}`"  class="tableLink">创建回单</router-link>
+              <router-link v-if="scope.row.isHandOut"
+                :to="`/outgoing/plan-detail?planCode=${scope.row.planCode}&history=${true}`"  class="tableLink">手工出库</router-link>
+              <span v-if="scope.row.isReceive" class="tableLink" @click="receivingRegistration(scope.row)" >收货登记</span>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="ruleForm.pageNum"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="ruleForm.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
   </div>
 </template>
 
 <script>
     import moment from 'moment';
-    import { outPlanSelect} from '@/api/outgoing'
+    import { outPlanSelect, outPlanCheckBatch} from '@/api/outgoing'
     import BaseTable from '@/components/Table'
     import { mapGetters } from 'vuex'
     import {indexTableConfig,manual_config } from './config';
@@ -153,43 +195,11 @@
         tableData: [],
         tableConfig:indexTableConfig,
         warehousingPlanBillStatus,
-        linkData:''
-
+        linkData:'',
+        batchLoading: false,
+        selectionList: []
       }
     },
-
-
-      created(){
-        this.tableConfig.forEach(item=>{
-          if(item.useLink){
-              item.dom=(row, column, cellValue, index)=>{
-                let queryPath=`/outgoing/plan-detail?planCode=${row.planCode}`;
-                let createPath=`/reply/newreceiptorder?planCode=${row.planCode}&time=${moment().valueOf()}`
-                let updatePath = `/outgoing/out-plan-modify?id=${row.id}&planCode=${row.planCode}`
-                let handOutPath=`/outgoing/plan-detail?planCode=${row.planCode}&history=${true}`
-                let newHandOutPath=`/outgoing/manual?planCode=${row.planCode}`
-                return <div style={{display:'flex',flexWrap: 'nowrap'}}>
-                    {(row.planState === 0 || row.planState === 1) && <router-link to={updatePath} class="routerLink">修改</router-link>}
-                    <router-link  to={queryPath}  class="routerLink">查看</router-link>
-                    {
-                       row.isCreate&&
-                      <router-link  to={createPath} class="routerLink">创建回单</router-link>
-                    }
-                    {
-                       row.isHandOut&&
-                       <router-link to={handOutPath}  class="routerLink">手工出库</router-link>
-                      //新页面手工出库配置
-                      // <router-link  to={newHandOutPath} class="routerLink">手工出库</router-link>
-                    }
-                    {
-                      row.isReceive&&
-                      <span style={{color:'#3399ea',cursor:'pointer'}} onClick={this.receivingRegistration.bind(this,row)}>收货登记</span>
-                    }
-                </div>
-              }
-          }
-        })
-      },
 
      mounted(){
        const end = new Date();
@@ -207,6 +217,45 @@
 
     methods: {
        stringify,
+       oprateBatch(type) {
+         if (!this.selectionList.length) {
+           return
+         }
+         const Methods = {
+           plancheck: outPlanCheckBatch
+         }
+         const Filters = {
+           plancheck: item => item.planState === 0 || item.planState === 1
+         }
+         const items = this.selectionList.filter(Filters[type])
+
+         // 清除不符合条件的选项
+         this.$refs.listTable.clearSelection()
+         items.map(row => {
+           this.$refs.listTable.toggleRowSelection(row)
+         })
+
+         const codes = items.map(item => item.planCode)
+         if (!codes.length) {
+           this.$message.warning('没有符合条件的项~')
+           return
+         }
+         this.batchLoading = true
+         Methods[type](codes).then(res => {
+           console.log(res)
+           this.batchLoading = false
+           if(res.success) {
+             this.$message.success('操作成功~')
+             this.getCurrentTableData()
+           }
+         }).catch(err => {
+           this.batchLoading = false
+           console.log(err)
+         })
+       },
+       selectionChange(val) {
+         this.selectionList = val
+       },
        submitForm(formName) {
         this.ruleForm={...this.ruleForm,pageSize:10,pageNum:1}
         this.$refs[formName].validate((valid) => {
@@ -280,13 +329,24 @@
  }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel="stylesheet/scss" lang="scss" scoped="">
   .outgoing-quiry-container{
     .routerLink{
       color:#3399ea;
       white-space:nowrap;
       margin-right: 10px;
       cursor: pointer;
+    }
+  }
+  .tableLinkBox{
+     display: flex;
+    .tableLink{
+      cursor: pointer;
+      color:#3399ea;
+      margin-right:12px;
+      &:last-child{
+        margin-right: 0;
+      }
     }
   }
 </style>

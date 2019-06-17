@@ -272,32 +272,71 @@
       </el-card>
     </div>
     <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
+      <PopoverBtn @onOk="oprateBatch('check')" text="确定批量审核吗？" :loading="batchLoading">审核</PopoverBtn>
+      <PopoverBtn @onOk="oprateBatch('reject')" text="确定批量驳回吗？" :loading="batchLoading">驳回</PopoverBtn>
       <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
         <el-button
           type="primary"
-          size="small"
+          size="mini"
         >导出Excel</el-button>
       </a>
     </div>
 
-    <base-table
-      @sizeChange="handleSizeChange"
-      @currentChange="handleCurrentChange"
-      :loading="loading"
-      :config="tableConfig"
+    <el-table :data="tableData" v-loading="loading"
+      row-key="id"
+      ref="listTable"
+      @selection-change="selectionChange" size="small" border>
+      <el-table-column
+        fixed="left"
+        :reserve-selection="true"
+        type="selection">
+      </el-table-column>
+      <el-table-column
+        v-for="(column, index) in tableConfig"
+        :key="index"
+        :prop="column.prop"
+        :label="column.label"
+        :width="column.width"
+      >
+        <template slot-scope="scope">
+          <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
+          <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
+            scope.row[column.prop] | parseTime
+          }}</span>
+          <span v-else-if="column.useLocalEnum && column.type">{{
+            scope.row[column.prop] | localEnum(column.type)
+          }}</span>
+          <span v-else>{{ scope.row[column.prop] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="260" fixed="right">
+        <template slot-scope="scope">
+          <div class="tableLinkBox">
+            <router-link :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}`" class="tableLink">查看</router-link>
+            <router-link v-if="scope.row.planState === '0' || scope.row.planState === '1'" :to="`/warehousing/plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"  class="tableLink">修改</router-link>
+            <router-link v-if="scope.row.operator === 1"
+              :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}&history=${true}`"  class="tableLink">手工入库</router-link>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="ruleForm.pageNum"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="ruleForm.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
       :total="total"
-      :maxTotal="10"
-      :pageSize="ruleForm.pageSize"
-      :currentPage="ruleForm.pageNum"
-      :tableData="tableData"
-    />
+    >
+    </el-pagination>
 
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import { inPlanSelect } from '@/api/warehousing'
+import { inPlanSelect, batchApprovePlan } from '@/api/warehousing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig } from './config';
 import { warehousingPlanBillStatus } from "@/utils/enum.js";
@@ -330,7 +369,9 @@ export default {
       },
       loading: false,
       tableData: [],
-      linkData: ''
+      linkData: '',
+      batchLoading: false,
+      selectionList: []
     }
   },
 
@@ -348,28 +389,60 @@ export default {
     this.getCurrentTableData();
   },
 
-  created() {
-    this.tableConfig.forEach(item => {
-      if (item.useLink) {
-        item.dom = (row, column, cellValue, index) => {
-          let queryPath = `/warehousing/plan-detail?planCode=${row.planCode}`;
-          let createPath = `/warehousing/plan-modify?id=${row.id}&planCode=${row.planCode}`
-          let handOutPath = `/warehousing/plan-detail?planCode=${row.planCode}&history=${true}`
-          return <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-            {(row.planState === '0' || row.planState === '1') && <router-link to={createPath} class="routerLink">修改</router-link>}
-            <router-link to={queryPath} class="routerLink">查看</router-link>
-            {
-              [1].includes(Number(row.operator)) &&
-              <router-link to={handOutPath} class="routerLink">手工入库</router-link>
-            }
-          </div>
-        }
-      }
-    })
-  },
-
   methods: {
     stringify,
+    oprateBatch(type) {
+      if (!this.selectionList.length) {
+        return
+      }
+      const Methods = {
+        check: batchApprovePlan,
+        reject: batchApprovePlan
+      }
+      const Filters = {
+        check: item => item.planState === '1' || item.planState === '0',
+        reject: item => item.planState === '1' || item.planState === '0'
+      }
+      const items = this.selectionList.filter(Filters[type])
+
+      // 清除不符合条件的选项
+      this.$refs.listTable.clearSelection()
+      items.map(row => {
+        this.$refs.listTable.toggleRowSelection(row)
+      })
+
+      const ids = items.map(item => item.planCode)
+      if (!ids.length) {
+        this.$message.warning('没有符合条件的项~')
+        return
+      }
+      const postData = {
+        check: {
+          agree: 1,
+          planCodeList: ids
+        },
+        reject: {
+          agree: 0,
+          planCodeList: ids
+        }
+      }
+      this.batchLoading = true
+      Methods[type](postData[type]).then(res => {
+        console.log(res)
+        this.batchLoading = false
+        if(res.success) {
+          this.$message.success('操作成功~')
+          this.$refs.listTable.clearSelection()
+          this.getCurrentTableData()
+        }
+      }).catch(err => {
+        this.batchLoading = false
+        console.log(err)
+      })
+    },
+    selectionChange(val) {
+      this.selectionList = val
+    },
     submitForm(formName) {
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.$refs[formName].validate((valid) => {
@@ -437,7 +510,18 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel="stylesheet/scss" lang="scss" scoped>
+.tableLinkBox{
+   display: flex;
+  .tableLink{
+    cursor: pointer;
+    color:#3399ea;
+    margin-right:12px;
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+}
 .outgoing-quiry-container {
   .routerLink {
     color: #3399ea;
