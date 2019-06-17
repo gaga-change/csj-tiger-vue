@@ -5,7 +5,7 @@
           <div style="display: inline-block;" v-if="!$route.query.id">
               <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" modelUrl="/static/templet/销售出库.xlsx" name="file"/>
           </div>
-          <el-button @click="submit('save')" type="primary" size="mini">保存</el-button>
+          <el-button @click="submit('save')" type="primary" size="mini" :loading="saveLoading">保存</el-button>
       </template>
    </sticky>
 
@@ -28,7 +28,13 @@
                 </el-select>
               </el-form-item>
             </el-col>
-
+            <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+                <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
+                  <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
+                    <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                  </el-select>
+                </el-form-item>
+            </el-col>
             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
               <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                 <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
@@ -166,8 +172,8 @@
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="仓库" >
-              <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem">
+            <el-form-item label="仓库"  prop="warehouseCode"  :rules="[{ required: true, message: '该项为必填'}]">
+              <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem" @focus="warehouseCodeFocus" :loading="warehouseCodeLoading">
                 <el-option v-for="item in warehouseList" :label="item.warehouseName" :key="item.warehouseCode"  :value="item.warehouseCode"></el-option>
               </el-select>
             </el-form-item>
@@ -212,344 +218,357 @@
 import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import addForm from './conpoments/addForm'
-import  { outgoingOrderTypeEnum,sendOutRequireEnum} from "@/utils/enum.js";
-import {customerInfo} from '@/api/warehousing'
+import { outgoingOrderTypeEnum, sendOutRequireEnum, saleTypeEnum } from "@/utils/enum.js";
+import { customerInfo } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
-import { customerAddrInfo,skuInfoList,outBillAdd,outBillDetail,outBillUpdate,outBillImprove} from '@/api/outgoing'
+import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove } from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
-import _  from 'lodash';
+import _ from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';
 export default {
-   name: "businessorderadd",
-   components: { editTable,addForm,Sticky},
-    data() {
-      return {
-        //表单项
-        searchForm:{
-          busiBillType:21,
-          outWarehouseBillDetailList:[]
-        },
-        //表单table配置项
-        addtable_config,
+  name: "businessorderadd",
+  components: { editTable, addForm, Sticky },
+  data() {
+    return {
+      warehouseCodeLoading: false,
+      saveLoading: false,
+      //表单项
+      searchForm: {
+        saleType: 1,
+        busiBillType: 21,
+        outWarehouseBillDetailList: []
+      },
+      //表单table配置项
+      addtable_config,
 
-        //新增项
-        addVisible:false,
-        addCommodityForm:{
+      //新增项
+      addVisible: false,
+      addCommodityForm: {
 
-        },
-        skuList:[],
-        //枚举项
-        outgoingOrderTypeEnum,//出库类型
-        sendOutRequireEnum,//发货要求
+      },
+      skuList: [],
+      //枚举项
+      outgoingOrderTypeEnum,//出库类型
+      sendOutRequireEnum,//发货要求
+      saleTypeEnum,
 
-        //供应商下拉配置
-        providerConfig:[],
-        //地址下拉配置
-        addrListConfig:[],
-        warehouseList: []
-      };
+      //供应商下拉配置
+      providerConfig: [],
+      //地址下拉配置
+      addrListConfig: [],
+      warehouseList: []
+    };
+  },
+
+  mounted() {
+    if (this.$route.query.id) {
+      let addtable_config = _.cloneDeep(this.addtable_config);
+      let index = addtable_config.findIndex(v => ['客户销价', '进货价'].includes(v.label));
+      let api = outBillDetail;
+      api(this.$route.query.id).then(res => {
+        if (res.success) {
+          let searchForm = _.cloneDeep(this.searchForm);
+          searchForm = res.data;
+          searchForm.sendOutRequire = Number(searchForm.sendOutRequire);
+          searchForm.outWarehouseBillDetailList = (res.data && Array.isArray(res.data.busiBillDetails) && res.data.busiBillDetails || []).map(v => {
+            v.planOutQty = v.skuOutQty;
+            ['purchasePrice', 'sellPrice'].forEach(itme => {
+              v[itme] = v.outStorePrice;
+            })
+            return v;
+          });
+          if (searchForm.busiBillType === 21) {
+            addtable_config[index] = { label: '客户销价', prop: 'sellPrice', }
+          } else {
+            addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
+          }
+          this.addtable_config = addtable_config;
+          this.searchForm = searchForm;
+          if (this.searchForm.ownerCode) {
+            this.getCustomerInfo(this.searchForm.ownerCode);
+          }
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      'mapConfig': 'mapConfig',
+      visitedViews: 'visitedViews'
+    })
+  },
+  
+  methods: {
+
+    //添加商品时选择商品编码的回调
+    skuCodeChange(value) {
+      console.log(value)
+      let skuList = _.cloneDeep(this.skuList);
+      this.addCommodityForm = skuList.find(v => v.skuCode === value)
     },
 
-    mounted(){
-      if(this.$route.query.id){
-        let addtable_config= _.cloneDeep(this.addtable_config);
-        let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
-        let api=outBillDetail;
-        api(this.$route.query.id).then(res=>{
-          if(res.success){
-            let searchForm= _.cloneDeep(this.searchForm);
-            searchForm=res.data;
-            searchForm.sendOutRequire=Number(searchForm.sendOutRequire);
-            searchForm.outWarehouseBillDetailList=(res.data&&Array.isArray(res.data.busiBillDetails)&&res.data.busiBillDetails||[]).map(v=>{
-              v.planOutQty=v.skuOutQty;
-              ['purchasePrice','sellPrice'].forEach(itme=>{
-                v[itme]=v.outStorePrice;
-              })
-              return v;
-            });
-            if(searchForm.busiBillType===21){
-              addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
-            } else {
-              addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
-            }
-            this.addtable_config=addtable_config;
-            this.searchForm=searchForm;
-            if(this.searchForm.ownerCode){
-              this.getCustomerInfo(this.searchForm.ownerCode);
-            }
+    //业务单类型变化回调
+    busiBillTypeChange(value) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      ['arrivalCode', 'arrivalAddress', 'arrivalLinkUser', 'arrivalLinkTel'].forEach(v => {
+        searchForm[v] = ''
+      })
+      searchForm.outWarehouseBillDetailList = [];
+      this.searchForm = searchForm;
+      this.providerConfig = [];
+      this.addrListConfig = [];
+
+      let addtable_config = _.cloneDeep(this.addtable_config);
+      let index = addtable_config.findIndex(v => ['客户销价', '进货价'].includes(v.label));
+      if (value === 21) {
+        addtable_config[index] = { label: '客户销价', prop: 'sellPrice', }
+      } else {
+        addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
+      }
+      this.addtable_config = addtable_config;
+      this.getCustomerInfo(this.searchForm.ownerCode)
+    },
+
+    //选择货主
+    ownerCodeChange(value) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.arrivalCode = '';
+      searchForm.arrivalAddress = '';
+      searchForm.arrivalLinkUser = '';
+      searchForm.arrivalLinkTel = '';
+      searchForm.warehouseCode = '';
+      searchForm.outWarehouseBillDetailList = [];
+      this.searchForm = searchForm;
+      this.providerConfig = [];
+      this.addrListConfig = [];
+      this.warehouseList.length = 0
+      this.showStore({ ownerCode: value })
+    },
+
+    showStore(row) {
+      this.warehouseCodeLoading = true
+      ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
+        let result = res.data
+        this.warehouseList = result
+      }).catch(err => {
+        console.log(err)
+      }).then(res => {
+        this.warehouseCodeLoading = false
+      })
+    },
+
+    //根据货主查供应商或者客户列表
+    getCustomerInfo(value) {
+      return new Promise((resolve, reject) => {
+        customerInfo(value, this.searchForm.busiBillType).then(res => {
+          if (res.success) {
+            this.providerConfig = Array.isArray(res.data) && res.data || [];
+            resolve()
           }
-        }).catch(err=>{
+          reject()
+        }).catch(err => {
           console.log(err)
+          reject()
         })
+      })
+    },
+
+
+    //供应商获取焦点
+    providerFocus() {
+      if (!this.searchForm.ownerCode) {
+        this.$message.error('请先选择货主');
+      } else {
+        this.getCustomerInfo(this.searchForm.ownerCode);
       }
     },
 
-   computed: {
-      ...mapGetters({
-        'mapConfig':'mapConfig',
-         visitedViews: 'visitedViews'
-      })
-   },
+    //地址获取焦点
+    arrivalAddressFocus() {
+      if (!this.searchForm.arrivalCode) {
+        this.$message.error('请先选择供应商');
+      }
+    },
+
+    warehouseCodeFocus() {
+      if (!this.searchForm.ownerCode) {
+        this.$message.error('请先选择货主');
+      }
+    },
+
+    //地址变化
+    arrivalAddressChange(val) {
+      let add = this.addrListConfig.find(v => v.arrivalAddress === val) || {}
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.arrivalLinkUser = add.arrivalLinkUser;
+      searchForm.arrivalLinkTel = add.arrivalLinkTel;
+      this.searchForm = searchForm;
+    },
+
+    //地址列表配置
+    providerChange(value, isClear) {
+      let provider = this.providerConfig.find(v => v.customerCode === value)
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.arrivalAddress = '';
+      searchForm.arrivalLinkUser = '';
+      searchForm.arrivalLinkTel = '';
+      if (!isClear) {
+        searchForm.outWarehouseBillDetailList = [];
+      }
+      this.searchForm = searchForm;
+      this.addrListConfig = [];
 
 
-    methods: {
-
-      //添加商品时选择商品编码的回调
-      skuCodeChange(value){
-        console.log(value)
-        let skuList= _.cloneDeep(this.skuList);
-        this.addCommodityForm=skuList.find(v=>v.skuCode===value)
-      },
-
-      //业务单类型变化回调
-      busiBillTypeChange(value){
-        let searchForm= _.cloneDeep(this.searchForm);
-        ['arrivalCode','arrivalAddress','arrivalLinkUser','arrivalLinkTel'].forEach(v=>{
-          searchForm[v]=''
-        })
-        searchForm.outWarehouseBillDetailList=[];
-        this.searchForm=searchForm;
-        this.providerConfig=[];
-        this.addrListConfig=[];
-
-        let addtable_config= _.cloneDeep(this.addtable_config);
-        let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
-        if(value===21){
-          addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
-        } else{
-          addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
+      let id = provider.id
+      customerAddrInfo(value, this.searchForm.busiBillType).then(res => {
+        if (res.success) {
+          this.addrListConfig = Array.isArray(res.data) && res.data || [];
+          const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
+          this.$nextTick(() => {
+            this.searchForm.arrivalAddress = defaultAddress.arrivalAddress
+            this.arrivalAddressChange(defaultAddress.arrivalAddress)
+          })
         }
-        this.addtable_config=addtable_config;
-        this.getCustomerInfo(this.searchForm.ownerCode)
-      },
+      }).catch(err => {
+        console.log(err)
+      })
+    },
 
-      //选择货主
-      ownerCodeChange(value){
-        let searchForm= _.cloneDeep(this.searchForm);
-        searchForm.arrivalCode='';
-        searchForm.arrivalAddress='';
-        searchForm.arrivalLinkUser='';
-        searchForm.arrivalLinkTel='';
-        searchForm.warehouseCode='';
-        searchForm.outWarehouseBillDetailList=[];
-        this.searchForm=searchForm;
-        this.providerConfig=[];
-        this.addrListConfig=[];
-        this.warehouseList.length = 0
-        this.showStore({ ownerCode: value })
-      },
 
-      showStore(row) {
-        ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
-          let result = res.data
-          this.warehouseList = result
+    async uploadRes(res) {
+      if (res.success) {
+        let addtable_config = _.cloneDeep(this.addtable_config);
+        let index = addtable_config.findIndex(v => ['客户销价', '进货价'].includes(v.label));
+        let searchForm = _.cloneDeep(this.searchForm);
+        searchForm = res.data;
+        searchForm.sendOutRequire = searchForm.sendOutRequire || 1
+        searchForm.sendOutRequire = Number(searchForm.sendOutRequire);
+        searchForm.outWarehouseBillDetailList = (res.data && Array.isArray(res.data.busiBillDetails) && res.data.busiBillDetails || []).map(v => {
+          v.planOutQty = v.skuOutQty;
+          ['purchasePrice', 'sellPrice'].forEach(itme => {
+            v[itme] = v.outStorePrice;
+          })
+          return v;
+        });
+        if (searchForm.busiBillType === 21) {
+          addtable_config[index] = { label: '客户销价', prop: 'sellPrice', }
+        } else {
+          addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
+        }
+        this.addtable_config = addtable_config;
+        this.searchForm = searchForm;
+        if (this.searchForm.ownerCode) {
+          await this.getCustomerInfo(this.searchForm.ownerCode);
+        }
+        this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode, true)
+
+      } else {
+        this.$message.error('导入失败');
+      }
+    },
+
+    goeditrow(index, type) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.outWarehouseBillDetailList[index].edit = !searchForm.outWarehouseBillDetailList[index].edit
+      this.searchForm = searchForm;
+    },
+
+    handleDelete(index, row) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.outWarehouseBillDetailList.splice(index, 1)
+      this.searchForm = searchForm;
+    },
+
+    handleClose() {
+      this.addVisible = false;
+    },
+
+    showDialog(type) {
+      if (type === 'add') {
+        let { ownerCode, arrivalCode, busiBillType } = this.searchForm;
+        if (!ownerCode || !arrivalCode) {
+          this.$message.error('请同时选择货主和客户(供应商)');
+          return ''
+        }
+        const customerType = busiBillType === 21 ? 1 : busiBillType === 22 ? 2 : null
+        this.addVisible = true;
+        skuInfoList(ownerCode, arrivalCode, customerType, {saleType: this.searchForm.saleType}).then(res => {
+          if (res.success) {
+            this.skuList = Array.isArray(res.data) && res.data || []
+          }
         }).catch(err => {
           console.log(err)
         })
-      },
 
-      //根据货主查供应商或者客户列表
-      getCustomerInfo(value){
-        return new Promise((resolve, reject) => {
-          customerInfo(value,this.searchForm.busiBillType).then(res=>{
-            if(res.success){
-             this.providerConfig=Array.isArray(res.data)&&res.data||[];
-             resolve()
-            }
-            reject()
-          }).catch(err=>{
-            console.log(err)
-            reject()
-          })
-        })
-      },
+      }
 
+    },
 
-      //供应商获取焦点
-      providerFocus(){
-        if(!this.searchForm.ownerCode){
-          this.$message.error('请先选择货主');
-        } else{
-          this.getCustomerInfo(this.searchForm.ownerCode);
+    submit(type, value) {
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
+      if (type === 'addCommodity') {
+        let searchForm = _.cloneDeep(this.searchForm);
+        let index = searchForm.outWarehouseBillDetailList.findIndex(v => v.skuCode === value.skuCode);
+        if (index !== -1) {
+          searchForm.outWarehouseBillDetailList[index] = value;
+        } else {
+          searchForm.outWarehouseBillDetailList.push(value);
         }
-      },
-
-      //地址获取焦点
-      arrivalAddressFocus(){
-        if(!this.searchForm.arrivalCode){
-          this.$message.error('请先选择供应商');
-        }
-      },
-
-     //地址变化
-      arrivalAddressChange(val){
-        let add=this.addrListConfig.find(v=>v.arrivalAddress===val)||{}
-        let searchForm= _.cloneDeep(this.searchForm);
-        searchForm.arrivalLinkUser=add.arrivalLinkUser;
-        searchForm.arrivalLinkTel=add.arrivalLinkTel;
-        this.searchForm=searchForm;
-      },
-
-      //地址列表配置
-      providerChange(value, isClear){
-        let provider=this.providerConfig.find(v=>v.customerCode===value)
-        let searchForm= _.cloneDeep(this.searchForm);
-        searchForm.arrivalAddress='';
-        searchForm.arrivalLinkUser='';
-        searchForm.arrivalLinkTel='';
-        if (!isClear) {
-          searchForm.outWarehouseBillDetailList=[];
-        }
-        this.searchForm=searchForm;
-        this.addrListConfig=[];
-
-
-        let id=provider.id
-        customerAddrInfo(value,this.searchForm.busiBillType).then(res=>{
-          if(res.success){
-            this.addrListConfig=Array.isArray(res.data)&&res.data||[];
-            const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
-            this.$nextTick(() => {
-              this.searchForm.arrivalAddress = defaultAddress.arrivalAddress
-              this.arrivalAddressChange(defaultAddress.arrivalAddress)
+        this.searchForm = searchForm;
+        this.addCommodityForm = {};
+        this.addVisible = false;
+      } else {
+        this.$refs["searchForm"].validate(valid => {
+          if (valid) {
+            let json = _.cloneDeep(this.searchForm);
+            ['arrivalPreDate', 'arrivalEffectDate'].forEach(v => {
+              console.log(json[v])
+              if (json[v]) {
+                json[v] = moment(json[v]).valueOf()
+              }
             })
-          }
-        }).catch(err=>{
-          console.log(err)
-        })
-      },
-
-
-      async uploadRes(res){
-        if(res.success){
-            let addtable_config= _.cloneDeep(this.addtable_config);
-            let index=addtable_config.findIndex(v=>['客户销价','进货价'].includes(v.label));
-            let searchForm= _.cloneDeep(this.searchForm);
-            searchForm=res.data;
-            searchForm.sendOutRequire=searchForm.sendOutRequire||1
-            searchForm.sendOutRequire=Number(searchForm.sendOutRequire);
-            searchForm.outWarehouseBillDetailList=(res.data&&Array.isArray(res.data.busiBillDetails)&&res.data.busiBillDetails||[]).map(v=>{
-              v.planOutQty=v.skuOutQty;
-              ['purchasePrice','sellPrice'].forEach(itme=>{
-                v[itme]=v.outStorePrice;
-              })
-              return v;
-            });
-            if(searchForm.busiBillType===21){
-              addtable_config[index]= { label:'客户销价',prop:'sellPrice',}
-            } else {
-              addtable_config[index]= { label:'进货价',prop:'purchasePrice',}
+            const provider = this.providerConfig.find(v => v.customerCode === json.arrivalCode) || {}
+            json.ownerName = json.ownerName ? json.ownerName : this.mapConfig['billOwnerInfoMap'].find(v => v.key === json.ownerCode).value;
+            json.arrivalName = json.arrivalName || provider.customerName
+            let api = outBillAdd;
+            if (this.$route.query.id) {
+              if (this.$route.query.type === 'modify') {
+                api = outBillUpdate;
+              } else {
+                api = outBillImprove;
+              }
+              json.outWarehouseBillId = this.$route.query.id;
             }
-            this.addtable_config=addtable_config;
-            this.searchForm=searchForm;
-            if(this.searchForm.ownerCode){
-              await this.getCustomerInfo(this.searchForm.ownerCode);
-            }
-            this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode, true)
-
-        } else {
-           this.$message.error('导入失败');
-        }
-      },
-
-      goeditrow(index,type) {
-         let searchForm= _.cloneDeep(this.searchForm);
-         searchForm.outWarehouseBillDetailList[index].edit=!searchForm.outWarehouseBillDetailList[index].edit
-         this.searchForm=searchForm;
-      },
-
-      handleDelete(index, row) {
-         let searchForm= _.cloneDeep(this.searchForm);
-         searchForm.outWarehouseBillDetailList.splice(index,1)
-         this.searchForm=searchForm;
-      },
-
-      handleClose(){
-        this.addVisible=false;
-      },
-
-      showDialog(type){
-        if(type==='add'){
-          let {ownerCode,arrivalCode, busiBillType}=this.searchForm;
-          if(!ownerCode||!arrivalCode){
-             this.$message.error('请同时选择货主和客户(供应商)');
-             return ''
-          }
-          const customerType = busiBillType === 21 ? 1 : busiBillType === 22 ? 2 : null
-          this.addVisible=true;
-          skuInfoList(ownerCode,arrivalCode, customerType).then(res=>{
-            if(res.success){
-              this.skuList=Array.isArray(res.data)&&res.data||[]
-            }
-          }).catch(err=>{
-            console.log(err)
-          })
-
-        }
-
-      },
-
-      submit(type,value) {
-        const view = this.visitedViews.filter(v => v.path === this.$route.path)
-        if(type==='addCommodity'){
-           let searchForm= _.cloneDeep(this.searchForm);
-           let index=searchForm.outWarehouseBillDetailList.findIndex(v=>v.skuCode===value.skuCode);
-           if(index!==-1){
-             searchForm.outWarehouseBillDetailList[index]=value;
-           } else{
-             searchForm.outWarehouseBillDetailList.push(value);
-           }
-           this.searchForm=searchForm;
-           this.addCommodityForm={};
-           this.addVisible=false;
-        } else {
-          this.$refs["searchForm"].validate(valid => {
-            if (valid) {
-                let json= _.cloneDeep(this.searchForm);
-                ['arrivalPreDate','arrivalEffectDate'].forEach(v=>{
-                  console.log(json[v])
-                  if(json[v]){
-                    json[v]=moment(json[v]).valueOf()
-                  }
-                })
-                const provider = this.providerConfig.find(v=>v.customerCode===json.arrivalCode) || {}
-                json.ownerName=json.ownerName?json.ownerName:this.mapConfig['billOwnerInfoMap'].find(v=>v.key===json.ownerCode).value;
-                json.arrivalName=json.arrivalName || provider.customerName
-                let api=outBillAdd;
-                if(this.$route.query.id){
-                  if(this.$route.query.type==='modify'){
-                    api=outBillUpdate;
-                  } else{
-                    api=outBillImprove;
-                  }
-                  json.outWarehouseBillId=this.$route.query.id;
-                }
-                api(json).then(res=>{
-                  if(res.success){
-                    this.$message({
-                      type:'success',
-                      message:'操作成功,即将跳转到详情页！' ,
-                      duration:1500,
-                      onClose:()=>{
-                        this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                          this.$router.push({
-                            path:`/outgoing/businessorder-detail?id=${this.$route.query.id||(typeof res.data==='object'?res.data.id:res.data)}`,
-                          })
-                        }).catch(err=>{
-                          console.log(err)
-                        })
-                      }
+            this.saveLoading = true
+            api(json).then(res => {
+              if (res.success) {
+                this.$message({
+                  type: 'success',
+                  message: '操作成功,即将跳转到详情页！',
+                  duration: 1500,
+                  onClose: () => {
+                    this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                      this.$router.push({
+                        path: `/outgoing/businessorder-detail?id=${this.$route.query.id || (typeof res.data === 'object' ? res.data.id : res.data)}`,
+                      })
+                    }).catch(err => {
+                      console.log(err)
                     })
                   }
-                }).catch(err=>{
-                  console.log(err)
                 })
-            }
-          });
-        }
+              }
+            }).catch(err => {
+              console.log(err)
+            }).then(() => this.saveLoading = false)
+          }
+        });
       }
     }
+  }
 };
 </script>
 
@@ -563,33 +582,33 @@ export default {
   .el-form-item {
     height: 40px;
   }
-  .tableBox{
-    .tableTitle{
-      display:flex;
+  .tableBox {
+    .tableTitle {
+      display: flex;
       justify-content: space-between;
       margin: 16px 0;
     }
-    .tableBtn{
+    .tableBtn {
       display: flex;
     }
-    .addCommodity{
-      height:28px;
-      line-height:26px;
-      padding:0 12px;
+    .addCommodity {
+      height: 28px;
+      line-height: 26px;
+      padding: 0 12px;
       margin-left: 12px;
     }
   }
 }
-  .providerList{
-    display: flex;
-    justify-content: space-between;
-    >span{
-      &:first-child{
-        min-width: 150px;
-      }
-      &:nth-child(2){
-        min-width: 100px;
-      }
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
+    }
+    &:nth-child(2) {
+      min-width: 100px;
     }
   }
+}
 </style>

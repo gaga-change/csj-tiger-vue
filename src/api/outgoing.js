@@ -141,10 +141,11 @@ export function customerAddrInfo(customerCode,billType) {
 }
 
 
-export function skuInfoList(ownerCode,arrivalCode,customerType) {
+export function skuInfoList(ownerCode,arrivalCode,customerType, data={}) {
   return request({
-    url: `/webApi/sku/info/list/${ownerCode}/${arrivalCode}/${customerType}`,
+    url: `/webApi/sku/info/list`,
     method: 'get',
+    params: { ownerCode, arrivalCode, customerType, ...data }
   })
 }
 
@@ -260,11 +261,46 @@ export function outDependWeight(data) {
   })
 }
 
-// /api/out/plan/approve
+// 出库计划审核
 export function outPlanCheck(data) {
   return request({
     url: `/api/out/plan/approve`,
     method: 'post',
+    data: data,
+  })
+}
+
+// method：PUT url: /webApi/out/bill/check/batch
+export function outBillCheckBatch(data) {
+  return request({
+    url: `/webApi/out/bill/check/batch`,
+    method: 'PUT',
+    data: data,
+  })
+}
+
+// method：DELETE url: /webApi/out/bill/delete/batch
+export function outBillDeleteBatch(data) {
+  return request({
+    url: `/webApi/out/bill/delete/batch`,
+    method: 'DELETE',
+    data: data,
+  })
+}
+// method：POST url: /webApi/out/plan/add/batch
+export function outBillAddBatch(data) {
+  return request({
+    url: `/webApi/out/plan/add/batch`,
+    method: 'POST',
+    data: data,
+  })
+}
+
+// method：PUT url: /webApi/out/plan/check/batch
+export function outPlanCheckBatch(data) {
+  return request({
+    url: `/webApi/out/plan/check/batch`,
+    method: 'PUT',
     data: data,
   })
 }

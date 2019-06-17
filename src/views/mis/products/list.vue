@@ -34,8 +34,8 @@
         :on-success="handleUploadSuccess"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M。
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible" :loading="uploadLoading">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M1。
           <a class="dlink" :href="templetUrl" style="color:#409EFF;" >下载模板</a>
         </div>
       </el-upload>
@@ -58,8 +58,8 @@
         :on-success="handleEditUploadSuccess"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="editSubmitUpload" v-show="editUploadButtonVisible">上传到服务器</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M。
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="editSubmitUpload" v-show="editUploadButtonVisible" :loading="editUploadLoading">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M2。
           <a class="dlink" :href="editTempletUrl" style="color:#409EFF;">下载模板</a>
         </div>
       </el-upload>
@@ -100,7 +100,9 @@ export default {
       editUploadUrl: '/webApi/sku/info/importUpdate',
       editTempletUrl: '/static/templet/skuImport.xlsx',
       editFileList: [],
-      editUploadButtonVisible: false
+      editUploadButtonVisible: false,
+      uploadLoading: false,
+      editUploadLoading: false
     }
   },
   computed: {
@@ -151,6 +153,7 @@ export default {
   },
   methods: {
     handleUploadSuccess(res, file, fileList) {
+      this.uploadLoading = false
       if (res.code === '200') {
         if(res.success){
           this.dialogVisible = false
@@ -183,9 +186,11 @@ export default {
       }
     },
     submitUpload() {
+      this.uploadLoading = true
       this.$refs.upload.submit()
     },
     handleEditUploadSuccess(res, file, fileList) {
+      this.editUploadLoading = false
       if (res.code === '200') {
         this.$confirm(res.message, '提示', {
           confirmButtonText: '完成',
@@ -212,6 +217,7 @@ export default {
       }
     },
     editSubmitUpload() {
+      this.editUploadLoading = true
       this.$refs.editUpload.submit()
     },
     importProduct() {

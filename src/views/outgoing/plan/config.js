@@ -31,6 +31,7 @@ export  const infoConfig=[
   {title:'计划人',prop:'planName'},
   {title:'计划仓库',prop:'planWarehouseName'},
   {title:'执行状态',prop:'execStatus',type:'getExecState',useApi:true},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
   {title:'计划制定时间',prop:'planTime',type:'time'},
   {title:'客户编号',prop:'arrivalCode'},
   {title:'客户名称',prop:'arrivalName'},
@@ -41,6 +42,7 @@ export  const infoConfig=[
 export const outgoingTableConfig=[
   { label:'序号',type:'index',width:50},
   { label:'出库单号',prop:'warehouseExeCode',linkTo:'/outgoing/quiry-detail',query:[{key:'warehouseExeCode',value:'warehouseExeCode'}]},
+  { label:'WMS单号',prop:'warehouseUk'},
   { label:'货主',prop:'ownerName'},
   { label:'出库仓库名称',prop:'warehouseName'},
   { label:'出库仓库编号',prop:'warehouseCode'},

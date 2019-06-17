@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template>
-          <el-button type="primary" size="small" @click="submit" :disabled="submitLoading">生成计划单</el-button>
+          <el-button type="primary" size="small" @click="submit" :loading="submitLoading">生成计划单</el-button>
       </template>
    </sticky>
 

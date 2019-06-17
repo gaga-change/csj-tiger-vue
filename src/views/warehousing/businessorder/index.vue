@@ -90,6 +90,9 @@
   </div>
 
     <div class="operationitem">
+      <PopoverBtn @onOk="oprateBatch('add')" text="确定批量创建计划单吗？" :loading="batchLoading">创建计划单</PopoverBtn>
+      <PopoverBtn @onOk="oprateBatch('check')" text="确定批量审核吗？" :loading="batchLoading">审核</PopoverBtn>
+      <PopoverBtn @onOk="oprateBatch('del')" text="确定批量删除吗？" :loading="batchLoading">删除</PopoverBtn>
       <router-link :to="`/warehousing/businessorderadd?type=add&time=${moment().valueOf()}`">
           <el-button type="primary" size="mini">新建入库业务单</el-button>
       </router-link>
@@ -102,23 +105,65 @@
         :filesuploadUrl="'/webApi/in/bill/import/batch'"></upload-excel>
     </div>
 
-   <base-table
-      @sizeChange="handleSizeChange"
-      @currentChange="handleCurrentChange"
-      :loading="loading"
-      :config="tableConfig"
-      :total="total"
-      :maxTotal="10"
-      :pageSize="ruleForm.pageSize"
-      :currentPage="ruleForm.pageNum"
-      :tableData="tableData"/>
+      <el-table :data="tableData" v-loading="loading"
+        row-key="billNo"
+        ref="listTable"
+        @selection-change="selectionChange" size="small" border>
+        <el-table-column
+          fixed="left"
+          :reserve-selection="true"
+          type="selection">
+        </el-table-column>
+        <el-table-column
+          v-for="(column, index) in tableConfig"
+          :key="index"
+          :prop="column.prop"
+          :label="column.label"
+          :width="column.width"
+        >
+          <template slot-scope="scope">
+            <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
+            <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
+              scope.row[column.prop] | parseTime
+            }}</span>
+            <span v-else-if="column.useLocalEnum && column.type">{{
+              scope.row[column.prop] | localEnum(column.type)
+            }}</span>
+            <span v-else>{{ scope.row[column.prop] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="260" fixed="right">
+          <template slot-scope="scope">
+            <div class="tableLinkBox">
+              <router-link :to="`/warehousing/businessorder-detail?id=${scope.row.id}`" class="tableLink">查看</router-link>
+              <template v-if="[0,2].includes(scope.row.billStatus)">
+                <span class="tableLink" @click="operation('examine', scope.row)" >审核</span>
+                <span class="tableLink" @click="operation('close', scope.row)" >关闭</span>
+                <span class="tableLink" @click="operation('delete', scope.row)" >删除</span>
+                <router-link :to="`/warehousing/businessorderadd?id=${scope.row.id}&time=${moment().valueOf()}`"  class="tableLink">修改</router-link>
+              </template>
+              <router-link v-if="scope.row.billStatus === 1 && scope.row.planInQty > scope.row.planInQtyForPlan" :to="`/warehousing/warehousingAddPlanOrder?id=${scope.row.id}&time=${moment().valueOf()}`"  class="tableLink">创建计划单</router-link>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="ruleForm.pageNum"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="ruleForm.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
   </div>
 
 </template>
 
 <script>
     import moment from 'moment';
-    import {inBillSelect,inBillUpdateStatus} from '@/api/warehousing'
+    import {inBillSelect,inBillUpdateStatus, batchInBill, batchAdd} from '@/api/warehousing'
     import  { misWarehousingBillStatusEnum,misWarehousingBillStateEnum } from "@/utils/enum.js";
     import {getBillType,getExecState} from '@/api/map'
     import BaseTable from '@/components/Table'
@@ -159,7 +204,9 @@
         tableData: [],
         tableConfig:indexTableConfig,
         misWarehousingBillStatusEnum,
-        misWarehousingBillStateEnum
+        misWarehousingBillStateEnum,
+        selectionList: [],
+        batchLoading: false
       }
     },
 
@@ -177,51 +224,63 @@
       ])
     },
 
-    created(){
-      this.tableConfig.forEach(item=>{
-        if(item.useLink){
-            item.dom=(row, column, cellValue, index)=>{
-              return(
-                <div class="tableLinkBox">
-                     {
-                        <router-link to={`/warehousing/businessorder-detail?id=${row.id}`}  class="tableLink">查看</router-link>
-                     }
-
-                     {
-                       [0,2].includes(row.billStatus)&&
-                       <span class="tableLink"  onClick={this.operation.bind(this,'examine',row)}>审核</span>
-                     }
-
-                     {
-                       [0,2].includes(row.billStatus)&&
-                       <span class="tableLink" onClick={this.operation.bind(this,'close',row)}>关闭</span>
-                     }
-
-
-                     {
-                       [0,2].includes(row.billStatus)&&
-                       <span class="tableLink" onClick={this.operation.bind(this,'delete',row)}>删除</span>
-                     }
-
-                     {
-                        [0,2].includes(row.billStatus)&&
-                        <router-link to={`/warehousing/businessorderadd?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">修改</router-link>
-                     }
-
-                     {
-                        [1].includes(row.billStatus)&&
-                        <router-link to={`/warehousing/warehousingAddPlanOrder?id=${row.id}&time=${moment().valueOf()}`}  class="tableLink">创建计划单</router-link>
-                     }
-                </div>
-              )
-            }
-        }
-      })
-    },
-
-
     methods: {
       moment,
+      oprateBatch(type) {
+        if (!this.selectionList.length) {
+          return
+        }
+        const Methods = {
+          del: batchInBill,
+          check: batchInBill,
+          add: batchAdd
+        }
+        const Filters = {
+          check: item => item.billStatus === 0,
+          del: item => item.billStatus === 0,
+          add: item => item.billStatus === 1 && item.planInQty > item.planInQtyForPlan
+        }
+        const items = this.selectionList.filter(Filters[type])
+
+        // 清除不符合条件的选项
+        this.$refs.listTable.clearSelection()
+        items.map(row => {
+          this.$refs.listTable.toggleRowSelection(row)
+        })
+
+        const ids = items.map(item => item.id)
+        if (!ids.length) {
+          this.$message.warning('没有符合条件的项~')
+          return
+        }
+        const postData = {
+          check: {
+            statusFlag: 1,
+            inWarehouseBillIdList: ids
+          },
+          del: {
+            statusFlag: 9,
+            inWarehouseBillIdList: ids
+          },
+          add: [...ids]
+        }
+        this.batchLoading = true
+        Methods[type](postData[type]).then(res => {
+          console.log(res)
+          this.batchLoading = false
+          if(res.success) {
+            this.$message.success('操作成功~')
+            this.$refs.listTable.clearSelection()
+            this.getCurrentTableData()
+          }
+        }).catch(err => {
+          this.batchLoading = false
+          console.log(err)
+        })
+      },
+      selectionChange(val) {
+        this.selectionList = val
+      },
       uploadRes(result) {
         console.log(result)
         this.getCurrentTableData()

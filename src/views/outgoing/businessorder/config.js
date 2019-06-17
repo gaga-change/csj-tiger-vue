@@ -15,6 +15,7 @@ export  const tableConfig=[
 
 export const infoConfig=[
   {title:'业务单类型',prop:'busiBillType',type:'getBillType',useApi:true},
+  {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
   {title:'业务单号',prop:'billNo'},
   {title:'外部订单号',prop:'busiBillNo'},
   {title:'货主编号',prop:'ownerCode'},
@@ -39,14 +40,14 @@ export const indexTableConfig=[
   { label:'合同编号',prop:'contractNo',width:120},
   { label:'货主',prop:'ownerName',width:180},
   { label:'客户名称',prop:'arrivalName',width:180},
-  { label:'计划出库数量',prop:'planOutQty',width:100},
-  { label:'计划出库金额',prop:'planOutAmt',width:100},
+  { label:'应出库数量',prop:'planOutQty',width:100},
+  { label:'应出库金额',prop:'planOutAmt',width:100},
+  { label:'已计划量',prop:'planOutQtyForPlan',width:100},
   { label:'实际出库数量',prop:'realOutQty',width:100},
   { label:'单据状态',prop:'billStatus',type:'outBillStatusEnum',useLocalEnum:true,width:80},
   { label:'执行状态',prop:'billState',type:'outBillStateEnum',useLocalEnum:true,width:80},
   { label:'制单人',prop:'busiBillCreater',width:120},
-  { label:'制单时间',prop:'busiBillCreateTime',type:'time',width:140},
-  { label:'操作',fixed:'right',useLink:true,width:300},
+  { label:'制单时间',prop:'busiBillCreateTime',type:'time',width:140}
 ]
 
 
