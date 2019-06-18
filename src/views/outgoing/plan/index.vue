@@ -247,6 +247,7 @@
            this.batchLoading = false
            if(res.success) {
              this.$message.success('操作成功~')
+             this.$refs.listTable.clearSelection()
              this.getCurrentTableData()
            }
          }).catch(err => {
