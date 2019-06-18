@@ -914,3 +914,19 @@ export const saleTypeEnum = [
     value: 2
   }
 ]
+
+/** 执行状态 */
+export const execState = [
+  {
+    name: '未执行',
+    value: 0
+  },
+  {
+    name: '已执行',
+    value: 5
+  },
+  {
+    name: '全部执行',
+    value: 8
+  }
+]
