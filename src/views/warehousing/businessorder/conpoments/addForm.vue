@@ -5,11 +5,11 @@
               <el-col>
                 <el-form-item label="商品编码"   prop="skuCode" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-select v-model="searchForm.skuCode" filterable   @change="skuCodeChange"  placeholder="请选择商品"  >
-                    <el-option 
+                    <el-option
                       value="" v-if="commodityList.length" :disabled="true">
-                      <div class="providerList"> 
-                        <span>商品编码</span> 
-                        <span>商品名称</span> 
+                      <div class="providerList">
+                        <span>商品编码</span>
+                        <span>商品名称</span>
                       </div>
                     </el-option>
                     <el-option
@@ -19,13 +19,13 @@
                           <span >{{ item.skuName }}</span>
                         </div>
                     </el-option>
-                  </el-select>           
+                  </el-select>
                 </el-form-item>
-              </el-col>  
+              </el-col>
 
               <el-col>
                  <el-form-item label="商品名称:" prop="skuName" :rules="[{ required: true, message: '该项为必填'}]">
-                    <el-input v-model="searchForm.skuName" placeholder="请输入商品名称" size="small" class="formitem"></el-input>
+                    <el-input v-model="searchForm.skuName" disabled placeholder="请输入商品名称" size="small" class="formitem"></el-input>
                  </el-form-item>
               </el-col>
 
@@ -67,7 +67,7 @@
           <el-button @click="$emit('handleClose')">取 消</el-button>
           <el-button type="primary" @click="submit">确 定</el-button>
         </div>
-    </div> 
+    </div>
 </template>
 
 <script>
@@ -85,7 +85,7 @@ export default {
   },
 
   methods: {
-    
+
     skuCodeChange(value){
       this.$emit('skuCodeChange',value)
     },
