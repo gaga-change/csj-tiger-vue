@@ -33,7 +33,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="商品名称：" prop="skuName" :rules="[{required: true, message:'必填项'},{max:30, message:'最长30位', trigger: 'blur'}]">
+          <el-form-item label="商品名称：" prop="skuName" :rules="[{required: true, message:'必填项'},{max:100, message:'最长100位', trigger: 'blur'}]">
             <el-input v-model="productForm.skuName" placeholder="请输入商品名称" size="small" class="formitem"></el-input>
           </el-form-item>
         </el-col>
