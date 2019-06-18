@@ -129,12 +129,10 @@ export const modifyPlanOrder_config=[
   { label:'序号',type:'index',width:50},
   { label:'商品编码',prop:'skuCode',width:100},
   { label:'商品名称',prop:'skuName'},
-  { label:'数量',prop:'skuInQty',width:100},
   { label:'计划入库数量',prop:'planInQty'},
   {label:'商品供应商编码',prop:'providerCode'},
   {label:'商品供应商名称',prop:'providerName'},
   { label:'订货进价',prop:'inPrice'},
-  { label:'金额',prop:'planInAmt'},
   { label:'入库仓库',prop:'warehouseName',width:150},
   { label:'操作',fixed:'right',useLink:true,width:140}
 ]
