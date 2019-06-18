@@ -272,8 +272,8 @@
       </el-card>
     </div>
     <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
-      <PopoverBtn @onOk="oprateBatch('check')" text="确定批量审核吗？" :loading="batchLoading">审核</PopoverBtn>
-      <PopoverBtn @onOk="oprateBatch('reject')" text="确定批量驳回吗？" :loading="batchLoading">驳回</PopoverBtn>
+      <PopoverBtn @onOk="oprateBatch('check')" text="确定批量审核吗？" :loading="batchLoading">批量审核</PopoverBtn>
+      <PopoverBtn @onOk="oprateBatch('reject')" text="确定批量驳回吗？" :loading="batchLoading">批量驳回</PopoverBtn>
       <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
         <el-button
           type="primary"
@@ -393,6 +393,7 @@ export default {
     stringify,
     oprateBatch(type) {
       if (!this.selectionList.length) {
+        this.$message.info('请勾选相关计划单！')
         return
       }
       const Methods = {

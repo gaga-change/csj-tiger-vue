@@ -102,7 +102,7 @@
   </div>
 
    <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
-     <PopoverBtn @onOk="oprateBatch('plancheck')" text="确定批量审核吗？" :loading="batchLoading">审核</PopoverBtn>
+     <PopoverBtn @onOk="oprateBatch('plancheck')" text="确定批量审核吗？" :loading="batchLoading">批量审核</PopoverBtn>
       <a :href="`/webApi/out/plan/export?${stringify(this.linkData)}`" >
         <el-button type="primary" size="mini" >导出Excel</el-button>
       </a>
@@ -219,6 +219,7 @@
        stringify,
        oprateBatch(type) {
          if (!this.selectionList.length) {
+           this.$message.info('请勾选相关计划单！')
            return
          }
          const Methods = {
