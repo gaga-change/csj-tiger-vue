@@ -106,19 +106,17 @@ export default {
   },
 
   created() {
+    //     {
+    //   (row.fromSysCode !== 'CSJ-SAASERP' && row.fromSysCode !== 'CSJSCM') && <span class="tableLink" onClick={this.operation.bind(this, 'delete', row)}>删除</span>
+    // }
     this.addPlanOrder_config.forEach(item => {
       if (item.label === '操作') {
         item.dom = (row, column, cellValue, index) => {
           return (
             <div class="tableLinkBox">
               {
-                <span class="tableLink" onClick={this.operation.bind(this, 'delete', row)}>删除</span>
-              }
-
-              {
                 <span class="tableLink" onClick={this.operation.bind(this, 'edit', row)}>编辑</span>
               }
-
             </div>
           )
         }
