@@ -171,7 +171,7 @@ const customerConfig = [
   { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称' }
 ]
 const editConfig = [
-  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称',rules:[{required: true, message:'必填项'}] },
+  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称',rules:[{required: true, message:'必填项'}, {type: 'string', max: 40, message:'长度最多40位'}] },
   {
     label: '客户等级',
     prop: 'customerLevel',
