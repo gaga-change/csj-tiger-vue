@@ -12,7 +12,7 @@
           size="small"
           @click="sureQty"
           :loading="sureQtyLoding"
-        >确认并生成入库单</el-button>
+        >确认并生成出库单</el-button>
         <el-button
           v-if="config.planState === 5 || config.planState === 6"
           size="small"
