@@ -107,7 +107,6 @@
         <el-button type="primary" size="mini" >导出Excel</el-button>
       </a>
   </div>
-
       <el-table :data="tableData" v-loading="loading" ref="listTable"
         row-key="id"
         @selection-change="selectionChange" size="small" border>

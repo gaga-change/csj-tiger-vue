@@ -30,7 +30,7 @@ export  const infoConfig=[
   {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
   {title:'计划人',prop:'planName'},
   {title:'计划仓库',prop:'planWarehouseName'},
-  {title:'执行状态',prop:'execStatus',type:'getExecState',useApi:true},
+  {title:'执行状态',prop:'execStatus',type:'execState',useLocalEnum:true},
   {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
   {title:'计划制定时间',prop:'planTime',type:'time'},
   {title:'客户编号',prop:'arrivalCode'},
@@ -60,9 +60,8 @@ export const indexTableConfig=[
   { label:'客户名称',prop:'arrivalName',width:180},
   { label:'货主',prop:'ownerName',width:180},
   { label:'计划出库仓库',prop:'planWarehouseName',width:130},
-  { label:'执行状态',prop:'execStatus',type:'getExecState',useApi:true,width:80},
+  { label:'执行状态',prop:'execStatus',type:'execState',useLocalEnum:true,width:80},
   { label:'计划出库日期',prop:'planOutTime',type:'time',width:140},
-  { label:'操作',fixed:'right',useLink:true,minWidth:120},
 ]
 
 //手工出库页面基本配置
