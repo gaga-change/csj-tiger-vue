@@ -259,13 +259,9 @@ export default {
               this.getCurrentTableData()
             }
           })
-        } else {
-          this.$message.error('操作失败');
         }
       }).catch(err => {
-        this.$message.error('操作失败');
         this.sureQtyLoding = false;
-        console.log(err)
       })
     },
 

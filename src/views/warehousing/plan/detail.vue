@@ -185,7 +185,9 @@ export default {
         v.realInQty = v.handInQty;
         return v
       })
+      this.sureQtyLoding = true
       orderSave(json).then(res => {
+              this.sureQtyLoding = false
         if (res.success) {
           this.$message({
             type: 'success',
@@ -200,7 +202,7 @@ export default {
           })
         }
       }).catch(err => {
-        console.log(err)
+        this.sureQtyLoding = false
       })
     },
     activeChange(tab) {
