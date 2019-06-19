@@ -2,7 +2,7 @@
     <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
       <el-row>
           <el-col :span="12">
-            <el-form-item label="供应商名称:" prop="providerName" :rules="[{ required: true, message: '该项为必填'}, {type: 'string', max: 40, message:'长度最多40位'}]">
+            <el-form-item label="供应商名称:" prop="providerName" :rules="[{ required: true, message: '该项为必填'}, {type: 'string', max: 20, message:'长度最多20位'}]">
               <el-input v-model="searchForm.providerName" placeholder="请输入供应商名称" size="small" class="formitem"></el-input>
             </el-form-item>
           </el-col>
