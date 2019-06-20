@@ -187,7 +187,6 @@ export default {
       })
       this.sureQtyLoding = true
       orderSave(json).then(res => {
-              this.sureQtyLoding = false
         if (res.success) {
           this.$message({
             type: 'success',
@@ -200,6 +199,8 @@ export default {
               this.getCurrentTableData()
             }
           })
+        } else {
+          this.sureQtyLoding = false
         }
       }).catch(err => {
         this.sureQtyLoding = false

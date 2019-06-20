@@ -377,10 +377,10 @@ export default {
                     })
                   }
                 })
+              } else {
+                this.saveLoading = false
               }
             }).catch(err => {
-              console.log(err)
-            }).then(() => {
               this.saveLoading = false
             })
           }

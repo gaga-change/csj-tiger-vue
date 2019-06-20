@@ -224,10 +224,10 @@ export default {
               })
             }
           })
+        } else {
+          this.submitLoading = false
         }
       }).catch(err => {
-        console.log(err)
-      }).then(() => {
         this.submitLoading = false
       })
     },

@@ -556,7 +556,6 @@ export default {
           }
 
           Api(json).then(res => {
-            this.submitloading = false;
             this.replyid = typeof res.data === "string" ? res.data : res.data.id;
             this.$message({
               type: 'success',

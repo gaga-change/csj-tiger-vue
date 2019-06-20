@@ -170,12 +170,10 @@
               }
             })
           } else{
-            console.log(res)
+            this.submitLoading = false
           }
         }).catch(err=>{
-           console.log(err)
-        }).then(() => {
-          this.submitLoading = true
+          this.submitLoading = false
         })
       },
       //关闭弹框
