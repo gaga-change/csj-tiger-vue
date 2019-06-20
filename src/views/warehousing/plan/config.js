@@ -9,7 +9,7 @@ export   const tableConfig=[
   }},
 
   { label:'还应入',fixed:false,dom:(row, column, cellValue, index)=>{
-      return `${row.planInQty-row.realInQty}(${row.skuUnitName})`
+      return `${(row.planInQty-row.realInQty).toFixed(2)}(${row.skuUnitName})`
   }},
   { label:'手工入库',prop:'handInQty',useEdit:true,width:160,max:['planInQty','realInQty'],min:0},
 
