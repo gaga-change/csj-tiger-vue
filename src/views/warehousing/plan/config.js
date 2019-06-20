@@ -5,7 +5,7 @@ export   const tableConfig=[
   { label:'品牌',prop:'skuBrandName'},
   { label:'单价',prop:'inPrice',type:'toFixed'},
   { label:'已入/总数',fixed:false,dom:(row, column, cellValue, index)=>{
-      return `${Number(row.realInQty).toFixed(0)}/${Number(row.planInQty).toFixed(0)}(${row.skuUnitName})`
+      return `${Number(row.realInQty)}/${Number(row.planInQty)}(${row.skuUnitName})`
   }},
 
   { label:'还应入',fixed:false,dom:(row, column, cellValue, index)=>{
