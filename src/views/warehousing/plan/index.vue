@@ -272,7 +272,11 @@
       </el-card>
     </div>
     <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
-      <PopoverBtn @onOk="oprateBatch('check')" text="确定批量审核吗？" :loading="batchLoading">批量审核</PopoverBtn>
+      <PopoverBtn
+        @onOk="oprateBatch('check')"
+        text="确定批量审核吗？"
+        :loading="batchLoading"
+      >批量审核</PopoverBtn>
       <!-- <PopoverBtn @onOk="oprateBatch('reject')" text="确定批量驳回吗？" :loading="batchLoading">批量驳回</PopoverBtn> -->
       <a :href="`/webApi/in/plan/export?${stringify(this.linkData)}`">
         <el-button
@@ -282,14 +286,20 @@
       </a>
     </div>
 
-    <el-table :data="tableData" v-loading="loading"
+    <el-table
+      :data="tableData"
+      v-loading="loading"
       row-key="id"
       ref="listTable"
-      @selection-change="selectionChange" size="small" border>
+      @selection-change="selectionChange"
+      size="small"
+      border
+    >
       <el-table-column
         fixed="left"
         :reserve-selection="true"
-        type="selection">
+        type="selection"
+      >
       </el-table-column>
       <el-table-column
         v-for="(column, index) in tableConfig"
@@ -302,20 +312,39 @@
           <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
           <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
             scope.row[column.prop] | parseTime
-          }}</span>
+            }}</span>
           <span v-else-if="column.useLocalEnum && column.type">{{
             scope.row[column.prop] | localEnum(column.type)
-          }}</span>
+            }}</span>
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="260" fixed="right">
+      <el-table-column
+        label="操作"
+        width="260"
+        fixed="right"
+      >
         <template slot-scope="scope">
           <div class="tableLinkBox">
-            <router-link :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}`" class="tableLink">查看</router-link>
-            <router-link v-if="scope.row.planState === '0' || scope.row.planState === '1'" :to="`/warehousing/plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"  class="tableLink">修改</router-link>
-            <router-link v-if="scope.row.operator === 1"
-              :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}&history=${true}`"  class="tableLink">手工入库</router-link>
+            <router-link
+              :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}`"
+              class="tableLink"
+            >查看</router-link>
+            <router-link
+              v-if="scope.row.planState === '0' || scope.row.planState === '1'"
+              :to="`/warehousing/plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"
+              class="tableLink"
+            >修改</router-link>
+            <router-link
+              v-if="scope.row.operator === 1"
+              :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}&history=${true}`"
+              class="tableLink"
+            >手工入库</router-link>
+            <span
+              v-if="scope.row.planState === '0' || scope.row.planState === '1'"
+              class="tableLink"
+              @click="closePlan(scope.row)"
+            >关闭</span>
           </div>
         </template>
       </el-table-column>
@@ -336,7 +365,7 @@
 
 <script>
 import moment from 'moment';
-import { inPlanSelect, batchApprovePlan } from '@/api/warehousing'
+import { inPlanSelect, batchApprovePlan, inPlanClose } from '@/api/warehousing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig } from './config';
 import { warehousingPlanBillStatus } from "@/utils/enum.js";
@@ -391,6 +420,33 @@ export default {
 
   methods: {
     stringify,
+    /** 关闭计划单 */
+    closePlan(row) {
+      const { planCode } = row
+      this.$confirm('此操作将关闭该计划, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.loading = true
+        inPlanClose(planCode).then(res => {
+          if (res.success) {
+            this.$message({
+              type: 'success',
+              message: '关闭成功!'
+            })
+          }
+          this.getCurrentTableData()
+        }).catch(err => {
+          this.getCurrentTableData()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消关闭'
+        })
+      })
+    },
     oprateBatch(type) {
       if (!this.selectionList.length) {
         this.$message.info('请勾选相关计划单！')
@@ -431,7 +487,7 @@ export default {
       Methods[type](postData[type]).then(res => {
         console.log(res)
         this.batchLoading = false
-        if(res.success) {
+        if (res.success) {
           this.$message.success('操作成功~')
           this.$refs.listTable.clearSelection()
           this.getCurrentTableData()
@@ -512,13 +568,13 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.tableLinkBox{
-   display: flex;
-  .tableLink{
+.tableLinkBox {
+  display: flex;
+  .tableLink {
     cursor: pointer;
-    color:#3399ea;
-    margin-right:12px;
-    &:last-child{
+    color: #3399ea;
+    margin-right: 12px;
+    &:last-child {
       margin-right: 0;
     }
   }

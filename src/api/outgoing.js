@@ -30,7 +30,7 @@ export function outPlanDetail(data={}) {
 export function outPlanClose(planCode) {
   return request({
     url: `/webApi/out/plan/close/${planCode}`,
-    method: 'get',
+    method: 'put',
   })
 }
 
