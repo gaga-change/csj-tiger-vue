@@ -32,7 +32,20 @@
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="计划仓库" prop="planWarehouseName">
-              <el-input v-model.lazy.trim="ruleForm.planWarehouseName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请选择计划仓库"></el-input>
+
+                <el-select
+                  @change="submitForm('ruleForm')"
+                  v-model="ruleForm.planWarehouseName"
+                  placeholder="请选择计划仓库"
+                >
+                  <el-option
+                    v-for="(item,index) in mapConfig['getWarehouse']"
+                    :label="item.value"
+                    :key="index"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              <!-- <el-input v-model.lazy.trim="ruleForm.planWarehouseName" @keyup.enter.native="submitForm('ruleForm')"    placeholder="请选择计划仓库"></el-input> -->
             </el-form-item>
           </el-col>
 
