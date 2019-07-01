@@ -22,7 +22,7 @@
           :disabled="rejectLoading"
         >审核</el-button>
         <el-button
-          v-if="config.planState === 1 || config.planState === 0"
+          v-if="config.planState === 0"
           type="warning"
           size="small"
           @click="planCheck(0)"

@@ -5,12 +5,12 @@
       style="margin-bottom:12px"
     >
       <template>
-        <el-button
+        <!-- <el-button
           type="primary"
           size="small"
           @click="inPlanClose"
           :disabled="inPlanCloseLoading"
-        >关闭</el-button>
+        >关闭</el-button> -->
         <el-button
           type="primary"
           size="small"

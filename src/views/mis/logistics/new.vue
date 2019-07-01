@@ -442,7 +442,9 @@ export default {
 
     getConsoilInfoList() {
       consoilInfoList({
-        consoildatorState: '31,30'
+        consoildatorState: '31,30',
+        pageSize: 9999,
+        pageNum: 1
       }).then(res => {
         this.carrier = res.data && res.data.list
       }).catch(err => {
