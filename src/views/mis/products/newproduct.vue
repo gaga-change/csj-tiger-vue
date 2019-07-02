@@ -830,7 +830,7 @@
                     :rules="[{required: true, message:'必填项'}]"
                   >
                     <div style="min-height: 40px;display: flex;align-items: center;">
-                      <span style="display: block;line-height: 1.2;margin: auto;">
+                      <span style="display: block;line-height: 1.2;">
                         {{!!currentRow ? currentRow.value : ''}} <a
                           href="JavaScript:void(0)"
                           style="color:#409EFF;white-space: nowrap;"
@@ -1233,7 +1233,6 @@ export default {
       this.dialogTableVisible = true
     },
     chooseCustomer(val) {
-      console.log('choose - ', val)
       if (val) {
         if (this.currentRow && this.currentRow.key === val.key) {
           return
