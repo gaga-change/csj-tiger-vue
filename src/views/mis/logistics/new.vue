@@ -153,7 +153,7 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="运费"  :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number"   v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费">
+            <el-input type="number"   v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费" @blur="logisticsFareToFixed">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -381,7 +381,7 @@ export default {
             }
           }
         }
-        return Number(data).toFixed(2);
+        return Number(data);
       },
       set: function(val) {
         this.$set(this.addForm, 'logisticsFare', val)
@@ -404,13 +404,15 @@ export default {
     }
   },
   methods: {
+    logisticsFareToFixed() {
+      this.logisticsFare = this.logisticsFare.toFixed(2)
+    },
     getDetail() {
       queryLogisticsDetail(this.$route.query.id).then(res => {
         const { relationList, consoildatorName, consoildatorCode, ...rest } = res.data
         this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest}
         this.outTableData = relationList;
       }).catch(err => {
-        console.log(err)
       })
     },
 
@@ -448,7 +450,6 @@ export default {
       }).then(res => {
         this.carrier = res.data && res.data.list
       }).catch(err => {
-        console.log(err)
       })
     },
 
@@ -501,7 +502,6 @@ export default {
             this.$set(this.addForm, 'customerContact', address.receiverName)
           })
         }).catch(err => {
-          console.log(err)
         })
     },
 
@@ -543,7 +543,6 @@ export default {
             }
           }
           FUNCTION(postData).then(res => {
-            console.log(res)
             this.submitloading = false
             if (res.success) {
               const view = this.visitedViews.filter(v => v.path === this.$route.path)
@@ -554,7 +553,6 @@ export default {
               })
             }
           }).catch(err => {
-            console.log(err)
             this.submitloading = false
           })
         }
