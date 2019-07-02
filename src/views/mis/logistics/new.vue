@@ -244,9 +244,12 @@
 
          <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="总费用" prop="totalCost">
-            <el-input type="number" v-model.number="totalCost" class="formitem" size="small" placeholder="请输入总费用">
+            <div style="font-size: 14px;">
+                {{totalCost}}元
+            </div>
+            <!-- <el-input type="text" v-model="totalCost" readonly="readonly" class="formitem" size="small" placeholder="请输入总费用 ">
               <span slot="suffix">元</span>
-            </el-input>
+            </el-input> -->
           </el-form-item>
         </el-col>
 
@@ -304,25 +307,25 @@ export default {
       carrier: [],
       submitloading: false,
       columns: [{
-          label: '业务单号',
-          prop: 'bussinessNo'
-        },
-        {
-          label: '外部订单号',
-          prop: 'outBusiBillNo'
-        },
-        {
-          label: '出库单号',
-          prop: 'outWarehouseNo'
-        },
-        {
-          label: '货主',
-          prop: 'cargoOwner'
-        },
-        {
-          label: '客户名称',
-          prop: 'customerName'
-        }
+        label: '业务单号',
+        prop: 'bussinessNo'
+      },
+      {
+        label: '外部订单号',
+        prop: 'outBusiBillNo'
+      },
+      {
+        label: '出库单号',
+        prop: 'outWarehouseNo'
+      },
+      {
+        label: '货主',
+        prop: 'cargoOwner'
+      },
+      {
+        label: '客户名称',
+        prop: 'customerName'
+      }
       ],
       outTableData: [],
       multipleData: [],
@@ -343,55 +346,56 @@ export default {
       return Boolean(this.$route.query.id)
     },
 
-    totalCost:{
-      get:function(){
-        let data=0;
-        if(this.addForm.totalCost){
-            data=this.addForm.totalCost;
-        } else{
-          ['dispatchCost','logisticsPremium','toll','oilCost','receptCost','otherCost'].forEach(v=>{
-            data+=Number(this.addForm[v])||0
+    totalCost: {
+      get: function () {
+        let data = 0;
+        if (this.addForm.totalCost) {
+          data = this.addForm.totalCost;
+        } else {
+          ['dispatchCost', 'logisticsPremium', 'toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
+            data += Number(this.addForm[v]) || 0
           })
-          data+=Number(this.logisticsFare)||0
+          data += Number(this.logisticsFare) || 0
         }
         return Number(data).toFixed(2);
       },
-      set:function(val){
+      set: function (val) {
         this.$set(this.addForm, 'totalCost', val)
       }
     },
 
     logisticsFare: {
-      get: function() {
-        let data=0;
+      get: function () {
+        if (this.addForm.logisticsFare === '') return ''
+        let data = 0;
         if (this.addForm.logisticsFare) {
-           data=this.addForm.logisticsFare;
+          data = this.addForm.logisticsFare;
         } else {
           if (this.addForm.costCalcWay === 1) {//按照体积计算
-            data=this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
+            data = this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
           } else if (this.addForm.costCalcWay === 2) {//按照重量计算
             if (this.addForm.dispatchType === 1) {//快递
-              if (this.addForm.skuWeight >=20 && !(this.addForm.carrier.consoildatorName.indexOf('百世')!==-1||this.addForm.carrier.consoildatorName.indexOf('顺丰')!==-1) ) {
-                data=this.addForm.skuWeight * this.addForm.continuePrice || 0  //重量*续重价格
+              if (this.addForm.skuWeight >= 20 && !(this.addForm.carrier.consoildatorName.indexOf('百世') !== -1 || this.addForm.carrier.consoildatorName.indexOf('顺丰') !== -1)) {
+                data = this.addForm.skuWeight * this.addForm.continuePrice || 0  //重量*续重价格
               } else {
-                data=(this.addForm.skuWeight -1) * this.addForm.continuePrice + this.addForm.firstPrice || 0 //（重量-1）*续重+首重
+                data = (this.addForm.skuWeight - 1) * this.addForm.continuePrice + this.addForm.firstPrice || 0 //（重量-1）*续重+首重
               }
             } else if (this.addForm.dispatchType === 2) {//物流
-                data=this.addForm.skuWeight * this.addForm.skuPrice || 0  //重量*单价
+              data = this.addForm.skuWeight * this.addForm.skuPrice || 0  //重量*单价
             }
           }
         }
-        return Number(data);
+        return data;
       },
-      set: function(val) {
+      set: function (val) {
         this.$set(this.addForm, 'logisticsFare', val)
       }
     },
     arrivalAddress: {
-      get: function() {
+      get: function () {
         return this.outTableData[0] && this.outTableData[0].arrivalAddress
       },
-      set: function(val) {
+      set: function (val) {
         this.addForm.arrivalAddress = val
       }
     },
@@ -410,24 +414,24 @@ export default {
     getDetail() {
       queryLogisticsDetail(this.$route.query.id).then(res => {
         const { relationList, consoildatorName, consoildatorCode, ...rest } = res.data
-        this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest}
+        this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest }
         this.outTableData = relationList;
       }).catch(err => {
       })
     },
 
-    dispatchAddrChange(value){
-      let index=this.addressData.findIndex(v=>v.value===value);
+    dispatchAddrChange(value) {
+      let index = this.addressData.findIndex(v => v.value === value);
       this.$set(this.addForm, 'customerTel', this.addressData[index]['receiverTel']);
       this.$set(this.addForm, 'customerContact', this.addressData[index]['receiverName']);
     },
 
-    consoildatorChange(val){
-      this.addForm.dispatchType=val.dispatchType;
-      if(val.dispatchType===1){
-        this.addForm.costCalcWay=2;
-      } else if(val.dispatchType===2){
-        this.addForm.costCalcWay=1;
+    consoildatorChange(val) {
+      this.addForm.dispatchType = val.dispatchType;
+      if (val.dispatchType === 1) {
+        this.addForm.costCalcWay = 2;
+      } else if (val.dispatchType === 2) {
+        this.addForm.costCalcWay = 1;
       }
     },
 
@@ -468,7 +472,7 @@ export default {
           customerCode: item.arrivalCode,
           cargoOwner: item.ownerName,
           arrivalAddress: item.arrivalAddress,
-          customerContact: item.customerContact ,
+          customerContact: item.customerContact,
           customerTel: item.customerTel
         }
         return newitem
@@ -494,8 +498,8 @@ export default {
             const address = {
               key: index,
               value: item.area + item.customerAddress,
-              receiverName:item.receiverName,
-              receiverTel:item.receiverTel
+              receiverName: item.receiverName,
+              receiverTel: item.receiverTel
             }
             this.$set(this.addressData, index, address)
             this.$set(this.addForm, 'customerTel', address.receiverTel)
@@ -529,7 +533,7 @@ export default {
             consoildatorCode: carrier.consoildatorCode,
             consoildatorName: carrier.consoildatorName,
             logisticsFare: this.logisticsFare,
-            totalCost:this.totalCost,
+            totalCost: this.totalCost,
             ...rest
           }
           postData.relationList = this.outTableData
@@ -546,9 +550,9 @@ export default {
             this.submitloading = false
             if (res.success) {
               const view = this.visitedViews.filter(v => v.path === this.$route.path)
-              this.$alert('操作成功').then(()=> {
+              this.$alert('操作成功').then(() => {
                 this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                  this.$router.push({name: 'logisticsList'})
+                  this.$router.push({ name: 'logisticsList' })
                 })
               })
             }
