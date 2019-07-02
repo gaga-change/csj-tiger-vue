@@ -100,9 +100,10 @@ export function updateCustomerAddress(data={}) {
     data
   })
 }
+
 export function getOwnerCustList(data={}) {
   return request({
-    url: `/webApi/base/info/getOwnerCustList`,
+    url: `/webApi/base/info/getOwnerCustListByCustomer`,
     method: 'post',
     data
   })
