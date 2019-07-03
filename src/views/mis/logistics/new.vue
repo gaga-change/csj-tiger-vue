@@ -106,21 +106,21 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="箱数" prop="boxQty"  :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="addForm.boxQty" class="formitem" size="small" placeholder="请输入箱数">
+            <el-input type="number" v-model="addForm.boxQty" class="formitem" size="small" placeholder="请输入箱数" @blur="addFormToFixed('boxQty', 0)" >
               <span slot="suffix">箱</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="体积"  prop="skuVolume" :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="addForm.skuVolume" class="formitem" size="small" placeholder="请输入体积">
+            <el-input type="number" v-model="addForm.skuVolume" class="formitem" size="small" placeholder="请输入体积" @blur="addFormNumber('skuVolume')">
               <span slot="suffix">m³</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="单价"  prop="skuPrice" :rules="[{ required: addForm.costCalcWay === 1, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="addForm.skuPrice" class="formitem" size="small" placeholder="请输入体积">
+            <el-input type="number" v-model="addForm.skuPrice" class="formitem" size="small" placeholder="请输入单价" @blur="addFormToFixed('skuPrice')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -130,21 +130,21 @@
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="重量" prop="skuWeight" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="addForm.skuWeight" class="formitem" size="small" placeholder="请输入重量">
+            <el-input type="number" v-model="addForm.skuWeight" class="formitem" size="small" placeholder="请输入重量" @blur="addFormNumber('skuWeight')">
               <span slot="suffix">kg</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="首重价格" prop="firstPrice" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="addForm.firstPrice" class="formitem" size="small" placeholder="请输入首重价格">
+            <el-input type="number" v-model="addForm.firstPrice" class="formitem" size="small" placeholder="请输入首重价格" @blur="addFormToFixed('firstPrice')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="续重单价" prop="continuePrice" :rules="[{ required: addForm.costCalcWay === 2, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number" v-model.number="addForm.continuePrice" class="formitem" size="small" placeholder="请输入续重单价">
+            <el-input type="number" v-model="addForm.continuePrice" class="formitem" size="small" placeholder="请输入续重单价" @blur="addFormToFixed('continuePrice')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -152,29 +152,29 @@
       </el-row>
       <el-row>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="运费"  :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-            <el-input type="number"   v-model.number="logisticsFare" class="formitem" size="small" placeholder="请输入运费" @blur="logisticsFareToFixed">
+          <el-form-item label="运费" prop="logisticsFare" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-input type="number"   v-model="addForm.logisticsFare" class="formitem" size="small" placeholder="请输入运费" @blur="addFormToFixed('logisticsFare')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="配送费"  prop="dispatchCost" >
-            <el-input type="number" v-model.number="addForm.dispatchCost" class="formitem" size="small" placeholder="请输入配送费">
+            <el-input type="number" v-model="addForm.dispatchCost" class="formitem" size="small" placeholder="请输入配送费" @blur="addFormToFixed('dispatchCost')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="保价"   prop="insuredCost">
-            <el-input type="number" v-model.number="addForm.insuredCost" class="formitem" size="small" placeholder="请输入保价">
+            <el-input type="number" v-model="addForm.insuredCost" class="formitem" size="small" placeholder="请输入保价" @blur="addFormToFixed('insuredCost')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="保费" prop="logisticsPremium">
-            <el-input type="number" v-model.number="addForm.logisticsPremium" class="formitem" size="small" placeholder="请输入保费">
+            <el-input type="number" v-model="addForm.logisticsPremium" class="formitem" size="small" placeholder="请输入保费" @blur="addFormToFixed('logisticsPremium')">
               <span slot="suffix">%</span>
             </el-input>
           </el-form-item>
@@ -186,35 +186,35 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="出发公里数" prop="startKilometrage">
-            <el-input type="number" v-model.number="addForm.startKilometrage" class="formitem" size="small" placeholder="请输入出发公里数">
+            <el-input type="number" v-model="addForm.startKilometrage" class="formitem" size="small" placeholder="请输入出发公里数" @blur="addFormNumber('startKilometrage')">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="返回公里数" prop="returnKilometrage">
-            <el-input type="number" v-model.number="addForm.returnKilometrage" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model="addForm.returnKilometrage" class="formitem" size="small" placeholder="请输入返回公里数" @blur="addFormNumber('returnKilometrage')">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="过路费" prop="toll">
-            <el-input type="number" v-model.number="addForm.toll" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model="addForm.toll" class="formitem" size="small" placeholder="请输入返回公里数" @blur="addFormToFixed('toll')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="油费" prop="oilCost">
-            <el-input type="number" v-model.number="addForm.oilCost" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model="addForm.oilCost" class="formitem" size="small" placeholder="请输入返回公里数" @blur="addFormToFixed('oilCost')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="里程" prop="mileage">
-            <el-input type="number" v-model.number="addForm.mileage" class="formitem" size="small" placeholder="请输入返回公里数">
+            <el-input type="number" v-model="addForm.mileage" class="formitem" size="small" placeholder="请输入返回公里数" @blur="addFormNumber('mileage')">
               <span slot="suffix">km</span>
             </el-input>
           </el-form-item>
@@ -228,7 +228,7 @@
 
          <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="接货费"  prop="receptCost">
-            <el-input type="number" v-model.number="addForm.receptCost" class="formitem" size="small" placeholder="请输入接货费">
+            <el-input type="number" v-model="addForm.receptCost" class="formitem" size="small" placeholder="请输入接货费" @blur="addFormToFixed('receptCost')">
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -236,7 +236,7 @@
 
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="其他费用" prop="otherCost">
-            <el-input type="number" v-model.number="addForm.otherCost" class="formitem" size="small" placeholder="请输入其他费用">
+            <el-input type="number" v-model="addForm.otherCost" class="formitem" size="small" placeholder="请输入其他费用" @blur="addFormToFixed('otherCost')" >
               <span slot="suffix">元</span>
             </el-input>
           </el-form-item>
@@ -355,7 +355,7 @@ export default {
           ['dispatchCost', 'logisticsPremium', 'toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
             data += Number(this.addForm[v]) || 0
           })
-          data += Number(this.logisticsFare) || 0
+          data += Number(this.addForm.logisticsFare) || 0
         }
         return Number(data).toFixed(2);
       },
@@ -363,33 +363,28 @@ export default {
         this.$set(this.addForm, 'totalCost', val)
       }
     },
+    logisticsFare() {
+      let data = 0;
+      let { skuWeight, continuePrice, firstPrice, skuPrice } = this.addForm
+      skuWeight = Number(skuWeight) || 0
+      continuePrice = Number(continuePrice) || 0
+      firstPrice = Number(firstPrice) || 0
+      skuPrice = Number(skuPrice) || 0
 
-    logisticsFare: {
-      get: function () {
-        if (this.addForm.logisticsFare === '') return ''
-        let data = 0;
-        if (this.addForm.logisticsFare) {
-          data = this.addForm.logisticsFare;
-        } else {
-          if (this.addForm.costCalcWay === 1) {//按照体积计算
-            data = this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
-          } else if (this.addForm.costCalcWay === 2) {//按照重量计算
-            if (this.addForm.dispatchType === 1) {//快递
-              if (this.addForm.skuWeight >= 20 && !(this.addForm.carrier.consoildatorName.indexOf('百世') !== -1 || this.addForm.carrier.consoildatorName.indexOf('顺丰') !== -1)) {
-                data = this.addForm.skuWeight * this.addForm.continuePrice || 0  //重量*续重价格
-              } else {
-                data = (this.addForm.skuWeight - 1) * this.addForm.continuePrice + this.addForm.firstPrice || 0 //（重量-1）*续重+首重
-              }
-            } else if (this.addForm.dispatchType === 2) {//物流
-              data = this.addForm.skuWeight * this.addForm.skuPrice || 0  //重量*单价
-            }
+      if (this.addForm.costCalcWay === 1) {//按照体积计算
+        data = this.addForm.skuVolume * this.addForm.skuPrice || 0   //体积*单价
+      } else if (this.addForm.costCalcWay === 2) {//按照重量计算
+        if (this.addForm.dispatchType === 1) {//快递
+          if (skuWeight >= 20 && !(this.addForm.carrier.consoildatorName.indexOf('百世') !== -1 || this.addForm.carrier.consoildatorName.indexOf('顺丰') !== -1)) {
+            data = skuWeight * continuePrice || 0  //重量*续重价格
+          } else {
+            data = (skuWeight - 1) * continuePrice + firstPrice || 0 //（重量-1）*续重+首重
           }
+        } else if (this.addForm.dispatchType === 2) {//物流
+          data = skuWeight * skuPrice || 0  //重量*单价
         }
-        return data;
-      },
-      set: function (val) {
-        this.$set(this.addForm, 'logisticsFare', val)
       }
+      return Number(data).toFixed(2);
     },
     arrivalAddress: {
       get: function () {
@@ -401,15 +396,29 @@ export default {
     },
     ...mapGetters(['mapConfig', 'visitedViews'])
   },
+
+  watch: {
+    logisticsFare(newVal, oldVal) {
+      this.$set(this.addForm, 'logisticsFare', newVal)
+    }
+  },
+
   created() {
     this.getConsoilInfoList()
     if (this.isEdit) {
       this.getDetail()
     }
   },
+
   methods: {
-    logisticsFareToFixed() {
-      this.logisticsFare = this.logisticsFare.toFixed(2)
+    addFormToFixed(key, num) {
+      if (!this.addForm[key]) return
+      if (num === undefined) num = 2
+      this.$set(this.addForm, key, Number(this.addForm[key]).toFixed(num))
+    },
+    addFormNumber(key) {
+      if (!this.addForm[key]) return
+      this.$set(this.addForm, key, Number(this.addForm[key]))
     },
     getDetail() {
       queryLogisticsDetail(this.$route.query.id).then(res => {
@@ -532,7 +541,7 @@ export default {
           const postData = {
             consoildatorCode: carrier.consoildatorCode,
             consoildatorName: carrier.consoildatorName,
-            logisticsFare: this.logisticsFare,
+            // logisticsFare: this.logisticsFare,
             totalCost: this.totalCost,
             ...rest
           }
