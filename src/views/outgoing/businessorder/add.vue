@@ -514,13 +514,13 @@ export default {
         let searchForm = _.cloneDeep(this.searchForm);
         let index = searchForm.outWarehouseBillDetailList.findIndex(v => v.skuCode === value.skuCode);
         if (index !== -1) {
-          searchForm.outWarehouseBillDetailList[index] = value;
+          this.$alert('该商品已在列表中')
         } else {
           searchForm.outWarehouseBillDetailList.push(value);
+          this.searchForm = searchForm;
+          this.addCommodityForm = {};
+          this.addVisible = false;
         }
-        this.searchForm = searchForm;
-        this.addCommodityForm = {};
-        this.addVisible = false;
       } else {
         this.$refs["searchForm"].validate(valid => {
           if (valid) {

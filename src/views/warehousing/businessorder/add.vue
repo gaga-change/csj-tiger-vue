@@ -18,13 +18,6 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :sm="12" :md="8" :lg="8" :xl="6" >
-                <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
-                    <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
               <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
@@ -161,7 +154,6 @@ import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import addForm from './conpoments/addForm'
-import { saleTypeEnum } from "@/utils/enum.js";
 import { inBillAdd, customerInfo, inbilldetail, inBillUpdate } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
 import { skuInfoList } from '@/api/sku'
@@ -173,13 +165,11 @@ export default {
   components: { editTable, addForm, Sticky },
   data() {
     return {
-      saleTypeEnum,
       warehouseCodeLoading: false,
       saveLoading: false,
 
       //表单项
       searchForm: {
-        saleType: 1,
         detailItemList: []
       },
       //表单table配置项
@@ -316,7 +306,7 @@ export default {
           this.$message.error('请先选择供应商和货主');
           return
         }
-        skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2, {saleType: this.searchForm.saleType}).then(res => {
+        skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2).then(res => {
           if (res.success) {
             let data = res.data && _.cloneDeep(res.data) || [];
             let arr = [];
@@ -337,16 +327,18 @@ export default {
     },
 
 
-    submit(type, value) {
+    submit(type, value={}) {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       if (type === 'addCommodity') {
         let searchForm = _.cloneDeep(this.searchForm);
-        searchForm.detailItemList.push(value);
-        searchForm.detailItemList = searchForm.detailItemList.map((v, i) => {
-          return v;
-        });
-        this.searchForm = searchForm;
-        this.addVisible = false;
+        let slist = searchForm.detailItemList || []
+        if (slist.some(item => item.skuCode === value.skuCode)) {
+          this.$alert('该商品已在列表中')
+        } else {
+          slist.push(value);
+          this.searchForm = searchForm;
+          this.addVisible = false;
+        }
       } else {
         this.$refs["searchForm"].validate(valid => {
           if (valid) {

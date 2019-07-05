@@ -37,6 +37,7 @@ export  const infoConfig=[
   {title:'客户名称',prop:'arrivalName'},
   {title:'联系电话',prop:'arrivalLinkTel'},
   {title:'客户地址',prop:'arrivalAddress'},
+  {title:'出库状态',prop:'issuedState',type:'getIssuedState',useApi:true},
 ]
 
 export const outgoingTableConfig=[
