@@ -18,13 +18,13 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+              <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
                     <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
@@ -220,7 +220,6 @@ export default {
         });
         this.searchForm = searchForm;
       }).catch(err => {
-        console.log(err)
       })
     }
   },
@@ -248,7 +247,6 @@ export default {
         let result = res.data
         this.warehouseList = result
       }).catch(err => {
-        console.log(err)
       }).then(res => {
         this.warehouseCodeLoading = false
       })
@@ -261,7 +259,6 @@ export default {
           this.providerConfig = res.data || [];
         }
       }).catch(err => {
-        console.log(err)
       })
     },
 
@@ -316,7 +313,7 @@ export default {
           this.$message.error('请先选择供应商和货主');
           return
         }
-        skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2, {saleType: this.searchForm.saleType}).then(res => {
+        skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2).then(res => {
           if (res.success) {
             let data = res.data && _.cloneDeep(res.data) || [];
             let arr = [];
@@ -329,7 +326,6 @@ export default {
             this.commodityList = arr;
           }
         }).catch(err => {
-          console.log(err)
         })
         this.addVisible = true;
         this.addCommodityForm = Object.create({})
@@ -373,7 +369,6 @@ export default {
                         path: `/warehousing/businessorder-detail?id=${this.$route.query.id || res.data && res.data.id}`,
                       })
                     }).catch(err => {
-                      console.log(err)
                     })
                   }
                 })

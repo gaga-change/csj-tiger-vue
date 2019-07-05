@@ -28,13 +28,13 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+            <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
                     <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
               <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                 <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
@@ -496,12 +496,11 @@ export default {
         }
         const customerType = busiBillType === 21 ? 1 : busiBillType === 22 ? 2 : null
         this.addVisible = true;
-        skuInfoList(ownerCode, arrivalCode, customerType, {saleType: this.searchForm.saleType}).then(res => {
+        skuInfoList(ownerCode, arrivalCode, customerType).then(res => {
           if (res.success) {
             this.skuList = Array.isArray(res.data) && res.data || []
           }
         }).catch(err => {
-          console.log(err)
         })
 
       }
