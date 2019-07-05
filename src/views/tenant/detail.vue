@@ -2,6 +2,9 @@
   <div>
     <el-form ref="detailForm" label-width="120px" class="formb0">
       <item-title text="基本信息" />
+      <el-form-item label="租户编码：">
+        {{detailForm.ownerCode}}
+      </el-form-item>
       <el-form-item label="客户类型："prop="ownerType">
         {{filter('ownerType',detailForm.ownerType)}}
       </el-form-item>

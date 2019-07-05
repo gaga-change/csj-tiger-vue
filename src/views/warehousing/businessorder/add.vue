@@ -18,6 +18,13 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+                <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
+                  <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
+                    <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col> -->
               <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
                 <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
                   <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
@@ -210,7 +217,6 @@ export default {
         });
         this.searchForm = searchForm;
       }).catch(err => {
-        console.log(err)
       })
     }
   },
@@ -238,7 +244,6 @@ export default {
         let result = res.data
         this.warehouseList = result
       }).catch(err => {
-        console.log(err)
       }).then(res => {
         this.warehouseCodeLoading = false
       })
@@ -251,7 +256,6 @@ export default {
           this.providerConfig = res.data || [];
         }
       }).catch(err => {
-        console.log(err)
       })
     },
 
@@ -319,7 +323,6 @@ export default {
             this.commodityList = arr;
           }
         }).catch(err => {
-          console.log(err)
         })
         this.addVisible = true;
         this.addCommodityForm = Object.create({})
@@ -357,15 +360,15 @@ export default {
               if (res.success) {
                 this.$message({
                   type: 'success',
-                  message: '操作成功,即将跳转到详情页！',
+                  message: '操作成功,即将跳转到列表页！',
                   duration: 1500,
                   onClose: () => {
                     this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                       this.$router.push({
-                        path: `/warehousing/businessorder-detail?id=${this.$route.query.id || res.data && res.data.id}`,
+                        path: `/warehousing/businessorder`,
+                        query: { t: Date.now() }
                       })
                     }).catch(err => {
-                      console.log(err)
                     })
                   }
                 })

@@ -247,7 +247,6 @@
                 placeholder="请输入规格"
                 size="small"
                 class="formitem"
-                :disabled="editable"
               ></el-input>
             </el-form-item>
           </el-col>

@@ -1,6 +1,7 @@
 export   const tableConfig=[
   { label:'序号',fixed:true,type:'index',width:50},
   { label:'商品名称',prop:'skuName'},
+  { label:'商品编码',prop:'skuCode'},
   { label:'规格型号',prop:'skuFormat'},
   { label:'品牌',prop:'skuBrandName'},
   { label:'单位',prop:'skuUnitName'},
@@ -29,6 +30,7 @@ export   const infoConfig=[
   {title:'供应商编号',prop:'providerCode'},
   {title:'供应商名称',prop:'providerName'},
   {title:'联系电话',prop:'providerLinkTel'},
+  {title:'备注',prop:'remarkInfo'},
 ]
 
 export   const indexTableConfig=[

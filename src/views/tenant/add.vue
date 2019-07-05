@@ -1,11 +1,31 @@
-<template lang="html">
+<template>
   <div>
-    <el-form :model="addForm" ref="addForm" label-width="120px">
+    <el-form
+      :model="addForm"
+      ref="addForm"
+      label-width="120px"
+    >
       <item-title text="基本信息" />
-      <el-form-item label="租户名称：" prop="ownerName" :rules="[
+      <el-form-item
+        v-if="!!$route.query.ownerCode"
+        label="租户编码："
+      >
+        <el-input
+          type="text"
+          v-model="addForm.ownerCode"
+          style="width:400px;"
+          placeholder="请输入租户编码"
+          :disabled="true"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="租户名称："
+        prop="ownerName"
+        :rules="[
       { required: true, message: '请输入租户名称', trigger: ['bulr','change'] },
       { validator: validateOwnerName, trigger: 'blur' },
-      ]">
+      ]"
+      >
         <el-input
           type="text"
           v-model="addForm.ownerName"
@@ -23,14 +43,28 @@
           :accept="'.jpg,.jpeg,.png,.pdf'"
         >
         </upload-mode>
-        <div v-for="file in fileList" class="photoview">
-          <img :src="file.path" height="150" />
-          <i class="el-icon-close close" style="pointer:cursor" @click="removeFile(file)"></i>
+        <div
+          v-for="file in fileList"
+          class="photoview"
+        >
+          <img
+            :src="file.path"
+            height="150"
+          />
+          <i
+            class="el-icon-close close"
+            style="pointer:cursor"
+            @click="removeFile(file)"
+          ></i>
         </div>
       </el-form-item>
 
       <item-title text="企业联系人" />
-      <el-form-item label="联系人：" prop="ownerLinkUser" :rules="[{ required: true, message: '必填'}]">
+      <el-form-item
+        label="联系人："
+        prop="ownerLinkUser"
+        :rules="[{ required: true, message: '必填'}]"
+      >
         <el-input
           type="text"
           v-model="addForm.ownerLinkUser"
@@ -38,7 +72,11 @@
           placeholder="请输入联系人"
         ></el-input>
       </el-form-item>
-      <el-form-item label="电话：" :rules="[{ required: true,validator: validateTel, trigger: 'blur' }]" prop="ownerLinkuserTel">
+      <el-form-item
+        label="电话："
+        :rules="[{ required: true,validator: validateTel, trigger: 'blur' }]"
+        prop="ownerLinkuserTel"
+      >
         <el-input
           type="tel"
           v-model="addForm.ownerLinkuserTel"
@@ -48,7 +86,11 @@
       </el-form-item>
 
       <item-title text="开票信息" />
-      <el-form-item label="组织机构代码：" :rules="[{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]" prop="ownerDcno">
+      <el-form-item
+        label="组织机构代码："
+        :rules="[{ required: false, message: '请输入组织机构代码：', trigger: ['bulr','change'] }]"
+        prop="ownerDcno"
+      >
         <el-input
           type="text"
           v-model="addForm.ownerDcno"
@@ -114,8 +156,7 @@
           @click="onSubmit"
           v-loading="submitloading"
           :disabled="submitloading"
-          >提交</el-button
-        >
+        >提交</el-button>
         <el-button @click="onCancel">取消</el-button>
       </el-form-item>
     </el-form>
@@ -129,36 +170,36 @@ export default {
   name: '',
   data() {
     const validateOwnerName = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('租户名称不能为空'));
+      if (!value) {
+        return callback(new Error('租户名称不能为空'));
+      }
+      setTimeout(() => {
+        if (!/^[A-Za-z()（）\u4e00-\u9fa5]+$/.test(value)) {
+          callback(new Error('名称只能包含汉字、字母和括号()'));
         }
+        callback();
+      }, 300);
+    }
+    const validateTel = (rule, value, callback) => {
+      setTimeout(() => {
+        if (!(/^1[34578]\d{9}$/.test(value) || /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value))) {
+          callback(new Error('格式不正确'));
+        }
+        callback();
+      }, 300);
+    }
+    const validateDcno = (rule, value, callback) => {
+      if (!value) {
+        // return callback(new Error('必填'));
+      } else {
         setTimeout(() => {
-          if (!/^[A-Za-z()（）\u4e00-\u9fa5]+$/.test(value)) {
-            callback(new Error('名称只能包含汉字、字母和括号()'));
+          if (!/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]$/.test(value)) {
+            callback(new Error('格式不正确,格式:xxxxxxxx-x'));
           }
           callback();
         }, 300);
       }
-      const validateTel = (rule, value, callback) => {
-          setTimeout(() => {
-            if (!(/^1[34578]\d{9}$/.test(value) || /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value))) {
-              callback(new Error('格式不正确'));
-            }
-            callback();
-          }, 300);
-        }
-        const validateDcno = (rule, value, callback) => {
-            if (!value) {
-              // return callback(new Error('必填'));
-            } else{
-              setTimeout(() => {
-                if (!/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]$/.test(value)) {
-                  callback(new Error('格式不正确,格式:xxxxxxxx-x'));
-                }
-                callback();
-              }, 300);
-            }
-          }
+    }
     return {
       addForm: {},
       fileList: [],
@@ -169,7 +210,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['mapConfig','visitedViews'])
+    ...mapGetters(['mapConfig', 'visitedViews'])
   },
   created() {
     if (this.$route.query.ownerCode) {
@@ -179,7 +220,7 @@ export default {
   methods: {
     getDetal() {
       const loading = this.$loading('请稍后...')
-      tenantDetail({ownerCode: this.$route.query.ownerCode}).then(res => {
+      tenantDetail({ ownerCode: this.$route.query.ownerCode }).then(res => {
         loading.close()
         const result = res.data
         this.addForm = result
@@ -204,25 +245,25 @@ export default {
     onSubmit() {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$refs['addForm'].validate((valid) => {
-         if (valid) {
-           this.addForm.files = this.fileList
-           const Api = this.addForm.ownerCode ? tenantUpdate : saveTenant
-           Api(this.addForm).then(res => {
-             console.log(res)
-             this.$message.success('操作成功~')
-             this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-               this.$router.push({
-                 name:'tenantList'
+        if (valid) {
+          this.addForm.files = this.fileList
+          const Api = this.addForm.ownerCode ? tenantUpdate : saveTenant
+          Api(this.addForm).then(res => {
+            console.log(res)
+            this.$message.success('操作成功~')
+            this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+              this.$router.push({
+                name: 'tenantList'
               })
-             })
-           }).catch(err => {
-             console.log(err)
-           })
-         }
-       }
-     )
+            })
+          }).catch(err => {
+            console.log(err)
+          })
+        }
+      }
+      )
     },
-    onCancel() {}
+    onCancel() { }
   }
 }
 </script>
@@ -232,7 +273,7 @@ export default {
   display: block;
   position: relative;
 }
-.photoview .close{
+.photoview .close {
   position: absolute;
   top: 0;
 }

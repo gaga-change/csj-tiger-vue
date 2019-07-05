@@ -37,13 +37,25 @@
       </el-table-column>
       <el-table-column label="操作" width="220" fixed="right">
         <template slot-scope="scope">
-          <div>
-            <a :style="linkstyle" @click="newCustomer(scope.row)">修改</a>
-            <a :style="linkstyle" @click="delRow(scope.row)">删除</a>
-            <a :style="linkstyle" @click="unionOwner(scope.row)">关联货主</a>
-            <a :style="linkstyle" @click="viewAddress(scope.row)">维护地址</a>
-          </div>
-        </template>
+  <div>
+    <a
+      :style="linkstyle"
+      @click="newCustomer(scope.row)"
+    >修改</a>
+    <a
+      :style="linkstyle"
+      @click="delRow(scope.row)"
+    >删除</a>
+    <a
+      :style="linkstyle"
+      @click="unionOwner(scope.row)"
+    >关联货主</a>
+    <a
+      :style="linkstyle"
+      @click="viewAddress(scope.row)"
+    >维护地址</a>
+  </div>
+</template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -112,24 +124,37 @@
     <el-table :data="addressTableData" v-loading="addressLoading" border size="small">
       <el-table-column type="index" label="序号" width="55"></el-table-column>
       <el-table-column
-        v-for="(column, index) in addressTableConfig"
+        v-for="(column, index) in addressTableShowConfig"
         :key="index"
         :prop="column.prop"
         :label="column.label"
       >
         <template slot-scope="scope">
-          <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
-          <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
-          <span v-else>{{scope.row[column.prop]}}</span>
-        </template>
+  <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
+  <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
+  <span v-else>{{scope.row[column.prop]}}</span>
+</template>
       </el-table-column>
       <el-table-column label="操作" width="180" fixed="right">
         <template slot-scope="scope">
-          <a :style="linkstyle" @click="delAddressRow(scope.row)">删除</a>
-          <a :style="linkstyle" @click="updateAddressRow(scope.row,'编辑地址')">编辑</a>
-          <el-tag type="success" v-if="scope.row.isDefault === 1">默认地址</el-tag>
-          <a :style="linkstyle" v-else @click="setDefault(scope.row)">设为默认</a>
-        </template>
+  <a
+    :style="linkstyle"
+    @click="delAddressRow(scope.row)"
+  >删除</a>
+  <a
+    :style="linkstyle"
+    @click="updateAddressRow(scope.row,'编辑地址')"
+  >编辑</a>
+  <el-tag
+    type="success"
+    v-if="scope.row.isDefault === 1"
+  >默认地址</el-tag>
+  <a
+    :style="linkstyle"
+    v-else
+    @click="setDefault(scope.row)"
+  >设为默认</a>
+</template>
       </el-table-column>
     </el-table>
       <el-dialog
@@ -154,8 +179,8 @@
 
 <script>
 import search from '@/components/Search'
-import { getCustomerList, saveCustomer, updateOwnerCust, ownerCustList, delCustomer, customerAddressList, saveCustomerAddress, delCustomerAddress,
-  updateCustomerAddress,customerUpdate, customerSetDefaultAddress } from '@/api/mis'
+import {  getCustomerList, saveCustomer, updateOwnerCust, ownerCustList, delCustomer, customerAddressList, saveCustomerAddress, delCustomerAddress,
+  updateCustomerAddress, customerUpdate, customerSetDefaultAddress} from '@/api/mis'
 import { Area } from '@/utils/area'
 import { mapGetters } from 'vuex'
 const customerConfig = [
@@ -171,7 +196,7 @@ const customerConfig = [
   { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称' }
 ]
 const editConfig = [
-  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称',rules:[{required: true, message:'必填项'}, {type: 'string', max: 20, message:'长度最多20位'}] },
+  { label: '客户名称', prop: 'customerName', placeholder: '请输入客户名称', rules: [{ required: true, message: '必填项' }, { type: 'string', max: 20, message: '长度最多20位' }] },
   {
     label: '客户等级',
     prop: 'customerLevel',
@@ -200,39 +225,44 @@ const addressTableConfig = [
     placeholder: '请选择地址性质',
     apiEnum: 'getAddrNature',
     selectOptions: [],
-    rules:[{required: true, message:'必填项'}]
+    rules: [{ required: true, message: '必填项' }]
   },
   {
-    label:'所在地区',
+    label: '所在地区',
     prop: 'area',
     type: 'cascader',
     options: Area,
-    rules:[{required: true, message:'必填项'}]
+    rules: [{ required: true, message: '必填项' }]
   },
   {
-    label:'详细地址',
+    label: '详细地址',
     prop: 'customerAddress',
-    rules:[{required: true, message:'必填项'}]
+    rules: [{ required: true, message: '必填项' }]
   },
   {
-    label:'邮编',
+    label: '邮编',
     prop: 'postalCode'
   },
   {
-    label:'联系电话',
+    label: '联系电话',
     prop: 'receiverTel',
-    rules:[{required: true, message:'必填项'}]
+    rules: [{ required: true, message: '必填项' }]
   },
   {
-    label:'联系人',
+    label: '联系人',
     prop: 'receiverName',
-    rules:[{required: true, message:'必填项'}]
+    rules: [{ required: true, message: '必填项' }]
   },
   {
-    label:'地址编码',
+    label: '地址编码',
     prop: 'addrCode',
-    rules:[{max: 50, message:'最长50字符'}]
-  }
+    rules: [{ max: 50, message: '最长50字符' }]
+  },
+  {
+    label: '是否默认',
+    prop: 'isDefault',
+    type: 'switch',
+  },
 ]
 export default {
   components: { search },
@@ -269,7 +299,7 @@ export default {
       addressLoading: false,
       addressData: {},
 
-      alertTitle:'新增地址'
+      alertTitle: '新增地址'
     }
   },
   computed: {
@@ -281,6 +311,11 @@ export default {
         }
       })
       return configs
+    },
+    addressTableShowConfig() {
+      // 过滤下 不需要显示的
+      let configs = [...addressTableConfig]
+      return  configs.filter(v => v.type !== 'switch')
     },
     addressTableConfig() {
       const configs = addressTableConfig
@@ -307,26 +342,23 @@ export default {
   },
   methods: {
     uploadRes(result) {
-      console.log(result)
       this.fetchData()
     },
     setDefault(row = {}) {
       const { id } = row
       this.addressLoading = true
       customerSetDefaultAddress({ id }).then(res => {
-        console.log(res)
         if (res.success) {
           this.$message.success('操作成功')
           this.viewAddress(this.rowData)
         }
         this.addressLoading = false
       }).catch(err => {
-        console.log(err)
         this.addressLoading = false
       })
     },
-    updateAddressRow(row,title) {
-      this.alertTitle=title
+    updateAddressRow(row, title) {
+      this.alertTitle = title
       this.addressEditVisible = true
       row.area = [row.customerProvince, row.customerCity, row.customerArea]
       this.addressData = row
@@ -336,37 +368,35 @@ export default {
     },
     delAddressRow(row) {
       this.$confirm('确定删除吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          const loading = this.$loading({text: '正在删除..'})
-          delCustomerAddress({id: row.id}).then(res => {
-            loading.close()
-            this.$message(res.data)
-            this.viewAddress(this.rowData)
-          }).catch(err => {
-            console.log(err)
-            loading.close()
-          })
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const loading = this.$loading({ text: '正在删除..' })
+        delCustomerAddress({ id: row.id }).then(res => {
+          loading.close()
+          this.$message(res.data)
+          this.viewAddress(this.rowData)
+        }).catch(err => {
+          loading.close()
         })
+      })
     },
     delRow(row) {
       this.$confirm('确定删除吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          const loading = this.$loading({text: '正在删除..'})
-          delCustomer({customerCode: row.customerCode}).then(res => {
-            loading.close()
-            this.$message(res.data)
-            this.fetchData()
-          }).catch(err => {
-            console.log(err)
-            loading.close()
-          })
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const loading = this.$loading({ text: '正在删除..' })
+        delCustomer({ customerCode: row.customerCode }).then(res => {
+          loading.close()
+          this.$message(res.data)
+          this.fetchData()
+        }).catch(err => {
+          loading.close()
         })
+      })
     },
     fetchData() {
       this.loading = true
@@ -378,7 +408,6 @@ export default {
           this.currentPage = result.pageNum
           this.loading = false
         }).catch(err => {
-          console.log(err)
           this.loading = false
         })
 
@@ -392,7 +421,7 @@ export default {
       this.fetchData()
     },
     newAddress(title) {
-      this.alertTitle=title
+      this.alertTitle = title
       this.addressEditVisible = true
       this.addressData = {}
       this.$nextTick(() => {
@@ -403,8 +432,7 @@ export default {
       this.addressVisible = true
       this.rowData = row
       this.addressLoading = true
-      customerAddressList({basicCustomerInfoCode: row.customerCode}).then(res => {
-        console.log(res)
+      customerAddressList({ basicCustomerInfoCode: row.customerCode }).then(res => {
         const result = res.data
         result.forEach(item => {
           item.area = item.customerProvince + '/' + item.customerCity + '/' + item.customerArea
@@ -412,35 +440,30 @@ export default {
         this.addressTableData = result
         this.addressLoading = false
       }).catch(err => {
-        console.log(err)
         this.addressLoading = false
       })
     },
     unionOwner(row) {
       this.unionDialogVisible = true
       this.rowData = row
-      ownerCustList({customerCode: row.customerCode}).then(res => {
-        console.log(res)
+      ownerCustList({ customerCode: row.customerCode }).then(res => {
         this.$set(this.unionForm, 'owners', res.data)
       }).catch(err => {
-        console.log(err)
       })
     },
     unionFormSubmit() {
-      updateOwnerCust({customerCode: this.rowData.customerCode, ownerList: this.unionForm.owners}).then(res => {
-        console.log(res)
+      updateOwnerCust({ customerCode: this.rowData.customerCode, ownerList: this.unionForm.owners }).then(res => {
         this.$message.success('操作成功~')
-        this.unionDialogVisible=false
+        this.unionDialogVisible = false
       }).catch(err => {
-        console.log(err)
       })
     },
     newCustomer(val) {
       this.customerEditorVisible = true
-      setTimeout(()=>{
-         this.editData=val?JSON.parse(JSON.stringify(val)):Object.create({});
-         this.$refs['saveRef'].loadData()
-      },100)
+      setTimeout(() => {
+        this.editData = val ? JSON.parse(JSON.stringify(val)) : Object.create({});
+        this.$refs['saveRef'].loadData()
+      }, 100)
 
     },
     submitSearchForm(val) {
@@ -459,16 +482,15 @@ export default {
       this.editData = {}
     },
     submitEdit(val) {
-      let api=saveCustomer;
-      if(val.id){
-        api=customerUpdate;
+      let api = saveCustomer;
+      if (val.id) {
+        api = customerUpdate;
       }
       this.editloading = true
       api(val).then(res => {
-        console.log(res)
         this.editloading = false
-        this.customerEditorVisible=false
-        if(res.success){
+        this.customerEditorVisible = false
+        if (res.success) {
           this.$message.success('操作成功')
           this.fetchData()
         } else {
@@ -485,18 +507,16 @@ export default {
       const customerCity = area[1]
       const customerArea = area[2]
       const saveFun = id ? updateCustomerAddress : saveCustomerAddress
-      const postData = { ...rest, basicCustomerInfoId: this.rowData.id, basicCustomerInfoCode: this.rowData.customerCode,
-        customerProvince, customerCity, customerArea }
+      const postData = {        ...rest, basicCustomerInfoId: this.rowData.id, basicCustomerInfoCode: this.rowData.customerCode,
+        customerProvince, customerCity, customerArea      }
       if (id) {
         postData.id = id
       }
       saveFun(postData).then(res => {
-        console.log(res)
         this.$message(res.data)
         this.addressEditVisible = false
         this.viewAddress(this.rowData)
       }).catch(err => {
-        console.log(err)
       })
     },
     resetAddressEditForm() {
