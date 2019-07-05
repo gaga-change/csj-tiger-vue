@@ -27,6 +27,7 @@ export  const infoConfig=[
   {title:'审核日期',prop:'auditDate',type:'time'},
   {title:'单据状态',prop:'billStatus',type:'misWarehousingBillStatusEnum',useLocalEnum:true},
   {title:'销售区分',prop:'saleType',type:'saleTypeEnum',useLocalEnum:true},
+  {title:'备注',prop:'remarkInfo'},
 ]
 
 export  const addPlanInfoConfig=[

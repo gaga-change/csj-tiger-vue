@@ -30,7 +30,6 @@ export   const infoConfig=[
   {title:'供应商编号',prop:'providerCode'},
   {title:'供应商名称',prop:'providerName'},
   {title:'联系电话',prop:'providerLinkTel'},
-  {title:'备注',prop:'remarkInfo'},
 ]
 
 export   const indexTableConfig=[
