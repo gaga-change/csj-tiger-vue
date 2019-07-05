@@ -361,12 +361,13 @@ export default {
               if (res.success) {
                 this.$message({
                   type: 'success',
-                  message: '操作成功,即将跳转到详情页！',
+                  message: '操作成功,即将跳转到列表页！',
                   duration: 1500,
                   onClose: () => {
                     this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                       this.$router.push({
-                        path: `/warehousing/businessorder-detail?id=${this.$route.query.id || res.data && res.data.id}`,
+                        path: `/warehousing/businessorder`,
+                        query: { t: Date.now() }
                       })
                     }).catch(err => {
                     })

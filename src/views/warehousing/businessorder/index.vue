@@ -382,7 +382,8 @@ export default {
       misWarehousingBillStatusEnum,
       misWarehousingBillStateEnum,
       selectionList: [],
-      batchLoading: false
+      batchLoading: false,
+      t: null,
     }
   },
 
@@ -392,6 +393,19 @@ export default {
     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
     this.$set(this.ruleForm, 'time', [start, end])
     this.getCurrentTableData();
+    this.t = this.$route.query.t
+  },
+
+  watch: {
+    $route(val) {
+      // 根据路由变化，判断是否要刷新页面
+      if (val.name === 'warehousing-businessorder-index') {
+        if (val.query.t !== this.t) {
+          this.t = val.query.t
+          this.getCurrentTableData()
+        }
+      }
+    }
   },
 
   computed: {

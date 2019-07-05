@@ -290,7 +290,6 @@ export default {
           }
         }
       }).catch(err => {
-        console.log(err)
       })
     }
   },
@@ -301,12 +300,11 @@ export default {
       visitedViews: 'visitedViews'
     })
   },
-  
+
   methods: {
 
     //添加商品时选择商品编码的回调
     skuCodeChange(value) {
-      console.log(value)
       let skuList = _.cloneDeep(this.skuList);
       this.addCommodityForm = skuList.find(v => v.skuCode === value)
     },
@@ -355,7 +353,6 @@ export default {
         let result = res.data
         this.warehouseList = result
       }).catch(err => {
-        console.log(err)
       }).then(res => {
         this.warehouseCodeLoading = false
       })
@@ -371,7 +368,6 @@ export default {
           }
           reject()
         }).catch(err => {
-          console.log(err)
           reject()
         })
       })
@@ -434,7 +430,6 @@ export default {
           })
         }
       }).catch(err => {
-        console.log(err)
       })
     },
 
@@ -525,7 +520,6 @@ export default {
           if (valid) {
             let json = _.cloneDeep(this.searchForm);
             ['arrivalPreDate', 'arrivalEffectDate'].forEach(v => {
-              console.log(json[v])
               if (json[v]) {
                 json[v] = moment(json[v]).valueOf()
               }
@@ -547,15 +541,15 @@ export default {
               if (res.success) {
                 this.$message({
                   type: 'success',
-                  message: '操作成功,即将跳转到详情页！',
+                  message: `${res.data || ''}操作成功,即将跳转到列表页！`,
                   duration: 1500,
                   onClose: () => {
                     this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                       this.$router.push({
-                        path: `/outgoing/businessorder-detail?id=${this.$route.query.id || (typeof res.data === 'object' ? res.data.id : res.data)}`,
+                        path: '/outgoing/businessorder',
+                        query: { t: Date.now() }
                       })
                     }).catch(err => {
-                      console.log(err)
                     })
                   }
                 })
