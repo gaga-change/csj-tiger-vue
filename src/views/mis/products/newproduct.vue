@@ -1313,7 +1313,7 @@ export default {
         this.servicerTableData = skuProviderInfoRespList
         this.productForm = { owner: { key: ownerCode, value: ownerName }, ...rest }
         this.$refs.categoryChoice.fetchCategory({ text: result.categoryName, currentCode: result.categoryCode })
-        this.ownerChange({ key: ownerCode, value: ownerName })
+        this.ownerChange({ key: ownerCode, value: ownerName }, true)
         loading.close()
       }).catch(err => {
         loading.close()
@@ -1322,11 +1322,13 @@ export default {
 
 
 
-    ownerChange(val) {
+    ownerChange(val, isFirst) {
       const ownerobj = val || {}
       this.ownerobj = ownerobj
       this.customerFormResetForm()
-      this.customerTableData = []
+      if (!isFirst) {
+        this.customerTableData = []
+      }
       this.customerList = []
       this.updateCustomer()
       // getOwnerCustList({ ownerCode: ownerobj.key, pageNum: 1, pageSize: 100 }).then(res => {
