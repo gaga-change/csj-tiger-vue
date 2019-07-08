@@ -210,6 +210,7 @@ export default {
         }
         let searchForm = _.cloneDeep(this.searchForm);
         searchForm = res.data;
+         this.showStore({ ownerCode: searchForm.ownerCode})
         searchForm.detailItemList = res.data.items.map(v => {
           v.purchasePrice = v.inPrice;
           v.planInQty = v.skuInQty;
@@ -259,7 +260,6 @@ export default {
       })
     },
 
-
     //供应商获取焦点
     providerFocus() {
       if (!this.searchForm.ownerCode) {
@@ -302,7 +302,6 @@ export default {
       }
     },
 
-
     //添加弹框
     showDialog(type) {
       if (type === 'add') {
@@ -329,8 +328,7 @@ export default {
       }
     },
 
-
-    submit(type, value={}) {
+    submit(type, value = {}) {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       if (type === 'addCommodity') {
         let searchForm = _.cloneDeep(this.searchForm);
@@ -381,7 +379,6 @@ export default {
           }
         });
       }
-
     },
 
     goeditrow(index, type) {
