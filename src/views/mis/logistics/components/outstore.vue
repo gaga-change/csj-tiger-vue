@@ -93,7 +93,7 @@ export default {
       // 1、当选择的明细客户不一致时，提示：请选择同一客户的出库单；
       // 2、当选择的客户的配送地址不一致时，提示：请选择同一配送地址的出库单；
       if (this.multipleData.length) {
-        return row.arrivalCode === this.multipleData[0].arrivalCode && row.arrivalAddress === this.multipleData[0].arrivalAddress
+        return row.arrivalCode === this.multipleData[0].arrivalCode
       }
       return true
     },
