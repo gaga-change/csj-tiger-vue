@@ -270,7 +270,8 @@ export default {
         if (res.success) {
           let searchForm = _.cloneDeep(this.searchForm);
           searchForm = res.data;
-          searchForm.sendOutRequire = Number(searchForm.sendOutRequire);
+          searchForm.ownerCode && this.showStore({ ownerCode: searchForm.ownerCode })
+          searchForm.sendOutRequire = searchForm.sendOutRequire === null ? null : Number(searchForm.sendOutRequire);
           searchForm.outWarehouseBillDetailList = (res.data && Array.isArray(res.data.busiBillDetails) && res.data.busiBillDetails || []).map(v => {
             v.planOutQty = v.skuOutQty;
             ['purchasePrice', 'sellPrice'].forEach(itme => {
@@ -539,6 +540,7 @@ export default {
             this.saveLoading = true
             api(json).then(res => {
               if (res.success) {
+                if (res.data === 'success') res.data = ''
                 this.$message({
                   type: 'success',
                   message: `${res.data || ''}操作成功,即将跳转到列表页！`,
