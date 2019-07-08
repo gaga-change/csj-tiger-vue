@@ -90,10 +90,10 @@ export default {
   },
   methods: {
     checkSelectable(row, index) {
-      // 1、当选择的明细客户不一致时，提示：请选择同一客户的出库单；
-      // 2、当选择的客户的配送地址不一致时，提示：请选择同一配送地址的出库单；
+      // 1、选择出库的那个逻辑 去掉一个限制条件 
+      // 2、只要客户编码一样即可，不要判断地址了
       if (this.multipleData.length) {
-        return row.arrivalCode === this.multipleData[0].arrivalCode && row.arrivalAddress === this.multipleData[0].arrivalAddress
+        return row.arrivalCode === this.multipleData[0].arrivalCode
       }
       return true
     },

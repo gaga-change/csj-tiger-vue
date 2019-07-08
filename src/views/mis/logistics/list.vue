@@ -47,7 +47,7 @@
               placement="right"
               width="500"
               trigger="click">
-              <el-table :data="routeinfo[scope.row.id]" v-loading="logloading">
+              <el-table :data="routeinfo[scope.row.id]" v-loading="logloading" height="400">
                 <el-table-column width="150" label="发生时间">
                   <template slot-scope="scope">
                     <span>{{
