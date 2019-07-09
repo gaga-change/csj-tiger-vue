@@ -72,7 +72,7 @@
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item  label="供应商名称"  label-width="90px" prop="providerCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.providerCode" filterable size="small"  @change="providerChange" @focus="providerFocus" placeholder="请选择供应商"  >
+                  <el-select v-model="searchForm.providerCode" filterable size="small"  @change="providerChange" @focus="providerFocus" placeholder="请选择供应商"  :loading="customerInfoLoading">
                     <el-option  value="" v-if="providerConfig.length" :disabled="true">
                       <div class="providerList">
                         <span>供应商编号</span>
@@ -172,6 +172,7 @@ export default {
   components: { editTable, addForm, Sticky },
   data() {
     return {
+      customerInfoLoading: false,
       warehouseCodeLoading: false,
       saveLoading: false,
 
@@ -252,11 +253,14 @@ export default {
 
     //根据货主查供应商列表
     getCustomerInfo(value) {
+      this.customerInfoLoading = true
       customerInfo(value).then(res => {
         if (res.success) {
           this.providerConfig = res.data || [];
         }
       }).catch(err => {
+      }).then(() => {
+        this.customerInfoLoading = false
       })
     },
 

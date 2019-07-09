@@ -70,7 +70,7 @@
 
               <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item :label="searchForm.busiBillType===21?'客户':'供应商'" label-width="90px" prop="arrivalCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.arrivalCode" filterable  size="small"  @focus="providerFocus" @change="providerChange" placeholder="请选择"  >
+                  <el-select v-model="searchForm.arrivalCode" filterable  size="small"  @focus="providerFocus" @change="providerChange" placeholder="请选择"  :loading="customerInfoLoading">
                     <el-option  value="" v-if="providerConfig.length" :disabled="true">
                       <div class="providerList">
                         <span>{{searchForm.busiBillType===21?'客户编号':'供应商编号'}}</span>
@@ -231,6 +231,7 @@ export default {
   components: { editTable, addForm, Sticky },
   data() {
     return {
+      customerInfoLoading: false,
       warehouseCodeLoading: false,
       saveLoading: false,
       //表单项
@@ -361,16 +362,14 @@ export default {
 
     //根据货主查供应商或者客户列表
     getCustomerInfo(value) {
-      return new Promise((resolve, reject) => {
-        customerInfo(value, this.searchForm.busiBillType).then(res => {
-          if (res.success) {
-            this.providerConfig = Array.isArray(res.data) && res.data || [];
-            resolve()
-          }
-          reject()
-        }).catch(err => {
-          reject()
-        })
+      this.customerInfoLoading = true
+      return customerInfo(value, this.searchForm.busiBillType).then(res => {
+        if (res.success) {
+          this.providerConfig = Array.isArray(res.data) && res.data || [];
+        }
+      }).catch(err => {
+      }).then(res => {
+        this.customerInfoLoading = false
       })
     },
 
