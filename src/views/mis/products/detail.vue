@@ -257,7 +257,6 @@ export default {
     getDetail() {
       this.loading = true
       productDetail({ skuCode: this.$route.query.skuCode }).then(res => {
-        console.log(res)
         this.productForm = res.data
         this.loading = false
       }).catch(err => {

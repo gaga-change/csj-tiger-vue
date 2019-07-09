@@ -1,213 +1,556 @@
-<template lang="html">
+<template>
   <div class="addCarrier">
-    <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
+    <sticky
+      :className="'sub-navbar published'"
+      style="margin-bottom:12px"
+    >
       <template>
-          <div style="display: inline-block;" v-if="!$route.query.id">
-              <upload-excel  @uploadRes="uploadRes" filesuploadUrl="/webApi/out/bill/import" modelUrl="/static/templet/销售出库.xlsx" name="file"/>
-          </div>
-          <el-button @click="submit('save')" type="primary" size="mini" :loading="saveLoading">保存</el-button>
+        <div
+          style="display: inline-block;"
+          v-if="!$route.query.id"
+        >
+          <upload-excel
+            @uploadRes="uploadRes"
+            filesuploadUrl="/webApi/out/bill/import"
+            modelUrl="/static/templet/销售出库.xlsx"
+            name="file"
+          />
+        </div>
+        <el-button
+          @click="submit('save')"
+          type="primary"
+          size="mini"
+          :loading="saveLoading"
+        >保存</el-button>
       </template>
-   </sticky>
+    </sticky>
 
     <el-card shadow="hover">
-      <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
+      <el-form
+        ref="searchForm"
+        labelWidth="90px"
+        :model="searchForm"
+      >
         <el-row>
 
-            <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.type==='revision'">
-              <el-form-item label="调整原因" prop="improveReason" :rules="[{ required: true, message: '该项为必填'}]">
-                <el-select  v-model="searchForm.improveReason" clearable placeholder="请选择调整原因" size="small" class="formitem">
-                   <el-option v-for="item in ['录入错误','客户业务单信息变动']" :label="item" :key="item"  :value="item"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+            v-if="$route.query.type==='revision'"
+          >
+            <el-form-item
+              label="调整原因"
+              prop="improveReason"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-select
+                v-model="searchForm.improveReason"
+                clearable
+                placeholder="请选择调整原因"
+                size="small"
+                class="formitem"
+              >
+                <el-option
+                  v-for="item in ['录入错误','客户业务单信息变动']"
+                  :label="item"
+                  :key="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
 
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="业务单类型" prop="busiBillType" :rules="[{ required: true, message: '该项为必填'}]">
-                <el-select  v-model="searchForm.busiBillType" @change="busiBillTypeChange" clearable placeholder="请选择业务单类型" size="small" class="formitem">
-                   <el-option v-for="item in outgoingOrderTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="业务单类型"
+              prop="busiBillType"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-select
+                v-model="searchForm.busiBillType"
+                @change="busiBillTypeChange"
+                clearable
+                placeholder="请选择业务单类型"
+                size="small"
+                class="formitem"
+              >
+                <el-option
+                  v-for="item in outgoingOrderTypeEnum"
+                  :label="item.name"
+                  :key="item.value"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
                 <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
                   <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
                     <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
             </el-col> -->
-            <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
-              <el-form-item label="业务单号:"  prop="billNo"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-input v-model="searchForm.billNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="外部订单号:"  prop="busiBillNo"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-input v-model="searchForm.busiBillNo" placeholder="请输入外部订单号" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="货主"   prop="ownerCode" :rules="[{ required: true, message: '该项为必填'}]">
-                <el-select v-model="searchForm.ownerCode" filterable  size="small" @change="ownerCodeChange"  placeholder="请选择货主"  >
-                  <el-option
-                    value="" v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length" :disabled="true">
-                    <div class="providerList">
-                      <span>货主编号</span>
-                      <span>货主名称</span>
-                    </div>
-                  </el-option>
-                  <el-option
-                    v-for="item in mapConfig['billOwnerInfoMap']" :key="item.key" :label="item.value" :value="item.key">
-                      <div class="providerList">
-                        <span >{{ item.key }}</span>
-                        <span >{{ item.value }}</span>
-                      </div>
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-              <el-col :sm="12" :md="8" :lg="8" :xl="6" >
-                <el-form-item :label="searchForm.busiBillType===21?'客户':'供应商'" label-width="90px" prop="arrivalCode" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.arrivalCode" filterable  size="small"  @focus="providerFocus" @change="providerChange" placeholder="请选择"  :loading="customerInfoLoading">
-                    <el-option  value="" v-if="providerConfig.length" :disabled="true">
-                      <div class="providerList">
-                        <span>{{searchForm.busiBillType===21?'客户编号':'供应商编号'}}</span>
-                        <span>{{searchForm.busiBillType===21?'客户名称':'供应商名称'}}</span>
-                      </div>
-                    </el-option>
-                    <el-option v-for="item in providerConfig" :key="item.id" :label="item.customerName" :value="item.customerCode">
-                      <div class="providerList">
-                        <span >{{ item.customerCode }}</span>
-                        <span >{{ item.customerName }}</span>
-                      </div>
-                    </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item  :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"
-                prop="arrivalAddress"  :rules="[{ required: true, message: '该项为必填', trigger: ['blur', 'change']}]" >
-                <el-select  size="small"  @change="arrivalAddressChange" v-if="addrListConfig.length" v-model="searchForm.arrivalAddress" placeholder="请选择地址">
-                  <el-option :value="null" v-if="addrListConfig.length" :disabled="true">
-                    <div class="providerList">
-                      <span>地址</span>
-                      <span>地址编码</span>
-                    </div>
-                  </el-option>
-                  <el-option  v-for="item in addrListConfig" :label="item.arrivalAddress" :key="item.arrivalLinkTel+item.arrivalAddress"  :value="item.arrivalAddress">
-                    <div class="providerList">
-                      <span >{{ item.arrivalAddress }}</span>
-                      <span >{{ item.addrCode }}</span>
-                    </div>
-                  </el-option>
-                </el-select>
-                <el-input v-else v-model="searchForm.arrivalAddress" @focus="arrivalAddressFocus" placeholder="请输入地址" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="联系人:"  prop="arrivalLinkUser" :rules="[{ required: true, message:'请输入联系人' }]" >
-                <el-input v-model="searchForm.arrivalLinkUser" placeholder="请输入联系人" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="联系电话:"  prop="arrivalLinkTel" :rules="[{ required: true, message:'请输入联系电话' }]" >
-                <el-input v-model="searchForm.arrivalLinkTel" placeholder="请输入联系电话" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
-              <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="创建人:" v-if="$route.query.id" >
-                <el-input v-model="searchForm.createrName" placeholder="请输入创建人" size="small" class="formitem"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="12" :md="8" :lg="8" :xl="6">
-               <el-form-item label="到货预定日"  label-width="100px" >
-                  <el-date-picker v-model="searchForm.arrivalPreDate" size="small" type="date" placeholder="选择日期"></el-date-picker>
-               </el-form-item>
-            </el-col>
-
-             <el-col :sm="12" :md="8" :lg="8" :xl="6">
-               <el-form-item label="到货有效日"  label-width="100px">
-                  <el-date-picker v-model="searchForm.arrivalEffectDate" size="small" type="date" placeholder="选择日期"></el-date-picker>
-               </el-form-item>
-            </el-col>
-
-
-             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
-               <el-form-item label="创建日期"  label-width="100px" v-if="$route.query.id">
-                  <el-date-picker v-model="searchForm.gmtCreate" type="date" placeholder="选择日期"></el-date-picker>
-               </el-form-item>
-            </el-col>
-
-           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="合同号:"  >
-                <el-input v-model="searchForm.contractNo" placeholder="请输入合同号" size="small" class="formitem"></el-input>
-              </el-form-item>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+            v-if="$route.query.id"
+          >
+            <el-form-item
+              label="业务单号:"
+              prop="billNo"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-input
+                v-model="searchForm.billNo"
+                placeholder="请输入业务单号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
           </el-col>
 
-          <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="发货要求" >
-              <el-select  v-model="searchForm.sendOutRequire" clearable  placeholder="请选择发货要求" size="small" class="formitem">
-                <el-option v-for="item in sendOutRequireEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="外部订单号:"
+              prop="busiBillNo"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-input
+                v-model="searchForm.busiBillNo"
+                placeholder="请输入外部订单号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="货主"
+              prop="ownerCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-select
+                v-model="searchForm.ownerCode"
+                filterable
+                size="small"
+                @change="ownerCodeChange"
+                placeholder="请选择货主"
+              >
+                <el-option
+                  value=""
+                  v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length"
+                  :disabled="true"
+                >
+                  <div class="providerList">
+                    <span>货主编号</span>
+                    <span>货主名称</span>
+                  </div>
+                </el-option>
+                <el-option
+                  v-for="item in mapConfig['billOwnerInfoMap']"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <div class="providerList">
+                    <span>{{ item.key }}</span>
+                    <span>{{ item.value }}</span>
+                  </div>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="[21].includes(searchForm.busiBillType)">
-              <el-form-item label="询价单号:"  >
-                <el-input v-model="searchForm.inquiryNo" placeholder="请输入询价单号" size="small" class="formitem"></el-input>
-              </el-form-item>
-          </el-col>
-
-          <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="$route.query.id">
-              <el-form-item label="订单来源:"  >
-                <el-input v-model="searchForm.fromSysCode" placeholder="请输入订单来源" size="small" class="formitem"></el-input>
-              </el-form-item>
-          </el-col>
-
-          <el-col :sm="12" :md="8" :lg="8" :xl="6">
-            <el-form-item label="仓库"  prop="warehouseCode"  :rules="[{ required: true, message: '该项为必填'}]">
-              <el-select  v-model="searchForm.warehouseCode" clearable  placeholder="请选择仓库" size="small" class="formitem" @focus="warehouseCodeFocus" :loading="warehouseCodeLoading">
-                <el-option v-for="item in warehouseList" :label="item.warehouseName" :key="item.warehouseCode"  :value="item.warehouseCode"></el-option>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              :label="searchForm.busiBillType===21?'客户':'供应商'"
+              label-width="90px"
+              prop="arrivalCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-select
+                v-model="searchForm.arrivalCode"
+                filterable
+                size="small"
+                @focus="providerFocus"
+                @change="providerChange"
+                placeholder="请选择"
+                :loading="customerInfoLoading"
+              >
+                <el-option
+                  value=""
+                  v-if="providerConfig.length"
+                  :disabled="true"
+                >
+                  <div class="providerList">
+                    <span>{{searchForm.busiBillType===21?'客户编号':'供应商编号'}}</span>
+                    <span>{{searchForm.busiBillType===21?'客户名称':'供应商名称'}}</span>
+                  </div>
+                </el-option>
+                <el-option
+                  v-for="item in providerConfig"
+                  :key="item.id"
+                  :label="item.customerName"
+                  :value="item.customerCode"
+                >
+                  <div class="providerList">
+                    <span>{{ item.customerCode }}</span>
+                    <span>{{ item.customerName }}</span>
+                  </div>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
-           <el-col :sm="12" :md="8" :lg="8" :xl="6">
-              <el-form-item label="备注:"  >
-                <el-input v-model="searchForm.remarkInfo" placeholder="请输入备注" size="small" class="formitem"></el-input>
-              </el-form-item>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"
+              prop="arrivalAddress"
+              :rules="[{ required: true, message: '该项为必填', trigger: ['blur', 'change']}]"
+            >
+              <el-select
+                size="small"
+                @change="arrivalAddressChange"
+                v-if="addrListConfig.length"
+                v-model="searchForm.arrivalAddress"
+                placeholder="请选择地址"
+              >
+                <el-option
+                  :value="null"
+                  v-if="addrListConfig.length"
+                  :disabled="true"
+                >
+                  <div class="providerList">
+                    <span>地址</span>
+                    <span>地址编码</span>
+                  </div>
+                </el-option>
+                <el-option
+                  v-for="item in addrListConfig"
+                  :label="item.arrivalAddress"
+                  :key="item.arrivalLinkTel+item.arrivalAddress"
+                  :value="item.arrivalAddress"
+                >
+                  <div class="providerList">
+                    <span>{{ item.arrivalAddress }}</span>
+                    <span>{{ item.addrCode }}</span>
+                  </div>
+                </el-option>
+              </el-select>
+              <el-input
+                v-else
+                v-model="searchForm.arrivalAddress"
+                @focus="arrivalAddressFocus"
+                placeholder="请输入地址"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
           </el-col>
-      </el-row>
 
-      <div class="tableBox">
-        <div class="tableTitle">
-            <item-title text="商品明细"/>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="联系人:"
+              prop="arrivalLinkUser"
+              :rules="[{ required: true, message:'请输入联系人' }]"
+            >
+              <el-input
+                v-model="searchForm.arrivalLinkUser"
+                placeholder="请输入联系人"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="联系电话:"
+              prop="arrivalLinkTel"
+              :rules="[{ required: true, message:'请输入联系电话' }]"
+            >
+              <el-input
+                v-model="searchForm.arrivalLinkTel"
+                placeholder="请输入联系电话"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="创建人:"
+              v-if="$route.query.id"
+            >
+              <el-input
+                v-model="searchForm.createrName"
+                placeholder="请输入创建人"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="到货预定日"
+              label-width="100px"
+            >
+              <el-date-picker
+                v-model="searchForm.arrivalPreDate"
+                size="small"
+                type="date"
+                placeholder="选择日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="到货有效日"
+              label-width="100px"
+            >
+              <el-date-picker
+                v-model="searchForm.arrivalEffectDate"
+                size="small"
+                type="date"
+                placeholder="选择日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+            v-if="$route.query.id"
+          >
+            <el-form-item
+              label="创建日期"
+              label-width="100px"
+              v-if="$route.query.id"
+            >
+              <el-date-picker
+                v-model="searchForm.gmtCreate"
+                type="date"
+                placeholder="选择日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item label="合同号:">
+              <el-input
+                v-model="searchForm.contractNo"
+                placeholder="请输入合同号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item label="发货要求">
+              <el-select
+                v-model="searchForm.sendOutRequire"
+                clearable
+                placeholder="请选择发货要求"
+                size="small"
+                class="formitem"
+              >
+                <el-option
+                  v-for="item in sendOutRequireEnum"
+                  :label="item.name"
+                  :key="item.value"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+            v-if="[21].includes(searchForm.busiBillType)"
+          >
+            <el-form-item label="询价单号:">
+              <el-input
+                v-model="searchForm.inquiryNo"
+                placeholder="请输入询价单号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+            v-if="$route.query.id"
+          >
+            <el-form-item label="订单来源:">
+              <el-input
+                v-model="searchForm.fromSysCode"
+                placeholder="请输入订单来源"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="仓库"
+              prop="warehouseCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-select
+                v-model="searchForm.warehouseCode"
+                clearable
+                placeholder="请选择仓库"
+                size="small"
+                class="formitem"
+                @focus="warehouseCodeFocus"
+                :loading="warehouseCodeLoading"
+              >
+                <el-option
+                  v-for="item in warehouseList"
+                  :label="item.warehouseName"
+                  :key="item.warehouseCode"
+                  :value="item.warehouseCode"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item label="备注:">
+              <el-input
+                v-model="searchForm.remarkInfo"
+                placeholder="请输入备注"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <div class="tableBox">
+          <div class="tableTitle">
+            <item-title text="商品明细" />
             <div class="tableBtn">
-               <el-button  size="mini" class="addCommodity" @click="showDialog('add')" type="primary">添加商品</el-button>
+              <el-button
+                size="mini"
+                class="addCommodity"
+                @click="showDialog('add')"
+                type="primary"
+              >添加商品</el-button>
             </div>
-        </div>
+          </div>
           <edit-Table
             :useEdit="true"
             :config="addtable_config"
             @goeditrow="goeditrow"
             @handleDelete="handleDelete"
-            :allTableData="searchForm.outWarehouseBillDetailList"/>
-          </edit-Table >
-      </div>
+            :allTableData="searchForm.outWarehouseBillDetailList"
+          />
+        </div>
 
         <el-dialog
           title="新增商品"
           :visible.sync="addVisible"
           width="30%"
-          :before-close="handleClose">
-            <add-form @submit="submit" :skuList="skuList" @skuCodeChange="skuCodeChange" :searchForm="addCommodityForm" @handleClose="handleClose" ></add-form>
+          :before-close="handleClose"
+        >
+          <add-form
+            v-loading="skuInfoListLoading"
+            @submit="submit"
+            :skuList="skuList"
+            @skuCodeChange="skuCodeChange"
+            :searchForm="addCommodityForm"
+            @handleClose="handleClose"
+          ></add-form>
         </el-dialog>
       </el-form>
     </el-card>
@@ -231,6 +574,7 @@ export default {
   components: { editTable, addForm, Sticky },
   data() {
     return {
+      skuInfoListLoading: false,
       customerInfoLoading: false,
       warehouseCodeLoading: false,
       saveLoading: false,
@@ -491,11 +835,15 @@ export default {
         }
         const customerType = busiBillType === 21 ? 1 : busiBillType === 22 ? 2 : null
         this.addVisible = true;
+        this.skuInfoListLoading = true
+
         skuInfoList(ownerCode, arrivalCode, customerType).then(res => {
           if (res.success) {
             this.skuList = Array.isArray(res.data) && res.data || []
           }
         }).catch(err => {
+        }).then(res => {
+          this.skuInfoListLoading = false
         })
 
       }
