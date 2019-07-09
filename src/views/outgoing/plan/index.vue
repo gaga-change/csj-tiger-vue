@@ -187,6 +187,54 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col
+              :sm="12"
+              :md="8"
+              :lg="8"
+              :xl="6"
+            >
+              <el-form-item
+                label="挂起类型"
+                prop="hangUpType"
+              >
+                <el-select
+                  @change="submitForm('ruleForm')"
+                  v-model="ruleForm.hangUpType"
+                  placeholder="请选择挂起类型"
+                >
+                  <el-option
+                    v-for="item in hangUpTypeEnum"
+                    :label="item.name"
+                    :key="item.value"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col
+              :sm="12"
+              :md="8"
+              :lg="8"
+              :xl="6"
+            >
+              <el-form-item
+                label="推送状态"
+                prop="issuedState"
+              >
+                <el-select
+                  @change="submitForm('ruleForm')"
+                  v-model="ruleForm.issuedState"
+                  placeholder="请选择推送状态"
+                >
+                  <el-option
+                    v-for="item in pushState"
+                    :label="item.name"
+                    :key="item.value"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
 
             <el-col
               :sm="12"
@@ -377,7 +425,7 @@ import { outPlanSelect, outPlanCheckBatch, outPlanClose } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig, manual_config } from './config';
-import { warehousingPlanBillStatus } from "@/utils/enum.js";
+import { warehousingPlanBillStatus, hangUpTypeEnum, pushState } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { stringify } from 'qs';
 export default {
@@ -397,6 +445,8 @@ export default {
         execStatus: '',
         pageNum: 1,
         pageSize: 10,
+        hangUpType: '',
+        issuedState: ''
       },
       total: 0,
       rules: {},
@@ -404,6 +454,8 @@ export default {
       tableData: [],
       tableConfig: indexTableConfig,
       warehousingPlanBillStatus,
+      hangUpTypeEnum,
+      pushState,
       linkData: '',
       batchLoading: false,
       selectionList: []

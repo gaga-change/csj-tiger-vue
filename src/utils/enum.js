@@ -29,8 +29,7 @@ export const NatureInvoiceEnum = [
 
 
 //单据状态
-export const TicketStatus = [
-  {
+export const TicketStatus = [{
     name: '草稿',
     value: 0
   },
@@ -58,8 +57,7 @@ export const TicketStatus = [
 
 
 //发票状态
-export const InvoiceStatus = [
-  {
+export const InvoiceStatus = [{
     name: '正常',
     value: 0
   },
@@ -74,8 +72,7 @@ export const InvoiceStatus = [
 ]
 
 //开具状态
-export const InvoiceStatus2 = [
-  {
+export const InvoiceStatus2 = [{
     name: '开具',
     value: 0
   },
@@ -90,8 +87,7 @@ export const InvoiceStatus2 = [
 ]
 
 //发票类型
-export const InvoiceType = [
-  {
+export const InvoiceType = [{
     name: '增值税专用发票',
     value: 1
   },
@@ -111,8 +107,7 @@ export const InvoiceType = [
 
 
 //付款方式
-export const PaymentModeEnum = [
-  {
+export const PaymentModeEnum = [{
     name: '银行转账',
     value: 1
   },
@@ -135,8 +130,7 @@ export const PaymentModeEnum = [
 ]
 
 //收款审核状态
-export const ApproveStatusEnum = [
-  {
+export const ApproveStatusEnum = [{
     name: '草稿',
     value: 0
   },
@@ -155,8 +149,7 @@ export const ApproveStatusEnum = [
 ]
 
 //收款销售单关联状态
-export const RelationStatusEnum = [
-  {
+export const RelationStatusEnum = [{
     name: '待分配业务员',
     value: 0
   },
@@ -165,7 +158,7 @@ export const RelationStatusEnum = [
     value: 1
   },
   {
-    name: '未关联业务单',//保存
+    name: '未关联业务单', //保存
     value: 2
   },
   {
@@ -181,57 +174,54 @@ export const RelationStatusEnum = [
 
 
 //收款款项性质
-export const MoneyStateEnum = [
-  {
+export const MoneyStateEnum = [{
     name: '货款',
     value: 0,
-    disabled:false,
+    disabled: false,
   },
   {
     name: '质保金',
     value: 1,
-    disabled:true,
+    disabled: true,
   },
   {
     name: '服务费',
     value: 2,
-    disabled:false,
+    disabled: false,
   },
   {
     name: ' ',
     value: 99,
-    disabled:true
+    disabled: true
   },
 ]
 
 
 //收款款项类型
-export const MoneyTypeEnum = [
-  {
+export const MoneyTypeEnum = [{
     name: '预付款',
     value: 0,
-    type:'receipt+pay',
+    type: 'receipt+pay',
   },
   {
     name: '提货款',
     value: 1,
-    type:'receipt+pay',
+    type: 'receipt+pay',
   },
   {
     name: '保证金',
     value: 2,
-    type:'receipt+pay',
+    type: 'receipt+pay',
   },
   {
     name: '供应商退货款',
     value: 3,
-    type:'pay',
+    type: 'pay',
   }
 ]
 
 //作废状态
-export const invoiceCancelStatusConfig = [
-  {
+export const invoiceCancelStatusConfig = [{
     name: '未申请',
     value: 0
   },
@@ -253,8 +243,7 @@ export const invoiceCancelStatusConfig = [
 //进项发票页面枚举
 //单据状态
 
-export  const entryInvoiceTicketStatus=[
-  {
+export const entryInvoiceTicketStatus = [{
     name: '草稿 ',
     value: 0
   },
@@ -274,8 +263,7 @@ export  const entryInvoiceTicketStatus=[
 
 
 //付款单据状态
-export const paymentStatusEnum = [
-  {
+export const paymentStatusEnum = [{
     name: '草稿',
     value: 0
   },
@@ -314,8 +302,7 @@ export const paymentStatusEnum = [
 ]
 
 //成功标识
-export const successFlag = [
-  {
+export const successFlag = [{
     name: '成功',
     value: 1
   },
@@ -328,8 +315,7 @@ export const successFlag = [
 
 
 //异常商品处理单据状态
-export const billStatusEnum = [
-  {
+export const billStatusEnum = [{
     name: '草稿',
     value: 0
   },
@@ -358,17 +344,14 @@ export const billStatusEnum = [
 
 
 //异常商品处理  异常商品处理意见
-export  const handleOpinionConfig=[
-  {
-    name: '客户已拒收 ，建议退回供应商 ',
-    value: 0
-  },
-]
+export const handleOpinionConfig = [{
+  name: '客户已拒收 ，建议退回供应商 ',
+  value: 0
+}, ]
 
 
 //异常商品处理  发票状态
-export  const invoiceStatusConfig=[
-  {
+export const invoiceStatusConfig = [{
     name: '未开票',
     value: 0
   },
@@ -379,8 +362,7 @@ export  const invoiceStatusConfig=[
 ]
 
 //异常商品处理  付款状态
-export  const paymentStatusConfig=[
-  {
+export const paymentStatusConfig = [{
     name: '未付款',
     value: 0
   },
@@ -397,8 +379,7 @@ export  const paymentStatusConfig=[
 
 
 //scm交货方式
-export  const deliverwayConfig=[
-  {
+export const deliverwayConfig = [{
     name: '库发 ',
     value: 1
   },
@@ -432,8 +413,7 @@ export const busiPlateConfig = [
 ];
 
 //scm付款状态
-export  const scmpaymentStatusConfig=[
-  {
+export const scmpaymentStatusConfig = [{
     name: '未付款',
     value: 0
   },
@@ -448,8 +428,7 @@ export  const scmpaymentStatusConfig=[
 ]
 
 //scm付款方式
-export const paymethodConfig = [
-  {
+export const paymethodConfig = [{
     name: '货到付款',
     value: 1
   },
@@ -462,8 +441,7 @@ export const paymethodConfig = [
 
 
 //scm结算方式
-export const settlementmethodConfig = [
-  {
+export const settlementmethodConfig = [{
     name: '现金',
     value: 1
   },
@@ -490,8 +468,7 @@ export const settlementmethodConfig = [
 ];
 
 //scm状态
-export const statusConfig = [
-  {
+export const statusConfig = [{
     name: '草稿',
     value: -1
   },
@@ -513,8 +490,7 @@ export const statusConfig = [
 ];
 
 //scm收款方式
-export const recmethodConfig = [
-  {
+export const recmethodConfig = [{
     name: '货到收款',
     value: 1
   },
@@ -530,8 +506,7 @@ export const recmethodConfig = [
 
 
 //scm签收状态
-export const recstatusConfig = [
-  {
+export const recstatusConfig = [{
     name: '未签收',
     value: 0
   },
@@ -547,8 +522,7 @@ export const recstatusConfig = [
 
 
 //scm退货状态
-export const backstatusConfig = [
-  {
+export const backstatusConfig = [{
     name: '无退货',
     value: 0
   },
@@ -563,8 +537,7 @@ export const backstatusConfig = [
 ];
 
 
-export const ownerType = [
-  {
+export const ownerType = [{
     name: '仓储客户',
     value: 1
   },
@@ -582,15 +555,12 @@ export const ownerType = [
   },
 ];
 
-export const roleType = [
-  {
-    name: '租户',
-    value: 1
-  }
-];
+export const roleType = [{
+  name: '租户',
+  value: 1
+}];
 
-export const ownerState = [
-  {
+export const ownerState = [{
     name: '启用',
     value: 1
   },
@@ -599,8 +569,7 @@ export const ownerState = [
     value: 2
   }
 ];
-export const userStatus = [
-  {
+export const userStatus = [{
     name: '启用',
     value: 0
   },
@@ -612,8 +581,7 @@ export const userStatus = [
 
 
 //mis枚举配置
-export const outgoingOrderTypeEnum = [
-  {
+export const outgoingOrderTypeEnum = [{
     name: '销售出库',
     value: 21
   },
@@ -624,8 +592,7 @@ export const outgoingOrderTypeEnum = [
 ];
 
 
-export const revisalTypeEnum = [
-  {
+export const revisalTypeEnum = [{
     name: '金额订正',
     value: 1
   },
@@ -635,18 +602,15 @@ export const revisalTypeEnum = [
   }
 ];
 
-export const expenseType = [
-  {
-    name: '代支款',
-    value: 1
-  }
-]
+export const expenseType = [{
+  name: '代支款',
+  value: 1
+}]
 
 
 //仓配点管理票配置
 
-export const warehouseStateEnum=[
-  {
+export const warehouseStateEnum = [{
     name: '启用',
     value: 1
   },
@@ -656,8 +620,7 @@ export const warehouseStateEnum=[
   }
 ]
 
-export const dispatchType=[
-  {
+export const dispatchType = [{
     name: '快递',
     value: 1
   },
@@ -671,8 +634,7 @@ export const dispatchType=[
   }
 ]
 
-export const settlementType=[
-  {
+export const settlementType = [{
     name: '月结',
     value: 1
   },
@@ -685,8 +647,7 @@ export const settlementType=[
     value: 3
   }
 ]
-export const costCalcWay=[
-  {
+export const costCalcWay = [{
     name: '按照体积计算',
     value: 1
   },
@@ -695,15 +656,12 @@ export const costCalcWay=[
     value: 2
   }
 ]
-export const dispatchState=[
-  {
-    name: '已完成',
-    value: 2
-  }
-]
+export const dispatchState = [{
+  name: '已完成',
+  value: 2
+}]
 
-export const invoiceState=[
-  {
+export const invoiceState = [{
     name: '草稿',
     value: 1
   },
@@ -717,8 +675,7 @@ export const invoiceState=[
   }
 ]
 //mis 入库单据状态枚举
-export const misWarehousingBillStatusEnum=[
-  {
+export const misWarehousingBillStatusEnum = [{
     name: '草稿',
     value: 0
   },
@@ -737,8 +694,7 @@ export const misWarehousingBillStatusEnum=[
 ]
 
 //mis 入库执行状态状态枚举
-export const misWarehousingBillStateEnum=[
-  {
+export const misWarehousingBillStateEnum = [{
     name: '未入库',
     value: 0
   },
@@ -753,8 +709,7 @@ export const misWarehousingBillStateEnum=[
 ]
 
 // mis入库业务单订正 - 单据状态
-export const misRevisalStateEnum = [
-  {
+export const misRevisalStateEnum = [{
     name: '草稿',
     value: 1
   },
@@ -769,8 +724,7 @@ export const misRevisalStateEnum = [
 ]
 
 // mis入库业务单订正 - 订正类型
-export const misRevisalTypeEnum = [
-  {
+export const misRevisalTypeEnum = [{
     name: '金额订正',
     value: 1
   },
@@ -781,8 +735,7 @@ export const misRevisalTypeEnum = [
 ]
 
 // mis发货要求枚举
-export const sendOutRequireEnum = [
-  {
+export const sendOutRequireEnum = [{
     name: '整单',
     value: 1
   },
@@ -794,8 +747,7 @@ export const sendOutRequireEnum = [
 
 
 //出库业务单单据状态 枚举
-export const outBillStatusEnum = [
-  {
+export const outBillStatusEnum = [{
     name: '草稿',
     value: 0
   },
@@ -814,8 +766,7 @@ export const outBillStatusEnum = [
 ]
 
 //出库业务单执行状态 枚举
-export const outBillStateEnum = [
-  {
+export const outBillStateEnum = [{
     name: '未出库',
     value: 0
   },
@@ -829,8 +780,7 @@ export const outBillStateEnum = [
   }
 ]
 
-export const isApprovedEnum = [
-  {
+export const isApprovedEnum = [{
     name: '未订正审核',
     value: 0
   },
@@ -841,8 +791,7 @@ export const isApprovedEnum = [
 ]
 
 
-export const warehousingPlanBillStatus =[
-  {
+export const warehousingPlanBillStatus = [{
     name: '草稿',
     value: 0
   },
@@ -876,8 +825,7 @@ export const warehousingPlanBillStatus =[
   }
 ]
 
-export const hangUpTypeEnum = [
-  {
+export const hangUpTypeEnum = [{
     name: '正常未挂起',
     value: 0
   },
@@ -887,25 +835,24 @@ export const hangUpTypeEnum = [
   },
   {
     name: '商品充足推送失败',
-    value:2
+    value: 2
   },
   {
     name: '付款未完成',
-    value:3
+    value: 3
   },
   {
     name: '付款已完成',
-    value:4
+    value: 4
   },
   {
     name: '先货后款',
-    value:5
+    value: 5
   },
 ]
 
 /** 销售区分 */
-export const saleTypeEnum = [
-  {
+export const saleTypeEnum = [{
     name: '常备',
     value: 1
   },
@@ -916,8 +863,7 @@ export const saleTypeEnum = [
 ]
 
 /** 执行状态 */
-export const execState = [
-  {
+export const execState = [{
     name: '未执行',
     value: 0
   },
@@ -930,3 +876,21 @@ export const execState = [
     value: 8
   }
 ]
+
+/** 推送状态 */
+export const pushState = [{
+  "name": "未推送",
+  "value": 0
+}, {
+  "name": "推送成功",
+  "value": 1
+}, {
+  "name": "推送失败",
+  "value": 2
+}, {
+  "name": "挂起",
+  "value": 7
+}, {
+  "name": "推送失败,不再重试推送",
+  "value": 8
+}]
