@@ -140,20 +140,11 @@ export function getRecommendStock(ownerCode,skuCode) {
   })
 }
 
-
 export function inPlanAdd(data={}) {
   return request({
     url: `/webApi/in/plan/add`,
     method: 'post',
     data: data,
-  })
-}
-
-
-export function ownerWarehouseList(data={}) {
-  return request({
-    url: `/webApi/owner/info/ownerWarehouseList?${stringify(data)}`,
-    method: 'get'
   })
 }
 

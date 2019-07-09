@@ -59,7 +59,8 @@
 
 import { addPlanOrder_config, addPlanInfoConfig, alertTable_config } from './config';
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { inPlanInitAdd, inPlanAdd, ownerWarehouseList } from '@/api/warehousing'
+import { inPlanInitAdd, inPlanAdd } from '@/api/warehousing'
+import { ownerWarehouseList } from '@/api/tenant'
 import editTable from '@/components/Table/editTable';
 import { mapGetters } from 'vuex'
 import Sticky from '@/components/Sticky'
