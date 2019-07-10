@@ -59,16 +59,6 @@ export function outOrderDetail(data={}) {
   })
 }
 
-
-// 出库单查询 合计接口
-export function selectTotal(data={}) {
-  return request({
-    url: `/webApi/out/order/select/total?${stringify(data)}`,
-    method: 'get',
-  })
-}
-
-
 // 根据出库业务单查询采购单信息
 export function planGetBill(data={}) {
   return request({

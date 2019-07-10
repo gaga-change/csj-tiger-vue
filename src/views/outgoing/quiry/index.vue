@@ -334,7 +334,7 @@
 
 <script>
 import moment from 'moment';
-import { outOrderSelect, selectTotal, outOrderPrint } from '@/api/outgoing'
+import { outOrderSelect, outOrderPrint } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig, printingTable_config } from './config';
 import { mapGetters } from 'vuex'
@@ -370,7 +370,6 @@ export default {
       loading: false,
       tableData: [],
       linkData: '',
-      outTotal: {},
       //打印项
       printingVisible: false,
       printingTable_data: {},
@@ -487,14 +486,6 @@ export default {
       }
       let data = { ...json }
       this.linkData = data;
-
-      selectTotal(data).then(res => {
-        if (res.success) {
-          this.outTotal = res.data;
-        }
-      }).catch(err => {
-      })
-
       outOrderSelect(data).then(res => {
         if (res.success) {
           let data = res.data;
