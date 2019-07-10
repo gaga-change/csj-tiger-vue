@@ -117,6 +117,14 @@ export default [
         }
       },
       {
+        name: 'mis_distribution_detail',
+        path: 'mis_distribution_detail',
+        outLinkUrl: reportCenterUrl('mis_distribution_detail', 'mis'),
+        meta: {
+          title: '物流信息表'
+        }
+      },
+      {
         name: 'mis_history_stock',
         path: 'mis_history_stock',
         outLinkUrl: reportCenterUrl('mis_history_stock', 'mis'),
