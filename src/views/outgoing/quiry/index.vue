@@ -194,6 +194,32 @@
               :xl="6"
             >
               <el-form-item
+                label="是否打印"
+                prop="isPrint"
+              >
+                <el-select
+                  v-model="ruleForm.isPrint"
+                  @change="submitForm('ruleForm')"
+                  placeholder="请选择业务板块"
+                >
+                  <el-option
+                    v-for="item in printState"
+                    :key="item.value"
+                    :label="item.name"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col
+              :sm="12"
+              :md="8"
+              :lg="8"
+              :xl="6"
+            >
+              <el-form-item
                 label="外部订单号"
                 prop="busiBillNo"
                 labelWidth="85px"
@@ -261,11 +287,6 @@
       >发货清单打印</el-button>
     </div>
 
-    <!-- <div class="tableTotal" v-if="outTotal&&outTotal.totalOutStoreQty!==undefined&&outTotal.totalOutStoreAmt!==undefined">
-       <span>出库总金额</span> : <span>{{outTotal&&outTotal.totalOutStoreAmt&&Number(outTotal.totalOutStoreAmt).toFixed(2)}}</span>
-       <span>出库总数量</span> : <span>{{outTotal&&outTotal.totalOutStoreQty&&Number(outTotal.totalOutStoreQty).toFixed(2)}}</span>
-    </div> -->
-
     <base-table
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -313,14 +334,14 @@
 
 <script>
 import moment from 'moment';
-import { outOrderSelect, selectTotal } from '@/api/outgoing'
+import { outOrderSelect, selectTotal, outOrderPrint } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig, printingTable_config } from './config';
 import { mapGetters } from 'vuex'
 import Invoice from './invoice'
 import { MakePrint } from '@/utils'
 import { stringify } from 'qs';
-import { busiPlateConfig } from '@/utils/enum'
+import { busiPlateConfig, printState } from '@/utils/enum'
 
 export default {
   name: 'outgoing-quiry-index',
@@ -344,6 +365,7 @@ export default {
       rules: {
 
       },
+      printState,
       busiPlateConfig,
       loading: false,
       tableData: [],
@@ -400,11 +422,19 @@ export default {
     handleClose() {
       this.printingVisible = false;
     },
-
     surePrinting() {
       let printContainer = document.getElementById('invoice').innerHTML;
       MakePrint(printContainer);
       this.printingVisible = false;
+      this.$confirm('是否已成功打印?', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'info'
+      }).then(() => {
+        outOrderPrint(this.selectData.map(v => v.id))
+        this.getCurrentTableData()
+      }).catch(() => {
+      })
     },
     timeChange(value) {
       this.ruleForm = { ...this.ruleForm, time: value };

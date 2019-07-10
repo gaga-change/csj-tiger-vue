@@ -180,6 +180,14 @@ export function outBillImprove(data={}) {
   })
 }
 
+export function outOrderPrint(data={}) {
+  return request({
+    url: `/webApi/out/order/print`,
+    method: 'put',
+    data: data,
+  })
+}
+
 
 //出库业务单审核
 export function outBillCheck(outWarehouseBillId) {

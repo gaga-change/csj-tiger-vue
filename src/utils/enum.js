@@ -894,3 +894,14 @@ export const pushState = [{
   "name": "推送失败,不再重试推送",
   "value": 8
 }]
+
+export const printState = [
+  {
+    name: '未打印',
+    value: 0
+  },
+  {
+    name: '已打印',
+    value: 1
+  }
+]

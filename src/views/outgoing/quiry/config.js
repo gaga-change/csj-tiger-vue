@@ -46,6 +46,7 @@ export const indexTableConfig=[
   { label:'是否越库',prop:'isCross',width:100,type:'Boolean',},
   { label:'业务板块',prop:'busiPlate',width:100,useLocalEnum:true,type:'busiPlateConfig'},
   { label:'出库日期',prop:'outStoreTime',type:'time',minWidth:140 },
+  { label: '是否打印', prop: 'isPrint', useLocalEnum:true, type: 'printState'},
   { label:'操作', prop:'oprate',fixed:'right',width:140},
 ]
 
