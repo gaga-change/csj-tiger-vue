@@ -84,36 +84,6 @@
             ></el-input>
           </el-form-item>
         </el-col>
-
-        <el-col>
-          <el-form-item
-            label="商品供应商名称:"
-            labelWidth="120px"
-          >
-            <el-input
-              disabled
-              v-model="searchForm.providerSkuName"
-              placeholder="商品供应商名称"
-              size="small"
-              class="formitem"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-
-        <el-col>
-          <el-form-item
-            label="商品供应商编码:"
-            labelWidth="120px"
-          >
-            <el-input
-              disabled
-              v-model="searchForm.providerSkuCode"
-              placeholder="商品供应商编码"
-              size="small"
-              class="formitem"
-            ></el-input>
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
 
