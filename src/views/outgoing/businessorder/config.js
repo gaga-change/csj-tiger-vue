@@ -70,7 +70,7 @@ export const addPlanOrder_config=[
   { label:'规格',prop:'skuFormat'},
   { label:'型号',prop:'skuModel'},
   { label:'数量',prop:'skuOutQty'},
-  { label:'客户销价',prop:'skuPrice',className:'Price'},
+  { label:'客户销价',prop:'outStorePrice',className:'Price'},
   { label:'计划出库数量',prop:'planOutQty'},
   { label:'出库仓库',prop:'warehouseName'},
   { label:'操作',fixed:'right',width:120},
