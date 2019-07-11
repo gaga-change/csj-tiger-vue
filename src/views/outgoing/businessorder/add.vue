@@ -828,16 +828,15 @@ export default {
 
     showDialog(type) {
       if (type === 'add') {
-        let { ownerCode, arrivalCode, busiBillType } = this.searchForm;
-        if (!ownerCode || !arrivalCode) {
-          this.$message.error('请同时选择货主和客户(供应商)');
-          return ''
+        let { ownerCode } = this.searchForm;
+        if (!ownerCode ) {
+          this.$message.error('请选择货主！');
+          return
         }
-        const customerType = busiBillType === 21 ? 1 : busiBillType === 22 ? 2 : null
         this.addVisible = true;
         this.skuInfoListLoading = true
 
-        skuInfoList(ownerCode, arrivalCode, customerType).then(res => {
+        skuInfoList(ownerCode).then(res => {
           if (res.success) {
             this.skuList = Array.isArray(res.data) && res.data || []
           }
