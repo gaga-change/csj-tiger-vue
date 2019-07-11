@@ -141,6 +141,14 @@ export default [
         }
       },
       {
+        name: 'mis_psd_detail',
+        path: 'mis_psd_detail',
+        outLinkUrl: reportCenterUrl('mis_psd_detail', 'mis'),
+        meta: {
+          title: '月库存周转报表2'
+        }
+      },
+      {
         name: 'mis_adjust_stock',
         path: 'mis_adjust_stock',
         outLinkUrl: reportCenterUrl('mis_adjust_stock', 'mis'),
