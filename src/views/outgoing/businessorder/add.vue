@@ -747,6 +747,9 @@ export default {
       let searchForm = _.cloneDeep(this.searchForm);
       searchForm.arrivalLinkUser = add.arrivalLinkUser;
       searchForm.arrivalLinkTel = add.arrivalLinkTel;
+      searchForm.arrivalCity = add.arrivalCity;
+      searchForm.arrivalDistrict = add.arrivalDistrict;
+      searchForm.arrivalProvince = add.arrivalProvince;
       this.searchForm = searchForm;
     },
 
