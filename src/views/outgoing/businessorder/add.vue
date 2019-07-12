@@ -694,6 +694,7 @@ export default {
     },
 
     showStore(row) {
+      this.warehouseList = []
       this.warehouseCodeLoading = true
       ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
         let result = res.data
@@ -750,15 +751,12 @@ export default {
     },
 
     //地址列表配置
-    providerChange(value, isClear) {
+    providerChange(value) {
       let provider = this.providerConfig.find(v => v.customerCode === value)
       let searchForm = _.cloneDeep(this.searchForm);
       searchForm.arrivalAddress = '';
       searchForm.arrivalLinkUser = '';
       searchForm.arrivalLinkTel = '';
-      if (!isClear) {
-        searchForm.outWarehouseBillDetailList = [];
-      }
       this.searchForm = searchForm;
       this.addrListConfig = [];
 
@@ -803,7 +801,7 @@ export default {
         if (this.searchForm.ownerCode) {
           await this.getCustomerInfo(this.searchForm.ownerCode);
         }
-        this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode, true)
+        this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode)
 
       } else {
         this.$message.error('导入失败');
@@ -829,13 +827,14 @@ export default {
     showDialog(type) {
       if (type === 'add') {
         let { ownerCode } = this.searchForm;
-        if (!ownerCode ) {
+        if (!ownerCode) {
           this.$message.error('请选择货主！');
           return
         }
         this.addVisible = true;
         this.skuInfoListLoading = true
-
+        this.skuList = []
+        this.addCommodityForm = {}
         skuInfoList(ownerCode).then(res => {
           if (res.success) {
             this.skuList = Array.isArray(res.data) && res.data || []

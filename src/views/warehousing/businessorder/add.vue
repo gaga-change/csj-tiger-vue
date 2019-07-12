@@ -556,6 +556,8 @@ export default {
           return
         }
         this.skuInfoListLoading = true
+        this.commodityList = []
+        this.addCommodityForm = {}
         skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2).then(res => {
           if (res.success) {
             let data = res.data && _.cloneDeep(res.data) || [];

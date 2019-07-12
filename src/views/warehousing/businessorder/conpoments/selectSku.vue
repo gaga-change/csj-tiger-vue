@@ -87,7 +87,7 @@ export default {
   data() {
     let saleTypeMap = {}
     saleTypeEnum.forEach(v => {
-        saleTypeMap[v.value + ''] = v.name
+      saleTypeMap[v.value + ''] = v.name
     })
     return {
       data: [],
@@ -97,6 +97,11 @@ export default {
       currentPageSize: 10,
       currentPage: 1,
       totalLen: 0
+    }
+  },
+  watch: {
+    commodityList(val) {
+      this.updateData()
     }
   },
   created() {

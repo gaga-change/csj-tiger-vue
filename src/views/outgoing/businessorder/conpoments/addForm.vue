@@ -58,12 +58,11 @@
           <el-form-item
             label="商品名称:"
             prop="skuName"
-            :rules="[{ required: true, message: '该项为必填'}]"
           >
             <el-input
               v-model="searchForm.skuName"
               disabled
-              placeholder="请输入商品名称"
+              placeholder="商品名称"
               size="small"
               class="formitem"
             ></el-input>

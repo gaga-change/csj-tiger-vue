@@ -99,6 +99,11 @@ export default {
       totalLen: 0
     }
   },
+  watch: {
+    commodityList(val) {
+      this.updateData()
+    }
+  },
   created() {
     this.updateData()
   },
