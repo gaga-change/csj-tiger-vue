@@ -1,28 +1,41 @@
-<template lang="html">
+<template>
   <div class="app-container">
     <search
       :config="customerConfig"
       @submitForm="submitSearchForm"
       @resetForm="resetSearchForm"
     ></search>
-    <el-row type="flex" justify="end">
+    <el-row
+      type="flex"
+      justify="end"
+    >
       <el-button
         type="primary"
         style="margin:10px"
         size="mini"
         @click="newCustomer(null)"
-        >创建客户</el-button
-      >
+      >创建客户</el-button>
       <upload-excel
         style="margin:10px"
         @uploadRes="uploadRes"
         :name="'file'"
         :importText="'批量导入客户信息'"
         :modelUrl="'/static/templet/customerTemp.xlsx'"
-        :filesuploadUrl="'/webApi/customer/importCustomerInfo'"></upload-excel>
+        :filesuploadUrl="'/webApi/customer/importCustomerInfo'"
+      ></upload-excel>
     </el-row>
-    <el-table :data="tableData" border v-loading="loading" size="small" style="margin-bottom:12px">
-      <el-table-column type="index" label="序号" width="55"></el-table-column>
+    <el-table
+      :data="tableData"
+      border
+      v-loading="loading"
+      size="small"
+      style="margin-bottom:12px"
+    >
+      <el-table-column
+        type="index"
+        label="序号"
+        width="55"
+      ></el-table-column>
       <el-table-column
         v-for="(column, index) in tableConfig"
         :key="index"
@@ -35,27 +48,31 @@
           <span v-else>{{scope.row[column.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220" fixed="right">
+      <el-table-column
+        label="操作"
+        width="220"
+        fixed="right"
+      >
         <template slot-scope="scope">
-  <div>
-    <a
-      :style="linkstyle"
-      @click="newCustomer(scope.row)"
-    >修改</a>
-    <a
-      :style="linkstyle"
-      @click="delRow(scope.row)"
-    >删除</a>
-    <a
-      :style="linkstyle"
-      @click="unionOwner(scope.row)"
-    >关联货主</a>
-    <a
-      :style="linkstyle"
-      @click="viewAddress(scope.row)"
-    >维护地址</a>
-  </div>
-</template>
+          <div>
+            <a
+              :style="linkstyle"
+              @click="newCustomer(scope.row)"
+            >修改</a>
+            <a
+              :style="linkstyle"
+              @click="delRow(scope.row)"
+            >删除</a>
+            <a
+              :style="linkstyle"
+              @click="unionOwner(scope.row)"
+            >关联货主</a>
+            <a
+              :style="linkstyle"
+              @click="viewAddress(scope.row)"
+            >维护地址</a>
+          </div>
+        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -65,7 +82,8 @@
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
+      :total="total"
+    >
     </el-pagination>
     <el-dialog
       :visible.sync="customerEditorVisible"
@@ -84,9 +102,21 @@
       ></search>
     </el-dialog>
     <el-dialog :visible.sync="unionDialogVisible">
-      <el-form :model="unionForm" ref="unionForm">
-        <el-form-item label="关联货主" prop="owners">
-          <el-select v-model="unionForm.owners" multiple filterable placeholder="请选择" style="width:400px">
+      <el-form
+        :model="unionForm"
+        ref="unionForm"
+      >
+        <el-form-item
+          label="关联货主"
+          prop="owners"
+        >
+          <el-select
+            v-model="unionForm.owners"
+            multiple
+            filterable
+            placeholder="请选择"
+            style="width:400px"
+          >
             <el-option
               v-for="item in mapConfig['ownerInfoMap']"
               :key="item.key"
@@ -102,7 +132,10 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button type="primary" @click="unionFormSubmit">确定</el-button>
+        <el-button
+          type="primary"
+          @click="unionFormSubmit"
+        >确定</el-button>
         <el-button @click="unionDialogVisible = false">取消</el-button>
       </span>
     </el-dialog>
@@ -112,51 +145,66 @@
       width="80%"
       title="配送地址"
     >
-    <el-row type="flex" justify="end">
-      <el-button
-        type="primary"
+      <el-row
+        type="flex"
+        justify="end"
+      >
+        <el-button
+          type="primary"
+          size="small"
+          style="margin:10px"
+          @click="newAddress('新增地址')"
+        >新增地址</el-button>
+      </el-row>
+      <el-table
+        :data="addressTableData"
+        v-loading="addressLoading"
+        border
         size="small"
-        style="margin:10px"
-        @click="newAddress('新增地址')"
-        >新增地址</el-button
       >
-    </el-row>
-    <el-table :data="addressTableData" v-loading="addressLoading" border size="small">
-      <el-table-column type="index" label="序号" width="55"></el-table-column>
-      <el-table-column
-        v-for="(column, index) in addressTableShowConfig"
-        :key="index"
-        :prop="column.prop"
-        :label="column.label"
-      >
-        <template slot-scope="scope">
-  <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
-  <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
-  <span v-else>{{scope.row[column.prop]}}</span>
-</template>
-      </el-table-column>
-      <el-table-column label="操作" width="180" fixed="right">
-        <template slot-scope="scope">
-  <a
-    :style="linkstyle"
-    @click="delAddressRow(scope.row)"
-  >删除</a>
-  <a
-    :style="linkstyle"
-    @click="updateAddressRow(scope.row,'编辑地址')"
-  >编辑</a>
-  <el-tag
-    type="success"
-    v-if="scope.row.isDefault === 1"
-  >默认地址</el-tag>
-  <a
-    :style="linkstyle"
-    v-else
-    @click="setDefault(scope.row)"
-  >设为默认</a>
-</template>
-      </el-table-column>
-    </el-table>
+        <el-table-column
+          type="index"
+          label="序号"
+          width="55"
+        ></el-table-column>
+        <el-table-column
+          v-for="(column, index) in addressTableShowConfig"
+          :key="index"
+          :prop="column.prop"
+          :label="column.label"
+        >
+          <template slot-scope="scope">
+            <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
+            <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
+            <span v-else>{{scope.row[column.prop]}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="180"
+          fixed="right"
+        >
+          <template slot-scope="scope">
+            <a
+              :style="linkstyle"
+              @click="delAddressRow(scope.row)"
+            >删除</a>
+            <a
+              :style="linkstyle"
+              @click="updateAddressRow(scope.row,'编辑地址')"
+            >编辑</a>
+            <el-tag
+              type="success"
+              v-if="scope.row.isDefault === 1"
+            >默认地址</el-tag>
+            <a
+              :style="linkstyle"
+              v-else
+              @click="setDefault(scope.row)"
+            >设为默认</a>
+          </template>
+        </el-table-column>
+      </el-table>
       <el-dialog
         :visible.sync="addressEditVisible"
         width="70%"
@@ -297,7 +345,8 @@ export default {
       loading: false,
       editloading: false,
       addressLoading: false,
-      addressData: {},
+      addressData: {
+      },
 
       alertTitle: '新增地址'
     }
@@ -315,7 +364,7 @@ export default {
     addressTableShowConfig() {
       // 过滤下 不需要显示的
       let configs = [...addressTableConfig]
-      return  configs.filter(v => v.type !== 'switch')
+      return configs.filter(v => v.type !== 'switch')
     },
     addressTableConfig() {
       const configs = addressTableConfig
@@ -423,7 +472,7 @@ export default {
     newAddress(title) {
       this.alertTitle = title
       this.addressEditVisible = true
-      this.addressData = {}
+      this.addressData = { isDefault: 1 }
       this.$nextTick(() => {
         this.$refs.addressForm.loadData()
       })
