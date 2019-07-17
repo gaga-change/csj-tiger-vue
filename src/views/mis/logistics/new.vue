@@ -243,11 +243,11 @@
         </el-col>
 
          <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="总费用" prop="totalCost">
+          <el-form-item label="总运费" prop="totalCost">
             <div style="font-size: 14px;">
                 {{totalCost}}元
             </div>
-            <!-- <el-input type="text" v-model="totalCost" readonly="readonly" class="formitem" size="small" placeholder="请输入总费用 ">
+            <!-- <el-input type="text" v-model="totalCost" readonly="readonly" class="formitem" size="small" placeholder="请输入总运费 ">
               <span slot="suffix">元</span>
             </el-input> -->
           </el-form-item>
