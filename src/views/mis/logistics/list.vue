@@ -61,7 +61,7 @@
                 查看物流
               </a>
             </el-popover>
-            <a
+            <!-- <a
               @click="approve({ id: scope.row.id })"
               v-if="
                 scope.row.invoiceState === 1 || scope.row.invoiceState === 3
@@ -69,7 +69,7 @@
               :style="linkstyle"
             >
               审核
-            </a>
+            </a> -->
             <a
               @click="addFee(scope.row)"
               v-if="scope.row.invoiceState === 2"

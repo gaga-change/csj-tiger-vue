@@ -9,7 +9,6 @@ export const listIndexConfig = [
   { label: '客户名称', prop: 'customerName', width: 150 },
   { label: '客户地址', prop: 'dispatchAddr', width: 180 },
   { label: '配送状态', prop: 'dispatchState', useLocalEnum: true, type: 'dispatchState'},
-  { label: '单据状态', prop: 'invoiceState', useLocalEnum: true, type: 'invoiceState', width: 120},
   { label: '制单人', prop: 'createrName' },
   { label: '制单时间', prop: 'gmtCreate', type: 'time', width: 160}
 ]

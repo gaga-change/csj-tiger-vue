@@ -9,9 +9,9 @@ const path = require('path')
 // const ip='http://172.16.80.138:7878';//亚雷
 // const ip='http://172.16.80.83:7878';//亚超
 // const ip='http://192.168.1.195:7979';//测试服务
-// const ip='http://testtiger.csjmro.com';//测试服务555
-const ip='http://172.16.81.219:7878';//龙
+// const ip='http://172.16.81.219:7878';//龙
 // const ip='http://192.168.2.150:7878';//姚旭
+const ip = 'http://192.168.1.37:7878'; // 测试环境
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 
@@ -32,7 +32,7 @@ module.exports = {
     proxyTable: proxyTable,
 
     // Various Dev Server settings
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: 'testtiger.csjmro.com', // can be overwritten by process.env.HOST
     port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
