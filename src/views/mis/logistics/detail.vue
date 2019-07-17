@@ -181,7 +181,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="总费用" >
+          <el-form-item label="总运费" >
             <span>{{addForm.totalCost}}元</span>
           </el-form-item>
         </el-col>
