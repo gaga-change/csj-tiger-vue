@@ -396,7 +396,7 @@ export default {
       })
     },
     getConsoilInfoList() {
-      consoilInfoList({ consoildatorState: 31 })
+      consoilInfoList({ consoildatorState: 31, pageSize: 9999 })
         .then(res => {
           this.consoil = res.data && res.data.list
         })
