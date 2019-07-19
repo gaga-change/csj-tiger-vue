@@ -539,7 +539,7 @@ export default {
         }
       }).catch(err => {
         this.batchLoading = false
-        console.err(err)
+        console.error(err)
       })
     },
     selectionChange(val) {

@@ -42,7 +42,7 @@ export default function Modify({flag,prompt,successTips,errorTips,api}) {
                     })
                     return ''
                 }).catch(err=>{ 
-                  console.err(err)
+                  console.error(err)
                 }) 
               }
              }

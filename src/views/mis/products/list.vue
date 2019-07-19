@@ -268,7 +268,7 @@ export default {
         this.pageNum = res.data.pageNum
         this.loading = false
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.loading = false
       })
     },

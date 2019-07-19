@@ -89,12 +89,12 @@ export default {
                 }
               }
             }).catch(err=>{
-              console.err(err)
+              console.error(err)
             }) 
           }
         }
       }).catch(err=>{
-          console.err(err)
+          console.error(err)
       })
     }
 
@@ -144,7 +144,7 @@ export default {
                 }
               }
           }).catch(err=>{
-            console.err(err)
+            console.error(err)
           })  
         } else if(type==='customerChange'){
            searchForm.customerName=json.entName;
@@ -168,7 +168,7 @@ export default {
             }
           }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })   
     },
 
@@ -209,7 +209,7 @@ export default {
                     query:{refundNo:res.data&&res.data.refundNo||this.$route.query.refundNo,id:res.data&&res.data.id||this.$route.query.id}
                   })
               }).catch(err=>{ 
-                console.err(err)
+                console.error(err)
               })  
             }
           })
@@ -221,7 +221,7 @@ export default {
         this.submitLoding=false;
         this.submitDisabled=false;
         this.saveLoding=false;
-        console.err(err)
+        console.error(err)
         this.$message.error('操作失败');
       })
     },
@@ -243,7 +243,7 @@ export default {
         }).then(()=>{
            this.request(value,type) 
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
         })
       } else{
         this.request(value,type) 

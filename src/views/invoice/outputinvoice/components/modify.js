@@ -48,7 +48,7 @@ export default function Modify(type, name, needfresh, api,tips) {
         })
         this.needfresh()
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '审核失败'
@@ -74,7 +74,7 @@ export default function Modify(type, name, needfresh, api,tips) {
         })
         this.needfresh()
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '复核失败'
@@ -101,10 +101,10 @@ export default function Modify(type, name, needfresh, api,tips) {
           path:`/invoice/outputinvoice/invoiceinvalid/detail?id=${this.$route.query.id}`,
         })
       }).catch(err=>{
-         console.err(err)
+         console.error(err)
       })
     }).catch((err)=>{
-      console.err(err)
+      console.error(err)
     })
   } else if(type===-2){
     this.$confirm('是否确定要作废', '提示', {
@@ -122,7 +122,7 @@ export default function Modify(type, name, needfresh, api,tips) {
         })
          this.getCurrentTableData()
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
     }).catch(err=>{
 
@@ -143,7 +143,7 @@ export default function Modify(type, name, needfresh, api,tips) {
         })
         this.getCurrentTableData()
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       }) 
     }).catch(err=>{
 

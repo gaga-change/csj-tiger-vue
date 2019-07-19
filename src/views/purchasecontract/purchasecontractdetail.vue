@@ -175,7 +175,7 @@ export default {
         this.buttonLoading = false
 
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.fetchSuccess = false
         this.buttonLoading = false
       })

@@ -58,7 +58,7 @@ export function isJSON(str,item) {
             return true;
         } catch(e) {
             if(item.meta!==""){
-              console.err(item,'菜单配置出错')
+              console.error(item,'菜单配置出错')
             }
             return false;
         }

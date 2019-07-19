@@ -307,7 +307,6 @@ export default {
           this.routeinfo[id] = res.data
           this.logloading = false
         }).catch(err => {
-          console.err(err)
           this.logloading = false
         })
       }

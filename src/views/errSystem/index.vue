@@ -90,7 +90,7 @@ export default {
         this.cardLoading=false;
       }).catch(err=>{
         this.cardLoading=false;
-        console.err(err)
+        console.error(err)
       })
     },
 
@@ -112,7 +112,7 @@ export default {
          this.selectbyId({id:this.nowId})
        }).catch(err=>{
          this.selectbyId({id:this.nowId})
-         console.err(err)
+         console.error(err)
        })
     },
 

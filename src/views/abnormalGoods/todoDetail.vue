@@ -73,7 +73,7 @@ export default {
         }
           this.outgoingButtonDisabled=true;
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
         this.outgoingButtonDisabled=true;
       })
     },
@@ -90,7 +90,7 @@ export default {
         }
          this.loading=false;
       }).catch(err=>{
-         console.err(err);
+         console.error(err);
          this.loading=false;
       })
     }

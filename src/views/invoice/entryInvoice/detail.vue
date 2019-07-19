@@ -68,7 +68,7 @@ export default {
           }
         }).catch(err=>{
           this.$message({type:'err',message:'操作失败'})
-          console.err(err)
+          console.error(err)
           })
         }).catch(err=>{
           this.$message({type:'info',message:'操作取消'})

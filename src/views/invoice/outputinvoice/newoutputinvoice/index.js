@@ -215,7 +215,7 @@ export default {
                   this.signNoConfig=res.data;
                 }
               }).catch(err=>{
-                console.err(err)
+                console.error(err)
               });
         
               billingTypeDetails({
@@ -225,7 +225,7 @@ export default {
                   this.outBusiBillNoConfig=res.data;
                 }
               }).catch(err=>{
-                 console.err(err)
+                 console.error(err)
               })
             }
   
@@ -252,7 +252,7 @@ export default {
             this.searchForm=data;
           }
         }).catch(err=>{
-           console.err(err)
+           console.error(err)
         })
       }
   
@@ -261,7 +261,7 @@ export default {
             this.customerConfig=res.data||[]
           }
        }).catch(err=>{
-        console.err(err)
+        console.error(err)
        })
     },
 
@@ -348,7 +348,7 @@ export default {
                           }
                         })
                       }).catch(err=>{
-                        console.err(err)
+                        console.error(err)
                       })
                     }
                   })
@@ -356,7 +356,7 @@ export default {
                   this.$message.error('操作失败');
                 }
               }).catch(err=>{
-                console.err(err)
+                console.error(err)
               })
     
            } else{
@@ -411,7 +411,7 @@ export default {
           this.signNoConfig=res.data;
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       });
 
       billingTypeDetails({
@@ -421,7 +421,7 @@ export default {
           this.outBusiBillNoConfig=res.data;
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
     },
     
@@ -431,7 +431,7 @@ export default {
           this.orderNoConfig=res.data;
          }
        }).catch(err=>{
-        console.err(err)  
+        console.error(err)  
        })
     },
 
@@ -537,7 +537,7 @@ export default {
         }
         this.alertLoding=false
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
         this.alertLoding=false
       })
     },
@@ -613,7 +613,7 @@ export default {
         }
         this.taxNoByWaresLoading=false;
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
         this.taxNoByWaresLoading=false;
       })
     },

@@ -191,7 +191,7 @@ export default {
         this.customerConfig=res.data||[];
       }
      }).catch(err=>{
-      console.err(err)
+      console.error(err)
      })
   },
 
@@ -218,7 +218,7 @@ export default {
              this.outBillNoConfig=res.data;
            }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
         })
       } else{
          this.$message.error('请先选择客户名称');

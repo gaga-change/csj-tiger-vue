@@ -187,7 +187,7 @@ export default {
         this.currentPage = res.data.currentPage
         this.loading = false
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.loading = false
       })
     },

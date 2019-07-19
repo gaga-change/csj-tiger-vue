@@ -47,7 +47,7 @@ export default function Modify({flag,status,prompt,successTips,errorTips,api,lod
                     path:'/receipt/refundList',
                   })
               }).catch(err=>{ 
-                console.err(err)
+                console.error(err)
               })  
             }
           })

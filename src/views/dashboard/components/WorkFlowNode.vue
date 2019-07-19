@@ -217,7 +217,7 @@ export default {
 
         this.loading = false
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.loading = false
       })
      
@@ -247,7 +247,7 @@ export default {
         }
         this.nowloading = false
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.nowloading = false
       })
     }

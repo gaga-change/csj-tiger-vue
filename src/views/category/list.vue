@@ -239,7 +239,7 @@ export default {
           this.getCategory({ id: row.parentId || 0 })
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           loading.close()
         })
     },
@@ -277,7 +277,7 @@ export default {
           }
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           this.dialogbtn = false
         })
     },
@@ -307,7 +307,7 @@ export default {
               this.formonCancel()
             })
             .catch(err => {
-              console.err(err)
+              console.error(err)
               this.dialogbtn = false
             })
         }
@@ -323,7 +323,7 @@ export default {
           }
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           this.loading = false
         })
     },
@@ -335,7 +335,7 @@ export default {
           this.loading = false
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           this.loading = false
         })
     },
@@ -391,7 +391,7 @@ export default {
           }
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
         })
     },
     codeeditrow(index) {

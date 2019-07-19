@@ -213,7 +213,7 @@
             this.showAddDialog('address',this.activeRow)
           }
         }).catch(err => {
-          console.err(err)
+          console.error(err)
         })
       },
       //展示弹框
@@ -286,7 +286,7 @@
             }
           }).catch(err=>{
             this.$message.error('操作失败')
-            console.err(err)
+            console.error(err)
           })
         } else if(type==='addShipper'){
           updateOwnerProvider({
@@ -302,7 +302,7 @@
                this.$message.error('操作失败')
             }
           }).catch(err=>{
-             console.err(err)
+             console.error(err)
              this.$message.error('操作失败')
           })
         } else if(type==='addAddress'){
@@ -331,7 +331,7 @@
               this.$message.error('操作失败')
             }
           }).catch(err=>{
-            console.err(err)
+            console.error(err)
             this.$message.error('操作失败')
           })
 
@@ -364,7 +364,7 @@
           }
         }).catch(err=>{
           this.$message.error('操作失败')
-          console.err(err)
+          console.error(err)
         })
         //对话配置
         this.$confirm('确定要删除吗?', '提示', {
@@ -387,7 +387,7 @@
              this.address_data=res.data;
            }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
         })
       },
 
@@ -407,7 +407,7 @@
             this.ownerListForm=json;
           }
         }).catch(err=>{
-           console.err(err)
+           console.error(err)
         })
       },
 
@@ -427,7 +427,7 @@
           }
           this.loading=false;
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
           this.loading=false;
         })
       },

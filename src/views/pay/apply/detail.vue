@@ -306,7 +306,7 @@
                 }
               })
             }).catch(err => {
-              console.err(err)
+              console.error(err)
             })
       },
       saveOrder(){
@@ -326,7 +326,7 @@
             }
             this.needfresh()
           }).catch(err=>{
-            console.err(err);
+            console.error(err);
              this.$message({type:'success',message:'提交失败', })
              this.needfresh()
           })

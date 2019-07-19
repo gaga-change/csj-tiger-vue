@@ -63,7 +63,7 @@ export default function Modify(type, name, needfresh, api) {
         }        
         this.needfresh()
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '审核失败'
@@ -97,7 +97,7 @@ export default function Modify(type, name, needfresh, api) {
         } 
         this.needfresh()
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '审核失败'
@@ -130,7 +130,7 @@ export default function Modify(type, name, needfresh, api) {
         } 
         this.needfresh()
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '驳回失败'

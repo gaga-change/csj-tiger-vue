@@ -330,7 +330,7 @@
           this.receivableform.receivable = res.data.data[0]
           this.fileList = JSON.parse(res.data.data[0].enclosure)
         }).catch(err => {
-          console.err(err)
+          console.error(err)
         })
       },
       subOrder(row) {
@@ -427,7 +427,7 @@
                 this.submitloading = false
               }
             ).catch(err => {
-              console.err(err)
+              console.error(err)
               this.submitloading = false
             })
           } else {

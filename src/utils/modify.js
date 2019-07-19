@@ -26,7 +26,7 @@ export default function Modify(type, name, needfresh, api) {
           this.planform = JSON.parse(JSON.stringify(this.planform))
         }
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'warn',
           message: '审核失败!'
@@ -51,7 +51,7 @@ export default function Modify(type, name, needfresh, api) {
           message: '驳回成功!'
         })
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '驳回失败'
@@ -107,7 +107,7 @@ export default function Modify(type, name, needfresh, api) {
           message: '作废成功!'
         })
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '作废失败'
@@ -141,7 +141,7 @@ export default function Modify(type, name, needfresh, api) {
           message: '撤销审核成功!'
         })
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '撤销审核失败'

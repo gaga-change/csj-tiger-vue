@@ -197,7 +197,7 @@ export default {
           }
        }
     }).catch(err=>{
-      console.err(err)
+      console.error(err)
     });
 
   },
@@ -277,14 +277,14 @@ export default {
                               })
                             }
                         }).catch(err=>{ 
-                          console.err(err)   
+                          console.error(err)   
                         })  
                       }
                   }) 
                }
              }).catch(err=>{
                 this.$message({type: 'error',message:'操作失败'})
-                console.err(err)
+                console.error(err)
                 this.saveLoading=false;
                 this.submitLoading=false;
              })

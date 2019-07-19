@@ -102,13 +102,13 @@ export default {
         this.detailForm = res.data
         loading.close()
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         loading.close()
       })
       ownerWarehouseList({ ownerCode }).then(res => {
         this.warehouses = res.data || []
       }).catch(err => {
-        console.err(err)
+        console.error(err)
       })
     },
     filter(type, val) {

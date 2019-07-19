@@ -309,7 +309,7 @@ export default {
           this.customerInfo=res.data;
        }
      }).catch(err=>{
-       console.err(err)
+       console.error(err)
      })
   },
 
@@ -360,7 +360,7 @@ export default {
           this.busiBillNoConfig = [...busiBillNoConfig]
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
     },
 

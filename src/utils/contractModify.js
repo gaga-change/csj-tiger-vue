@@ -98,7 +98,7 @@ export default function contractModify(type, params, needfresh, needValue) {
           needfresh()
         }
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.$message({
           type: 'error',
           message: '驳回失败'
@@ -108,7 +108,7 @@ export default function contractModify(type, params, needfresh, needValue) {
         }
       })
     }).catch((err) => {
-      console.err(err);
+      console.error(err);
       
       this.$message({
         type: 'info',

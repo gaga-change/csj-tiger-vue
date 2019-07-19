@@ -123,7 +123,7 @@
           this.total=res.data&&res.data.total;
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
         this.loading=false;
       })
   

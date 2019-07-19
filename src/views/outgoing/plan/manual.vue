@@ -185,7 +185,7 @@
           }
         }).catch(err=>{
            this.pushLoding=false;
-          console.err(err)
+          console.error(err)
         })
       },
 
@@ -224,7 +224,7 @@
                 this.getOutPlanDetail()
               }
           }).catch(err=>{
-            console.err(err)
+            console.error(err)
               this.sureLoding=false;
               this.$message({
                 type: 'error',
@@ -258,7 +258,7 @@
             this.match()
           }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
           this.cancelLoding=false;
           this.$message({
             type: 'error',
@@ -303,7 +303,7 @@
               }
             }
          }).catch(err=>{
-            console.err(err)
+            console.error(err)
             this.planLoading=false;
          })
       },
@@ -334,7 +334,7 @@
             }
           }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
         })
       },
 
@@ -350,7 +350,7 @@
             }
          }).catch(err=>{
             this.outBillNoLoading=false;
-           console.err(err)
+           console.error(err)
          })
       },
 
@@ -374,7 +374,7 @@
               this.isClick=false;
           }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
           this.matchLoading=false;
         })
       },

@@ -97,7 +97,7 @@ export default {
           this.fetchData()
         }
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.submitloading = false
       })
     },
@@ -119,7 +119,7 @@ export default {
             this.fetchData()
           }
         }).catch(err => {
-          console.err(err)
+          console.error(err)
           this.loading = false
         })
       })
@@ -151,7 +151,7 @@ export default {
         this.tableData = res.data
         this.loading = false
       }).catch(err => {
-        console.err(err)
+        console.error(err)
         this.loading = false
       })
     }

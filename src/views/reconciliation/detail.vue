@@ -112,7 +112,7 @@ export default {
                         path:'/reconciliation/list',
                       })
                   }).catch(err=>{ 
-                    console.err(err)
+                    console.error(err)
                   })  
                 }
               })
@@ -122,10 +122,10 @@ export default {
           }).catch(err=>{
             this.deleLoding=false;
             this.$message.error('操作失败');
-            console.err(err)
+            console.error(err)
           })
        }).catch(err=>{
-         console.err(err)
+         console.error(err)
        })
     },
 
@@ -167,14 +167,14 @@ export default {
                   }
                 }
               }).catch(err=>{
-                console.err(err)
+                console.error(err)
                 this.tableLoading=false;
               })
 
            }
          }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
         this.loading=false;
         this.tableLoading=false;
       })

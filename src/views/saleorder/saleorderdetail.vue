@@ -74,7 +74,7 @@ computed: {
           }
         }).catch(err=>{
           this.loading=false;
-          console.err(err)
+          console.error(err)
         })
        
      }).catch(err=>{
@@ -104,7 +104,7 @@ computed: {
           
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
     }
   }

@@ -130,7 +130,7 @@
           });
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
     },
 
@@ -165,7 +165,7 @@
                     path:`/outgoing/plan`,
                   })
                 }).catch(err=>{
-                  console.err(err)
+                  console.error(err)
                 })  
               }
             })
@@ -231,7 +231,7 @@
                  this.alertTableData=_.cloneDeep(res.data)
                }
              }).catch(err=>{
-               console.err(err)
+               console.error(err)
              })
              
            }

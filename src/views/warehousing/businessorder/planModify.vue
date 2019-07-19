@@ -135,7 +135,7 @@ export default {
     //     })
     //   }
     // }).catch(err => {
-    //   console.err(err)
+    //   console.error(err)
     // })
     this.getCurrentTableData()
   },
@@ -160,7 +160,7 @@ export default {
                   path: `/warehousing/plan?t=${Date.now()}`,
                 })
               }).catch(err => {
-                console.err(err)
+                console.error(err)
               })
             }
           })
@@ -235,7 +235,7 @@ export default {
                   path: `/warehousing/plan`,
                 })
               }).catch(err => {
-                console.err(err)
+                console.error(err)
               })
             }
           })
@@ -317,7 +317,7 @@ export default {
 
             }
           }).catch(err => {
-            console.err(err)
+            console.error(err)
           })
 
         }

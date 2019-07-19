@@ -87,7 +87,7 @@ export default {
           }
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
      }
     },
@@ -148,7 +148,7 @@ export default {
                           query:{id:this.$route.query.id||res.data }
                         })
                     }).catch(err=>{ 
-                      console.err(err)
+                      console.error(err)
                     })  
                   }
                   })
@@ -156,7 +156,7 @@ export default {
               }).catch(err=>{
                 this.buttonLoding=false;
                 this.$message.error('操作失败');
-                console.err(err)
+                console.error(err)
               })
           } else{
              this.$message.error('操作失败,请尝试重新拉取对账单');
@@ -180,7 +180,7 @@ export default {
               }
           }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
           this.tableLoading=false;
         }) 
     },

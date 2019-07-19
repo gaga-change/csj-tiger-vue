@@ -99,7 +99,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.err(err)
+            console.error(err)
             this.loading = false
             reject()
           })

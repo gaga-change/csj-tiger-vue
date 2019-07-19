@@ -48,7 +48,7 @@ export default {
         this.baseinfoData=res.data;
       }
     }).catch(err=>{
-      console.err(err)
+      console.error(err)
     })
   },
 
@@ -69,7 +69,7 @@ export default {
                       path:`/carrier/list`,
                     })
                   }).catch(err=>{
-                    console.err(err)
+                    console.error(err)
                   })
                 }
             })
@@ -77,7 +77,7 @@ export default {
              this.$message.error('操作失败')
           }
         }).catch(err=>{
-          console.err(err)
+          console.error(err)
           this.$message.error('操作失败')
       })
     }

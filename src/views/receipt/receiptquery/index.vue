@@ -89,7 +89,7 @@ export default {
            this.total=res.data.total;
         }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
 
       orderListTotal({
@@ -101,7 +101,7 @@ export default {
             this.totalData=res.data;
          }
       }).catch(err=>{
-        console.err(err)
+        console.error(err)
       })
     }
   }

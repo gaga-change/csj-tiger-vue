@@ -136,7 +136,7 @@ export default {
         })
         .catch(err => {
           loading.close()
-          console.err(err)
+          console.error(err)
         })
     },
     delete(arg) {
@@ -159,7 +159,7 @@ export default {
           })
           .catch(err => {
             loading.close()
-            console.err(err)
+            console.error(err)
           })
       })
     },
@@ -210,7 +210,7 @@ export default {
           }
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           this.loading = false
         })
     }
