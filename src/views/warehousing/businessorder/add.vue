@@ -402,9 +402,8 @@ import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import addForm from './conpoments/addForm'
-import { inBillAdd, customerInfo, inbilldetail, inBillUpdate } from '@/api/warehousing'
+import { inBillAdd, customerInfo, inbilldetail, inBillUpdate, skuInfoProviderList } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
-import { skuInfoList } from '@/api/sku'
 import { mapGetters } from 'vuex'
 import _ from 'lodash';
 import moment from 'moment';
@@ -558,7 +557,7 @@ export default {
         this.skuInfoListLoading = true
         this.commodityList = []
         this.addCommodityForm = {}
-        skuInfoList(this.searchForm.ownerCode, this.searchForm.providerCode, 2).then(res => {
+        skuInfoProviderList(this.searchForm.ownerCode, this.searchForm.providerCode, 2).then(res => {
           if (res.success) {
             let data = res.data && _.cloneDeep(res.data) || [];
             let arr = [];
