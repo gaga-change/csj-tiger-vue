@@ -96,7 +96,6 @@ export default {
      submit(){
        this.$refs['searchForm'].validate((valid) => {
           if (valid) {
-            console.log(this.searchForm)
           }
        })
     },

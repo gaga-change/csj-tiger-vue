@@ -240,7 +240,6 @@
         const url = []
         this.fileList.map(
           file => {
-            console.log(file,file.response,file.name && file.url,'item')
             if (file.response) {
               url.push({ name: file.name, url: file.response.data })
             } else if (file.name && file.url) {
@@ -274,12 +273,6 @@
       },
     },
     created() {
-      // if (!this.gridData.length) {
-      //   this.$store.dispatch('GetGysList')
-      // }
-        console.log(234);
-      
-      
       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
       }
@@ -289,18 +282,10 @@
       }
       this.getCustomInfo()
     },
-    activated(){
-        console.log(123);
-        
+    activated(){        
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        
         this.getDetail()
       }
-      // else{
-      //   this.fileList = []
-      //   this.receipt={}
-        
-      // }
       this.getCustomInfo()
     },
     methods: {
@@ -357,7 +342,6 @@
               paymentRecordNo,//交易流水号
               paymentAbstract,
             } = res.data.finaReceiveDO
-            console.log(id,123123123213123);
             
             this.receipt =  {
               id,
@@ -376,12 +360,8 @@
               this.fileList = res.data.fileInfos
               this.receipt.filePath = res.data.fileInfos
             }
-            
-            
           }
-        
         }).catch(err => {
-          console.log(err,1111)
         })
       },
       
@@ -403,11 +383,6 @@
         }
       },
       handleUploadSuccess(res, file, fileList) {
-        console.log(res, file, fileList,12);
-        // this.filenamelist = []
-        // fileList.map(item => {
-        //   this.filenamelist.push({name:item.name})
-        // })
         if (res.code === '200') {
           this.fileList=fileList
         } else {
@@ -415,9 +390,7 @@
             message: res.message,
             type: 'error'
           })
-        }
-        console.log(this.fileList,'file');
-        
+        }        
       },
       onSubmit(type) {
         this.$refs['ruleForm'].validate((valid) => {
@@ -452,11 +425,10 @@
                 this.submitloading = false
               }
             ).catch(err => {
-              console.log(err)
+              console.err(err)
               this.submitloading = false
             })
           } else {
-            console.log('error submit!!')
             this.submitloading = false
             return false
           }

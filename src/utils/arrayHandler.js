@@ -20,7 +20,6 @@ export function paramSortArray(itemData,keyArr){//
     skuCodeObj[arrParam]= skuCodeObj[arrParam] ? skuCodeObj[arrParam] : [];//hash数组
     skuCodeObj[arrParam].push(index)
   })
-  console.log(skuCodeObj);
   
   for(var item in skuCodeObj){
     if(skuCodeObj.hasOwnProperty(item)){

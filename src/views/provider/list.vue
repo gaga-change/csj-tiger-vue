@@ -112,8 +112,6 @@
         json.createBeginDate=moment(json.establishTime[0]).valueOf()
         json.createEndDate=moment(json.establishTime[1]).valueOf()
       }
-
-      console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       registerList({
           ...json,
           pageSize:this.pageSize,
@@ -125,7 +123,7 @@
           this.total=res.data&&res.data.total;
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
         this.loading=false;
       })
   

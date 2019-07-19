@@ -135,7 +135,7 @@ export default {
     //     })
     //   }
     // }).catch(err => {
-    //   console.log(err)
+    //   console.err(err)
     // })
     this.getCurrentTableData()
   },
@@ -160,7 +160,7 @@ export default {
                   path: `/warehousing/plan?t=${Date.now()}`,
                 })
               }).catch(err => {
-                console.log(err)
+                console.err(err)
               })
             }
           })
@@ -235,7 +235,7 @@ export default {
                   path: `/warehousing/plan`,
                 })
               }).catch(err => {
-                console.log(err)
+                console.err(err)
               })
             }
           })
@@ -294,7 +294,6 @@ export default {
         tableData.splice(index, 1);
         this.tableData = tableData;
       } else if (type === 'edit') {
-        console.log(row.id, row, this.editRow.id)
         if (row.id !== this.editRow.id) {
           ownerWarehouseList({
             ownerCode: this.infoData.ownerCode
@@ -318,7 +317,7 @@ export default {
 
             }
           }).catch(err => {
-            console.log(err)
+            console.err(err)
           })
 
         }

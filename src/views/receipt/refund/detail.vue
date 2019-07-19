@@ -216,7 +216,7 @@ export default {
         }).catch(err=>{
           this.refundLoding=false;
           this.refundDisable=false;
-          console.log(err)
+          console.err(err)
         })
       }
     },
@@ -281,7 +281,7 @@ export default {
         }
       }).catch(err=>{
         this.loading=false;
-        console.log(err)
+        console.err(err)
       })
      
   

@@ -70,12 +70,10 @@ export default function Modify(type, name, needfresh, api) {
             type: 'warn',
             message: '审核失败!'
           })
-        } 
-        console.log(3666);
-        
+        }        
         this.needfresh()
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'error',
           message: '审核失败'
@@ -143,12 +141,10 @@ export default function Modify(type, name, needfresh, api) {
             type: 'warn',
             message: '审核失败!'
           })
-        } 
-        console.log(3666);
-        
+        }        
         this.needfresh()
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'error',
           message: '审核失败'

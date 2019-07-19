@@ -68,7 +68,7 @@ export default {
         this.tableData = result
         this.loading = false
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.loading = false
       })
     },

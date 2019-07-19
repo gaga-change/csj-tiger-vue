@@ -249,7 +249,6 @@ export default {
           this.addForm.files = this.fileList
           const Api = this.addForm.ownerCode ? tenantUpdate : saveTenant
           Api(this.addForm).then(res => {
-            console.log(res)
             this.$message.success('操作成功~')
             this.$store.dispatch('delVisitedViews', view[0]).then(() => {
               this.$router.push({
@@ -257,7 +256,7 @@ export default {
               })
             })
           }).catch(err => {
-            console.log(err)
+            console.err(err)
           })
         }
       }

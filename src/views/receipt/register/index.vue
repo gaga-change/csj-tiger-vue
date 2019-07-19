@@ -172,7 +172,6 @@
             this.loading=false;
         })
         getReceiptListTotal(data).then(res => {
-            console.log(res);
             if(res.success){
               this.cardData = res.data
             }

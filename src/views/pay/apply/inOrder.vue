@@ -175,14 +175,12 @@
         this.loading = true
         inOrderSelect({id:this.$route.query.id,busiBillNo:this.$route.query.busiBillNo}).then(res=>{
           if(res.success&&res.data){
-            this.tableData = paramSortArray(res.data.items, ['skuCode','busiIndex'])
-            console.log(this.tableData,'kkk');
-            
+            this.tableData = paramSortArray(res.data.items, ['skuCode','busiIndex'])            
             this.cardData = res.data
           }
           this.loading = false
         }).catch(err=>{
-          console.log(err);
+          console.err(err);
           
           this.loading = false
         })

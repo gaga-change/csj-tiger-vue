@@ -77,7 +77,7 @@ export default {
           }
         }).catch(err=>{
           this.loading=false;
-          console.log(err)
+          console.err(err)
         })
        
      }).catch(err=>{
@@ -107,7 +107,7 @@ export default {
           
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     }
   }

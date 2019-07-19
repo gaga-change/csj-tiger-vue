@@ -197,7 +197,7 @@ export default {
           }
        }
     }).catch(err=>{
-      console.log(err)
+      console.err(err)
     });
 
   },
@@ -215,7 +215,6 @@ export default {
           return json;
         })
         this.tableData=data;
-        console.log([...this.tableData])
       },
 
     fileListChange(successfulUploadFiles){
@@ -257,7 +256,6 @@ export default {
              if(json.receiveCreateTime){
                json.receiveCreateTime=moment(json.receiveCreateTime).valueOf()
              }
-             console.log({...json})
              subApi(json).then(res=>{
                if(res.success){
                   this.saveLoading=false;
@@ -279,14 +277,14 @@ export default {
                               })
                             }
                         }).catch(err=>{ 
-                          console.log(err)   
+                          console.err(err)   
                         })  
                       }
                   }) 
                }
              }).catch(err=>{
                 this.$message({type: 'error',message:'操作失败'})
-                console.log(err)
+                console.err(err)
                 this.saveLoading=false;
                 this.submitLoading=false;
              })

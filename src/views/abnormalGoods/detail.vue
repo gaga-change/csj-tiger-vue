@@ -137,7 +137,7 @@ export default {
           },0)
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       });
     },
 

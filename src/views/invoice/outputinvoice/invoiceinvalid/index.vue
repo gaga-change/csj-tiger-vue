@@ -82,14 +82,10 @@
          
        },
       searchTrigger(ruleForm){
-        console.log(ruleForm);
       },
       resetSearch(ruleForm){
-        console.log(ruleForm);    
       },
-       submitForm(ruleForm) {
-         console.log(ruleForm,'invalid');
-                  
+       submitForm(ruleForm) {                  
         this.ruleForm={...ruleForm,pageSize:10,pageNum:1,searchItem:'invalid'}
         this.getCurrentTableData();
           

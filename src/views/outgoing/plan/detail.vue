@@ -226,7 +226,7 @@ export default {
 
       }).catch(err => {
         this.loading = false;
-        console.log(err)
+        console.err(err)
       })
     },
 
@@ -281,7 +281,7 @@ export default {
             }
             this.outgoingLoding = false;
           }).catch(err => {
-            console.log(err)
+            console.err(err)
           })
         }
       }

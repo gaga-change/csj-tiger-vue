@@ -206,23 +206,6 @@ export default {
     retry() {
       this.$router.go(0)
     },
-    // getLoadingData() {
-    //   this.loading = true
-    //   ZyUser().then(resa => {
-    //     bssLogin({ j_username: resa.data.longonname, j_password: resa.data.logonpass }).then(res => {
-    //       console.log(res)
-    //       this.loading = false
-    //     }).catch(err => {
-    //       // this.loadingfail = true
-    //       this.loading = false
-    //       console.log(err)
-    //     })
-    //   }).catch(erra => {
-    //     console.log(erra)
-    //     this.loading = false
-    //     // this.loadingfail = true
-    //   })
-    // },
     getDefaultData() {
       this.loading = true
       WorkFlowNode({truename:this.userInfo.truename,userId:this.userInfo.id,roles:this.userInfo.roles}).then(res => {
@@ -234,7 +217,7 @@ export default {
 
         this.loading = false
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.loading = false
       })
      
@@ -264,7 +247,7 @@ export default {
         }
         this.nowloading = false
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.nowloading = false
       })
     }

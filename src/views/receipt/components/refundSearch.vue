@@ -309,7 +309,7 @@ export default {
           this.customerInfo=res.data;
        }
      }).catch(err=>{
-       console.log(err)
+       console.err(err)
      })
   },
 
@@ -354,16 +354,13 @@ export default {
         if(res.success){
           
           let busiBillNoConfig=res.data;
-          if(this.useType=='add'){
-            console.log(123);
-            
+          if(this.useType=='add'){            
             busiBillNoConfig = busiBillNoConfig.filter(item=> item.refundType!=1)
-            
           }
           this.busiBillNoConfig = [...busiBillNoConfig]
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     },
 

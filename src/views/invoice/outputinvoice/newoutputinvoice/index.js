@@ -215,7 +215,7 @@ export default {
                   this.signNoConfig=res.data;
                 }
               }).catch(err=>{
-                console.log(err)
+                console.err(err)
               });
         
               billingTypeDetails({
@@ -225,7 +225,7 @@ export default {
                   this.outBusiBillNoConfig=res.data;
                 }
               }).catch(err=>{
-                 console.log(err)
+                 console.err(err)
               })
             }
   
@@ -252,7 +252,7 @@ export default {
             this.searchForm=data;
           }
         }).catch(err=>{
-           console.log(err)
+           console.err(err)
         })
       }
   
@@ -261,7 +261,7 @@ export default {
             this.customerConfig=res.data||[]
           }
        }).catch(err=>{
-        console.log(err)
+        console.err(err)
        })
     },
 
@@ -348,7 +348,7 @@ export default {
                           }
                         })
                       }).catch(err=>{
-                        console.log(err)
+                        console.err(err)
                       })
                     }
                   })
@@ -356,7 +356,7 @@ export default {
                   this.$message.error('操作失败');
                 }
               }).catch(err=>{
-                console.log(err)
+                console.err(err)
               })
     
            } else{
@@ -411,7 +411,7 @@ export default {
           this.signNoConfig=res.data;
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       });
 
       billingTypeDetails({
@@ -421,7 +421,7 @@ export default {
           this.outBusiBillNoConfig=res.data;
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     },
     
@@ -431,7 +431,7 @@ export default {
           this.orderNoConfig=res.data;
          }
        }).catch(err=>{
-        console.log(err)  
+        console.err(err)  
        })
     },
 
@@ -472,7 +472,6 @@ export default {
         json.actualTicketTax=(json.taxRate)*(json.skuPrice*json.invoicedQty)/(1+json.taxRate)||0
         return json;
       });
-      console.log(searchForm.productBreakdown.map(v=>v.id))
       this.searchForm=searchForm;
       this.shouDetails = false
     },
@@ -538,7 +537,7 @@ export default {
         }
         this.alertLoding=false
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
         this.alertLoding=false
       })
     },
@@ -614,7 +613,7 @@ export default {
         }
         this.taxNoByWaresLoading=false;
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
         this.taxNoByWaresLoading=false;
       })
     },

@@ -102,7 +102,7 @@
           }
         }).catch(err=>{
           this.loading=false;
-          console.log(err)
+          console.err(err)
         })
       }
 

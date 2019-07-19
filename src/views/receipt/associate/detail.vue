@@ -435,9 +435,7 @@
                 params.isSubmit = false
               }
               if(this.submitForm.moneyState ==0){
-                params.orderRelationVoList = [...this.relateOrderData]
-                console.log((this.totalLoan-this.totalDiscount).toFixed(2),this.cardData.paymentAmt);
-                
+                params.orderRelationVoList = [...this.relateOrderData]                
                 if((this.totalLoan-this.totalDiscount).toFixed(2)!=this.cardData.paymentAmt){
                   this.$message({type:'error',message:'货款合计减去贴息合计必须等于金额'})
                   return false
@@ -549,9 +547,7 @@
               this.cardData.fileInfos = fileInfos
               let { moneyState, moneyType } = {moneyState:0,moneyType:0};
               this.submitForm.moneyState = this.cardData.moneyState == 99 ? 0: this.cardData.moneyState
-              this.submitForm.moneyType = this.cardData.moneyType == 99 ? '': this.cardData.moneyType
-              console.log(this.submitForm,63333333);
-              
+              this.submitForm.moneyType = this.cardData.moneyType == 99 ? '': this.cardData.moneyType              
               if(res.data.relationVos&&res.data.relationVos.length>0){
                 this.relateOrderData = []
                 let relationVos = [...res.data.relationVos]

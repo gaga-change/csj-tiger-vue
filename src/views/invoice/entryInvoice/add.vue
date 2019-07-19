@@ -371,7 +371,7 @@ export default {
                       query:{ finaPurchaseInvoiceId:finaPurchaseInvoiceId?finaPurchaseInvoiceId:res.data}
                     })
                   }).catch(err=>{ 
-                    console.log(err)
+                    console.err(err)
                   })
                 }
               })
@@ -400,7 +400,7 @@ export default {
                           query:{ finaPurchaseInvoiceId:finaPurchaseInvoiceId?finaPurchaseInvoiceId:res.data}
                         })
                       }).catch(err=>{
-                        console.log(err)
+                        console.err(err)
                       })  
                     }
                   })
@@ -408,13 +408,13 @@ export default {
                    this.$message.error('操作失败');
                 }
               }).catch(err=>{
-                  console.log(err)
+                  console.err(err)
               })
            } else{
              this.$message.error('保存失败');
            }
          }).catch(err=>{
-            console.log(err)
+            console.err(err)
          }) 
       } 
   },

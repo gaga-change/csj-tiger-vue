@@ -274,9 +274,8 @@
           ticketno: this.$route.params.ticketno
         }).then(res => {
           this.planform.receivable = res.data.data[0]
-          console.log(res)
         }).catch(err => {
-          console.log(err)
+          console.err(err)
           this.fetchSuccess = false
         })
       }

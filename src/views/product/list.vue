@@ -80,7 +80,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.loading = false
         })
     }

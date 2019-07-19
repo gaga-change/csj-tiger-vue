@@ -74,7 +74,6 @@
         })
       },
       submit() {
-        console.log(this.tableData)
         this.tableData = this.tableData.map(row => {
           if (row.settleUnit ===2) {
             row.outStoreAmt = row.skuOutPrice * (row.outStoreWeight || 0)
@@ -83,13 +82,12 @@
         })
         this.btnloading = true
         outDependWeight(this.tableData).then(res => {
-          console.log(res)
           if (res.success) {
             this.$message('操作成功')
             this.getDetail()
           }
         }).catch(err => {
-          console.log(err)
+          console.err(err)
         })
       }
     }

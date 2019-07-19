@@ -258,7 +258,6 @@
         const url = []
         this.fileList.map(
           file => {
-            // console.log(file)
             if (file.response) {
               url.push({ name: file.name, url: file.response.data })
             } else if (file.name && file.url) {
@@ -330,9 +329,8 @@
         }).then(res => {
           this.receivableform.receivable = res.data.data[0]
           this.fileList = JSON.parse(res.data.data[0].enclosure)
-          console.log(res)
         }).catch(err => {
-          console.log(err)
+          console.err(err)
         })
       },
       subOrder(row) {
@@ -370,9 +368,7 @@
           this.uploadButtonVisible = false
         }
       },
-      handleUploadSuccess(res, file, fileList) {
-        console.log(res, file, fileList);
-        
+      handleUploadSuccess(res, file, fileList) {        
         if (res.code === '200') {
           this.fileList = fileList
         } else {
@@ -384,7 +380,6 @@
       },
       onSubmit() {
         this.$refs['ruleForm'].validate((valid) => {
-          console.log(valid)
           if (valid) {
             const view = this.visitedViews.filter(v => v.path === this.$route.path)
             const postData = JSON.parse(JSON.stringify(this.receivableform))
@@ -400,7 +395,6 @@
             }
             this.submitloading = true
             postData.receivable.enclosure = JSON.stringify(this.enclosure)
-            console.log('send data: ' + JSON.stringify(postData))
             if(this.receivableform.receivable.fundnature === '1' && this.receivableform.receivable.residualamount<this.settlementamount){
               this.$message.error('结算金额不能大于该采购订单应付金额')
               this.submitloading = false
@@ -408,7 +402,6 @@
             }
             addOrUpdateReceivable(postData.receivable).then(
               res => {
-                console.log(res)
                 if (res.code === '200' && res.data) {
                   this.$confirm('新建收款单成功！', '提示', {
                     confirmButtonText: '详情',
@@ -434,11 +427,10 @@
                 this.submitloading = false
               }
             ).catch(err => {
-              console.log(err)
+              console.err(err)
               this.submitloading = false
             })
           } else {
-            console.log('error submit!!')
             this.submitloading = false
             return false
           }

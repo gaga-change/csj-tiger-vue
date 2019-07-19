@@ -120,7 +120,7 @@
                   this.detail_planTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
                 }
               }).catch(err=>{
-                console.log(err)
+                console.err(err)
               })
 
               //相关入库单数据
@@ -134,12 +134,12 @@
                   this.detail_warehousingTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
                 }
               }).catch(err=>{
-                console.log(err)
+                console.err(err)
               })
 
             }
           }).catch(err=>{
-            console.log(err)
+            console.err(err)
           })
        },
        operation(type,row){
@@ -176,7 +176,7 @@
                         path:`/warehousing/businessorder`,
                       })
                     }).catch(err=>{
-                      console.log(err)
+                      console.err(err)
                     })
                   }
               })
@@ -186,7 +186,7 @@
             }
           }
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
         })
 
         //对话配置
@@ -211,7 +211,7 @@
             this.baseData=res.data;
           }
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
         })
        },
        handleClose(){

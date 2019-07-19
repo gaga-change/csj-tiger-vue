@@ -233,7 +233,7 @@ export default {
       queryLogisticsDetail(this.$route.query.id).then(res => {
         this.addForm = res.data
       }).catch(err => {
-        console.log(err)
+        console.err(err)
       })
     }
   }

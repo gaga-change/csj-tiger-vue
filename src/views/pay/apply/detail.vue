@@ -306,7 +306,7 @@
                 }
               })
             }).catch(err => {
-              console.log(err)
+              console.err(err)
             })
       },
       saveOrder(){
@@ -319,7 +319,6 @@
           flag:false
         }
           paymentSubmit(params).then(res=>{
-            console.log(res);
             if(res.success){
                this.$message({type:'success',message:'提交成功', })
             }else{
@@ -327,7 +326,7 @@
             }
             this.needfresh()
           }).catch(err=>{
-            console.log(err);
+            console.err(err);
              this.$message({type:'success',message:'提交失败', })
              this.needfresh()
           })

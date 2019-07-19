@@ -215,7 +215,7 @@
            this.loading=false
         }).catch(err=>{
            this.loading=false
-           console.log(err)
+           console.err(err)
         })
       },
 
@@ -225,8 +225,6 @@
 
 
       showDialog(type,row){
-         console.log(type,row)
-
          if(type==="add"){
            this.addVisible=true;
            this.addFormTitle="新增仓储点"

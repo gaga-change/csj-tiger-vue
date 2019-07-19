@@ -131,7 +131,7 @@ export default {
         })
       }
     }).catch(err => {
-      console.log(err)
+      console.err(err)
     })
   },
 
@@ -162,7 +162,7 @@ export default {
                   path: `/warehousing/plan`,
                 })
               }).catch(err => {
-                console.log(err)
+                console.err(err)
               })
             }
           })
@@ -244,7 +244,7 @@ export default {
 
             }
           }).catch(err => {
-            console.log(err)
+            console.err(err)
           })
 
         }

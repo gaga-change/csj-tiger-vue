@@ -99,7 +99,7 @@
            }
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     },
 
@@ -112,7 +112,6 @@
         })
       },
       needfresh() {
-        console.log(63336);
         this.buttonDisabled = false
         this.getCurrentTableData()
       },

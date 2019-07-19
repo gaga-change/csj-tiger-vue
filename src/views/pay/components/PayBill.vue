@@ -94,21 +94,12 @@ export default {
     }
   },
   watch:{
-    dialogVisiblePay(){
-      // console.log(this.dialogVisiblePay,1,111,11111);
-      
+    dialogVisiblePay(){      
       this.dialogVisPay = this.dialogVisiblePay
     },
     payDurationEnd(){
       this.durationEnd = this.payDurationEnd
     }
-    // lastBillDate(){
-    //   console.log(23423);
-    //   var a = +moment(this.lastBillDate).add(1,'days')
-    //   console.log(a);
-      
-    //   this.payDurationStart  = a
-    // }
   },
   props:{
     serviceCharge:{

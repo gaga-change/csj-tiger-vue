@@ -15,7 +15,6 @@ export default function Modify(type, name, needfresh, api) {
         checkUser: checkUser,
         checkAdvice: value
       }).then(res => {
-        console.log(res)
         this.$message({
           type: 'success',
           message: '审核成功!'
@@ -27,7 +26,7 @@ export default function Modify(type, name, needfresh, api) {
           this.planform = JSON.parse(JSON.stringify(this.planform))
         }
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'warn',
           message: '审核失败!'
@@ -45,7 +44,6 @@ export default function Modify(type, name, needfresh, api) {
         checkFlag: type,
         checkUser: checkUser
       }).then(res => {
-        console.log(res)
         this.planform[name].status = -2
         this.planform = JSON.parse(JSON.stringify(this.planform))
         this.$message({
@@ -53,7 +51,7 @@ export default function Modify(type, name, needfresh, api) {
           message: '驳回成功!'
         })
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'error',
           message: '驳回失败'
@@ -76,7 +74,6 @@ export default function Modify(type, name, needfresh, api) {
         checkFlag: type,
         checkUser: checkUser
       }).then(res => {
-        console.log(res)
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         this.$message({
           type: 'success',
@@ -103,7 +100,6 @@ export default function Modify(type, name, needfresh, api) {
         checkFlag: type,
         checkUser: checkUser
       }).then(res => {
-        console.log(res)
         this.planform[name].status = 2
         this.planform = JSON.parse(JSON.stringify(this.planform))
         this.$message({
@@ -111,7 +107,7 @@ export default function Modify(type, name, needfresh, api) {
           message: '作废成功!'
         })
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'error',
           message: '作废失败'
@@ -134,7 +130,6 @@ export default function Modify(type, name, needfresh, api) {
         checkFlag: type,
         checkUser: checkUser
       }).then(res => {
-        console.log(res)
         if (needfresh) {
           this.needfresh()
         } else {
@@ -146,7 +141,7 @@ export default function Modify(type, name, needfresh, api) {
           message: '撤销审核成功!'
         })
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'error',
           message: '撤销审核失败'

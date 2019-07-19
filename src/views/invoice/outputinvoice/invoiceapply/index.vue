@@ -91,7 +91,6 @@
             }
        },
        submitDemo(id){
-         console.log(11,id);
          
        },
       linkToInvoice(){
@@ -105,7 +104,6 @@
         
       },
        submitForm(ruleForm) {
-         console.log(ruleForm,'register');
           if(ruleForm.applyLastAllowTime){
             ruleForm.applyLastAllowTime = +(new Date(ruleForm.applyLastAllowTime))
           }

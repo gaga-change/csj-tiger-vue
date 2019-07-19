@@ -152,7 +152,7 @@ export default {
            if(!this.$refs['search'].searchForm.handleOpinion){
              this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value
             }
-            console.log(err)
+            console.err(err)
          })
         }else{
            this.$refs['search'].searchForm.handleOpinion = handleOpinionConfig[0].value     
@@ -196,7 +196,7 @@ export default {
               }
               this.alertLoading=false;
              }).catch(err=>{
-               console.log(err)
+               console.err(err)
                this.alertLoading=false;
              })
           }
@@ -252,13 +252,13 @@ export default {
                     query:{id:res.data.id }
                   })
               }).catch(err=>{ 
-                console.log(err)
+                console.err(err)
               })  
              }
             })
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
   
 

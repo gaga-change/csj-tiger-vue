@@ -485,7 +485,6 @@ export default {
       }
       this.batchLoading = true
       Methods[type](postData[type]).then(res => {
-        console.log(res)
         this.batchLoading = false
         if (res.success) {
           this.$message.success('操作成功~')
@@ -494,7 +493,7 @@ export default {
         }
       }).catch(err => {
         this.batchLoading = false
-        console.log(err)
+        console.err(err)
       })
     },
     selectionChange(val) {

@@ -190,7 +190,7 @@ export default {
         })
         .catch(err => {
           loading.close()
-          console.log(err)
+          console.err(err)
         })
     },
     showStore(row) {
@@ -208,7 +208,7 @@ export default {
         this.addForm.ownerCode = row.ownerCode
         this.storeLoading = false
       }).catch(err => {
-        console.log(err)
+        console.err(err)
       })
     },
     delete(arg) {
@@ -231,7 +231,7 @@ export default {
           })
           .catch(err => {
             loading.close()
-            console.log(err)
+            console.err(err)
           })
       })
     },
@@ -268,8 +268,6 @@ export default {
           json[i] = this.searchForm[i]
         }
       }
-
-      console.log({ ...json, pageSize: this.pageSize, pageNum: this.pageNum })
       tenantList({
         ...json,
         pageSize: this.pageSize,
@@ -283,7 +281,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.loading = false
         })
     }

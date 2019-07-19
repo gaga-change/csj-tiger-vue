@@ -18,14 +18,14 @@ export  function operation(row,api,tip){
         this.$store.dispatch('delVisitedViews', view[0]).then(() => {
           this.$router.push({path:'/outgoing/businessorder'})
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
         })
       } else{
         this.getCurrentTableData()
       }
     }
   }).catch(err=>{
-    console.log(err)
+    console.err(err)
   })
   
   let component=this.$confirm;
@@ -40,7 +40,7 @@ export  function operation(row,api,tip){
   }).then(() => {
     submit()
   }).catch((err) => {
-    console.log(err)
+    console.err(err)
     this.$message({
       type: 'info',
       message: '已取消操作'

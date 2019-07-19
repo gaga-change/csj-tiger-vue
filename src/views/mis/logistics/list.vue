@@ -249,7 +249,7 @@ export default {
           this.routeinfo[id] = res.data
           this.logloading = false
         }).catch(err => {
-          console.log(err)
+          console.err(err)
           this.logloading = false
         })
       }
@@ -270,14 +270,13 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err)
+            console.err(err)
             this.tableLoading = false
           })
       })
     },
     submitAddForm() {
       this.addloading = true
-      console.log(this.rowData)
       const { expense = {}, amountOfMoney } = this.addForm
       addLogisticsExpense({
         logisticsId: this.rowData.id,
@@ -305,7 +304,7 @@ export default {
           this.expenses = res.data
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
         })
     },
     addFee(row) {
@@ -325,7 +324,7 @@ export default {
           this.feeTableData = result.logisticsExpenses || []
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.tableLoading = false
         })
     },
@@ -379,7 +378,7 @@ export default {
             this.fetchData()
           })
           .catch(err => {
-            console.log(err)
+            console.err(err)
           })
       })
     },
@@ -401,7 +400,7 @@ export default {
           this.consoil = res.data && res.data.list
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
         })
     },
     searchSubmit(formData) {
@@ -426,7 +425,6 @@ export default {
         pageSize: this.pageSize
       })
         .then(res => {
-          console.log(res)
           const result = res.data
           this.tableData = result.list
           this.pageNum = result.pageNum
@@ -435,7 +433,7 @@ export default {
         })
         .catch(err => {
           this.loading = false
-          console.log(err)
+          console.err(err)
         })
     },
     handleSizeChange(val) {

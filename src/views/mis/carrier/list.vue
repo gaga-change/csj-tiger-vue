@@ -100,7 +100,7 @@
             this.fetch()
           }
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
         })
         //对话配置
         this.$confirm('确定要删除吗?', '提示', {

@@ -37,7 +37,6 @@
     },
     watch:{
       tableData(){
-        console.log(this.tableData,123);
         this.recordData = [...this.tableData]
       }
     },

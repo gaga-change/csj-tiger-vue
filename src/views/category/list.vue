@@ -235,12 +235,11 @@ export default {
         disOrEnable: row.isEnable === 1 ? 0 : 1
       })
         .then(res => {
-          console.log(res)
           loading.close()
           this.getCategory({ id: row.parentId || 0 })
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           loading.close()
         })
     },
@@ -266,7 +265,6 @@ export default {
       this.type = 'edit'
       getCategoryDetailById(row.id)
         .then(res => {
-          console.log(res)
           let { parentCategoryName, parentId, ...rest } = res.data
           this.dialogbtn = false
           if (parentId === 0) {
@@ -277,10 +275,9 @@ export default {
             parentId,
             ...rest
           }
-          console.log()
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.dialogbtn = false
         })
     },
@@ -291,7 +288,6 @@ export default {
       }
       this.$refs['createForm'].validate(valid => {
         if (valid) {
-          console.log(this.type)
           this.dialogbtn = true
           let postForm = {}
           if (this.type === 'edit') {
@@ -304,7 +300,6 @@ export default {
           }
           Method[this.type](postForm)
             .then(res => {
-              console.log(res)
               this.dialogbtn = false
               this.createshow = false
               this.getCategory({ id: this.addForm.parentId || 0 })
@@ -312,7 +307,7 @@ export default {
               this.formonCancel()
             })
             .catch(err => {
-              console.log(err)
+              console.err(err)
               this.dialogbtn = false
             })
         }
@@ -322,14 +317,13 @@ export default {
       this.loading = true
       getCategoryListById(item.id)
         .then(res => {
-          console.log(res)
           if (res.success) {
             this.list = res.data
             this.loading = false
           }
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.loading = false
         })
     },
@@ -341,7 +335,7 @@ export default {
           this.loading = false
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.loading = false
         })
     },
@@ -397,7 +391,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
         })
     },
     codeeditrow(index) {
@@ -460,7 +454,6 @@ export default {
           edit: true
         }
       })
-      // console.log(this.list5)
     },
     handleDeletecategory(item) {
       this.$confirm('确认删除？', '提示', {

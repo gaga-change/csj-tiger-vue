@@ -132,7 +132,6 @@
 
       SelectionChange(value){
         this.selectionData=value
-        console.log(value)
       },
 
       //关闭弹框
@@ -168,7 +167,6 @@
            this.searchForm=_.cloneDeep(value);
            this.fetch()
         } else if(type==='addWarehouse'){
-           console.log(this.selectionData)
            this.selectWarehouseVisible=false;
         }
       
@@ -181,9 +179,7 @@
              delete json[i]
            }
         }
-        console.log(json)
       }
-
     }
   }
 </script>

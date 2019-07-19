@@ -534,9 +534,7 @@
      
     },
 
-    activated(){
-      console.log(this.$route.params.from,1111);
-      
+    activated(){      
        if (this.$route.query.id&&this.$route.query.from=='rebuild') {
         this.getDetail()
      } else if(this.$route.query.byOut){
@@ -559,9 +557,7 @@
         this.fileNew =[]
         this.filePathList = []
         this.$refs['ruleForm'].resetFields();
-      }
-      console.log(this.payment);
-      
+      }      
       this.getCustomInfo()
     },
     methods: {
@@ -597,9 +593,7 @@
             this.payment.filePathList = [...this.filesObj.goods]
             this.fileNew = [...this.filesObj.goods]
             this.filePathList = [...this.filesObj.goods]
-            this.fileContractList = [...this.contractFiles.goods]
-            console.log(this.fileNew.length,this.payment.filePathList,this.filePathList.length,1);
-            
+            this.fileContractList = [...this.contractFiles.goods]            
           // }
         }else  if(this.payment.moneyState == 2){
           if(this.payment.contractNo != this.contractObj.service){
@@ -608,7 +602,6 @@
           if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.service){
             this.payment.applyPaymentAmt = this.applyPaymentAmtObj.service
           }
-          // console.log(this.filesObj.service,211);
           
           // if(this.payment.filePathList != this.filesObj.service){
             this.payment.filePathList = [...this.filesObj.service]
@@ -790,7 +783,6 @@
           }
         
         }).catch(err => {
-          console.log(err,1111)
         })
       },
       
@@ -921,11 +913,10 @@
                 this.submitloading = false
               }
             ).catch(err => {
-              console.log(err)
+              console.err(err)
               this.submitloading = false
             })
           } else {
-            console.log('error submit!!')
             this.submitloading = false
             return false
           }

@@ -571,9 +571,7 @@
               getPaymentRegisterData({id:this.cardData.finaPaymentRegisterId}).then(res =>{
                 this.loading = false
                 if(res.success){
-                  this.cardData.registerStatus = res.data.registerStatus
-                  console.log(this.cardData.registerStatus,222222);
-                  
+                  this.cardData.registerStatus = res.data.registerStatus                  
                 }else{
                   this.cardData.registerStatus = ''
                 }

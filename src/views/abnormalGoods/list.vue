@@ -84,7 +84,6 @@ export default {
 
     submit(value){
       this.searchForm=value;
-      console.log(value)
       this.getCurrentTableData()
     },
 
@@ -113,7 +112,6 @@ export default {
        json['endDate']=moment(json.time[0]).valueOf();
       }
       
-      console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       getPurcRejectApplyList({
           ...json,
           pageSize:this.pageSize,
@@ -125,7 +123,7 @@ export default {
           }
           this.loading=false;
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
           this.loading=false;
         })
         

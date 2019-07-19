@@ -115,7 +115,7 @@
            }
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     },
 
@@ -146,7 +146,7 @@
             }
           }).catch(err=>{
             this.$message({type:'err',message:'操作失败'})
-            console.log(err)
+            console.err(err)
             })
           }).catch(err=>{
             this.$message({type:'info',message:'操作取消'})
@@ -199,7 +199,6 @@
           
           this.finaSaleInvoiceDetailDOList = res.data && res.data.finaSaleInvoiceDetailDOList || []
           this.cardData = {...res.data}
-          console.log(this.cardData);
           if(!this.cardData.oldInvoiceCode){
             let applyinfoConfigDetail=_.cloneDeep(this.applyinfoConfigDetail);
             let index=applyinfoConfigDetail.findIndex(v=>v.prop==='oldInvoiceCode');

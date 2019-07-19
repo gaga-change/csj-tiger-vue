@@ -54,7 +54,7 @@ export default {
               }
             }).catch(err=>{
               this.alertLoding=false;
-              console.log(err)
+              console.err(err)
             })
         }
     }

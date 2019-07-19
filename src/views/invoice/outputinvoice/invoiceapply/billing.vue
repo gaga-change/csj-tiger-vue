@@ -100,7 +100,7 @@
           this.needfresh()
         }).catch(err=> {
           this.$message({type:'error',message:msg + '失败，请重试'})
-          console.log(err);
+          console.err(err);
         })
       },
       Modify,

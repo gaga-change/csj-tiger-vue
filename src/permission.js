@@ -19,12 +19,11 @@ router.beforeEach((to, from, next) => {
             next({ ...to, replace: true })
           });
         } else{
-          console.log(res);
           location.href = `/csj_logout`
         }
 
       }).catch((err) => {
-        console.log(err);
+        console.err(err);
         location.href = `/csj_logout`
       })
 

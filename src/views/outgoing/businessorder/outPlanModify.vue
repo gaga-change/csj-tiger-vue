@@ -148,7 +148,7 @@ export default {
                   path: `/outgoing/plan?t=${Date.now()}`,
                 })
               }).catch(err => {
-                console.log(err)
+                console.err(err)
               })
             }
           })
@@ -220,7 +220,7 @@ export default {
                   path: `/outgoing/plan`,
                 })
               }).catch(err => {
-                console.log(err)
+                console.err(err)
               })
             }
           })
@@ -288,7 +288,7 @@ export default {
               this.alertTableData = _.cloneDeep(res.data)
             }
           }).catch(err => {
-            console.log(err)
+            console.err(err)
           })
 
         }

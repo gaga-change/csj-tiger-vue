@@ -231,7 +231,6 @@ export default {
 
      customerChange(value){
       let searchForm=_.cloneDeep(this.searchForm);
-      console.log(value,'value');
       if(value){
         searchForm.paymenterName=this.customerConfig.find(v=>v.paymenterCode==value).paymenterName;
         searchForm.paymenterCode=value;

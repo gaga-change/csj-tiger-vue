@@ -146,7 +146,7 @@ export default {
              this.searchForm=res.data;
            }
          }).catch(err=>{
-           console.log(err)
+           console.err(err)
          })
        }
     },
@@ -158,7 +158,7 @@ export default {
             this.expressConfig=res.data
           }
        }).catch(err=>{
-         console.log(err)
+         console.err(err)
        })
      },
      submit(type){
@@ -185,7 +185,7 @@ export default {
                         path:`/carrier/detail?consoildatorCode=${this.$route.query.consoildatorCode||res.data}`,
                       })
                     }).catch(err=>{
-                      console.log(err)
+                      console.err(err)
                     })
                   }
                 })
@@ -194,7 +194,7 @@ export default {
               }
             }).catch(err=>{
               this.$message.error('操作失败')
-              console.log(err)
+              console.err(err)
             })
           }
        })

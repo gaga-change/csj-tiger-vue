@@ -166,7 +166,6 @@ export default {
           json[i]=this.searchForm[i]
         }
       }
-      console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       refundList({
         ...json,
         pageSize:this.pageSize,
@@ -179,7 +178,7 @@ export default {
         }
       }).catch(err=>{
         this.loading=false;
-        console.log(err)
+        console.err(err)
       })
     
     

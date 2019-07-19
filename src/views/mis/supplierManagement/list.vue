@@ -208,13 +208,12 @@
       setDefault(row = {}) {
         const { id } = row
         providerSetDefaultAddress({ id }).then(res => {
-          console.log(res)
           if (res.success) {
             this.$message.success('操作成功')
             this.showAddDialog('address',this.activeRow)
           }
         }).catch(err => {
-          console.log(err)
+          console.err(err)
         })
       },
       //展示弹框
@@ -273,7 +272,6 @@
 
       submit(type,value){
         if(type==='select'){
-          console.log(type,value)
           this.searchForm=_.cloneDeep(value);
           this.fetch()
         } else if(type==='add'){
@@ -288,7 +286,7 @@
             }
           }).catch(err=>{
             this.$message.error('操作失败')
-            console.log(err)
+            console.err(err)
           })
         } else if(type==='addShipper'){
           updateOwnerProvider({
@@ -304,7 +302,7 @@
                this.$message.error('操作失败')
             }
           }).catch(err=>{
-             console.log(err)
+             console.err(err)
              this.$message.error('操作失败')
           })
         } else if(type==='addAddress'){
@@ -333,7 +331,7 @@
               this.$message.error('操作失败')
             }
           }).catch(err=>{
-            console.log(err)
+            console.err(err)
             this.$message.error('操作失败')
           })
 
@@ -366,7 +364,7 @@
           }
         }).catch(err=>{
           this.$message.error('操作失败')
-          console.log(err)
+          console.err(err)
         })
         //对话配置
         this.$confirm('确定要删除吗?', '提示', {
@@ -389,7 +387,7 @@
              this.address_data=res.data;
            }
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
         })
       },
 
@@ -409,7 +407,7 @@
             this.ownerListForm=json;
           }
         }).catch(err=>{
-           console.log(err)
+           console.err(err)
         })
       },
 
@@ -429,7 +427,7 @@
           }
           this.loading=false;
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
           this.loading=false;
         })
       },

@@ -99,17 +99,16 @@ export default {
       })
       const {ownerCode} = this.$route.query
       tenantDetail({ownerCode}).then(res => {
-        console.log(res);
         this.detailForm = res.data
         loading.close()
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         loading.close()
       })
       ownerWarehouseList({ ownerCode }).then(res => {
         this.warehouses = res.data || []
       }).catch(err => {
-        console.log(err)
+        console.err(err)
       })
     },
     filter(type, val) {

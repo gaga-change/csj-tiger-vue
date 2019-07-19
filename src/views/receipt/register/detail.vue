@@ -180,7 +180,6 @@
                 onClose:()=>{
                     var a = this.$store.state.tagsView.visitedViews
                     var view = {};
-                    console.log(a)
                     a.map(item => {if(item.name === 'receiptRegisterDetail'){view=item}})
                     this.$message({
                           type: 'success',

@@ -74,7 +74,7 @@ computed: {
           }
         }).catch(err=>{
           this.loading=false;
-          console.log(err)
+          console.err(err)
         })
        
      }).catch(err=>{
@@ -90,7 +90,6 @@ computed: {
         if(res.success){
            let data=JSON.parse(res.data);
            if(data.code==='200'){
-             console.log(JSON.parse(data.data.saleOrder.orgenclosure))
              this.saleOrder=data.data&&data.data.saleOrder;
              if(Array.isArray(JSON.parse(this.saleOrder.orgenclosure))){
                 this.saleOrder.orgenclosure=JSON.parse(this.saleOrder.orgenclosure).map(v=>{
@@ -105,7 +104,7 @@ computed: {
           
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     }
   }

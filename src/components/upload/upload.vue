@@ -106,7 +106,6 @@ export default {
     formatterLocalFileList(fileList){
       let arr=[];
       if(Array.isArray(fileList)){
-        console.log(fileList)
             fileList.forEach(item=>{
               if(item.response&&item.response.code&&item.response.code==='200'){
                 if(item.response.data&&item.response.data.desc&&item.response.data.desc.includes('成功')){

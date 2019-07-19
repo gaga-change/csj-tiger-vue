@@ -116,7 +116,7 @@
                    this.detail_planTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
                 }
               }).catch(err=>{
-                console.log(err)
+                console.err(err)
               })
 
               //查询相关出库单
@@ -130,11 +130,11 @@
                    this.detail_outGoingTableData=result.data&&Array.isArray(result.data.list)&&result.data.list||[];
                  }
               }).catch(err=>{
-                console.log(err)
+                console.err(err)
               })
             }
           }).catch(err=>{
-            console.log(err)
+            console.err(err)
           })
        }
     }

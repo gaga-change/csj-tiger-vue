@@ -155,7 +155,6 @@ export default {
         json.arriveEndDate=moment(json.endTime[1]).valueOf()
       }
 
-      // console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       finaPurchaseInvoiceList({...json,pageSize:this.pageSize,pageNum:this.pageNum}).then(res=>{
           if(res.success){
             let data=res.data.list||[];

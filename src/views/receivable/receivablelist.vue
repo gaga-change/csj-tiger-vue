@@ -258,9 +258,7 @@
             filterVal: ['ticketno', 'saleorder', 'contractno', 'payername', 'receivablesname', 'recdate', 'fundnature', 'fundtype', 'settlementmethod', 'recamount', 'interestrate', 'settlementamount', 'status', 'businesstype', 'checkadvice', 'createuser', 'createdate']
           })
           this.downloadLoading = false
-          console.log(res)
         }).catch(err => {
-          console.log(err)
           this.downloadLoading = false
         })
       },
@@ -329,9 +327,7 @@
           this.totaldata = { amount, interestrate, payamount }
           this.currentPage = res.data.currentPage
           this.loading = false
-          console.log(res)
         }).catch(err => {
-          console.log(err)
           this.loading = false
         })
       },

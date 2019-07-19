@@ -106,7 +106,7 @@ export default {
         this.total = result.total
         this.loading = false
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.loading = false
       })
     },

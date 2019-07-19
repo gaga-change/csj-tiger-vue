@@ -136,7 +136,7 @@ export default {
         })
         .catch(err => {
           loading.close()
-          console.log(err)
+          console.err(err)
         })
     },
     delete(arg) {
@@ -159,7 +159,7 @@ export default {
           })
           .catch(err => {
             loading.close()
-            console.log(err)
+            console.err(err)
           })
       })
     },
@@ -197,7 +197,6 @@ export default {
         }
       }
 
-      console.log({ ...json, pageSize: this.pageSize, pageNum: this.pageNum })
       tenantAdminList({
         ...json,
         pageSize: this.pageSize,
@@ -211,7 +210,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.err(err)
           this.loading = false
         })
     }

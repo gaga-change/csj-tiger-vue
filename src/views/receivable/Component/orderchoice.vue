@@ -182,13 +182,12 @@ export default {
         pageindex: this.pageindex,
         ...pData
       }).then(res => {
-        console.log(res)
         this.orderList = res.data.data
         this.total = res.data.total
         this.currentPage = res.data.currentPage
         this.loading = false
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.loading = false
       })
     },

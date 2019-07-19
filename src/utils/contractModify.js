@@ -27,7 +27,6 @@ export default function contractModify(type, params, needfresh, needValue) {
         checkAdvice: value,
         userId:this.$store.state && this.$store.state.user && this.$store.state.user.userInfo && this.$store.state.user.userInfo.id
       }).then(res => {
-        console.log(res)
        
         if(res.code != 200){
           
@@ -99,7 +98,7 @@ export default function contractModify(type, params, needfresh, needValue) {
           needfresh()
         }
       }).catch(err => {
-        console.log(err)
+        console.err(err)
         this.$message({
           type: 'error',
           message: '驳回失败'
@@ -109,7 +108,7 @@ export default function contractModify(type, params, needfresh, needValue) {
         }
       })
     }).catch((err) => {
-      console.log(err);
+      console.err(err);
       
       this.$message({
         type: 'info',
@@ -130,7 +129,6 @@ export default function contractModify(type, params, needfresh, needValue) {
         checkFlag: type,
         checkUser: checkUser
       }).then(res => {
-        console.log(res)
         const view = this.visitedViews.filter(v => v.path === this.$route.path)
         this.$message({
           type: 'success',

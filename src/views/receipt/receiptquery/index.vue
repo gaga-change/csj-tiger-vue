@@ -79,7 +79,6 @@ export default {
           json[i]=this.searchForm[i]
         }
       }
-      console.log({...json,pageSize:this.pageSize,pageNum:this.pageNum})
       orderList({
         ...json,
         pageSize:this.pageSize,
@@ -90,7 +89,7 @@ export default {
            this.total=res.data.total;
         }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
 
       orderListTotal({
@@ -102,7 +101,7 @@ export default {
             this.totalData=res.data;
          }
       }).catch(err=>{
-        console.log(err)
+        console.err(err)
       })
     }
   }

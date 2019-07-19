@@ -51,7 +51,7 @@
             this.tableData=data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[];
           }
         }).catch(err=>{
-          console.log(err)
+          console.err(err)
         })
       }
     }
