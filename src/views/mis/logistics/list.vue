@@ -1,18 +1,27 @@
-<template lang="html">
+<template>
   <div class="app-container">
     <search
       @submit="searchSubmit"
       @cancel="searchCancel"
       :consoil="consoil"
     ></search>
-    <el-row type="flex" justify="end">
-      <router-link :to="{ name: 'newLogistics' }"
-        ><el-button type="primary" size="small" style="margin:10px"
-          >新建配送单</el-button
-        ></router-link
-      >
+    <el-row
+      type="flex"
+      justify="end"
+    >
+      <router-link :to="{ name: 'newLogistics' }">
+        <el-button
+          type="primary"
+          size="small"
+          style="margin:10px"
+        >新建配送单</el-button>
+      </router-link>
     </el-row>
-    <el-table :data="tableData" v-loading="loading" border>
+    <el-table
+      :data="tableData"
+      v-loading="loading"
+      border
+    >
       <el-table-column
         v-for="(column, index) in listIndexConfig"
         :key="index"
@@ -31,33 +40,62 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="260" fixed="right">
+      <el-table-column
+        label="操作"
+        width="260"
+        fixed="right"
+      >
         <template slot-scope="scope">
           <div style="display: flex; flexWrap: nowrap">
-            <a @click="view({ id: scope.row.id })" :style="linkstyle">
+            <a
+              @click="view({ id: scope.row.id })"
+              :style="linkstyle"
+            >
               查看
             </a>
-            <a @click="edit({ id: scope.row.id })" :style="linkstyle">
+            <a
+              @click="edit({ id: scope.row.id })"
+              :style="linkstyle"
+            >
               修改
             </a>
-            <a @click="deleteRow({ id: scope.row.id })" :style="linkstyle">
+            <a
+              @click="deleteRow({ id: scope.row.id })"
+              :style="linkstyle"
+            >
               删除
             </a>
             <el-popover
               placement="right"
               width="500"
-              trigger="click">
-              <el-table :data="routeinfo[scope.row.id]" v-loading="logloading" height="400">
-                <el-table-column width="150" label="发生时间">
+              trigger="click"
+            >
+              <el-table
+                :data="routeinfo[scope.row.id]"
+                v-loading="logloading"
+                height="400"
+              >
+                <el-table-column
+                  width="150"
+                  label="发生时间"
+                >
                   <template slot-scope="scope">
                     <span>{{
                       scope.row.eventTime | parseTime
                     }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column width="300" property="remarkInfo" label="物流信息"></el-table-column>
+                <el-table-column
+                  width="300"
+                  property="remarkInfo"
+                  label="物流信息"
+                ></el-table-column>
               </el-table>
-              <a @click="viewLog({ id: scope.row.id })" :style="linkstyle" slot="reference">
+              <a
+                @click="viewLog({ id: scope.row.id })"
+                :style="linkstyle"
+                slot="reference"
+              >
                 查看物流
               </a>
             </el-popover>
@@ -92,7 +130,11 @@
     >
     </el-pagination>
 
-    <el-dialog :visible.sync="feeVisible" title="代支费用" width="80%">
+    <el-dialog
+      :visible.sync="feeVisible"
+      title="代支费用"
+      width="80%"
+    >
       <SearchHead
         :config="headConfig"
         ref="searchHead"
@@ -100,16 +142,23 @@
         :showResetButton="false"
         :showConfirmButton="false"
       ></SearchHead>
-      <el-row type="flex" justify="end">
+      <el-row
+        type="flex"
+        justify="end"
+      >
         <el-button
           type="primary"
           size="small"
           style="margin:10px"
           @click="newFee"
-          >添加</el-button
-        >
+        >添加</el-button>
       </el-row>
-      <el-table :data="feeTableData" v-loading="tableLoading" border size="small">
+      <el-table
+        :data="feeTableData"
+        v-loading="tableLoading"
+        border
+        size="small"
+      >
         <el-table-column
           v-for="(column, index) in subsituteConfig"
           :key="index"
@@ -119,19 +168,23 @@
         >
           <template slot-scope="scope">
             <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
-            <span
-              v-else-if="column.type === 'date' && scope.row[column.prop]"
-              >{{ scope.row[column.prop] | parseTime }}</span
-            >
+            <span v-else-if="column.type === 'date' && scope.row[column.prop]">{{ scope.row[column.prop] | parseTime }}</span>
             <span v-else-if="column.useLocalEnum && column.type">{{
               scope.row[column.prop] | localEnum(column.type)
             }}</span>
             <span v-else>{{ scope.row[column.prop] }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="80" fixed="right">
+        <el-table-column
+          label="操作"
+          width="80"
+          fixed="right"
+        >
           <template slot-scope="scope">
-            <a :style="linkstyle" @click="delFeeRow(scope.row)">删除</a>
+            <a
+              :style="linkstyle"
+              @click="delFeeRow(scope.row)"
+            >删除</a>
           </template>
         </el-table-column>
       </el-table>
@@ -141,7 +194,10 @@
         :visible.sync="innerVisible"
         append-to-body
       >
-        <el-form :model="addForm" label-width="80px">
+        <el-form
+          :model="addForm"
+          label-width="80px"
+        >
           <el-form-item label="代支款项">
             <el-select
               v-model="addForm.expense"
@@ -165,15 +221,17 @@
             ></el-input-number>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
+        <div
+          slot="footer"
+          class="dialog-footer"
+        >
           <el-button @click="innerVisible = false">取 消</el-button>
           <el-button
             type="primary"
             @click="submitAddForm"
             :loading="addloading"
             :disabled="addloading"
-            >确 定</el-button
-          >
+          >确 定</el-button>
         </div>
       </el-dialog>
     </el-dialog>
