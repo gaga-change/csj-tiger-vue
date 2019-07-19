@@ -125,6 +125,14 @@ export default [
         }
       },
       {
+        name: 'mis_distribution_feedback',
+        path: 'mis_distribution_feedback',
+        outLinkUrl: reportCenterUrl('mis_distribution_feedback', 'mis'),
+        meta: {
+          title: '客户物流反馈表'
+        }
+      },
+      {
         name: 'mis_history_stock',
         path: 'mis_history_stock',
         outLinkUrl: reportCenterUrl('mis_history_stock', 'mis'),
