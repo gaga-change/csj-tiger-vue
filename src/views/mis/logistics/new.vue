@@ -51,7 +51,7 @@
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-select  v-model="addForm.settlementType" clearable  placeholder="请选择结算方式" size="small" class="formitem">
-              <el-option v-for="item in localEnum['settlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+              <el-option v-for="item in  mapConfig['getSettlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>

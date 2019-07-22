@@ -1,5 +1,5 @@
 import { dealNameValueToKeyValue } from '@/utils'
-import { dispatchType, settlementType } from '@/utils/enum'
+import { dispatchType } from '@/utils/enum'
 export const listIndexConfig = [
   {label: '配送单号',prop: 'dispatchNo', width: 120},
   { label: '物流单号', prop: 'logisticsOrderCode', width: 180},
@@ -16,9 +16,7 @@ export const headConfig = [
   { label: '配送类型', prop: 'dispatchType', placeholder: '请选择配送类型', type: 'select',
     selectOptions: dealNameValueToKeyValue(dispatchType), disabled: true
   },
-  { label: '结算方式', prop: 'settlementType', placeholder: '请选择结算方式', type: 'select',
-    selectOptions: dealNameValueToKeyValue(settlementType), disabled: true
-  },
+  { label: '结算方式', prop: 'settlementType', selectOptions: [], placeholder: '请选择结算方式', type: 'select', disabled: true }, // 在 list.vue 文件中有手动更改配置
   { label: '承运商编码', prop: 'consoildatorCode', disabled: true},
   { label: '承运商名称', prop: 'consoildatorName', disabled: true},
   { label: '物流单号', prop: 'logisticsOrderCode', disabled: true},

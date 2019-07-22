@@ -293,7 +293,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['mapConfig'])
+    ...mapGetters(['mapConfig']),
+    mapConfigloaded() {
+      return !!Object.keys(this.mapConfig).length
+    }
+  },
+  watch: {
+    mapConfigloaded(val, oldval) {
+      if (val) {
+        // 结算方式 使用 枚举api
+        let temp = this.headConfig.find(v => v.prop === 'settlementType')
+        temp.selectOptions = this.mapConfig['getSettlementType']
+        this.$set(this.headConfig, 1, temp)
+      }
+    }
   },
   mounted() {
     this.getConsoilInfoList()

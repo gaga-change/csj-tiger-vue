@@ -634,19 +634,6 @@ export const dispatchType = [{
   }
 ]
 
-export const settlementType = [{
-    name: '月结',
-    value: 1
-  },
-  {
-    name: '现结',
-    value: 2
-  },
-  {
-    name: '到付',
-    value: 3
-  }
-]
 export const costCalcWay = [{
     name: '按照体积计算',
     value: 1
