@@ -44,17 +44,17 @@ export default [
         }
       },
       {
-        name: 'mis_invout_summary',
-        path: 'mis_invout_summary',
-        outLinkUrl: reportCenterUrl('mis_invout_summary', 'mis'),
+        name: 'mis_invout_gather',
+        path: 'mis_invout_gather',
+        outLinkUrl: reportCenterUrl('mis_invout_gather', 'mis'),
         meta: {
           title: '出库汇总表'
         }
       },
       {
-        name: 'mis_invin_summary',
-        path: 'mis_invin_summary',
-        outLinkUrl: reportCenterUrl('mis_invin_summary', 'mis'),
+        name: 'mis_invin_gather',
+        path: 'mis_invin_gather',
+        outLinkUrl: reportCenterUrl('mis_invin_gather', 'mis'),
         meta: {
           title: '入库汇总表'
         }
@@ -210,6 +210,31 @@ export default [
         outLinkUrl: reportCenterUrl('mis_invout_main', 'mis'),
         meta: {
           title: '出库业务单汇总'
+        }
+      }
+    ]
+  },
+  {
+    name: 'reportsettle',
+    path: '/reportsettle',
+    mark:'报表',
+    outLinkUrl: reportCenterUrl('mis_invout_summary'),
+    meta: { title: '结算报表', icon: 'stock' },
+    children: [
+      {
+        name: 'mis_invout_summary',
+        path: 'mis_invout_summary',
+        outLinkUrl: reportCenterUrl('mis_invout_summary', 'mis'),
+        meta: {
+          title: '出库汇总表'
+        }
+      },
+      {
+        name: 'mis_invin_summary',
+        path: 'mis_invin_summary',
+        outLinkUrl: reportCenterUrl('mis_invin_summary', 'mis'),
+        meta: {
+          title: '入库汇总表'
         }
       }
     ]
