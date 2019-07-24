@@ -224,7 +224,7 @@ export default [
       {
         name: 'mis_invout_summary',
         path: 'mis_invout_summary',
-        outLinkUrl: reportCenterUrl('mis_invout_summary', 'mis'),
+        outLinkUrl: reportCenterUrl('mis_invout_summary', 'mis', true),
         meta: {
           title: '出库物流对应表'
         }
@@ -232,7 +232,7 @@ export default [
       {
         name: 'mis_invin_summary',
         path: 'mis_invin_summary',
-        outLinkUrl: reportCenterUrl('mis_invin_summary', 'mis'),
+        outLinkUrl: reportCenterUrl('mis_invin_summary', 'mis', true),
         meta: {
           title: '仓储结算明细表'
         }
