@@ -349,14 +349,10 @@ export default {
     totalCost: {
       get: function () {
         let data = 0;
-        if (this.addForm.totalCost) {
-          data = this.addForm.totalCost;
-        } else {
-          ['dispatchCost', 'logisticsPremium', 'toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
-            data += Number(this.addForm[v]) || 0
-          })
-          data += Number(this.addForm.logisticsFare) || 0
-        }
+        ['dispatchCost', 'logisticsPremium', 'insuredCost','toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
+          data += Number(this.addForm[v]) || 0
+        })
+        data += Number(this.addForm.logisticsFare) || 0
         return Number(data).toFixed(2);
       },
       set: function (val) {
