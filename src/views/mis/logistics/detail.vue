@@ -181,8 +181,10 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="总运费" >
-            <span>{{addForm.totalCost}}元</span>
+         <el-form-item label="总运费" prop="totalCost">
+            <div style="font-size: 14px;">
+              {{totalCost}}元
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -223,7 +225,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['mapConfig', 'visitedViews'])
+    ...mapGetters(['mapConfig', 'visitedViews']),
+    totalCost: {
+      get: function () {
+        let data = 0;
+        ['dispatchCost', 'logisticsPremium', 'insuredCost','toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
+          data += Number(this.addForm[v]) || 0
+        })
+        data += Number(this.addForm.logisticsFare) || 0
+        return Number(data).toFixed(2);
+      },
+      set: function (val) {
+        this.$set(this.addForm, 'totalCost', val)
+      }
+    }
   },
   created() {
     this.getDetail()
