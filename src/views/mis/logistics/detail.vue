@@ -21,7 +21,7 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="结算方式" prop="settlementType" >
-            <span>{{addForm.dispatchType|apiEnum('getSettlementType')}}</span>
+            <span>{{addForm.settlementType|localEnum('settlementType')}}</span>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
