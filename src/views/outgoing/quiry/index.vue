@@ -420,7 +420,7 @@ export default {
     stringify,
     printFn() {
       if (this.printTicketnos) {
-        location.href = 'http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint&ticketno=' + this.printTicketnos
+        window.open('http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint&ticketno=' + this.printTicketnos, '_blank')
       } else {
         this.$message('请先选择要打印的单据~')
         return false
