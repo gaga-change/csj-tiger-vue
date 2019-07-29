@@ -289,6 +289,7 @@
         <el-button
           type="primary"
           size="small"
+          @click="printFn"
           class="ml10"
         >发货清单打印FN</el-button>
       </a>
@@ -400,7 +401,7 @@ export default {
       return config
     },
     printTicketnos() {
-      return this.selectData.map(item => item.warehouseExeCode).concat(',')
+      return this.selectData.map(item => item.warehouseExeCode).toString()
     },
     ...mapGetters([
       'mapConfig',
@@ -417,6 +418,14 @@ export default {
 
   methods: {
     stringify,
+    printFn() {
+      if (this.printTicketnos) {
+        location.href = 'http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint&ticketno=' + this.printTicketnos
+      } else {
+        this.$message('请先选择要打印的单据~')
+        return false
+      }
+    },
     selectionPartentChange(val) {
       this.selectData = val
     },
