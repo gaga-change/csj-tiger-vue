@@ -10,8 +10,9 @@
           type="primary"
           size="mini"
           :loading="saveLoading"
+          :disabled="savedisabled"
         >保存</el-button>
-        <el-button type="primary" size="mini" @click="submit('update')">提交</el-button>
+        <el-button type="primary" size="mini" @click="submit('update')" :loading="updateLoading" :disabled="savedisabled">提交</el-button>
       </template>
     </sticky>
 
@@ -123,6 +124,8 @@
             <el-form-item
               label="调出日期"
               label-width="100px"
+              prop="outDate"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-date-picker
                 v-model="searchForm.outDate"
@@ -172,6 +175,8 @@
             <el-form-item
               label="调入日期"
               label-width="100px"
+              prop="inDate"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-date-picker
                 v-model="searchForm.inDate"
@@ -308,6 +313,8 @@ export default {
       skuForm:{},
       totalskucode:[],
       id:null,
+      updateLoading:false,
+      savedisabled:false
     };
   },
 
@@ -493,22 +500,27 @@ export default {
             json.ownerName = this.mapConfig['billOwnerInfoMap'].find(v => v.key === json.ownerCode).value;
             json.outWarehouseName=this.warehouseList.find(v => v.warehouseCode === json.outWarehouseCode).warehouseName;
             json.inWarehouseName=this.warehouseList.find(v => v.warehouseCode === json.inWarehouseCode).warehouseName;
-            let api = requisitionSave;
-            if(type === 'save'){
-              json.isCommit=false
-            }else{
-              json.isCommit=true
-            }
-            if (this.$route.query.id) {
-              if (this.$route.query.type === 'modify') {
-                api = requisitionmodify;
-              } 
-              json.id = this.$route.query.id;
-            }
             if(json.transferBillDetailDOList.length<=0){
               this.$message.error('商品明细不能为空！')
             }else{
-              this.saveLoading = true
+              let api = requisitionSave;
+              if(type === 'save'){
+                json.isCommit=false
+                this.saveLoading = true
+                this.savedisabled = true
+                this.updateloading = false
+              }else{
+                json.isCommit=true
+                this.saveLoading = false
+                this.savedisabled = true
+                this.updateloading = true
+              }
+              if (this.$route.query.id) {
+                if (this.$route.query.type === 'modify') {
+                  api = requisitionmodify;
+                } 
+                json.id = this.$route.query.id;
+              }
               api(json).then(res => {
                 if (res.success) {
                   if (res.data === 'success') res.data = ''
@@ -517,6 +529,9 @@ export default {
                     message: `${res.data || ''}操作成功,即将跳转到列表页！`,
                     duration: 1500,
                     onClose: () => {
+                      this.saveLoading = false
+                      this.savedisabled = false
+                      this.updateloading = false
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
                           path: '/requisition/requisitionplan',
@@ -528,9 +543,13 @@ export default {
                   })
                 } else {
                   this.saveLoading = false
+                  this.savedisabled = false
+                  this.updateloading = false
                 }
               }).catch(err => {
                 this.saveLoading = false
+                this.savedisabled = false
+                this.updateloading = false
               })
             }
           }

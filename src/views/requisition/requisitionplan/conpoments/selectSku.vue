@@ -186,6 +186,8 @@ export default {
       })
       if(this.handleList && this.handleList.length>0){
         this.$emit('submit', 'addCommodity', this.handleList)
+      }else{
+        this.$message.error('调拨明细不能为空！')
       }
     }
   }
