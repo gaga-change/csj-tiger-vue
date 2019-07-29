@@ -508,12 +508,12 @@ export default {
                 json.isCommit=false
                 this.saveLoading = true
                 this.savedisabled = true
-                this.updateloading = false
+                this.updateLoading = false
               }else{
                 json.isCommit=true
                 this.saveLoading = false
                 this.savedisabled = true
-                this.updateloading = true
+                this.updateLoading = true
               }
               if (this.$route.query.id) {
                 if (this.$route.query.type === 'modify') {
@@ -531,7 +531,7 @@ export default {
                     onClose: () => {
                       this.saveLoading = false
                       this.savedisabled = false
-                      this.updateloading = false
+                      this.updateLoading = false
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
                           path: '/requisition/requisitionplan',
@@ -544,12 +544,12 @@ export default {
                 } else {
                   this.saveLoading = false
                   this.savedisabled = false
-                  this.updateloading = false
+                  this.updateLoading = false
                 }
               }).catch(err => {
                 this.saveLoading = false
                 this.savedisabled = false
-                this.updateloading = false
+                this.updateLoading = false
               })
             }
           }
