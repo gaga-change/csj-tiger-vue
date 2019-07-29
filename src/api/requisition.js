@@ -79,3 +79,48 @@ export function handleTransferNo(data={}) {
     params: data
   })
 }
+
+// //出库计划关闭
+// export function outPlanClose(planCode) {
+//   return request({
+//     url: `/webApi/out/plan/close/${planCode}`,
+//     method: 'put',
+//   })
+// }
+
+// //出库计划修改
+// export function outPlanUpdate(data={}) {
+//   return request({
+//     url: `/webApi/out/plan/update`,
+//     method: 'put',
+//     data,
+//   })
+// }
+
+// // 匹配操作
+// export function planHandMatch(data={}) {
+//   return request({
+//     url: `/webApi/out/plan/handMatch`,
+//     method: 'post',
+//     data: data
+//   })
+// }
+
+// //匹配明细
+// export function getBillDetail(data={}) {
+//   return request({
+//     url: `/webApi/out/plan/getBillDetail?${stringify(data)}`,
+//     method: 'get',
+//   })
+// }
+
+
+
+// // 取消操作
+// export function planCancelMatch(data={}) {
+//   return request({
+//     url: `/webApi/out/plan/cancelMatch`,
+//     method: 'post',
+//     data: data
+//   })
+// }

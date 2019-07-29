@@ -391,19 +391,19 @@ export default {
     },
     checkoutWarehouse(){
       this.searchForm.transferBillDetailDOList = []
-      // if(this.searchForm.inWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
-      //   this.$message.error('调出仓库不应和调入仓库一致')
-      //   this.searchForm.outWarehouseCode=''
-      // }
+      if(this.searchForm.inWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
+        this.$message.error('调出仓库不应和调入仓库一致')
+        this.searchForm.outWarehouseCode=''
+      }
     },
     checkInWarehouse(){
       this.searchForm.warehouseLinkName=null
       this.searchForm.warehouseAddress=null
-      // if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
-      //   this.$message.error('调出仓库不应和调入仓库一致')
-      //   this.searchForm.inWarehouseCode=''
-      //   return false
-      // }
+      if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
+        this.$message.error('调出仓库不应和调入仓库一致')
+        this.searchForm.inWarehouseCode=''
+        return false
+      }
       warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
         if (res.success) {
           let data = res.data;
