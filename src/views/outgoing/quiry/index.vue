@@ -285,6 +285,13 @@
         @click="printing"
         class="ml10"
       >发货清单打印</el-button>
+      <a :href="'http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint&ticketno=' + printTicketnos">
+        <el-button
+          type="primary"
+          size="small"
+          class="ml10"
+        >发货清单打印FN</el-button>
+      </a>
     </div>
 
     <base-table
@@ -391,6 +398,9 @@ export default {
         return view
       }
       return config
+    },
+    printTicketnos() {
+      return this.selectData.map(item => item.warehouseExeCode).concat(',')
     },
     ...mapGetters([
       'mapConfig',
