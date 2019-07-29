@@ -414,7 +414,7 @@ export default {
       warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
         if (res.success) {
           let data = res.data;
-          if(data.warehouseLinkName && data.warehouseAddress){
+          if(data && (data.warehouseLinkName && data.warehouseAddress)){
             this.searchForm.warehouseLinkName=data.warehouseLinkName
             this.searchForm.warehouseAddress=data.warehouseAddress
           }else{
