@@ -23,6 +23,18 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+
+              <el-col>
+                <el-form-item label="接收人:" prop="warehouseLinkName">
+                  <el-input v-model="searchForm.warehouseLinkName" placeholder="请输入接收人" size="small" class="formitem"></el-input>
+                </el-form-item>
+              </el-col>
+
+              <el-col>
+                <el-form-item label="仓配点地址:" prop="warehouseAddress">
+                  <el-input v-model="searchForm.warehouseAddress" placeholder="请输入仓配点地址" size="small" class="formitem"></el-input>
+                </el-form-item>
+              </el-col>
           </el-row>
         </el-form>
 

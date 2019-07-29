@@ -892,3 +892,59 @@ export const printState = [
     value: 1
   }
 ]
+
+//调拨单单据状态 枚举
+export const transferBillStatusEnum = [{
+    name: '草稿',
+    value: 0
+  },
+  {
+    name: '已提交',
+    value: 1
+  },
+  {
+    name: '已关闭',
+    value: 2
+  },
+]
+
+//调拨单出库状态
+export const outWarehouseStatus = [{
+    name: '未出库',
+    value: 0
+  },
+  {
+    name: '部分出库',
+    value: 1
+  },
+  {
+    name: '全部出库',
+    value: 2
+  }
+]
+
+//调拨单入库状态
+export const  inWarehouseStatus = [{
+    name: '未入库',
+    value: 0
+  },
+  {
+    name: '部分入库',
+    value: 1
+  },
+  {
+    name: '全部入库',
+    value: 2
+  }
+]
+
+//调拨单中业务类型
+export const  billTypeFilter = [{
+    name: '调拨入库',
+    value: 14
+  },
+  {
+    name: '调拨出库',
+    value: 23
+  }
+]
