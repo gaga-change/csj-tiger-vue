@@ -224,17 +224,17 @@ export default [
       {
         name: 'mis_invout_summary',
         path: 'mis_invout_summary',
-        outLinkUrl: reportCenterUrl('mis_invout_summary', 'mis'),
+        outLinkUrl: reportCenterUrl('mis_invout_summary', 'mis', true),
         meta: {
-          title: '出库汇总表'
+          title: '出库物流对应表'
         }
       },
       {
         name: 'mis_invin_summary',
         path: 'mis_invin_summary',
-        outLinkUrl: reportCenterUrl('mis_invin_summary', 'mis'),
+        outLinkUrl: reportCenterUrl('mis_invin_summary', 'mis', true),
         meta: {
-          title: '入库汇总表'
+          title: '仓储结算明细表'
         }
       }
     ]
