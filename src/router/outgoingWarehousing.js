@@ -302,33 +302,33 @@ export default [
     component: Layout,
     redirect: '/correctionDocument/warehousingList',
     mark:'出入库',
-    meta: { title: '单据订正', icon: 'sale', noCache: false, },
+    meta: { title: '单据订正', icon: 'sale', noCache: true },
     children: [
       {
         path: 'warehousingList',
         component: _import('mis/correctionDocument/warehousingList'),
         name: 'warehousingList',
-        meta: { title: '入库业务单订正', noCache: false}
+        meta: { title: '入库业务单订正', noCache: true}
       },
       {
         path: 'warehousingAdd',
         component: _import('mis/correctionDocument/warehousingAdd'),
         name: 'warehousingAdd',
         hidden: true,
-        meta: { title: '创建入库订正单', noCache: false}
+        meta: { title: '创建入库订正单', noCache: true}
       },
       {
         path: 'outgoingList',
         component: _import('mis/correctionDocument/outgoingList'),
         name: 'outgoingList',
-        meta: { title: '出库业务单订正',  noCache: false}
+        meta: { title: '出库业务单订正',  noCache: true}
       },
       {
         path: 'outgoingAdd',
         component: _import('mis/correctionDocument/outgoingAdd'),
         name: 'outgoingAdd',
         hidden: true,
-        meta: { title: '创建出库订正单',noCache: false}
+        meta: { title: '创建出库订正单',noCache: true}
       }
 
     ]

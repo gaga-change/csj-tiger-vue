@@ -3,7 +3,7 @@
     <div style="margin-bottom:20px" :loading="loading">
       <el-input
         v-model="searchSkuForm.warehouseExeCode"
-        :placeholder="searchSkuForm.type=='outgoing'?'请输入出库单号':'请输入入库单号'"
+        :placeholder="type=='outgoing'?'请输入出库单号':'请输入入库单号'"
         style="width:200px;"
         maxlength="20"
       ></el-input>
@@ -42,7 +42,7 @@
     </el-table-column>
       <el-table-column
         property="warehouseExeCode"
-        :label="searchSkuForm.type=='outgoing'?'出库单号':'入库单号'"
+        :label="type=='outgoing'?'出库单号':'入库单号'"
       />
       <el-table-column
         property="billNo"
@@ -64,41 +64,44 @@
 </template>
 
 <script>
-// import { totalSkuList } from '@/api/requisition'
 import { queryWarehouseCode, queryInWarehouseCode } from '@/api/correction'
 export default {
-  props:['selectform'],
+  props:['selectOwnercode','datatype'],
   data() {
     return {
       data: [],
       currentPageSize: 10,
       currentPage: 1,
       totalLen: 0,
-      searchSkuForm:{},
-      loading:false
+      searchSkuForm:{
+        ownerCode:null,
+        warehouseExeCode:null,
+        billNo:null,
+      },
+      loading:false,
+      type:null,
     }
   },
   watch: {
-    selectform(val) {
-      this.updateData()
+    selectOwnercode(val){  
+      this.searchSkuForm.ownerCode=val
+      this.gettotallist()
     }
   },
   created() {
-    this.updateData()
+    this.type=this.datatype
+    this.searchSkuForm.ownerCode=this.selectOwnercode
+    this.gettotallist()
   },
   methods: {
     handleCurrentChange(val) {
       this.currentPage = val
       this.gettotallist()
     },
-    updateData() {
-      this.searchSkuForm=_.cloneDeep(this.selectform)
-      this.gettotallist()
-    },
     gettotallist(){
       this.loading=true
       let api= queryWarehouseCode
-      if(this.searchSkuForm.type==='inWarehouse'){
+      if(this.type==='inWarehouse'){
         api = queryInWarehouseCode
       }
       api({pageNum:this.currentPage,pageSize:this.currentPageSize,...this.searchSkuForm}).then(res => {

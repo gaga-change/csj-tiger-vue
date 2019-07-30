@@ -29,10 +29,6 @@
                     v-if="!isModify"
                   >选择出库单</a>
                 </span>
-                <!-- <el-select v-model="searchForm.warehouseExeCode" clearable placeholder="请选择出库单号：" size="small" class="formitem"
-                  :disabled="isModify">
-                  <el-option v-for="(item, index) in orderCodes" :label="item" :key="index" :value="item"></el-option>
-                </el-select> -->
               </el-form-item>
             </el-col>
             <template v-if="searchForm.warehouseExeCode">
@@ -80,8 +76,9 @@
       height="60%"
       :before-close="handleClose"
     >
-     <select-table
-      :selectform="selectForm"
+     <selectTable
+      :selectOwnercode="this.searchForm.ownerCode"
+      :datatype="'outgoing'"
       @handleClose="handleClose"
       @select="selectChange"
     />
@@ -130,7 +127,7 @@ export default {
       submitloading: false,
       query: this.$route.query,
       addVisible:false,
-      selectForm:{}
+      // selectForm:{}
     }
   },
   computed: {
@@ -224,15 +221,6 @@ export default {
     initOrder(code) {
       this.orderCodes = []
       this.searchForm.warehouseExeCode = ''
-      if (code) {
-        this.selectForm.ownerCode = code
-        this.selectForm.warehouseExeCode = null
-        this.selectForm.billNo = null
-        this.selectForm.type='outgoing'
-        // outOrderCode(code).then(res => {
-        //   this.orderCodes = res.data
-        // })
-      }
     },
     /** 初始化 业务单号及供应商信息 */
     initBillInfo(code) {
