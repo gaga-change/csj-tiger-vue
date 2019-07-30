@@ -285,6 +285,12 @@
         @click="printing"
         class="ml10"
       >发货清单打印</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        @click="printFn"
+        class="ml10"
+      >发货清单打印FN</el-button>
     </div>
 
     <base-table
@@ -392,6 +398,9 @@ export default {
       }
       return config
     },
+    printTicketnos() {
+      return this.selectData.map(item => item.warehouseExeCode).toString()
+    },
     ...mapGetters([
       'mapConfig',
     ])
@@ -407,6 +416,14 @@ export default {
 
   methods: {
     stringify,
+    printFn() {
+      if (!this.printTicketnos) {
+        this.$message('请先选择要打印的单据~')
+        return false
+      }
+      window.open('http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint.cpt&ticketno=' + this.printTicketnos, '_blank')
+      this.afterPrint()
+    },
     selectionPartentChange(val) {
       this.selectData = val
     },
@@ -425,6 +442,9 @@ export default {
       let printContainer = document.getElementById('invoice').innerHTML;
       MakePrint(printContainer);
       this.printingVisible = false;
+      this.afterPrint()
+    },
+    afterPrint() {
       this.$confirm('是否已成功打印?', '提示', {
         confirmButtonText: '是',
         cancelButtonText: '否',
