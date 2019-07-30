@@ -285,14 +285,12 @@
         @click="printing"
         class="ml10"
       >发货清单打印</el-button>
-      <a :href="'http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint&ticketno=' + printTicketnos">
-        <el-button
-          type="primary"
-          size="small"
-          @click="printFn"
-          class="ml10"
-        >发货清单打印FN</el-button>
-      </a>
+      <el-button
+        type="primary"
+        size="small"
+        @click="printFn"
+        class="ml10"
+      >发货清单打印FN</el-button>
     </div>
 
     <base-table
@@ -420,7 +418,7 @@ export default {
     stringify,
     printFn() {
       if (this.printTicketnos) {
-        window.open('http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint&ticketno=' + this.printTicketnos, '_blank')
+        window.open('http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint.cpt&ticketno=' + this.printTicketnos, '_blank')
       } else {
         this.$message('请先选择要打印的单据~')
         return false
