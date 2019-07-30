@@ -29,6 +29,16 @@
             <span>{{addForm.logisticsOrderCode}}</span>
           </el-form-item>
         </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="计费方式" prop="chargeType" >
+            <span>{{addForm.chargeType |localEnum('chargeTypeFilter') }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="指定承运商金额" prop="consoildatorAmt" v-if="addForm.chargeType===1">
+            <span>{{addForm.consoildatorAmt+'元'}}</span>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-card>
 

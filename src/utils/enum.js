@@ -974,3 +974,13 @@ export const  billTypeFilter = [{
     value: 23
   }
 ]
+
+export const  chargeTypeFilter = [{
+    name: '指定承运商',
+    value: 1
+  },
+  {
+    name: '非指定承运商',
+    value: 2
+  }
+]

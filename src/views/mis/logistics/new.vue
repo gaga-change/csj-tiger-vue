@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="app-container">
-  <el-form :model="addForm" ref="addForm" label-width="80px">
+  <el-form :model="addForm" ref="addForm" label-width="120px">
 
     <item-title text="出库单信息" class="mt10" />
     <el-card shadow="hover">
@@ -51,13 +51,27 @@
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-select  v-model="addForm.settlementType" clearable  placeholder="请选择结算方式" size="small" class="formitem">
-              <el-option v-for="item in  mapConfig['getSettlementType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
+              <el-option v-for="item in  mapConfig['getSettlementType']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="物流单号" prop="logisticsOrderCode" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
             <el-input v-model="addForm.logisticsOrderCode" class="formitem" size="small" placeholder="请输入物流单号"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="计费方式" prop="chargeType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
+            <el-select  v-model="addForm.chargeType" clearable  placeholder="请选择计费方式" size="small" class="formitem">
+              <el-option v-for="item in  mapConfig['getChargeType']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="指定承运金额" prop="consoildatorAmt" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]" v-if="addForm.chargeType==1">
+            <el-input type="number" step="0.01" v-model="addForm.consoildatorAmt" class="formitem" size="small" placeholder="请输入指定承运金额" @blur="addFormToFixed('consoildatorAmt')">
+              <span slot="suffix">元</span>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
