@@ -417,12 +417,12 @@ export default {
   methods: {
     stringify,
     printFn() {
-      if (this.printTicketnos) {
-        window.open('http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint.cpt&ticketno=' + this.printTicketnos, '_blank')
-      } else {
+      if (!this.printTicketnos) {
         this.$message('请先选择要打印的单据~')
         return false
       }
+      window.open('http://bi.csjmro.com/WebReport/ReportServer?reportlet=csj/csjreport/mis/mis_delivery_BatchPrint.cpt&ticketno=' + this.printTicketnos, '_blank')
+      this.afterPrint()
     },
     selectionPartentChange(val) {
       this.selectData = val
@@ -442,6 +442,9 @@ export default {
       let printContainer = document.getElementById('invoice').innerHTML;
       MakePrint(printContainer);
       this.printingVisible = false;
+      this.afterPrint()
+    },
+    afterPrint() {
       this.$confirm('是否已成功打印?', '提示', {
         confirmButtonText: '是',
         cancelButtonText: '否',
