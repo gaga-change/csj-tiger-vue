@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="app-container">
-  <el-form :model="addForm" ref="addForm" label-width="80px" class="formb0">
+  <el-form :model="addForm" ref="addForm" label-width="120px" class="formb0">
     <item-title text="承运商信息" />
     <el-card shadow="hover">
       <el-row>
