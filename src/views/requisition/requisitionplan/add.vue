@@ -448,7 +448,7 @@ export default {
         let warehouseCode=this.searchForm.outWarehouseCode
         if (ownerCode && warehouseCode) {
           this.addVisible = true;
-          this.skuForm={ownerCode:ownerCode,warehouseCode:warehouseCode}
+          this.skuForm={ownerCode:ownerCode,warehouseCode:warehouseCode,skuCode:null,skuName:null}
         }else{
           this.$message.error('请选择货主和调出仓库！');
         }

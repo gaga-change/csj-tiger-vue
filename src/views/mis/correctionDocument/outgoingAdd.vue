@@ -21,10 +21,18 @@
           <template v-if="searchForm.ownerCode">
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="出库单号">
-                <el-select v-model="searchForm.warehouseExeCode" clearable placeholder="请选择出库单号：" size="small" class="formitem"
+                <span style="display: block;">
+                  {{!!searchForm.warehouseExeCode ? searchForm.warehouseExeCode : ''}} <a
+                    href="JavaScript:void(0)"
+                    style="color:#409EFF;white-space: nowrap;"
+                    @click="showDialogTable"
+                    v-if="!isModify"
+                  >选择出库单</a>
+                </span>
+                <!-- <el-select v-model="searchForm.warehouseExeCode" clearable placeholder="请选择出库单号：" size="small" class="formitem"
                   :disabled="isModify">
                   <el-option v-for="(item, index) in orderCodes" :label="item" :key="index" :value="item"></el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
             </el-col>
             <template v-if="searchForm.warehouseExeCode">
@@ -65,6 +73,19 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
+    <el-dialog
+      title="选择出库单号"
+      :visible.sync="addVisible"
+      width="70%"
+      height="60%"
+      :before-close="handleClose"
+    >
+     <select-table
+      :selectform="selectForm"
+      @handleClose="handleClose"
+      @select="selectChange"
+    />
+    </el-dialog>
   </div>
 </template>
 
@@ -77,9 +98,10 @@ import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import { queryOwners, outOrderCode, outwarehouseBillInfo, outwarehouseOrderDetail, createOutwarehouseRevisal, queryOutwarehouseRevisal, updateOutwarehouseRevisal, outQueryApprovedItems } from '@/api/correction'
 import _ from 'lodash';
+import selectTable from './components/selectTable'
 export default {
   name: 'outgoingAdd',
-  components: { webPaginationTable, editTable ,Sticky},
+  components: { webPaginationTable, editTable , Sticky, selectTable},
   data() {
     return {
       searchForm: {
@@ -87,8 +109,8 @@ export default {
         ownerCode: '',
         warehouseExeCode: '',
         busiBillNo: '',
-        providerCode: '',
-        providerName: '',
+         arrivalCode: '',
+        arrivalName: '',
         ownerName: ''
       },
       //标签项
@@ -107,6 +129,8 @@ export default {
       orderCodes: [], // 单号
       submitloading: false,
       query: this.$route.query,
+      addVisible:false,
+      selectForm:{}
     }
   },
   computed: {
@@ -144,6 +168,16 @@ export default {
     this.isModify ? this.initDetail() : this.initOwner()
   },
   methods: {
+    showDialogTable(){
+      this.addVisible = true
+    },
+    handleClose(){
+      this.addVisible = false
+    },
+    selectChange(val){
+      this.searchForm.warehouseExeCode=val
+      this.handleClose()
+    },
     initTable() {
       let value = this.searchForm.revisalType
       if (value === 1) {
@@ -191,22 +225,26 @@ export default {
       this.orderCodes = []
       this.searchForm.warehouseExeCode = ''
       if (code) {
-        outOrderCode(code).then(res => {
-          this.orderCodes = res.data
-        })
+        this.selectForm.ownerCode = code
+        this.selectForm.warehouseExeCode = null
+        this.selectForm.billNo = null
+        this.selectForm.type='outgoing'
+        // outOrderCode(code).then(res => {
+        //   this.orderCodes = res.data
+        // })
       }
     },
     /** 初始化 业务单号及供应商信息 */
     initBillInfo(code) {
       this.searchForm.busiBillNo = ''
-      this.searchForm.providerName = ''
-      this.searchForm.providerCode = ''
+      this.searchForm.arrivalName = ''
+      this.searchForm. arrivalCode = ''
       if (code) {
         outwarehouseBillInfo({ outWarehouseOrderCode: code }).then(res => {
-          const { providerName, busiBillNo, providerCode } = res.data
-          this.searchForm.providerName = providerName
+          const { arrivalName, busiBillNo, arrivalCode } = res.data
+          this.searchForm.arrivalName = arrivalName
           this.searchForm.busiBillNo = busiBillNo
-          this.searchForm.providerCode = providerCode
+          this.searchForm. arrivalCode =  arrivalCode
         })
       }
     },
