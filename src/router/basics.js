@@ -200,6 +200,12 @@ export default [
         meta: { title: '仓库用户配置', noCache: true },
         component: _import('businessset/warehouseuser/index')
       },
+      {
+        name: 'substitutePayment',
+        path: 'substitutePayment',
+        meta: { title: '款项管理', noCache: true },
+        component: _import('businessset/substitutepayment')
+      }
     ]
   },
 ]

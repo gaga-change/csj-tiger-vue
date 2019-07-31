@@ -32,12 +32,6 @@ export default [
         meta: {title: '配送单详情'}
       },
       {
-        path: 'substitutePayment',
-        component: _import('mis/logistics/substitutepayment'),
-        name: 'substitutePayment',
-        meta: { title: '代支款项管理' }
-      },
-      {
         path: 'deliverylist',
         component: _import('mis/logistics/deliverylist'),
         name: 'deliverylist',

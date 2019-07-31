@@ -102,11 +102,11 @@
       </el-table-column>
     </el-table>
     <el-dialog :visible.sync="dialogFormVisible">
-      <el-form :model="paymentForm" labelWidth="80px">
-        <el-form-item label="款项名称">
-          <el-input v-model="paymentForm.expenseName" autocomplete="off" style="width:200px"></el-input>
+      <el-form :model="paymentForm" labelWidth="80px" ref="createform">
+        <el-form-item label="款项名称" prop="expenseName" :rules="[{ required: true, message: '该项为必填'}]">
+          <el-input v-model="paymentForm.expenseName" autocomplete="off" style="width:200px" placeholder="请输入款项名称"></el-input>
         </el-form-item>
-        <el-form-item label="款项性质">
+        <el-form-item label="款项性质" prop="expenseType" :rules="[{ required: true, message: '该项为必填'}]">
           <el-select v-model="paymentForm.expenseType" placeholder="请选择款项性质">
             <el-option v-for="item in mapConfig['getExpenseTypeList']" :label="item.value" :value="item.key" :key="item.key"></el-option>
           </el-select>
@@ -158,28 +158,36 @@ export default {
   },
   methods: {
     submitForm(status) {
-      this.submitloading = true
-      const postData = {
-        ...this.paymentForm,
-        expenseState: status
-      }
-      const FUNCTION = postData.id ? updateLogisticsExpenseInfo : createLogisticsExpense
-      FUNCTION(postData).then(res => {
-        if (res.success) {
-          this.$message.success('操作成功~'),
-          this.dialogFormVisible = false
-          this.submitloading = false
-          this.paymentForm = {}
-          this.fetchData()
+      this.$refs['createform'].validate(valid=>{
+        if(valid){
+          this.submitloading = true
+          const postData = {
+            ...this.paymentForm,
+            expenseState: status
+          }
+          const FUNCTION = postData.id ? updateLogisticsExpenseInfo : createLogisticsExpense
+          FUNCTION(postData).then(res => {
+            if (res.success) {
+              this.$message.success('操作成功~'),
+              this.dialogFormVisible = false
+              this.submitloading = false
+              for(let i in this.paymentForm){
+                if(i){
+                  this.paymentForm[i]=null
+                }
+              }
+              this.fetchData()
+            }
+          }).catch(err => {
+            console.error(err)
+            this.submitloading = false
+          })
         }
-      }).catch(err => {
-        console.error(err)
-        this.submitloading = false
       })
     },
     editFeeRow(row) {
-      this.dialogFormVisible = true
       this.paymentForm = JSON.parse(JSON.stringify(row))
+      this.dialogFormVisible = true
     },
     delFeeRow(row) {
       this.$confirm('是否确认删除?', '提示', {
@@ -201,6 +209,11 @@ export default {
       })
     },
     newPayment() {
+      for(let i in this.paymentForm){
+        if(i){
+          this.paymentForm[i]=null
+        }
+      }
       this.dialogFormVisible = true
     },
     submitSearchForm() {
