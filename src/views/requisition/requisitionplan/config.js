@@ -18,6 +18,7 @@ export const infoConfig=[
   {title:'调入日期',prop:'inDate',type:'time'},
   {title:'接收人',prop:'warehouseLinkName'},
   {title:'接收地址',prop:'warehouseAddress'},
+  {title:'联系方式',prop:'linkTel'},
   {title:'备注',prop:'remarkInfo',span:12},
 ]
 

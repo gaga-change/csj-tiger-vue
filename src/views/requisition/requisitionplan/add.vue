@@ -230,6 +230,24 @@
             :lg="8"
             :xl="6"
           >
+            <el-form-item
+              label="联系方式"
+              prop="linkTel"
+            >
+              <el-input
+                v-model="searchForm.linkTel"
+                size="small"
+                class="formitem"
+                :disabled="true"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
             <el-form-item label="备注">
               <el-input
                 v-model="searchForm.remarkInfo"
@@ -367,10 +385,11 @@ export default {
     //选择货主
     ownerCodeChange(value) {
       let searchForm = _.cloneDeep(this.searchForm);
-      searchForm.outWarehouseCode = '';
-      searchForm.inWarehouseCode = '';
-      searchForm.warehouseLinkName = '';
-      searchForm.warehouseAddress = '';
+      searchForm.outWarehouseCode = ''
+      searchForm.inWarehouseCode = ''
+      searchForm.warehouseLinkName = ''
+      searchForm.warehouseAddress = ''
+      searchForm.linkTel=''
       searchForm.outDate=null
       searchForm.inDate=null
       searchForm.transferBillDetailDOList = [];
@@ -406,6 +425,7 @@ export default {
     checkInWarehouse(){
       this.searchForm.warehouseLinkName=null
       this.searchForm.warehouseAddress=null
+      this.searchForm.linkTel=null
       if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
         this.$message.error('调出仓库不应和调入仓库一致')
         this.searchForm.inWarehouseCode=''
@@ -414,11 +434,12 @@ export default {
       warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
         if (res.success) {
           let data = res.data;
-          if(data && (data.warehouseLinkName && data.warehouseAddress)){
+          if(data && ((data.warehouseLinkName && data.warehouseAddress) && data.linkTel)){
             this.searchForm.warehouseLinkName=data.warehouseLinkName
             this.searchForm.warehouseAddress=data.warehouseAddress
+            this.searchForm.linkTel=data.linkTel
           }else{
-            this.$message.error('请先去维护调入仓库接收人和地址')
+            this.$message.error('请先去维护调入仓库接收人、地址和联系方式')
             this.searchForm.inWarehouseCode=''
           }
         }

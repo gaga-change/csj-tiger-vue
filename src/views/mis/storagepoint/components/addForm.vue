@@ -35,6 +35,11 @@
                   <el-input v-model="searchForm.warehouseAddress" placeholder="请输入仓配点地址" size="small" class="formitem"></el-input>
                 </el-form-item>
               </el-col>
+              <el-col>
+                <el-form-item label="联系方式:" prop="linkTel" :rules="[{ required: false, message:'请输入正确格式的手机号',pattern:/^1[34578]\d{9}$/ }]">
+                  <el-input v-model="searchForm.linkTel" placeholder="请输入联系方式" size="small" class="formitem"></el-input>
+                </el-form-item>
+              </el-col>
           </el-row>
         </el-form>
 

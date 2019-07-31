@@ -602,10 +602,16 @@ export const revisalTypeEnum = [{
   }
 ];
 
-export const expenseType = [{
-  name: '代支款',
-  value: 1
-}]
+export const expenseType = [
+  {
+    name: '代支款',
+    value: 1
+  },
+  {
+    name: '收派服务费',
+    value: 2
+  }
+]
 
 
 //仓配点管理票配置

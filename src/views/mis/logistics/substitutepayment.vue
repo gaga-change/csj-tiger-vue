@@ -1,6 +1,83 @@
 <template lang="html">
   <div class="app-container">
-    <search :config="searchConfig" @submitForm="submitSearchForm" @resetForm="resetSearchForm"></search>
+    <el-row :gutter="16">
+      <el-form
+        :inline="true"
+        ref="ruleForm"
+        :model="searchData"
+        size="small"
+        label-width="70px"
+        label-position="left"
+        class="demo-form-inline"
+      >
+        <el-col
+          :span="6"
+          style="min-width:300px"
+        >
+          <el-form-item
+            label="款项编码"
+            prop="expenseCode"
+          >
+            <el-input
+              v-model.lazy.trim="searchData.expenseCode"
+              placeholder="请输入款项编码"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col
+          :span="6"
+          style="min-width:300px"
+        >
+          <el-form-item
+            label="款项名称"
+            prop="expenseName"
+          >
+            <el-input
+              v-model.lazy.trim="searchData.expenseName"
+              placeholder="请输入款项名称"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col
+          :span="6"
+          style="min-width:300px"
+        >
+          <el-form-item
+            label="款项性质"
+            prop="busiBillType"
+          >
+            <el-select
+              v-model="searchData.expenseType"
+              placeholder="请选择款项性质"
+            >
+              <el-option
+                v-for="item in mapConfig['getExpenseTypeList']"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item>
+            <el-button
+              type="primary"
+              size="small"
+              @click="submitSearchForm"
+            >查询</el-button>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button
+              type="primary"
+              size="small"
+              @click="resetSearchForm"
+            >重置</el-button>
+          </el-form-item>
+        </el-col>
+      </el-form>
+    </el-row>
     <el-row type="flex" justify="end">
       <el-button type="primary" size="small" style="margin:10px" @click="newPayment">新建款项</el-button>
     </el-row>
@@ -31,7 +108,7 @@
         </el-form-item>
         <el-form-item label="款项性质">
           <el-select v-model="paymentForm.expenseType" placeholder="请选择款项性质">
-            <el-option v-for="item in expenseType" :label="item.name" :value="item.value" :key="item.value"></el-option>
+            <el-option v-for="item in mapConfig['getExpenseTypeList']" :label="item.value" :value="item.key" :key="item.key"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -45,20 +122,19 @@
 </template>
 
 <script>
-import search from '@/components/Search'
 import { queryLogisticsExpenseAll, createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
 import { dealNameValueToKeyValue } from '@/utils'
 import { expenseType } from '@/utils/enum'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 export default {
-  components: { search, BaseTable },
+  components: { BaseTable },
   data() {
     return {
       searchConfig: [
-        { label: '款项编码', prop: 'expenseCode', placeholder: '请输入款项编码' },
-        { label: '款项名称', prop: 'expenseName', placeholder: '请输入款项名称' },
-        { label: '款项性质', prop: 'expenseType', localEnum:'expenseType', placeholder: '请选择款项性质', type: 'select', selectOptions: dealNameValueToKeyValue(expenseType) },
+        { label: '款项编码', prop: 'expenseCode' },
+        { label: '款项名称', prop: 'expenseName' },
+        { label: '款项性质', prop: 'expenseType', localEnum:'expenseType' }
       ],
       searchData: {},
       loading: false,
@@ -127,7 +203,7 @@ export default {
     newPayment() {
       this.dialogFormVisible = true
     },
-    submitSearchForm(val) {
+    submitSearchForm() {
       function filterTable(tableData, attr, searchData) {
         return tableData.filter(data => {
           if (typeof data[attr] === 'number') {
@@ -136,7 +212,6 @@ export default {
           return data[attr].includes(searchData[attr])
         })
       }
-      this.searchData = val
       for (let key in this.searchData) {
         this.tableData = filterTable(this.tableData, key, this.searchData)
       }
