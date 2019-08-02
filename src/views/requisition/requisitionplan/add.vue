@@ -445,11 +445,11 @@ export default {
       this.searchForm.warehouseLinkName=null
       this.searchForm.warehouseAddress=null
       this.searchForm.linkTel=null
-      // if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
-      //   this.$message.error('调出仓库不应和调入仓库一致')
-      //   this.searchForm.inWarehouseCode=''
-      //   return false
-      // }
+      if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
+        this.$message.error('调出仓库不应和调入仓库一致')
+        this.searchForm.inWarehouseCode=''
+        return false
+      }
       warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
         if (res.success) {
           let data = res.data;
