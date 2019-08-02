@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="addform">
-        <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
+        <el-form ref="searchForm" labelWidth="110px" :model="searchForm">
           <el-row>
               <el-col>
                 <el-form-item label="区域中心:" prop="regionalCenter" :rules="[{ required: true, message: '该项为必填'}]" >
@@ -31,8 +31,19 @@
               </el-col>
 
               <el-col>
-                <el-form-item label="仓配点地址:" prop="warehouseAddress">
-                  <el-input v-model="searchForm.warehouseAddress" placeholder="请输入仓配点地址" size="small" class="formitem"></el-input>
+                <el-form-item label="仓配点所在地区:">
+                  <el-cascader
+                    :options="Area"
+                    v-model="searchForm.area"
+                    size="small"
+                    class="formitem"
+                  >
+                  </el-cascader>
+                </el-form-item>
+              </el-col>
+              <el-col>
+                <el-form-item label="详细地址:" prop="warehouseAddress">
+                  <el-input v-model="searchForm.warehouseAddress" placeholder="请输入详细地址" size="small" class="formitem"></el-input>
                 </el-form-item>
               </el-col>
               <el-col>
@@ -52,29 +63,36 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { Area } from '@/utils/area'
 export default {
-
   props:{
      searchForm:{
        type:Object,
        default:()=>{}
      },
   },
-
+  data(){
+    return{
+      Area
+    }
+  },
   computed: {
       ...mapGetters([
         'mapConfig',
       ])
   },
-
   methods: {
-
-     submit(){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             this.$emit('submit','add',this.searchForm)
-          }
-       })
+    submit(){
+      if(this.searchForm.area && this.searchForm.area.length>0){
+        this.searchForm.warehouseProvince=this.searchForm.area[0]
+        this.searchForm.warehouseCity=this.searchForm.area[1]
+        this.searchForm.warehouseArea=this.searchForm.area[2]
+      }
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.$emit('submit','add',this.searchForm)
+        }
+      })
     }
   }
 }

@@ -213,7 +213,25 @@
             :xl="6"
           >
             <el-form-item
-              label="接收地址"
+              label="所在地区"
+              prop="area"
+            >
+              <el-input
+                v-model="searchForm.area"
+                size="small"
+                class="formitem"
+                :disabled="true"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="详细地址"
               prop="warehouseAddress"
             >
               <el-input
@@ -344,6 +362,7 @@ export default {
           let searchForm = _.cloneDeep(this.searchForm);
           searchForm = res.data;
           searchForm.ownerCode && this.showStore({ ownerCode: searchForm.ownerCode })
+          searchForm.area=searchForm.warehouseProvince?(searchForm.warehouseProvince+searchForm.warehouseCity+searchForm.warehouseArea):null
           this.searchForm = searchForm;
         }
       }).catch(err => {
@@ -434,12 +453,13 @@ export default {
       warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
         if (res.success) {
           let data = res.data;
-          if(data && ((data.warehouseLinkName && data.warehouseAddress) && data.linkTel)){
+          if(data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)){
+            this.searchForm.area=data.warehouseProvince+data.warehouseCity+data.warehouseArea
             this.searchForm.warehouseLinkName=data.warehouseLinkName
             this.searchForm.warehouseAddress=data.warehouseAddress
             this.searchForm.linkTel=data.linkTel
           }else{
-            this.$message.error('请先去维护调入仓库接收人、地址和联系方式')
+            this.$message.error('请先去维护调入仓库接收人、所在地区、详细地址和联系方式')
             this.searchForm.inWarehouseCode=''
           }
         }

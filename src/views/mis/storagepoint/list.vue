@@ -228,16 +228,18 @@
          if(type==="add"){
            this.addVisible=true;
            this.addFormTitle="新增仓储点"
-           this.addForm={ regionalCenter:'', warehouseName:''};
+           this.addForm={ regionalCenter:'', warehouseName:'', area:[]};
          } else if(type==='update'){
            this.addVisible=true;
            this.addFormTitle="修改仓储点"
            this.addForm={
              ...row
-           };
+           }
+           this.addForm.area=[row.warehouseProvince, row.warehouseCity, row.warehouseArea]
          } else if(type==='detail'){
            this.detailVisible=true;
            this.baseinfoData=row;
+           this.baseinfoData.area=row.warehouseProvince?(row.warehouseProvince+row.warehouseCity+row.warehouseArea):null
          }
       }
     }

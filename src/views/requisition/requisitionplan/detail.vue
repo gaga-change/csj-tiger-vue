@@ -76,6 +76,7 @@
             if(res.success){
               let data=res.data
               this.infoData=res.data
+              this.infoData.area=data.warehouseProvince?(data.warehouseProvince+data.warehouseCity+data.warehouseArea):null
               this.tableData=(res.data.transferBillDetailDOList && res.data.transferBillDetailDOList.length>0)?res.data.transferBillDetailDOList:[]
               // 查询相关出入库计划单
               queryPlandetail({transferNo:data.transferNo,}).then(res=>{

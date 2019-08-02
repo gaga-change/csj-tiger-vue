@@ -3,36 +3,6 @@ import Layout from '../views/layout/Layout'
 
 export default [
   {
-    path: '/requisition',
-    component: Layout,
-    redirect: 'requisition/requisitionplan',
-    meta: { title: '调拨', noCache: true,icon: 'out' },
-    mark:'出入库',
-    hidden: false,
-    children: [
-      {
-        name: 'requisitionplan',
-        path: 'requisitionplan',
-        meta: { title: '调拨单', noCache: false },
-        component: _import('requisition/requisitionplan/index')
-      },
-      {
-        name: 'requisitionplanadd',
-        path: 'requisitionplanadd',
-        hidden: true,
-        meta: { title: '创建调拨单', noCache: false },
-        component: _import('requisition/requisitionplan/add')
-      },
-      {
-        name: 'requisitionplan-detail',
-        path: 'requisitionplan-detail',
-        meta: { title: '调拨单详情', noCache: true },
-        component: _import('requisition/requisitionplan/detail'),
-        hidden: true,
-      }
-    ]
-  },
-  {
     path: '/outgoing',
     component: Layout,
     redirect: 'outgoing/businessorder',
@@ -333,4 +303,34 @@ export default [
 
     ]
   },
+  {
+    path: '/requisition',
+    component: Layout,
+    redirect: 'requisition/requisitionplan',
+    meta: { title: '调拨', noCache: true,icon: 'out' },
+    mark:'出入库',
+    hidden: false,
+    children: [
+      {
+        name: 'requisitionplan',
+        path: 'requisitionplan',
+        meta: { title: '调拨单', noCache: false },
+        component: _import('requisition/requisitionplan/index')
+      },
+      {
+        name: 'requisitionplanadd',
+        path: 'requisitionplanadd',
+        hidden: true,
+        meta: { title: '创建调拨单', noCache: false },
+        component: _import('requisition/requisitionplan/add')
+      },
+      {
+        name: 'requisitionplan-detail',
+        path: 'requisitionplan-detail',
+        meta: { title: '调拨单详情', noCache: true },
+        component: _import('requisition/requisitionplan/detail'),
+        hidden: true,
+      }
+    ]
+  }
 ]
