@@ -11,7 +11,7 @@
         :config="detailTableConfig"
         :allTableData="tableData"/>
       </el-tab-pane>
-      <el-tab-pane label="出库计划单" name="plan">
+      <el-tab-pane label="计划单" name="plan">
         <edit-Table
         :loading="loading"
         :config="detail_planTableConfig"
