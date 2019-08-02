@@ -103,7 +103,7 @@
                 placeholder="请选择仓库"
                 size="small"
                 class="formitem"
-                @focus="warehouseCodeFocus"
+                @focus="warehouseCodeFocus('warehouse')"
                 @change="checkoutWarehouse"
               >
                 <el-option
@@ -153,7 +153,7 @@
                 placeholder="请选择仓库"
                 size="small"
                 class="formitem"
-                @focus="warehouseCodeFocus"
+                @focus="warehouseCodeFocus('inwarehouse')"
                 @change="checkInWarehouse"
                 :loading="warehouseCodeLoading"
               >
@@ -428,11 +428,11 @@ export default {
         this.warehouseCodeLoading = false
       })
     },
-    warehouseCodeFocus() {
+    warehouseCodeFocus(type) {
       if (!this.searchForm.ownerCode) {
         this.$message.error('请先选择货主');
       }
-      this.confirmchange('warehouse')
+      this.confirmchange(type)
     },
     checkoutWarehouse(){
       this.searchForm.transferBillDetailDOList = []
@@ -445,16 +445,19 @@ export default {
       this.searchForm.warehouseLinkName=null
       this.searchForm.warehouseAddress=null
       this.searchForm.linkTel=null
-      if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
-        this.$message.error('调出仓库不应和调入仓库一致')
-        this.searchForm.inWarehouseCode=''
-        return false
-      }
+      // if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
+      //   this.$message.error('调出仓库不应和调入仓库一致')
+      //   this.searchForm.inWarehouseCode=''
+      //   return false
+      // }
       warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
         if (res.success) {
           let data = res.data;
           if(data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)){
             this.searchForm.area=data.warehouseProvince+data.warehouseCity+data.warehouseArea
+            this.searchForm.warehouseProvince=data.warehouseProvince
+            this.searchForm.warehouseCity=data.warehouseCity
+            this.searchForm.warehouseArea=data.warehouseArea
             this.searchForm.warehouseLinkName=data.warehouseLinkName
             this.searchForm.warehouseAddress=data.warehouseAddress
             this.searchForm.linkTel=data.linkTel
