@@ -990,3 +990,13 @@ export const  chargeTypeFilter = [{
     value: 2
   }
 ]
+
+export const  insureState = [{
+    name: '未投保',
+    value: 0
+  },
+  {
+    name: '已投保',
+    value: 1
+  }
+]

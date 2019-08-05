@@ -46,6 +46,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
+          
           <div style="display: flex; flexWrap: nowrap">
             <a
               @click="view({ id: scope.row.id })"
@@ -65,56 +66,26 @@
             >
               删除
             </a>
-            <el-popover
-              placement="right"
-              width="500"
-              trigger="click"
-            >
-              <el-table
-                :data="routeinfo[scope.row.id]"
-                v-loading="logloading"
-                height="400"
-              >
-                <el-table-column
-                  width="150"
-                  label="发生时间"
-                >
-                  <template slot-scope="scope">
-                    <span>{{
-                      scope.row.eventTime | parseTime
-                    }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  width="300"
-                  property="remarkInfo"
-                  label="物流信息"
-                ></el-table-column>
-              </el-table>
-              <a
-                @click="viewLog({ id: scope.row.id })"
-                :style="linkstyle"
-                slot="reference"
-              >
-                查看物流
-              </a>
-            </el-popover>
-            <!-- <a
-              @click="approve({ id: scope.row.id })"
-              v-if="
-                scope.row.invoiceState === 1 || scope.row.invoiceState === 3
-              "
-              :style="linkstyle"
-            >
-              审核
-            </a> -->
-            <a
-              @click="addFee(scope.row)"
-              v-if="scope.row.invoiceState === 2"
-              :style="linkstyle"
-            >
-              代支费用
-            </a>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item @click.native="viewLog({ id: scope.row.id })">
+                  <span :style="linkstyle">
+                    查看物流
+                  </span>
+                </el-dropdown-item>
+                <el-dropdown-item @click.native="getdispatchDetail(scope.row.dispatchNo)">
+                  <span :style="linkstyle" >配送明细</span>
+                </el-dropdown-item>
+                <el-dropdown-item @click.native="addFee(scope.row)" v-if="scope.row.invoiceState === 2">
+                  <span :style="linkstyle">
+                    代支费用
+                  </span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </template>
       </el-table-column>
@@ -129,7 +100,33 @@
       :total="total"
     >
     </el-pagination>
-
+  <el-dialog
+    :visible.sync="logisticsVisible"
+    title="物流信息"
+    width="500px"
+  >
+    <el-table
+      :data="routeinfo[viewid]"
+      v-loading="logloading"
+      height="400"
+    >
+      <el-table-column
+        width="150"
+        label="发生时间"
+      >
+        <template slot-scope="scope">
+          <span>{{
+            scope.row.eventTime | parseTime
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        width="300"
+        property="remarkInfo"
+        label="物流信息"
+      ></el-table-column>
+    </el-table>
+  </el-dialog>
     <el-dialog
       :visible.sync="feeVisible"
       title="代支费用"
@@ -235,6 +232,16 @@
         </div>
       </el-dialog>
     </el-dialog>
+    <el-dialog
+    :visible.sync="deliveryVisible"
+    title="配送明细"
+    width="1000px"
+    >
+      <base-table
+      :config="deliveryConfig"
+      :tableData="deliveryData"
+    />
+    </el-dialog>
   </div>
 </template>
 
@@ -251,13 +258,15 @@ import {
   addLogisticsExpense,
   queryExpenseInfo,
   deleteLogisticsExpense,
-  queryRouteInfo
+  queryRouteInfo,
+  dispatchDetailInfo
 } from '@/api/mis'
 import { consoilInfoList } from '@/api/carrier'
 import {
   listIndexConfig,
   headConfig,
-  subsituteConfig
+  subsituteConfig,
+  deliveryConfig
 } from './components/config'
 export default {
   name: 'logisticsList',
@@ -289,7 +298,12 @@ export default {
       addloading: false,
       tableLoading: false,
       routeinfo: {},
-      logloading: false
+      logloading: false,
+      logisticsVisible:false,
+      viewid:null,
+      deliveryData:[],
+      deliveryConfig,
+      deliveryVisible:false
     }
   },
   computed: {
@@ -313,7 +327,15 @@ export default {
     this.fetchData()
   },
   methods: {
+    getdispatchDetail(dispatchNo){
+      this.deliveryVisible=true
+      dispatchDetailInfo({dispatchNo:dispatchNo}).then(res=>{
+        this.deliveryData=res.data.detailExcelVOS?res.data.detailExcelVOS:null
+      })
+    },
     viewLog({ id }) {
+      this.logisticsVisible=true
+      this.viewid=id
       if (!this.routeinfo[id]) {
         this.logloading = true
         queryRouteInfo(id).then(res => {
@@ -519,4 +541,9 @@ export default {
 }
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+</style>

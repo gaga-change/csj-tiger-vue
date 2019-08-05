@@ -222,3 +222,39 @@ export function customerSetDefaultAddress(data) {
     params: data
   })
 }
+
+//物流单获取配送明细
+export function dispatchDetailInfo(data) {
+  return request({
+    url: `/webApi/logistics-dispatch/query-dispatch-detail`,
+    method: 'get',
+    params: data
+  })
+}
+
+//投保列表查询
+export function insureListInfo(data) {
+  return request({
+    url: `/webApi/logistics/queryInsure`,
+    method: 'post',
+    data: data
+  })
+}
+
+//投保
+export function insureConfirm(data) {
+  return request({
+    url: `/webApi/logistics/insure`,
+    method: 'post',
+    data: data
+  })
+}
+
+//解除投保
+export function unInsureConfirm(data) {
+  return request({
+    url: `/webApi/logistics/unInsure`,
+    method: 'post',
+    data: data
+  })
+}

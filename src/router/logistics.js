@@ -37,6 +37,12 @@ export default [
         name: 'deliverylist',
         meta: { title: '发货明细' }
       },
+      {
+        path: 'logisticsinsure',
+        component: _import('mis/logistics/logisticsinsure'),
+        name: 'logisticsinsure',
+        meta: { title: '物流单投保','noCache':true }
+      },
     ]
   }
 ]

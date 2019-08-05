@@ -12,6 +12,16 @@ export const listIndexConfig = [
   { label: '制单人', prop: 'createrName' },
   { label: '制单时间', prop: 'gmtCreate', type: 'time', width: 160}
 ]
+export const insureConfig = [
+  { label: '物流单号', prop: 'logisticsOrderCode', width: 180},
+  { label: '承运商', prop: 'consoildatorName' },
+  { label: '配送单号',prop: 'dispatchNo', width: 120},
+  { label: '出库数量',prop: 'outQty', width: 120},
+  { label: '金额', prop: 'outAmt', width: 150 },
+  { label: '投保状态', prop: 'insureState', useLocalEnum: true, type: 'insureState'},
+  { label: '投保日期', prop: 'gmtInsure', type: 'time', width: 160},
+  { label: '物流单日期', prop: 'gmtCreate', type: 'time', width: 160}
+]
 export const headConfig = [
   { label: '配送类型', prop: 'dispatchType', placeholder: '请选择配送类型', type: 'select',
     selectOptions: dealNameValueToKeyValue(dispatchType), disabled: true
@@ -32,9 +42,9 @@ export const subsituteConfig = [
 ]
 
 export const deliveryConfig = [
-  { label: '序号', type: 'index', prop: 'index', width: 60 },
+  { label: '序号', type: 'index', prop: 'index', width: 50 },
   { label: '外部订单号', prop: 'busiBillNo', width:150 },
-  { label: '业务单号', prop: 'billNo', width:150 },
+  { label: '业务单号', prop: 'billNo', width:160 },
   { label: '计划单号', prop: 'planCode', width:150},
   { label: '出库单号', prop: 'warehouseExeCode', width:150},
   { label: '货主', prop: 'ownerName', width:150},
@@ -46,7 +56,7 @@ export const deliveryConfig = [
   { label: '物流单号', prop: 'logisticsOrderCode', width:150},
   { label: '出库日期', prop: 'outStoreTime', type: 'time', width:150},
   { label: '商品编码', prop: 'skuCode', width:150},
-  { label: '规格', prop: 'skuFormat', width:220},
+  { label: '规格', prop: 'skuFormat', width:120},
   { label: '单位', prop: 'skuUnitName'},
   { label: '出库数量', prop: 'outStoreQty'},
   { label: '出库金额', prop: 'outStoreAmt'}
