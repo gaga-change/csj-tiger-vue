@@ -256,7 +256,7 @@ export default {
     moment,
     getDetail() {
       this.loading = true
-      productDetail({ skuCode: this.$route.query.skuCode }).then(res => {
+      productDetail({ skuCode: this.$route.query.skuCode, ownerCode: this.$route.query.ownerCode }).then(res => {
         this.productForm = res.data
         this.loading = false
       }).catch(err => {

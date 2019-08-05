@@ -11,7 +11,7 @@
         :config="detailTableConfig"
         :allTableData="tableData"/>
       </el-tab-pane>
-      <el-tab-pane label="出库计划单" name="plan">
+      <el-tab-pane label="计划单" name="plan">
         <edit-Table
         :loading="loading"
         :config="detail_planTableConfig"
@@ -76,6 +76,7 @@
             if(res.success){
               let data=res.data
               this.infoData=res.data
+              this.infoData.area=data.warehouseProvince?(data.warehouseProvince+data.warehouseCity+data.warehouseArea):null
               this.tableData=(res.data.transferBillDetailDOList && res.data.transferBillDetailDOList.length>0)?res.data.transferBillDetailDOList:[]
               // 查询相关出入库计划单
               queryPlandetail({transferNo:data.transferNo,}).then(res=>{

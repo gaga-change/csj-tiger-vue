@@ -13,5 +13,9 @@ export  const storagepointDetailConfig=[
   { title:'仓配点名称',prop:'warehouseName',span:12},
   { title:'WMS',prop:'warehouseSysCode',span:12},
   { title:'区域中心',prop:'regionalCenter',useApi:true,type:'getRegional',span:12},
+  { title:'接收人',prop:'warehouseLinkName',span:12},
+  { title:'仓配点所在地区',prop:'area',span:12},
+  { title:'详细地址',prop:'warehouseAddress',span:12},
+  { title:'联系电话',prop:'linkTel',span:12},
   { title:'启用状态',prop:'warehouseState',useLocalEnum:true,type:'warehouseStateEnum',span:12},
 ]

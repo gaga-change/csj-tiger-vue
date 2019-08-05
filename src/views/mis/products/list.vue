@@ -127,7 +127,7 @@ export default {
               <span>
               <a
                 onClick={() => {
-                  this.view({ skuCode: row.skuCode })
+                  this.view({ skuCode: row.skuCode, ownerCode: row.ownerCode })
                 }}
                 style={this.linkstyle}
               >
