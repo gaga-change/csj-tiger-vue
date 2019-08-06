@@ -7,14 +7,14 @@ export default [
     path: '/reconciliation',
     component: Layout,
     redirect: 'reconciliation/list',
-    mark:'财务',
-    meta: { title: '对账管理', noCache: true,icon:'back' },
+    mark: '财务',
+    meta: { title: '对账管理', noCache: true, icon: 'back' },
     hidden: false,
     children: [
       {
         name: 'list',
         path: 'list',
-        meta: { title: '仓储服务费对账单', noCache: true},
+        meta: { title: '仓储服务费对账单', noCache: true },
         component: _import('reconciliation/list'),
         hidden: false,
       },
@@ -37,7 +37,7 @@ export default [
 
   {
     path: '/invoice/entryInvoice',
-    mark:'财务',
+    mark: '财务',
     component: Layout,
     redirect: '/invoice/entryInvoice/registrationList',
     name: 'entryInvoice',
@@ -90,7 +90,7 @@ export default [
   {
     path: '/invoice/outputinvoice',
     component: Layout,
-    mark:'财务',
+    mark: '财务',
     redirect: '/invoice/outputinvoice/invoiceapply',
     name: 'outputinvoiceDelivery',
     meta: { title: '销项发票', icon: 'tree', roles: ['service_finance'] }, // you can set roles in root nav
@@ -157,7 +157,7 @@ export default [
         path: 'invoiceinvalid/detail',
         component: _import('invoice/outputinvoice/invoiceinvalid/detail'),
         name: 'invoiceinvaliddetail',
-        hidden:true,
+        hidden: true,
         meta: {
           title: '发票作废详情',
           roles: ['service_finance']
@@ -175,23 +175,41 @@ export default [
       }
     ]
   },
-
+  {
+    path: '/serviceCharge',
+    component: Layout,
+    redirect: '/serviceCharge/pick',
+    name: 'serviceCharge',
+    mark: '财务',
+    meta: { title: '服务费管理', icon: 'sale', roles: ['service_finance'] }, // you can set roles in root nav
+    children: [
+      {
+        path: 'pick',
+        component: _import('serviceCharge/serviceChargePick'),
+        name: 'serviceChargePick',
+        meta: {
+          title: '收派服务费',
+          noCache: true,
+        }
+      },
+    ]
+  },
   {
     path: '/receipt',
     component: Layout,
     redirect: '/receipt/newreceipt',
     name: 'receipt',
-    mark:'财务',
+    mark: '财务',
     meta: { title: '收款管理', icon: 'sale', roles: ['service_finance'] }, // you can set roles in root nav
     children: [
       {
         path: 'newreceipt',
         component: _import('receipt/newreceipt/index'),
         name: 'newreceipt',
-        hidden:true,
+        hidden: true,
         meta: {
           title: '新建收款单',
-          noCache: true ,
+          noCache: true,
         }
       },
       {
@@ -200,7 +218,7 @@ export default [
         name: 'registerorder',
         meta: {
           title: '收款单',
-          noCache: true ,
+          noCache: true,
         }
       },
       {
@@ -210,7 +228,7 @@ export default [
         hidden: true,
         meta: {
           title: '收款单详情',
-          noCache: true ,
+          noCache: true,
         }
       },
       {
@@ -219,7 +237,7 @@ export default [
         name: 'associate',
         meta: {
           title: '收款关联业务单',
-          noCache: true ,
+          noCache: true,
         }
       },
       {
@@ -229,7 +247,7 @@ export default [
         hidden: true,
         meta: {
           title: '收款单业务详情',
-          noCache: true ,
+          noCache: true,
         }
       },
       {
@@ -238,7 +256,7 @@ export default [
         name: 'receiptquery',
         meta: {
           title: '收款查询',
-          noCache: true ,
+          noCache: true,
         }
       },
       {
@@ -247,7 +265,7 @@ export default [
         name: 'refundList',
         meta: {
           title: '客户退款',
-          noCache: true ,
+          noCache: true,
         }
       },
 
@@ -258,7 +276,7 @@ export default [
         hidden: true,
         meta: {
           title: '客户退款详情',
-          noCache: true ,
+          noCache: true,
         }
       },
 
@@ -269,7 +287,7 @@ export default [
         hidden: true,
         meta: {
           title: '新建退款',
-          noCache: false ,
+          noCache: false,
         }
       },
     ]
@@ -280,17 +298,17 @@ export default [
     component: Layout,
     redirect: '/payment/apply',
     name: 'payment',
-    mark:'财务',
+    mark: '财务',
     meta: { title: '付款管理', icon: 'sale', roles: ['service_finance'] },
     children: [
       {
         path: 'newpayment',
         component: _import('pay/newPay/index'),
         name: 'newpayment',
-        hidden:true,
+        hidden: true,
         meta: {
           title: '新建付款单',
-          noCache:false,
+          noCache: false,
           roles: ['service_finance']
         }
       },
@@ -355,8 +373,8 @@ export default [
       },
     ]
   },
-  
- //代办
+
+  //代办
   {
     path: '/purchaseorder',
     component: Layout,
@@ -364,7 +382,7 @@ export default [
     name: 'purchaseorder',
     alwaysShow: false,
     hidden: true,
-    meta: { title: '采购订单管理', icon: 'purchase'  },
+    meta: { title: '采购订单管理', icon: 'purchase' },
     children: [
       {
         path: 'purchaseorderdetail',
