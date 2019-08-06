@@ -6,7 +6,8 @@ import UploadMode from '@/components/upload/index'
 import UploadExcel from '@/components/UploadExcel/index'
 import BarCode from '@/components/BarCode/index'
 import PopoverBtn from '@/components/PopoverBtn'
-
+import BaseTable from '@/components/Table/table2.vue'
+import SearchForm from '@/components/SearchForm/index'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import 'normalize.css/normalize.css'
@@ -29,14 +30,16 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, { locale, size: 'mini' })
 Vue.use(EXTENDS)
-Vue.use(ItemTitle);
-Vue.use(ItemCard);
-Vue.use(UploadMode);
-Vue.use(UploadExcel);
-Vue.use(BarCode);
+Vue.use(ItemTitle)
+Vue.use(ItemCard)
+Vue.use(UploadMode)
+Vue.use(UploadExcel)
+Vue.use(BarCode)
 Vue.use(PopoverBtn)
+Vue.component('BaseTable2', BaseTable)
+Vue.component('SearchForm2', SearchForm)
 
 Vue.config.productionTip = false
 

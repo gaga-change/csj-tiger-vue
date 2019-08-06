@@ -10,7 +10,7 @@ const path = require('path')
 // const ip='http://172.16.80.83:7878';//亚超
 // const ip='http://172.16.81.219:7878';//龙
 // const ip='http://192.168.2.150:7878';//姚旭
-const ip = 'http://192.168.1.37:7878'; // 测试环境
+const ip = 'http://192.168.1.37:7878'; // 测试环境。 需配置 host 文件，`127.0.0.1 testtiger.csjmro.com` 即可生效。
 
 const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
 
