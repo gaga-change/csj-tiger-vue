@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="SearchFormComponents">
     <el-card
       class="simpleCard"
       shadow="never"
@@ -44,7 +44,7 @@
               </el-option>
             </el-select>
           </template>
-          <template v-else-if="item.type === 'timeArea'">
+          <template v-else-if="item.type === 'dateTimeRange'">
             <el-date-picker
               size="mini"
               v-model="searchForms[item.prop]"
@@ -54,6 +54,19 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               align="right"
+            >
+            </el-date-picker>
+          </template>
+          <template v-else-if="item.type === 'monthRange'">
+            <el-date-picker
+              v-model="searchForms[item.prop]"
+              type="monthrange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始月份"
+              end-placeholder="结束月份"
+              :picker-options="monthPickerOptions"
             >
             </el-date-picker>
           </template>
@@ -109,6 +122,29 @@ export default {
   },
   data() {
     return {
+      monthPickerOptions: {
+        shortcuts: [{
+          text: '本月',
+          onClick(picker) {
+            picker.$emit('pick', [new Date(), new Date()]);
+          }
+        }, {
+          text: '今年至今',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date(new Date().getFullYear(), 0);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近六个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setMonth(start.getMonth() - 6);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -175,3 +211,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" >
+.SearchFormComponents {
+  .el-range-separator {
+    box-sizing: content-box;
+  }
+}
+</style>
+
