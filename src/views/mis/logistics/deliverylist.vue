@@ -1,8 +1,8 @@
 <template lang="html">
 <div class="app-container">
   <el-card shadow="hover">
-    <el-form :inline="true" :model="searchForm">
-      <el-form-item label="出库日期">
+    <el-form :inline="true" :model="searchForm" ref="searchForm">
+      <el-form-item label="出库日期" prop="date" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
         <el-date-picker
           v-model="searchForm.date"
           type="date"
@@ -73,7 +73,11 @@ export default {
       })
     },
     onSubmit() {
-      this.fetchData()
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.fetchData()
+        }
+      })
     },
     onExport() {
       const exportlist = this.tableData

@@ -77,7 +77,7 @@
               size="small"
             >
               <el-option
-                v-for="item in mapConfig['getYesNo']"
+                v-for="item in mapConfig['getInsureStatus']"
                 :label="item.value"
                 :key="item.key"
                 :value="item.key"
