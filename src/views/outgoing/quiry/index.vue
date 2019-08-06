@@ -32,7 +32,7 @@
                   placeholder="请选择出库类型"
                 >
                   <el-option
-                    v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库'))"
+                    v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库') && !v.value.includes('订正'))"
                     :label="item.value"
                     :key="item.key"
                     :value="item.key"

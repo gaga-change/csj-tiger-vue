@@ -82,10 +82,10 @@
                 class="formitem"
               >
                 <el-option
-                  v-for="item in outgoingOrderTypeEnum"
-                  :label="item.name"
-                  :key="item.value"
-                  :value="item.value"
+                  v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('出库') && !v.value.includes('订正'))"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.key"
                 ></el-option>
               </el-select>
             </el-form-item>
