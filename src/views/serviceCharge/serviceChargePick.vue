@@ -5,7 +5,10 @@
       @search="search"
     />
     <div class="text-right">
-      <el-button type="primary">新建</el-button>
+      <el-button
+        type="primary"
+        @click="serviceChargePickFormVisible = true"
+      >新建</el-button>
     </div>
     <div class="mt15">
       <base-table2
@@ -29,16 +32,20 @@
         </template>
       </base-table2>
     </div>
+    <service-charge-pick-form :visible.sync="serviceChargePickFormVisible" />
   </div>
 </template>
 
 <script>
+import serviceChargePickForm from './components/serviceChargePickForm'
 import { serviceChargePickSearchConfig, serviceChargePickTableConfig } from './config'
 export default {
+  components: { serviceChargePickForm },
   data() {
     return {
       serviceChargePickSearchConfig,
-      serviceChargePickTableConfig
+      serviceChargePickTableConfig,
+      serviceChargePickFormVisible: false,
     }
   },
   methods: {

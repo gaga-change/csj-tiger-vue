@@ -10,6 +10,12 @@ export default {
 }
 </script>
 <style lang="scss">
+// 字数限制的输入框，附加样式
+.input-suffix-fa {
+  .el-input__suffix {
+    right: -42px;
+  }
+}
 .el-button {
   font-size: 12px;
 }

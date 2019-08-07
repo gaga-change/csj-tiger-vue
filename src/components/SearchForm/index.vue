@@ -22,18 +22,15 @@
             <el-input
               style="width:178px;"
               type="text"
-              size="mini"
               :placeholder="`请输入${item.label}`"
               v-model="searchForms[item.prop]"
             ></el-input>
           </template>
           <template v-else-if="item.type === 'select'">
-
             <el-select
               v-model="searchForms[item.prop]"
               clearable
               :placeholder="`请选择${item.label}`"
-              size="mini"
             >
               <el-option
                 v-for="item in selectEnums[item.prop]"
@@ -44,9 +41,23 @@
               </el-option>
             </el-select>
           </template>
-          <template v-else-if="item.type === 'dateTimeRange'">
+          <template v-else-if="item.type === 'selectMap'">
+            <el-select
+              v-model="searchForms[item.prop]"
+              clearable
+              :placeholder="`请选择${item.label}`"
+            >
+              <el-option
+                v-for="item in mapConfig[item.mapKey]"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key"
+              >
+              </el-option>
+            </el-select>
+          </template>
+          <template v-else-if="item.type==='dateTimeRange'">
             <el-date-picker
-              size="mini"
               v-model="searchForms[item.prop]"
               type="datetimerange"
               :picker-options="pickerOptions"
@@ -113,7 +124,10 @@ export default {
   computed: {
     inputItems() {
       return this.config.filter(v => !v.type)
-    }
+    },
+    ...mapGetters([
+      'mapConfig',
+    ])
   },
   watch: {
     config(val) {
