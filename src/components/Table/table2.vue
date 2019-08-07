@@ -5,7 +5,7 @@
       v-loading="api ? selfLoading: loading"
       :element-loading-text="elementLoadingText"
       :element-loading-background="elementLoadingBackground"
-      :data="tableData"
+      :data="data"
       :highlight-current-row="highlightCurrentRow"
       @current-change="handleCurrentRedioChange"
       :summary-method="summaryMethod"
@@ -90,11 +90,6 @@
         <template slot-scope="scope">
           <div>
             <slot
-              v-bind:row="scope.row"
-              v-bind:index="scope.$index"
-            ></slot>
-            <slot
-              name="edit"
               v-bind:row="scope.row"
               v-bind:index="scope.$index"
             ></slot>
@@ -221,7 +216,7 @@ export default {
       type: Function,
       default: () => { }
     },
-    tableData: {
+    data: {
       type: Array,
       default: () => []
     },
@@ -292,7 +287,7 @@ export default {
       } else if (this.selectTotal) {
         this.$refs.table.clearSelection()
         this.selectTotalKey && val.forEach(checkRow => {
-          let row = this.tableData.find(v => v[this.selectTotalKey] === checkRow[this.selectTotalKey])
+          let row = this.data.find(v => v[this.selectTotalKey] === checkRow[this.selectTotalKey])
           row && this.$refs['table'].toggleRowSelection(row, true)
         })
       }
@@ -439,7 +434,7 @@ export default {
             }
           })
         }
-        this.$emit('update:tableData', data)
+        this.$emit('update:data', data)
         this.selectTotal && this.$nextTick(() => {
           recoverSelectRows.forEach(v => {
             this.$refs['table'].toggleRowSelection(v, true)
@@ -479,7 +474,7 @@ export default {
       if (temp.length > this.selectTotalMax) {
         this.$message(`最多选取${this.selectTotalMax}条,当前已超出，将自动删除第一条选中内容！`)
         let delRow = temp.shift()
-        let row = this.tableData.find(v => v[this.selectTotalKey] === delRow[this.selectTotalKey])
+        let row = this.data.find(v => v[this.selectTotalKey] === delRow[this.selectTotalKey])
         row && this.$refs['table'].toggleRowSelection(row, false)
       }
       this.$emit('update:selectRows', temp)
@@ -489,14 +484,14 @@ export default {
       if (!this.selectTotal) return
       let temp = [...this.selectRows]
       if (selection.length) { // 全选
-        this.tableData.forEach(row => {
+        this.data.forEach(row => {
           // 在已选的总库中，添加当前列表中的项
           if (!temp.find(v => v[this.selectTotalKey] === row[this.selectTotalKey])) {
             temp.push(row)
           }
         })
       } else { // 全不选
-        this.tableData.forEach(row => {
+        this.data.forEach(row => {
           // 在已选的总库中，剔除当前列表中的项
           let index = temp.findIndex(v => v[this.selectTotalKey] === row[this.selectTotalKey])
           if (~index) {
@@ -508,7 +503,7 @@ export default {
         this.$message(`最多选取${this.selectTotalMax},当前已超出，将自动删除前${temp.length - this.selectTotalMax}条选中内容！`)
         let delRows = temp.splice(0, temp.length - this.selectTotalMax)
         delRows.forEach(delRow => {
-          let row = this.tableData.find(v => v[this.selectTotalKey] === delRow[this.selectTotalKey])
+          let row = this.data.find(v => v[this.selectTotalKey] === delRow[this.selectTotalKey])
           row && this.$refs['table'].toggleRowSelection(row, false)
         })
       }

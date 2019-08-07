@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import ElementUI from 'element-ui'
+import ElementUI, { MessageBox } from 'element-ui'
 import ItemTitle from '@/components/ItemTitle/index'
 import ItemCard from '@/components/ItemCard/index'
 import UploadMode from '@/components/upload/index'
@@ -40,6 +40,27 @@ Vue.use(BarCode)
 Vue.use(PopoverBtn)
 Vue.component('BaseTable2', BaseTable)
 Vue.component('SearchForm2', SearchForm)
+Vue.prototype.$delConfirm = (msg, promise) => {
+  MessageBox.confirm(msg || '此操作将永久删除改行, 是否继续?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+    beforeClose: (action, instance, done) => {
+      if (action === 'confirm') {
+        instance.confirmButtonLoading = true
+        promise.then(() => {
+          done()
+          setTimeout(() => {
+            instance.confirmButtonLoading = false
+          }, 300)
+        })
+      } else {
+        done()
+      }
+    }
+  }).then(() => {
+  }).catch(() => { })
+}
 
 Vue.config.productionTip = false
 
