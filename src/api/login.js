@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import {stringify} from 'qs';
+import { stringify } from 'qs';
 
 //修改密码接口
 export function updatepassword(data) {
@@ -8,21 +8,4 @@ export function updatepassword(data) {
     method: 'post',
     data: stringify(data)
   })
-}
-
-//获取用户信息
-export function getInfo() {
-  return request({
-    url: '/webApi/base/user/info',
-    method: 'get'
-  })
-  // return new Promise(function(resolve, reject) {
-  //   resolve({
-  //     success: true,
-  //     data: {
-  //       truename: 'outline',
-  //       id: 666
-  //     }
-  //   })
-  // })
 }
