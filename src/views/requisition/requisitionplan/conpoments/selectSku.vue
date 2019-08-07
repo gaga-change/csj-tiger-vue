@@ -1,6 +1,9 @@
 <template>
   <div class="selectSkuTemplate">
-    <div style="margin-bottom:20px" :loading="skuInfoListLoading">
+    <div
+      style="margin-bottom:20px"
+      :loading="skuInfoListLoading"
+    >
       <el-input
         v-model="searchSkuForm.skuCode"
         placeholder="请输入商品编码"
@@ -61,8 +64,7 @@
         property="availableQty"
         label="可用库存"
       />
-       <el-table-column
-        label="调拨数量">
+      <el-table-column label="调拨数量">
         <template slot-scope="scope">
           <el-input-number
             size="mini"
@@ -84,7 +86,10 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalLen"
     />
-    <div class="btnBox" style="text-align:center;margin-top:20px;">
+    <div
+      class="btnBox"
+      style="text-align:center;margin-top:20px;"
+    >
       <el-button @click="$emit('handleClose')">取 消</el-button>
       <el-button
         type="primary"
@@ -95,10 +100,9 @@
 </template>
 
 <script>
-import { saleTypeEnum } from "@/utils/enum";
 import { totalSkuList } from '@/api/requisition'
 export default {
-  props:['selectform'],
+  props: ['selectform'],
   data() {
     return {
       data: [],
@@ -107,10 +111,10 @@ export default {
       currentPageSize: 10,
       currentPage: 1,
       totalLen: 0,
-      handleList:[],
-      handleIdList:[],
-      searchSkuForm:{},
-      skuInfoListLoading:false
+      handleList: [],
+      handleIdList: [],
+      searchSkuForm: {},
+      skuInfoListLoading: false
     }
   },
   watch: {
@@ -123,9 +127,9 @@ export default {
   },
   methods: {
     handleCurrentChange(val) {
-      this.data.map(item=>{
-        if(item.transferQty && item.transferQty>0){
-          if(!(this.handleIdList.indexOf(item.id)>-1)){
+      this.data.map(item => {
+        if (item.transferQty && item.transferQty > 0) {
+          if (!(this.handleIdList.indexOf(item.id) > -1)) {
             this.handleList.push(item)
             this.handleIdList.push(item.id)
           }
@@ -135,35 +139,35 @@ export default {
       this.gettotallist()
     },
     updateData() {
-      this.handleList=[]
-      this.handleIdList=[]
-      this.searchSkuForm=_.cloneDeep(this.selectform)
+      this.handleList = []
+      this.handleIdList = []
+      this.searchSkuForm = _.cloneDeep(this.selectform)
       this.gettotallist()
     },
-    dataInfo(){
-      this.handleList=[]
-      this.handleIdList=[]
+    dataInfo() {
+      this.handleList = []
+      this.handleIdList = []
       this.gettotallist()
     },
-    gettotallist(){
-      this.skuInfoListLoading=true
-      totalSkuList({pageNum:this.currentPage,pageSize:this.currentPageSize,...this.searchSkuForm}).then(res => {
+    gettotallist() {
+      this.skuInfoListLoading = true
+      totalSkuList({ pageNum: this.currentPage, pageSize: this.currentPageSize, ...this.searchSkuForm }).then(res => {
         if (res.success) {
-          this.data=Array.isArray(res.data.list) && res.data.list || []
-          if(this.data.length>0){
-            this.data.map(item=>{
-              item.availableQty=(item.skuQty-item.lockQty)>0?(item.skuQty-item.lockQty):0
-              if(this.handleIdList.indexOf(item.id)>-1){
-                this.handleList.map(v=>{
-                  if(v.id===item.id){
-                    item.transferQty=v.transferQty
+          this.data = Array.isArray(res.data.list) && res.data.list || []
+          if (this.data.length > 0) {
+            this.data.map(item => {
+              item.availableQty = (item.skuQty - item.lockQty) > 0 ? (item.skuQty - item.lockQty) : 0
+              if (this.handleIdList.indexOf(item.id) > -1) {
+                this.handleList.map(v => {
+                  if (v.id === item.id) {
+                    item.transferQty = v.transferQty
                   }
                 })
               }
             })
           }
-          this.skuInfoListLoading=false
-          this.totalLen=res.data.total
+          this.skuInfoListLoading = false
+          this.totalLen = res.data.total
         }
       }).catch(err => {
       }).then(res => {
@@ -176,17 +180,17 @@ export default {
       }
     },
     submit() {
-      this.data.map(item=>{
-        if(item.transferQty && item.transferQty>0){
-          if(!(this.handleIdList.indexOf(item.id)>-1)){
+      this.data.map(item => {
+        if (item.transferQty && item.transferQty > 0) {
+          if (!(this.handleIdList.indexOf(item.id) > -1)) {
             this.handleList.push(item)
             this.handleIdList.push(item.id)
           }
         }
       })
-      if(this.handleList && this.handleList.length>0){
+      if (this.handleList && this.handleList.length > 0) {
         this.$emit('submit', 'addCommodity', this.handleList)
-      }else{
+      } else {
         this.$message.error('调拨明细不能为空！')
       }
     }

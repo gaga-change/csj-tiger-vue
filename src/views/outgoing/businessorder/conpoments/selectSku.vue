@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { saleTypeEnum } from "@/utils/enum";
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -85,19 +85,25 @@ export default {
     }
   },
   data() {
-    let saleTypeMap = {}
-    saleTypeEnum.forEach(v => {
-        saleTypeMap[v.value + ''] = v.name
-    })
     return {
       data: [],
       skuName: '',
-      saleTypeMap,
       skuCode: '',
       currentPageSize: 10,
       currentPage: 1,
       totalLen: 0
     }
+  },
+  computed: {
+    saleTypeMap() {
+      let obj = {}
+      let getSaleType = this.mapConfig['getSaleType'] || []
+      getSaleType.forEach(v => {
+        obj[v.key + ''] = v.value
+      })
+      return obj
+    },
+    ...mapGetters(['mapConfig'])
   },
   watch: {
     commodityList(val) {

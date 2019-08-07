@@ -56,13 +56,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
-                <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
-                    <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col> -->
           <el-col
             :sm="12"
             :md="8"
@@ -521,7 +514,7 @@ export default {
 
     //添加商品时选择商品编码的回调
     skuCodeChange(value) {
-      let commodityList = _.cloneDeep(this.commodityList);      
+      let commodityList = _.cloneDeep(this.commodityList);
       this.addCommodityForm = commodityList.find(v => v.skuCode === value)
     },
 

@@ -12,8 +12,8 @@
             prop="skuCode"
             :rules="[{ required: true, message: '该项为必填'}]"
           >
-            <div style="min-height: 40px;display: flex;align-items: center;">
-              <span style="display: block;line-height: 1.2;">
+            <div style="min-height: 28px;line-height: 28px;">
+              <span>
                 {{!!searchForm.skuCode ? searchForm.skuCode : ''}} <a
                   href="JavaScript:void(0)"
                   style="color:#409EFF;white-space: nowrap;"
@@ -21,36 +21,6 @@
                 >选择商品</a>
               </span>
             </div>
-
-            <!-- <el-select
-              v-model="searchForm.skuCode"
-              filterable
-              size="small"
-              @change="skuCodeChange"
-              placeholder="请选择商品"
-            >
-              <el-option
-                value=""
-                v-if="skuList.length"
-                :disabled="true"
-              >
-                <div class="providerList">
-                  <span>商品编码</span>
-                  <span>商品名称</span>
-                </div>
-              </el-option>
-              <el-option
-                v-for="item in skuList"
-                :key="item.skuCode"
-                :label="item.skuName"
-                :value="item.skuCode"
-              >
-                <div class="providerList">
-                  <span>{{ item.skuCode }}</span>
-                  <span>{{ item.skuName }}</span>
-                </div>
-              </el-option>
-            </el-select> -->
           </el-form-item>
         </el-col>
 

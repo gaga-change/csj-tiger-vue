@@ -90,13 +90,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6" >
-                <el-form-item label="销售区分"  prop="saleType" :rules="[{ required: true, message: '该项为必填'}]">
-                  <el-select v-model="searchForm.saleType" size="small"  placeholder="请选择销售区分">
-                    <el-option v-for="item in saleTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
-                  </el-select>
-                </el-form-item>
-            </el-col> -->
           <el-col
             :sm="12"
             :md="8"
@@ -561,7 +554,7 @@
 import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import addForm from './conpoments/addForm'
-import { outgoingOrderTypeEnum, sendOutRequireEnum, saleTypeEnum } from "@/utils/enum.js";
+import { outgoingOrderTypeEnum, sendOutRequireEnum } from "@/utils/enum.js";
 import { customerInfo } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
 import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove } from '@/api/outgoing'
@@ -596,8 +589,6 @@ export default {
       //枚举项
       outgoingOrderTypeEnum,//出库类型
       sendOutRequireEnum,//发货要求
-      saleTypeEnum,
-
       //供应商下拉配置
       providerConfig: [],
       //地址下拉配置

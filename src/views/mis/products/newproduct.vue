@@ -1165,7 +1165,8 @@ export default {
   data() {
     return {
       productForm: {
-        currentCode: null
+        currentCode: null,
+        saleType: 3,
       },
       activeTab: 'first',
       customerConfig,
