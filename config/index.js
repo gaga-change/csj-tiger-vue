@@ -12,12 +12,12 @@ const path = require('path')
 // const ip='http://192.168.2.150:7878';//姚旭
 const ip = 'http://192.168.1.37:7878'; // 测试环境。 需配置 host 文件，`127.0.0.1 testtiger.csjmro.com` 即可生效。
 
-const proxyTableArr=['/csj_login','/csj_logout','/webApi','/api'];
+const proxyTableArr = ['/csj_login', '/csj_logout', '/webApi', '/api'];
 
-let proxyTable={};
+let proxyTable = {};
 
-proxyTableArr.forEach(item=>{
-  proxyTable[item]={
+proxyTableArr.forEach(item => {
+  proxyTable[item] = {
     target: ip,
     changeOrigin: true
   }
@@ -75,7 +75,7 @@ module.exports = {
     assetsSubDirectory: 'static',
 
     // you can set by youself according to actual condition
-    assetsPublicPath: './',
+    assetsPublicPath: '/',
 
     /**
      * Source Maps
