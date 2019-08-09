@@ -68,6 +68,18 @@
             >
             </el-date-picker>
           </template>
+          <template v-else-if="item.type==='dateRange'">
+            <el-date-picker
+              v-model="searchForms[item.prop]"
+              type="daterange"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
+          </template>
           <template v-else-if="item.type === 'monthRange'">
             <el-date-picker
               v-model="searchForms[item.prop]"
@@ -122,6 +134,9 @@ export default {
     }
   },
   computed: {
+    configRange() {
+      return this.config.filter(v => v.props)
+    },
     inputItems() {
       return this.config.filter(v => !v.type)
     },
@@ -211,7 +226,19 @@ export default {
     },
     hanldeSubmit() {
       this.submitLoading = true
-      this.$emit('search', { ...this.searchForms }, () => {
+      let searchForms = { ...this.searchForms }
+      // 获取需要解析的字段, 针对 范围型数据
+      if (this.configRange.length) {
+        this.configRange.forEach(({ prop, props }) => {
+          let valArr = searchForms[prop]
+          delete searchForms[prop]
+          if (valArr && valArr.length === 2) {
+            searchForms[props[0]] = new Date(valArr[0]).getTime()
+            searchForms[props[1]] = new Date(valArr[1]).getTime()
+          }
+        })
+      }
+      this.$emit('search', searchForms, () => {
         this.submitLoading = false
       })
     },

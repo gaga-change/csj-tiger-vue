@@ -101,9 +101,9 @@ export default {
       },
       loading: false,
       consoil: [],
-      submitData:null,
-      insureloading:false,
-      unInsureloading:false
+      submitData: null,
+      insureloading: false,
+      unInsureloading: false
     }
   },
   computed: {
@@ -119,55 +119,55 @@ export default {
     this.fetchData()
   },
   methods: {
-    handleSelectionChange(val){
-      this.submitData=val
+    handleSelectionChange(val) {
+      this.submitData = val
     },
-    insureSubmit(type){
+    insureSubmit(type) {
       const Methods = {
         insure: insureConfirm,
         unInsure: unInsureConfirm
       }
-      if(this.submitData && this.submitData.length>0){
-        let ids=[]
-        let message=null
-        if(type=='insure'){
-          this.submitData.map(item=>{
-            if(item.insureState==0){
+      if (this.submitData && this.submitData.length > 0) {
+        let ids = []
+        let message = null
+        if (type == 'insure') {
+          this.submitData.map(item => {
+            if (item.insureState == 0) {
               ids.push(item.id)
             }
           })
-          this.insureloading=true
-          this.unInsureloading=false
-          message='请勾选未投保选项'
-        }else{
-          this.submitData.map(item=>{
-            if(item.insureState==1){
+          this.insureloading = true
+          this.unInsureloading = false
+          message = '请勾选未投保选项'
+        } else {
+          this.submitData.map(item => {
+            if (item.insureState == 1) {
               ids.push(item.id)
             }
           })
-          this.insureloading=false
-          this.unInsureloading=true
-          message='请勾选已投保选项'
+          this.insureloading = false
+          this.unInsureloading = true
+          message = '请勾选已投保选项'
         }
-        if(ids.length>0){
-          Methods[type](ids).then(res=>{
-            if(res.success){
+        if (ids.length > 0) {
+          Methods[type](ids).then(res => {
+            if (res.success) {
               this.$message.success('操作成功！')
               this.$refs.listTable.clearSelection()
               this.fetchData()
-              this.submitData=[]
-              this.insureloading=false
-              this.unInsureloading=false
+              this.submitData = []
+              this.insureloading = false
+              this.unInsureloading = false
             }
           })
-        }else{
+        } else {
           this.$message.error(message)
-          this.insureloading=false
-          this.unInsureloading=false
+          this.insureloading = false
+          this.unInsureloading = false
         }
-      }else{
-        this.insureloading=false
-        this.unInsureloading=false
+      } else {
+        this.insureloading = false
+        this.unInsureloading = false
         this.$message.error('请先勾选选项！')
       }
     },
@@ -195,7 +195,7 @@ export default {
         gmtInsureBegin: insureDate && new Date(insureDate[0]).getTime(),
         gmtInsureEnd: insureDate && new Date(insureDate[1]).getTime(),
         gmtCreateBegin: orderDate && new Date(orderDate[0]).getTime(),
-        gmtCreateEnd:orderDate && new Date(orderDate[1]).getTime(),
+        gmtCreateEnd: orderDate && new Date(orderDate[1]).getTime(),
         ...rest
       }
       insureListInfo({
@@ -212,7 +212,6 @@ export default {
         })
         .catch(err => {
           this.loading = false
-          console.log(err)
         })
     },
     handleSizeChange(val) {
@@ -229,8 +228,8 @@ export default {
 </script>
 
 <style lang="css">
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
 </style>

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 //出库业务单数据
-export function getOutStoreList(data={}) {
+export function getOutStoreList(data = {}) {
   return request({
     url: `/webApi/logistics/query-outwarehouse-orders`,
     method: 'post',
@@ -8,14 +8,7 @@ export function getOutStoreList(data={}) {
   })
 }
 
-export function queryLogisticsExpenseAll(data={}) {
-  return request({
-    url: `/webApi/logistics-expense/query-logistics-expense-all`,
-    method: 'get',
-    params: data
-  })
-}
-export function createLogisticsExpense(data={}) {
+export function createLogisticsExpense(data = {}) {
   return request({
     url: `/webApi/logistics-expense/create-logistics-expense`,
     method: 'post',
@@ -23,21 +16,21 @@ export function createLogisticsExpense(data={}) {
   })
 }
 
-export function getCustomerList(data={}) {
+export function getCustomerList(data = {}) {
   return request({
     url: `/webApi/customer/list`,
     method: 'post',
     data: data
   })
 }
-export function saveCustomer(data={}) {
+export function saveCustomer(data = {}) {
   return request({
     url: `/webApi/customer/save`,
     method: 'post',
     data
   })
 }
-export function updateOwnerCust(data={}) {
+export function updateOwnerCust(data = {}) {
   return request({
     url: `/webApi/customer/updateOwnerCust`,
     method: 'post',
@@ -45,7 +38,7 @@ export function updateOwnerCust(data={}) {
   })
 }
 
-export function customerUpdate(data={}) {
+export function customerUpdate(data = {}) {
   return request({
     url: `/webApi/customer/update`,
     method: 'post',
@@ -54,14 +47,14 @@ export function customerUpdate(data={}) {
 }
 
 
-export function ownerCustList(data={}) {
+export function ownerCustList(data = {}) {
   return request({
     url: `/webApi/customer/ownerCustList`,
     method: 'post',
     data
   })
 }
-export function delCustomer(data={}) {
+export function delCustomer(data = {}) {
   return request({
     url: `/webApi/customer/del`,
     method: 'post',
@@ -69,7 +62,7 @@ export function delCustomer(data={}) {
   })
 }
 // 客户地址列表
-export function customerAddressList(data={}) {
+export function customerAddressList(data = {}) {
   return request({
     url: `/webApi/customer/addr/list`,
     method: 'post',
@@ -77,7 +70,7 @@ export function customerAddressList(data={}) {
   })
 }
 // /webApi/customer/addr/save
-export function saveCustomerAddress(data={}) {
+export function saveCustomerAddress(data = {}) {
   return request({
     url: `/webApi/customer/addr/save`,
     method: 'post',
@@ -85,7 +78,7 @@ export function saveCustomerAddress(data={}) {
   })
 }
 //  /webApi/customer/addr/del
-export function delCustomerAddress(data={}) {
+export function delCustomerAddress(data = {}) {
   return request({
     url: `/webApi/customer/addr/del`,
     method: 'get',
@@ -93,7 +86,7 @@ export function delCustomerAddress(data={}) {
   })
 }
 // /webApi/customer/addr/update
-export function updateCustomerAddress(data={}) {
+export function updateCustomerAddress(data = {}) {
   return request({
     url: `/webApi/customer/addr/update`,
     method: 'post',
@@ -101,28 +94,28 @@ export function updateCustomerAddress(data={}) {
   })
 }
 
-export function getOwnerCustList(data={}) {
+export function getOwnerCustList(data = {}) {
   return request({
     url: `/webApi/base/info/getOwnerCustListByCustomer`,
     method: 'post',
     data
   })
 }
-export function getOwnerProviderList(data={}) {
+export function getOwnerProviderList(data = {}) {
   return request({
     url: `/webApi/base/info/getOwnerProviderList`,
     method: 'post',
     data
   })
 }
-export function queryLogisticsList(data={}) {
+export function queryLogisticsList(data = {}) {
   return request({
     url: `/webApi/logistics/query-logistics-list`,
     method: 'post',
     data
   })
 }
-export function createNewLogistics(data={}) {
+export function createNewLogistics(data = {}) {
   return request({
     url: `/webApi/logistics/create-new-logistics`,
     method: 'post',
@@ -135,21 +128,21 @@ export function queryLogisticsDetail(id) {
     method: 'get'
   })
 }
-export function updateLogisticsInfo(data={}) {
+export function updateLogisticsInfo(data = {}) {
   return request({
     url: `/webApi/logistics/update-logistics-info`,
     method: 'PUT',
     data
   })
 }
-export function updateLogisticsDetailInfo(data={}) {
+export function updateLogisticsDetailInfo(data = {}) {
   return request({
     url: `/webApi/logistics/update-logistics-detail-info`,
     method: 'PUT',
     data
   })
 }
-export function approveLogistics(data={}) {
+export function approveLogistics(data = {}) {
   return request({
     url: `/webApi/logistics/approve`,
     method: 'post',
@@ -168,7 +161,7 @@ export function queryLogisticsExpenseConfirmed() {
     method: 'get'
   })
 }
-export function addLogisticsExpense(data={}) {
+export function addLogisticsExpense(data = {}) {
   return request({
     url: `/webApi/logistics/add-logistics-expense`,
     method: 'post',

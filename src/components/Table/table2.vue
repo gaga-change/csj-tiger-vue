@@ -84,7 +84,7 @@
       <el-table-column
         v-if="showControl"
         :width="controlWidth"
-        fixed="right"
+        :fixed="controlFixed"
         :label="controlName"
       >
         <template slot-scope="scope">
@@ -145,11 +145,6 @@ export default {
       type: Function,
       default: null,
     },
-    /** 表格api接口 - 搜索条件 */
-    searchParams: {
-      type: Object,
-      default: () => { }
-    },
     select: {
       type: Boolean,
       default: false,
@@ -195,6 +190,10 @@ export default {
     controlWidth: {
       type: Number,
       default: 160
+    },
+    /** 显示 【操作】 - fixed 固定 */
+    controlFixed: {
+      default: 'right'
     },
     loading: {
       type: Boolean,
@@ -277,6 +276,7 @@ export default {
       selfPageSize: 10,
       selfCurrentPage: 1,
       selfLoading: true,
+      searchParams: {}, // 搜索条件
     }
   },
   watch: {
@@ -405,7 +405,8 @@ export default {
     handleInputNumberChange(row, index, item, value) {
       this.$emit('inputNumberChange', { row, index, item, value })
     },
-    fetchData() {
+    fetchData(searchParams) {
+      if (searchParams) this.searchParams = { ...searchParams }
       this.selfLoading = true
       return this.api({
         pageNum: this.selfCurrentPage,

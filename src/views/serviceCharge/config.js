@@ -1,16 +1,16 @@
 
 export const serviceChargePickSearchConfig = [
   { label: '货主', prop: 'orderCode', type: 'selectMap', mapKey: 'ownerInfoMap' },
-  { label: '结算月份', prop: 'aaa', type: 'monthRange' },
-  { label: '创建日期', prop: 'aaa', type: 'dateTimeRange' },
+  { label: '结算日期', prop: 'settlementDate', props: ['settlementMonthBigin', 'settlementMonthEnd'], type: 'dateRange' },
+  { label: '创建日期', prop: 'gmtCreate', props: ['gmtCreateBigin', 'gmtCreateEnd'], type: 'dateTimeRange' },
 ]
 
 export const serviceChargePickTableConfig = [
-  { label: '计划单号', prop: 'aaa' },
-  { label: '货主', prop: 'aaa' },
-  { label: '结算月份', prop: 'aaa' },
-  { label: '创建日期', prop: 'aaa' },
-  { label: '备注', prop: 'aaa' },
+  { label: '计划单号', prop: 'chargeBillNo' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '结算日期', prop: 'settlementMonth', type: 'time', format: 'YYYY-MM-DD' },
+  { label: '创建日期', prop: 'gmtCreate', type: 'time', format: 'YYYY-MM-DD' },
+  { label: '备注', prop: 'remarkInfo' },
 ]
 
 export const serviceChargePickFormTableConfig = [

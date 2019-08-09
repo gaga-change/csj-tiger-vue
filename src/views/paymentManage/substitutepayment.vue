@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="app-container">
     <el-row :gutter="16">
       <el-form
@@ -78,25 +78,50 @@
         </el-col>
       </el-form>
     </el-row>
-    <el-row type="flex" justify="end">
-      <el-button type="primary" size="small" style="margin:10px" @click="newPayment">新建款项</el-button>
+    <el-row
+      type="flex"
+      justify="end"
+    >
+      <el-button
+        type="primary"
+        size="small"
+        style="margin:10px"
+        @click="newPayment"
+      >新建款项</el-button>
     </el-row>
     <el-table
       :data="tableData"
       v-loading="loading"
-      border>
-      <el-table-column v-for="(column, index) in searchConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
+      border
+    >
+      <el-table-column
+        v-for="(column, index) in searchConfig"
+        :key="index"
+        :prop="column.prop"
+        :label="column.label"
+        :width="column.width"
+      >
         <template slot-scope="scope">
           <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
           <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
           <span v-else>{{scope.row[column.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="120" fixed="right">
+      <el-table-column
+        label="操作"
+        width="120"
+        fixed="right"
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.expenseState === 1">
-            <a :style="linkstyle" @click="delFeeRow(scope.row)">删除</a>
-            <a :style="linkstyle" @click="editFeeRow(scope.row)">修改</a>
+            <a
+              :style="linkstyle"
+              @click="delFeeRow(scope.row)"
+            >删除</a>
+            <a
+              :style="linkstyle"
+              @click="editFeeRow(scope.row)"
+            >修改</a>
           </span>
         </template>
       </el-table-column>
@@ -122,7 +147,8 @@
 </template>
 
 <script>
-import { queryLogisticsExpenseAll, createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
+import { createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
+import { queryLogisticsExpenseAll } from '@/api'
 import { dealNameValueToKeyValue } from '@/utils'
 import { expenseType } from '@/utils/enum'
 import BaseTable from '@/components/Table'
@@ -134,15 +160,15 @@ export default {
       searchConfig: [
         { label: '款项编码', prop: 'expenseCode' },
         { label: '款项名称', prop: 'expenseName' },
-        { label: '款项性质', prop: 'expenseType', localEnum:'expenseType' }
+        { label: '款项性质', prop: 'expenseType', localEnum: 'expenseType' }
       ],
       searchData: {},
       loading: false,
       tableData: [],
       linkstyle: {
-          color: '#3399ea',
-          whiteSpace: 'nowrap',
-          margin: '0 10px 0 0'
+        color: '#3399ea',
+        whiteSpace: 'nowrap',
+        margin: '0 10px 0 0'
       },
       dialogFormVisible: false,
       submitloading: false,
@@ -158,8 +184,8 @@ export default {
   },
   methods: {
     submitForm(status) {
-      this.$refs['createform'].validate(valid=>{
-        if(valid){
+      this.$refs['createform'].validate(valid => {
+        if (valid) {
           this.submitloading = true
           const postData = {
             ...this.paymentForm,
@@ -169,11 +195,11 @@ export default {
           FUNCTION(postData).then(res => {
             if (res.success) {
               this.$message.success('操作成功~'),
-              this.dialogFormVisible = false
+                this.dialogFormVisible = false
               this.submitloading = false
-              for(let i in this.paymentForm){
-                if(i){
-                  this.paymentForm[i]=null
+              for (let i in this.paymentForm) {
+                if (i) {
+                  this.paymentForm[i] = null
                 }
               }
               this.fetchData()
@@ -209,9 +235,9 @@ export default {
       })
     },
     newPayment() {
-      for(let i in this.paymentForm){
-        if(i){
-          this.paymentForm[i]=null
+      for (let i in this.paymentForm) {
+        if (i) {
+          this.paymentForm[i] = null
         }
       }
       this.dialogFormVisible = true

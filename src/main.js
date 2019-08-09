@@ -40,7 +40,7 @@ Vue.use(BarCode)
 Vue.use(PopoverBtn)
 Vue.component('BaseTable2', BaseTable)
 Vue.component('SearchForm2', SearchForm)
-Vue.prototype.$delConfirm = (msg, promise) => {
+Vue.prototype.$delConfirm = (msg, api) => {
   MessageBox.confirm(msg || '此操作将永久删除改行, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -48,7 +48,7 @@ Vue.prototype.$delConfirm = (msg, promise) => {
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
-        promise.then(() => {
+        api().then(() => {
           done()
           setTimeout(() => {
             instance.confirmButtonLoading = false
