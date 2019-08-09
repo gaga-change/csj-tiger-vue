@@ -3,35 +3,10 @@ import Layout from '../views/layout/Layout'
 import { reportCenterUrl } from '@/utils'
 
 export default [
-
-  {
-    path: '/inventory',
-    component: Layout,
-    redirect: 'inventory/quiry',
-    meta: { title: '库存管理', noCache: true,icon:'plan' },
-    mark:'报表',
-    hidden: false,
-    children: [
-      {
-        name: 'quiry',
-        path: 'quiry',
-        meta: { title: '库存查询', noCache: true },
-        component: _import('inventory/quiry/index')
-      },
-      {
-        name: 'quiry-detail',
-        path: 'quiry-detail',
-        meta: { title: '库存查询详情', noCache: true },
-        component: _import('inventory/quiry/detail'),
-        hidden: true,
-      },
-    ]
-  },
-
   {
     name: 'reportdaily',
     path: '/reportdaily',
-    mark:'报表',
+    mark: '报表',
     outLinkUrl: reportCenterUrl('mis_actual_stock'),
     meta: { title: '日常报表', icon: 'stock' },
     children: [
@@ -104,7 +79,7 @@ export default [
   {
     name: 'reporttogether',
     path: '/reporttogether',
-    mark:'报表',
+    mark: '报表',
     outLinkUrl: reportCenterUrl('mis_distribution_main'),
     meta: { title: '综合报表', icon: 'stock' },
     children: [
@@ -217,7 +192,7 @@ export default [
   {
     name: 'reportsettle',
     path: '/reportsettle',
-    mark:'报表',
+    mark: '报表',
     outLinkUrl: reportCenterUrl('mis_invout_summary'),
     meta: { title: '结算报表', icon: 'stock' },
     children: [

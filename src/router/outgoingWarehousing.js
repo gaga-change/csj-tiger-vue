@@ -6,8 +6,8 @@ export default [
     path: '/outgoing',
     component: Layout,
     redirect: 'outgoing/businessorder',
-    meta: { title: '出库调度', noCache: true,icon: 'out' },
-    mark:'出入库',
+    meta: { title: '出库调度', noCache: true, icon: 'out' },
+    mark: '出入库',
     hidden: false,
     children: [
       {
@@ -97,8 +97,8 @@ export default [
     path: '/warehousing',
     component: Layout,
     redirect: 'warehousing/businessorder',
-    meta: { title: '入库调度', noCache: true,icon: 'in'},
-    mark:'出入库',
+    meta: { title: '入库调度', noCache: true, icon: 'in' },
+    mark: '出入库',
     hidden: false,
     children: [
       {
@@ -164,12 +164,12 @@ export default [
     ]
   },
 
-   {
+  {
     path: '/reply',
     component: Layout,
     redirect: 'reply/query',
-    mark:'出入库',
-    meta: { title: '回单管理', noCache: true,icon:'back' },
+    mark: '出入库',
+    meta: { title: '回单管理', noCache: true, icon: 'back' },
     hidden: false,
     children: [
       {
@@ -199,14 +199,14 @@ export default [
     path: '/abnormalGoods',
     component: Layout,
     redirect: 'abnormalGoods/list',
-    meta: { title: '异常商品登记', noCache: true,icon:'back' },
+    meta: { title: '异常商品登记', noCache: true, icon: 'back' },
     hidden: false,
-    mark:'出入库',
+    mark: '出入库',
     children: [
       {
         name: 'list',
         path: 'list',
-        meta: { title: '异常商品登记', noCache: true},
+        meta: { title: '异常商品登记', noCache: true },
         component: _import('abnormalGoods/list')
       },
       {
@@ -239,30 +239,30 @@ export default [
     component: Layout,
     redirect: '/provider/list',
     name: 'provider',
-    mark:'出入库',
-    meta: { title: '供应商直发', icon: 'sale',noCache: true },
+    mark: '出入库',
+    meta: { title: '供应商直发', icon: 'sale', noCache: true },
     hidden: false,
     children: [
       {
         path: 'list',
         component: _import('provider/list'),
         name: 'providerlist',
-        hidden:false,
-        meta: {title: '客户收货登记',noCache: true }
+        hidden: false,
+        meta: { title: '客户收货登记', noCache: true }
       },
       {
         path: 'add',
         component: _import('provider/add'),
         name: 'providerAdd',
-        hidden:true,
-        meta: {title: '登记页面',noCache: false }
+        hidden: true,
+        meta: { title: '登记页面', noCache: false }
       },
       {
         path: 'detail',
         component: _import('provider/detail'),
         name: 'providerdetail',
-        hidden:true,
-        meta: {title: '客户收货登记详情',noCache: true }
+        hidden: true,
+        meta: { title: '客户收货登记详情', noCache: true }
       },
     ]
   },
@@ -271,34 +271,34 @@ export default [
     path: '/correctionDocument',
     component: Layout,
     redirect: '/correctionDocument/warehousingList',
-    mark:'出入库',
+    mark: '出入库',
     meta: { title: '单据订正', icon: 'sale', noCache: true },
     children: [
       {
         path: 'warehousingList',
         component: _import('mis/correctionDocument/warehousingList'),
         name: 'warehousingList',
-        meta: { title: '入库业务单订正', noCache: true}
+        meta: { title: '入库业务单订正', noCache: true }
       },
       {
         path: 'warehousingAdd',
         component: _import('mis/correctionDocument/warehousingAdd'),
         name: 'warehousingAdd',
         hidden: true,
-        meta: { title: '创建入库订正单', noCache: true}
+        meta: { title: '创建入库订正单', noCache: true }
       },
       {
         path: 'outgoingList',
         component: _import('mis/correctionDocument/outgoingList'),
         name: 'outgoingList',
-        meta: { title: '出库业务单订正',  noCache: true}
+        meta: { title: '出库业务单订正', noCache: true }
       },
       {
         path: 'outgoingAdd',
         component: _import('mis/correctionDocument/outgoingAdd'),
         name: 'outgoingAdd',
         hidden: true,
-        meta: { title: '创建出库订正单',noCache: true}
+        meta: { title: '创建出库订正单', noCache: true }
       }
 
     ]
@@ -307,8 +307,8 @@ export default [
     path: '/requisition',
     component: Layout,
     redirect: 'requisition/requisitionplan',
-    meta: { title: '调拨', noCache: true,icon: 'out' },
-    mark:'出入库',
+    meta: { title: '调拨', noCache: true, icon: 'out' },
+    mark: '出入库',
     hidden: false,
     children: [
       {
@@ -332,5 +332,28 @@ export default [
         hidden: true,
       }
     ]
-  }
+  },
+  {
+    path: '/inventory',
+    component: Layout,
+    redirect: 'inventory/quiry',
+    meta: { title: '库存管理', noCache: true, icon: 'plan' },
+    mark: '出入库',
+    hidden: false,
+    children: [
+      {
+        name: 'quiry',
+        path: 'quiry',
+        meta: { title: '库存查询', noCache: true },
+        component: _import('inventory/quiry/index')
+      },
+      {
+        name: 'quiry-detail',
+        path: 'quiry-detail',
+        meta: { title: '库存查询详情', noCache: true },
+        component: _import('inventory/quiry/detail'),
+        hidden: true,
+      },
+    ]
+  },
 ]
