@@ -46,7 +46,7 @@ export const asyncRouterMap = [
     path: '/err',
     component: Layout,
     redirect: 'err/errIndex',
-    mark:'报表',
+    mark:'基础档案',
     meta: { title: '错误处理', noCache: true,icon:'back' },
     hidden: false,
     children: [
