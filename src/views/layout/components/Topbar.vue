@@ -11,6 +11,9 @@
         <a  @click="$store.dispatch('setLocalmenu',i)"  :class="{navActive:mark===i}"    target="_blank">{{i}}</a>
       </li>
       <li>
+        <a :href="dataUrl" @click="dataRoute" target="_blank">报表</a>
+      </li>
+      <li>
         <a :href="TiggerUrl" target="_blank">供应链</a>
       </li>
     </ul>
@@ -91,6 +94,7 @@ export default {
     return {
       logoPath,
       TiggerUrl,
+      dataUrl: null,
       modifyPasswordShow: false,
       form: {
         oldpassword: '',
@@ -140,6 +144,11 @@ export default {
   },
 
   methods: {
+    dataRoute() {
+      if (!this.dataUrl) {
+        this.$message('同步登录BI失败，无法跳转，请刷新页面重试')
+      }
+    },
      modifyPassword() {
       this.$refs.ruleForm2.validate((valid) => {
         if (valid) {

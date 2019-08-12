@@ -8,7 +8,7 @@ import Layout from '../views/layout/Layout'
 import OutgoingWarehousing from './outgoingWarehousing' //出入库
 import Basics from './basics' //基本信息
 import Logistics from './logistics' //物流
-import Report from './report' //报表
+// import Report from './report' //报表
 import Finance from './finance' //财务
 
 export const constantRouterMap = [
@@ -40,7 +40,7 @@ export const asyncRouterMap = [
   ...OutgoingWarehousing,
   ...Basics,
   ...Logistics,
-  ...Report,
+  // ...Report,
   ...Finance,
   {
     path: '/err',
