@@ -332,5 +332,28 @@ export default [
         hidden: true,
       }
     ]
+  },
+  {
+    path: '/inventory',
+    component: Layout,
+    redirect: 'inventory/quiry',
+    meta: { title: '库存管理', noCache: true,icon:'plan' },
+    mark:'报表',
+    hidden: false,
+    children: [
+      {
+        name: 'quiry',
+        path: 'quiry',
+        meta: { title: '库存查询', noCache: true },
+        component: _import('inventory/quiry/index')
+      },
+      {
+        name: 'quiry-detail',
+        path: 'quiry-detail',
+        meta: { title: '库存查询详情', noCache: true },
+        component: _import('inventory/quiry/detail'),
+        hidden: true,
+      },
+    ]
   }
 ]
