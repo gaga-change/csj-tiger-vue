@@ -13,7 +13,7 @@ newAxios.interceptors.response.use(function (response) {
   let data = response.data
   let message = data.message || data.errorMsg || ''
   // 系统异常提示（返回的数据为 null）
-  if (data.code === 'TIGER-40620081') {
+  if (~['TIGER-40620081', 'user-not-login'].findIndex(v => v === data.code)) {
     Message({
       type: 'error',
       message: '登录已失效，3秒后自动跳转登录',
