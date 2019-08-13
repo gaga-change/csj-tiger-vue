@@ -338,7 +338,7 @@ export default [
     component: Layout,
     redirect: 'inventory/quiry',
     meta: { title: '库存管理', noCache: true,icon:'plan' },
-    mark:'报表',
+    mark:'出入库',
     hidden: false,
     children: [
       {
