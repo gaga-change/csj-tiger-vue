@@ -1,5 +1,5 @@
 <template lang="html">
-    <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
+    <el-form ref="searchForm" labelWidth="90px" :model="searchForm" class="AddAddressSearch">
       <el-row>
           <el-col :span="12">
             <el-form-item label="地址性质" prop="addrNature" :rules="[{ required: true, message: '该项为必填'}]">
@@ -59,17 +59,17 @@ import { Area } from '@/utils/area.js'
 import { mapGetters } from 'vuex'
 export default {
 
-  data(){
+  data() {
     return {
-      options:Area
+      options: Area
     }
   },
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
+  props: {
+    searchForm: {
+      type: Object,
+      default: () => { }
+    },
   },
 
   computed: {
@@ -80,12 +80,12 @@ export default {
 
   methods: {
 
-     submit(){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             this.$emit('submit','addAddress',this.searchForm)
-          }
-       })
+    submit() {
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.$emit('submit', 'addAddress', this.searchForm)
+        }
+      })
     },
   }
 }
@@ -93,11 +93,13 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-  .btn_box{
+.AddAddressSearch {
+  .btn_box {
     display: flex;
     justify-content: flex-end;
   }
-  .el-form-item{
+  .el-form-item {
     height: 40px;
   }
+}
 </style>

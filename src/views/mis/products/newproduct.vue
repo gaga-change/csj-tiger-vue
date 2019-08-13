@@ -1332,25 +1332,6 @@ export default {
       }
       this.customerList = []
       this.updateCustomer()
-      // getOwnerCustList({ ownerCode: ownerobj.key, pageNum: 1, pageSize: 100 }).then(res => {
-
-      //   // let customerEditData = _.cloneDeep(this.customerEditData);
-      //   // customerEditData.customerCode = '';
-      //   // this.customerEditData = customerEditData;
-      //   // const result = res.data || []
-      //   // const options = []
-      //   // result.forEach(item => options.push({ value: item.customerName, key: item.customerCode }))
-      //   // this.customerConfig.forEach(v => {
-      //   //   if (['customerCode', 'customerName'].includes(v.prop)) {
-      //   //     v.selectOptions = options
-      //   //   }
-      //   // })
-      //   const result = res.data.list || []
-      //   const options = []
-      //   result.forEach(item => options.push({ value: item.customerName, key: item.customerCode }))
-      //   this.customerList = options
-      //   // this.customerFormLoadData()
-      // })
       getOwnerProviderList({ ownerCode: ownerobj.key }).then(res => {
         let servicerEditData = _.cloneDeep(this.servicerEditData);
         servicerEditData.providerCode = '';
@@ -1364,11 +1345,8 @@ export default {
       })
     },
     categorySubmit(item) {
-      // this.productForm.categoryCode = item.currentCode
-      // this.productForm.categoryName = item.text
       this.$set(this.productForm, 'categoryCode', item.currentCode)
       this.$set(this.productForm, 'categoryName', item.text)
-      // this.$refs['productForm'].clearValidate(['categoryCode'])
     },
     onSubmit() {
 
@@ -1416,9 +1394,6 @@ export default {
     submitCustomerForm(val) {
       let customerTableData = _.cloneDeep(this.customerTableData)
       val = JSON.parse(JSON.stringify(val))
-      // const config = this.customerConfig.find(customer => customer.prop === 'customerCode') || {}
-      // const customers = config.selectOptions || []
-      // val.customerName = (customers.find(customer => customer.key === val.customerCode) || {}).value
       if (val.edit) {
         let position = -1
         customerTableData.forEach((item, index) => {
@@ -1488,12 +1463,14 @@ export default {
 }
 </script>
 
-<style lang="css">
-.el-form-item {
-  height: 30px;
-  margin-bottom: 36px;
-}
-.NewProduct th.el-table-column--selection {
-  visibility: hidden;
+<style lang="scss">
+.NewProduct {
+  .el-form-item {
+    height: 30px;
+    margin-bottom: 36px;
+  }
+  th.el-table-column--selection {
+    visibility: hidden;
+  }
 }
 </style>

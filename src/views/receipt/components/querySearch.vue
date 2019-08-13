@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { busiPlateConfig,MoneyStateEnum } from '@/utils/enum'
+import { busiPlateConfig, MoneyStateEnum } from '@/utils/enum'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -85,38 +85,38 @@ export default {
     }
   },
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
+  props: {
+    searchForm: {
+      type: Object,
+      default: () => { }
+    },
   },
-  
+
   computed: {
     ...mapGetters([
       'mapConfig',
-  ])},
+    ])  },
 
 
-  methods:{
+  methods: {
 
-    submit(){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             this.$emit('submit',this.searchForm)
-          } else{
-            return false;
-          }
-       })
+    submit() {
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.$emit('submit', this.searchForm)
+        } else {
+          return false;
+        }
+      })
     },
 
-    resetForm(){
+    resetForm() {
       let data = _.cloneDeep(this.searchForm);
-      let json={};
-      for(let i in data){
-        json[i]=''
+      let json = {};
+      for (let i in data) {
+        json[i] = ''
       }
-      this.$emit('submit',{...json})
+      this.$emit('submit', { ...json })
     }
   }
 
@@ -124,23 +124,22 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .entryInvoice-form{
-     .el-form-item{
-       height:30px;
-       margin-bottom: 36px
-     }
+.entryInvoice-form {
+  .el-form-item {
+    height: 30px;
+    margin-bottom: 36px;
   }
-    .providerList{
-      display: flex;
-      justify-content: space-between;
-      >span{
-        &:first-child{
-          min-width: 150px;
-        }
-        &:nth-child(2){
-          min-width: 100px;
-        }
-      }
+}
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
     }
-
+    &:nth-child(2) {
+      min-width: 100px;
+    }
+  }
+}
 </style>

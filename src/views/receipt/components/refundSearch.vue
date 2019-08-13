@@ -254,137 +254,137 @@
 </template>
 
 <script>
-import { busiPlateConfig,MoneyStateEnum } from '@/utils/enum'
-import { infoCustomerInfo} from '@/api/newoutputinvoice';
+import { busiPlateConfig, MoneyStateEnum } from '@/utils/enum'
+import { infoCustomerInfo } from '@/api/newoutputinvoice';
 import { refundGetOrder } from '@/api/refund.js'
 import { mapGetters } from 'vuex'
 import AlertDetail from '../refund/alertDetail'
 export default {
-  components: { AlertDetail},
+  components: { AlertDetail },
   data() {
     return {
       busiPlateConfig,
       MoneyStateEnum,
 
-      busiBillNoConfig:[],
-      customerInfo:[],
-      
-      applyRefundAmtMax:Infinity,
+      busiBillNoConfig: [],
+      customerInfo: [],
 
-      alertDisplay:false
+      applyRefundAmtMax: Infinity,
+
+      alertDisplay: false
     }
   },
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
-     select:{
-       type:Boolean,
-       default:false
-     },
-     useRules:{
-       type:Boolean,
-       default:false
-     },
-     useDisplay:{
-       type:Boolean,
-       default:false
-     },
-     useType:{//用途，新增时过滤仅退货来源订单
-       type:String,
-       default:'notAdd'
-     }
+  props: {
+    searchForm: {
+      type: Object,
+      default: () => { }
+    },
+    select: {
+      type: Boolean,
+      default: false
+    },
+    useRules: {
+      type: Boolean,
+      default: false
+    },
+    useDisplay: {
+      type: Boolean,
+      default: false
+    },
+    useType: {//用途，新增时过滤仅退货来源订单
+      type: String,
+      default: 'notAdd'
+    }
   },
-  
+
   computed: {
     ...mapGetters([
       'mapConfig',
-  ])},
+    ])  },
 
-  mounted(){
-     infoCustomerInfo().then(res=>{
-       if(res.success){
-          this.customerInfo=res.data;
-       }
-     }).catch(err=>{
-       console.error(err)
-     })
+  mounted() {
+    infoCustomerInfo().then(res => {
+      if (res.success) {
+        this.customerInfo = res.data;
+      }
+    }).catch(err => {
+      console.error(err)
+    })
   },
 
 
-  methods:{
+  methods: {
 
-    close(){
-      this.alertDisplay=false;
+    close() {
+      this.alertDisplay = false;
     },
 
-     numberValidator(prop,rule, value, callback){
-      if (value ==='') {
-         callback(new Error('该项为必填'));
-      } else if(isNaN(value)){
+    numberValidator(prop, rule, value, callback) {
+      if (value === '') {
+        callback(new Error('该项为必填'));
+      } else if (isNaN(value)) {
         callback(new Error('请输入数字类型'));
-      } else if(Number(value)<=0){
+      } else if (Number(value) <= 0) {
         callback(new Error('申请退款金额必须大于0'))
-      } else{
+      } else {
         callback()
       }
-     }, 
-
-    customerChange(value){
-      let json=this.customerInfo.find(v=>v.entNumber===value);
-      this.$emit('propChange','customerChange',json||{})
     },
 
-    busiBillNoChange(value){
-      let json=this.busiBillNoConfig.find(v=>v.busiBillNo===value);
-      this.$emit('propChange','busiBillNoChange',json||{})
+    customerChange(value) {
+      let json = this.customerInfo.find(v => v.entNumber === value);
+      this.$emit('propChange', 'customerChange', json || {})
     },
-    
-    busiBillNoFoucs(){
-      if(!this.searchForm.customerCode){
+
+    busiBillNoChange(value) {
+      let json = this.busiBillNoConfig.find(v => v.busiBillNo === value);
+      this.$emit('propChange', 'busiBillNoChange', json || {})
+    },
+
+    busiBillNoFoucs() {
+      if (!this.searchForm.customerCode) {
         this.$message.error('请先选择客户');
         return ''
       }
 
       refundGetOrder({
-        customerCode:this.searchForm.customerCode
-      }).then(res=>{
-        if(res.success){
-          
-          let busiBillNoConfig=res.data;
-          if(this.useType=='add'){            
-            busiBillNoConfig = busiBillNoConfig.filter(item=> item.refundType!=1)
+        customerCode: this.searchForm.customerCode
+      }).then(res => {
+        if (res.success) {
+
+          let busiBillNoConfig = res.data;
+          if (this.useType == 'add') {
+            busiBillNoConfig = busiBillNoConfig.filter(item => item.refundType != 1)
           }
           this.busiBillNoConfig = [...busiBillNoConfig]
         }
-      }).catch(err=>{
+      }).catch(err => {
         console.error(err)
       })
     },
 
-    fileListChange(list){
-      this.$emit('fileListChange',list)
+    fileListChange(list) {
+      this.$emit('fileListChange', list)
     },
 
-    submit(type){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             this.$emit('submit',this.searchForm,type)
-          } else{
-            return false;
-          }
-       })
+    submit(type) {
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.$emit('submit', this.searchForm, type)
+        } else {
+          return false;
+        }
+      })
     },
 
-    resetForm(type){
+    resetForm(type) {
       let data = _.cloneDeep(this.searchForm);
-      let json={};
-      for(let i in data){
-        json[i]=''
+      let json = {};
+      for (let i in data) {
+        json[i] = ''
       }
-      this.$emit('submit',{...json},type)
+      this.$emit('submit', { ...json }, type)
     }
   }
 
@@ -392,46 +392,44 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .refund-form{
-    &::before,&::after{
-      clear: both; 
-      content: '';
-      display: block;
-    };
-     .el-form-item{
-       height:30px;
-       margin-bottom: 30px
-     }
-
-     .card-text{
-        color: rgb(51, 153, 234);
-        margin-left: 12px;
-        cursor: pointer;
-     }
-
-
+.refund-form {
+  &::before,
+  &::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+  .el-form-item {
+    height: 30px;
+    margin-bottom: 30px;
   }
 
-  .codeNoStyle{
-    float: left; 
-    color: #8492a6; 
-    font-size: 12px;
-    width:150px;
-    &:last-child{
-      float: right;
-    }
-   }
-  .providerList{
-    display: flex;
-    justify-content: space-between;
-    >span{
-      &:first-child{
-        min-width: 150px;
-      }
-      &:nth-child(2){
-        min-width: 100px;
-      }
-    }
+  .card-text {
+    color: rgb(51, 153, 234);
+    margin-left: 12px;
+    cursor: pointer;
+  }
 }
 
+.codeNoStyle {
+  float: left;
+  color: #8492a6;
+  font-size: 12px;
+  width: 150px;
+  &:last-child {
+    float: right;
+  }
+}
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
+    }
+    &:nth-child(2) {
+      min-width: 100px;
+    }
+  }
+}
 </style>

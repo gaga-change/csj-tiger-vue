@@ -63,8 +63,8 @@
                <el-input type="text" size="small"
                  placeholder="输入服务费百分比" v-model.number="searchForm.serviceRate" >
                  <template  slot="append">
-                     <span>%</span>
-                  </template>
+  <span>%</span>
+</template>
                </el-input>
             </el-form-item>
           </el-col> 
@@ -80,68 +80,68 @@
 import { mapGetters } from 'vuex'
 import Sticky from '@/components/Sticky'
 export default {
-  components: { Sticky},
+  components: { Sticky },
   data() {
     return {
       pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
     }
   },
 
   computed: {
     ...mapGetters([
       'mapConfig',
-  ])},
+    ])  },
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
+  props: {
+    searchForm: {
+      type: Object,
+      default: () => { }
+    },
 
-     buttonLoding:{
-       type:Boolean,
-       default:false
-     }
+    buttonLoding: {
+      type: Boolean,
+      default: false
+    }
   },
 
 
-  methods:{
+  methods: {
 
-    submit(type){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             let ownerName=this.mapConfig['ownerInfoMap'].find(v=>v.key===this.searchForm.ownerCode).value
-             this.$emit('submit',{...this.searchForm,ownerName},type)
-          } else{
-            return false;
-          }
-       })
+    submit(type) {
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          let ownerName = this.mapConfig['ownerInfoMap'].find(v => v.key === this.searchForm.ownerCode).value
+          this.$emit('submit', { ...this.searchForm, ownerName }, type)
+        } else {
+          return false;
+        }
+      })
     },
   }
 
@@ -149,23 +149,22 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .entryInvoice-form{
-     .el-form-item{
-       height:30px;
-       margin-bottom: 36px
-     }
+.entryInvoice-form {
+  .el-form-item {
+    height: 30px;
+    margin-bottom: 36px;
   }
-    .providerList{
-      display: flex;
-      justify-content: space-between;
-      >span{
-        &:first-child{
-          min-width: 150px;
-        }
-        &:nth-child(2){
-          min-width: 100px;
-        }
-      }
+}
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
     }
-
+    &:nth-child(2) {
+      min-width: 100px;
+    }
+  }
+}
 </style>

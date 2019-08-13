@@ -86,7 +86,7 @@ export default {
       })
       return warehouses.slice(1)
     },
-    ...mapGetters(['mapConfig','visitedViews'])
+    ...mapGetters(['mapConfig', 'visitedViews'])
   },
   created() {
     this.getDetail()
@@ -97,8 +97,8 @@ export default {
         lock: true,
         text: '加载中'
       })
-      const {ownerCode} = this.$route.query
-      tenantDetail({ownerCode}).then(res => {
+      const { ownerCode } = this.$route.query
+      tenantDetail({ ownerCode }).then(res => {
         this.detailForm = res.data
         loading.close()
       }).catch(err => {
@@ -112,38 +112,38 @@ export default {
       })
     },
     filter(type, val) {
-        if(type==='ownerType'){
-          switch (val) {
-            case 1:
-              return '仓储客户'
-            case 2:
-              return '采购商'
-            case 3:
-              return '供应商'
-            case 4:
-              return '服务商'
-            default:
-              return ''
-          }
+      if (type === 'ownerType') {
+        switch (val) {
+          case 1:
+            return '仓储客户'
+          case 2:
+            return '采购商'
+          case 3:
+            return '供应商'
+          case 4:
+            return '服务商'
+          default:
+            return ''
         }
-        if(type==='roleType'){
-          switch (val) {
-            case 1:
-              return '租户'
-            default:
-              return ''
-          }
+      }
+      if (type === 'roleType') {
+        switch (val) {
+          case 1:
+            return '租户'
+          default:
+            return ''
         }
-        if(type==='ownerState'){
-          switch (val) {
-            case 1:
-              return '启用'
-            case 2:
-              return '禁用'
-            default:
-              return ''
-          }
+      }
+      if (type === 'ownerState') {
+        switch (val) {
+          case 1:
+            return '启用'
+          case 2:
+            return '禁用'
+          default:
+            return ''
         }
+      }
     }
   }
 }
@@ -154,7 +154,7 @@ export default {
   display: block;
   position: relative;
 }
-.photoview .close{
+.photoview .close {
   position: absolute;
   top: 0;
 }

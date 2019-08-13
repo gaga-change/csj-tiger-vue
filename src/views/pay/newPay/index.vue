@@ -108,12 +108,22 @@
             </el-form-item>
           </template>
           <template v-else>
-            <el-form-item label="合同号" prop="contractNo" key="contract" :rules="[
+  <el-form-item
+    label="合同号"
+    prop="contractNo"
+    key="contract"
+    :rules="[
                 {  required: true, message:'请输入合同号' }
-              ]">
-              <el-input type="text" size="small" v-model="payment.contractNo" v-on:blur="getContract"/>
-            </el-form-item>
-          </template>  
+              ]"
+  >
+    <el-input
+      type="text"
+      size="small"
+      v-model="payment.contractNo"
+      v-on:blur="getContract"
+    />
+  </el-form-item>
+</template>  
            <!-- <el-form-item :label="fileContractList.length+'个文件'"> -->
               <!-- <span v-show="fileContractList">{{fileContractList.length}}个文件</span> -->
             <span v-if="fileContractList&&fileContractList.length>0">
@@ -262,695 +272,695 @@
   
 
 <script>
-  import { addOrUpdatePayment, getPaymentListAndDetail, BusibillNoSelect } from '@/api/pay'
-  import { mapGetters } from 'vuex'
-  import moment from 'moment'
-  import _  from 'lodash';
-  import { PaymentModeEnum,MoneyTypeEnum,MoneyStateEnum, busiPlateConfig } from '@/utils/enum'
-  import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';
+import { addOrUpdatePayment, getPaymentListAndDetail, BusibillNoSelect } from '@/api/pay'
+import { mapGetters } from 'vuex'
+import moment from 'moment'
+import _ from 'lodash';
+import { PaymentModeEnum, MoneyTypeEnum, MoneyStateEnum, busiPlateConfig } from '@/utils/enum'
+import { infoCustomerInfo, ordernoandcontractno, getSigningInformation, getSigningDetail, infoTaxno, saveFinaSaleInvoice, billingTypeDetails } from '@/api/newoutputinvoice';
 
-  import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime, getContractFiles} from '@/api/pay'
+import { getProvider, getAllProvider, infoInvoiceAmmount, getLastTime, getContractFiles } from '@/api/pay'
 
-  import { MoneyReg } from '@/utils/validator'
+import { MoneyReg } from '@/utils/validator'
 
-  // import orderchoice from './Component/orderchoice'
-  import PayBill from '../components/PayBill'
-  const  payment = {
-          id:'',//付款申请id.
-          applyTitle:'',//申请标题.  
-          paymenterCode:'',//收款方id.
-          paymenterName:'',//付款方名称（客户姓名）.
-          moneyState:0,//款项性质.
-          moneyType:'',//款项类型.
-          busiBillNo:'',//采购单号编号.
-          busiPlate:'',//业务板块
-          contractNo:'',//合同号.
-          paymentMode:'',//付款方式.
-          realPaymentAmt:'',//已付货款.
-          applyPaymentAmt:'',//货款.
-          applyPaymentDate:'',//申请付款日期
-          receiveBank:'',//收款银行.
-          receiveAccount:'',//收款账号.
-          filePathList:[],
-          fileNew:[],
-          ownerCode:'',
-          ownerName:'',
-          remarkInfo:'',
-          isAuditFlag:true,
-        }
-  // //货物校验
-  // const goodsRules = {
-  //    applyTitle:[
-  //       { required: true, message: '请输入申请标题'}
-  //     ],
-  //     paymenterCode: [
-  //       { required: true, message: '请选择收款方' }
-  //     ],
-  //     // applyPaymentAmt: [
-  //     //   { validator: checkAmtGoods, required: true, trigger: 'blur' }
-  //     // ],
-  //     moneyState: [
-  //       { required: true, message: '请选择款项性质' }
-  //     ],
-  //     moneyType: [
-  //       { required: true, message: '请选择款项类型' }
-  //     ],
-  //     busiBillNo: [
-  //       { required: true, message: '请选择采购订单' }
-  //     ],
-  //     applyPaymentDate: [
-  //       {  required: true, message: '请选择付款日期' }
-  //     ],
-  // }
+// import orderchoice from './Component/orderchoice'
+import PayBill from '../components/PayBill'
+const payment = {
+  id: '',//付款申请id.
+  applyTitle: '',//申请标题.  
+  paymenterCode: '',//收款方id.
+  paymenterName: '',//付款方名称（客户姓名）.
+  moneyState: 0,//款项性质.
+  moneyType: '',//款项类型.
+  busiBillNo: '',//采购单号编号.
+  busiPlate: '',//业务板块
+  contractNo: '',//合同号.
+  paymentMode: '',//付款方式.
+  realPaymentAmt: '',//已付货款.
+  applyPaymentAmt: '',//货款.
+  applyPaymentDate: '',//申请付款日期
+  receiveBank: '',//收款银行.
+  receiveAccount: '',//收款账号.
+  filePathList: [],
+  fileNew: [],
+  ownerCode: '',
+  ownerName: '',
+  remarkInfo: '',
+  isAuditFlag: true,
+}
+// //货物校验
+// const goodsRules = {
+//    applyTitle:[
+//       { required: true, message: '请输入申请标题'}
+//     ],
+//     paymenterCode: [
+//       { required: true, message: '请选择收款方' }
+//     ],
+//     // applyPaymentAmt: [
+//     //   { validator: checkAmtGoods, required: true, trigger: 'blur' }
+//     // ],
+//     moneyState: [
+//       { required: true, message: '请选择款项性质' }
+//     ],
+//     moneyType: [
+//       { required: true, message: '请选择款项类型' }
+//     ],
+//     busiBillNo: [
+//       { required: true, message: '请选择采购订单' }
+//     ],
+//     applyPaymentDate: [
+//       {  required: true, message: '请选择付款日期' }
+//     ],
+// }
 
-  // //非货物校验
-  // const notGoodsRules = {
-  //   applyTitle:[
-  //       { required: true, message: '请输入申请标题', }
-  //     ],
-  //     paymenterCode: [
-  //       { required: true, message: '请选择收款方', }
-  //     ],
-  //     // applyPaymentAmt: [
-  //     //   { validator: checkAmt, required: true, trigger: 'blur' }
-  //     // ],
-  //     moneyState: [
-  //       { required: true, message: '请选择款项性质',  }
-  //     ],
-  //     // contractNo: [
-  //     //   { required: true, message: '请输入合同号', trigger: 'blur' }
-  //     // ],
-  //     applyPaymentDate: [
-  //       {  required: true, message: '请选择付款日期', }
-  //     ],
-  // }
+// //非货物校验
+// const notGoodsRules = {
+//   applyTitle:[
+//       { required: true, message: '请输入申请标题', }
+//     ],
+//     paymenterCode: [
+//       { required: true, message: '请选择收款方', }
+//     ],
+//     // applyPaymentAmt: [
+//     //   { validator: checkAmt, required: true, trigger: 'blur' }
+//     // ],
+//     moneyState: [
+//       { required: true, message: '请选择款项性质',  }
+//     ],
+//     // contractNo: [
+//     //   { required: true, message: '请输入合同号', trigger: 'blur' }
+//     // ],
+//     applyPaymentDate: [
+//       {  required: true, message: '请选择付款日期', }
+//     ],
+// }
 
-  export default {
-    name: 'newpayment',
-    components: {
-      // orderchoice,
-      PayBill
-    },
-    data() {
-      var checkDetail = (rule, value, callback) => {
-        if (value.length > 20) {
-          return callback(new Error('长度不能大于20'))
-        }
-        if (!Number(value)) {
-          return callback(new Error('请输入数字'))
-        }
-        callback()
+export default {
+  name: 'newpayment',
+  components: {
+    // orderchoice,
+    PayBill
+  },
+  data() {
+    var checkDetail = (rule, value, callback) => {
+      if (value.length > 20) {
+        return callback(new Error('长度不能大于20'))
       }
-      var checkAmt = (rule, value, callback) => {
-        var a = this.payment.moneyState || 0
-        if (!Number(value)) {
-          return callback(new Error(`请输入申请付款金额`))
-        }
-        // if(value<0){
-        //   return callback(new Error('货款为正数'))
-        // }
-        callback()
+      if (!Number(value)) {
+        return callback(new Error('请输入数字'))
       }
-      var moneyTypeFilter = MoneyTypeEnum.filter(item =>item.type.includes('receipt'))
-      return {
-        //枚举
-        MoneyStateEnum,
-        MoneyTypeEnum:moneyTypeFilter,
-        PaymentModeEnum,
-        busiPlateConfig,
-        payment,
-        // rules: goodsRules,
-        //上传文件相关
-        dialogVisible: false,
-        uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
-        filePathList: [],
-        uploadButtonVisible: false,
-        dialogTableVisible: false,
-        submitloading: false,
-        fileNew:[],
-        fileContractList:[],
-
-        //客户账单相关
-        customerConfig:[],
-        customerAllConfig:[],//
-        busiBillNoAll:[],
-        customerFilterMark:'',//客户名称过滤标识
-        billFilterMark:'',//订单筛选
-
-        //对账单相关参数
-        paybillData:{},
-        disableButton:false,
-        dialogVisiblePay:false,
-        lastBillDate:'',
-        payDurationStart:'',
-        payDurationEnd:'',
-        timeUsable:{
-          start:true,
-          end:false
-        },
-        //切换moneyState需要记录的值
-        contractObj:{
-          goods: '',
-          service: '',
-        },
-        applyPaymentAmtObj:{
-          goods:'',
-          service:''
-        },
-        filesObj:{
-          goods:'',
-          service:'',
-        },
-        contractFiles:{
-          goods:'',
-          service:''
-        }
+      callback()
+    }
+    var checkAmt = (rule, value, callback) => {
+      var a = this.payment.moneyState || 0
+      if (!Number(value)) {
+        return callback(new Error(`请输入申请付款金额`))
       }
-    },
+      // if(value<0){
+      //   return callback(new Error('货款为正数'))
+      // }
+      callback()
+    }
+    var moneyTypeFilter = MoneyTypeEnum.filter(item => item.type.includes('receipt'))
+    return {
+      //枚举
+      MoneyStateEnum,
+      MoneyTypeEnum: moneyTypeFilter,
+      PaymentModeEnum,
+      busiPlateConfig,
+      payment,
+      // rules: goodsRules,
+      //上传文件相关
+      dialogVisible: false,
+      uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
+      filePathList: [],
+      uploadButtonVisible: false,
+      dialogTableVisible: false,
+      submitloading: false,
+      fileNew: [],
+      fileContractList: [],
 
-    computed: {
-      ...mapGetters({
-        company: 'company',
-        companyId: 'companyId',
-        userInfo: 'userInfo',
-        visitedViews: 'visitedViews',
-        revstoreList: 'storeList',
-        gridData: 'gysList'
-      }),
-      nowCustomerConfig:{
-       get: function () {
-        let value=this.customerFilterMark;
-        if(this.payment.moneyState === 0){
-          if((value!==0&&!value)||!this.customerConfig.length){
+      //客户账单相关
+      customerConfig: [],
+      customerAllConfig: [],//
+      busiBillNoAll: [],
+      customerFilterMark: '',//客户名称过滤标识
+      billFilterMark: '',//订单筛选
+
+      //对账单相关参数
+      paybillData: {},
+      disableButton: false,
+      dialogVisiblePay: false,
+      lastBillDate: '',
+      payDurationStart: '',
+      payDurationEnd: '',
+      timeUsable: {
+        start: true,
+        end: false
+      },
+      //切换moneyState需要记录的值
+      contractObj: {
+        goods: '',
+        service: '',
+      },
+      applyPaymentAmtObj: {
+        goods: '',
+        service: ''
+      },
+      filesObj: {
+        goods: '',
+        service: '',
+      },
+      contractFiles: {
+        goods: '',
+        service: ''
+      }
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      company: 'company',
+      companyId: 'companyId',
+      userInfo: 'userInfo',
+      visitedViews: 'visitedViews',
+      revstoreList: 'storeList',
+      gridData: 'gysList'
+    }),
+    nowCustomerConfig: {
+      get: function () {
+        let value = this.customerFilterMark;
+        if (this.payment.moneyState === 0) {
+          if ((value !== 0 && !value) || !this.customerConfig.length) {
             return this.customerConfig
-          } else{
-            return this.customerConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
+          } else {
+            return this.customerConfig.filter(v => v.paymenterCode.includes(value) || v.paymenterName.includes(value))
           }
-        }else{
-          if((value!==0&&!value)||!this.customerConfig.length){
+        } else {
+          if ((value !== 0 && !value) || !this.customerConfig.length) {
             return this.customerAllConfig
-          } else{
-            return this.customerAllConfig.filter(v=>v.paymenterCode.includes(value)||v.paymenterName.includes(value))
+          } else {
+            return this.customerAllConfig.filter(v => v.paymenterCode.includes(value) || v.paymenterName.includes(value))
           }
         }
-       
-       },
-       set:function(){
- 
-       }
+
       },
-      newBusiBillNoAll:{
-       get: function () {
-        let value=this.billFilterMark;
-        if((value!==0&&!value)||!this.busiBillNoAll.length){
-          return this.busiBillNoAll
-        } else{
-          return this.busiBillNoAll.filter(v=>v.busiBillNo.includes(value)||v.contractNo.includes(value))
-        }
-       },
-       set:function(){
- 
-       }
-      },
-    },
-    watch:{
+      set: function () {
 
-      fileNew(){
-        const url = []
-        this.fileNew.map(
-          file => {
-            if (file.response) {
-              url.push({ fileName: file.name, filePath: file.response.data })
-            } else if (file.name && file.url) {
-              url.push({ fileName: file.name, filePath: file.url })
-            }
-          }
-        )
-        
-        this.filePathList = url
-      
-      },
-
-      // payment:{
-      //   handler (val,oldVal){
-      //     if(val.moneyState==0){
-      //       this.rules = goodsRules
-      //     }else{
-      //       this.rules = notGoodsRules
-      //     }
-      //   },
-      //   deep:true
-      // },
-  
-    },
-
-
-    created() {
-      if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        this.getDetail()
-     } else if(this.$route.query.byOut){
-        this.payment={}
-        this.fileNew =[]
-        this.filePathList = []
-        // this.$set(this.payment,'moneyState',0)
-
-        let data= _.cloneDeep(this.payment);
-        data.applyTitle=this.$route.query.applyTitle;
-        data.moneyState=Number(this.$route.query.moneyState);
-        data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
-        this.payment=data
-        this.$set(this.payment,'isAuditFlag',true)
-
-      } 
-      else{
-        this.payment={}
-        this.$set(this.payment,'moneyState',0)
-        this.$set(this.payment,'isAuditFlag',true)
-        this.fileNew =[]
-        this.filePathList = []
       }
-      
-      this.getCustomInfo()
-     
+    },
+    newBusiBillNoAll: {
+      get: function () {
+        let value = this.billFilterMark;
+        if ((value !== 0 && !value) || !this.busiBillNoAll.length) {
+          return this.busiBillNoAll
+        } else {
+          return this.busiBillNoAll.filter(v => v.busiBillNo.includes(value) || v.contractNo.includes(value))
+        }
+      },
+      set: function () {
+
+      }
+    },
+  },
+  watch: {
+
+    fileNew() {
+      const url = []
+      this.fileNew.map(
+        file => {
+          if (file.response) {
+            url.push({ fileName: file.name, filePath: file.response.data })
+          } else if (file.name && file.url) {
+            url.push({ fileName: file.name, filePath: file.url })
+          }
+        }
+      )
+
+      this.filePathList = url
+
     },
 
-    activated(){      
-       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        this.getDetail()
-     } else if(this.$route.query.byOut){
-        this.payment={}
-        this.fileNew =[]
-        this.filePathList = []
-        let data= _.cloneDeep(this.payment);
-        data.applyTitle=this.$route.query.applyTitle;
-        data.moneyState=Number(this.$route.query.moneyState);
-        data.applyPaymentAmt=Number(this.$route.query.applyPaymentAmt).toFixed(2);
-        this.payment=data
-        this.$set(this.payment,'isAuditFlag',true)
+    // payment:{
+    //   handler (val,oldVal){
+    //     if(val.moneyState==0){
+    //       this.rules = goodsRules
+    //     }else{
+    //       this.rules = notGoodsRules
+    //     }
+    //   },
+    //   deep:true
+    // },
 
-      } 
-      else if(this.$route.params.from=='new'){
-        this.payment={}
-        this.$set(this.payment,'moneyState',0)
-        this.$set(this.payment,'isAuditFlag',true)
+  },
 
-        this.fileNew =[]
-        this.filePathList = []
-        this.$refs['ruleForm'].resetFields();
-      }      
-      this.getCustomInfo()
-    },
-    methods: {
-      getContract(){
-        if(this.payment.contractNo){
-          getContractFiles({contractNo:this.payment.contractNo}).then(res => {
-            if(res.success){
-              this.fileContractList = res.data
-              if(this.payment.moneyState == 0){
-                this.contractFiles.goods = this.fileContractList
-              }else if(this.payment.moneyState == 2){
-                this.contractFiles.service = this.fileContractList
-              }
+
+  created() {
+    if (this.$route.query.id && this.$route.query.from == 'rebuild') {
+      this.getDetail()
+    } else if (this.$route.query.byOut) {
+      this.payment = {}
+      this.fileNew = []
+      this.filePathList = []
+      // this.$set(this.payment,'moneyState',0)
+
+      let data = _.cloneDeep(this.payment);
+      data.applyTitle = this.$route.query.applyTitle;
+      data.moneyState = Number(this.$route.query.moneyState);
+      data.applyPaymentAmt = Number(this.$route.query.applyPaymentAmt).toFixed(2);
+      this.payment = data
+      this.$set(this.payment, 'isAuditFlag', true)
+
+    }
+    else {
+      this.payment = {}
+      this.$set(this.payment, 'moneyState', 0)
+      this.$set(this.payment, 'isAuditFlag', true)
+      this.fileNew = []
+      this.filePathList = []
+    }
+
+    this.getCustomInfo()
+
+  },
+
+  activated() {
+    if (this.$route.query.id && this.$route.query.from == 'rebuild') {
+      this.getDetail()
+    } else if (this.$route.query.byOut) {
+      this.payment = {}
+      this.fileNew = []
+      this.filePathList = []
+      let data = _.cloneDeep(this.payment);
+      data.applyTitle = this.$route.query.applyTitle;
+      data.moneyState = Number(this.$route.query.moneyState);
+      data.applyPaymentAmt = Number(this.$route.query.applyPaymentAmt).toFixed(2);
+      this.payment = data
+      this.$set(this.payment, 'isAuditFlag', true)
+
+    }
+    else if (this.$route.params.from == 'new') {
+      this.payment = {}
+      this.$set(this.payment, 'moneyState', 0)
+      this.$set(this.payment, 'isAuditFlag', true)
+
+      this.fileNew = []
+      this.filePathList = []
+      this.$refs['ruleForm'].resetFields();
+    }
+    this.getCustomInfo()
+  },
+  methods: {
+    getContract() {
+      if (this.payment.contractNo) {
+        getContractFiles({ contractNo: this.payment.contractNo }).then(res => {
+          if (res.success) {
+            this.fileContractList = res.data
+            if (this.payment.moneyState == 0) {
+              this.contractFiles.goods = this.fileContractList
+            } else if (this.payment.moneyState == 2) {
+              this.contractFiles.service = this.fileContractList
             }
-          })
-        }
-        
-      },
-      changeMoneyState(){
-
-        
-        if(this.payment.moneyState == 0){
-          if(this.payment.contractNo != this.contractObj.goods){
-            this.payment.contractNo = this.contractObj.goods
-            
-          }
-          if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.goods){
-            this.payment.applyPaymentAmt = this.applyPaymentAmtObj.goods
-          }
-         
-          
-          // if(this.payment.filePathList != this.filesObj.goods){
-            this.payment.filePathList = [...this.filesObj.goods]
-            this.fileNew = [...this.filesObj.goods]
-            this.filePathList = [...this.filesObj.goods]
-            this.fileContractList = [...this.contractFiles.goods]            
-          // }
-        }else  if(this.payment.moneyState == 2){
-          if(this.payment.contractNo != this.contractObj.service){
-            this.payment.contractNo = this.contractObj.service
-          }
-          if(this.payment.applyPaymentAmt != this.applyPaymentAmtObj.service){
-            this.payment.applyPaymentAmt = this.applyPaymentAmtObj.service
-          }
-          
-          // if(this.payment.filePathList != this.filesObj.service){
-            this.payment.filePathList = [...this.filesObj.service]
-            this.fileNew = [...this.filesObj.service]
-            this.fileContractList = [...this.contractFiles.service]
-
-          // }
-        }
-       
-        
-      },
-      getPayInfo(){
-        //跳转到来源
-        this.$router.push({
-           path:`/reconciliation/detail?id=${this.$route.query.reaconcliliationId}`,
-        }) 
-      },
-      checkAmt(rule, value, callback){
-        
-        if (!Number(value)) {
-          return callback(new Error(`请输入申请付款金额`))
-        }
-        // if(value<0){
-        //   return callback(new Error('货款为正数'))
-        // }
-        callback()
-      },
-      clearMark(){
-        this.customerFilterMark=''
-        this.billFilterMark=''
-      },
-      customerChange(e){
-        var customer = []
-        
-        if(this.payment.moneyState == 0){
-          customer = [...this.customerConfig]
-           
-        }else if(this.payment.moneyState == 2){
-          customer = [...this.customerAllConfig]
-        }
-        customer.map(item=>{
-          
-          if(item.paymenterCode==e){
-            this.payment.paymenterName = item.paymenterName
           }
         })
-        if(this.payment.paymenterCode){
-            BusibillNoSelect({paymenterCode:this.payment.paymenterCode}).then(res=>{
-              if(res.success){
-                this.busiBillNoAll = res.data || []
+      }
+
+    },
+    changeMoneyState() {
+
+
+      if (this.payment.moneyState == 0) {
+        if (this.payment.contractNo != this.contractObj.goods) {
+          this.payment.contractNo = this.contractObj.goods
+
+        }
+        if (this.payment.applyPaymentAmt != this.applyPaymentAmtObj.goods) {
+          this.payment.applyPaymentAmt = this.applyPaymentAmtObj.goods
+        }
+
+
+        // if(this.payment.filePathList != this.filesObj.goods){
+        this.payment.filePathList = [...this.filesObj.goods]
+        this.fileNew = [...this.filesObj.goods]
+        this.filePathList = [...this.filesObj.goods]
+        this.fileContractList = [...this.contractFiles.goods]
+        // }
+      } else if (this.payment.moneyState == 2) {
+        if (this.payment.contractNo != this.contractObj.service) {
+          this.payment.contractNo = this.contractObj.service
+        }
+        if (this.payment.applyPaymentAmt != this.applyPaymentAmtObj.service) {
+          this.payment.applyPaymentAmt = this.applyPaymentAmtObj.service
+        }
+
+        // if(this.payment.filePathList != this.filesObj.service){
+        this.payment.filePathList = [...this.filesObj.service]
+        this.fileNew = [...this.filesObj.service]
+        this.fileContractList = [...this.contractFiles.service]
+
+        // }
+      }
+
+
+    },
+    getPayInfo() {
+      //跳转到来源
+      this.$router.push({
+        path: `/reconciliation/detail?id=${this.$route.query.reaconcliliationId}`,
+      })
+    },
+    checkAmt(rule, value, callback) {
+
+      if (!Number(value)) {
+        return callback(new Error(`请输入申请付款金额`))
+      }
+      // if(value<0){
+      //   return callback(new Error('货款为正数'))
+      // }
+      callback()
+    },
+    clearMark() {
+      this.customerFilterMark = ''
+      this.billFilterMark = ''
+    },
+    customerChange(e) {
+      var customer = []
+
+      if (this.payment.moneyState == 0) {
+        customer = [...this.customerConfig]
+
+      } else if (this.payment.moneyState == 2) {
+        customer = [...this.customerAllConfig]
+      }
+      customer.map(item => {
+
+        if (item.paymenterCode == e) {
+          this.payment.paymenterName = item.paymenterName
+        }
+      })
+      if (this.payment.paymenterCode) {
+        BusibillNoSelect({ paymenterCode: this.payment.paymenterCode }).then(res => {
+          if (res.success) {
+            this.busiBillNoAll = res.data || []
+          }
+        })
+      }
+
+
+    },
+
+    getCustomInfo() {
+      // infoCustomerInfo().then(res=>{
+      //   if(res.success){
+      //     this.customerConfig=res.data||[]
+      //   }
+      // }).catch(err=>{
+
+      // })
+
+      getProvider().then(res => {
+        if (res.success) {
+          this.customerConfig = res.data || []
+        }
+      }).catch(err => {
+
+      })
+      getAllProvider().then(res => {
+        if (res.success) {
+          this.customerAllConfig = res.data || []
+        }
+      }).catch(err => {
+
+      })
+
+    },
+    cusCodeFilter(value) {
+      this.customerFilterMark = value;
+    },
+    selectBusiBillNo() {
+      let busiBillNo = this.payment.busiBillNo
+      let newBusiBillNo = [...this.newBusiBillNoAll]
+      newBusiBillNo.map(item => {
+        if (item.busiBillNo == busiBillNo) {
+          this.payment.contractNo = item.contractNo
+          // this.payment.paymentMode = item.paymentMode
+          this.payment.realPaymentAmt = item.paymentAmt
+          this.payment.busiPlate = item.busiPlate
+        }
+
+      })
+      this.getContract()
+    },
+    cusBillFilter(value) {
+      this.billFilterMark = value;
+    },
+    beforeUpload(file) {
+      // 如果上传文件大于5M
+      if (file.size > 5 * 1024 * 1024) {
+        this.$message.error('上传附件不能大于5M')
+        return false
+      }
+    },
+    handleRemove(file, fileList) {
+      this.fileNew = fileList
+      if (this.payment.moneyState == 0) {
+        this.filesObj.goods = [...fileList]
+      } else if (this.payment.moneyState == 2) {
+        this.filesObj.service = [...fileList]
+      }
+    },
+    getDetail() {
+      getPaymentListAndDetail(
+        { id: this.$route.query.id, isRegisterflag: false }
+      ).then(res => {
+        if (res.success) {
+          let { ...payment } = res.list[0]
+
+          this.payment = {
+            ...payment
+          }
+          this.$set(this.payment, 'isAuditFlag', true)
+
+          let fileList = [], temp = []
+
+          if (res.list[0].filePathList && res.list[0].filePathList.length > 0) {
+            fileList = [...res.list[0].filePathList]
+            this.filePathList = fileList
+            this.payment.filePathList = fileList
+            fileList.map(file => {
+              temp.push({ name: file.fileName, url: file.filePath, ...file })
+            })
+            this.fileNew = temp
+          } else {
+            this.filePathList = []
+            this.payment.filePathList = []
+            this.fileNew = []
+          }
+          if (payment.moneyState == 0) {
+            this.contractObj = {
+              goods: payment.contractNo,
+              service: '',
+            },
+              this.applyPaymentAmtObj = {
+                goods: payment.applyPaymentAmt,
+                service: ''
+              },
+              this.filesObj = {
+                goods: temp,
+                service: '',
+              }
+          } else if (payment.moneyState == 2) {
+            this.contractObj = {
+              goods: '',
+              service: payment.contractNo,
+            },
+              this.applyPaymentAmtObj = {
+                goods: '',
+                service: payment.applyPaymentAmt
+              },
+              this.filesObj = {
+                goods: '',
+                service: temp,
+              }
+          }
+          if (payment.contractNo) {
+            getContractFiles({ contractNo: payment.contractNo }).then(res => {
+              if (res.success) {
+                this.fileContractList = res.data
               }
             })
           }
-       
-        
-      },
-
-      getCustomInfo(){
-        // infoCustomerInfo().then(res=>{
-        //   if(res.success){
-        //     this.customerConfig=res.data||[]
-        //   }
-        // }).catch(err=>{
-
-        // })
-        
-        getProvider().then(res=>{
-          if(res.success){
-            this.customerConfig=res.data||[]
-          }
-        }).catch(err=>{
-
-        })
-        getAllProvider().then(res=>{
-          if(res.success){
-            this.customerAllConfig=res.data||[]
-          }
-        }).catch(err=>{
-
-        })
-        
-      },
-      cusCodeFilter(value){
-        this.customerFilterMark=value;
-      },
-      selectBusiBillNo(){
-        let busiBillNo = this.payment.busiBillNo
-        let newBusiBillNo = [...this.newBusiBillNoAll]
-        newBusiBillNo.map(item=>{
-          if(item.busiBillNo == busiBillNo){
-            this.payment.contractNo = item.contractNo
-            // this.payment.paymentMode = item.paymentMode
-            this.payment.realPaymentAmt = item.paymentAmt
-            this.payment.busiPlate = item.busiPlate
-          }
-          
-        })
-        this.getContract()
-      },
-      cusBillFilter(value){
-        this.billFilterMark=value;
-      },
-      beforeUpload(file) {
-        // 如果上传文件大于5M
-        if (file.size > 5 * 1024 * 1024) {
-          this.$message.error('上传附件不能大于5M')
-          return false
         }
-      },
-      handleRemove(file, fileList) {
+
+      }).catch(err => {
+      })
+    },
+
+    importFile() {
+      this.dialogVisible = true
+    },
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择上传 1 个文件`)
+    },
+    handelUploadChange(file, fileList) {
+
+      // 选择文件时显示上传按钮
+      if (Object.keys(file).length && fileList.length) {
+        this.uploadButtonVisible = true
+      } else {
+        this.uploadButtonVisible = false
+      }
+    },
+    handleUploadSuccess(res, file, fileList) {
+      // this.filenamelist = []
+      // fileList.map(item => {
+      //   this.filenamelist.push({name:item.name})
+      // })
+      if (res.code === '200') {
         this.fileNew = fileList
-          if(this.payment.moneyState == 0){
+        if (this.payment.moneyState == 0) {
           this.filesObj.goods = [...fileList]
-        }else if(this.payment.moneyState == 2){
+        } else if (this.payment.moneyState == 2) {
           this.filesObj.service = [...fileList]
         }
-      },
-      getDetail() {
-        getPaymentListAndDetail(
-         {id:this.$route.query.id,isRegisterflag:false}
-        ).then(res => {
-          if(res.success){
-            let {...payment} = res.list[0]
-            
-            this.payment =  {
-             ...payment
-            }
-            this.$set(this.payment,'isAuditFlag',true)
-            
-            let fileList = [],temp = []
-           
-            if(res.list[0].filePathList&&res.list[0].filePathList.length>0){
-              fileList = [...res.list[0].filePathList]
-              this.filePathList = fileList
-              this.payment.filePathList = fileList
-              fileList.map(file=>{
-                temp.push({name:file.fileName,url:file.filePath,...file})
-              })
-              this.fileNew = temp
-            }else{
-              this.filePathList = []
-              this.payment.filePathList = []
-              this.fileNew = []
-            }
-             if(payment.moneyState == 0){
-              this.contractObj = {
-                goods: payment.contractNo,
-                service: '',
-              },
-              this.applyPaymentAmtObj = {
-                goods:payment.applyPaymentAmt,
-                service:''
-              },
-              this.filesObj = {
-                goods:temp,
-                service:'',
-              }
-            }else if(payment.moneyState == 2){
-              this.contractObj = {
-                goods: '',
-                service: payment.contractNo,
-              },
-              this.applyPaymentAmtObj = {
-                goods:'',
-                service:payment.applyPaymentAmt
-              },
-              this.filesObj = {
-                goods:'',
-                service:temp,
-              }
-            }
-            if(payment.contractNo){
-              getContractFiles({contractNo:payment.contractNo}).then(res => {
-                 if(res.success){
-                  this.fileContractList = res.data
-                }
-              })
-            }
-          }
-        
-        }).catch(err => {
+      } else {
+        this.$message({
+          message: res.message,
+          type: 'error'
         })
-      },
-      
-      importFile() {
-        this.dialogVisible = true
-      },
-      submitUpload() {       
-        this.$refs.upload.submit()
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择上传 1 个文件`)
-      },
-      handelUploadChange(file, fileList) {
+      }
 
-        // 选择文件时显示上传按钮
-        if (Object.keys(file).length && fileList.length) {
-          this.uploadButtonVisible = true
-        } else {
-          this.uploadButtonVisible = false
+    },
+    onSubmit(type) {
+
+      var customer = []
+
+      if (this.payment.moneyState == 0) {
+        customer = [...this.customerConfig]
+        this.payment.ownerCode = 'EP201804150009';
+        this.payment.ownerName = '诸暨裕大贸易有限公司';
+
+      } else if (this.payment.moneyState == 2) {
+        customer = [...this.customerAllConfig]
+        this.payment.ownerCode = 'EP201804150009';
+        this.payment.ownerName = '诸暨裕大贸易有限公司';
+        this.payment.busiPlate = ''
+      }
+      customer.map(item => {
+        if (item.paymenterCode == this.payment.paymenterCode) {
+          this.payment.paymenterName = item.paymenterName
         }
-      },
-      handleUploadSuccess(res, file, fileList) {
-        // this.filenamelist = []
-        // fileList.map(item => {
-        //   this.filenamelist.push({name:item.name})
-        // })
-        if (res.code === '200') {
-          this.fileNew=fileList   
-          if(this.payment.moneyState == 0){
-            this.filesObj.goods = [...fileList]
-          }else if(this.payment.moneyState == 2){
-            this.filesObj.service = [...fileList]
-          } 
-        } else {
-          this.$message({
-            message: res.message,
-            type: 'error'
-          })
-        }
-        
-      },
-      onSubmit(type) {
-        
-        var customer = []
-        
-        if(this.payment.moneyState == 0){
-          customer = [...this.customerConfig]
-          this.payment.ownerCode = 'EP201804150009';
-          this.payment.ownerName = '诸暨裕大贸易有限公司';
-          
-        }else if(this.payment.moneyState == 2){
-          customer = [...this.customerAllConfig]
-          this.payment.ownerCode = 'EP201804150009';
-          this.payment.ownerName = '诸暨裕大贸易有限公司';
-          this.payment.busiPlate = ''
-        }
-        customer.map(item=>{
-          if(item.paymenterCode==this.payment.paymenterCode){
-            this.payment.paymenterName = item.paymenterName
+      })
+      // if(this.payment.moneyState == 2){
+      //   this.payment.startTime = this.$refs.payBills.payDurationStart
+      //   this.payment.endTime = this.$refs.payBills.durationEnd
+      //   if(!this.payment.endTime){
+      //     this.$message({type:'error',message:'请选择结束对账单时间'})
+      //     return
+      //   }
+      // }
+
+      this.$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+
+          let postData = { ...this.payment }
+          if (this.$route.query.byOut) {
+            postData.accountBillId = this.$route.query.reaconcliliationId
           }
-        })
-        // if(this.payment.moneyState == 2){
-        //   this.payment.startTime = this.$refs.payBills.payDurationStart
-        //   this.payment.endTime = this.$refs.payBills.durationEnd
-        //   if(!this.payment.endTime){
-        //     this.$message({type:'error',message:'请选择结束对账单时间'})
-        //     return
-        //   }
-        // }
-        
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
-          
-            let postData = {...this.payment}
-            if(this.$route.query.byOut){
-               postData.accountBillId=this.$route.query.reaconcliliationId
-            }
-            // if(!this.filePathList.length){
-            //   this.$message.error('附件不能为空');
-            //   return ''
-            // }
-            this.submitloading = true
-            postData.filePathList = this.filePathList
-            postData.flag = type ? false : true
-            postData.isAuditFlag = !!postData.isAuditFlag
-            let msg = '新建'
-            msg = postData.id ? '修改' : '新建' 
-            postData.operatorName = this.userInfo.truename
-            postData.operator = this.userInfo.id
-            postData.fromSystemCode = 'CSJSCM'
-            postData.accountBillId=this.$route.query.reaconcliliationId;
- 
-            delete postData.realPaymentAmt 
+          // if(!this.filePathList.length){
+          //   this.$message.error('附件不能为空');
+          //   return ''
+          // }
+          this.submitloading = true
+          postData.filePathList = this.filePathList
+          postData.flag = type ? false : true
+          postData.isAuditFlag = !!postData.isAuditFlag
+          let msg = '新建'
+          msg = postData.id ? '修改' : '新建'
+          postData.operatorName = this.userInfo.truename
+          postData.operator = this.userInfo.id
+          postData.fromSystemCode = 'CSJSCM'
+          postData.accountBillId = this.$route.query.reaconcliliationId;
+
+          delete postData.realPaymentAmt
 
 
-            addOrUpdatePayment(postData).then(
-              res => {
-                
-                if (res.success&&res.data) {
-                   this.contractObj={
+          addOrUpdatePayment(postData).then(
+            res => {
+
+              if (res.success && res.data) {
+                this.contractObj = {
+                  goods: '',
+                  service: '',
+                },
+                  this.applyPaymentAmtObj = {
+                    goods: '',
+                    service: ''
+                  },
+                  this.filesObj = {
                     goods: '',
                     service: '',
                   },
-                  this.applyPaymentAmtObj={
-                    goods:'',
-                    service:''
-                  },
-                  this.filesObj={
-                    goods:'',
-                    service:'',
-                  },
-                  this.contractFiles={
-                    goods:'',
-                    service:''
+                  this.contractFiles = {
+                    goods: '',
+                    service: ''
                   }
-                  this.$message({type:'success',message:`${msg}付款申请成功，1.5s后跳转至详情页`,duration:1500,onClose:()=>{
-                     this.$router.push({
-                          path: '/payment/apply/detail',
-                          query: {
-                            id: res.data
-                          }
-                        })
-                  }})
-                }else{
-                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:1000
-                  })
-                }
-                this.submitloading = false
+                this.$message({                  type: 'success', message: `${msg}付款申请成功，1.5s后跳转至详情页`, duration: 1500, onClose: () => {
+                    this.$router.push({
+                      path: '/payment/apply/detail',
+                      query: {
+                        id: res.data
+                      }
+                    })
+                  }                })
+              } else {
+                this.$message({                  type: 'error', message: `${msg}付款申请失败`, duration: 1000
+                })
               }
-            ).catch(err => {
-              console.error(err)
               this.submitloading = false
-            })
-          } else {
+            }
+          ).catch(err => {
+            console.error(err)
             this.submitloading = false
-            return false
-          }
-        })
-      },
-      onCancel() {
-        this.payment = {
+          })
+        } else {
+          this.submitloading = false
+          return false
         }
+      })
+    },
+    onCancel() {
+      this.payment = {
       }
     }
   }
+}
 </script>
 
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .codeNoStyle{
-    float: left; 
-    color: #8492a6; 
-    font-size: 12px;
-    width:150px;
-    &:last-child{
-      float: right;
-    }
+.codeNoStyle {
+  float: left;
+  color: #8492a6;
+  font-size: 12px;
+  width: 150px;
+  &:last-child {
+    float: right;
   }
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 25%;
-  }
+}
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 25%;
+}
 </style>

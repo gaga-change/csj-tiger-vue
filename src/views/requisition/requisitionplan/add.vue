@@ -12,7 +12,13 @@
           :loading="saveLoading"
           :disabled="savedisabled"
         >保存</el-button>
-        <el-button type="primary" size="mini" @click="submit('update')" :loading="updateLoading" :disabled="savedisabled">提交</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="submit('update')"
+          :loading="updateLoading"
+          :disabled="savedisabled"
+        >提交</el-button>
       </template>
     </sticky>
 
@@ -305,11 +311,11 @@
           height="60%"
           :before-close="handleClose"
         >
-         <select-sku
-          :selectform="skuForm"
-          @handleClose="handleClose"
-          @submit="submit"
-        />
+          <select-sku
+            :selectform="skuForm"
+            @handleClose="handleClose"
+            @submit="submit"
+          />
         </el-dialog>
       </el-form>
     </el-card>
@@ -346,23 +352,23 @@ export default {
       addVisible: false,
       skuList: [],
       warehouseList: [],
-      skuForm:{},
-      totalskucode:[],
-      id:null,
-      updateLoading:false,
-      savedisabled:false
+      skuForm: {},
+      totalskucode: [],
+      id: null,
+      updateLoading: false,
+      savedisabled: false
     };
   },
 
   mounted() {
     if (this.$route.query.id) {
       let api = requisitiondetail;
-      api({id:Number(this.$route.query.id)}).then(res => {
+      api({ id: Number(this.$route.query.id) }).then(res => {
         if (res.success) {
           let searchForm = _.cloneDeep(this.searchForm);
           searchForm = res.data;
           searchForm.ownerCode && this.showStore({ ownerCode: searchForm.ownerCode })
-          searchForm.area=searchForm.warehouseProvince?(searchForm.warehouseProvince+searchForm.warehouseCity+searchForm.warehouseArea):null
+          searchForm.area = searchForm.warehouseProvince ? (searchForm.warehouseProvince + searchForm.warehouseCity + searchForm.warehouseArea) : null
           this.searchForm = searchForm;
         }
       }).catch(err => {
@@ -378,11 +384,11 @@ export default {
   },
 
   methods: {
-    checkTime(){
-      if(this.searchForm.inDate){
-        if(this.searchForm.inDate<this.searchForm.outDate){
+    checkTime() {
+      if (this.searchForm.inDate) {
+        if (this.searchForm.inDate < this.searchForm.outDate) {
           this.$message.error('调入日期应大于等于调出日期')
-          this.searchForm.inDate=null
+          this.searchForm.inDate = null
         }
       }
     },
@@ -391,12 +397,12 @@ export default {
       let skuList = _.cloneDeep(this.skuList);
       this.addCommodityForm = skuList.find(v => v.skuCode === value)
     },
-    confirmchange(type){
+    confirmchange(type) {
       let searchForm = _.cloneDeep(this.searchForm);
-      if(searchForm.transferBillDetailDOList.length>0){
-        if(type==='owner'){
+      if (searchForm.transferBillDetailDOList.length > 0) {
+        if (type === 'owner') {
           this.$message.error('更改货主会重置已选择商品')
-        }else if(type==='warehouse'){
+        } else if (type === 'warehouse') {
           this.$message.error('更改调出仓库会重置已选择商品')
         }
       }
@@ -408,9 +414,9 @@ export default {
       searchForm.inWarehouseCode = ''
       searchForm.warehouseLinkName = ''
       searchForm.warehouseAddress = ''
-      searchForm.linkTel=''
-      searchForm.outDate=null
-      searchForm.inDate=null
+      searchForm.linkTel = ''
+      searchForm.outDate = null
+      searchForm.inDate = null
       searchForm.transferBillDetailDOList = [];
       this.searchForm = searchForm;
       this.warehouseList.length = 0
@@ -434,36 +440,36 @@ export default {
       }
       this.confirmchange(type)
     },
-    checkoutWarehouse(){
+    checkoutWarehouse() {
       this.searchForm.transferBillDetailDOList = []
-      if(this.searchForm.inWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
+      if (this.searchForm.inWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
         this.$message.error('调出仓库不应和调入仓库一致')
-        this.searchForm.outWarehouseCode=''
+        this.searchForm.outWarehouseCode = ''
       }
     },
-    checkInWarehouse(){
-      this.searchForm.warehouseLinkName=null
-      this.searchForm.warehouseAddress=null
-      this.searchForm.linkTel=null
-      if(this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode===this.searchForm.inWarehouseCode){
+    checkInWarehouse() {
+      this.searchForm.warehouseLinkName = null
+      this.searchForm.warehouseAddress = null
+      this.searchForm.linkTel = null
+      if (this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
         this.$message.error('调出仓库不应和调入仓库一致')
-        this.searchForm.inWarehouseCode=''
+        this.searchForm.inWarehouseCode = ''
         return false
       }
-      warehouseDetail({warehouseNo:this.searchForm.inWarehouseCode}).then(res => {
+      warehouseDetail({ warehouseNo: this.searchForm.inWarehouseCode }).then(res => {
         if (res.success) {
           let data = res.data;
-          if(data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)){
-            this.searchForm.area=data.warehouseProvince+data.warehouseCity+data.warehouseArea
-            this.searchForm.warehouseProvince=data.warehouseProvince
-            this.searchForm.warehouseCity=data.warehouseCity
-            this.searchForm.warehouseArea=data.warehouseArea
-            this.searchForm.warehouseLinkName=data.warehouseLinkName
-            this.searchForm.warehouseAddress=data.warehouseAddress
-            this.searchForm.linkTel=data.linkTel
-          }else{
+          if (data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)) {
+            this.searchForm.area = data.warehouseProvince + data.warehouseCity + data.warehouseArea
+            this.searchForm.warehouseProvince = data.warehouseProvince
+            this.searchForm.warehouseCity = data.warehouseCity
+            this.searchForm.warehouseArea = data.warehouseArea
+            this.searchForm.warehouseLinkName = data.warehouseLinkName
+            this.searchForm.warehouseAddress = data.warehouseAddress
+            this.searchForm.linkTel = data.linkTel
+          } else {
             this.$message.error('请先去维护调入仓库接收人、所在地区、详细地址和联系方式')
-            this.searchForm.inWarehouseCode=''
+            this.searchForm.inWarehouseCode = ''
           }
         }
       }).catch(err => {
@@ -488,12 +494,12 @@ export default {
 
     showDialog(type) {
       if (type === 'add') {
-        let ownerCode=this.searchForm.ownerCode
-        let warehouseCode=this.searchForm.outWarehouseCode
+        let ownerCode = this.searchForm.ownerCode
+        let warehouseCode = this.searchForm.outWarehouseCode
         if (ownerCode && warehouseCode) {
           this.addVisible = true;
-          this.skuForm={ownerCode:ownerCode,warehouseCode:warehouseCode,skuCode:null,skuName:null}
-        }else{
+          this.skuForm = { ownerCode: ownerCode, warehouseCode: warehouseCode, skuCode: null, skuName: null }
+        } else {
           this.$message.error('请选择货主和调出仓库！');
         }
       }
@@ -501,32 +507,32 @@ export default {
     submit(type, value) {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       if (type === 'addCommodity') {
-        let pushData=value
+        let pushData = value
         let searchForm = _.cloneDeep(this.searchForm)
-        this.totalskucode=[]
-        if(searchForm.transferBillDetailDOList && searchForm.transferBillDetailDOList.length>0){
-          searchForm.transferBillDetailDOList.map(item=>{
+        this.totalskucode = []
+        if (searchForm.transferBillDetailDOList && searchForm.transferBillDetailDOList.length > 0) {
+          searchForm.transferBillDetailDOList.map(item => {
             this.totalskucode.push(item.skuCode)
           })
-          pushData.map(item=>{
-            if(!(this.totalskucode.indexOf(item.skuCode)>-1)){
+          pushData.map(item => {
+            if (!(this.totalskucode.indexOf(item.skuCode) > -1)) {
               searchForm.transferBillDetailDOList.push({
-                skuCode:item.skuCode,
-                skuName:item.skuName,
-                skuFormat:item.skuFormat,
-                skuModel:item.skuModel,
-                transferQty:item.transferQty
+                skuCode: item.skuCode,
+                skuName: item.skuName,
+                skuFormat: item.skuFormat,
+                skuModel: item.skuModel,
+                transferQty: item.transferQty
               })
             }
           })
-        }else{
-          pushData.map(item=>{
+        } else {
+          pushData.map(item => {
             searchForm.transferBillDetailDOList.push({
-              skuCode:item.skuCode,
-              skuName:item.skuName,
-              skuFormat:item.skuFormat,
-              skuModel:item.skuModel,
-              transferQty:item.transferQty
+              skuCode: item.skuCode,
+              skuName: item.skuName,
+              skuFormat: item.skuFormat,
+              skuModel: item.skuModel,
+              transferQty: item.transferQty
             })
           })
         }
@@ -542,19 +548,19 @@ export default {
               }
             })
             json.ownerName = this.mapConfig['billOwnerInfoMap'].find(v => v.key === json.ownerCode).value;
-            json.outWarehouseName=this.warehouseList.find(v => v.warehouseCode === json.outWarehouseCode).warehouseName;
-            json.inWarehouseName=this.warehouseList.find(v => v.warehouseCode === json.inWarehouseCode).warehouseName;
-            if(json.transferBillDetailDOList.length<=0){
+            json.outWarehouseName = this.warehouseList.find(v => v.warehouseCode === json.outWarehouseCode).warehouseName;
+            json.inWarehouseName = this.warehouseList.find(v => v.warehouseCode === json.inWarehouseCode).warehouseName;
+            if (json.transferBillDetailDOList.length <= 0) {
               this.$message.error('商品明细不能为空！')
-            }else{
+            } else {
               let api = requisitionSave;
-              if(type === 'save'){
-                json.isCommit=false
+              if (type === 'save') {
+                json.isCommit = false
                 this.saveLoading = true
                 this.savedisabled = true
                 this.updateLoading = false
-              }else{
-                json.isCommit=true
+              } else {
+                json.isCommit = true
                 this.saveLoading = false
                 this.savedisabled = true
                 this.updateLoading = true
@@ -562,7 +568,7 @@ export default {
               if (this.$route.query.id) {
                 if (this.$route.query.type === 'modify') {
                   api = requisitionmodify;
-                } 
+                }
                 json.id = this.$route.query.id;
               }
               api(json).then(res => {

@@ -158,311 +158,311 @@
   
 
 <script>
-  import { addOrUpdateReceipt, getReceiptDetail } from '@/api/receipt'
-  import { mapGetters } from 'vuex'
-  import { PaymentModeEnum } from '@/utils/enum'
-  import { infoCustomerInfo ,ordernoandcontractno,getSigningInformation,getSigningDetail,infoTaxno,saveFinaSaleInvoice,billingTypeDetails } from '@/api/newoutputinvoice';
-  // import orderchoice from './Component/orderchoice'
-  export default {
-    name: 'newreceipt',
-    // components: {
-    //   orderchoice
-    // },
-    data() {
-      var checkDetail = (rule, value, callback) => {
-        if (value.length > 20) {
-          return callback(new Error('长度不能大于20'))
-        }
-        if (!Number(value)) {
-          return callback(new Error('请输入数字'))
-        }
-        callback()
+import { addOrUpdateReceipt, getReceiptDetail } from '@/api/receipt'
+import { mapGetters } from 'vuex'
+import { PaymentModeEnum } from '@/utils/enum'
+import { infoCustomerInfo, ordernoandcontractno, getSigningInformation, getSigningDetail, infoTaxno, saveFinaSaleInvoice, billingTypeDetails } from '@/api/newoutputinvoice';
+// import orderchoice from './Component/orderchoice'
+export default {
+  name: 'newreceipt',
+  // components: {
+  //   orderchoice
+  // },
+  data() {
+    var checkDetail = (rule, value, callback) => {
+      if (value.length > 20) {
+        return callback(new Error('长度不能大于20'))
       }
-      var checkAmt = (rule, value, callback) => {
-        
-        if (!Number(value)) {
-          return callback(new Error('金额请输入数字'))
-        }
-        if(value<0){
-          return callback(new Error('金额请输入正数'))
-        }
-        if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
-          return callback(new Error('金额最多两位小数'))
-        }
-        callback()
+      if (!Number(value)) {
+        return callback(new Error('请输入数字'))
       }
-      return {
-        receipt: {
-           id:'',
-           receiveNo:'',//收款单号
-           paymenterId:'',//付款方id
-           paymenterName:'',//付款方名称（客户姓名）
-           paymentMode:'',//付款方式
-           paymentBank:'',//付款方银行
-           paymentAccount:'',//付款方账号
-           paymentAmt:'',//付款金额
-           paymentDate:'',//付款日期
-           paymentRecordNo:'',//交易流水号
-           paymentAbstract:'',
-           filePath:[],
-        },
-        rules: {
-            paymenterId: [
-              { required: true, message: '请选择付款方', trigger: 'change' }
-            ],
-            paymentAmt: [
-              { validator: checkAmt, required: true, trigger: 'blur' }
-            ],
-            paymentMode: [
-              { required: true, message: '请选择付款方式', trigger: 'blur' }
-            ],
-            paymentDate: [
-              { required: true, message: '付款日期', trigger: 'blur' }
-            ],
-            // paymentAccount: [
-            //   { validator: checkDetail, required: true, trigger: 'blur' }
-            // ],
-          
-        },
-        dialogVisible: false,
-        uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
-        fileList: [],
-        uploadButtonVisible: false,
-        dialogTableVisible: false,
-        submitloading: false,
-        paymentModeItem:PaymentModeEnum,
-        customerConfig:[],
-        customerFilterMark:'',//客户名称过滤标识
+      callback()
+    }
+    var checkAmt = (rule, value, callback) => {
+
+      if (!Number(value)) {
+        return callback(new Error('金额请输入数字'))
       }
-    },
-    computed: {
-      enclosure() {
-        const url = []
-        this.fileList.map(
-          file => {
-            if (file.response) {
-              url.push({ name: file.name, url: file.response.data })
-            } else if (file.name && file.url) {
-              url.push({ name: file.name, url: file.url })
-            }
-          }
-        )
-        
-        return url
+      if (value < 0) {
+        return callback(new Error('金额请输入正数'))
+      }
+      if (!/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(value)) {
+        return callback(new Error('金额最多两位小数'))
+      }
+      callback()
+    }
+    return {
+      receipt: {
+        id: '',
+        receiveNo: '',//收款单号
+        paymenterId: '',//付款方id
+        paymenterName: '',//付款方名称（客户姓名）
+        paymentMode: '',//付款方式
+        paymentBank: '',//付款方银行
+        paymentAccount: '',//付款方账号
+        paymentAmt: '',//付款金额
+        paymentDate: '',//付款日期
+        paymentRecordNo: '',//交易流水号
+        paymentAbstract: '',
+        filePath: [],
       },
-      ...mapGetters({
-        company: 'company',
-        companyId: 'companyId',
-        userInfo: 'userInfo',
-        visitedViews: 'visitedViews',
-        revstoreList: 'storeList',
-        gridData: 'gysList'
-      }),
-      nowCustomerConfig:{
-       get: function () {
-        let value=this.customerFilterMark;
-        if((value!==0&&!value)||!this.customerConfig.length){
+      rules: {
+        paymenterId: [
+          { required: true, message: '请选择付款方', trigger: 'change' }
+        ],
+        paymentAmt: [
+          { validator: checkAmt, required: true, trigger: 'blur' }
+        ],
+        paymentMode: [
+          { required: true, message: '请选择付款方式', trigger: 'blur' }
+        ],
+        paymentDate: [
+          { required: true, message: '付款日期', trigger: 'blur' }
+        ],
+        // paymentAccount: [
+        //   { validator: checkDetail, required: true, trigger: 'blur' }
+        // ],
+
+      },
+      dialogVisible: false,
+      uploadUrl: '/webApi/fileupload/filetoserver', // 上传路径
+      fileList: [],
+      uploadButtonVisible: false,
+      dialogTableVisible: false,
+      submitloading: false,
+      paymentModeItem: PaymentModeEnum,
+      customerConfig: [],
+      customerFilterMark: '',//客户名称过滤标识
+    }
+  },
+  computed: {
+    enclosure() {
+      const url = []
+      this.fileList.map(
+        file => {
+          if (file.response) {
+            url.push({ name: file.name, url: file.response.data })
+          } else if (file.name && file.url) {
+            url.push({ name: file.name, url: file.url })
+          }
+        }
+      )
+
+      return url
+    },
+    ...mapGetters({
+      company: 'company',
+      companyId: 'companyId',
+      userInfo: 'userInfo',
+      visitedViews: 'visitedViews',
+      revstoreList: 'storeList',
+      gridData: 'gysList'
+    }),
+    nowCustomerConfig: {
+      get: function () {
+        let value = this.customerFilterMark;
+        if ((value !== 0 && !value) || !this.customerConfig.length) {
           return this.customerConfig
-        } else{
-          return this.customerConfig.filter(v=>v.entNumber.includes(value)||v.entName.includes(value))
+        } else {
+          return this.customerConfig.filter(v => v.entNumber.includes(value) || v.entName.includes(value))
         }
-       },
-       set:function(){
- 
-       }
       },
-    },
-    created() {
-      if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        this.getDetail()
-      }
-      else{
-        this.receipt={}
-        this.fileList = []
-      }
-      this.getCustomInfo()
-    },
-    activated(){        
-       if (this.$route.query.id&&this.$route.query.from=='rebuild') {
-        this.getDetail()
-      }
-      this.getCustomInfo()
-    },
-    methods: {
-      customerChange(e){
-        this.customerConfig.map(item=>{
-          
-          
-          if(item.entNumber==e){
-            this.receipt.paymenterName = item.entName
-          }
-        })
-      },
+      set: function () {
 
-      getCustomInfo(){
-        infoCustomerInfo().then(res=>{
-          if(res.success){
-            this.customerConfig=res.data||[]
-          }
-        }).catch(err=>{
+      }
+    },
+  },
+  created() {
+    if (this.$route.query.id && this.$route.query.from == 'rebuild') {
+      this.getDetail()
+    }
+    else {
+      this.receipt = {}
+      this.fileList = []
+    }
+    this.getCustomInfo()
+  },
+  activated() {
+    if (this.$route.query.id && this.$route.query.from == 'rebuild') {
+      this.getDetail()
+    }
+    this.getCustomInfo()
+  },
+  methods: {
+    customerChange(e) {
+      this.customerConfig.map(item => {
 
+
+        if (item.entNumber == e) {
+          this.receipt.paymenterName = item.entName
+        }
+      })
+    },
+
+    getCustomInfo() {
+      infoCustomerInfo().then(res => {
+        if (res.success) {
+          this.customerConfig = res.data || []
+        }
+      }).catch(err => {
+
+      })
+    },
+    cusCodeFilter(value) {
+      this.customerFilterMark = value;
+    },
+    clearCustomerFilterMark() {
+      this.customerFilterMark = ''
+    },
+    beforeUpload(file) {
+      // 如果上传文件大于5M
+      if (file.size > 5 * 1024 * 1024) {
+        this.$message.error('上传附件不能大于5M')
+        return false
+      }
+    },
+    handleRemove(file, fileList) {
+      this.fileList = fileList
+    },
+    getDetail() {
+      getReceiptDetail(
+        this.$route.query.id
+      ).then(res => {
+        if (res.success) {
+          let {
+            id,
+            receiveNo,//收款单号
+            paymenterId,//付款方id
+            paymenterName,//付款方名称（客户姓名）
+            paymentMode,//付款方式
+            paymentBank,//付款方银行
+            paymentAccount,//付款方账号
+            paymentAmt,//付款金额
+            paymentDate,//付款日期
+            paymentRecordNo,//交易流水号
+            paymentAbstract,
+          } = res.data.finaReceiveDO
+
+          this.receipt = {
+            id,
+            receiveNo,//收款单号
+            paymenterId,//付款方id
+            paymenterName,//付款方名称（客户姓名）
+            paymentMode,//付款方式
+            paymentBank,//付款方银行
+            paymentAccount,//付款方账号
+            paymentAmt,//付款金额
+            paymentDate,//付款日期
+            paymentRecordNo,//交易流水号
+            paymentAbstract,
+          }
+          if (res.data.fileInfos && res.data.fileInfos.length > 0) {
+            this.fileList = res.data.fileInfos
+            this.receipt.filePath = res.data.fileInfos
+          }
+        }
+      }).catch(err => {
+      })
+    },
+
+    importFile() {
+      this.dialogVisible = true
+    },
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择上传 1 个文件`)
+    },
+    handelUploadChange(file, fileList) {
+      // 选择文件时显示上传按钮
+      if (Object.keys(file).length && fileList.length) {
+        this.uploadButtonVisible = true
+      } else {
+        this.uploadButtonVisible = false
+      }
+    },
+    handleUploadSuccess(res, file, fileList) {
+      if (res.code === '200') {
+        this.fileList = fileList
+      } else {
+        this.$message({
+          message: res.message,
+          type: 'error'
         })
-      },
-      cusCodeFilter(value){
-        this.customerFilterMark=value;
-      },
-      clearCustomerFilterMark(){
-        this.customerFilterMark = ''
-      },
-      beforeUpload(file) {
-        // 如果上传文件大于5M
-        if (file.size > 5 * 1024 * 1024) {
-          this.$message.error('上传附件不能大于5M')
+      }
+    },
+    onSubmit(type) {
+      this.$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+          let postData = { ...this.receipt }
+
+          // if(!this.enclosure.length){
+          //   this.$message.error('附件不能为空');
+          //   return ''
+          // }
+          this.submitloading = true
+
+          postData.filePath = this.enclosure
+          postData.isSubmit = type ? true : false
+          let msg = '新建'
+          msg = postData.id ? '修改' : '新建'
+          addOrUpdateReceipt(postData).then(
+            res => {
+              if (res.success && res.data && res.data.id) {
+                this.$message({                  type: 'success', message: `${msg}收款单成功，1.5s后跳转至详情页`, duration: 1500, onClose: () => {
+                    this.$router.push({
+                      path: '/receipt/register/detail',
+                      query: {
+                        id: res.data.id
+                      }
+                    })
+                  }                })
+              } else {
+                this.$message({                  type: 'error', message: `${msg}付款申请失败`, duration: 1500
+                })
+              }
+              this.submitloading = false
+            }
+          ).catch(err => {
+            console.error(err)
+            this.submitloading = false
+          })
+        } else {
+          this.submitloading = false
           return false
         }
-      },
-      handleRemove(file, fileList) {
-        this.fileList = fileList
-      },
-      getDetail() {
-        getReceiptDetail(
-         this.$route.query.id
-        ).then(res => {
-          if(res.success){
-            let {
-              id,
-              receiveNo,//收款单号
-              paymenterId,//付款方id
-              paymenterName,//付款方名称（客户姓名）
-              paymentMode,//付款方式
-              paymentBank,//付款方银行
-              paymentAccount,//付款方账号
-              paymentAmt,//付款金额
-              paymentDate,//付款日期
-              paymentRecordNo,//交易流水号
-              paymentAbstract,
-            } = res.data.finaReceiveDO
-            
-            this.receipt =  {
-              id,
-              receiveNo,//收款单号
-              paymenterId,//付款方id
-              paymenterName,//付款方名称（客户姓名）
-              paymentMode,//付款方式
-              paymentBank,//付款方银行
-              paymentAccount,//付款方账号
-              paymentAmt,//付款金额
-              paymentDate,//付款日期
-              paymentRecordNo,//交易流水号
-              paymentAbstract,
-            }
-            if(res.data.fileInfos&&res.data.fileInfos.length>0){
-              this.fileList = res.data.fileInfos
-              this.receipt.filePath = res.data.fileInfos
-            }
-          }
-        }).catch(err => {
-        })
-      },
-      
-      importFile() {
-        this.dialogVisible = true
-      },
-      submitUpload() {
-        this.$refs.upload.submit()
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择上传 1 个文件`)
-      },
-      handelUploadChange(file, fileList) {
-        // 选择文件时显示上传按钮
-        if (Object.keys(file).length && fileList.length) {
-          this.uploadButtonVisible = true
-        } else {
-          this.uploadButtonVisible = false
-        }
-      },
-      handleUploadSuccess(res, file, fileList) {
-        if (res.code === '200') {
-          this.fileList=fileList
-        } else {
-          this.$message({
-            message: res.message,
-            type: 'error'
-          })
-        }        
-      },
-      onSubmit(type) {
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
-            let postData = {...this.receipt}
-
-            // if(!this.enclosure.length){
-            //   this.$message.error('附件不能为空');
-            //   return ''
-            // }
-             this.submitloading = true
-
-            postData.filePath = this.enclosure
-            postData.isSubmit = type ? true : false
-            let msg = '新建'
-            msg = postData.id ? '修改' : '新建' 
-            addOrUpdateReceipt(postData).then(
-              res => {
-                if (res.success&&res.data&&res.data.id) {
-                  this.$message({type:'success',message:`${msg}收款单成功，1.5s后跳转至详情页`,duration:1500,onClose:()=>{
-                     this.$router.push({
-                          path: '/receipt/register/detail',
-                          query: {
-                            id: res.data.id
-                          }
-                        })
-                  }})
-                }else{
-                   this.$message({type:'error',message:`${msg}付款申请失败`,duration:1500
-                  })
-                }
-                this.submitloading = false
-              }
-            ).catch(err => {
-              console.error(err)
-              this.submitloading = false
-            })
-          } else {
-            this.submitloading = false
-            return false
-          }
-        })
-      },
-      onCancel() {
-        this.receipt = {
-        }
+      })
+    },
+    onCancel() {
+      this.receipt = {
       }
     }
   }
+}
 </script>
 
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .codeNoStyle{
-    float: left; 
-    color: #8492a6; 
-    font-size: 12px;
-    width:150px;
-    &:last-child{
-      float: right;
-    }
+.codeNoStyle {
+  float: left;
+  color: #8492a6;
+  font-size: 12px;
+  width: 150px;
+  &:last-child {
+    float: right;
   }
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 25%;
-  }
+}
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 25%;
+}
 </style>

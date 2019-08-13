@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="NewReceiptorderIndex">
     <sticky :className="'sub-navbar published'">
       <template v-if="fetchSuccess">
         <template>
@@ -652,12 +652,14 @@ export default {
 
 
 <style rel="stylesheet/scss" lang="scss" >
-.el-form-item {
-  height: 30px;
-  margin-bottom: 26px;
-}
+.NewReceiptorderIndex {
+  .el-form-item {
+    height: 30px;
+    margin-bottom: 26px;
+  }
 
-.el-table .cell {
-  white-space: nowrap;
+  .el-table .cell {
+    white-space: nowrap;
+  }
 }
 </style>

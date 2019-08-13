@@ -63,32 +63,32 @@ export default {
   computed: {
     ...mapGetters([
       'mapConfig',
-  ])},
+    ])  },
 
-  props:{
-     searchForm:{
-       type:Object,
-       default:()=>{}
-     },
+  props: {
+    searchForm: {
+      type: Object,
+      default: () => { }
+    },
   },
 
-  mounted(){
+  mounted() {
   },
-  methods:{
+  methods: {
 
-    submit(){
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-             this.$emit('submit',this.searchForm)
-          } else{
-            return false;
-          }
-       })
+    submit() {
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          this.$emit('submit', this.searchForm)
+        } else {
+          return false;
+        }
+      })
     },
 
-    resetForm(){
+    resetForm() {
       this.$refs['searchForm'].resetFields()
-      this.$emit('submit',this.searchForm)
+      this.$emit('submit', this.searchForm)
     }
   }
 
@@ -96,23 +96,22 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .entryInvoice-form{
-     .el-form-item{
-       height:30px;
-       margin-bottom: 36px
-     }
+.entryInvoice-form {
+  .el-form-item {
+    height: 30px;
+    margin-bottom: 36px;
   }
-    .providerList{
-      display: flex;
-      justify-content: space-between;
-      >span{
-        &:first-child{
-          min-width: 150px;
-        }
-        &:nth-child(2){
-          min-width: 100px;
-        }
-      }
+}
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
     }
-
+    &:nth-child(2) {
+      min-width: 100px;
+    }
+  }
+}
 </style>

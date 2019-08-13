@@ -1,5 +1,5 @@
 <template lang="html">
-<div class="app-container">
+<div class="app-container OutputinvoiceNewoutputinvoiceIndex">
   <sticky :className="'sub-navbar published'" style="margin-bottom: 8px">
     <template v-if="fetchSuccess">
        <el-button v-loading="loading"  :disabled="disabled"   style="margin-left: 10px;"  size="small"  @click="submitForm('searchForm','save')">保存
@@ -9,8 +9,8 @@
     </template>
 
     <template v-else>
-      <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
-    </template>
+  <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
+</template>
   </sticky>
 
   <el-form :model="searchForm" :rules="searchRules" ref="searchForm" label-width="70px" label-position="left">
@@ -184,89 +184,98 @@
              style="width: 100%">
             <el-table-column type="expand" >
               <template slot-scope="props">
-                <el-form label-position="left" inline class="demo-table-expand">
+  <el-form
+    label-position="left"
+    inline
+    class="demo-table-expand"
+  >
 
-                   <el-form-item label="商品编码">
-                    <span>{{ props.row.skuCode }}</span>
-                  </el-form-item>
+    <el-form-item label="商品编码">
+      <span>{{ props.row.skuCode }}</span>
+    </el-form-item>
 
-                   <el-form-item label="商品名称">
-                    <el-input 
-                      v-if="props.row.edit"
-                      size="mini"
-                      v-model="props.row.skuName" >
-                    </el-input>
-                    <span v-else>{{ props.row.skuName }}</span>
-                  </el-form-item>
+    <el-form-item label="商品名称">
+      <el-input
+        v-if="props.row.edit"
+        size="mini"
+        v-model="props.row.skuName"
+      >
+      </el-input>
+      <span v-else>{{ props.row.skuName }}</span>
+    </el-form-item>
 
-                  <el-form-item label="税务编码">
-                    <el-input
-                      v-if="props.row.edit"
-                      size="mini"
-                      @focus="selectTaxNoByWares(props.row.id)"
-                      v-model="props.row.taxCode" >
-                    </el-input>
-                    <span v-else>{{ props.row.taxCode }}</span>
-                  </el-form-item>
+    <el-form-item label="税务编码">
+      <el-input
+        v-if="props.row.edit"
+        size="mini"
+        @focus="selectTaxNoByWares(props.row.id)"
+        v-model="props.row.taxCode"
+      >
+      </el-input>
+      <span v-else>{{ props.row.taxCode }}</span>
+    </el-form-item>
 
+    <el-form-item label="规格型号">
+      <el-input
+        v-if="props.row.edit"
+        size="mini"
+        v-model="props.row.skuFormat"
+      >
+      </el-input>
+      <span v-else>{{ props.row.skuFormat }}</span>
+    </el-form-item>
 
-                  <el-form-item label="规格型号">
-                    <el-input
-                      v-if="props.row.edit"
-                      size="mini"
-                      v-model="props.row.skuFormat" >
-                    </el-input>
-                    <span v-else>{{ props.row.skuFormat }}</span>
-                  </el-form-item>
+    <el-form-item label="单位">
+      <el-input
+        v-if="props.row.edit"
+        size="mini"
+        v-model="props.row.skuUnitName"
+      >
+      </el-input>
+      <span v-else>{{ props.row.skuUnitName }}</span>
+    </el-form-item>
 
-                   <el-form-item label="单位">
-                    <el-input
-                      v-if="props.row.edit"
-                      size="mini"
-                      v-model="props.row.skuUnitName" >
-                    </el-input>
-                    <span v-else>{{ props.row.skuUnitName }}</span>
-                  </el-form-item>
+    <el-form-item label="本次开票数量">
+      <el-input-number
+        v-if="props.row.edit&&searchForm.invoiceNature==='CREDIT_NOTE'"
+        size="mini"
+        :max="props.row.invoicedQty"
+        :min="0"
+        @change="invoicedQtyChange(props.row)"
+        v-model="props.row.invoicedQuantity"
+      >
+      </el-input-number>
+      <span v-else>{{ props.row.invoicedQuantity }}</span>
+    </el-form-item>
 
-                   <el-form-item label="本次开票数量">
-                     <el-input-number 
-                      v-if="props.row.edit&&searchForm.invoiceNature==='CREDIT_NOTE'"
-                      size="mini"
-                      :max="props.row.invoicedQty" 
-                      :min="0" 
-                      @change="invoicedQtyChange(props.row)"
-                      v-model="props.row.invoicedQuantity" >
-                    </el-input-number >
-                    <span v-else>{{ props.row.invoicedQuantity }}</span>
-                  </el-form-item>
+    <el-form-item label="可开票数量">
+      <span>{{ props.row.invoicedQty }}</span>
+    </el-form-item>
 
-                   <el-form-item label="可开票数量">
-                    <span>{{ props.row.invoicedQty }}</span>
-                  </el-form-item>
+    <el-form-item label="单价">
+      <span> {{ Number(props.row.skuPrice).toFixed(2) }} </span>
+    </el-form-item>
 
-                  <el-form-item label="单价">
-                    <span > {{ Number(props.row.skuPrice).toFixed(2) }} </span>
-                  </el-form-item>
+    <el-form-item label="税率">
+      <span>{{ Number(props.row.taxRate).toFixed(2) }}</span>
+    </el-form-item>
 
-                  <el-form-item label="税率">
-                    <span>{{ Number(props.row.taxRate).toFixed(2) }}</span>
-                  </el-form-item>
+    <el-form-item label="含税金额">
+      <span>{{ Number(props.row.skuPrice*props.row.invoicedQuantity).toFixed(2) }}</span>
+    </el-form-item>
 
-                  <el-form-item label="含税金额">
-                    <span>{{ Number(props.row.skuPrice*props.row.invoicedQuantity).toFixed(2) }}</span>
-                  </el-form-item>
+    <el-form-item label="税额">
+      <el-input
+        v-if="props.row.edit"
+        size="mini"
+        v-model.Number="props.row.actualTicketTax"
+      >
+      </el-input>
+      <span v-else> {{ Number(props.row.actualTicketTax).toFixed(2) }} </span>
+    </el-form-item>
 
-                  <el-form-item label="税额">
-                    <el-input
-                      v-if="props.row.edit"
-                      size="mini"
-                      v-model.Number="props.row.actualTicketTax" >
-                    </el-input>
-                    <span v-else> {{ Number(props.row.actualTicketTax).toFixed(2) }} </span>
-                  </el-form-item>
-
-                </el-form>
-              </template>
+  </el-form>
+</template>
             </el-table-column>
             <el-table-column
               label="序号"
@@ -313,10 +322,23 @@
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.edit" type="success" @click="goeditrow(scope.$index,scope.row)" size="mini" >确定</el-button>
-                <el-button v-else @click="goeditrow(scope.$index,scope.row)" size="mini" >编辑</el-button>
-                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-              </template>
+  <el-button
+    v-if="scope.row.edit"
+    type="success"
+    @click="goeditrow(scope.$index,scope.row)"
+    size="mini"
+  >确定</el-button>
+  <el-button
+    v-else
+    @click="goeditrow(scope.$index,scope.row)"
+    size="mini"
+  >编辑</el-button>
+  <el-button
+    size="mini"
+    type="danger"
+    @click="handleDelete(scope.$index, scope.row)"
+  >删除</el-button>
+</template>
             </el-table-column>
           </el-table>
           </el-form-item>
@@ -419,12 +441,13 @@
 </template>
 <script src="./index.js"></script>
 <style rel="stylesheet/scss" lang="scss">
-  .codeNoStyle{
-    float: left; 
-    color: #8492a6; 
+.OutputinvoiceNewoutputinvoiceIndex {
+  .codeNoStyle {
+    float: left;
+    color: #8492a6;
     font-size: 12px;
-    width:150px;
-    &:last-child{
+    width: 150px;
+    &:last-child {
       float: right;
     }
   }
@@ -441,20 +464,20 @@
     width: 25%;
   }
 
-  .TaxNoByWaresDialog{
-    .el-dialog__body{
+  .TaxNoByWaresDialog {
+    .el-dialog__body {
       padding: 0 20px;
     }
   }
-  .shouDetailsDialog{
-     .el-dialog__body{
+  .shouDetailsDialog {
+    .el-dialog__body {
       padding: 0 20px;
     }
   }
 
-  .el-form-item{
-    height:30px;
+  .el-form-item {
+    height: 30px;
     margin-bottom: 20px;
   }
-
+}
 </style>
