@@ -48,6 +48,7 @@
         <el-form-item
           label=""
           :label-width="formLabelWidth"
+          style="height: auto"
         >
           <el-link
             type="primary"

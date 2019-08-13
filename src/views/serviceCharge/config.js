@@ -1,6 +1,6 @@
 
 export const serviceChargePickSearchConfig = [
-  { label: '货主', prop: 'orderCode', type: 'selectMap', mapKey: 'ownerInfoMap' },
+  { label: '货主', prop: 'ownerCode', type: 'selectMap', mapKey: 'ownerInfoMap' },
   { label: '结算日期', prop: 'settlementDate', props: ['settlementMonthBigin', 'settlementMonthEnd'], type: 'dateRange' },
   { label: '创建日期', prop: 'gmtCreate', props: ['gmtCreateBigin', 'gmtCreateEnd'], type: 'dateTimeRange' },
 ]
