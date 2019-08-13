@@ -5,7 +5,7 @@ import _  from 'lodash';
 const menu = {
   state: {
     localMenu: [],
-    markArr:['出入库','基础档案','物流','报表','财务'],
+    markArr:['出入库','基础档案','物流','财务'],
     mark:'基础档案'
   },
 

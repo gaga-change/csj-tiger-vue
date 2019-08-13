@@ -355,5 +355,5 @@ export default [
         hidden: true,
       },
     ]
-  },
+  }
 ]
