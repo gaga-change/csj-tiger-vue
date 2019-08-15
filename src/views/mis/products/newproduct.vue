@@ -240,7 +240,7 @@
             <el-form-item
               label="规格："
               prop="skuFormat"
-              :rules="[{required: true, message:'必填项', trigger: 'change'},{max:20, message:'最长20位', trigger: 'blur'}]"
+              :rules="[{required: true, message:'必填项', trigger: 'change'},{max:50, message:'最长50位', trigger: 'blur'}]"
             >
               <el-input
                 v-model="productForm.skuFormat"
@@ -259,7 +259,7 @@
             <el-form-item
               label="型号："
               prop="skuModel"
-              :rules="[{required: true, message:'必填项', trigger: 'change'},{max:20, message:'最长20位', trigger: 'blur'}]"
+              :rules="[{required: true, message:'必填项', trigger: 'change'},{max:50, message:'最长50位', trigger: 'blur'}]"
             >
               <el-input
                 v-model="productForm.skuModel"
