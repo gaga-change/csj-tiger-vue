@@ -181,7 +181,7 @@
             :xl="6"
           >
             <el-form-item
-              :label="searchForm.busiBillType===21?'客户':'供应商'"
+              :label="isCustomerKeyArr.includes(searchForm.busiBillType)?'客户':'供应商'"
               label-width="90px"
               prop="arrivalCode"
               :rules="[{ required: true, message: '该项为必填'}]"
@@ -201,8 +201,8 @@
                   :disabled="true"
                 >
                   <div class="providerList">
-                    <span>{{searchForm.busiBillType===21?'客户编号':'供应商编号'}}</span>
-                    <span>{{searchForm.busiBillType===21?'客户名称':'供应商名称'}}</span>
+                    <span>{{isCustomerKeyArr.includes(searchForm.busiBillType)?'客户编号':'供应商编号'}}</span>
+                    <span>{{isCustomerKeyArr.includes(searchForm.busiBillType)?'客户名称':'供应商名称'}}</span>
                   </div>
                 </el-option>
                 <el-option
@@ -227,7 +227,7 @@
             :xl="6"
           >
             <el-form-item
-              :label="searchForm.busiBillType===21?'客户地址':'供应商地址'"
+              :label="isCustomerKeyArr.includes(searchForm.busiBillType)?'客户地址':'供应商地址'"
               prop="arrivalAddress"
               :rules="[{ required: true, message: '该项为必填', trigger: ['blur', 'change']}]"
             >
@@ -433,7 +433,7 @@
             :md="8"
             :lg="8"
             :xl="6"
-            v-if="[21].includes(searchForm.busiBillType)"
+            v-if="isCustomerKeyArr.includes(searchForm.busiBillType)"
           >
             <el-form-item label="询价单号:">
               <el-input
@@ -574,7 +574,6 @@ export default {
       //表单项
       searchForm: {
         saleType: 1,
-        busiBillType: 21,
         outWarehouseBillDetailList: []
       },
       //表单table配置项
@@ -615,7 +614,7 @@ export default {
             })
             return v;
           });
-          if (searchForm.busiBillType === 21) {
+          if (this.isCustomerKeyArr.includes(searchForm.busiBillType)) {
             addtable_config[index] = { label: '客户销价', prop: 'sellPrice', }
           } else {
             addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
@@ -635,7 +634,17 @@ export default {
     ...mapGetters({
       'mapConfig': 'mapConfig',
       visitedViews: 'visitedViews'
-    })
+    }),
+    isCustomerKeyArr() {
+      let temp = []
+      let teypArr = this.mapConfig['getBillType'] || []
+      teypArr.filter(v => v.value.includes('出库')).forEach(v => {
+        if (v.remark === '客户') {
+          temp.push(v.key)
+        }
+      })
+      return temp
+    }
   },
 
   methods: {
@@ -659,7 +668,7 @@ export default {
 
       let addtable_config = _.cloneDeep(this.addtable_config);
       let index = addtable_config.findIndex(v => ['客户销价', '进货价'].includes(v.label));
-      if (value === 21) {
+      if (this.isCustomerKeyArr.includes(value)) {
         addtable_config[index] = { label: '客户销价', prop: 'sellPrice', }
       } else {
         addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
@@ -785,7 +794,7 @@ export default {
           })
           return v;
         });
-        if (searchForm.busiBillType === 21) {
+        if (this.isCustomerKeyArr.includes(searchForm.busiBillType)) {
           addtable_config[index] = { label: '客户销价', prop: 'sellPrice', }
         } else {
           addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
