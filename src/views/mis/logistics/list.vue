@@ -55,6 +55,7 @@
               查看
             </a>
             <a
+              v-if="$haspermission('logisticsUpdate')"
               @click="edit({ id: scope.row.id })"
               :style="linkstyle"
             >
