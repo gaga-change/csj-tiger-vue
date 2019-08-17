@@ -43,7 +43,7 @@
                 class="formitem"
               >
                 <el-option
-                  v-for="item in mapConfig['ownerInfoMap']"
+                  v-for="item in mapConfig['billOwnerInfoMap']"
                   :label="item.value"
                   :key="item.key"
                   :value="item"

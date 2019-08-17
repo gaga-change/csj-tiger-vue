@@ -118,7 +118,7 @@
             style="width:400px"
           >
             <el-option
-              v-for="item in mapConfig['ownerInfoMap']"
+              v-for="item in mapConfig['billOwnerInfoMap']"
               :key="item.key"
               :label="item.value"
               :value="item.key"

@@ -86,9 +86,9 @@ export default {
       loading: false,
       tableData: [],
       linkstyle: {
-          color: '#3399ea',
-          whiteSpace: 'nowrap',
-          margin: '0 10px 0 0'
+        color: '#3399ea',
+        whiteSpace: 'nowrap',
+        margin: '0 10px 0 0'
       },
       productConfig,
       dialogVisible: false,
@@ -107,8 +107,8 @@ export default {
   },
   computed: {
     searchConfig() {
-      const selectOptions = this.mapConfig['ownerInfoMap']
-      return  [
+      const selectOptions = this.mapConfig['billOwnerInfoMap']
+      return [
         { label: '商品名称:', prop: 'skuName', placeholder: '请输入商品名称' },
         { label: '商品编码:', prop: 'skuCode', placeholder: '请输入商品编码' },
         { label: '规格:', prop: 'skuFormat', placeholder: '请输入规格' },
@@ -125,13 +125,13 @@ export default {
           return (
             <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
               <span>
-              <a
-                onClick={() => {
-                  this.view({ skuCode: row.skuCode, ownerCode: row.ownerCode })
-                }}
-                style={this.linkstyle}
-              >
-                查看
+                <a
+                  onClick={() => {
+                    this.view({ skuCode: row.skuCode, ownerCode: row.ownerCode })
+                  }}
+                  style={this.linkstyle}
+                >
+                  查看
               </a>
                 <a
                   onClick={() => {
@@ -155,11 +155,11 @@ export default {
     handleUploadSuccess(res, file, fileList) {
       this.uploadLoading = false
       if (res.code === '200') {
-        if(res.success){
+        if (res.success) {
           this.dialogVisible = false
           this.fetchData()
         } else {
-          this.$message({message: res.errorMsg,type: 'error'})
+          this.$message({ message: res.errorMsg, type: 'error' })
         }
         // this.$confirm(res.message, '提示', {
         //   confirmButtonText: '完成',
@@ -199,7 +199,7 @@ export default {
         }).then(_ => {
           this.editDialogVisible = false
           this.fetchData()
-        }).catch(_ => {})
+        }).catch(_ => { })
       } else {
         this.$message({
           message: res.errorMsg,
@@ -228,8 +228,8 @@ export default {
     },
     edit(query) {
       this.$router.push({
-        path:`/mis/products/newproduct`,
-        query:{...query,time:moment().valueOf()}
+        path: `/mis/products/newproduct`,
+        query: { ...query, time: moment().valueOf() }
       })
     },
     view(query) {
@@ -237,7 +237,7 @@ export default {
     },
     newProduct() {
       this.$router.push({
-        path:`/mis/products/newproduct?time=${moment().valueOf()}`
+        path: `/mis/products/newproduct?time=${moment().valueOf()}`
       })
     },
     newPayment() {
@@ -253,7 +253,7 @@ export default {
     },
     fetchData() {
       this.loading = true
-      const { gmtCreate, ...rest} = this.searchData
+      const { gmtCreate, ...rest } = this.searchData
       const postData = {
         startDate: gmtCreate && new Date(gmtCreate[0]).getTime(),
         endDate: gmtCreate && new Date(gmtCreate[1]).getTime(),
