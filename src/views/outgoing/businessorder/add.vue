@@ -186,16 +186,7 @@
               prop="arrivalCode"
               :rules="[{ required: true, message: '该项为必填'}]"
             >
-            <div style="min-height: 40px;display: flex;align-items: center;">
-              <span style="display: block;line-height: 1.2;">
-                {{!!currentRow ? currentRow.value : ''}} <a
-                  href="JavaScript:void(0)"
-                  style="color:#409EFF;white-space: nowrap;"
-                  @click="showCustomerDialogTable"
-                >{{searchForm.busiBillType===21?'选择客户':'选择供应商'}}</a>
-              </span>
-            </div>
-              <!-- <el-select
+              <el-select
                 v-model="searchForm.arrivalCode"
                 filterable
                 size="small"
@@ -225,7 +216,7 @@
                     <span>{{ item.customerName }}</span>
                   </div>
                 </el-option>
-              </el-select> -->
+              </el-select>
             </el-form-item>
           </el-col>
 
@@ -661,18 +652,7 @@ export default {
       providerConfig: [],
       //地址下拉配置
       addrListConfig: [],
-      warehouseList: [],
-
-      customerList: [],
-      dialogTableVisible: false,
-      newCustomerForm: {},
-      currentPage: 1,
-      currentPageSize: 10,
-      customerSearch: '',
-      customerTotal: 0,
-      ownerobj: {},
-      currentRow: null,
-      customerListLoading: false
+      warehouseList: []
     }
   },
 
@@ -728,85 +708,6 @@ export default {
   },
 
   methods: {
-    showCustomerDialogTable() {
-      if (!this.searchForm.ownerCode) {
-        return this.$message.warning(`请先选择货主！`)
-      }
-      this.dialogTableVisible = true
-    },
-    chooseCustomer(val) {
-      if (val) {
-        if (this.currentRow && this.currentRow.key === val.key) {
-          return
-        }
-        this.currentRow = val
-
-        this.dialogTableVisible = false
-        this.$set(this.newCustomerForm, 'customerCode', val.key)
-        this.$set(this.newCustomerForm, 'customerName', val.value)
-      }
-    },
-    handleSizeChange(val) {
-      this.currentPageSize = val
-      this.currentPage = 1
-      this.updateCustomer()
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val
-      this.updateCustomer()
-    },
-    updateCustomer() {
-      this.customerListLoading = true
-      let params = {
-        ownerCode: this.ownerobj.key,
-        pageNum: this.currentPage,
-        pageSize: this.currentPageSize
-      }
-      if (this.customerSearch) {
-        params.customerCode = this.customerSearch
-      }
-      getOwnerCustList(params).then(res => {
-        this.customerListLoading = false
-        if (!res.success) return
-        const result = res.data.list || []
-        const options = []
-        result.forEach(item => options.push({ value: item.customerName, key: item.customerCode }))
-        this.customerList = options
-        this.customerTotal = res.data.total
-        this.$nextTick(() => {
-          if (this.currentRow) {
-            let temp = this.customerList.find(v => v.key === this.currentRow.key)
-            if (temp) {
-              this.currentRow = temp
-              this.$refs.singleTable.setCurrentRow(this.currentRow)
-            }
-          }
-        })
-      }).catch(err => {
-        this.customerListLoading = false
-      })
-    },
-    customerFormResetForm() {
-      this.$refs['tcfForm2'].resetFields()
-      this.newCustomerForm = {}
-      this.currentRow = null
-    },
-    customerFormLoadData() {
-      this.$nextTick(() => {
-        this.newCustomerForm = JSON.parse(JSON.stringify(this.customerEditData))
-        this.currentRow = {
-          key: this.newCustomerForm.customerCode,
-          value: this.newCustomerForm.customerName,
-        }
-      })
-    },
-    customerFormSubmit() {
-      this.$refs['tcfForm2'].validate((valid) => {
-        if (valid) {
-          this.submitCustomerForm(this.newCustomerForm)
-        }
-      })
-    },
     //添加商品时选择商品编码的回调
     skuCodeChange(value) {
       this.addCommodityForm = value
