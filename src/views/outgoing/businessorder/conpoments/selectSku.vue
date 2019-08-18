@@ -76,12 +76,17 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getProductList } from '@/api/productcenter'
 
 export default {
   props: {
     commodityList: {
       type: Array,
       default: () => []
+    },
+    ownerCode: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -124,17 +129,20 @@ export default {
       this.updateData()
     },
     updateData() {
-      let start = (this.currentPage - 1) * this.currentPageSize
-      let length = this.currentPageSize
-      let total = [...this.commodityList].filter(v => {
-        let skuName = v.skuName || ''
-        let skuCode = v.skuCode || ''
-        if (this.skuName && skuName.indexOf(this.skuName) < 0) return false
-        if (this.skuCode && skuCode.indexOf(this.skuCode) < 0) return false
-        return true
+      const postData = {
+        pageSize: this.currentPageSize,
+        pageNum: this.currentPage,
+        ownerCode: this.ownerCode,
+        skuCode: this.skuCode,
+        skuName: this.skuName
+      }
+      getProductList(postData).then(res => {
+        if (res.success) {
+          const result = res.data
+          this.totalLen = result.total
+          this.data = result.list || []
+        }        
       })
-      this.totalLen = total.length
-      this.data = total.splice(start, length)
     },
     chooseCustomer(val) {
       if (val) {

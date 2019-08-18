@@ -539,7 +539,7 @@
           <add-form
             v-loading="skuInfoListLoading"
             @submit="submit"
-            :skuList="skuList"
+            :ownerCode="searchForm.ownerCode"
             @skuCodeChange="skuCodeChange"
             :searchForm="addCommodityForm"
             @handleClose="handleClose"
@@ -557,6 +557,7 @@ import addForm from './conpoments/addForm'
 import { outgoingOrderTypeEnum, sendOutRequireEnum } from "@/utils/enum.js";
 import { customerInfo } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
+import { getProductList } from '@/api/productcenter'
 import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove } from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
 import _ from 'lodash';
@@ -565,6 +566,11 @@ import moment from 'moment';
 export default {
   name: "businessorderadd",
   components: { editTable, addForm, Sticky },
+  provide() {
+    return {
+      ownerCode: this.searchForm.ownerCode
+    }
+  },
   data() {
     return {
       skuInfoListLoading: false,
@@ -574,6 +580,8 @@ export default {
       //表单项
       searchForm: {
         saleType: 1,
+        busiBillType: 21,
+        ownerCode: '',
         outWarehouseBillDetailList: []
       },
       //表单table配置项
@@ -651,8 +659,7 @@ export default {
 
     //添加商品时选择商品编码的回调
     skuCodeChange(value) {
-      let skuList = _.cloneDeep(this.skuList);
-      this.addCommodityForm = skuList.find(v => v.skuCode === value)
+      this.addCommodityForm = value
     },
 
     //业务单类型变化回调
@@ -835,17 +842,9 @@ export default {
           return
         }
         this.addVisible = true;
-        this.skuInfoListLoading = true
         this.skuList = []
         this.addCommodityForm = {}
-        skuInfoList(ownerCode).then(res => {
-          if (res.success) {
-            this.skuList = Array.isArray(res.data) && res.data || []
-          }
-        }).catch(err => {
-        }).then(res => {
-          this.skuInfoListLoading = false
-        })
+
 
       }
 
@@ -956,4 +955,9 @@ export default {
     }
   }
 }
+.el-table__body tr.current-row > td {
+  background: green !important;
+  color: #fff;
+}
+
 </style>

@@ -71,8 +71,8 @@
       append-to-body
     >
       <select-sku
-        :commodityList="skuList"
         @select="selectChange"
+        :ownerCode="ownerCode"
       />
     </el-dialog>
   </div>
@@ -88,10 +88,9 @@ export default {
       type: Object,
       default: () => { }
     },
-
-    skuList: {
-      type: Array,
-      default: () => []
+    ownerCode: {
+      type: String,
+      default: ''
     }
   },
 
@@ -104,12 +103,13 @@ export default {
   methods: {
     selectChange(record) {
       this.selectVisiable = false
-      this.skuCodeChange(record.skuCode)
+      this.skuCodeChange(record)
     },
     showDialogTable() {
       this.selectVisiable = true
     },
     skuCodeChange(value) {
+      console.log(value)
       this.$emit('skuCodeChange', value)
     },
     submit() {
