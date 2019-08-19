@@ -24,7 +24,6 @@
         >保存</el-button>
       </template>
     </sticky>
-
     <el-card shadow="hover">
       <el-form
         ref="searchForm"
@@ -32,7 +31,6 @@
         :model="searchForm"
       >
         <el-row>
-
           <el-col
             :sm="12"
             :md="8"
@@ -61,7 +59,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -186,6 +183,31 @@
               prop="arrivalCode"
               :rules="[{ required: true, message: '该项为必填'}]"
             >
+
+              <select-customer
+                :label="isCustomerKeyArr.includes(searchForm.busiBillType)?'客户':'供应商'"
+                v-model="searchForm.arrivalCode"
+                :ownerCode="searchForm.ownerCode"
+                :busiBillType="searchForm.busiBillType"
+                @change="providerChange"
+              >
+              </select-customer>
+            </el-form-item>
+          </el-col>
+          <el-col
+            v-if="false"
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              :label="isCustomerKeyArr.includes(searchForm.busiBillType)?'客户':'供应商'"
+              label-width="90px"
+              prop="arrivalCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+
               <el-select
                 v-model="searchForm.arrivalCode"
                 filterable
@@ -444,7 +466,6 @@
               ></el-input>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -508,7 +529,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <div class="tableBox">
           <div class="tableTitle">
             <item-title text="商品明细" />
@@ -529,7 +549,6 @@
             :allTableData="searchForm.outWarehouseBillDetailList"
           />
         </div>
-
         <el-dialog
           title="新增商品"
           :visible.sync="addVisible"
@@ -547,58 +566,6 @@
         </el-dialog>
       </el-form>
     </el-card>
-    <el-dialog
-      title="选择客户"
-      :visible.sync="dialogTableVisible"
-      width="800px"
-      :close-on-click-modal="false"
-    >
-      <div>
-        <el-input
-          v-model="customerSearch"
-          placeholder="请输入客户编码"
-          style="width:200px;"
-          maxlength="20"
-        ></el-input>
-        <el-button
-          type="primary"
-          size="small"
-          @click="currentPage=1;updateCustomer()"
-          :loading="customerListLoading"
-        >查询</el-button>
-
-      </div>
-      <el-table
-        :data="customerList"
-        size="small"
-        v-loading="customerListLoading"
-        ref="singleTable"
-        highlight-current-row
-        @current-change="chooseCustomer"
-      >
-        <el-table-column
-          property="key"
-          label="客户编码"
-        ></el-table-column>
-        <el-table-column
-          property="value"
-          label="客户名称"
-        ></el-table-column>
-      </el-table>
-      <el-pagination
-        style="text-align: right;"
-        v-if="!!customerTotal"
-        size="small"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 30]"
-        :page-size="currentPageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="customerTotal"
-      >
-      </el-pagination>
-    </el-dialog>
   </div>
 </template>
 
@@ -615,9 +582,11 @@ import Sticky from '@/components/Sticky'
 import _ from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';
+import selectCustomer from './conpoments/selectCustomer'
+
 export default {
   name: "businessorderadd",
-  components: { editTable, addForm, Sticky },
+  components: { editTable, addForm, Sticky, selectCustomer },
   provide() {
     return {
       ownerCode: this.searchForm.ownerCode
@@ -812,8 +781,9 @@ export default {
     },
 
     //地址列表配置
-    providerChange(value) {
-      let provider = this.providerConfig.find(v => v.customerCode === value)
+    providerChange(provider) {
+      // let provider = this.providerConfig.find(v => v.customerCode === value)
+
       let searchForm = _.cloneDeep(this.searchForm);
       searchForm.arrivalAddress = '';
       searchForm.arrivalLinkUser = '';
@@ -821,9 +791,8 @@ export default {
       this.searchForm = searchForm;
       this.addrListConfig = [];
 
-
       let id = provider.id
-      customerAddrInfo(value, this.searchForm.busiBillType).then(res => {
+      customerAddrInfo(provider.customerCode, this.searchForm.busiBillType).then(res => {
         if (res.success) {
           this.addrListConfig = Array.isArray(res.data) && res.data || [];
           const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
@@ -895,10 +864,7 @@ export default {
         this.addVisible = true;
         this.skuList = []
         this.addCommodityForm = {}
-
-
       }
-
     },
 
     submit(type, value) {
@@ -1010,5 +976,4 @@ export default {
   background: green !important;
   color: #fff;
 }
-
 </style>

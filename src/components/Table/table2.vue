@@ -140,6 +140,11 @@ export default {
       type: Function,
       default: null,
     },
+    /** 初始查询条件 */
+    initSearchParams: {
+      type: Object,
+      default: () => ({})
+    },
     /** 表格api接口 -  解析接口返回的数据。 */
     parseData: {
       type: Function,
@@ -316,7 +321,7 @@ export default {
   },
   mounted() {
     if (this.api) {
-      this.fetchData()
+      this.fetchData(this.initSearchParams)
     }
   },
   beforeMount() {
@@ -406,12 +411,18 @@ export default {
       this.$emit('inputNumberChange', { row, index, item, value })
     },
     fetchData(searchParams) {
-      if (searchParams) this.searchParams = { ...searchParams }
+      if (searchParams) {
+        if (searchParams.pageNum) {
+          this.selfCurrentPage = searchParams.pageNum
+          delete searchParams.pageNum
+        }
+        this.searchParams = { ...searchParams }
+      }
       this.selfLoading = true
       return this.api({
         pageNum: this.selfCurrentPage,
         pageSize: this.selfPageSize,
-        ...this.searchParams
+        ...this.searchParams,
       }).then(res => {
         this.selfLoading = false
         if (!res) return
@@ -452,14 +463,14 @@ export default {
       this.fetchData()
     },
     handleCurrentChange(val) {
-      this.$emit('currentChange', val)
+      this.$emit('currentPaginationChange', val)
     },
     handleSelfCurrentChange(val) {
       this.selfCurrentPage = val
       this.fetchData()
     },
     handleCurrentRedioChange(currentRow, oldCurrentRow) {
-      this.$emit('currentRedioChange', currentRow, oldCurrentRow)
+      this.$emit('currentChange', currentRow, oldCurrentRow)
     },
     handleSelect(selection, row) {
       // 如果 selectTotal= false, 走 handleSelectionChange

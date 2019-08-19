@@ -16,3 +16,5 @@ export const serviceChargeBillQueryPageList = params => http.post(`/webApi/servi
 export const serviceChargeBillSave = params => http.post(`/webApi/serviceChargeBill/save`, params)
 /** 收派服务费修改 */
 export const serviceChargeBillUpdate = params => http.put(`/webApi/serviceChargeBill/update`, params)
+/** 获取客户 & 供应商 */
+export const getCustomerInfoPage = params => http.post(`/webApi/customer/getCustomerInfoPage`, params)
