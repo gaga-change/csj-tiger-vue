@@ -107,124 +107,119 @@
 <script>
 import Sticky from '@/components/Sticky'
 import { mapGetters } from 'vuex'
-import { consoilInfoSave,consoilInfoDetail,consoilInfoUpdate,infoAllCompany} from '@/api/carrier'
+import { consoilInfoSave, consoilInfoDetail, consoilInfoUpdate, infoAllCompany } from '@/api/carrier'
 import * as localEnum from '@/utils/enum'
 export default {
-  name:'carrierAdd',
-  components: { Sticky},
-  data(){
+  name: 'carrierAdd',
+  components: { Sticky },
+  data() {
     return {
-      searchForm:{
+      searchForm: {
 
       },
-      expressConfig:[],
+      expressConfig: [],
       localEnum
     }
   },
 
   computed: {
-      ...mapGetters({
-        'mapConfig':'mapConfig',
-         visitedViews: 'visitedViews'
-      })
+    ...mapGetters({
+      'mapConfig': 'mapConfig',
+      visitedViews: 'visitedViews'
+    })
   },
   watch: {
     '$route': 'getDetail'
   },
 
-  mounted(){
+  mounted() {
     this.getDetail()
   },
 
   methods: {
     getDetail() {
-      if(this.$route.query.type==='modify'){
-         consoilInfoDetail({
-           consolidatorCode:this.$route.query.consoildatorCode
-         }).then(res=>{
-           if(res.success){
-             this.searchForm=res.data;
-           }
-         }).catch(err=>{
-           console.error(err)
-         })
-       }
-    },
-     querySearchAsync(queryString) {
-       infoAllCompany({
-         companyName:queryString
-       }).then(res=>{
-          if(res.success){
-            this.expressConfig=res.data
+      if (this.$route.query.type === 'modify') {
+        consoilInfoDetail({
+          consolidatorCode: this.$route.query.consoildatorCode
+        }).then(res => {
+          if (res.success) {
+            res.data.consoildatorState = Number(res.data.consoildatorState)
+            this.searchForm = res.data;
           }
-       }).catch(err=>{
-         console.error(err)
-       })
-     },
-     submit(type){
-       const view = this.visitedViews.filter(v => v.path === this.$route.path)
-       this.$refs['searchForm'].validate((valid) => {
-          if (valid) {
-            let api=consoilInfoSave;
-            if(this.$route.query.type==='modify'){
-              api=consoilInfoUpdate;
-              this.searchForm.consoildatorCode=this.$route.query.consoildatorCode
-            } else {
-              delete this.searchForm.id
-              delete this.searchForm.consoildatorCode
-            }
-            api(this.searchForm).then(res=>{
-              if(res.success){
-                this.$message({
-                  type:'success',
-                  message:'操作成功,即将跳转到详情页！' ,
-                  duration:1500,
-                  onClose:()=>{
-                    this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                      this.$router.push({
-                        path:`/carrier/detail?consoildatorCode=${this.$route.query.consoildatorCode||res.data}`,
-                      })
-                    }).catch(err=>{
-                      console.error(err)
+        }).catch(err => {
+        })
+      }
+    },
+    querySearchAsync(queryString) {
+      infoAllCompany({
+        companyName: queryString
+      }).then(res => {
+        if (res.success) {
+          this.expressConfig = res.data
+        }
+      }).catch(err => {
+      })
+    },
+    submit(type) {
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
+      this.$refs['searchForm'].validate((valid) => {
+        if (valid) {
+          let api = consoilInfoSave;
+          if (this.$route.query.type === 'modify') {
+            api = consoilInfoUpdate;
+            this.searchForm.consoildatorCode = this.$route.query.consoildatorCode
+          } else {
+            delete this.searchForm.id
+            delete this.searchForm.consoildatorCode
+          }
+          api(this.searchForm).then(res => {
+            if (res.success) {
+              this.$message({
+                type: 'success',
+                message: '操作成功,即将跳转到详情页！',
+                duration: 1500,
+                onClose: () => {
+                  this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                    this.$router.push({
+                      path: `/carrier/detail?consoildatorCode=${this.$route.query.consoildatorCode || res.data}`,
                     })
-                  }
-                })
-              } else{
-                this.$message.error('操作失败')
-              }
-            }).catch(err=>{
+                  }).catch(err => {
+                  })
+                }
+              })
+            } else {
               this.$message.error('操作失败')
-              console.error(err)
-            })
-          }
-       })
+            }
+          }).catch(err => {
+            this.$message.error('操作失败')
+          })
+        }
+      })
     },
-
   }
 }
 
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-  .addCarrier{
-    .operationitem{
-      display: flex;
-      justify-content: flex-end;
-      margin: 16px 0;
-    }
-  }
-
-  .providerList{
+.addCarrier {
+  .operationitem {
     display: flex;
-    justify-content: space-between;
-    >span{
-      &:first-child{
-        min-width: 150px;
-      }
-      &:nth-child(2){
-        min-width: 100px;
-      }
+    justify-content: flex-end;
+    margin: 16px 0;
+  }
+}
+
+.providerList {
+  display: flex;
+  justify-content: space-between;
+  > span {
+    &:first-child {
+      min-width: 150px;
+    }
+    &:nth-child(2) {
+      min-width: 100px;
     }
   }
-
+}
 </style>
