@@ -415,7 +415,12 @@ export default {
         this.batchLoading = false
         if (res.success) {
           let showmessage=(res.data?res.data:'操作成功！')
-          this.$message.success(showmessage)
+          this.$message({
+            message:showmessage,
+            type:'success',
+            duration:5000
+          })
+          // this.$message.success(showmessage)
           this.$refs.listTable.clearSelection()
           this.getCurrentTableData()
         }
