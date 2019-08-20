@@ -10,7 +10,8 @@ export const tableConfig = [
   { label: '数量', prop: 'skuOutQty', },
   { label: '已出', prop: 'realOutQty', },
   { label: '客户销价', prop: 'outStorePrice', },
-  { label: '金额', prop: 'planOutAmt', }
+  { label: '金额', prop: 'planOutAmt', },
+  { label: '备注', prop: 'remarkInfo', }
 ];
 
 export const infoConfig = [
@@ -61,6 +62,7 @@ export const addtable_config = [
   { label: '型号', prop: 'skuModel', width: 120 },
   { label: '数量', prop: 'planOutQty', useEdit: true, width: 120 },
   { label: '客户销价', prop: 'sellPrice', },
+  { label: '备注', prop: 'remarkInfo', }
 ]
 
 export const addPlanOrder_config = [
@@ -73,6 +75,7 @@ export const addPlanOrder_config = [
   { label: '客户销价', prop: 'outStorePrice', className: 'Price' },
   { label: '计划出库数量', prop: 'planOutQty' },
   { label: '出库仓库', prop: 'warehouseName' },
+  { label: '备注', prop: 'remarkInfo' },
   { label: '操作', fixed: 'right', width: 120 },
 ]
 

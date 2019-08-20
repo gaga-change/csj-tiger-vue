@@ -40,6 +40,7 @@
       v-loading="loading"
       row-key="id"
       max-height="400"
+      ref="tabledata"
     >
       <el-table-column type="selection" :selectable="checkSelectable" reserve-selection></el-table-column>
       <el-table-column label="序号" width="60">
@@ -105,6 +106,7 @@ export default {
         this.pageNum = result.pageNum
         this.total = result.total
         this.loading = false
+        this.$refs.tabledata.clearSelection()
       }).catch(err => {
         console.error(err)
         this.loading = false
@@ -115,6 +117,7 @@ export default {
     },
     resetForm() {
       this.$refs.searchForm.resetFields()
+      this.$refs.tabledata.clearSelection()
       this.fetchData()
     },
     handleSelectionChange(val) {

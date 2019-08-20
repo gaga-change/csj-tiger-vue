@@ -273,11 +273,12 @@
     <el-row class="mt20 mb30">
       <el-button
         type="primary"
-        @click="onSubmit"
+        @click="onSubmit('once')"
         v-loading="submitloading"
         :disabled="submitloading"
         >提交</el-button
       >
+      <el-button type="primary" @click="onSubmit('again')" v-loading="againloading" :disabled="submitloading">提交再新增</el-button>
       <el-button @click="onCancel">取消</el-button>
     </el-row>
   </el-form>
@@ -352,7 +353,8 @@ export default {
       },
       outStoreVisible: false,
       localEnum,
-      addressData: []
+      addressData: [],
+      againloading:false
     }
   },
 
@@ -538,10 +540,15 @@ export default {
       }
     },
 
-    onSubmit() {
+    onSubmit(type) {
+      let submittype=type
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          this.submitloading = true
+          if(submittype=='once'){
+            this.submitloading = true
+          }else{
+            this.againloading = true
+          }
           const {
             carrier,
             ...rest
@@ -565,16 +572,29 @@ export default {
           }
           FUNCTION(postData).then(res => {
             this.submitloading = false
+            this.againloading=false
             if (res.success) {
-              const view = this.visitedViews.filter(v => v.path === this.$route.path)
               this.$alert('操作成功').then(() => {
-                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                  this.$router.push({ name: 'logisticsList' })
-                })
+                if(submittype=='once'){
+                  const view = this.visitedViews.filter(v => v.path === this.$route.path)
+                  this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                    this.$router.push({ name: 'logisticsList' })
+                  })
+                }else{
+                  for(let i in this.addForm){
+                    this.addForm[i]=null
+                  }
+                  this.addForm.costCalcWay=1
+                  this.addForm.chargeType=2
+                  this.addForm.settlementType=3
+                  this.outTableData=[]
+                  this.unionOutStore()
+                }
               })
             }
           }).catch(err => {
             this.submitloading = false
+            this.againloading=false
           })
         }
       })

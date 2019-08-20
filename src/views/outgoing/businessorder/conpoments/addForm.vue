@@ -51,6 +51,20 @@
             ></el-input>
           </el-form-item>
         </el-col>
+        <el-col>
+          <el-form-item
+            label="备注:"
+          >
+            <el-input
+              v-model="searchForm.remarkInfo"
+              placeholder="请输入备注"
+              size="small"
+              class="formitem"
+              type="textarea"
+              maxlength="100"
+            ></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div class="btnBox">

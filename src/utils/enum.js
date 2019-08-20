@@ -989,3 +989,13 @@ export const insureState = [{
   value: 1
 }
 ]
+
+export const isPrint = [{
+  name: '否',
+  value: 0
+},
+{
+  name: '是',
+  value: 1
+}
+]

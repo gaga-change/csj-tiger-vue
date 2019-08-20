@@ -178,6 +178,14 @@ export function outOrderPrint(data={}) {
   })
 }
 
+export function planOrderPrint(data={}) {
+  return request({
+    url: `/webApi/out/plan/print`,
+    method: 'put',
+    data: data,
+  })
+}
+
 
 //出库业务单审核
 export function outBillCheck(outWarehouseBillId) {
@@ -300,5 +308,13 @@ export function outPlanCheckBatch(data) {
     url: `/webApi/out/plan/check/batch`,
     method: 'PUT',
     data: data,
+  })
+}
+
+//出库计划单挂起删除
+export function outPlandelete(data) {
+  return request({
+    url: `/webApi/out/plan/del/${data}`,
+    method: 'PUT'
   })
 }

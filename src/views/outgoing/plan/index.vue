@@ -279,7 +279,30 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-
+            <el-col
+              :sm="12"
+              :md="8"
+              :lg="8"
+              :xl="6"
+            >
+              <el-form-item
+                label="打印状态"
+                prop="isPrint"
+              >
+                <el-select
+                  @change="submitForm('ruleForm')"
+                  v-model="ruleForm.isPrint"
+                  placeholder="请选择打印状态"
+                >
+                  <el-option
+                    v-for="item in printState"
+                    :label="item.value"
+                    :key="item.key"
+                    :value="item.key"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item
                 label="计划出库日期"
@@ -291,13 +314,31 @@
                   @change="timeChange"
                   :picker-options="$pickerOptions"
                   type="daterange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
+                  start-placeholder="开始"
+                  end-placeholder="结束"
+                  size="mini"
                 >
                 </el-date-picker>
               </el-form-item>
             </el-col>
-
+            <el-col :span="24">
+              <el-form-item
+                label="创建日期"
+                prop="time"
+                label-width="60px"
+              >
+                <el-date-picker
+                  v-model="ruleForm.createtime"
+                  @change="createChange"
+                  :picker-options="$pickerOptions"
+                  type="daterange"
+                  start-placeholder="开始"
+                  end-placeholder="结束"
+                  size="mini"
+                >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
             <el-col :span="24">
               <el-form-item>
                 <el-button
@@ -404,6 +445,11 @@
               @click="receivingRegistration(scope.row)"
             >收货登记</span>
             <span
+              v-if="scope.row.issuedState===7"
+              class="tableLink"
+              @click="deleteItem(scope.row.planCode)"
+            >删除</span>
+            <span
               v-if="scope.row.planState === 0 || scope.row.planState === 1"
               class="tableLink"
               @click="closePlan(scope.row)"
@@ -455,7 +501,7 @@
 
 <script>
 import moment from 'moment';
-import { outPlanSelect, outPlanCheckBatch, outPlanClose } from '@/api/outgoing'
+import { outPlanSelect, outPlanCheckBatch, outPlanClose, planOrderPrint, outPlandelete } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig, manual_config, printingTable_config } from './config';
@@ -482,7 +528,10 @@ export default {
         pageNum: 1,
         pageSize: 10,
         hangUpType: '',
-        issuedState: ''
+        issuedState: '',
+        createtime:[],
+        gmtCreateTo:null,
+        gmtCreateFrom:null
       },
       total: 0,
       rules: {},
@@ -498,6 +547,7 @@ export default {
       printingVisible: false,
       printingTable_data: {},
       printingTable_config,
+      printState:[{key:0,value:'否'},{key:1,value:'是'}]
     }
   },
 
@@ -604,6 +654,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
+      this.ruleForm.createtime=[]
       this.getCurrentTableData()
     },
 
@@ -611,7 +662,10 @@ export default {
       this.ruleForm = { ...this.ruleForm, time: value };
       this.getCurrentTableData()
     },
-
+    createChange(value){
+      this.ruleForm = { ...this.ruleForm, createtime: value };
+      this.getCurrentTableData()
+    },
     handleSizeChange(val) {
       this.ruleForm = { ...this.ruleForm, pageSize: val, pageNum: 1 }
       this.getCurrentTableData()
@@ -633,7 +687,13 @@ export default {
               json['planTimeFrom'] = arr[0];
               json['planTimeTo'] = arr[1];
             }
-          } else {
+          } else if(i==='createtime') {
+            let arr = this.ruleForm[i].map(v => moment(v).valueOf());
+            if (arr.every(v => v) && arr.length > 1) {
+              json['gmtCreateFrom'] = arr[0];
+              json['gmtCreateTo'] = arr[1];
+            }
+          }else{
             json[i] = this.ruleForm[i]
           }
 
@@ -675,11 +735,29 @@ export default {
         cancelButtonText: '否',
         type: 'info'
       }).then(() => {
-        outOrderPrint(this.selectData.map(v => v.id))
+        planOrderPrint(this.selectionList.map(v => v.id)).then(res=>{
+          this.selectionList=[]
+          this.$refs.listTable.clearSelection()
+        })
         this.getCurrentTableData()
       }).catch(() => {
       })
     },
+    deleteItem(planCode){
+      this.$confirm('确认删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        outPlandelete(planCode).then(res=>{
+          if (res.success){
+            this.$message.success('删除成功')
+            this.getCurrentTableData()
+          }
+        })
+      }).catch(() => {
+      })
+    }
   }
 }
 </script>

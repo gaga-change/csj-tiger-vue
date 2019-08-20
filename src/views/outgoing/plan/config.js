@@ -16,6 +16,7 @@ export const tableConfig = [
   { label: '商品名称', prop: 'skuName' },
   { label: '规格型号', prop: 'skuFormat' },
   { label: '品牌', prop: 'skuBrandName' },
+  { label: '备注', prop: 'remarkInfo' },
   {
     label: '已出/应出', fixed: false, dom: (row, column, cellValue, index) => {
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
@@ -64,7 +65,9 @@ export const indexTableConfig = [
   { label: '货主', prop: 'ownerName', width: 180 },
   { label: '计划出库仓库', prop: 'planWarehouseName', width: 130 },
   { label: '执行状态', prop: 'execStatus', type: 'execState', useLocalEnum: true, width: 80 },
+  { label: '打印状态', prop: 'isPrint', type: 'isPrint', useLocalEnum: true, width: 80 },
   { label: '计划出库日期', prop: 'planOutTime', type: 'time', width: 140 },
+  { label: '创建日期', prop: 'gmtCreate', type: 'time', width: 140 },
 ]
 
 //手工出库页面基本配置
