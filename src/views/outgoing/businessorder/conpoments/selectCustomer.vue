@@ -115,7 +115,7 @@ export default {
       this.searchParams.ownerCode = val
     },
     busiBillType(val) {
-      this.searchParams.busiBillType = val
+      this.searchParams.billType = val
     }
   },
   computed: {
