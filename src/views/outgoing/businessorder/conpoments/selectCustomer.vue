@@ -106,7 +106,7 @@ export default {
         skuName: undefined,
         skuCode: undefined,
         ownerCode: this.ownerCode,
-        busiBillType: this.busiBillType
+        billType: this.busiBillType
       }
     }
   },
