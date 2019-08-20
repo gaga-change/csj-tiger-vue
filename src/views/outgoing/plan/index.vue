@@ -332,6 +332,12 @@
           size="mini"
         >导出Excel</el-button>
       </a>
+      <el-button
+        type="primary"
+        size="small"
+        @click="printing"
+        class="ml10"
+      >打印出库计划单</el-button>
     </div>
     <el-table
       :data="tableData"
@@ -416,6 +422,34 @@
       :total="total"
     >
     </el-pagination>
+    <el-dialog
+      title="打印发货清单"
+      :visible.sync="printingVisible"
+      width="841px"
+      :before-close="handleClose"
+    >
+      <div
+        id="invoice"
+        class="scrolldiv"
+      >
+        <invoice
+          v-for="invoice in printingTable_data"
+          :data="invoice"
+          :key="invoice.id"
+          :config="printingTable_config"
+        />
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="surePrinting"
+        >打印</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -424,13 +458,15 @@ import moment from 'moment';
 import { outPlanSelect, outPlanCheckBatch, outPlanClose } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
-import { indexTableConfig, manual_config } from './config';
+import { indexTableConfig, manual_config, printingTable_config } from './config';
 import { warehousingPlanBillStatus, hangUpTypeEnum, pushState } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { stringify } from 'qs';
+import { MakePrint } from '@/utils'
+import Invoice from './listinvoice'
 export default {
   name: 'outgoing-plan-index',
-  components: { BaseTable, editTable },
+  components: { BaseTable, editTable, Invoice },
   data() {
     return {
       ruleForm: {
@@ -458,7 +494,10 @@ export default {
       pushState,
       linkData: '',
       batchLoading: false,
-      selectionList: []
+      selectionList: [],
+      printingVisible: false,
+      printingTable_data: {},
+      printingTable_config,
     }
   },
 
@@ -613,7 +652,34 @@ export default {
       }).catch(err => {
         this.loading = false;
       })
-    }
+    },
+    printing(){
+      if (!this.selectionList.length) {
+        return this.$message.warning(`请勾选出库计划单进行打印！`)
+      }
+      this.printingVisible = true;
+      this.printingTable_data = [...this.selectionList]
+    },
+    handleClose() {
+      this.printingVisible = false;
+    },
+    surePrinting() {
+      let printContainer = document.getElementById('invoice').innerHTML;
+      MakePrint(printContainer);
+      this.printingVisible = false;
+      this.afterPrint()
+    },
+    afterPrint() {
+      this.$confirm('是否已成功打印?', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'info'
+      }).then(() => {
+        outOrderPrint(this.selectData.map(v => v.id))
+        this.getCurrentTableData()
+      }).catch(() => {
+      })
+    },
   }
 }
 </script>

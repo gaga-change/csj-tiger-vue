@@ -316,7 +316,9 @@ export default {
   data() {
     return {
       addForm: {
-        costCalcWay: 1
+        costCalcWay: 1,
+        chargeType:2,
+        settlementType:3
       },
       carrier: [],
       submitloading: false,

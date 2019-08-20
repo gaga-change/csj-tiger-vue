@@ -55,6 +55,7 @@ export const deliveryConfig = [
   { label: '配送单号', prop: 'dispatchNo', width:150},
   { label: '物流单号', prop: 'logisticsOrderCode', width:150},
   { label: '出库日期', prop: 'outStoreTime', type: 'time', width:150},
+  { label: '发货日期', prop: 'gmtCreate', type: 'time', width:150},
   { label: '商品编码', prop: 'skuCode', width:150},
   { label: '规格', prop: 'skuFormat', width:120},
   { label: '单位', prop: 'skuUnitName'},
