@@ -1,7 +1,7 @@
 'use strict'
 
 const path = require('path')
-const ip='http://172.16.81.26:7878';//苗哥
+// const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://172.16.81.26:5566';//苗哥2
 // const ip='http://192.168.2.167:7878';//修号
 // const ip='http://192.168.2.163:7878';//红兵
@@ -10,7 +10,7 @@ const ip='http://172.16.81.26:7878';//苗哥
 // const ip='http://172.16.80.83:7878';//亚超
 // const ip='http://172.16.81.219:7878';//龙
 // const ip='http://192.168.2.150:7878';//姚旭
-// const ip = 'http://192.168.1.37:7878'; // 测试环境。 需配置 host 文件，`127.0.0.1 testtiger.csjmro.com` 即可生效。
+const ip = 'http://192.168.1.37:7878'; // 测试环境。 需配置 host 文件，`127.0.0.1 testtiger.csjmro.com` 即可生效。
 
 const proxyTableArr = ['/csj_login', '/csj_logout', '/webApi', '/api'];
 
@@ -31,7 +31,8 @@ module.exports = {
     proxyTable: proxyTable,
 
     // Various Dev Server settings
-    host: '192.168.2.142', // can be overwritten by process.env.HOST
+    // host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: 'testtiger.csjmro.com', // can be overwritten by process.env.HOST
     port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
