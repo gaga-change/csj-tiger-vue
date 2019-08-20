@@ -389,14 +389,14 @@
               :xl="6"
             >
               <el-form-item
-                label="销售区分："
+                label="在库区分："
                 prop="saleType"
                 :rules="[{required: true, message:'必填项', trigger: 'change'}]"
               >
                 <el-select
                   v-model="productForm.saleType"
                   clearable
-                  placeholder="请选择销售区分"
+                  placeholder="请选择在库区分"
                   size="small"
                   class="formitem"
                 >
@@ -760,7 +760,7 @@
               :xl="6"
             >
               <el-form-item
-                label="在库区分："
+                label="销售区分："
                 prop="skuStockType"
               >
                 <el-input
@@ -768,7 +768,7 @@
                   v-model="productForm.skuStockType"
                   class="formitem"
                   size="small"
-                  placeholder="请输入在库区分"
+                  placeholder="请输入销售区分"
                 >
                 </el-input>
               </el-form-item>

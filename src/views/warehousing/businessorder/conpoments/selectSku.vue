@@ -52,7 +52,7 @@
       />
       <el-table-column
         property="saleType"
-        label="销售区分"
+        label="在库区分"
       >
         <template slot-scope="scope">
           {{ saleTypeMap[scope.row.saleType || ''] || '' }}

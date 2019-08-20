@@ -89,7 +89,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="销售区分：" prop="saleType">
+          <el-form-item label="在库区分：" prop="saleType">
             <span>{{productForm.saleType|apiEnum(mapConfig, 'getSaleType')}}</span>
           </el-form-item>
         </el-col>
@@ -184,7 +184,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="在库区分：" prop="skuStockType">
+          <el-form-item label="销售区分：" prop="skuStockType">
             <span>{{productForm.skuStockType}}</span>
           </el-form-item>
         </el-col>
