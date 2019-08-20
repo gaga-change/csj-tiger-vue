@@ -459,7 +459,8 @@ export default {
       Methods[type](postData[type]).then(res => {
         this.batchLoading = false
         if (res.success) {
-          this.$message.success('操作成功！')
+          let showmessage=(res.data?res.data:'操作成功！')
+          this.$message.success(showmessage)
           this.$refs.listTable.clearSelection()
           this.getCurrentTableData()
         }
