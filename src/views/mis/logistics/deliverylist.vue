@@ -85,7 +85,12 @@ export default {
       exportExcel({
         list: exportlist,
         tHeader: this.deliveryConfig.map(item => item.label),
-        filterVal: this.deliveryConfig.map(item => item.prop),
+        filterVal: this.deliveryConfig.map(item => {
+          if (item.type === 'type') {
+            item.prop = moment(item.prop).format('YYYY-MM-DD HH:mm:ss')
+          }          
+          return item.prop
+        }),
       })
     },
   }

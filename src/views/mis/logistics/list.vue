@@ -46,7 +46,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
-          
+
           <div style="display: flex; flexWrap: nowrap">
             <a
               @click="view({ id: scope.row.id })"
@@ -68,7 +68,7 @@
               删除
             </a>
             <el-dropdown>
-              <span class="el-dropdown-link">
+              <span class="el-dropdown-link f12">
                 更多操作<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -78,9 +78,12 @@
                   </span>
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="getdispatchDetail(scope.row.dispatchNo)">
-                  <span :style="linkstyle" >配送明细</span>
+                  <span :style="linkstyle">配送明细</span>
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="addFee(scope.row)" v-if="scope.row.invoiceState === 2">
+                <el-dropdown-item
+                  @click.native="addFee(scope.row)"
+                  v-if="scope.row.invoiceState === 2"
+                >
                   <span :style="linkstyle">
                     代支费用
                   </span>
@@ -101,33 +104,33 @@
       :total="total"
     >
     </el-pagination>
-  <el-dialog
-    :visible.sync="logisticsVisible"
-    title="物流信息"
-    width="500px"
-  >
-    <el-table
-      :data="routeinfo[viewid]"
-      v-loading="logloading"
-      height="400"
+    <el-dialog
+      :visible.sync="logisticsVisible"
+      title="物流信息"
+      width="500px"
     >
-      <el-table-column
-        width="150"
-        label="发生时间"
+      <el-table
+        :data="routeinfo[viewid]"
+        v-loading="logloading"
+        height="400"
       >
-        <template slot-scope="scope">
-          <span>{{
+        <el-table-column
+          width="150"
+          label="发生时间"
+        >
+          <template slot-scope="scope">
+            <span>{{
             scope.row.eventTime | parseTime
           }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        width="300"
-        property="remarkInfo"
-        label="物流信息"
-      ></el-table-column>
-    </el-table>
-  </el-dialog>
+          </template>
+        </el-table-column>
+        <el-table-column
+          width="300"
+          property="remarkInfo"
+          label="物流信息"
+        ></el-table-column>
+      </el-table>
+    </el-dialog>
     <el-dialog
       :visible.sync="feeVisible"
       title="代支费用"
@@ -234,14 +237,14 @@
       </el-dialog>
     </el-dialog>
     <el-dialog
-    :visible.sync="deliveryVisible"
-    title="配送明细"
-    width="1000px"
+      :visible.sync="deliveryVisible"
+      title="配送明细"
+      width="1000px"
     >
       <base-table
-      :config="deliveryConfig"
-      :tableData="deliveryData"
-    />
+        :config="deliveryConfig"
+        :tableData="deliveryData"
+      />
     </el-dialog>
   </div>
 </template>
@@ -300,11 +303,11 @@ export default {
       tableLoading: false,
       routeinfo: {},
       logloading: false,
-      logisticsVisible:false,
-      viewid:null,
-      deliveryData:[],
+      logisticsVisible: false,
+      viewid: null,
+      deliveryData: [],
       deliveryConfig,
-      deliveryVisible:false
+      deliveryVisible: false
     }
   },
   computed: {
@@ -328,15 +331,15 @@ export default {
     this.fetchData()
   },
   methods: {
-    getdispatchDetail(dispatchNo){
-      this.deliveryVisible=true
-      dispatchDetailInfo({dispatchNo:dispatchNo}).then(res=>{
-        this.deliveryData=res.data.detailExcelVOS?res.data.detailExcelVOS:null
+    getdispatchDetail(dispatchNo) {
+      this.deliveryVisible = true
+      dispatchDetailInfo({ dispatchNo: dispatchNo }).then(res => {
+        this.deliveryData = res.data.detailExcelVOS ? res.data.detailExcelVOS : null
       })
     },
     viewLog({ id }) {
-      this.logisticsVisible=true
-      this.viewid=id
+      this.logisticsVisible = true
+      this.viewid = id
       if (!this.routeinfo[id]) {
         this.logloading = true
         queryRouteInfo(id).then(res => {
@@ -543,8 +546,8 @@ export default {
 </script>
 
 <style lang="css">
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
 </style>

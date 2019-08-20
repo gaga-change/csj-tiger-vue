@@ -106,7 +106,7 @@ export default {
         skuName: undefined,
         skuCode: undefined,
         ownerCode: this.ownerCode,
-        busiBillType: this.busiBillType
+        billType: this.busiBillType
       }
     }
   },
@@ -115,7 +115,7 @@ export default {
       this.searchParams.ownerCode = val
     },
     busiBillType(val) {
-      this.searchParams.busiBillType = val
+      this.searchParams.billType = val
     }
   },
   computed: {
