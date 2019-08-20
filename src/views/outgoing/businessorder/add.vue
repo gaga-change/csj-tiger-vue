@@ -24,7 +24,6 @@
         >保存</el-button>
       </template>
     </sticky>
-
     <el-card shadow="hover">
       <el-form
         ref="searchForm"
@@ -32,7 +31,6 @@
         :model="searchForm"
       >
         <el-row>
-
           <el-col
             :sm="12"
             :md="8"
@@ -61,7 +59,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -186,40 +183,17 @@
               prop="arrivalCode"
               :rules="[{ required: true, message: '该项为必填'}]"
             >
-              <el-select
+
+              <select-customer
+                :label="isCustomerKeyArr.includes(searchForm.busiBillType)?'客户':'供应商'"
                 v-model="searchForm.arrivalCode"
-                filterable
-                size="small"
-                @focus="providerFocus"
+                :ownerCode="searchForm.ownerCode"
+                :busiBillType="searchForm.busiBillType"
                 @change="providerChange"
-                placeholder="请选择"
-                :loading="customerInfoLoading"
               >
-                <el-option
-                  value=""
-                  v-if="providerConfig.length"
-                  :disabled="true"
-                >
-                  <div class="providerList">
-                    <span>{{isCustomerKeyArr.includes(searchForm.busiBillType)?'客户编号':'供应商编号'}}</span>
-                    <span>{{isCustomerKeyArr.includes(searchForm.busiBillType)?'客户名称':'供应商名称'}}</span>
-                  </div>
-                </el-option>
-                <el-option
-                  v-for="item in providerConfig"
-                  :key="item.id"
-                  :label="item.customerName"
-                  :value="item.customerCode"
-                >
-                  <div class="providerList">
-                    <span>{{ item.customerCode }}</span>
-                    <span>{{ item.customerName }}</span>
-                  </div>
-                </el-option>
-              </el-select>
+              </select-customer>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -234,7 +208,6 @@
               <el-select
                 size="small"
                 @change="arrivalAddressChange"
-                v-if="addrListConfig.length"
                 v-model="searchForm.arrivalAddress"
                 placeholder="请选择地址"
               >
@@ -260,14 +233,6 @@
                   </div>
                 </el-option>
               </el-select>
-              <el-input
-                v-else
-                v-model="searchForm.arrivalAddress"
-                @focus="arrivalAddressFocus"
-                placeholder="请输入地址"
-                size="small"
-                class="formitem"
-              ></el-input>
             </el-form-item>
           </el-col>
 
@@ -444,7 +409,6 @@
               ></el-input>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -508,7 +472,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <div class="tableBox">
           <div class="tableTitle">
             <item-title text="商品明细" />
@@ -529,7 +492,6 @@
             :allTableData="searchForm.outWarehouseBillDetailList"
           />
         </div>
-
         <el-dialog
           title="新增商品"
           :visible.sync="addVisible"
@@ -539,7 +501,7 @@
           <add-form
             v-loading="skuInfoListLoading"
             @submit="submit"
-            :skuList="skuList"
+            :ownerCode="searchForm.ownerCode"
             @skuCodeChange="skuCodeChange"
             :searchForm="addCommodityForm"
             @handleClose="handleClose"
@@ -555,16 +517,23 @@ import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import addForm from './conpoments/addForm'
 import { outgoingOrderTypeEnum, sendOutRequireEnum } from "@/utils/enum.js";
-import { customerInfo } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
+import { getProductList } from '@/api/productcenter'
 import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove } from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
 import _ from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';
+import selectCustomer from './conpoments/selectCustomer'
+
 export default {
   name: "businessorderadd",
-  components: { editTable, addForm, Sticky },
+  components: { editTable, addForm, Sticky, selectCustomer },
+  provide() {
+    return {
+      ownerCode: this.searchForm.ownerCode
+    }
+  },
   data() {
     return {
       skuInfoListLoading: false,
@@ -574,6 +543,8 @@ export default {
       //表单项
       searchForm: {
         saleType: 1,
+        busiBillType: 21,
+        ownerCode: '',
         outWarehouseBillDetailList: []
       },
       //表单table配置项
@@ -588,12 +559,11 @@ export default {
       //枚举项
       outgoingOrderTypeEnum,//出库类型
       sendOutRequireEnum,//发货要求
-      //供应商下拉配置
-      providerConfig: [],
       //地址下拉配置
       addrListConfig: [],
-      warehouseList: []
-    };
+      warehouseList: [],
+      selectProvider: null, // 选择的 供应商|客户
+    }
   },
 
   mounted() {
@@ -621,9 +591,6 @@ export default {
           }
           this.addtable_config = addtable_config;
           this.searchForm = searchForm;
-          if (this.searchForm.ownerCode) {
-            this.getCustomerInfo(this.searchForm.ownerCode);
-          }
         }
       }).catch(err => {
       })
@@ -648,11 +615,9 @@ export default {
   },
 
   methods: {
-
     //添加商品时选择商品编码的回调
     skuCodeChange(value) {
-      let skuList = _.cloneDeep(this.skuList);
-      this.addCommodityForm = skuList.find(v => v.skuCode === value)
+      this.addCommodityForm = value
     },
 
     //业务单类型变化回调
@@ -663,8 +628,7 @@ export default {
       })
       searchForm.outWarehouseBillDetailList = [];
       this.searchForm = searchForm;
-      this.providerConfig = [];
-      this.addrListConfig = [];
+      this.addrListConfig = []
 
       let addtable_config = _.cloneDeep(this.addtable_config);
       let index = addtable_config.findIndex(v => ['客户销价', '进货价'].includes(v.label));
@@ -674,7 +638,6 @@ export default {
         addtable_config[index] = { label: '进货价', prop: 'purchasePrice', }
       }
       this.addtable_config = addtable_config;
-      this.getCustomerInfo(this.searchForm.ownerCode)
     },
 
     //选择货主
@@ -687,7 +650,6 @@ export default {
       searchForm.warehouseCode = '';
       searchForm.outWarehouseBillDetailList = [];
       this.searchForm = searchForm;
-      this.providerConfig = [];
       this.addrListConfig = [];
       this.warehouseList.length = 0
       this.showStore({ ownerCode: value })
@@ -703,29 +665,6 @@ export default {
       }).then(res => {
         this.warehouseCodeLoading = false
       })
-    },
-
-    //根据货主查供应商或者客户列表
-    getCustomerInfo(value) {
-      this.customerInfoLoading = true
-      return customerInfo(value, this.searchForm.busiBillType).then(res => {
-        if (res.success) {
-          this.providerConfig = Array.isArray(res.data) && res.data || [];
-        }
-      }).catch(err => {
-      }).then(res => {
-        this.customerInfoLoading = false
-      })
-    },
-
-
-    //供应商获取焦点
-    providerFocus() {
-      if (!this.searchForm.ownerCode) {
-        this.$message.error('请先选择货主');
-      } else {
-        this.getCustomerInfo(this.searchForm.ownerCode);
-      }
     },
 
     //地址获取焦点
@@ -754,18 +693,16 @@ export default {
     },
 
     //地址列表配置
-    providerChange(value) {
-      let provider = this.providerConfig.find(v => v.customerCode === value)
+    providerChange(provider) {
+      this.selectProvider = provider
       let searchForm = _.cloneDeep(this.searchForm);
       searchForm.arrivalAddress = '';
       searchForm.arrivalLinkUser = '';
       searchForm.arrivalLinkTel = '';
       this.searchForm = searchForm;
       this.addrListConfig = [];
-
-
       let id = provider.id
-      customerAddrInfo(value, this.searchForm.busiBillType).then(res => {
+      customerAddrInfo(provider.customerCode, this.searchForm.busiBillType).then(res => {
         if (res.success) {
           this.addrListConfig = Array.isArray(res.data) && res.data || [];
           const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
@@ -801,9 +738,6 @@ export default {
         }
         this.addtable_config = addtable_config;
         this.searchForm = searchForm;
-        if (this.searchForm.ownerCode) {
-          await this.getCustomerInfo(this.searchForm.ownerCode);
-        }
         this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode)
 
       } else {
@@ -835,20 +769,9 @@ export default {
           return
         }
         this.addVisible = true;
-        this.skuInfoListLoading = true
         this.skuList = []
         this.addCommodityForm = {}
-        skuInfoList(ownerCode).then(res => {
-          if (res.success) {
-            this.skuList = Array.isArray(res.data) && res.data || []
-          }
-        }).catch(err => {
-        }).then(res => {
-          this.skuInfoListLoading = false
-        })
-
       }
-
     },
 
     submit(type, value) {
@@ -873,7 +796,7 @@ export default {
                 json[v] = moment(json[v]).valueOf()
               }
             })
-            const provider = this.providerConfig.find(v => v.customerCode === json.arrivalCode) || {}
+            const provider = this.selectProvider
             json.ownerName = json.ownerName ? json.ownerName : this.mapConfig['billOwnerInfoMap'].find(v => v.key === json.ownerCode).value;
             json.arrivalName = json.arrivalName || provider.customerName
             let api = outBillAdd;
@@ -955,5 +878,9 @@ export default {
       min-width: 100px;
     }
   }
+}
+.el-table__body tr.current-row > td {
+  background: green !important;
+  color: #fff;
 }
 </style>

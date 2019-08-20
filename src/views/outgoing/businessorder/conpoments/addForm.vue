@@ -23,7 +23,6 @@
             </div>
           </el-form-item>
         </el-col>
-
         <el-col>
           <el-form-item
             label="商品名称:"
@@ -38,7 +37,6 @@
             ></el-input>
           </el-form-item>
         </el-col>
-
         <el-col>
           <el-form-item
             label="数量:"
@@ -55,7 +53,6 @@
         </el-col>
       </el-row>
     </el-form>
-
     <div class="btnBox">
       <el-button @click="$emit('handleClose')">取 消</el-button>
       <el-button
@@ -70,10 +67,12 @@
       height="60%"
       append-to-body
     >
-      <select-sku
-        :commodityList="skuList"
-        @select="selectChange"
-      />
+      <div v-if="selectVisiable">
+        <select-sku
+          @select="selectChange"
+          :ownerCode="ownerCode"
+        />
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -88,10 +87,9 @@ export default {
       type: Object,
       default: () => { }
     },
-
-    skuList: {
-      type: Array,
-      default: () => []
+    ownerCode: {
+      type: String,
+      default: ''
     }
   },
 
@@ -104,7 +102,7 @@ export default {
   methods: {
     selectChange(record) {
       this.selectVisiable = false
-      this.skuCodeChange(record.skuCode)
+      this.skuCodeChange(record)
     },
     showDialogTable() {
       this.selectVisiable = true
