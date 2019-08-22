@@ -157,7 +157,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="16">
+            <el-col :span="12">
               <el-form-item
                 label="制单日期"
                 prop="time"
@@ -173,7 +173,22 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-
+            <el-col
+              :span="6"
+              style="min-width:300px"
+            >
+              <el-form-item
+                label-width="80px"
+                label="外部订单号"
+                prop="busiBillNo"
+              >
+                <el-input
+                  v-model.lazy.trim="ruleForm.busiBillNo"
+                  @keyup.enter.native="submitForm('ruleForm')"
+                  placeholder="请输入外部订单号"
+                ></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="24">
               <el-form-item>
                 <el-button
@@ -414,11 +429,11 @@ export default {
       Methods[type](ids).then(res => {
         this.batchLoading = false
         if (res.success) {
-          let showmessage=(res.data?res.data:'操作成功！')
+          let showmessage = (res.data ? res.data : '操作成功！')
           this.$message({
-            message:showmessage,
-            type:'success',
-            duration:5000
+            message: showmessage,
+            type: 'success',
+            duration: 5000
           })
           // this.$message.success(showmessage)
           this.$refs.listTable.clearSelection()

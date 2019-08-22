@@ -38,6 +38,7 @@ export const infoConfig = [
 
 export const indexTableConfig = [
   { label: '业务单号', fixed: true, prop: 'billNo', linkTo: '/outgoing/businessorder-detail', query: [{ key: 'id', value: 'id' }, { key: 'busiBillNo', value: 'busiBillNo' }], width: 160 },
+  { label: '外部订单号', prop: 'busiBillNo', width: 120 },
   { label: '合同编号', prop: 'contractNo', width: 120 },
   { label: '货主', prop: 'ownerName', width: 180 },
   { label: '客户名称', prop: 'arrivalName', width: 180 },
