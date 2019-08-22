@@ -403,7 +403,15 @@
         :width="column.width"
       >
         <template slot-scope="scope">
-          <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
+          <span
+            v-if="column.prop === 'hangUpType' && scope.row[column.prop]"
+            class="c-red"
+          >
+            {{
+            scope.row[column.prop] | localEnum(column.type)
+            }}
+          </span>
+          <span v-else-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
           <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
             scope.row[column.prop] | parseTime
             }}</span>
@@ -529,9 +537,9 @@ export default {
         pageSize: 10,
         hangUpType: '',
         issuedState: '',
-        createtime:[],
-        gmtCreateTo:null,
-        gmtCreateFrom:null
+        createtime: [],
+        gmtCreateTo: null,
+        gmtCreateFrom: null
       },
       total: 0,
       rules: {},
@@ -547,7 +555,7 @@ export default {
       printingVisible: false,
       printingTable_data: {},
       printingTable_config,
-      printState:[{key:0,value:'否'},{key:1,value:'是'}]
+      printState: [{ key: 0, value: '否' }, { key: 1, value: '是' }]
     }
   },
 
@@ -654,7 +662,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
-      this.ruleForm.createtime=[]
+      this.ruleForm.createtime = []
       this.getCurrentTableData()
     },
 
@@ -662,7 +670,7 @@ export default {
       this.ruleForm = { ...this.ruleForm, time: value };
       this.getCurrentTableData()
     },
-    createChange(value){
+    createChange(value) {
       this.ruleForm = { ...this.ruleForm, createtime: value };
       this.getCurrentTableData()
     },
@@ -687,13 +695,13 @@ export default {
               json['planTimeFrom'] = arr[0];
               json['planTimeTo'] = arr[1];
             }
-          } else if(i==='createtime') {
+          } else if (i === 'createtime') {
             let arr = this.ruleForm[i].map(v => moment(v).valueOf());
             if (arr.every(v => v) && arr.length > 1) {
               json['gmtCreateFrom'] = arr[0];
               json['gmtCreateTo'] = arr[1];
             }
-          }else{
+          } else {
             json[i] = this.ruleForm[i]
           }
 
@@ -713,7 +721,7 @@ export default {
         this.loading = false;
       })
     },
-    printing(){
+    printing() {
       if (!this.selectionList.length) {
         return this.$message.warning(`请勾选出库计划单进行打印！`)
       }
@@ -735,22 +743,22 @@ export default {
         cancelButtonText: '否',
         type: 'info'
       }).then(() => {
-        planOrderPrint(this.selectionList.map(v => v.id)).then(res=>{
-          this.selectionList=[]
+        planOrderPrint(this.selectionList.map(v => v.id)).then(res => {
+          this.selectionList = []
           this.$refs.listTable.clearSelection()
         })
         this.getCurrentTableData()
       }).catch(() => {
       })
     },
-    deleteItem(planCode){
+    deleteItem(planCode) {
       this.$confirm('确认删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        outPlandelete(planCode).then(res=>{
-          if (res.success){
+        outPlandelete(planCode).then(res => {
+          if (res.success) {
             this.$message.success('删除成功')
             this.getCurrentTableData()
           }

@@ -51,7 +51,7 @@ export default {
   color: #ccc;
 }
 .c-red {
-  color: red;
+  color: #f56c6c;
 }
 
 //  字体大小。 如： f12、f26
