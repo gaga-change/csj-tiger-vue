@@ -163,6 +163,6 @@ export const printingTable_config = [
   { label: '商品名称', prop: 'skuName' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
-  { label: '单位', prop: 'skuUnitName' },
-  { label: '计划出库数量', prop: 'planOutQty' },
+  { label: '单位', prop: 'skuUnitName', width: 80 },
+  { label: '计划出库数量', prop: 'planOutQty', width: 100 },
 ]

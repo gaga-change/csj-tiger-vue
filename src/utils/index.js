@@ -2,7 +2,7 @@
 export const LoginPath = process.env.NODE_ENV === 'production' ? 'http://sso.csjscm.com' : 'http://192.168.1.224:8099'
 // export const LoginPath = 'http://sso.csjscm.com'
 export function parseTime(time, cFormat) {
-  if(!time){
+  if (!time) {
     return
   }
   if (arguments.length === 0) {
@@ -62,8 +62,8 @@ export function formatTime(time, option) {
 }
 
 
-export function printUrl(url,name, id) {
-    return url + name + '.cpt&id=' + id
+export function printUrl(url, name, id) {
+  return url + name + '.cpt&id=' + id
 }
 
 // http://nb.csjscm.com:9999/WebReport/ReportServer?reportlet=/HALL_TEST/supply_invoice_export.cpt&id=3
@@ -77,7 +77,7 @@ export function reportCenterUrl(name, path, isView) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = function () {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -94,7 +94,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return function (...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -112,7 +112,7 @@ export function debounce(func, wait, immediate) {
 // 返回连续时间段的数据
 export function DealChartDataByDay(data, type, params) {
   // 排序函数
-  const sortData = function(a, b) {
+  const sortData = function (a, b) {
     if (parseInt(b[type].replace(/\-/g, '')) > parseInt(a[type].replace(/\-/g, ''))) {
       return -1
     } else if (parseInt(b[type].replace(/\-/g, '')) < parseInt(a[type].replace(/\-/g, ''))) {
@@ -174,7 +174,7 @@ export function DealChartDataByDay(data, type, params) {
 // 返回连续时间段的数据
 export function DealChartDataByMonth(data, type, params) {
   // 排序函数
-  const sortData = function(a, b) {
+  const sortData = function (a, b) {
     return parseInt(b[type].replace(/\-/g, '')) < parseInt(a[type].replace(/\-/g, ''))
   }
   // 对数组进行排序
@@ -457,7 +457,7 @@ export function downloadFile(file) {
   }
 }
 
-export const TiggerUrl = process.env.NODE_ENV === 'production' ? 'http://scm.csjmro.com/csj_login' :  'http://testscm.csjmro.com/csj_login'
+export const TiggerUrl = process.env.NODE_ENV === 'production' ? 'http://scm.csjmro.com/csj_login' : 'http://testscm.csjmro.com/csj_login'
 
 
 /**
@@ -482,7 +482,7 @@ export function MakePrint(content, w = null, h = null) {
   const left = ((width / 2) - (w / 2)) + dualScreenLeft;
   const top = ((height / 2) - (h / 2)) + dualScreenTop;
   let myWindow = window.open("", "打印", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-  let style = "<style type='text/css'>table {font-family: verdana,arial,sans-serif;font-size:11px;color:#333333;border-width: 1px;border-color: #666666;border-collapse: collapse;}table th {border-width: 1px;padding: 8px;border-style: solid;border-color: #666666;background-color: #dedede;}table td {border-width: 1px;padding: 8px;border-style: solid;border-color: #666666;background-color: #ffffff;} .card-list{margin-bottom: 6px;width:25%;display:inline-block} .el-dropdown{display:inline-block} .outgoing-quirydetail-container{page-break-before: auto;page-break-after: always;} </style>";
+  let style = "<style type='text/css'>table {font-family: verdana,arial,sans-serif;font-size:11px;color:#000;border-width: 1px;border-color: #000;border-collapse: collapse;}table th {border-width: 1px;padding: 8px;border-style: solid;border-color: #000;background-color: #dedede;}table td {border-width: 1px;padding: 8px;border-style: solid;border-color: #000;background-color: #ffffff;} .card-list{margin-bottom: 6px;width:25%;display:inline-block} .el-dropdown{display:inline-block} .outgoing-quirydetail-container{page-break-before: auto;page-break-after: always;} </style>";
   myWindow.document.write(content + style);
   myWindow.focus();
   myWindow.document.close();     //关闭document的输出流, 显示选定的数据
