@@ -16,13 +16,13 @@ export const tableConfig = [
   { label: '商品名称', prop: 'skuName' },
   { label: '规格型号', prop: 'skuFormat' },
   { label: '品牌', prop: 'skuBrandName' },
-  { label: '备注', prop: 'remarkInfo' },
   {
     label: '已出/应出', fixed: false, dom: (row, column, cellValue, index) => {
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
     }
   },
   { label: '手工出库', prop: 'qty', useEdit: true, width: 160, max: ['planOutQty', 'realOutQty'], min: 0 },
+  { label: '备注', prop: 'remarkInfo' },
 ];
 
 export const infoConfig = [
