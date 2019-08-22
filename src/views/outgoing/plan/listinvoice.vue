@@ -8,7 +8,7 @@
       <div style="margin-bottom: 12px;display: flex;justify-content: space-between;padding-right: 150px;">
         <div><span style="font-size: 12px;font-weight: 600;">客户名称 : </span><span style="font-size: 12px;">{{data.arrivalName}}</span></div>
         <div><span style="font-size: 12px;font-weight: 600;">联系电话 : </span><span style="font-size: 12px;">{{data.arrivalLinkTel}}</span> </div>
-        <div><span style="font-size: 12px;font-weight: 600;">外部订单号 : </span><span style="font-size: 12px;">{{data.busiBillNo}}</span></div>
+        <div><span style="font-size: 12px;font-weight: 600;">通知单号 : </span><span style="font-size: 12px;">{{data.busiBillNo}}</span></div>
       </div>
       <div style="margin-bottom: 12px;">
         <span style="font-size: 12px;font-weight: 600;">客户地址 :</span><span style="font-size: 12px;">{{data.arrivalAddress}}</span>
