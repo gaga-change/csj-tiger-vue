@@ -501,6 +501,7 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.ruleForm.planStatusList=[]
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.getCurrentTableData()
     },
