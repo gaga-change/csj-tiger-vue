@@ -156,23 +156,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-
-            <el-col :span="12">
-              <el-form-item
-                label="制单日期"
-                prop="time"
-              >
-                <el-date-picker
-                  v-model="ruleForm.time"
-                  @change="timeChange"
-                  :picker-options="$pickerOptions"
-                  type="daterange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                >
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
             <el-col
               :span="6"
               style="min-width:300px"
@@ -189,6 +172,42 @@
                 ></el-input>
               </el-form-item>
             </el-col>
+            <el-col
+              :span="6"
+            >
+              <el-form-item label="计划状态">
+                <el-select
+                  v-model="ruleForm.planStatusList"
+                  placeholder="请选择计划状态"
+                  @change="submitForm('ruleForm')"
+                  multiple
+                >
+                  <el-option
+                    v-for="item in planStatusList"
+                    :label="item.name"
+                    :key="item.value"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item
+                label="制单日期"
+                prop="time"
+              >
+                <el-date-picker
+                  v-model="ruleForm.time"
+                  @change="timeChange"
+                  :picker-options="$pickerOptions"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            
             <el-col :span="24">
               <el-form-item>
                 <el-button
@@ -341,7 +360,7 @@ import { mapGetters } from 'vuex'
 import { indexTableConfig } from './config';
 import { operation } from './conpoments/lib';
 import moment from 'moment';
-import { outBillStatusEnum, outBillStateEnum } from "@/utils/enum.js";
+import { outBillStatusEnum, outBillStateEnum, planStatusList } from "@/utils/enum.js";
 export default {
   name: 'outgoing-businessorder-index',
   components: { BaseTable },
@@ -355,6 +374,7 @@ export default {
         contractNo: '',
         pageNum: 1,
         pageSize: 10,
+        planStatusList:[0,1]
       },
       total: 0,
       tableConfig: indexTableConfig,
@@ -362,27 +382,45 @@ export default {
       tableData: [{}],
       outBillStatusEnum,
       outBillStateEnum,
+      planStatusList,
       selectionList: [],
       batchLoading: false,
       t: null,
+      originbillNo:null,
     }
   },
 
   mounted() {
-    const end = new Date();
-    const start = new Date();
-    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-    this.$set(this.ruleForm, 'time', [start, end])
-    this.getCurrentTableData()
     this.t = this.$route.query.t
+    this.originbillNo=this.$route.query.billNo
+    if(!this.originbillNo){
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      this.$set(this.ruleForm, 'time', [start, end])
+    }else{
+      this.$set(this.ruleForm, 'time', [])
+    }
+    this.ruleForm.billNo=this.originbillNo?this.originbillNo:null
+    this.getCurrentTableData()
   },
 
   watch: {
     $route(val) {
       // 根据路由变化，判断是否要刷新页面
       if (val.name === 'outgoing-businessorder-index') {
-        if (val.query.t !== this.t) {
+        if ((val.query.t !== this.t) || (val.query.billNo!==this.originbillNo)) {
           this.t = val.query.t
+          this.originbillNo=val.query.billNo
+          if(!this.originbillNo){
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            this.$set(this.ruleForm, 'time', [start, end])
+          }else{
+            this.$set(this.ruleForm, 'time', [])
+          }
+          this.ruleForm.billNo=this.originbillNo?this.originbillNo:null
           this.getCurrentTableData()
         }
       }
@@ -392,7 +430,8 @@ export default {
   computed: {
     ...mapGetters([
       'mapConfig',
-    ])  },
+    ]) 
+  },
 
   methods: {
     moment,

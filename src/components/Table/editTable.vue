@@ -14,15 +14,73 @@
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
          @selection-change="handleSelectionChange"
-        :style="tableStyle"> 
-
-         <el-table-column
+        :style="tableStyle"
+        > 
+          <template v-if="tableType=='productNum'">
+            <template v-for="item in config">
+              <template v-if="item.prop=='skuCode'">
+                <el-table-column label="商品编码">
+                  <template slot-scope="scope">
+                    <span>{{scope.row.skuCode}}</span>
+                    <span>{{scope.row.pointtitle}}</span>
+                  </template>
+                </el-table-column>
+              </template>
+              <template v-else>
+                <el-table-column
+                  :fixed="item.fixed"
+                  :width="item.width"
+                  :min-width="item.minWidth"
+                  :key="item.label"
+                  :label="item.label"
+                  >
+                   <template slot-scope="scope">
+                      <template v-if="item.useEdit">
+                        <template v-if="scope.row&&scope.row.edit">
+                          <el-input
+                              size="mini"
+                              v-if="item.editType"
+                              :style="`width:${item.width-20}px`"
+                              :type="item.editType"
+                              :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
+                              :min="item.min||0"
+                              v-model="scope.row[item.prop]" >
+                          </el-input>
+                          <span v-else @click.stop>
+                            <el-input-number
+                              size="mini"
+                              controls-position="right"
+                              :max="item.max&&Array.isArray(item.max)&&scope.row[item.max[0]]-scope.row[item.max[1]]"
+                              :min="item.min||0"
+                              :style="`width:${item.width-20}px;border:${useColor&&scope.row[item.prop]>0?'1px solid red':'1px solid transparent'}`"
+                              v-model.number="scope.row[item.prop]" >
+                            </el-input-number>
+                          </span>
+                         </template>
+                         <span v-else>
+                          {{formatter(scope.row,item,scope.row[item.prop],scope.$index)}}
+                         </span>
+                      </template>
+                      <span v-else-if="item.linkTo">
+                        <router-link :to="{path:item.linkTo,query:mapFormatter(item.query,scope.row)}" style="color:#3399ea">{{item.linkText?  item.linkText:scope.row[item.prop]}}</router-link>
+                      </span>
+                      <span v-else>
+                        {{formatter(scope.row,item,scope.row[item.prop],scope.$index)}}
+                      </span>
+                  </template>
+                </el-table-column>
+              </template>
+            </template>
+          </template>
+          <el-table-column
             v-for="item in config"
             :fixed="item.fixed"
             :width="item.width"
             :min-width="item.minWidth"
             :key="item.label"
-            :label="item.label">
+            :label="item.label"
+            v-else
+            >
              <template slot-scope="scope">
                 <template v-if="item.useEdit">
                   <template v-if="scope.row&&scope.row.edit">
@@ -173,12 +231,17 @@ export default {
        type: Boolean,
        default: false
     },
+    tableType:{
+      type: String,
+      default:''
+    }
   },
 
   data() {
     return {
       currentPage:1,
       pageSize:10,
+      showType:null
     }
   },
   
@@ -211,7 +274,9 @@ export default {
       }
     }
   },
-
+  created(){
+    this.showType=this.tableType
+  },
 
   methods: { 
       
@@ -219,8 +284,16 @@ export default {
         //只有输入值大于0的时候才高亮
         if (this.useRowColorKey&&row[this.useRowColorKey]>0) {
           return 'success-row';
+        }else{
+          if(this.showType!='productNum'){
+            return '';
+          }
+          if ((row.canUseSkuQty-row.planOutQty)<0) {
+            return 'warning-row';
+          }else{
+           return ''; 
+          }
         }
-        return '';
       },
 
       formatter(row, column,cellValue, index){

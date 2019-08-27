@@ -22,7 +22,8 @@
         <web-pagination-table
           :loading="loading"
           :config="addPlanOrder_config" 
-          :allTableData="tableData"/>
+          :allTableData="tableData"
+          :tableType="'productNum'"/>
      </div>
     
       <el-dialog
@@ -126,6 +127,11 @@
           }
           this.tableData=(data&&Array.isArray(data.busiBillDetails)&&data.busiBillDetails||[]).map(v=>{
             v.id=v.skuCode
+            if(v.canUseSkuQty - v.planOutQty <0){
+              v.pointtitle='(商品不足)'
+            }else{
+              v.pointtitle=''
+            }
             return v;
           });
         }
@@ -251,6 +257,13 @@
         if(index!==-1){
           tableData[index]={...tableData[index],...this.alertTableData.filter(v=>v.edit)[0]}
         }
+        tableData.map(v=>{
+          if(v.canUseSkuQty - v.planOutQty <0){
+            v.pointtitle='(商品不足)'
+          }else{
+            v.pointtitle=''
+          }
+        })
         this.tableData=tableData;
         this.addVisible=false;
       }

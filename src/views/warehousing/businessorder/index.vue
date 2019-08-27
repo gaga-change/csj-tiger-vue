@@ -180,7 +180,27 @@
                 </el-select>
               </el-form-item>
             </el-col>
-
+            <el-col
+              :sm="12"
+              :md="8"
+              :lg="8"
+              :xl="6"
+            >
+              <el-form-item label="计划状态">
+                <el-select
+                  v-model="ruleForm.planStatusList"
+                  placeholder="请选择计划状态"
+                  multiple
+                >
+                  <el-option
+                    v-for="item in planStatusList"
+                    :label="item.name"
+                    :key="item.value"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
             <el-col :span="16">
               <el-form-item
                 label="制单日期"
@@ -340,7 +360,7 @@
 <script>
 import moment from 'moment';
 import { inBillSelect, inBillUpdateStatus, batchInBill, batchAdd } from '@/api/warehousing'
-import { misWarehousingBillStatusEnum, misWarehousingBillStateEnum } from "@/utils/enum.js";
+import { misWarehousingBillStatusEnum, misWarehousingBillStateEnum, planStatusList } from "@/utils/enum.js";
 import { getBillType, getExecState } from '@/api/map'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
@@ -368,7 +388,8 @@ export default {
         linkTel: '',
         pageNum: 1,
         pageSize: 10,
-        time: ''
+        time: '',
+        planStatusList:[0,1]
       },
       total: 0,
       rules: {
@@ -381,6 +402,7 @@ export default {
       tableConfig: indexTableConfig,
       misWarehousingBillStatusEnum,
       misWarehousingBillStateEnum,
+      planStatusList,
       selectionList: [],
       batchLoading: false,
       t: null,

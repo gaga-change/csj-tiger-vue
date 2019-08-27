@@ -85,6 +85,7 @@ export const indexTableConfig = [
   { label: '实际入库数量', prop: 'realInQty', width: 120 },
   { label: '单据状态', prop: 'billStatus', type: 'misWarehousingBillStatusEnum', useLocalEnum: true },
   { label: '执行状态', prop: 'billState', type: 'misWarehousingBillStateEnum', useLocalEnum: true },
+  { label: '计划状态', prop: 'planStatusText' },
   { label: '制单人', prop: 'createrName' },
   { label: '制单时间', prop: 'gmtCreate', type: 'time', width: 140 }
 ]

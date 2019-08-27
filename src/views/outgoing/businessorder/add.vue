@@ -51,10 +51,10 @@
                 class="formitem"
               >
                 <el-option
-                  v-for="item in ['录入错误','客户业务单信息变动']"
-                  :label="item"
-                  :key="item"
-                  :value="item"
+                  v-for="item in mapConfig['getBusiBillChange']"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.value"
                 ></el-option>
               </el-select>
             </el-form-item>

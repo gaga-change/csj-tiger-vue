@@ -5,7 +5,7 @@
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="调整类型" >
               <el-select  v-model="searchForm.improveReason" clearable  placeholder="请选择调整类型：" size="small" class="formitem">
-                 <el-option v-for="item in ['录入错误','客户业务单信息变动']" :label="item" :key="item"  :value="item"></el-option>
+                 <el-option v-for="item in mapConfig['getBusiBillChange']" :label="item.value" :key="item.key" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>  
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
 
   props:{
@@ -52,7 +54,11 @@ export default {
        default:()=>{}
      },
   },
-
+  computed: {
+    ...mapGetters({
+      'mapConfig': 'mapConfig'
+    })
+  },
   methods: {
 
      submit(){

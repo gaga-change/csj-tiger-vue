@@ -48,6 +48,7 @@ export const indexTableConfig = [
   { label: '实际出库数量', prop: 'realOutQty', width: 100 },
   { label: '单据状态', prop: 'billStatus', type: 'outBillStatusEnum', useLocalEnum: true, width: 80 },
   { label: '执行状态', prop: 'billState', type: 'outBillStateEnum', useLocalEnum: true, width: 80 },
+  { label: '计划状态', prop: 'planStatusText' },
   { label: '制单人', prop: 'busiBillCreater', width: 120 },
   { label: '制单时间', prop: 'busiBillCreateTime', type: 'time', width: 140 }
 ]
@@ -76,6 +77,7 @@ export const addPlanOrder_config = [
   { label: '客户销价', prop: 'outStorePrice', className: 'Price' },
   { label: '计划出库数量', prop: 'planOutQty' },
   { label: '出库仓库', prop: 'warehouseName' },
+  { label: '可用库存', prop: 'canUseSkuQty' },
   { label: '备注', prop: 'remarkInfo' },
   { label: '操作', fixed: 'right', width: 120 },
 ]

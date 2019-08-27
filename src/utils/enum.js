@@ -999,3 +999,17 @@ export const isPrint = [{
   value: 1
 }
 ]
+
+export const planStatusList = [{
+    name: '未计划',
+    value: 0
+  },
+  {
+    name: '部分计划',
+    value: 1
+  },
+  {
+    name: '全部计划',
+    value: 2
+  },
+]

@@ -59,6 +59,7 @@
           :useRowColorKey="this.$route.query.history?'qty':null"
           :config="tableConfig"
           :allTableData="tableData"
+          :tableType="'productNum'"
         />
       </el-tab-pane>
       <el-tab-pane
@@ -203,6 +204,11 @@ export default {
           let tableData = Array.isArray(data.itemList) ? data.itemList : [];
           if (this.$route.query.history) {
             this.tableData = _.cloneDeep(tableData).map(v => {
+              if(v.canUseSkuQty - v.planOutQty <0){
+                v.pointtitle='(商品不足)'
+              }else{
+                v.pointtitle=''
+              }
               let json = v;
               if (v.planOutQty - v.realOutQty > 0) {
                 //  json.qty=(v.planOutQty-v.realOutQty)||0
@@ -215,6 +221,11 @@ export default {
             })
           } else {
             this.tableData = tableData.map(v => {
+              if(v.canUseSkuQty - v.planOutQty <0){
+                v.pointtitle='(商品不足)'
+              }else{
+                v.pointtitle=''
+              }
               let json = v;
               json.qty = v.handOutQty;
               return json;

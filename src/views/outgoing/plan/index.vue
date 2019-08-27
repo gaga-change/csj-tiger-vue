@@ -433,7 +433,7 @@
               class="tableLink"
             >查看</router-link>
             <router-link
-              v-if="scope.row.planState === 0 || scope.row.planState === 1"
+              v-if="(scope.row.planState === 0 || scope.row.planState === 1) || scope.row.issuedState===7"
               :to="`/outgoing/out-plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"
               class="tableLink"
             >修改</router-link>
@@ -455,7 +455,7 @@
             <span
               v-if="scope.row.issuedState===7"
               class="tableLink"
-              @click="deleteItem(scope.row.planCode)"
+              @click="deleteItem(scope.row.planCode,scope.row.billNo)"
             >删除</span>
             <span
               v-if="scope.row.planState === 0 || scope.row.planState === 1"
@@ -569,9 +569,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
-      'mapConfig',
-    ])  },
+  ...mapGetters({
+      'mapConfig': 'mapConfig',
+      visitedViews: 'visitedViews'
+    })
+  },
 
   methods: {
     stringify,
@@ -751,7 +753,10 @@ export default {
       }).catch(() => {
       })
     },
-    deleteItem(planCode) {
+    deleteItem(planCode,billNo) {
+      const that=this
+      const deletebillNo=billNo
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$confirm('确认删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -760,7 +765,21 @@ export default {
         outPlandelete(planCode).then(res => {
           if (res.success) {
             this.$message.success('删除成功')
-            this.getCurrentTableData()
+            this.$confirm('是否跳转至原业务单?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              that.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                that.$router.push({
+                  path: `/outgoing/businessorder`,
+                  query: { billNo: deletebillNo }
+                })
+              }).catch(err => {
+              })
+            }).catch(() => {
+             this.getCurrentTableData()
+            })
           }
         })
       }).catch(() => {

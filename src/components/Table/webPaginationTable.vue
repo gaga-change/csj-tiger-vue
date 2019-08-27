@@ -15,21 +15,49 @@
         :show-summary="showSummary"
         :summary-method="getSummaries||getSummarie"
          @selection-change="handleSelectionChange"
-        :style="tableStyle">
-
-        <el-table-column
-          v-for="item in tableConfig"
-          :formatter="item.formatter"
-          :key="item.lable"
-          :type="item.columnType"
-          :class-name="item.className"
-          :fixed="item.fixed"
-          :align="item.align"
-          :width="item.width"
-          :min-width="item.minWidth"
-          :prop="item.prop"
-          :label="item.label">
-        </el-table-column>
+        :style="tableStyle"
+        :row-class-name="tableRowClassName"
+        >
+        <template v-for="item in tableConfig">
+          <template v-if="tableType=='productNum'">
+            <template v-if="item.prop=='skuCode'">
+              <el-table-column label="商品编码">
+                <template slot-scope="scope">
+                  <span>{{scope.row.skuCode}}</span>
+                  <span>{{scope.row.pointtitle}}</span>
+                </template>
+              </el-table-column>
+            </template>
+            <template v-else>
+              <el-table-column
+                :formatter="item.formatter"
+                :key="item.lable"
+                :type="item.columnType"
+                :class-name="item.className"
+                :fixed="item.fixed"
+                :align="item.align"
+                :width="item.width"
+                :min-width="item.minWidth"
+                :prop="item.prop"
+                :label="item.label">
+              </el-table-column>
+            </template>
+          </template>
+          <template v-else>
+            <el-table-column
+              :formatter="item.formatter"
+              :key="item.lable"
+              :type="item.columnType"
+              :class-name="item.className"
+              :fixed="item.fixed"
+              :align="item.align"
+              :width="item.width"
+              :min-width="item.minWidth"
+              :prop="item.prop"
+              :label="item.label">
+            </el-table-column>
+          </template>
+        </template>
       </el-table>
 
       <el-pagination
@@ -120,6 +148,10 @@ export default {
     usePagination:{
       type: Boolean,
       default: false
+    },
+    tableType:{
+      type: String,
+      default:''
     }
   },
 
@@ -128,6 +160,7 @@ export default {
       tableConfig:[],
       currentPage:1,
       pageSize:10,
+      showType:null
     }
   },
 
@@ -165,6 +198,7 @@ export default {
        }
     }
     this.tableConfig=tableConfig;
+    this.showType=this.tableType
   },
 
   computed: {
@@ -197,6 +231,16 @@ export default {
 
 
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if(this.showType!='productNum'){
+        return '';
+      }
+      if ((row.canUseSkuQty-row.planOutQty)<0) {
+        return 'warning-row';
+      }else{
+       return ''; 
+      }
+    },
      handleSizeChange(val){
         this.pageSize=val
      },
@@ -271,5 +315,4 @@ export default {
   .ctabel{
     width: 100%;
   }
-
 </style>

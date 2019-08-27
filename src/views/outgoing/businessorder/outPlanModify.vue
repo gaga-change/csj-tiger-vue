@@ -31,6 +31,7 @@
       :loading="loading"
       :config="addPlanOrder_config"
       :allTableData="tableData"
+      :tableType="'productNum'"
     />
 
     <el-dialog
@@ -178,6 +179,11 @@ export default {
           this.tableData = list.map(v => {
             v.warehouseName = data.planWarehouseName
             v.warehouseCode = data.planWarehouseCode
+            if(v.canUseSkuQty - v.planOutQty <0){
+              v.pointtitle='(商品不足)'
+            }else{
+              v.pointtitle=''
+            }
             if (this.$route.query.history) {
               if (v.planOutQty - v.realInQty > 0) {
                 v.handOutQty = v.handOutQty || 0;
@@ -307,6 +313,13 @@ export default {
       if (index !== -1) {
         tableData[index] = { ...tableData[index], ...this.alertTableData.filter(v => v.edit)[0] }
       }
+      tableData.map(v=>{
+        if(v.canUseSkuQty - v.planOutQty <0){
+          v.pointtitle='(商品不足)'
+        }else{
+          v.pointtitle=''
+        }
+      })
       this.tableData = tableData;
       this.addVisible = false;
     }
