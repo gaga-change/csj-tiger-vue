@@ -251,3 +251,37 @@ export function unInsureConfirm(data) {
     data: data
   })
 }
+
+// /webApi/freightTemplate/save 保存物流模板
+export function saveFreightTemplate(data) {
+  return request({
+    url: `/webApi/freightTemplate/save`,
+    method: 'post',
+    data: data
+  })
+}
+
+///webApi/freightTemplate/queryPage
+export function queryFreightTemplate(data) {
+  return request({
+    url: `/webApi/freightTemplate/queryPage`,
+    method: 'post',
+    data: data
+  })
+}
+
+// /webApi/freightTemplate/queryTemplate/{templateCode}
+export function getFreightTemplateByTemplateCode(templateCode) {
+  return request({
+    url: `/webApi/freightTemplate/queryTemplate/${templateCode}`,
+    method: 'get'
+  })
+}
+
+// /webApi/freightTemplate/delete/FY190827000055
+export function deleteFreightTemplate(templateCode) {
+  return request({
+    url: `/webApi/freightTemplate/delete/${templateCode}`,
+    method: 'delete'
+  })
+}

@@ -63,8 +63,15 @@ export default [
         path: 'create',
         component: _import('mis/priceTemplate/priceTemplateCreate'),
         name: 'priceTemplateCreate',
-        hidden: true,
-        meta: { title: '新建费用模版' }
+        meta: { title: '新建费用模版' },
+        hidden: true
+      },
+      {
+        path: 'detail',
+        component: _import('mis/priceTemplate/priceTemplateDetail'),
+        name: 'priceTemplateDetail',
+        meta: { title: '费用模版详情' },
+        hidden: true
       }
     ]
   }
