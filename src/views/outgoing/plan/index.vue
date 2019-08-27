@@ -433,7 +433,7 @@
               class="tableLink"
             >查看</router-link>
             <router-link
-              v-if="(scope.row.planState === 0 || scope.row.planState === 1) || scope.row.issuedState===7"
+              v-if="(scope.row.planState === 0 || scope.row.planState === 1) || scope.row.hangUpType===1"
               :to="`/outgoing/out-plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"
               class="tableLink"
             >修改</router-link>
