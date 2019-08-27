@@ -116,6 +116,9 @@ export default {
           return (
             <div class="tableLinkBox">
               {
+                <span class="tableLink" onClick={this.operation.bind(this, 'delete', row)}>删除</span>
+              }
+              {
                 <span class="tableLink" onClick={this.operation.bind(this, 'edit', row)}>编辑</span>
               }
             </div>
@@ -200,6 +203,10 @@ export default {
       })
     },
     submit() {
+      if(this.tableData.length<=0){
+        this.$message.error('必须有商品明细才可以提交')
+        return
+      }
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       let { planCode } = this.$route.query || {};
       let json = { planCode }
