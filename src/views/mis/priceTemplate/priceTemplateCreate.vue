@@ -58,7 +58,8 @@
               name="file"
               type="text"
             ></upload-excel>
-            <el-button type="text">下载模板</el-button></span>
+            <a href="/static/templet/pricetemp.xlsx"><el-button type="text">下载模板</el-button></a>
+          </span>
         </div>
         <el-table :data="tableData" border max-height="300" style="width:100%">
           <el-table-column
