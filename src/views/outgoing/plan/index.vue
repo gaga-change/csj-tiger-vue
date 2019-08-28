@@ -527,6 +527,7 @@ export default {
         busiBillType: '',
         busiBillNo: '',
         planCode: '',
+        planState:'',
         arrivalName: '',
         ownerCode: '',
         contractNo: '',
@@ -663,7 +664,6 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.ruleForm.planState=null
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.ruleForm.createtime = []
       this.getCurrentTableData()
