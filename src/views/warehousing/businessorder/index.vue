@@ -57,7 +57,23 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-
+            <el-col
+              :sm="12"
+              :md="8"
+              :lg="8"
+              :xl="6"
+            >
+              <el-form-item
+                label="外部订单号"
+                prop="billNo"
+              >
+                <el-input
+                  v-model.lazy.trim="ruleForm.busiBillNo"
+                  @keyup.enter.native="submitForm('ruleForm')"
+                  placeholder="请输入外部订单号"
+                ></el-input>
+              </el-form-item>
+            </el-col>
             <el-col
               :sm="12"
               :md="8"
@@ -570,6 +586,7 @@ export default {
       this.ruleForm.planStatusList=[]
       this.ruleForm.billStatus=null
       this.ruleForm.billState=null
+      this.ruleForm.busiBillNo=null
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.getCurrentTableData()
     },
