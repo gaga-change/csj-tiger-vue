@@ -160,7 +160,7 @@ export default {
       tableConfig:[],
       currentPage:1,
       pageSize:10,
-      showType:null
+      // showType:null
     }
   },
 
@@ -198,7 +198,7 @@ export default {
        }
     }
     this.tableConfig=tableConfig;
-    this.showType=this.tableType
+    // this.showType=this.tableType
   },
 
   computed: {
@@ -212,6 +212,14 @@ export default {
       },
       set:function(){
 
+      }
+    },
+    showType:{
+      get: function () {
+       return this.tableType
+      },
+      set:function(){
+        
       }
     },
      tableData:{

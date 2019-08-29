@@ -143,7 +143,6 @@ export default {
   mounted() {
     this.getCurrentTableData()
   },
-
   computed: {
     ...mapGetters([,
       'userInfo'

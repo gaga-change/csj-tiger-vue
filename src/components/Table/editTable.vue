@@ -241,7 +241,7 @@ export default {
     return {
       currentPage:1,
       pageSize:10,
-      showType:null
+      // showType:null
     }
   },
   
@@ -259,7 +259,14 @@ export default {
         
       }
     },
-
+    showType:{
+      get: function () {
+       return this.tableType
+      },
+      set:function(){
+        
+      }
+    },
      tableData:{
       get: function () {
        let from = this.pageSize*(this.currentPage-1);
@@ -275,7 +282,7 @@ export default {
     }
   },
   created(){
-    this.showType=this.tableType
+    // this.showType=this.tableType
   },
 
   methods: { 
