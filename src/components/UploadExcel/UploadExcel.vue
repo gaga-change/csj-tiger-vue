@@ -1,9 +1,9 @@
 <template>
-  <div class="upload-box">
+  <div class="upload-box" :style="{display: 'inline-block'}">
     <div class="upload-showbox">
       <el-button
         size="mini"
-        type="primary"
+        :type="type"
         @click="filesDialogVisible=true"
       >
         {{importText}}
@@ -92,6 +92,10 @@ export default {
     name: {
       type: String,
       default: 'myFile'
+    },
+    type: {
+      type: String,
+      default: 'primary'
     }
   },
 
