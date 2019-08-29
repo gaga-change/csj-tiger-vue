@@ -38,7 +38,7 @@
       </el-form-item>
       <el-row>
         <el-form-item label="计费模式" prop="costCalcWay" label-width="70px">
-          <el-radio-group v-model="form.costCalcWay">
+          <el-radio-group v-model="form.costCalcWay" @change="costCalcWayChange">
             <el-radio :label="2">重量</el-radio>
             <el-radio :label="1">体积</el-radio>
           </el-radio-group>
@@ -47,7 +47,7 @@
       <template v-if="form.costCalcWay === 2">
         <div class="weightcard">          
           <el-form-item prop="firstWeight" label="首重" label-width="45px">
-            <el-input-number v-model="form.firstWeight" style="width:120px"></el-input-number>KG，
+            <el-input-number v-model="form.firstWeight" :min="0" style="width:120px"></el-input-number>KG，
           </el-form-item>
           <span>超出首重，按照首重费用+续重费用计算</span>
           <span class="fr">
@@ -172,6 +172,9 @@ export default {
     this.getWarehose()
   },
   methods: {
+    costCalcWayChange() {
+      this.tableData = []
+    },
     getConsoilInfoList() {
       consoilInfoList({ consoildatorState: 31, pageSize: 9999 })
         .then(res => {
