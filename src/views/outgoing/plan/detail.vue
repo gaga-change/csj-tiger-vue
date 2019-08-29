@@ -59,7 +59,7 @@
           :useRowColorKey="this.$route.query.history?'qty':null"
           :config="tableConfig"
           :allTableData="tableData"
-          :tableType="'productNum'"
+          :tableType="config.issuedState!=1?'productNum':''"
         />
       </el-tab-pane>
       <el-tab-pane
