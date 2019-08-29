@@ -59,7 +59,7 @@
           :useRowColorKey="this.$route.query.history?'qty':null"
           :config="tableConfig"
           :allTableData="tableData"
-          :tableType="config.issuedState!=1?'productNum':''"
+          :tableType="typeDes"
         />
       </el-tab-pane>
       <el-tab-pane
@@ -135,7 +135,8 @@ export default {
       //打印项
       printingVisible: false,
       printingTable_data: {},
-      printingTable_config
+      printingTable_config,
+      typeDes:null
     }
   },
 
@@ -201,6 +202,7 @@ export default {
           let data = res.data;
           this.config = data;
           this.planCode = data.planCode;
+          this.typeDes=data.issuedState!=1?'productNum':null
           let tableData = Array.isArray(data.itemList) ? data.itemList : [];
           if (this.$route.query.history) {
             this.tableData = _.cloneDeep(tableData).map(v => {
