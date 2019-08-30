@@ -52,6 +52,27 @@
         <el-button @click="cancelStore">取消</el-button>
       </span>
     </el-dialog>
+    <el-dialog :visible.sync="configVisible" title="推送配置">
+      <el-form :model="configForm" label-width="100px" ref="configForm">
+        <template v-for="item in configForm.configList">
+            <el-form-item :label="item.name" >
+              <el-checkbox-group v-model="item.warehouseSysCodeList" @change="checkboxchange" :key="item.basicInfoType">
+                <template v-if="item.name=='商品'">
+                  <el-checkbox label="INFO"></el-checkbox>
+                  <el-checkbox label="SHARK"></el-checkbox>
+                </template>
+                <template v-else>
+                  <el-checkbox label="INFO"></el-checkbox>
+                </template>
+              </el-checkbox-group>
+            </el-form-item>
+        </template>
+      </el-form>
+      <span slot="footer">
+        <el-button @click="confirmConfig" type="primary" :loading="configLoading" :disabled="configbtn">确定</el-button>
+        <el-button @click="configVisible=false;" :disabled="configbtn">取消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -60,7 +81,7 @@ import SearchFrom from './components/search'
 import { listIndexConfig } from './components/config'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
-import { tenantList, delTenant, effectTenant, saveOwnerWarehouse, ownerWarehouseList } from '@/api/tenant'
+import { tenantList, delTenant, effectTenant, saveOwnerWarehouse, ownerWarehouseList, configPush, configInfo } from '@/api/tenant'
 import moment from 'moment'
 export default {
   components: { SearchFrom, BaseTable },
@@ -84,7 +105,14 @@ export default {
       addForm: {
         warehouses: [],
       },
-      storeLoading: false
+      storeLoading: false,
+      configVisible:false,
+      configForm:{
+        ownerCode:null,
+        configList:[{name:'商品',basicInfoType:1,warehouseSysCodeList:[]},{name:'供应商',basicInfoType:3,warehouseSysCodeList:[]},{name:'客户',basicInfoType:4,warehouseSysCodeList:[]}]
+      },
+      configbtn:false,
+      configLoading:false
     }
   },
   computed: {
@@ -153,6 +181,14 @@ export default {
                   启用
                 </a>
               )}
+              <a
+                onClick={() => {
+                  this.showConfig(row)
+                }}
+                style={this.linkstyle}
+              >
+                推送配置
+              </a>
             </div>
           )
         }
@@ -161,6 +197,92 @@ export default {
   },
 
   methods: {
+    showConfig(row){
+      this.configForm.ownerCode=row.ownerCode
+      this.configForm.configList.map(item=>{
+        item.warehouseSysCodeList=[]
+      })
+      configInfo({ownerCode:row.ownerCode}).then(res=>{
+        if(res.success){
+          if(res.data && (res.data.baseConfigReqList && res.data.baseConfigReqList.length>0)){
+            let data=res.data.baseConfigReqList
+            this.configForm.configList.map(item=>{
+              data.map(subitem=>{
+                if(subitem.basicInfoType===item.basicInfoType){
+                  item.warehouseSysCodeList.push(subitem.warehouseSysCode)
+                }
+              })
+            })
+          }
+          this.configVisible = true
+        }
+      })
+    },
+    checkboxchange(val){
+      if(val.length>0){
+        if(val.indexOf('INFO')>-1){
+          this.configForm.configList.map(item=>{
+            if(!(item.warehouseSysCodeList.indexOf('INFO')>-1)){
+              item.warehouseSysCodeList.push('INFO')
+            }
+          })
+        }else{
+          this.configForm.configList.map(item=>{
+            if(item.warehouseSysCodeList.length>0){
+              for(let i=0;i<item.warehouseSysCodeList.length;i++){
+                if(item.warehouseSysCodeList[i]=='INFO'){
+                  item.warehouseSysCodeList.splice(i,1)
+                }
+              }
+            }
+          })
+        }
+      }else{
+        this.configForm.configList.map(item=>{
+          if(item.warehouseSysCodeList.length>0){
+            for(let i=0;i<item.warehouseSysCodeList.length;i++){
+              if(item.warehouseSysCodeList[i]=='INFO'){
+                item.warehouseSysCodeList.splice(i,1)
+              }
+            }
+          }
+        })
+      }
+    },
+    confirmConfig(){
+      let warehouseData=[]
+      let submitData={}
+      this.configForm.configList.map(item=>{
+        if(item.warehouseSysCodeList.length>0){
+          for(let i=0;i<item.warehouseSysCodeList.length;i++){
+            warehouseData.push({
+              basicInfoType:item.basicInfoType,
+              warehouseSysCode:item.warehouseSysCodeList[i]
+            })
+          }
+        }
+      })
+      if(warehouseData.length<=0){
+        this.$message.error('推送配置不能为空')
+        return
+      }
+      this.configbtn=true
+      this.configLoading=true
+      submitData.ownerCode=this.configForm.ownerCode
+      submitData.baseConfigReqList=warehouseData
+      configPush(submitData).then(res=>{
+        this.configbtn=false
+        this.configLoading=false
+        if(res.success){
+          this.$message.success('推送配置成功')
+          this.getCurrentTableData()
+          this.configVisible = false
+        }
+      }).catch(err=>{
+        this.configbtn=false
+        this.configLoading=false
+      })
+    },
     confirmStore() {
       this.storeLoading = true
       saveOwnerWarehouse({

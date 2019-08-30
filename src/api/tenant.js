@@ -77,3 +77,21 @@ export function tenantUpdate(data) {
     data: data
   })
 }
+
+//推送配置
+export function configPush(data) {
+  return request({
+    url: '/webApi/owner/info/saveBaseCofig',
+    method: 'post',
+    data: data
+  })
+}
+
+//获取推送配置
+export function configInfo(data) {
+  return request({
+    url: '/webApi/owner/info/selectBaseCofig',
+    method: 'get',
+    params: data
+  })
+}
