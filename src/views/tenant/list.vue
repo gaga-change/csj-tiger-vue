@@ -56,7 +56,7 @@
       <el-form :model="configForm" label-width="100px" ref="configForm">
         <template v-for="item in configForm.configList">
             <el-form-item :label="item.name" >
-              <el-checkbox-group v-model="item.warehouseSysCodeList" @change="checkboxchange" :key="item.basicInfoType">
+              <el-checkbox-group v-model="item.warehouseSysCodeList" :key="item.basicInfoType">
                 <template v-if="item.name=='商品'">
                   <el-checkbox label="INFO"></el-checkbox>
                   <el-checkbox label="SHARK"></el-checkbox>
@@ -198,6 +198,7 @@ export default {
 
   methods: {
     showConfig(row){
+      let data=row
       this.configForm.ownerCode=row.ownerCode
       this.configForm.configList.map(item=>{
         item.warehouseSysCodeList=[]
@@ -213,41 +214,16 @@ export default {
                 }
               })
             })
+          }else{
+            if(data.isSync===1){
+              this.configForm.configList.map(item=>{
+                item.warehouseSysCodeList.push('INFO')
+              })
+            }
           }
           this.configVisible = true
         }
       })
-    },
-    checkboxchange(val){
-      if(val.length>0){
-        if(val.indexOf('INFO')>-1){
-          this.configForm.configList.map(item=>{
-            if(!(item.warehouseSysCodeList.indexOf('INFO')>-1)){
-              item.warehouseSysCodeList.push('INFO')
-            }
-          })
-        }else{
-          this.configForm.configList.map(item=>{
-            if(item.warehouseSysCodeList.length>0){
-              for(let i=0;i<item.warehouseSysCodeList.length;i++){
-                if(item.warehouseSysCodeList[i]=='INFO'){
-                  item.warehouseSysCodeList.splice(i,1)
-                }
-              }
-            }
-          })
-        }
-      }else{
-        this.configForm.configList.map(item=>{
-          if(item.warehouseSysCodeList.length>0){
-            for(let i=0;i<item.warehouseSysCodeList.length;i++){
-              if(item.warehouseSysCodeList[i]=='INFO'){
-                item.warehouseSysCodeList.splice(i,1)
-              }
-            }
-          }
-        })
-      }
     },
     confirmConfig(){
       let warehouseData=[]
