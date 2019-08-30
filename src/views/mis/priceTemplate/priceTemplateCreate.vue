@@ -46,7 +46,7 @@
       </el-row>
       <template v-if="form.costCalcWay === 2">
         <div class="weightcard">          
-          <el-form-item prop="firstWeight" label="首重" label-width="45px">
+          <el-form-item label="首重" label-width="45px">
             <el-input-number v-model="form.firstWeight" :min="0" style="width:120px"></el-input-number>KG，
           </el-form-item>
           <span>超出首重，按照首重费用+续重费用计算</span>
@@ -157,7 +157,6 @@ export default {
       consoil: [],
       warehouse: [],
       rules: {
-        firstWeight: [required],
         templateName: [required],
         consoildatorCode: [required],
         warehouseList: [required],
@@ -215,12 +214,13 @@ export default {
         return false
       }
       this.$refs.form.validate((ok) => {
-        if (ok) {          
+        if (ok) {
           const postData = { ...this.form }
           postData.consoildatorName = this.consoil.find(item => item.consoildatorCode === this.form.consoildatorCode).consoildatorName
           postData.items = this.tableData
-          postData.isDefault = 'isDefault' in postData ? Number(postData.isDefault ) : 0
+          postData.isDefault = 'isDefault' in postData ? Number(postData.isDefault) : 0
           this.loading = true
+          console.log(postData)
           saveFreightTemplate(postData).then(res => {
             this.loading = false
             if (res.success) {
@@ -244,6 +244,11 @@ export default {
     },
     cancelSubmit() {
       this.$refs.form.resetFields()
+      this.form = {
+        templateName: '费用模板',
+        costCalcWay: 2,
+        warehouseList: []
+      }
       this.tableData = []
     }
   }
