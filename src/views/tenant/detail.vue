@@ -12,7 +12,9 @@
       <el-form-item label="租户名称：" prop="ownerName">
         {{detailForm.ownerName}}
       </el-form-item>
-
+      <el-form-item label="推送配置：">
+        <el-checkbox :value="(detailForm.isSync && detailForm.isSync==1)?true:false" :disabled="true">INFO</el-checkbox>
+      </el-form-item>
       <el-form-item label="状态：" prop="ownerState">
         {{filter('ownerState',detailForm.ownerState)}}
       </el-form-item>
