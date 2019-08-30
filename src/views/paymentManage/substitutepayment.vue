@@ -113,7 +113,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.expenseState === 1">
+          <span>
             <a
               :style="linkstyle"
               @click="delFeeRow(scope.row)"
@@ -127,19 +127,50 @@
       </el-table-column>
     </el-table>
     <el-dialog :visible.sync="dialogFormVisible">
-      <el-form :model="paymentForm" labelWidth="80px" ref="createform">
-        <el-form-item label="款项名称" prop="expenseName" :rules="[{ required: true, message: '该项为必填'}]">
-          <el-input v-model="paymentForm.expenseName" autocomplete="off" style="width:200px" placeholder="请输入款项名称"></el-input>
+      <el-form
+        :model="paymentForm"
+        labelWidth="80px"
+        ref="createform"
+      >
+        <el-form-item
+          label="款项名称"
+          prop="expenseName"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-input
+            v-model="paymentForm.expenseName"
+            autocomplete="off"
+            style="width:200px"
+            placeholder="请输入款项名称"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="款项性质" prop="expenseType" :rules="[{ required: true, message: '该项为必填'}]">
-          <el-select v-model="paymentForm.expenseType" placeholder="请选择款项性质">
-            <el-option v-for="item in mapConfig['getExpenseTypeList']" :label="item.value" :value="item.key" :key="item.key"></el-option>
+        <el-form-item
+          label="款项性质"
+          prop="expenseType"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-select
+            v-model="paymentForm.expenseType"
+            placeholder="请选择款项性质"
+          >
+            <el-option
+              v-for="item in mapConfig['getExpenseTypeList']"
+              :label="item.value"
+              :value="item.key"
+              :key="item.key"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm(2)" :disabled="submitloading">确 定</el-button>
-        <el-button type="primary" @click="submitForm(1)" :disabled="submitloading">保 存</el-button>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          @click="submitForm(1)"
+          :disabled="submitloading"
+        >保 存</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -165,6 +196,7 @@ export default {
       searchData: {},
       loading: false,
       tableData: [],
+      tableDataTotal: [],
       linkstyle: {
         color: '#3399ea',
         whiteSpace: 'nowrap',
@@ -243,6 +275,7 @@ export default {
       this.dialogFormVisible = true
     },
     submitSearchForm() {
+      this.tableData = this.tableDataTotal
       function filterTable(tableData, attr, searchData) {
         return tableData.filter(data => {
           if (typeof data[attr] === 'number') {
@@ -257,15 +290,15 @@ export default {
     },
     resetSearchForm() {
       this.searchData = {}
-      this.fetchData()
+      this.tableData = this.tableDataTotal
     },
     fetchData() {
       this.loading = true
       queryLogisticsExpenseAll(this.searchData).then(res => {
         this.tableData = res.data
+        this.tableDataTotal = [...res.data]
         this.loading = false
       }).catch(err => {
-        console.error(err)
         this.loading = false
       })
     }
