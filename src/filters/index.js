@@ -8,7 +8,7 @@ export function localEnum(value, type) {
 export function apiEnum(val, mapConfig, type) {
   const config = mapConfig
   const arrResult = config[type] || []
-  const result = arrResult.find(item => item.key === val) || {}
+  const result = arrResult.find(item => item.key == val) || {}
   return result.value || ''
 }
 

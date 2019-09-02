@@ -44,9 +44,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col
-              :span="6"
-            >
+            <el-col :span="6">
               <el-form-item
                 label="货主"
                 prop="ownerCode"
@@ -156,7 +154,7 @@ export default {
       tableConfig: indexTableConfig,
       providerConfig: [],
       infoConfig: [
-        { title: '库存总数量合计', prop: 'totalInventoryTotal' },
+        { title: '库存可用数量合计', prop: 'totalInventoryTotal' },
         { title: '库存锁定数量合计', prop: 'totalInventoryLockQuantity' },
       ],
     }

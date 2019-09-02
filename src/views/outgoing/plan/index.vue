@@ -418,6 +418,9 @@
           <span v-else-if="column.useLocalEnum && column.type">{{
             scope.row[column.prop] | localEnum(column.type)
             }}</span>
+          <span v-else-if="column.useApi && column.type">{{
+            scope.row[column.prop] | apiEnum(mapConfig, column.type)
+            }}</span>
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
@@ -527,7 +530,7 @@ export default {
         busiBillType: '',
         busiBillNo: '',
         planCode: '',
-        planState:'',
+        planState: '',
         arrivalName: '',
         ownerCode: '',
         contractNo: '',
@@ -570,7 +573,7 @@ export default {
   },
 
   computed: {
-  ...mapGetters({
+    ...mapGetters({
       'mapConfig': 'mapConfig',
       visitedViews: 'visitedViews'
     })
@@ -664,7 +667,7 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.ruleForm.planState=null
+      this.ruleForm.planState = null
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.ruleForm.createtime = []
       this.getCurrentTableData()
@@ -755,9 +758,9 @@ export default {
       }).catch(() => {
       })
     },
-    deleteItem(planCode,billNo) {
-      const that=this
-      const deletebillNo=billNo
+    deleteItem(planCode, billNo) {
+      const that = this
+      const deletebillNo = billNo
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$confirm('确认删除?', '提示', {
         confirmButtonText: '确定',
@@ -780,7 +783,7 @@ export default {
               }).catch(err => {
               })
             }).catch(() => {
-             this.getCurrentTableData()
+              this.getCurrentTableData()
             })
           }
         })

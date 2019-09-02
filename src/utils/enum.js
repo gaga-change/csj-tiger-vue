@@ -870,21 +870,6 @@ export const hangUpTypeEnum = [{
 },
 ]
 
-/** 执行状态 */
-export const execState = [{
-  name: '未执行',
-  value: 0
-},
-{
-  name: '已执行',
-  value: 5
-},
-{
-  name: '全部执行',
-  value: 8
-}
-]
-
 /** 推送状态 */
 export const pushState = [{
   "name": "未推送",
@@ -1001,15 +986,15 @@ export const isPrint = [{
 ]
 
 export const planStatusList = [{
-    name: '未计划',
-    value: 0
-  },
-  {
-    name: '部分计划',
-    value: 1
-  },
-  {
-    name: '全部计划',
-    value: 2
-  },
+  name: '未计划',
+  value: 0
+},
+{
+  name: '部分计划',
+  value: 1
+},
+{
+  name: '全部计划',
+  value: 2
+},
 ]

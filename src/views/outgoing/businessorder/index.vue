@@ -172,9 +172,7 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-            <el-col
-              :span="6"
-            >
+            <el-col :span="6">
               <el-form-item label="计划状态">
                 <el-select
                   v-model="ruleForm.planStatusList"
@@ -207,7 +205,7 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            
+
             <el-col :span="24">
               <el-form-item>
                 <el-button
@@ -292,6 +290,9 @@
           <span v-else-if="column.useLocalEnum && column.type">{{
             scope.row[column.prop] | localEnum(column.type)
             }}</span>
+          <span v-else-if="column.useApi && column.type">{{
+            scope.row[column.prop] | apiEnum(mapConfig, column.type)
+            }}</span>
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
@@ -374,7 +375,7 @@ export default {
         contractNo: '',
         pageNum: 1,
         pageSize: 10,
-        planStatusList:[0,1]
+        planStatusList: [0, 1]
       },
       total: 0,
       tableConfig: indexTableConfig,
@@ -386,22 +387,22 @@ export default {
       selectionList: [],
       batchLoading: false,
       t: null,
-      originbillNo:null,
+      originbillNo: null,
     }
   },
 
   mounted() {
     this.t = this.$route.query.t
-    this.originbillNo=this.$route.query.billNo
-    if(!this.originbillNo){
+    this.originbillNo = this.$route.query.billNo
+    if (!this.originbillNo) {
       const end = new Date();
       const start = new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
       this.$set(this.ruleForm, 'time', [start, end])
-    }else{
+    } else {
       this.$set(this.ruleForm, 'time', [])
     }
-    this.ruleForm.billNo=this.originbillNo?this.originbillNo:null
+    this.ruleForm.billNo = this.originbillNo ? this.originbillNo : null
     this.getCurrentTableData()
   },
 
@@ -409,18 +410,18 @@ export default {
     $route(val) {
       // 根据路由变化，判断是否要刷新页面
       if (val.name === 'outgoing-businessorder-index') {
-        if ((val.query.t !== this.t) || (val.query.billNo!==this.originbillNo)) {
+        if ((val.query.t !== this.t) || (val.query.billNo !== this.originbillNo)) {
           this.t = val.query.t
-          this.originbillNo=val.query.billNo
-          if(!this.originbillNo){
+          this.originbillNo = val.query.billNo
+          if (!this.originbillNo) {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             this.$set(this.ruleForm, 'time', [start, end])
-          }else{
+          } else {
             this.$set(this.ruleForm, 'time', [])
           }
-          this.ruleForm.billNo=this.originbillNo?this.originbillNo:null
+          this.ruleForm.billNo = this.originbillNo ? this.originbillNo : null
           this.getCurrentTableData()
         }
       }
@@ -430,7 +431,7 @@ export default {
   computed: {
     ...mapGetters([
       'mapConfig',
-    ]) 
+    ])
   },
 
   methods: {
@@ -501,7 +502,7 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.ruleForm.planStatusList=[]
+      this.ruleForm.planStatusList = []
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.getCurrentTableData()
     },

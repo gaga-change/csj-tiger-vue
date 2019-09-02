@@ -316,6 +316,9 @@
           <span v-else-if="column.useLocalEnum && column.type">{{
             scope.row[column.prop] | localEnum(column.type)
             }}</span>
+          <span v-else-if="column.useApi && column.type">{{
+            scope.row[column.prop] | apiEnum(mapConfig, column.type)
+            }}</span>
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
