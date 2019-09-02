@@ -56,7 +56,7 @@
       <el-form :model="configForm" label-width="100px" ref="configForm">
         <template v-for="item in configForm.configList">
             <el-form-item :label="item.name" >
-              <el-checkbox-group v-model="item.warehouseSysCodeList" :key="item.basicInfoType">
+              <el-checkbox-group v-model="item.warehouseSysCodeList" :key="item.basicInfoType" @change="checkboxchange">
                 <template v-if="item.name=='商品'">
                   <el-checkbox label="INFO"></el-checkbox>
                   <el-checkbox label="SHARK"></el-checkbox>
@@ -108,6 +108,7 @@ export default {
       storeLoading: false,
       configVisible:false,
       configForm:{
+        isSync:null,
         ownerCode:null,
         configList:[{name:'商品',basicInfoType:1,warehouseSysCodeList:[]},{name:'供应商',basicInfoType:3,warehouseSysCodeList:[]},{name:'客户',basicInfoType:4,warehouseSysCodeList:[]}]
       },
@@ -198,7 +199,8 @@ export default {
 
   methods: {
     showConfig(row){
-      let data=row
+      let rowdata=row
+      this.configForm.isSync=row.isSync
       this.configForm.ownerCode=row.ownerCode
       this.configForm.configList.map(item=>{
         item.warehouseSysCodeList=[]
@@ -215,7 +217,7 @@ export default {
               })
             })
           }else{
-            if(data.isSync===1){
+            if(rowdata.isSync===1){
               this.configForm.configList.map(item=>{
                 item.warehouseSysCodeList.push('INFO')
               })
@@ -224,6 +226,18 @@ export default {
           this.configVisible = true
         }
       })
+    },
+    checkboxchange(val){
+      if(val.length>0){
+        for(let i=0;i<val.length;i++){
+          if(val[i]=='INFO'){
+            if(this.configForm.isSync!=1){
+              this.$message.error('请先维护货主INFO')
+              val.splice(i,1)
+            }
+          }
+        }
+      }
     },
     confirmConfig(){
       let warehouseData=[]
