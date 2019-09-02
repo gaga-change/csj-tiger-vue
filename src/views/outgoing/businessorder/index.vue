@@ -49,7 +49,6 @@
               >
                 <el-input
                   v-model.lazy.trim="ruleForm.billNo"
-                  @keyup.enter.native="submitForm('ruleForm')"
                   placeholder="请输入业务单号"
                 ></el-input>
               </el-form-item>
@@ -375,6 +374,7 @@ export default {
         contractNo: '',
         pageNum: 1,
         pageSize: 10,
+        billNo: undefined,
         planStatusList: [0, 1]
       },
       total: 0,
