@@ -221,14 +221,6 @@ export default {
                   启用
                 </a>
               )}
-              <a
-                onClick={() => {
-                  this.showConfig(row)
-                }}
-                style={this.linkstyle}
-              >
-                推送配置
-              </a>
             </div>
           )
         }
