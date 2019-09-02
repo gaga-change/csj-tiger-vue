@@ -6,7 +6,7 @@ export const serviceChargePickSearchConfig = [
 ]
 
 export const serviceChargePickTableConfig = [
-  { label: '计划单号', prop: 'chargeBillNo' },
+  { label: '单号', prop: 'chargeBillNo' },
   { label: '货主', prop: 'ownerName' },
   { label: '结算日期', prop: 'settlementMonth', type: 'time', format: 'YYYY-MM-DD' },
   { label: '创建日期', prop: 'gmtCreate', type: 'time', format: 'YYYY-MM-DD' },
