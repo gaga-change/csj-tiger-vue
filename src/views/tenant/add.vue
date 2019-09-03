@@ -38,7 +38,7 @@
         label="推送配置："
         prop="isSyncValue"
       >
-        <el-checkbox v-model="addForm.isSyncValue">INFO</el-checkbox>
+        <el-checkbox v-model="isSyncValue">INFO</el-checkbox>
       </el-form-item>
       <el-form-item label="营业执照：">
         <upload-mode
@@ -208,13 +208,13 @@ export default {
     }
     return {
       addForm: {
-        isSyncValue:false
       },
       fileList: [],
       submitloading: false,
       validateOwnerName,
       validateTel,
-      validateDcno
+      validateDcno,
+      isSyncValue:null,
     }
   },
   computed: {
@@ -233,9 +233,10 @@ export default {
         const result = res.data
         this.addForm = result
         if(result.isSync && result.isSync==1){
-          this.addForm.isSyncValue=true
+          this.isSyncValue=true
+        }else{
+          this.isSyncValue=false
         }
-        console.log(this.addForm.isSyncValue)
         this.fileList = result.files
       }).catch((err) => {
         loading.close()
@@ -259,7 +260,7 @@ export default {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
           this.addForm.files = this.fileList
-          this.addForm.isSync=(this.addForm.isSyncValue==true?1:0)
+          this.addForm.isSync=(this.isSyncValue==true?1:0)
           const Api = this.addForm.ownerCode ? tenantUpdate : saveTenant
           Api(this.addForm).then(res => {
             this.$message.success('操作成功~')
