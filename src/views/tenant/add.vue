@@ -38,7 +38,7 @@
         label="推送配置："
         prop="isSyncValue"
       >
-        <el-checkbox v-model="isSyncValue">INFO</el-checkbox>
+        <el-checkbox v-model="isSyncValue" @change="showWarning">INFO</el-checkbox>
       </el-form-item>
       <el-form-item label="营业执照：">
         <upload-mode
@@ -215,6 +215,7 @@ export default {
       validateTel,
       validateDcno,
       isSyncValue:null,
+      isSync:null
     }
   },
   computed: {
@@ -232,6 +233,7 @@ export default {
         loading.close()
         const result = res.data
         this.addForm = result
+        this.isSync=result.isSync
         if(result.isSync && result.isSync==1){
           this.isSyncValue=true
         }else{
@@ -241,7 +243,17 @@ export default {
       }).catch((err) => {
         loading.close()
       })
-
+    },
+    showWarning(val){
+      if(this.$route.query.ownerCode && this.isSync!=1){
+        if(val){
+          this.$message({
+            message:'如需推送该货主下配置推送前的商品、客户、供应商时，可通过“修改商品”或者“绑定货主”操作推送',
+            type:'warning',
+            duration:3000
+          })
+        }
+      }
     },
     removeFile(enc) {
       this.fileList = this.fileList.filter(file => {
