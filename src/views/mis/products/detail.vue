@@ -129,7 +129,7 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="安全库存系数：" >
+          <el-form-item label="安全库存：" >
             <span>{{productForm.safeStockFactor}}</span>
           </el-form-item>
         </el-col>
@@ -217,9 +217,9 @@
         <el-table-column type="index" label="序号" width="55"></el-table-column>
         <el-table-column v-for="(column, index) in servicerConfig" :key="index" :prop="column.prop" :label="column.label" :width="column.width">
           <template slot-scope="scope">
-            <span v-if="column.type === 'date'">{{scope.row[column.prop] | parseTime}}</span>
-            <span v-else>{{scope.row[column.prop]}}</span>
-          </template>
+  <span v-if="column.type === 'date'">{{scope.row[column.prop] | parseTime}}</span>
+  <span v-else>{{scope.row[column.prop]}}</span>
+</template>
         </el-table-column>
       </el-table>
 
@@ -244,12 +244,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-       mapConfig: 'mapConfig'
+      mapConfig: 'mapConfig'
     })
   },
   created() {
-    this.customerConfig.find(v=>v.label==='客户').prop='customerName'
-    this.servicerConfig.find(v=>v.label==='供应商').prop='providerName'
+    this.customerConfig.find(v => v.label === '客户').prop = 'customerName'
+    this.servicerConfig.find(v => v.label === '供应商').prop = 'providerName'
     this.getDetail()
   },
   methods: {
