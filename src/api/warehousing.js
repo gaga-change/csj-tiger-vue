@@ -209,3 +209,11 @@ export function batchApprovePlan(data={}) {
     data: data
   })
 }
+
+//入库计划单手工完结
+export function inCloseOperate(data) {
+  return request({
+    url: `/webApi/in/plan/end/${data}`,
+    method: 'PUT'
+  })
+}

@@ -55,7 +55,7 @@
                   placeholder="请选择货主"
                 >
                   <el-option
-                    v-for="item in mapConfig['ownerInfoMap']"
+                    v-for="item in ownerList"
                     :label="item.value"
                     :key="item.key"
                     :value="item.key"
@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import { stockSelect } from '@/api/inventory'
+import { stockSelect, ownerSelect } from '@/api/inventory'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 
@@ -157,6 +157,7 @@ export default {
         { title: '库存可用数量合计', prop: 'totalInventoryTotal' },
         { title: '库存锁定数量合计', prop: 'totalInventoryLockQuantity' },
       ],
+      ownerList:[]
     }
   },
 
@@ -168,6 +169,7 @@ export default {
     }
 
     this.getCurrentTableData();
+    this.getOwnerSelect()
 
   },
   computed: {
@@ -177,7 +179,13 @@ export default {
   },
 
   methods: {
-
+    getOwnerSelect(){
+      ownerSelect().then(res=>{
+        if(res.success){
+          this.ownerList=res.data
+        }
+      })
+    },
     propsChange() {
       this.submitForm('ruleForm')
     },

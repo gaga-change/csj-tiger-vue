@@ -217,29 +217,10 @@ export default {
               })
             })
           }
-          // else{
-          //   if(rowdata.isSync===1){
-          //     this.configForm.configList.map(item=>{
-          //       item.warehouseSysCodeList.push('INFO')
-          //     })
-          //   }
-          // }
           this.configVisible = true
         }
       })
     },
-    // checkboxchange(val){
-    //   if(val.length>0){
-    //     for(let i=0;i<val.length;i++){
-    //       if(val[i]=='INFO'){
-    //         if(this.configForm.isSync!=1){
-    //           this.$message.error('请先维护货主INFO')
-    //           val.splice(i,1)
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
     confirmConfig(){
       let warehouseData=[]
       let submitData={}

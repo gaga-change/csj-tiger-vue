@@ -50,10 +50,10 @@
           :label-width="formLabelWidth"
           style="height: auto"
         >
-          <el-link
+          <span
             type="primary"
             @click="innerVisible=true"
-          >录入款项及金额</el-link>
+          >录入款项及金额</span>
           <div v-show="expenseList.length">
             <base-table2
               :showIndex="true"
@@ -64,11 +64,11 @@
             >
               <template slot-scope="scope">
                 <div>
-                  <el-link
+                  <span
                     type="danger"
                     icon="el-icon-delete"
                     @click="handleDelete(scope.row, scope.index)"
-                  >删除</el-link>
+                  >删除</span>
                 </div>
               </template>
             </base-table2>
