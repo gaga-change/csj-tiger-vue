@@ -203,7 +203,7 @@
                   placeholder="请选择挂起类型"
                 >
                   <el-option
-                    v-for="item in hangUpTypeEnum"
+                    v-for="item in mapConfig['getHangUpType']"
                     :label="item.name"
                     :key="item.value"
                     :value="item.value"
@@ -521,7 +521,7 @@ import { outPlanSelect, outPlanCheckBatch, outPlanClose, planOrderPrint, outPlan
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig, manual_config, printingTable_config } from './config';
-import { warehousingPlanBillStatus, hangUpTypeEnum, pushState } from "@/utils/enum.js";
+import { warehousingPlanBillStatus, pushState } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { stringify } from 'qs';
 import { MakePrint } from '@/utils'
@@ -556,7 +556,6 @@ export default {
       tableData: [],
       tableConfig: indexTableConfig,
       warehousingPlanBillStatus,
-      hangUpTypeEnum,
       pushState,
       linkData: '',
       batchLoading: false,
@@ -578,10 +577,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      'mapConfig': 'mapConfig',
-      visitedViews: 'visitedViews'
-    })
+    ...mapGetters([
+      'mapConfig',
+      'visitedViews'
+    ])
   },
 
   methods: {
