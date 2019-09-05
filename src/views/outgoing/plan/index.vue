@@ -204,9 +204,9 @@
                 >
                   <el-option
                     v-for="item in mapConfig['getHangUpType']"
-                    :label="item.name"
-                    :key="item.value"
-                    :value="item.value"
+                    :label="item.value"
+                    :key="item.key"
+                    :value="item.key"
                   ></el-option>
                 </el-select>
               </el-form-item>
