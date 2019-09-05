@@ -408,7 +408,7 @@
             class="c-red"
           >
             {{
-            scope.row[column.prop] | localEnum(column.type)
+              scope.row[column.prop] | apiEnum(column.type)
             }}
           </span>
           <span v-else-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
