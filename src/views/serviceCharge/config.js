@@ -17,7 +17,7 @@ export const serviceChargePickTableConfig = [
   { label: '地址', prop: 'dispatchAddr', width:120 },
   { label: '客户编码', prop: 'customerCode', width:120 },
   { label: '结算日期', prop: 'settlementDate', type: 'time', format: 'YYYY-MM-DD', width:120 },
-  { label: '费用', prop: 'ownerName', width:120 },
+  { label: '费用', prop: 'expenseAmt', width:120 },
   { label: '结算方式', prop: 'settlementType', type: 'settlementType2', useLocalEnum: true,width:120 },
   { label: '创建日期', prop: 'gmtCreate', type: 'time', format: 'YYYY-MM-DD', width:120 },
   { label: '备注', prop: 'remarkInfo', width:120 },
