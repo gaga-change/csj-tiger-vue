@@ -202,7 +202,7 @@
           <el-form-item label="代支款项">
             <el-select
               v-model="addForm.expense"
-              value-key="expenseId"
+              value-key="id"
               placeholder="请选择代支款项"
             >
               <el-option
