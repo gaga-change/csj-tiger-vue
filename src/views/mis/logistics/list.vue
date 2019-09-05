@@ -366,7 +366,7 @@ export default {
             }
           })
           .catch(err => {
-            console.err(err)
+            console.error(err)
             this.tableLoading = false
           })
       })
@@ -400,7 +400,7 @@ export default {
           this.expenses = res.data
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
         })
     },
     addFee(row) {
@@ -420,7 +420,7 @@ export default {
           this.feeTableData = result.logisticsExpenses || []
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           this.tableLoading = false
         })
     },
@@ -474,7 +474,7 @@ export default {
             this.fetchData()
           })
           .catch(err => {
-            console.err(err)
+            console.error(err)
           })
       })
     },
@@ -496,7 +496,7 @@ export default {
           this.consoil = res.data && res.data.list
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
         })
     },
     searchSubmit(formData) {
@@ -529,7 +529,7 @@ export default {
         })
         .catch(err => {
           this.loading = false
-          console.err(err)
+          console.error(err)
         })
     },
     handleSizeChange(val) {
