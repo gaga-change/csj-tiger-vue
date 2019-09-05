@@ -318,3 +318,12 @@ export function outPlandelete(data) {
     method: 'PUT'
   })
 }
+
+//出库计划单手工完结
+export function outCloseOperate(data) {
+  return request({
+    url: `/webApi/out/plan/end/${data}`,
+    method: 'PUT'
+  })
+}
+

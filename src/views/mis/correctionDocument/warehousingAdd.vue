@@ -182,6 +182,7 @@ export default {
       } else if (value === 2) {
         this.carrierDetail_Config.push({ label: '调整数量 ', prop: 'revisalQty', useEdit: true, width: 150,min:-Infinity })
       }
+      this.carrierDetail_Config.push({ label: '备注 ', prop: 'remarkInfo', useEdit: true, editType:'input', width: 150})
     },
     initDetail() {
       queryApprovedItems(this.query.id).then(res => {

@@ -348,6 +348,11 @@
               class="tableLink"
               @click="closePlan(scope.row)"
             >关闭</span>
+            <span
+              v-if="scope.row.isCanEnd===1"
+              class="tableLink"
+              @click="closeOperate(scope.row.planCode)"
+            >手工完结</span>
           </div>
         </template>
       </el-table-column>
@@ -368,7 +373,7 @@
 
 <script>
 import moment from 'moment';
-import { inPlanSelect, batchApprovePlan, inPlanClose } from '@/api/warehousing'
+import { inPlanSelect, batchApprovePlan, inPlanClose, inCloseOperate } from '@/api/warehousing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig } from './config';
 import { warehousingPlanBillStatus } from "@/utils/enum.js";
@@ -448,6 +453,28 @@ export default {
           type: 'info',
           message: '已取消关闭'
         })
+      })
+    },
+    closeOperate(planCode) {
+      const submitPlanCode = planCode
+      this.$confirm('请确认是否完结该计划?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.loading = true
+        inCloseOperate(submitPlanCode).then(res => {
+          if (res.success) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            })
+          }
+          this.getCurrentTableData()
+        }).catch(err => {
+          this.getCurrentTableData()
+        })
+      }).catch(() => {
       })
     },
     oprateBatch(type) {

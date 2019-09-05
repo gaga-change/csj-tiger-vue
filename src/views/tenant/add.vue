@@ -38,7 +38,7 @@
         label="推送配置："
         prop="isSyncValue"
       >
-        <el-checkbox v-model="addForm.isSyncValue">INFO</el-checkbox>
+        <el-checkbox v-model="isSyncValue" @change="showWarning">INFO</el-checkbox>
       </el-form-item>
       <el-form-item label="营业执照：">
         <upload-mode
@@ -208,13 +208,14 @@ export default {
     }
     return {
       addForm: {
-        isSyncValue:false
       },
       fileList: [],
       submitloading: false,
       validateOwnerName,
       validateTel,
-      validateDcno
+      validateDcno,
+      isSyncValue:null,
+      isSync:null
     }
   },
   computed: {
@@ -232,15 +233,27 @@ export default {
         loading.close()
         const result = res.data
         this.addForm = result
+        this.isSync=result.isSync
         if(result.isSync && result.isSync==1){
-          this.addForm.isSyncValue=true
+          this.isSyncValue=true
+        }else{
+          this.isSyncValue=false
         }
-        console.log(this.addForm.isSyncValue)
         this.fileList = result.files
       }).catch((err) => {
         loading.close()
       })
-
+    },
+    showWarning(val){
+      if(this.$route.query.ownerCode && this.isSync!=1){
+        if(val){
+          this.$message({
+            message:'如需推送该货主下配置推送前的商品、客户、供应商时，可通过“修改商品”或者“绑定货主”操作推送',
+            type:'warning',
+            duration:3000
+          })
+        }
+      }
     },
     removeFile(enc) {
       this.fileList = this.fileList.filter(file => {
@@ -259,7 +272,7 @@ export default {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
           this.addForm.files = this.fileList
-          this.addForm.isSync=(this.addForm.isSyncValue==true?1:0)
+          this.addForm.isSync=(this.isSyncValue==true?1:0)
           const Api = this.addForm.ownerCode ? tenantUpdate : saveTenant
           Api(this.addForm).then(res => {
             this.$message.success('操作成功~')

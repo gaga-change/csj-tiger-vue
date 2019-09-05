@@ -17,6 +17,13 @@ export function stockRecord(data={}) {
   })
 }
 
+//库存查询页面货主下拉列表
+export function ownerSelect() {
+  return request({
+    url: `/webApi/owner/info/getOwner`,
+    method: 'get',
+  })
+}
 
 
 
