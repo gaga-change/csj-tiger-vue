@@ -5,22 +5,10 @@
       @search="search"
     />
     <div class="text-right">
-      <upload-excel
-      style="margin:0 10px"
-      @uploadRes="uploadRes"
-      :name="'file'"
-      :importText="'导入'"
-      :modelUrl="'/static/templet/serviceCharge.xlsx'"
-      :filesuploadUrl="'/webApi/serviceChargeBill/import/batch'"
-    ></upload-excel>
-      <!-- <el-button
+      <el-button
         type="primary"
         @click="handleCreate()"
-      >导入</el-button> -->
-      <!-- <el-button
-        type="primary"
-        @click="handleCreate()"
-      >新建</el-button> -->
+      >新建</el-button>
     </div>
     <div class="mt15">
       <base-table2
@@ -32,16 +20,16 @@
       >
         <template slot-scope="scope">
           <div>
-            <span
+            <el-link
               type="danger"
               icon="el-icon-delete"
               @click="handleDelete(scope.row)"
-            >删除</span>
-            <!-- <el-divider direction="vertical"></el-divider> -->
-           <!--  <span
+            >删除</el-link>
+            <el-divider direction="vertical"></el-divider>
+            <el-link
               icon="el-icon-edit"
               @click="handleModify(scope.row)"
-            >编辑</span> -->
+            >编辑</el-link>
           </div>
         </template>
       </base-table2>
@@ -95,9 +83,6 @@ export default {
       this.$nextTick(() => {
         this.serviceChargePickFormVisible = true
       })
-    },
-    uploadRes(result) {
-      this.$refs['baseTable'].fetchData()
     },
     /** 添加后刷新列表 */
     confirm() {
