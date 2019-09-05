@@ -177,7 +177,7 @@ export default {
           this.consoil = res.data && res.data.list
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
         })
     },
     searchSubmit(formData) {

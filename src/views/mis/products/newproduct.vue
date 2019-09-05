@@ -559,13 +559,13 @@
               :lg="8"
               :xl="6"
             >
-              <el-form-item label="安全库存系数：">
+              <el-form-item label="安全库存：">
                 <el-input
                   type="number"
                   v-model="productForm.safeStockFactor"
                   class="formitem"
                   size="small"
-                  placeholder="请输入安全库存系数"
+                  placeholder="请输入安全库存"
                 >
                 </el-input>
               </el-form-item>
