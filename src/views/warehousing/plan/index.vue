@@ -451,7 +451,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消关闭'
+          message: '已取消'
         })
       })
     },
