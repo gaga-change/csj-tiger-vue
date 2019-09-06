@@ -189,6 +189,7 @@
                 v-model="searchForm.arrivalCode"
                 :ownerCode="searchForm.ownerCode"
                 :busiBillType="searchForm.busiBillType"
+                :value="searchForm.arrivalName"
                 @change="providerChange"
               >
               </select-customer>
@@ -622,7 +623,7 @@ export default {
     getcustomerName(customerCode){
       customNameSearch({customerCode:customerCode}).then(res=>{
         if(res.success){
-          // this.searchForm.arrivalName
+          this.searchForm.arrivalName=res.data.customerName
         }
       })
     },
