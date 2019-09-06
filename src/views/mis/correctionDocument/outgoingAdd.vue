@@ -182,6 +182,7 @@ export default {
       } else if (value === 2) {
         this.outgoing_carrierDetailConfig.push({ label: '调整数量 ', prop: 'revisalQty', useEdit: true, width: 150 ,min:-Infinity})
       }
+      this.outgoing_carrierDetailConfig.push({ label: '备注 ', prop: 'remarkInfo', useEdit: true, editType:'input', width: 150})
     },
     initDetail() {
       outQueryApprovedItems(this.query.id).then(res => {
@@ -245,7 +246,7 @@ export default {
           this.carrierDetail_data = res.data.map((item, index) => ({
             id: index,
             ...item,
-            ...{ revisalQty: '/', revisalAmt: '/' }
+            ...{ revisalQty: null, revisalAmt: null, edit:true, isSubmit:false }
           }))
         })
       }
@@ -254,15 +255,16 @@ export default {
       let config = _.cloneDeep(this.outgoing_carrierDetailConfig)
       let data = _.cloneDeep(this.carrierDetail_data)
       if (value === 1) {
-        config[config.length - 1] = { label: '调整金额', prop: 'revisalAmt', useEdit: true, width: 150,min:-Infinity }
+        config[config.length - 2] = { label: '调整金额', prop: 'revisalAmt', useEdit: true, width: 150,min:-Infinity }
       } else if (value === 2) {
-        config[config.length - 1] = { label: '调整数量', prop: 'revisalQty', useEdit: true, width: 150 ,min:-Infinity}
+        config[config.length - 2] = { label: '调整数量', prop: 'revisalQty', useEdit: true, width: 150 ,min:-Infinity}
       }
       this.outgoing_carrierDetailConfig = config;
       this.carrierDetail_data = data.map(v => {
-        v.revisalQty = '/';
-        v.revisalAmt = '/';
-        v.edit = false;
+        v.revisalQty = null;
+        v.revisalAmt = null;
+        v.edit = true;
+        v.isSubmit=false;
         return v;
       })
 
@@ -284,7 +286,12 @@ export default {
       this.$refs['searchForm'].validate((valid) => {
         if (valid) {
           let json = _.cloneDeep(this.searchForm);
-          let itemArr = this.carrierDetail_data.filter(v => v.edit);
+          let itemArr = []
+          if (this.isModify){
+            itemArr = this.carrierDetail_data.filter(v => v.edit);
+          }else{
+            itemArr = this.carrierDetail_data.filter(v => v.isSubmit);
+          }
           if (!itemArr.length) {
             return this.$message({message: '请调整金额或数量!',type: 'warning'});
           }
@@ -363,30 +370,28 @@ export default {
       let data = _.cloneDeep(this.carrierDetail_data);
       data = data.map(v => {
         if (v.id === _.cloneDeep(currentRow).id) {
-          return { ...v, edit: !currentRow.edit, revisalQty: '/', revisalAmt: '/' }
+          return { ...v, edit: currentRow.edit, revisalQty: currentRow.revisalQty, revisalAmt: currentRow.revisalAmt, isSubmit:true }
         } else {
           return { ...v }
         }
       })
-
       this.carrierDetail_data = data;
-
       //高亮效果
-      this.$nextTick(() => {
-        let revisalEditTable = [...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr')];
-        revisalEditTable.forEach(item => {
-          let td = [...item.querySelectorAll('td')]
-          if (item.innerHTML.includes('el-input-number')) {
-            td.forEach(v => {
-              v.style.cssText = "color:#fff;background:green !important"
-            })
-          } else {
-            td.forEach(v => {
-              v.style.cssText = ""
-            })
-          }
-        })
-      })
+      // this.$nextTick(() => {
+      //   let revisalEditTable = [...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr')];
+      //   revisalEditTable.forEach(item => {
+      //     let td = [...item.querySelectorAll('td')]
+      //     if (item.innerHTML.includes('el-input-number')) {
+      //       td.forEach(v => {
+      //         v.style.cssText = "color:#fff;background:green !important"
+      //       })
+      //     } else {
+      //       td.forEach(v => {
+      //         v.style.cssText = ""
+      //       })
+      //     }
+      //   })
+      // })
     },
 
   }
