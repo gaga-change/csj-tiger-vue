@@ -198,7 +198,7 @@ export default {
           id: index,
           ...item,
           edit: (item.revisalQty !== null || item.revisalAmt !== null) && !this.query.readOnly,
-          ...{ revisalQty: item.revisalQty !== null ? item.revisalQty : '/', revisalAmt: item.revisalAmt !== null ? item.revisalAmt : '/' }
+          ...{ revisalQty: item.revisalQty !== null ? item.revisalQty : null, revisalAmt: item.revisalAmt !== null ? item.revisalAmt : null }
         }))
       })
     },

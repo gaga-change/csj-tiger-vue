@@ -23,6 +23,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              
+              <el-col>
+                <el-form-item label="仓库类型:" prop="warehouseType" :rules="[{ required: true, message: '该项为必填'}]" >
+                  <el-select  v-model="searchForm.warehouseType" clearable  placeholder="请选择仓库类型" size="small" class="formitem">
+                    <el-option v-for="item in mapConfig['getWarehouseType']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
               <el-col>
                 <el-form-item label="接收人:" prop="warehouseLinkName">
