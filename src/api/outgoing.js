@@ -327,3 +327,12 @@ export function outCloseOperate(data) {
   })
 }
 
+//根据客户/供应商编码查询名称
+export function customNameSearch(data) {
+  return request({
+    url: `/webApi/customer/detail`,
+    method: 'post',
+    data:data
+  })
+}
+

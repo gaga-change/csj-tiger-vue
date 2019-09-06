@@ -286,11 +286,7 @@ export default {
         if (valid) {
           let json = _.cloneDeep(this.searchForm);
           let itemArr = []
-          if (this.isModify){
-            itemArr = this.carrierDetail_data.filter(v => v.edit);
-          }else{
-            itemArr = this.carrierDetail_data.filter(v => v.isSubmit);
-          }
+          itemArr = this.carrierDetail_data.filter(v => v.edit);
           if (!itemArr.length) {
             return this.$message({message: '请调整金额或数量!',type: 'warning'});
           }

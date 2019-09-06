@@ -519,7 +519,7 @@ import addForm from './conpoments/addForm'
 import { outgoingOrderTypeEnum, sendOutRequireEnum } from "@/utils/enum.js";
 import { ownerWarehouseList } from '@/api/tenant'
 import { getProductList } from '@/api/productcenter'
-import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove } from '@/api/outgoing'
+import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove, customNameSearch } from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
 import _ from 'lodash';
 import { mapGetters } from 'vuex'
@@ -619,7 +619,13 @@ export default {
     skuCodeChange(value) {
       this.addCommodityForm = value
     },
-
+    getcustomerName(customerCode){
+      customNameSearch({customerCode:customerCode}).then(res=>{
+        if(res.success){
+          // this.searchForm.arrivalName
+        }
+      })
+    },
     //业务单类型变化回调
     busiBillTypeChange(value) {
       let searchForm = _.cloneDeep(this.searchForm);
@@ -738,7 +744,20 @@ export default {
         }
         this.addtable_config = addtable_config;
         this.searchForm = searchForm;
-        this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode)
+        this.getcustomerName(this.searchForm.arrivalCode)
+        this.showStore({ ownerCode: this.searchForm.ownerCode })
+        customerAddrInfo(this.searchForm.arrivalCode, this.searchForm.busiBillType).then(res => {
+          if (res.success) {
+            this.addrListConfig = Array.isArray(res.data) && res.data || [];
+            const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
+            this.$nextTick(() => {
+              this.searchForm.arrivalAddress = defaultAddress.arrivalAddress
+              this.arrivalAddressChange(defaultAddress.arrivalAddress)
+            })
+          }
+        }).catch(err => {
+        })
+        // this.searchForm.arrivalCode && await this.providerChange(this.searchForm.arrivalCode)
 
       } else {
         this.$message.error('导入失败');
