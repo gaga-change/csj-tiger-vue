@@ -436,7 +436,7 @@
               class="tableLink"
             >查看</router-link>
             <router-link
-              v-if="(scope.row.planState === 0 || scope.row.planState === 1) || scope.row.hangUpType===1"
+              v-if="(scope.row.planState === 0 || scope.row.planState === 1) || (!(readOnly.indexOf(scope.row.planState)>-1) && scope.row.hangUpType===1)"
               :to="`/outgoing/out-plan-modify?id=${scope.row.id}&planCode=${scope.row.planCode}`"
               class="tableLink"
             >修改</router-link>
@@ -563,7 +563,8 @@ export default {
       printingVisible: false,
       printingTable_data: {},
       printingTable_config,
-      printState: [{ key: 0, value: '否' }, { key: 1, value: '是' }]
+      printState: [{ key: 0, value: '否' }, { key: 1, value: '是' }],
+      readOnly:[4,6,7]
     }
   },
 
