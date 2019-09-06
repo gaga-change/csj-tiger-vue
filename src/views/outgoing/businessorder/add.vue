@@ -189,7 +189,6 @@
                 v-model="searchForm.arrivalCode"
                 :ownerCode="searchForm.ownerCode"
                 :busiBillType="searchForm.busiBillType"
-                :value="searchForm.arrivalName"
                 @change="providerChange"
               >
               </select-customer>
