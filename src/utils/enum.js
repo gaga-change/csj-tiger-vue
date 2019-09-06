@@ -827,7 +827,7 @@ export const warehousingPlanBillStatus = [{
   value: 3
 },
 {
-  name: '已关闭',
+  name: '已取消',
   value: 4
 },
 {
