@@ -246,7 +246,7 @@ export default {
           this.carrierDetail_data = res.data.map((item, index) => ({
             id: index,
             ...item,
-            ...{ revisalQty: null, revisalAmt: null, edit:true, isSubmit:false }
+            ...{ revisalQty:item.isApproved==1?'/':null, revisalAmt:item.isApproved==1?'/':null, edit:false }
           }))
         })
       }
@@ -261,10 +261,9 @@ export default {
       }
       this.outgoing_carrierDetailConfig = config;
       this.carrierDetail_data = data.map(v => {
-        v.revisalQty = null;
-        v.revisalAmt = null;
-        v.edit = true;
-        v.isSubmit=false;
+        v.revisalQty = item.isApproved==1?'/':null
+        v.revisalAmt = item.isApproved==1?'/':null
+        v.edit = false
         return v;
       })
 
@@ -352,11 +351,10 @@ export default {
         }
       })
     },
-
     //点击某一行的回调
     handleCurrentRedioChange(currentRow, oldCurrentRow) {
 
-      if (this.isModify || !currentRow) {
+      if (!currentRow) {
         return false
       }
 
@@ -370,28 +368,12 @@ export default {
       let data = _.cloneDeep(this.carrierDetail_data);
       data = data.map(v => {
         if (v.id === _.cloneDeep(currentRow).id) {
-          return { ...v, edit: currentRow.edit, revisalQty: currentRow.revisalQty, revisalAmt: currentRow.revisalAmt, isSubmit:true }
+          return { ...v, edit: true, revisalQty: currentRow.revisalQty, revisalAmt: currentRow.revisalAmt }
         } else {
           return { ...v }
         }
       })
       this.carrierDetail_data = data;
-      //高亮效果
-      // this.$nextTick(() => {
-      //   let revisalEditTable = [...document.querySelectorAll('.revisalEditTable .el-table__body-wrapper  tbody tr')];
-      //   revisalEditTable.forEach(item => {
-      //     let td = [...item.querySelectorAll('td')]
-      //     if (item.innerHTML.includes('el-input-number')) {
-      //       td.forEach(v => {
-      //         v.style.cssText = "color:#fff;background:green !important"
-      //       })
-      //     } else {
-      //       td.forEach(v => {
-      //         v.style.cssText = ""
-      //       })
-      //     }
-      //   })
-      // })
     },
 
   }
