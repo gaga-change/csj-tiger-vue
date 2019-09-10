@@ -204,7 +204,10 @@ export default {
       },
       dialogFormVisible: false,
       submitloading: false,
-      paymentForm: {},
+      paymentForm: {
+        expenseName:null,
+        expenseType:2
+      },
       expenseType
     }
   },
@@ -272,6 +275,7 @@ export default {
           this.paymentForm[i] = null
         }
       }
+      this.paymentForm.expenseState=2
       this.dialogFormVisible = true
     },
     submitSearchForm() {

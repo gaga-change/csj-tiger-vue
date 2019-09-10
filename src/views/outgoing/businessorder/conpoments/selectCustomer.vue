@@ -121,7 +121,7 @@ export default {
   computed: {
     valueName() {
       if (!this.value) return ''
-      return this.selectRow.customerName
+      return this.selectRow?this.selectRow.customerName:this.value
     },
     saleTypeMap() {
       let obj = {}

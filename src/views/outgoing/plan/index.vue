@@ -465,11 +465,11 @@
               class="tableLink"
               @click="closePlan(scope.row)"
             >关闭</span>
-            <!-- <span
+            <span
               v-if="scope.row.isCanEnd===1"
               class="tableLink"
               @click="closeOperate(scope.row.planCode)"
-            >手工完结</span> -->
+            >手工完结</span>
           </div>
         </template>
       </el-table-column>
