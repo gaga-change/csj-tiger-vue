@@ -7,11 +7,11 @@
          <router-link v-if="[0,2].includes(infoData.billStatus)"  :to="`/outgoing/businessorderadd?type=modify&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">修改</el-button>
          </router-link>
-          <router-link v-if="[1].includes(infoData.billStatus)" :to="`/outgoing/businessorderadd?type=revision&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
+          <router-link v-if="[1].includes(infoData.billStatus) && infoData.billState !== 8" :to="`/outgoing/businessorderadd?type=revision&id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">调整</el-button>
          </router-link>
          <el-button v-if="[0,2].includes(infoData.billStatus)"  type="success" size="small" @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillCheck','请输入审核意见 !')">审核</el-button>
-         <router-link v-if="[1].includes(infoData.billStatus) && infoData.billState !== 8 && !scope.row.billNo.includes('DB')" :to="`/outgoing/businessorderAddPlanOrder?id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
+         <router-link v-if="[1].includes(infoData.billStatus) && infoData.billState !== 8 && !infoData.billNo.includes('DB')" :to="`/outgoing/businessorderAddPlanOrder?id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
             <el-button  type="success" size="small">创建计划单</el-button>
          </router-link>
       </template>

@@ -312,7 +312,7 @@
               class="tableLink"
             >修改</router-link>
             <router-link
-              v-if="scope.row.billStatus === 1"
+              v-if="scope.row.billStatus === 1 && scope.row.billState !== 8"
               :to="`/outgoing/businessorderadd?type=revision&id=${scope.row.id}&time=${moment().valueOf()}`"
               class="tableLink"
             >调整</router-link>
