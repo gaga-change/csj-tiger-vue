@@ -64,7 +64,7 @@
         property="availableQty"
         label="可用库存"
       />
-      <el-table-column label="调拨数量">
+      <el-table-column label="调拨数量" width="180px">
         <template slot-scope="scope">
           <el-input-number
             size="mini"
@@ -72,6 +72,16 @@
             :precision="0"
             :min="0"
           ></el-input-number>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="备注"
+      >
+        <template slot-scope="scope">
+          <el-input
+            size="mini"
+            v-model="scope.row.remarkInfo"
+          ></el-input>
         </template>
       </el-table-column>
     </el-table>

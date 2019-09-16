@@ -49,10 +49,11 @@ export function billOwnerInfoMap() {
 }
 
 //仓库枚举
-export function getWarehouse() {
+export function getWarehouse(params) {
   return request({
     url: '/webApi/base/info/getWarehouse',
     method: 'get',
+    params
   })
 }
 

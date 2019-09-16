@@ -521,7 +521,8 @@ export default {
                 skuName: item.skuName,
                 skuFormat: item.skuFormat,
                 skuModel: item.skuModel,
-                transferQty: item.transferQty
+                transferQty: item.transferQty,
+                remarkInfo: item.remarkInfo
               })
             }
           })
@@ -532,7 +533,8 @@ export default {
               skuName: item.skuName,
               skuFormat: item.skuFormat,
               skuModel: item.skuModel,
-              transferQty: item.transferQty
+              transferQty: item.transferQty,
+              remarkInfo: item.remarkInfo
             })
           })
         }

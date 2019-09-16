@@ -351,7 +351,7 @@
               >修改</router-link>
             </template>
             <router-link
-              v-if="scope.row.billStatus === 1 && scope.row.planInQty > scope.row.planInQtyForPlan"
+              v-if="scope.row.billStatus === 1 && scope.row.planInQty > scope.row.planInQtyForPlan && scope.row.billState !== 8 && !scope.row.billNo.includes('DB')"
               :to="`/warehousing/warehousingAddPlanOrder?id=${scope.row.id}&time=${moment().valueOf()}`"
               class="tableLink"
             >创建计划单</router-link>

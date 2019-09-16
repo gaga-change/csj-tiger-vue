@@ -10,7 +10,7 @@
          <el-button  type="success" size="small" v-if="[0,2].includes(infoData.billStatus)" @click="operation('examine')" >审核</el-button>
          <el-button  type="success" size="small" @click="printing" v-if="[1].includes(infoData.billStatus)">打印</el-button>
          <router-link  :to="`/warehousing/warehousingAddPlanOrder?id=${$route.query.id}&time=${moment().valueOf()}`"  class="tableLink">
-            <el-button  type="success" size="small" v-if="[1].includes(infoData.billStatus)" >创建计划单</el-button>
+            <el-button  type="success" size="small" v-if="[1].includes(infoData.billStatus) && infoData.billState !== 8 && !infoData.billNo.includes('DB')" >创建计划单</el-button>
          </router-link>
       </template>
     </sticky>
