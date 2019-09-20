@@ -109,5 +109,16 @@ $dirSizeList: 5 10 15 20 25;
 .nowrap {
   white-space: nowrap;
 }
+// 用于打印预览 【紧凑型】
+.compact-table-area {
+  table {
+    th {
+      padding: 0;
+    }
+    td {
+      padding: 0;
+    }
+  }
+}
 </style>
 

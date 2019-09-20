@@ -2,23 +2,20 @@
   <div class="outgoing-quirydetail-container">
     <h3 style="text-align: center;">发货清单</h3>
     <div>
-      <div style="margin-bottom: 12px;">
-        <span style="font-size: 12px;font-weight: 600;">客户编码 :</span><span style="font-size: 12px;">{{data.arrivalCode}}</span>
-      </div>
-      <div style="margin-bottom: 12px;display: flex;justify-content: space-between;padding-right: 150px;">
-        <div><span style="font-size: 12px;font-weight: 600;">客户名称 : </span><span style="font-size: 12px;">{{data.arrivalName}}</span></div>
-        <div><span style="font-size: 12px;font-weight: 600;">联系电话 : </span><span style="font-size: 12px;">{{data.arrivalLinkTel}}</span> </div>
-        <div><span style="font-size: 12px;font-weight: 600;">通知单号 : </span><span style="font-size: 12px;">{{data.busiBillNo}}</span></div>
-      </div>
-      <div style="margin-bottom: 12px;">
-        <span style="font-size: 12px;font-weight: 600;">客户地址 :</span><span style="font-size: 12px;">{{data.arrivalAddress}}</span>
-      </div>
+      <span class="f12 mr20 mt10 nowrap"><span class="fw600 mr5">客户编码 :</span><span>{{data.arrivalCode}}</span></span>
+      <span class="f12 mr20 mt10 nowrap"><span class="fw600 mr5">客户名称 :</span><span>{{data.arrivalName}}</span></span>
+      <span class="f12 mr20 mt10 nowrap"><span class="fw600 mr5">联系电话 :</span><span>{{data.arrivalLinkTel}}</span></span>
+      <span class="f12 mr20 mt10 nowrap"><span class="fw600 mr5">通知单号 :</span><span>{{data.busiBillNo}}</span></span>
+      <span class="f12 mr20 mt10 nowrap"><span class="fw600 mr5">客户地址 :</span><span>{{data.arrivalAddress}}</span></span>
     </div>
-    <div style="min-height:100px;margin-bottom:12px;padding-right:20px;">
+    <div
+      class="mt15"
+      style="min-height:100px;margin-bottom:12px;padding-right:20px;"
+    >
       <web-pagination-table
+        class="compact-table-area"
         :loading="false"
         :config="config"
-        tableStyle="width: 85%"
         :allTableData="data.itemList||[]"
       />
     </div>

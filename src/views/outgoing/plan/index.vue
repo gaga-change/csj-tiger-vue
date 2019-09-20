@@ -487,7 +487,7 @@
     <el-dialog
       title="打印发货清单"
       :visible.sync="printingVisible"
-      width="841px"
+      width="861px"
       :before-close="handleClose"
     >
       <div
