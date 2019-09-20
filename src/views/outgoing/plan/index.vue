@@ -720,6 +720,7 @@ export default {
 
     getCurrentTableData() {
       this.loading = true;
+      this.$refs.listTable.clearSelection()
       let json = {};
       for (let i in this.ruleForm) {
         if (this.ruleForm[i] !== undefined && this.ruleForm[i] !== '' && this.ruleForm[i] !== null) {
