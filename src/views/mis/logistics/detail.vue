@@ -39,6 +39,11 @@
             <span>{{addForm.consoildatorAmt+'元'}}</span>
           </el-form-item>
         </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="结算日期" prop="settlementDate">
+            <span>{{addForm.settlementDate | parseTime}}</span>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-card>
 

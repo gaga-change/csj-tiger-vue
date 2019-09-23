@@ -42,7 +42,7 @@
       max-height="400"
       ref="tabledata"
     >
-      <el-table-column type="selection" :selectable="checkSelectable" reserve-selection></el-table-column>
+      <el-table-column type="selection" reserve-selection></el-table-column>
       <el-table-column label="序号" width="60">
         <template slot-scope="scope">
           {{ (pageNum - 1) * pageSize + scope.$index + 1 }}

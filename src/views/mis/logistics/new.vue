@@ -74,6 +74,17 @@
             </el-input>
           </el-form-item>
         </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="结算日期" prop="settlementDate">
+            <el-date-picker
+              v-model="addForm.settlementDate"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="timestamp">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-card>
 

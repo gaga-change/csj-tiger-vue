@@ -22,7 +22,6 @@ export const tableConfig = [
     }
   },
   { label: '手工出库', prop: 'qty', useEdit: true, width: 160, max: ['planOutQty', 'realOutQty'], min: 0 },
-  { label: '可用库存', prop: 'canUseSkuQty' },
   { label: '备注', prop: 'remarkInfo' },
 ];
 
@@ -161,7 +160,7 @@ export const manual_config = [
 export const printingTable_config = [
   { label: '序号', type: 'index', width: 50 },
   { label: '商品编码', prop: 'skuCode' },
-  { label: '商品名称', prop: 'skuName' },
+  { label: '商品名称', prop: 'skuName', width: 270 },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
   { label: '单位', prop: 'skuUnitName', width: 80 },

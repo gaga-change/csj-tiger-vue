@@ -50,7 +50,7 @@
                 prop="ownerCode"
               >
                 <el-select
-                  @change="submitForm('ruleForm')"
+                  @change="ownerChange"
                   v-model="ruleForm.ownerCode"
                   placeholder="请选择货主"
                 >
@@ -71,10 +71,11 @@
                 <el-select
                   @change="submitForm('ruleForm')"
                   v-model="ruleForm.warehouseCode"
+                  v-loading="houseLoading"
                   placeholder="请选择仓库"
                 >
                   <el-option
-                    v-for="(item,index) in mapConfig['getWarehouse']"
+                    v-for="(item,index) in warehouseMap[ruleForm.ownerCode]"
                     :label="item.value"
                     :key="index"
                     :value="item.key"
@@ -127,6 +128,7 @@
 import { stockSelect, ownerSelect } from '@/api/inventory'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
+import { getWarehouse } from '@/api/map'
 
 import { indexTableConfig } from './config';
 
@@ -157,7 +159,9 @@ export default {
         { title: '库存可用数量合计', prop: 'totalInventoryTotal' },
         { title: '库存锁定数量合计', prop: 'totalInventoryLockQuantity' },
       ],
-      ownerList:[]
+      ownerList:[],
+      warehouseMap: {},
+      houseLoading: false
     }
   },
 
@@ -170,6 +174,7 @@ export default {
 
     this.getCurrentTableData();
     this.getOwnerSelect()
+    this.ruleForm.ownerCode && this.getWarehouseList(this.ruleForm.ownerCode)
 
   },
   computed: {
@@ -179,6 +184,24 @@ export default {
   },
 
   methods: {
+    ownerChange(val) {
+      this.submitForm('ruleForm')
+      if (!this.warehouseMap[val]) {
+        this.getWarehouseList(val)
+      }
+    },
+    getWarehouseList(val) {
+      this.houseLoading = true
+      getWarehouse({ ownerCode: val }).then(res => {
+        if (res.success) {
+          this.$set(this.warehouseMap, val, res.data)
+        }
+        this.houseLoading = false
+      }).catch(err => {
+        console.log(err)
+        this.houseLoading = false
+      })
+    },
     getOwnerSelect(){
       ownerSelect().then(res=>{
         if(res.success){

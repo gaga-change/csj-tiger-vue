@@ -446,7 +446,7 @@
               class="tableLink"
             >创建回单</router-link>
             <router-link
-              v-if="scope.row.isHandOut"
+              v-if="scope.row.isHandOut && $haspermission('handOut')"
               :to="`/outgoing/plan-detail?planCode=${scope.row.planCode}&history=${true}`"
               class="tableLink"
             >手工出库</router-link>
@@ -466,7 +466,7 @@
               @click="closePlan(scope.row)"
             >关闭</span>
             <span
-              v-if="scope.row.isCanEnd===1"
+              v-if="scope.row.isCanEnd===1 && $haspermission('handEndOut')"
               class="tableLink"
               @click="closeOperate(scope.row.planCode)"
             >手工完结</span>
@@ -487,7 +487,7 @@
     <el-dialog
       title="打印发货清单"
       :visible.sync="printingVisible"
-      width="841px"
+      width="861px"
       :before-close="handleClose"
     >
       <div
@@ -564,7 +564,7 @@ export default {
       printingTable_data: {},
       printingTable_config,
       printState: [{ key: 0, value: '否' }, { key: 1, value: '是' }],
-      readOnly:[4,6,7]
+      readOnly: [4, 6, 7]
     }
   },
 
@@ -720,6 +720,7 @@ export default {
 
     getCurrentTableData() {
       this.loading = true;
+      this.$refs.listTable.clearSelection()
       let json = {};
       for (let i in this.ruleForm) {
         if (this.ruleForm[i] !== undefined && this.ruleForm[i] !== '' && this.ruleForm[i] !== null) {

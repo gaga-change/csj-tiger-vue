@@ -339,7 +339,7 @@
               class="tableLink"
             >修改</router-link>
             <router-link
-              v-if="scope.row.operator === 1"
+              v-if="scope.row.operator === 1 && $haspermission('handIn')"
               :to="`/warehousing/plan-detail?planCode=${scope.row.planCode}&history=${true}`"
               class="tableLink"
             >手工入库</router-link>
@@ -349,7 +349,7 @@
               @click="closePlan(scope.row)"
             >关闭</span>
             <span
-              v-if="scope.row.isCanEnd===1"
+              v-if="scope.row.isCanEnd===1 && $haspermission('handEndIn')"
               class="tableLink"
               @click="closeOperate(scope.row.planCode)"
             >手工完结</span>

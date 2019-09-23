@@ -6,7 +6,8 @@ export  const tableConfig=[
   { label:'已出库数量',prop:'realOutQty'},
   { label:'已出库金额',prop:'realOutAmt'},
   { label:'已入库数量',prop:'realInQty'},
-  { label:'已入库金额',prop:'realInAmt'}
+  { label:'已入库金额',prop:'realInAmt'},  
+  { label:'备注',prop:'remarkInfo'}
 ];
 
 export const infoConfig=[
@@ -43,6 +44,7 @@ export const addtable_config=[
   { label:'规格',prop:'skuFormat'},
   { label:'型号',prop:'skuModel'},
   { label:'调拨数量',prop:'transferQty',useEdit:true,width:120},
+  { label:'备注',prop:'remarkInfo'},
 ]
 
 
@@ -51,7 +53,7 @@ export const detail_planTableConfig=[
   { label:'业务类型',prop:'busiBillType', type:'billTypeFilter',useLocalEnum:true },
   { label:'计划单号',prop:'planCode'},
   { label:'数量',prop:'planQty'},
-  { label:'金额',prop:'planAmt'},
+  { label:'金额',prop:'planAmt'}
 ]
 
 export const detail_outGoingTableConfig=[

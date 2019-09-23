@@ -484,7 +484,7 @@ export default {
       customerAddressList({ basicCustomerInfoCode: row.customerCode }).then(res => {
         const result = res.data
         result.forEach(item => {
-          item.area = item.customerProvince + '/' + item.customerCity + '/' + item.customerArea
+          item.area = item.customerProvince + '/' + item.customerCity + (item.customerArea ? '/' + item.customerArea : '')
         })
         this.addressTableData = result
         this.addressLoading = false
