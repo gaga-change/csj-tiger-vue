@@ -8,86 +8,278 @@
       :before-close="handleClose"
     >
       <el-form
-        :model="form"
-        ref="form"
-        v-loading="serviceChargeBillSelectDetailLoading"
+        ref="searchForm"
+        labelWidth="120px"
+        :model="searchForm"
       >
-        <el-form-item
-          label="货主"
-          :label-width="formLabelWidth"
-          prop="ownerCode"
-          :rules="[{ required: true, message: '必填项' }]"
-        >
-          <el-select
-            style="width: 200px;"
-            v-model="form.ownerCode"
-            placeholder="请选择货主"
+        <el-row>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
           >
-            <el-option
-              v-for="item in mapConfig['ownerInfoMap']"
-              :label="item.value"
-              :key="item.key"
-              :value="item.key"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          label="结算日期"
-          :label-width="formLabelWidth"
-          prop="settlementMonth"
-          :rules="[{ required: true, message: '必填项' }]"
-        >
-          <el-date-picker
-            style="width: 200px;"
-            v-model="form.settlementMonth"
-            type="date"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item
-          label=""
-          :label-width="formLabelWidth"
-          style="height: auto"
-        >
-          <span
-            type="primary"
-            @click="innerVisible=true"
-          >录入款项及金额</span>
-          <div v-show="expenseList.length">
-            <base-table2
-              :showIndex="true"
-              :config="serviceChargePickFormTableConfig"
-              :data="expenseList"
-              :showControl="true"
-              :controlFixed="false"
+            <el-form-item
+              label="货主"
+              prop="ownerCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
-              <template slot-scope="scope">
-                <div>
-                  <span
-                    type="danger"
-                    icon="el-icon-delete"
-                    @click="handleDelete(scope.row, scope.index)"
-                  >删除</span>
-                </div>
-              </template>
-            </base-table2>
-          </div>
-        </el-form-item>
-        <el-form-item
-          label="备注"
-          :label-width="formLabelWidth"
-          prop="remarkInfo"
-        >
-          <el-input
-            style="width: 200px;"
-            type="textarea"
-            placeholder="请输入内容"
-            v-model="form.remarkInfo"
-            maxlength="50"
-            show-word-limit
-          />
-        </el-form-item>
+              <el-select
+                style="width: 200px;"
+                v-model="searchForm.ownerCode"
+                placeholder="请选择货主"
+              >
+                <el-option
+                  v-for="item in mapConfig['ownerInfoMap']"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.key"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="结算日期"
+              prop="settlementDate"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <el-date-picker
+                style="width: 200px;"
+                v-model="searchForm.settlementDate"
+                type="date"
+                placeholder="结算日期"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="费用区分"
+              prop="expenseCode"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <el-select
+                style="width: 200px;"
+                v-model="searchForm.expenseCode"
+                placeholder="请选择费用区分"
+              >
+                <el-option
+                  v-for="item in mapConfig['ownerInfoMap']"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.key"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="是否有原始单据"
+              prop="isHasOrder"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <el-select
+                style="width: 200px;"
+                v-model="searchForm.isHasOrder"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in mapConfig['ownerInfoMap']"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.key"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="外部订单号:"
+              prop="busiBillNo"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-input
+                v-model="searchForm.busiBillNo"
+                placeholder="请输入外部订单号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="物流单号:"
+              prop="logisticsOrderCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-input
+                v-model="searchForm.logisticsOrderCode"
+                placeholder="请输入物流单号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+           <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="承运商"
+              prop="consoildatorCode"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <el-select
+                style="width: 200px;"
+                v-model="searchForm.consoildatorCode"
+                placeholder="请选择承运商"
+              >
+                <el-option
+                  v-for="item in mapConfig['ownerInfoMap']"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.key"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="地址:"
+              prop="busiBillNo"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+              <el-input
+                v-model="searchForm.busiBillNo"
+                placeholder="请输入外部订单号"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              :label="'客户'"
+              label-width="90px"
+              prop="arrivalCode"
+              :rules="[{ required: true, message: '该项为必填'}]"
+            >
+
+              <select-customer
+                :label="'客户'"
+                v-model="searchForm.arrivalCode"
+                :ownerCode="searchForm.ownerCode"
+                :busiBillType="searchForm.busiBillType"
+                @change="providerChange"
+              >
+              </select-customer>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="费用:"
+              prop="arrivalLinkUser"
+              :rules="[{ required: true, message:'请输入联系人' }]"
+            >
+              <el-input
+                v-model="searchForm.arrivalLinkUser"
+                placeholder="请输入联系人"
+                size="small"
+                class="formitem"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item label="结算方式">
+              <el-select
+                v-model="searchForm.sendOutRequire"
+                clearable
+                placeholder="请选择发货要求"
+                size="small"
+                class="formitem"
+              >
+                <el-option
+                  v-for="item in mapConfig['ownerInfoMap']"
+                  :label="item.name"
+                  :key="item.value"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="备注"
+              prop="remarkInfo"
+            >
+              <el-input
+                style="width: 200px;"
+                type="textarea"
+                placeholder="请输入内容"
+                v-model="searchForm.remarkInfo"
+                maxlength="50"
+                show-word-limit
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div
         slot="footer"
@@ -165,6 +357,7 @@
 import { mapGetters } from 'vuex'
 import { serviceChargePickFormTableConfig } from '../config'
 import { selectLogisticsExpense, serviceChargeBillSelectDetail, serviceChargeBillSave, serviceChargeBillUpdate } from '@/api'
+import selectCustomer from './selectCustomer'
 export default {
   props: {
     visible: {
@@ -176,6 +369,7 @@ export default {
       default: false
     }
   },
+  components: { selectCustomer },
   data() {
     return {
       serviceChargePickFormTableConfig,
@@ -197,7 +391,10 @@ export default {
       expenseList: [],
       expenseEnum: [],
       formLabelWidth: '120px',
-      formLabelInnerWidth: '80px'
+      formLabelInnerWidth: '80px',
+      searchForm:{
+
+      }
     }
   },
   computed: {
@@ -236,6 +433,40 @@ export default {
           this.expenseList = detail.itemList
         })
       }
+    },
+    providerChange(provider) {
+      this.selectProvider = provider
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.arrivalAddress = '';
+      searchForm.arrivalLinkUser = '';
+      searchForm.arrivalLinkTel = '';
+      this.searchForm = searchForm;
+      this.addrListConfig = [];
+      let id = provider.id
+      customerAddrInfo(provider.customerCode, this.searchForm.busiBillType).then(res => {
+        if (res.success) {
+          this.addrListConfig = Array.isArray(res.data) && res.data || [];
+          const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
+          this.$nextTick(() => {
+            this.searchForm.arrivalAddress = defaultAddress.arrivalAddress
+            this.arrivalAddressChange(defaultAddress.arrivalAddress)
+          })
+        }
+      }).catch(err => {
+      })
+    },
+    ownerCodeChange(value) {
+      let searchForm = _.cloneDeep(this.searchForm);
+      searchForm.arrivalCode = '';
+      searchForm.arrivalAddress = '';
+      searchForm.arrivalLinkUser = '';
+      searchForm.arrivalLinkTel = '';
+      searchForm.warehouseCode = '';
+      searchForm.outWarehouseBillDetailList = [];
+      this.searchForm = searchForm;
+      this.addrListConfig = [];
+      this.warehouseList.length = 0
+      this.showStore({ ownerCode: value })
     },
     /** 关闭窗口 */
     close() {

@@ -307,32 +307,32 @@
               class="tableLink"
             >查看</router-link>
             <router-link
-              v-if="[0,2].includes(scope.row.billStatus)"
+              v-if="[0,2].includes(scope.row.billStatus) && scope.row.busiBillType!=23"
               :to="`/outgoing/businessorderadd?type=modify&id=${scope.row.id}&time=${moment().valueOf()}`"
               class="tableLink"
             >修改</router-link>
             <router-link
-              v-if="scope.row.billStatus === 1 && scope.row.billState !== 8"
+              v-if="(scope.row.billStatus === 1 && scope.row.billState !== 8) && scope.row.busiBillType!=23"
               :to="`/outgoing/businessorderadd?type=revision&id=${scope.row.id}&time=${moment().valueOf()}`"
               class="tableLink"
             >调整</router-link>
             <router-link
-              v-if="scope.row.billStatus === 1 && scope.row.planOutQty > scope.row.planOutQtyForPlan && scope.row.billState !== 8 && !scope.row.billNo.includes('DB')"
+              v-if="(scope.row.billStatus === 1 && scope.row.planOutQty > scope.row.planOutQtyForPlan && scope.row.billState !== 8 && !scope.row.billNo.includes('DB')) && scope.row.busiBillType!=23"
               :to="`/outgoing/businessorderAddPlanOrder?id=${scope.row.id}&time=${moment().valueOf()}`"
               class="tableLink"
             >创建计划单</router-link>
             <span
-              v-if="[0,2].includes(scope.row.billStatus)"
+              v-if="[0,2].includes(scope.row.billStatus)&& scope.row.busiBillType!=23"
               class="tableLink"
               @click="operation(scope.row,'outBillCheck','请输入审核意见 !')"
             >审核</span>
             <span
-              v-if="[0,2,4].includes(scope.row.billStatus)"
+              v-if="[0,2,4].includes(scope.row.billStatus) && scope.row.busiBillType!=23"
               class="tableLink"
               @click="operation(scope.row,'outBillDelete','确定要删除吗 ?')"
             >删除</span>
             <span
-              v-if="[0,2,1].includes(scope.row.billStatus)"
+              v-if="[0,2,1].includes(scope.row.billStatus) && scope.row.busiBillType!=23"
               class="tableLink"
               @click="operation(scope.row,'outBillClose','确定要关闭吗 ?')"
             >关闭</span>

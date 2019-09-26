@@ -11,7 +11,7 @@ export const productConfig = [
   { label: '采用开始日', prop: 'useDate', type: 'time', width: 155 },
   { label: '创建人', prop: 'createrName' },
   { label: '创建日期', prop: 'gmtCreate', type: 'time', width: 155 },
-  { label: '操作', useLink: true, fixed: 'right', width: 100 }
+  { label: '操作', useLink: true, fixed: 'right', width: 150 }
 ]
 
 export const customerConfig = [

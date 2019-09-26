@@ -70,7 +70,7 @@
 <script>
 import search from '@/components/Search'
 import { productConfig } from './components/config'
-import { getProductList } from '@/api/productcenter'
+import { getProductList, deleteProduct } from '@/api/productcenter'
 import BaseTable from '@/components/Table'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
@@ -123,7 +123,7 @@ export default {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
           return (
-            <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'nowrap'}}>
               <span>
                 <a
                   onClick={() => {
@@ -140,6 +140,14 @@ export default {
                   style={this.linkstyle}
                 >
                   修改
+                </a>
+                <a
+                  onClick={() => {
+                    this.deleteItem({ skuCode: row.skuCode, ownerCode:row.ownerCode })
+                  }}
+                  style={this.linkstyle}
+                >
+                  删除
                 </a>
               </span>
             </div>
@@ -234,6 +242,22 @@ export default {
     },
     view(query) {
       this.$router.push({ name: 'misproductdetail', query })
+    },
+    deleteItem(data){
+      this.$confirm('是否删除？', '提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'success'
+        }).then(_ => {
+          deleteProduct(data).then(res=>{
+            if(res.success){
+              this.$message.success('删除成功')
+              this.fetchData()
+            }else{
+              this.$message.success('删除失败')
+            }
+          })
+        }).catch(_ => { })
     },
     newProduct() {
       this.$router.push({

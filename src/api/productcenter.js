@@ -93,3 +93,12 @@ export function productDetail(data) {
     params: data
   })
 }
+
+// 删除商品
+export function deleteProduct(data) {
+  return request({
+    url: `/webApi/sku/info/delete`,
+    method: 'post',
+    data: data
+  })
+}

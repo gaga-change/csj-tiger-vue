@@ -17,9 +17,14 @@
         type="primary"
         @click="handleCreate()"
       >导入</el-button> -->
-      <!-- <el-button
+      <!-- <router-link :to="`/serviceCharge/serviceChargeadd?type=add&time=${moment().valueOf()}`">
+        <el-button
+          type="primary"
+        >新建</el-button>
+      </router-link> -->
+     <!--  <el-button
         type="primary"
-        @click="handleCreate()"
+        @click="handleCreate"
       >新建</el-button> -->
     </div>
     <div class="mt15">
@@ -38,7 +43,7 @@
               @click="handleDelete(scope.row)"
             >删除</span>
             <!-- <el-divider direction="vertical"></el-divider> -->
-           <!--  <span
+            <!-- <span
               icon="el-icon-edit"
               @click="handleModify(scope.row)"
             >编辑</span> -->
@@ -58,6 +63,7 @@
 import serviceChargePickForm from './components/serviceChargePickForm'
 import { serviceChargePickSearchConfig, serviceChargePickTableConfig } from './config'
 import { serviceChargeBillQueryPageList, serviceChargeBillDelete } from '@/api'
+import moment from 'moment';
 export default {
   components: { serviceChargePickForm },
   data() {
@@ -71,6 +77,7 @@ export default {
     }
   },
   methods: {
+    moment,
     search(searchParams, cb) {
       this.$refs['baseTable'].fetchData(searchParams).then(cb)
     },

@@ -332,7 +332,7 @@
               :to="`/warehousing/businessorder-detail?id=${scope.row.id}`"
               class="tableLink"
             >查看</router-link>
-            <template v-if="[0,2].includes(scope.row.billStatus)">
+            <template v-if="[0,2].includes(scope.row.billStatus) && scope.row.busiBillType!=14">
               <span
                 class="tableLink"
                 @click="operation('examine', scope.row)"
@@ -351,7 +351,7 @@
               >修改</router-link>
             </template>
             <router-link
-              v-if="scope.row.billStatus === 1 && scope.row.planInQty > scope.row.planInQtyForPlan && scope.row.billState !== 8 && !scope.row.billNo.includes('DB')"
+              v-if="(scope.row.billStatus === 1 && scope.row.planInQty > scope.row.planInQtyForPlan && scope.row.billState !== 8 && !scope.row.billNo.includes('DB')) && scope.row.busiBillType!=14"
               :to="`/warehousing/warehousingAddPlanOrder?id=${scope.row.id}&time=${moment().valueOf()}`"
               class="tableLink"
             >创建计划单</router-link>

@@ -621,7 +621,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        outCloseOperate(submitPlanCode).then(res => {
+        outCloseOperate({planCode:submitPlanCode}).then(res => {
           if (res.success) {
             this.$message({
               type: 'success',
