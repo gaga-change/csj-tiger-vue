@@ -21,12 +21,14 @@ service.interceptors.response.use(
         if(message=='用户未登录'||message.includes('登录失效')){
           location.href = `/csj_login`
         }
-        Notification({
-          title:'错误信息',
-          message:message,
-          type: 'error',
-          duration:5*1000
-        })
+        if(res.code!='ratel-40620008'){
+          Notification({
+            title:'错误信息',
+            message:message,
+            type: 'error',
+            duration:5*1000
+          })
+        }
       }
       if(res.code=='ratel-40620008'){
         return res;
