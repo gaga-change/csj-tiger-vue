@@ -70,15 +70,14 @@
               :rules="[{ required: true, message: '必填项' }]"
             >
               <el-select
-                style="width: 200px;"
                 v-model="searchForm.expenseCode"
                 placeholder="请选择费用区分"
               >
                 <el-option
-                  v-for="item in mapConfig['ownerInfoMap']"
-                  :label="item.value"
-                  :key="item.key"
-                  :value="item.key"
+                  v-for="item in expenseEnum"
+                  :label="item.expenseName"
+                  :key="item.expenseCode"
+                  :value="item.expenseCode"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -95,15 +94,16 @@
               :rules="[{ required: true, message: '必填项' }]"
             >
               <el-select
-                style="width: 200px;"
+                @onfoucs="showmessage"
                 v-model="searchForm.isHasOrder"
                 placeholder="请选择"
+                @change="hasOrderChange"
               >
                 <el-option
-                  v-for="item in mapConfig['ownerInfoMap']"
+                  v-for="item in isHasOrderList"
                   :label="item.value"
-                  :key="item.key"
-                  :value="item.key"
+                  :key="item.id"
+                  :value="item.id"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -119,13 +119,13 @@
             <el-form-item
               label="外部订单号:"
               prop="busiBillNo"
-              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.busiBillNo"
                 placeholder="请输入外部订单号"
                 size="small"
                 class="formitem"
+                :disabled="busiBilldisabled"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -138,13 +138,13 @@
             <el-form-item
               label="物流单号:"
               prop="logisticsOrderCode"
-              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.logisticsOrderCode"
                 placeholder="请输入物流单号"
                 size="small"
                 class="formitem"
+                :disabled="logisticsdisabled"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -165,10 +165,10 @@
                 placeholder="请选择承运商"
               >
                 <el-option
-                  v-for="item in mapConfig['ownerInfoMap']"
-                  :label="item.value"
-                  :key="item.key"
-                  :value="item.key"
+                  v-for="item in consoil"
+                  :label="item.consoildatorName"
+                  :key="item.consoildatorCode"
+                  :value="item.consoildatorCode"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -181,12 +181,12 @@
           >
             <el-form-item
               label="地址:"
-              prop="busiBillNo"
+              prop="dispatchAddr"
               :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
-                v-model="searchForm.busiBillNo"
-                placeholder="请输入外部订单号"
+                v-model="searchForm.dispatchAddr"
+                placeholder="请输入地址"
                 size="small"
                 class="formitem"
               ></el-input>
@@ -203,16 +203,14 @@
             <el-form-item
               :label="'客户'"
               label-width="90px"
-              prop="arrivalCode"
+              prop="customerCode"
               :rules="[{ required: true, message: '该项为必填'}]"
             >
 
               <select-customer
                 :label="'客户'"
-                v-model="searchForm.arrivalCode"
+                v-model="searchForm.customerCode"
                 :ownerCode="searchForm.ownerCode"
-                :busiBillType="searchForm.busiBillType"
-                @change="providerChange"
               >
               </select-customer>
             </el-form-item>
@@ -225,15 +223,16 @@
           >
             <el-form-item
               label="费用:"
-              prop="arrivalLinkUser"
-              :rules="[{ required: true, message:'请输入联系人' }]"
+              prop="expenseAmt"
+              :rules="[{ required: true, message:'请输入费用' }]"
             >
-              <el-input
-                v-model="searchForm.arrivalLinkUser"
+              <!-- <el-input
+                v-model="searchForm.expenseAmt"
                 placeholder="请输入联系人"
                 size="small"
                 class="formitem"
-              ></el-input>
+              ></el-input> -->
+              <el-input-number v-model="searchForm.expenseAmt" :min="0" size="mini"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col
@@ -242,19 +241,19 @@
             :lg="8"
             :xl="6"
           >
-            <el-form-item label="结算方式">
+            <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message:'请选择' }]">
               <el-select
-                v-model="searchForm.sendOutRequire"
+                v-model="searchForm.settlementType"
                 clearable
-                placeholder="请选择发货要求"
+                placeholder="请选择结算方式"
                 size="small"
                 class="formitem"
               >
                 <el-option
-                  v-for="item in mapConfig['ownerInfoMap']"
-                  :label="item.name"
-                  :key="item.value"
-                  :value="item.value"
+                  v-for="item in mapConfig['getSettlementType']"
+                  :label="item.value"
+                  :key="item.key"
+                  :value="item.key"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -293,61 +292,32 @@
         >确 定</el-button>
       </div>
       <el-dialog
-        width="400px"
-        title="款项及金额"
-        :visible.sync="innerVisible"
+        title="外部订单号"
+        :visible.sync="selectVisiable"
+        width="600"
+        height="60%"
         append-to-body
       >
-        <el-form
-          :model="innerForm"
-          ref="innerForm"
-        >
-          <el-form-item
-            label="款项名称"
-            :label-width="formLabelInnerWidth"
-            prop="expenseId"
-            :rules="[{ required: true, message: '必填项' }]"
-          >
-            <el-select
-              style="width: 200px;"
-              v-model="innerForm.expenseId"
-              placeholder="请选择款项"
-              :selectLogisticsExpenseLoading="selectLogisticsExpenseLoading"
-            >
-              <el-option
-                v-for="item in expenseEnum"
-                :label="item.expenseName"
-                :key="item.id"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item
-            label="款项金额"
-            :label-width="formLabelInnerWidth"
-            prop="expenseAmt"
-            :rules="[{ required: true, message: '必填项' }]"
-          >
-            <el-input-number
-              style="width: 200px;"
-              placeholder="请输入金额"
-              v-model="innerForm.expenseAmt"
-              controls-position="right"
-              :max="99999999"
-              :precision="2"
-            ></el-input-number>
-            ￥
-          </el-form-item>
-        </el-form>
-        <div
-          slot="footer"
-          class="dialog-footer"
-        >
-          <el-button @click="innerVisible=false;innerForm={}">取 消</el-button>
-          <el-button
-            type="primary"
-            @click="handleAddExpense"
-          >确 定</el-button>
+        <div v-if="selectVisiable">
+          <select-outcode
+            @select="selectChange"
+            :ownerCode="searchForm.ownerCode"
+          />
+        </div>
+      </el-dialog>
+    </el-dialog>
+    <el-dialog
+        title="外部订单及物流单号"
+        :visible.sync="logisticsVisible"
+        width="600"
+        height="60%"
+        append-to-body
+      >
+        <div v-if="logisticsVisible">
+          <select-logisticsorder
+            @select="logisticsChange"
+            :ownerCode="searchForm.ownerCode"
+          />
         </div>
       </el-dialog>
     </el-dialog>
@@ -357,7 +327,11 @@
 import { mapGetters } from 'vuex'
 import { serviceChargePickFormTableConfig } from '../config'
 import { selectLogisticsExpense, serviceChargeBillSelectDetail, serviceChargeBillSave, serviceChargeBillUpdate } from '@/api'
+import { consoilInfoList } from '@/api/carrier'
+// import { outOrderNo, outRelativeNo } from '@/api/outgoing'
 import selectCustomer from './selectCustomer'
+import selectOutcode from './selectOutcode'
+import selectLogisticsorder from './selectLogisticsorder'
 export default {
   props: {
     visible: {
@@ -369,7 +343,7 @@ export default {
       default: false
     }
   },
-  components: { selectCustomer },
+  components: { selectCustomer, selectOutcode, selectLogisticsorder },
   data() {
     return {
       serviceChargePickFormTableConfig,
@@ -393,8 +367,27 @@ export default {
       formLabelWidth: '120px',
       formLabelInnerWidth: '80px',
       searchForm:{
-
-      }
+        ownerCode:null,
+        ownerName:null,
+        settlementDate:null,
+        expenseCode:null,
+        expenseName:null,
+        isHasOrder:null,
+        busiBillNo:null,
+        logisticsOrderCode:null,
+        consoildatorCode:null,
+        dispatchAddr:null,
+        customerCode:null,
+        expenseAmt:null,
+        settlementType:null,
+        remarkInfo:null
+      },
+      isHasOrderList:[{id:0,value:'有外部订单'},{id:1,value:'有外部订单配送单'},{id:2,value:'无外部订单'}],
+      consoil:[],
+      busiBilldisabled:false,
+      logisticsdisabled:false,
+      selectVisiable:false,
+      logisticsVisible:false
     }
   },
   computed: {
@@ -417,6 +410,7 @@ export default {
       let temp = res.data || []
       this.expenseEnum = temp.filter(v => v.expenseState === 2)
     })
+    this.getConsoilInfoList()
   },
   methods: {
     /** 显示详情 */
@@ -427,100 +421,91 @@ export default {
           this.serviceChargeBillSelectDetailLoading = false
           if (!res) return
           let detail = res.data
-          this.form.ownerCode = detail.ownerCode
-          this.form.settlementMonth = new Date(detail.settlementMonth)
-          this.form.remarkInfo = detail.remarkInfo
-          this.expenseList = detail.itemList
+          this.searchForm=JSON.parse(JSON.stringify(detail))
         })
       }
     },
-    providerChange(provider) {
-      this.selectProvider = provider
-      let searchForm = _.cloneDeep(this.searchForm);
-      searchForm.arrivalAddress = '';
-      searchForm.arrivalLinkUser = '';
-      searchForm.arrivalLinkTel = '';
-      this.searchForm = searchForm;
-      this.addrListConfig = [];
-      let id = provider.id
-      customerAddrInfo(provider.customerCode, this.searchForm.busiBillType).then(res => {
-        if (res.success) {
-          this.addrListConfig = Array.isArray(res.data) && res.data || [];
-          const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
-          this.$nextTick(() => {
-            this.searchForm.arrivalAddress = defaultAddress.arrivalAddress
-            this.arrivalAddressChange(defaultAddress.arrivalAddress)
-          })
-        }
-      }).catch(err => {
-      })
+    getConsoilInfoList() {
+      consoilInfoList({ consoildatorState: 31, pageSize: 9999 })
+        .then(res => {
+          this.consoil = res.data && res.data.list
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    showmessage(){
+      if (!this.searchForm.ownerCode) {
+        return this.$message.error('请选择货主！')
+      }
+    },
+    hasOrderChange(val){
+      if (!this.searchForm.ownerCode) {
+        this.searchForm.isHasOrder=null
+        return this.$message.error('请选择货主！')
+      }
+      this.searchForm.busiBillNo=null
+      this.searchForm.logisticsOrderCode=null
+      if(val==0){
+        this.selectVisiable=true
+        this.busiBilldisabled=true
+        this.logisticsdisabled=false
+      }else if(val==1){
+        this.logisticsVisible=true
+        this.busiBilldisabled=true
+        this.logisticsdisabled=true
+      }else if(val==2){
+        this.selectVisiable=false
+        this.logisticsVisible=false
+        this.busiBilldisabled=false
+        this.logisticsdisabled=false
+      }
+    },
+    selectChange(record) {
+      this.selectVisiable = false
+      this.searchForm.busiBillNo=record.busiBillNo
+    },
+    logisticsChange(val){
+      this.logisticsVisible= false
+      this.searchForm.busiBillNo=val.busiBillNo
+      this.searchForm.logisticsOrderCode=val.logisticsOrderCode
     },
     ownerCodeChange(value) {
-      let searchForm = _.cloneDeep(this.searchForm);
-      searchForm.arrivalCode = '';
-      searchForm.arrivalAddress = '';
-      searchForm.arrivalLinkUser = '';
-      searchForm.arrivalLinkTel = '';
-      searchForm.warehouseCode = '';
-      searchForm.outWarehouseBillDetailList = [];
-      this.searchForm = searchForm;
-      this.addrListConfig = [];
-      this.warehouseList.length = 0
-      this.showStore({ ownerCode: value })
+      this.searchForm.isHasOrder=null
+      this.searchForm.busiBillNo=null
+      this.searchForm.logisticsOrderCode=null
     },
     /** 关闭窗口 */
     close() {
       if (this.visible) {
         this.$emit('update:visible', false)
         this.$nextTick(() => {
-          this.$refs['form'].resetFields()
+          this.$refs['searchForm'].resetFields()
           this.expenseList = []
         })
       }
     },
     confirm() {
       let api = !this.row ? serviceChargeBillSave : serviceChargeBillUpdate
-      this.$refs['form'].validate((valid) => {
+      this.$refs['searchForm'].validate((valid) => {
         if (valid) {
-          if (!this.expenseList.length) {
-            return this.$message.error('请录入款项及金额！')
+          let params = { ...this.searchForm }
+          if((params.isHasOrder==0 || params.isHasOrder==1) && (!params.busiBillNo || !params.logisticsOrderCode)){
+            return this.$message.error('外部订单/物流单号不能为空！')
           }
           this.serviceChargeBillSaveLoading = true
-          let params = { ...this.form }
           params.ownerName = this.mapConfig['ownerInfoMap'].find(v => v.key === params.ownerCode).value
-          params.settlementMonth = new Date(params.settlementMonth).getTime()
+          params.expenseName=this.expenseEnum.find(v => v.expenseCode === params.expenseCode).expenseName
+          params.settlementDate = new Date(params.settlementDate).getTime()
           api({
             ...params,
-            items: this.expenseList,
-            id: this.row ? this.row.id : undefined,
+            id: this.row ? this.row.id : null,
           }).then(res => {
             this.serviceChargeBillSaveLoading = false
             if (!res) return
             this.close()
             this.$emit('confirm')
           })
-        }
-      })
-    },
-    /** 添加费用 */
-    handleAddExpense() {
-      this.$refs['innerForm'].validate((valid) => {
-        if (valid) {
-          let expense = this.expenseEnum.find(v => v.id === this.innerForm.expenseId)
-          let newObj = { ...this.innerForm, expenseCode: expense.expenseCode, expenseName: expense.expenseName }
-          if (newObj.expenseAmt <= 0) {
-            return this.$message.error('款项金额必须大于0！')
-          }
-          if (this.expenseList.find(v => v.expenseName === newObj.expenseName)) {
-            return this.$message.error(`款项【${newObj.expenseName}】已录入，不能重复添加！`)
-          }
-          delete newObj.id
-          this.innerVisible = false
-          this.$nextTick(() => {
-            this.$refs['innerForm'].resetFields()
-            this.innerForm = { expenseAmt: undefined }
-          })
-          this.expenseList.push(newObj)
         }
       })
     },

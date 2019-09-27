@@ -13,19 +13,10 @@
       :modelUrl="'/static/templet/serviceCharge.xlsx'"
       :filesuploadUrl="'/webApi/serviceChargeBill/import/batch'"
     ></upload-excel>
-      <!-- <el-button
-        type="primary"
-        @click="handleCreate()"
-      >导入</el-button> -->
-      <!-- <router-link :to="`/serviceCharge/serviceChargeadd?type=add&time=${moment().valueOf()}`">
-        <el-button
-          type="primary"
-        >新建</el-button>
-      </router-link> -->
-     <!--  <el-button
+      <el-button
         type="primary"
         @click="handleCreate"
-      >新建</el-button> -->
+      >新建</el-button>
     </div>
     <div class="mt15">
       <base-table2
@@ -41,12 +32,13 @@
               type="danger"
               icon="el-icon-delete"
               @click="handleDelete(scope.row)"
+              style="color:#409EFF;cursor:pointer;"
             >删除</span>
-            <!-- <el-divider direction="vertical"></el-divider> -->
-            <!-- <span
+            <span
               icon="el-icon-edit"
               @click="handleModify(scope.row)"
-            >编辑</span> -->
+              style="color:#409EFF;cursor:pointer;"
+            >编辑</span>
           </div>
         </template>
       </base-table2>
