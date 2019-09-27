@@ -17,7 +17,7 @@
       :tableData="tableData"
     />
     <!-- 上传弹框 -->
-    <el-dialog
+   <!--  <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
       center
@@ -32,6 +32,29 @@
         :accept="'.xls,.xlsx'"
         :on-change="handelUploadChange"
         :on-success="handleUploadSuccess"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible" :loading="uploadLoading">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xls和xlsx文件,文件最大不能超过5M1。
+          <a class="dlink" :href="templetUrl" style="color:#409EFF;" >下载模板</a>
+        </div>
+      </el-upload>
+    </el-dialog> -->
+     <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      center
+      width="50%">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        :action="uploadUrl"
+        :limit="1"
+        name="file"
+        :file-list="fileList"
+        :accept="'.xls,.xlsx'"
+        :http-request="uploadFile"
+        :on-change="handelUploadChange"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible" :loading="uploadLoading">上传到服务器</el-button>
@@ -70,7 +93,7 @@
 <script>
 import search from '@/components/Search'
 import { productConfig } from './components/config'
-import { getProductList, deleteProduct } from '@/api/productcenter'
+import { getProductList, deleteProduct, RequestUploads } from '@/api/productcenter'
 import BaseTable from '@/components/Table'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
@@ -102,7 +125,8 @@ export default {
       editFileList: [],
       editUploadButtonVisible: false,
       uploadLoading: false,
-      editUploadLoading: false
+      editUploadLoading: false,
+      isCheck:true
     }
   },
   computed: {
@@ -160,6 +184,64 @@ export default {
     this.fetchData()
   },
   methods: {
+    uploadFile(params){
+      this.uploadLoading = false
+      const _file = params.file;
+      const isLt5M = _file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message.error("请上传5M以下的.xlsx文件");
+        return false;
+      }
+      // 通过 FormData 对象上传文件
+      let that=this
+      this.isCheck=true
+      var formData = new FormData();
+      formData.append('file', _file);
+      formData.append('isCheck', this.isCheck);
+      RequestUploads(formData).then(res => {
+        if (res.code === '200') {
+          if (res.success) {
+            this.dialogVisible = false
+            this.fetchData()
+          } else {
+            this.$message({ message: res.errorMsg, type: 'error' })
+          }
+        }else if(res.code=='ratel-40620008') {
+          this.$confirm(res.errorMsg, '提示', {
+            confirmButtonText: '继续导入',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(_ => {
+            that.isCheck=false
+            formData.set('isCheck', that.isCheck)
+            RequestUploads(formData).then(res=>{
+              if (res.code === '200') {
+                if (res.success) {
+                  that.dialogVisible = false
+                  that.fetchData()
+                } else {
+                  that.$message({ message: res.errorMsg, type: 'error' })
+                }
+              }else{
+                that.$message({
+                  message: res.errorMsg,
+                  type: 'error'
+                })
+              }
+            })
+          }).catch(_ => {
+            that.dialogVisible = false
+          })
+        }else{
+          this.$message({
+            message: res.errorMsg,
+            type: 'error'
+          })
+          // this.$refs['upload'].clearFiles()
+        }
+        this.$refs['upload'].clearFiles()
+      })
+    },
     handleUploadSuccess(res, file, fileList) {
       this.uploadLoading = false
       if (res.code === '200') {

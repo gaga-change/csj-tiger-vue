@@ -28,6 +28,9 @@ service.interceptors.response.use(
           duration:5*1000
         })
       }
+      if(res.code=='ratel-40620008'){
+        return res;
+      }
       return Promise.reject(res)
     } else {
       return res;

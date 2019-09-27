@@ -102,3 +102,13 @@ export function deleteProduct(data) {
     data: data
   })
 }
+
+//商品上传
+export function RequestUploads(data) {
+  return request({
+    url: `/webApi/sku/info/import`,
+    method: 'post',
+    data: data
+  })
+}
+
