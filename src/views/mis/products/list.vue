@@ -207,7 +207,7 @@ export default {
             this.$message({ message: res.errorMsg, type: 'error' })
           }
         }else if(res.code=='ratel-40620008') {
-          this.$confirm(res.errorMsg, '提示', {
+          this.$confirm('商品名重复,请确认是否继续导入', '提示', {
             confirmButtonText: '继续导入',
             cancelButtonText: '取消',
             type: 'warning'

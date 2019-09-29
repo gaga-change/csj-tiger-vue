@@ -157,7 +157,6 @@
             <el-form-item
               label="承运商"
               prop="consoildatorCode"
-              :rules="[{ required: true, message: '必填项' }]"
             >
               <el-select
                 style="width: 200px;"
@@ -182,7 +181,6 @@
             <el-form-item
               label="地址:"
               prop="dispatchAddr"
-              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.dispatchAddr"
@@ -204,7 +202,6 @@
               :label="'客户'"
               label-width="90px"
               prop="customerCode"
-              :rules="[{ required: true, message: '该项为必填'}]"
             >
 
               <select-customer
@@ -226,12 +223,6 @@
               prop="expenseAmt"
               :rules="[{ required: true, message:'请输入费用' }]"
             >
-              <!-- <el-input
-                v-model="searchForm.expenseAmt"
-                placeholder="请输入联系人"
-                size="small"
-                class="formitem"
-              ></el-input> -->
               <el-input-number v-model="searchForm.expenseAmt" :min="0" size="mini"></el-input-number>
             </el-form-item>
           </el-col>
@@ -408,7 +399,7 @@ export default {
       this.selectLogisticsExpenseLoading = false
       if (!res) return
       let temp = res.data || []
-      this.expenseEnum = temp.filter(v => v.expenseState === 2)
+      this.expenseEnum = temp
     })
     this.getConsoilInfoList()
   },
@@ -490,8 +481,11 @@ export default {
       this.$refs['searchForm'].validate((valid) => {
         if (valid) {
           let params = { ...this.searchForm }
-          if((params.isHasOrder==0 || params.isHasOrder==1) && (!params.busiBillNo || !params.logisticsOrderCode)){
+          if( params.isHasOrder==1 && (!params.busiBillNo || !params.logisticsOrderCode)){
             return this.$message.error('外部订单/物流单号不能为空！')
+          }
+          if(params.isHasOrder==0 && !params.busiBillNo){
+            return this.$message.error('外部订单不能为空！')
           }
           this.serviceChargeBillSaveLoading = true
           params.ownerName = this.mapConfig['ownerInfoMap'].find(v => v.key === params.ownerCode).value
