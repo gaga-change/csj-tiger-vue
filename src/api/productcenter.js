@@ -112,3 +112,13 @@ export function RequestUploads(data) {
   })
 }
 
+//商品批量修改上传
+export function modifyRequestUploads(data) {
+  return request({
+    url: `/webApi/sku/info/importUpdate`,
+    method: 'post',
+    data: data
+  })
+}
+
+
