@@ -413,7 +413,20 @@ export default {
           if (!res) return
           let detail = res.data
           this.searchForm=JSON.parse(JSON.stringify(detail))
+          if(this.searchForm.isHasOrder==1){
+            this.busiBilldisabled=true
+            this.logisticsdisabled=true
+          }else if(this.searchForm.isHasOrder==0){
+            this.busiBilldisabled=true
+            this.logisticsdisabled=false
+          }else{
+            this.busiBilldisabled=false
+            this.logisticsdisabled=false
+          }
         })
+      }else{
+        this.busiBilldisabled=false
+        this.logisticsdisabled=false
       }
     },
     getConsoilInfoList() {
