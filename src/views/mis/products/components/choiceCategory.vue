@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <el-input
-      :value="choice.text"
+      :value="showText"
       :disabled="disabled"
       size="small"
       :style="{ width: width + 'px' }"
@@ -53,7 +53,8 @@ export default {
       },
       choice: {},
       loading: false,
-      tree: []
+      tree: [],
+      showText: ''
     }
   },
   created() {
@@ -70,7 +71,7 @@ export default {
       this.choice = item
     },
     fetchCategory(params) {
-      function findCategory(trees=[], params={}) {
+      function findCategory(trees = [], params = {}) {
         for (let i = 0; i < trees.length; i++) {
           if (trees[i].currentCode === params.currentCode) {
             return trees[i]
@@ -94,7 +95,7 @@ export default {
         this.loading = true
         categoryList()
           .then(res => {
-            this.tree= res.data.children || [];
+            this.tree = res.data.children || [];
             this.loading = false
             resolve()
           })
@@ -106,8 +107,9 @@ export default {
       })
     },
     getNewparentcategory() {
-        this.$emit('categorySubmit', this.choice)
-        this.categoryVisible = false
+      this.showText = this.choice.text
+      this.$emit('categorySubmit', this.choice)
+      this.categoryVisible = false
     }
   }
 }

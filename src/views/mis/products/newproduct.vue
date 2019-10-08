@@ -82,15 +82,17 @@
               prop="categoryCode"
               :rules="[{ validator: categoryValidator, required: true, trigger: 'change' }]"
             >
-              <choice-category
-                @categorySubmit="categorySubmit"
-                ref="categoryChoice"
-              ></choice-category>
-              <el-input
-                type="hidden"
-                v-model="productForm.categoryCode"
-                style="margin-top:-34px;display: block;"
-              ></el-input>
+              <div style="height:32px">
+                <choice-category
+                  @categorySubmit="categorySubmit"
+                  ref="categoryChoice"
+                ></choice-category>
+                <el-input
+                  type="hidden"
+                  v-model="productForm.categoryCode"
+                  style="margin-top:-34px;display: block;"
+                ></el-input>
+              </div>
             </el-form-item>
           </el-col>
           <el-col
