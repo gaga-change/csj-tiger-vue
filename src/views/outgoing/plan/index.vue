@@ -179,10 +179,10 @@
                   placeholder="请选择单据状态"
                 >
                   <el-option
-                    v-for="item in warehousingPlanBillStatus"
-                    :label="item.name"
-                    :key="item.value"
-                    :value="item.value"
+                    v-for="(item,index) in mapConfig['getPlanState']"
+                    :label="item.value"
+                    :key="index"
+                    :value="item.key"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -521,7 +521,7 @@ import { outPlanSelect, outPlanCheckBatch, outPlanClose, planOrderPrint, outPlan
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig, manual_config, printingTable_config } from './config';
-import { warehousingPlanBillStatus, pushState } from "@/utils/enum.js";
+import { pushState } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { stringify } from 'qs';
 import { MakePrint } from '@/utils'
@@ -555,7 +555,6 @@ export default {
       loading: false,
       tableData: [],
       tableConfig: indexTableConfig,
-      warehousingPlanBillStatus,
       pushState,
       linkData: '',
       batchLoading: false,

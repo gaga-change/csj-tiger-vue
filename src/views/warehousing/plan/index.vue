@@ -133,10 +133,10 @@
                   placeholder="请选择单据状态"
                 >
                   <el-option
-                    v-for="item in warehousingPlanBillStatus"
-                    :label="item.name"
-                    :key="item.value"
-                    :value="item.value"
+                    v-for="(item,index) in mapConfig['getPlanState']"
+                    :label="item.value"
+                    :key="index"
+                    :value="item.key"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -376,7 +376,6 @@ import moment from 'moment';
 import { inPlanSelect, batchApprovePlan, inPlanClose, inCloseOperate } from '@/api/warehousing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig } from './config';
-import { warehousingPlanBillStatus } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { mapGetters } from 'vuex'
 import { stringify } from 'qs';
@@ -400,7 +399,6 @@ export default {
       },
       total: 0,
       tableConfig: indexTableConfig,
-      warehousingPlanBillStatus,
       rules: {
 
       },
