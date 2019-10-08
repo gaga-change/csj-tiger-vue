@@ -17,7 +17,7 @@
       :tableData="tableData"
     />
     <!-- 上传弹框 -->
-    <el-dialog
+     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
       center
@@ -30,8 +30,8 @@
         name="file"
         :file-list="fileList"
         :accept="'.xls,.xlsx'"
+        :http-request="uploadFile"
         :on-change="handelUploadChange"
-        :on-success="handleUploadSuccess"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible" :loading="uploadLoading">上传到服务器</el-button>
@@ -55,7 +55,7 @@
         :file-list="editFileList"
         :accept="'.xls,.xlsx'"
         :on-change="handelEditUploadChange"
-        :on-success="handleEditUploadSuccess"
+        :http-request="uploadEditFile"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="editSubmitUpload" v-show="editUploadButtonVisible" :loading="editUploadLoading">上传到服务器</el-button>
@@ -70,7 +70,7 @@
 <script>
 import search from '@/components/Search'
 import { productConfig } from './components/config'
-import { getProductList } from '@/api/productcenter'
+import { getProductList, deleteProduct, RequestUploads, modifyRequestUploads } from '@/api/productcenter'
 import BaseTable from '@/components/Table'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
@@ -102,7 +102,9 @@ export default {
       editFileList: [],
       editUploadButtonVisible: false,
       uploadLoading: false,
-      editUploadLoading: false
+      editUploadLoading: false,
+      isCheck:true,
+      modifyIsCheck:true
     }
   },
   computed: {
@@ -123,7 +125,7 @@ export default {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
           return (
-            <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'nowrap'}}>
               <span>
                 <a
                   onClick={() => {
@@ -141,6 +143,14 @@ export default {
                 >
                   修改
                 </a>
+                <a
+                  onClick={() => {
+                    this.deleteItem({ skuCode: row.skuCode, ownerCode:row.ownerCode })
+                  }}
+                  style={this.linkstyle}
+                >
+                  删除
+                </a>
               </span>
             </div>
           )
@@ -152,30 +162,117 @@ export default {
     this.fetchData()
   },
   methods: {
-    handleUploadSuccess(res, file, fileList) {
+    uploadFile(params){
       this.uploadLoading = false
-      if (res.code === '200') {
-        if (res.success) {
-          this.dialogVisible = false
-          this.fetchData()
-        } else {
-          this.$message({ message: res.errorMsg, type: 'error' })
-        }
-        // this.$confirm(res.message, '提示', {
-        //   confirmButtonText: '完成',
-        //   cancelButtonText: '继续导入',
-        //   type: 'success'
-        // }).then(_ => {
-        //   this.dialogVisible = false
-        //   this.fetchData()
-        // }).catch(_ => {})
-      } else {
-        this.$message({
-          message: res.errorMsg,
-          type: 'error'
-        })
+      const _file = params.file;
+      const isLt5M = _file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message.error("请上传5M以下的.xlsx文件");
+        return false;
       }
-      this.$refs['upload'].clearFiles()
+      let that=this
+      this.isCheck=true
+      var formData = new FormData();
+      formData.append('file', _file);
+      formData.append('isCheck', this.isCheck);
+      RequestUploads(formData).then(res => {
+        if (res.code === '200') {
+          if (res.success) {
+            this.dialogVisible = false
+            this.fetchData()
+          } else {
+            this.$message({ message: res.errorMsg, type: 'error' })
+          }
+        }else if(res.code=='ratel-40620008') {
+          this.$confirm('商品名重复,请确认是否继续导入', '提示', {
+            confirmButtonText: '继续导入',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(_ => {
+            that.isCheck=false
+            formData.set('isCheck', that.isCheck)
+            RequestUploads(formData).then(res=>{
+              if (res.code === '200') {
+                if (res.success) {
+                  that.dialogVisible = false
+                  that.fetchData()
+                } else {
+                  that.$message({ message: res.errorMsg, type: 'error' })
+                }
+              }else{
+                that.$message({
+                  message: res.errorMsg,
+                  type: 'error'
+                })
+              }
+            })
+          }).catch(_ => {
+            that.dialogVisible = false
+          })
+        }else{
+          this.$message({
+            message: res.errorMsg,
+            type: 'error'
+          })
+        }
+        this.$refs['upload'].clearFiles()
+      })
+    },
+    uploadEditFile(params){
+      this.editUploadLoading = false
+      const _file = params.file;
+      const isLt5M = _file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message.error("请上传5M以下的.xlsx文件");
+        return false;
+      }
+      let that=this
+      this.modifyIsCheck=true
+      var formData = new FormData();
+      formData.append('file', _file);
+      formData.append('isCheck', this.modifyIsCheck);
+      modifyRequestUploads(formData).then(res => {
+        if (res.code === '200') {
+          if (res.success) {
+            this.editDialogVisible = false
+            this.fetchData()
+          } else {
+            this.$message({ message: res.errorMsg, type: 'error' })
+          }
+        }else if(res.code=='ratel-40620008') {
+          this.$confirm('商品名重复,请确认是否继续导入', '提示', {
+            confirmButtonText: '继续导入',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(_ => {
+            that.modifyIsCheck=false
+            formData.set('isCheck', that.modifyIsCheck)
+            modifyRequestUploads(formData).then(res=>{
+              if (res.code === '200') {
+                if (res.success) {
+                  that.editDialogVisible = false
+                  that.fetchData()
+                } else {
+                  that.$message({ message: res.errorMsg, type: 'error' })
+                }
+              }else{
+                that.$message({
+                  message: res.errorMsg,
+                  type: 'error'
+                })
+              }
+            })
+          }).catch(_ => {
+            that.editDialogVisible = false
+          })
+        }else{
+          this.$message({
+            message: res.errorMsg,
+            type: 'error'
+          })
+        }
+        this.$refs['editUpload'].clearFiles()
+      })
     },
     handelUploadChange(file, fileList) {
       // 选择文件时显示上传按钮
@@ -188,25 +285,6 @@ export default {
     submitUpload() {
       this.uploadLoading = true
       this.$refs.upload.submit()
-    },
-    handleEditUploadSuccess(res, file, fileList) {
-      this.editUploadLoading = false
-      if (res.code === '200') {
-        this.$confirm(res.message, '提示', {
-          confirmButtonText: '完成',
-          cancelButtonText: '继续导入',
-          type: 'success'
-        }).then(_ => {
-          this.editDialogVisible = false
-          this.fetchData()
-        }).catch(_ => { })
-      } else {
-        this.$message({
-          message: res.errorMsg,
-          type: 'error'
-        })
-      }
-      this.$refs['editUpload'].clearFiles()
     },
     handelEditUploadChange(file, fileList) {
       // 选择文件时显示上传按钮
@@ -234,6 +312,22 @@ export default {
     },
     view(query) {
       this.$router.push({ name: 'misproductdetail', query })
+    },
+    deleteItem(data){
+      this.$confirm('是否删除？', '提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'success'
+        }).then(_ => {
+          deleteProduct(data).then(res=>{
+            if(res.success){
+              this.$message.success('删除成功')
+              this.fetchData()
+            }else{
+              this.$message.success('删除失败')
+            }
+          })
+        }).catch(_ => { })
     },
     newProduct() {
       this.$router.push({

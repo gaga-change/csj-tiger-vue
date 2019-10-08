@@ -45,6 +45,9 @@
         <template slot-scope="scope">
           <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
           <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
+           <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
+            scope.row[column.prop] | parseTime
+            }}</span>
           <span v-else>{{scope.row[column.prop]}}</span>
         </template>
       </el-table-column>
@@ -321,6 +324,11 @@ export default {
         prop: 'customerLevel',
         apiEnum: 'getEnterpriseLevel',
         placeholder: '请输入客户等级'
+      },{label: '创建人',
+        prop: 'createrName'
+      },{label: '创建时间',
+        prop: 'gmtCreate',
+        type:'time'
       }),
       tableData: [],
       searchData: {},

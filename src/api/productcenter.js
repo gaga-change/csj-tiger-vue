@@ -85,3 +85,32 @@ export function productDetail(data) {
     params: data
   })
 }
+
+// 删除商品
+export function deleteProduct(data) {
+  return request({
+    url: `/webApi/sku/info/delete`,
+    method: 'post',
+    data: data
+  })
+}
+
+//商品上传
+export function RequestUploads(data) {
+  return request({
+    url: `/webApi/sku/info/import`,
+    method: 'post',
+    data: data
+  })
+}
+
+//商品批量修改上传
+export function modifyRequestUploads(data) {
+  return request({
+    url: `/webApi/sku/info/importUpdate`,
+    method: 'post',
+    data: data
+  })
+}
+
+

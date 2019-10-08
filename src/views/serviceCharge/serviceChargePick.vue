@@ -13,14 +13,10 @@
       :modelUrl="'/static/templet/serviceCharge.xlsx'"
       :filesuploadUrl="'/webApi/serviceChargeBill/import/batch'"
     ></upload-excel>
-      <!-- <el-button
+      <el-button
         type="primary"
-        @click="handleCreate()"
-      >导入</el-button> -->
-      <!-- <el-button
-        type="primary"
-        @click="handleCreate()"
-      >新建</el-button> -->
+        @click="handleCreate"
+      >新建</el-button>
     </div>
     <div class="mt15">
       <base-table2
@@ -36,12 +32,13 @@
               type="danger"
               icon="el-icon-delete"
               @click="handleDelete(scope.row)"
+              style="color:#409EFF;cursor:pointer;"
             >删除</span>
-            <!-- <el-divider direction="vertical"></el-divider> -->
-           <!--  <span
+            <span
               icon="el-icon-edit"
               @click="handleModify(scope.row)"
-            >编辑</span> -->
+              style="color:#409EFF;cursor:pointer;"
+            >编辑</span>
           </div>
         </template>
       </base-table2>
@@ -58,6 +55,7 @@
 import serviceChargePickForm from './components/serviceChargePickForm'
 import { serviceChargePickSearchConfig, serviceChargePickTableConfig } from './config'
 import { serviceChargeBillQueryPageList, serviceChargeBillDelete } from '@/api'
+import moment from 'moment';
 export default {
   components: { serviceChargePickForm },
   data() {
@@ -71,6 +69,7 @@ export default {
     }
   },
   methods: {
+    moment,
     search(searchParams, cb) {
       this.$refs['baseTable'].fetchData(searchParams).then(cb)
     },

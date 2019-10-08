@@ -201,7 +201,7 @@ export default {
           let data = res.data;
           this.config = data;
           this.planCode = data.planCode;
-          this.typeDes=data.issuedState!=1?'productNum':null
+          this.typeDes=data.issuedState==7?'productNum':null
           let tableData = Array.isArray(data.itemList) ? data.itemList : [];
           if (this.$route.query.history) {
             this.tableData = _.cloneDeep(tableData).map(v => {

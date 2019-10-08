@@ -322,8 +322,9 @@ export function outPlandelete(data) {
 //出库计划单手工完结
 export function outCloseOperate(data) {
   return request({
-    url: `/webApi/out/plan/end/${data}`,
-    method: 'PUT'
+    url: `/webApi/out/plan/end`,
+    method: 'post',
+    data:data
   })
 }
 
@@ -336,3 +337,20 @@ export function customNameSearch(data) {
   })
 }
 
+//获取外部订单号列表
+export function outOrderNo(data) {
+  return request({
+    url: `/webApi/out/bill/queryBill`,
+    method: 'post',
+    data:data
+  })
+}
+
+//根据货主查询业务单号物流单号信息
+export function outRelativeNo(data) {
+  return request({
+    url: `/webApi/out/order/getOutOrder`,
+    method: 'put',
+    data:data
+  })
+}
