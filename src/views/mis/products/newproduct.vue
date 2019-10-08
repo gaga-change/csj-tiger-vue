@@ -1155,7 +1155,8 @@ import choiceCategory from './components/choiceCategory'
 import * as productEnum from './components/productEnum'
 import { customerConfig, servicerConfig } from './components/config'
 import Sticky from '@/components/Sticky'
-import { addProduct, updateProduct, productDetail } from '@/api/productcenter'
+import { addProduct } from '@/api'
+import { updateProduct, productDetail } from '@/api/productcenter'
 import { getOwnerCustList, getOwnerProviderList } from '@/api/mis'
 import { findValue } from '@/utils'
 import _ from 'lodash';
@@ -1349,7 +1350,7 @@ export default {
       this.$set(this.productForm, 'categoryName', item.text)
     },
     onSubmit() {
-
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$refs['tcfForm2'].clearValidate(['customerCode'])
       this.$refs['servicerForm'].$refs['tcfForm'].clearValidate(['providerCode'])
       if (this.productForm.categoryCode) {
@@ -1373,18 +1374,44 @@ export default {
           if (skuCode) {
             postForm.skuCode = skuCode
           }
+          postForm.isCheck = true
           editMethod(postForm).then(res => {
-            this.submitloading = false
-            if (res.success) {
-              const view = this.visitedViews.filter(v => v.path === this.$route.path)
-              this.$alert('操作成功').then(() => {
-                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                  this.$router.push({ name: 'productsList' })
+            if (!res) {
+              this.submitloading = false
+              return
+            }
+            if (res.code === 'ratel-40620008') {
+              this.$delConfirm(`商品名称【${postForm.skuName}】已存在，是否继续？`, () => {
+                postForm.isCheck = false
+                return editMethod(postForm).then(res => {
+                  if (!res) {
+                    this.submitloading = false
+                    return
+                  }
+                  this.$message({
+                    type: 'success',
+                    message: '操作成功,1.5s后跳往详情页',
+                    duration: 1500,
+                    onClose: () => {
+                      this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                        this.$router.push({ name: 'productsList' })
+                      })
+                    }
+                  })
                 })
               })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '操作成功,1.5s后跳往详情页',
+                duration: 1500,
+                onClose: () => {
+                  this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                    this.$router.push({ name: 'productsList' })
+                  })
+                }
+              })
             }
-          }).catch(err => {
-            this.submitloading = false
           })
         } else if (this.productForm.categoryCode) {
           this.$refs['productForm'].clearValidate(['categoryCode'])

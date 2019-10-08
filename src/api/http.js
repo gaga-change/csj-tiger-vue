@@ -24,6 +24,8 @@ newAxios.interceptors.response.use(function (response) {
       duration: 3000
     })
     data = null
+  } else if (~['ratel-40620008'].findIndex(v => v === data.code)) {
+    // 白名单
   } else if (data.code !== '200') {
     Message({
       type: 'error',
