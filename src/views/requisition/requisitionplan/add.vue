@@ -21,7 +21,6 @@
         >提交</el-button>
       </template>
     </sticky>
-
     <el-card shadow="hover">
       <el-form
         ref="searchForm"
@@ -44,6 +43,23 @@
                 size="small"
                 class="formitem"
                 :disabled="true"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="外部订单号"
+              prop="busiBillNo"
+            >
+              <el-input
+                v-model="searchForm.busiBillNo"
+                size="small"
+                class="formitem"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -90,7 +106,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -202,16 +217,15 @@
             <el-form-item
               label="接收人"
               prop="warehouseLinkName"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.warehouseLinkName"
                 size="small"
                 class="formitem"
-                :disabled="true"
               ></el-input>
             </el-form-item>
           </el-col>
-
           <el-col
             :sm="12"
             :md="8"
@@ -257,12 +271,12 @@
             <el-form-item
               label="联系方式"
               prop="linkTel"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.linkTel"
                 size="small"
                 class="formitem"
-                :disabled="true"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -282,7 +296,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <div class="tableBox">
           <div class="tableTitle">
             <item-title text="商品明细" />
