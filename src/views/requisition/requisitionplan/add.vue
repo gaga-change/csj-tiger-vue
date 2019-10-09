@@ -217,12 +217,12 @@
             <el-form-item
               label="接收人"
               prop="warehouseLinkName"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.warehouseLinkName"
                 size="small"
                 class="formitem"
-                :disabled="true"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -271,12 +271,12 @@
             <el-form-item
               label="联系方式"
               prop="linkTel"
+              :rules="[{ required: true, message: '该项为必填'}]"
             >
               <el-input
                 v-model="searchForm.linkTel"
                 size="small"
                 class="formitem"
-                :disabled="true"
               ></el-input>
             </el-form-item>
           </el-col>

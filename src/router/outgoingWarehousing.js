@@ -314,7 +314,7 @@ export default [
       {
         name: 'requisitionplan',
         path: 'requisitionplan',
-        meta: { title: '调拨单', noCache: false },
+        meta: { title: '调拨单', noCache: true },
         component: _import('requisition/requisitionplan/index')
       },
       {
