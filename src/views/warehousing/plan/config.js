@@ -55,7 +55,7 @@ export const indexTableConfig = [
   { label: '计划单号', prop: 'planCode', width: 150, fixed: true, linkTo: '/warehousing/plan-detail', query: [{ key: 'planCode', value: 'planCode' }] },
   { label: '业务单号', prop: 'billNo', width: 170 },
   { label: '外部订单号', prop: 'busiBillNo', width: 160 },
-  { label: '单据状态', prop: 'planState', type: 'warehousingPlanBillStatus', useLocalEnum: true, width: 80 },
+  { label: '单据状态', prop: 'planState', type: 'getPlanState', useApi: true, width: 80 },
   { label: '供应商名称', prop: 'providerName', width: 180 },
   { label: '货主', prop: 'ownerName', width: 180 },
   { label: '制单人', prop: 'createrName' },

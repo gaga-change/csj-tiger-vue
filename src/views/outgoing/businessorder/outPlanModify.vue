@@ -31,7 +31,7 @@
       :loading="loading"
       :config="addPlanOrder_config"
       :allTableData="tableData"
-      :tableType="'productNum'"
+      :tableType="this.infoData.issuedState==7?'productNum':''"
     />
 
     <el-dialog
@@ -182,7 +182,7 @@ export default {
           this.tableData = list.map(v => {
             v.warehouseName = data.planWarehouseName
             v.warehouseCode = data.planWarehouseCode
-            if(v.canUseSkuQty - v.planOutQty <0){
+            if(this.infoData.issuedState==7 && (v.canUseSkuQty - v.planOutQty <0)){
               v.pointtitle='(商品不足)'
             }else{
               v.pointtitle=''

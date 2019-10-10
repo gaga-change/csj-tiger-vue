@@ -48,7 +48,7 @@
                 placeholder="请选择业务类型"
               >
                 <el-option
-                  v-for="item in mapConfig['getBillType']&&mapConfig['getBillType'].filter(v=>v.value.includes('入库') && !v.value.includes('订正'))"
+                  v-for="item in mapConfig['getInBillType']"
                   :label="item.value"
                   :key="item.key"
                   :value="item.key"

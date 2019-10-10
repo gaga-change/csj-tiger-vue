@@ -8,7 +8,7 @@ export default [
     path: '/mis/products',
     component: Layout,
     redirect: '/mis/products/list',
-    mark:'基础档案',
+    mark: '基础档案',
     meta: { title: '商品管理', icon: 'sale' },
     children: [
       {
@@ -16,13 +16,13 @@ export default [
         query: { time: Date.now() },
         component: _import('mis/products/newproduct'),
         name: 'newproduct',
-        meta: { title: '新增商品',noCache: false }
+        meta: { title: '新增商品', noCache: false }
       },
       {
         path: 'list',
         component: _import('mis/products/list'),
         name: 'productsList',
-        meta: { title: '商品列表',noCache: false }
+        meta: { title: '商品列表', noCache: true }
       },
       {
         path: 'categoryList',
@@ -77,7 +77,7 @@ export default [
     path: '/customer',
     component: Layout,
     redirect: '/customer/list',
-    mark:'基础档案',
+    mark: '基础档案',
     meta: { title: '客户管理', icon: 'sale' },
     children: [
       {
@@ -95,7 +95,7 @@ export default [
     component: Layout,
     redirect: '/supplierManagement/list',
     name: 'supplierManagement',
-    mark:'基础档案',
+    mark: '基础档案',
     meta: { title: '供应商管理', icon: 'sale' },
     children: [
       {
@@ -112,28 +112,28 @@ export default [
     component: Layout,
     redirect: '/carrier/list',
     name: 'carrier',
-    mark:'基础档案',
+    mark: '基础档案',
     meta: { title: '承运商管理', icon: 'sale' },
     children: [
       {
         path: 'list',
         component: _import('mis/carrier/list'),
         name: 'carrierList',
-        meta: { title: '承运商管理'}
+        meta: { title: '承运商管理' }
       },
       {
         path: 'add',
         component: _import('mis/carrier/add'),
         name: 'carrierAdd',
         hidden: true,
-        meta: { title:'创建承运商', noCache: false}
+        meta: { title: '创建承运商', noCache: false }
       },
       {
         path: 'detail',
         component: _import('mis/carrier/detail'),
         name: 'carrierDetail',
         hidden: true,
-        meta: { title:'承运商详情' }
+        meta: { title: '承运商详情' }
       }
     ]
   },
@@ -143,14 +143,14 @@ export default [
     component: Layout,
     redirect: '/storagepoint/list',
     name: 'storagepoint',
-    mark:'基础档案',
+    mark: '基础档案',
     meta: { title: '仓配点管理', icon: 'sale' },
     children: [
       {
         path: 'list',
         component: _import('mis/storagepoint/list'),
         name: 'storagepointList',
-        meta: { title: '仓配点管理'  }
+        meta: { title: '仓配点管理' }
       }
     ]
   },
@@ -189,9 +189,9 @@ export default [
   {
     path: '/businessset',
     component: Layout,
-    mark:'基础档案',
+    mark: '基础档案',
     redirect: 'businessset/configuration',
-    meta: { title: '业务设置', noCache: true ,icon:'busyness'},
+    meta: { title: '业务设置', noCache: true, icon: 'busyness' },
     hidden: false,
     children: [
       {
@@ -205,9 +205,9 @@ export default [
   {
     path: '/paymentManage',
     component: Layout,
-    mark:'基础档案',
+    mark: '基础档案',
     redirect: '/paymentManage/substitutePayment',
-    meta: { title: '款项管理', noCache: true ,icon:'sale'},
+    meta: { title: '款项管理', noCache: true, icon: 'sale' },
     hidden: false,
     children: [
       {

@@ -175,11 +175,6 @@
               class="tableLink"
               @click="operation(scope.row,9,'确定要删除吗 ?')"
             >删除</span>
-            <!-- <span
-              v-if="[0].includes(scope.row.transferStatus)"
-              class="tableLink"
-              @click="operation(scope.row,2,'确定要关闭吗 ?')"
-            >关闭</span> -->
           </div>
         </template>
       </el-table-column>

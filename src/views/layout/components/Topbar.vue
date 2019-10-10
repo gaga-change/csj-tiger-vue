@@ -4,7 +4,7 @@
       <img :src="logoPath" />
     </div>
     <div class="plant-text">
-      物流交付协同平台
+      物流交付协同平台{{development ? '【开发环境】': ''}}
     </div>
     <ul class="top-nav">
       <li  v-for="i in markArr">
@@ -89,6 +89,7 @@ export default {
       }
     }
     return {
+      development: false,
       logoPath,
       TiggerUrl,
       dataUrl: null,
@@ -121,7 +122,11 @@ export default {
       'mark'
     ])
   },
-
+  created() {
+    if (process.env.NODE_ENV === "development") {
+      this.development = true
+    }
+  },
   mounted() {
     const that = this
     var script = document.createElement('script')
@@ -129,7 +134,7 @@ export default {
     script.id = 'otherdatascript'
     script.src = `http://bi.csjmro.com/WebReport/ReportServer?op=fs_load&cmd=sso&fr_username=${this.userInfo.email}&fr_password=${this.userInfo.password}&validity=-1&callback=fwie`
     document.body.appendChild(script)
-    window.fwie = function(data) {
+    window.fwie = function (data) {
       if (data.url) {
         that.dataUrl = data.url
       }
@@ -146,7 +151,7 @@ export default {
         this.$message('同步登录BI失败，无法跳转，请刷新页面重试')
       }
     },
-     modifyPassword() {
+    modifyPassword() {
       this.$refs.ruleForm2.validate((valid) => {
         if (valid) {
           updatepassword({
@@ -155,9 +160,9 @@ export default {
             newPw: this.form.newpassword
           }).then(
             res => {
-              if(JSON.parse(res.data).code=='success'){
-                 this.$message.success('修改密码成功')
-                 this.modifyPasswordShow = false
+              if (JSON.parse(res.data).code == 'success') {
+                this.$message.success('修改密码成功')
+                this.modifyPasswordShow = false
               }
             }
           )
@@ -187,7 +192,7 @@ export default {
   width: 100%;
   z-index: 1001;
   top: 0;
-  .logo{
+  .logo {
     margin: 0 24px;
     float: left;
   }
@@ -198,8 +203,8 @@ export default {
     color: #fff;
   }
 
-  .navActive{
-    color:#fff;
+  .navActive {
+    color: #fff;
     font-weight: 700;
   }
 }
@@ -257,12 +262,12 @@ export default {
       color: #b5c6d9;
       font-size: 16px;
       display: block;
-      transition: all .3s;
+      transition: all 0.3s;
     }
     a:hover {
       background: #263445;
       padding: 0 25px;
-      transition: all .3s;
+      transition: all 0.3s;
     }
   }
 }
