@@ -41,6 +41,7 @@ export const infoConfig = [
   { title: '联系电话', prop: 'arrivalLinkTel' },
   { title: '客户地址', prop: 'arrivalAddress' },
   { title: '推送状态', prop: 'issuedState', type: 'getIssuedState', useApi: true },
+  { title: '备注', prop: 'remarkInfo' },
 ]
 
 export const outgoingTableConfig = [
