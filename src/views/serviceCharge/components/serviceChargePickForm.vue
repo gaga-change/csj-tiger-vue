@@ -66,11 +66,12 @@
           >
             <el-form-item
               label="费用区分"
-              prop="expenseCode"
-              :rules="[{ required: true, message: '必填项' }]"
+              prop="expenseCodes"
+              :rules="[{ required: true, message: '必填项', trigger: 'blur' }]"
             >
               <el-select
-                v-model="searchForm.expenseCode"
+                v-model="searchForm.expenseCodes"
+                multiple
                 placeholder="请选择费用区分"
               >
                 <el-option
@@ -380,7 +381,7 @@ export default {
         ownerCode: null,
         ownerName: null,
         settlementDate: null,
-        expenseCode: null,
+        expenseCodes: undefined,
         expenseName: null,
         isHasOrder: null,
         busiBillNo: null,
@@ -431,6 +432,7 @@ export default {
           if (!res) return
           let detail = res.data
           this.searchForm = JSON.parse(JSON.stringify(detail))
+          this.searchForm.expenseCodes = (detail.expenseList || []).map(v => v.expenseCode)
           if (this.searchForm.isHasOrder == 1) {
             this.busiBilldisabled = true
             this.logisticsdisabled = true
@@ -520,7 +522,13 @@ export default {
           }
           this.serviceChargeBillSaveLoading = true
           params.ownerName = this.mapConfig['ownerInfoMap'].find(v => v.key === params.ownerCode).value
-          params.expenseName = this.expenseEnum.find(v => v.expenseCode === params.expenseCode).expenseName
+          params.expenseList = params.expenseCodes.map(code => {
+            return {
+              expenseCode: code,
+              expenseName: this.expenseEnum.find(v => v.expenseCode === code).expenseName
+            }
+          })
+          delete params.expenseCodes
           params.settlementDate = new Date(params.settlementDate).getTime()
           api({
             ...params,
