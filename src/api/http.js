@@ -14,15 +14,17 @@ newAxios.interceptors.response.use(function (response) {
   let message = data.message || data.errorMsg || ''
   // 系统异常提示（返回的数据为 null）
   if (~['TIGER-40620081', 'user-not-login'].findIndex(v => v === data.code)) {
-    Message({
-      type: 'error',
-      message: '登录已失效，3秒后自动跳转登录',
-      onClose: () => {
-        sessionStorage.setItem('warehouse', '')
-        location.href = `/csj_login`
-      },
-      duration: 3000
-    })
+    // Message({
+    //   type: 'error',
+    //   message: '登录已失效，3秒后自动跳转登录',
+    //   onClose: () => {
+    //     sessionStorage.setItem('warehouse', '')
+    //     location.href = `/csj_login`
+    //   },
+    //   duration: 3000
+    // })
+    sessionStorage.setItem('warehouse', '')
+    location.href = `/csj_login`
     data = null
   } else if (~['ratel-40620008'].findIndex(v => v === data.code)) {
     // 白名单
