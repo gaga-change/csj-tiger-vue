@@ -148,7 +148,7 @@
               ></el-input>
             </el-form-item>
           </el-col>
-           <el-col
+          <el-col
             :sm="12"
             :md="8"
             :lg="8"
@@ -200,7 +200,6 @@
           >
             <el-form-item
               :label="'客户'"
-              label-width="90px"
               prop="customerCode"
             >
 
@@ -223,7 +222,11 @@
               prop="expenseAmt"
               :rules="[{ required: true, message:'请输入费用' }]"
             >
-              <el-input-number v-model="searchForm.expenseAmt" :min="0" size="mini"></el-input-number>
+              <el-input-number
+                v-model="searchForm.expenseAmt"
+                :min="0"
+                size="mini"
+              ></el-input-number>
             </el-form-item>
           </el-col>
           <el-col
@@ -232,7 +235,11 @@
             :lg="8"
             :xl="6"
           >
-            <el-form-item label="结算方式" prop="settlementType" :rules="[{ required: true, message:'请选择' }]">
+            <el-form-item
+              label="结算方式"
+              prop="settlementType"
+              :rules="[{ required: true, message:'请选择' }]"
+            >
               <el-select
                 v-model="searchForm.settlementType"
                 clearable
@@ -298,19 +305,18 @@
       </el-dialog>
     </el-dialog>
     <el-dialog
-        title="外部订单及物流单号"
-        :visible.sync="logisticsVisible"
-        width="600"
-        height="60%"
-        append-to-body
-      >
-        <div v-if="logisticsVisible">
-          <select-logisticsorder
-            @select="logisticsChange"
-            :ownerCode="searchForm.ownerCode"
-          />
-        </div>
-      </el-dialog>
+      title="外部订单及物流单号"
+      :visible.sync="logisticsVisible"
+      width="600"
+      height="60%"
+      append-to-body
+    >
+      <div v-if="logisticsVisible">
+        <select-logisticsorder
+          @select="logisticsChange"
+          :ownerCode="searchForm.ownerCode"
+        />
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -357,28 +363,28 @@ export default {
       expenseEnum: [],
       formLabelWidth: '120px',
       formLabelInnerWidth: '80px',
-      searchForm:{
-        ownerCode:null,
-        ownerName:null,
-        settlementDate:null,
-        expenseCode:null,
-        expenseName:null,
-        isHasOrder:null,
-        busiBillNo:null,
-        logisticsOrderCode:null,
-        consoildatorCode:null,
-        dispatchAddr:null,
-        customerCode:null,
-        expenseAmt:null,
-        settlementType:null,
-        remarkInfo:null
+      searchForm: {
+        ownerCode: null,
+        ownerName: null,
+        settlementDate: null,
+        expenseCode: null,
+        expenseName: null,
+        isHasOrder: null,
+        busiBillNo: null,
+        logisticsOrderCode: null,
+        consoildatorCode: null,
+        dispatchAddr: null,
+        customerCode: null,
+        expenseAmt: null,
+        settlementType: null,
+        remarkInfo: null
       },
-      isHasOrderList:[{id:0,value:'有外部订单'},{id:1,value:'有外部订单配送单'},{id:2,value:'无外部订单'}],
-      consoil:[],
-      busiBilldisabled:false,
-      logisticsdisabled:false,
-      selectVisiable:false,
-      logisticsVisible:false
+      isHasOrderList: [{ id: 0, value: '有外部订单' }, { id: 1, value: '有外部订单配送单' }, { id: 2, value: '无外部订单' }],
+      consoil: [],
+      busiBilldisabled: false,
+      logisticsdisabled: false,
+      selectVisiable: false,
+      logisticsVisible: false
     }
   },
   computed: {
@@ -412,21 +418,21 @@ export default {
           this.serviceChargeBillSelectDetailLoading = false
           if (!res) return
           let detail = res.data
-          this.searchForm=JSON.parse(JSON.stringify(detail))
-          if(this.searchForm.isHasOrder==1){
-            this.busiBilldisabled=true
-            this.logisticsdisabled=true
-          }else if(this.searchForm.isHasOrder==0){
-            this.busiBilldisabled=true
-            this.logisticsdisabled=false
-          }else{
-            this.busiBilldisabled=false
-            this.logisticsdisabled=false
+          this.searchForm = JSON.parse(JSON.stringify(detail))
+          if (this.searchForm.isHasOrder == 1) {
+            this.busiBilldisabled = true
+            this.logisticsdisabled = true
+          } else if (this.searchForm.isHasOrder == 0) {
+            this.busiBilldisabled = true
+            this.logisticsdisabled = false
+          } else {
+            this.busiBilldisabled = false
+            this.logisticsdisabled = false
           }
         })
-      }else{
-        this.busiBilldisabled=false
-        this.logisticsdisabled=false
+      } else {
+        this.busiBilldisabled = false
+        this.logisticsdisabled = false
       }
     },
     getConsoilInfoList() {
@@ -438,46 +444,46 @@ export default {
           console.error(err)
         })
     },
-    showmessage(){
+    showmessage() {
       if (!this.searchForm.ownerCode) {
         return this.$message.error('请选择货主！')
       }
     },
-    hasOrderChange(val){
+    hasOrderChange(val) {
       if (!this.searchForm.ownerCode) {
-        this.searchForm.isHasOrder=null
+        this.searchForm.isHasOrder = null
         return this.$message.error('请选择货主！')
       }
-      this.searchForm.busiBillNo=null
-      this.searchForm.logisticsOrderCode=null
-      if(val==0){
-        this.selectVisiable=true
-        this.busiBilldisabled=true
-        this.logisticsdisabled=false
-      }else if(val==1){
-        this.logisticsVisible=true
-        this.busiBilldisabled=true
-        this.logisticsdisabled=true
-      }else if(val==2){
-        this.selectVisiable=false
-        this.logisticsVisible=false
-        this.busiBilldisabled=false
-        this.logisticsdisabled=false
+      this.searchForm.busiBillNo = null
+      this.searchForm.logisticsOrderCode = null
+      if (val == 0) {
+        this.selectVisiable = true
+        this.busiBilldisabled = true
+        this.logisticsdisabled = false
+      } else if (val == 1) {
+        this.logisticsVisible = true
+        this.busiBilldisabled = true
+        this.logisticsdisabled = true
+      } else if (val == 2) {
+        this.selectVisiable = false
+        this.logisticsVisible = false
+        this.busiBilldisabled = false
+        this.logisticsdisabled = false
       }
     },
     selectChange(record) {
       this.selectVisiable = false
-      this.searchForm.busiBillNo=record.busiBillNo
+      this.searchForm.busiBillNo = record.busiBillNo
     },
-    logisticsChange(val){
-      this.logisticsVisible= false
-      this.searchForm.busiBillNo=val.busiBillNo
-      this.searchForm.logisticsOrderCode=val.logisticsOrderCode
+    logisticsChange(val) {
+      this.logisticsVisible = false
+      this.searchForm.busiBillNo = val.busiBillNo
+      this.searchForm.logisticsOrderCode = val.logisticsOrderCode
     },
     ownerCodeChange(value) {
-      this.searchForm.isHasOrder=null
-      this.searchForm.busiBillNo=null
-      this.searchForm.logisticsOrderCode=null
+      this.searchForm.isHasOrder = null
+      this.searchForm.busiBillNo = null
+      this.searchForm.logisticsOrderCode = null
     },
     /** 关闭窗口 */
     close() {
@@ -494,15 +500,15 @@ export default {
       this.$refs['searchForm'].validate((valid) => {
         if (valid) {
           let params = { ...this.searchForm }
-          if( params.isHasOrder==1 && (!params.busiBillNo || !params.logisticsOrderCode)){
+          if (params.isHasOrder == 1 && (!params.busiBillNo || !params.logisticsOrderCode)) {
             return this.$message.error('外部订单/物流单号不能为空！')
           }
-          if(params.isHasOrder==0 && !params.busiBillNo){
+          if (params.isHasOrder == 0 && !params.busiBillNo) {
             return this.$message.error('外部订单不能为空！')
           }
           this.serviceChargeBillSaveLoading = true
           params.ownerName = this.mapConfig['ownerInfoMap'].find(v => v.key === params.ownerCode).value
-          params.expenseName=this.expenseEnum.find(v => v.expenseCode === params.expenseCode).expenseName
+          params.expenseName = this.expenseEnum.find(v => v.expenseCode === params.expenseCode).expenseName
           params.settlementDate = new Date(params.settlementDate).getTime()
           api({
             ...params,
