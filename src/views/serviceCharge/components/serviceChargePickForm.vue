@@ -74,11 +74,24 @@
                 placeholder="请选择费用区分"
               >
                 <el-option
+                  disabled
+                  label="款项名称"
+                  value="款项性质"
+                >
+                  <span style="float: left"> 款项名称</span>
+                  <span style="float: right; ">款项性质
+                  </span>
+                </el-option>
+                <el-option
                   v-for="item in expenseEnum"
                   :label="item.expenseName"
                   :key="item.expenseCode"
                   :value="item.expenseCode"
-                ></el-option>
+                >
+                  <span style="float: left">{{ item.expenseName }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px; padding-left:5px;">{{ item.expenseType | apiEnum(mapConfig, 'getExpenseTypeList') }}
+                  </span>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -390,7 +403,7 @@ export default {
   computed: {
     ...mapGetters([
       'mapConfig',
-    ])
+    ]),
   },
   watch: {
     visible(val) {
@@ -404,8 +417,7 @@ export default {
     selectLogisticsExpense({}).then(res => {
       this.selectLogisticsExpenseLoading = false
       if (!res) return
-      let temp = res.data || []
-      this.expenseEnum = temp
+      this.expenseEnum = res.data || []
     })
     this.getConsoilInfoList()
   },
