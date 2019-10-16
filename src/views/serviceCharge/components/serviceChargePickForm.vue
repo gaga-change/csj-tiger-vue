@@ -15,7 +15,7 @@
         <el-row>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -40,7 +40,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -60,7 +60,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -98,7 +98,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -122,11 +122,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -137,7 +135,6 @@
               <el-input
                 v-model="searchForm.busiBillNo"
                 placeholder="请输入外部订单号"
-                size="small"
                 class="formitem"
                 :disabled="busiBilldisabled"
               ></el-input>
@@ -145,7 +142,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -156,7 +153,6 @@
               <el-input
                 v-model="searchForm.logisticsOrderCode"
                 placeholder="请输入物流单号"
-                size="small"
                 class="formitem"
                 :disabled="logisticsdisabled"
               ></el-input>
@@ -164,7 +160,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -188,7 +184,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -199,16 +195,13 @@
               <el-input
                 v-model="searchForm.dispatchAddr"
                 placeholder="请输入地址"
-                size="small"
                 class="formitem"
               ></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -227,7 +220,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -245,7 +238,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -258,7 +251,6 @@
                 v-model="searchForm.settlementType"
                 clearable
                 placeholder="请选择结算方式"
-                size="small"
                 class="formitem"
               >
                 <el-option
@@ -272,7 +264,7 @@
           </el-col>
           <el-col
             :sm="12"
-            :md="8"
+            :md="12"
             :lg="8"
             :xl="6"
           >
@@ -431,8 +423,11 @@ export default {
           this.serviceChargeBillSelectDetailLoading = false
           if (!res) return
           let detail = res.data
-          this.searchForm = JSON.parse(JSON.stringify(detail))
+          Object.keys(this.searchForm).forEach(key => {
+            this.$set(this.searchForm, key, detail[key] === null ? undefined : detail[key])
+          })
           this.searchForm.expenseCodes = (detail.expenseList || []).map(v => v.expenseCode)
+          this.searchForm.id = detail.id
           if (this.searchForm.isHasOrder == 1) {
             this.busiBilldisabled = true
             this.logisticsdisabled = true
@@ -506,6 +501,7 @@ export default {
         this.$nextTick(() => {
           this.$refs['searchForm'].resetFields()
           this.expenseList = []
+          delete this.searchForm.id
         })
       }
     },

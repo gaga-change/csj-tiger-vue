@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import ElementUI, { MessageBox } from 'element-ui'
+import { cloneDeep } from 'lodash';
 import ItemTitle from '@/components/ItemTitle/index'
 import ItemCard from '@/components/ItemCard/index'
 import UploadMode from '@/components/upload/index'
@@ -55,6 +56,7 @@ Vue.component('DoubleList', DoubleList);
 Vue.component('PrintTableDialog', PrintTableDialog);
 Vue.component('BasePrintTable', BasePrintTable);
 Vue.component('DetailItem', DetailItem);
+Vue.prototype.$copy = obj => cloneDeep(obj)
 Vue.prototype.$delConfirm = (msg, api) => {
   MessageBox.confirm(msg || '此操作将永久删除该行, 是否继续?', '提示', {
     confirmButtonText: '确定',

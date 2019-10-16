@@ -1,9 +1,17 @@
 <template>
   <div
     class="selectCustomerTemplate"
-    style="height: 28px;line-height: 28px;"
+    :title="!!value ? valueName : ''"
   >
-    <span
+    <el-input
+      class="show-text-input"
+      :value="!!value ? valueName : undefined"
+      @focus="showDialogTable"
+      :placeholder="'请选择' + label"
+      style="width: 200px;"
+    ></el-input>
+    <!-- <el-link>{{!!value ? valueName : '请选择' + label}}</el-link> -->
+    <!-- <span
       style="display: inline-block;
     max-width: 200px;
     overflow: hidden;
@@ -16,7 +24,7 @@
         style="color:#409EFF;white-space: nowrap;"
         @click="showDialogTable"
       > {{!!value ? valueName : '请选择' + label}}</a>
-    </span>
+    </span> -->
     <el-dialog
       :title="'选择' + label"
       :visible.sync="selectVisiable"
@@ -85,7 +93,7 @@ export default {
   computed: {
     valueName() {
       if (!this.value) return ''
-      return this.selectRow?this.selectRow.customerName:this.value
+      return this.selectRow ? this.selectRow.customerName : this.value
     },
     ...mapGetters(['mapConfig'])
   },
@@ -115,4 +123,11 @@ export default {
 
 </script>
 <style rel="stylesheet/scss" lang="scss">
+.selectCustomerTemplate {
+  .show-text-input {
+    input {
+      // border: none !important ;
+    }
+  }
+}
 </style>

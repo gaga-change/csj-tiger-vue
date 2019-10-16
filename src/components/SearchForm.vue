@@ -28,9 +28,9 @@
             >
               <el-option
                 v-for="item in mapConfig[item.enum]"
-                :key="item.name"
-                :label="item.name"
-                :value="item.value"
+                :key="item.key"
+                :label="item.value"
+                :value="item.key"
               >
               </el-option>
             </el-select>
@@ -158,7 +158,6 @@ export default {
       return this.config.filter(v => v.props)
     },
     ...mapGetters([
-      'chooseWarehouse',
       'mapConfig'
     ]),
   },
