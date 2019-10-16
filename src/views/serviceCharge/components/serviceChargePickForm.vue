@@ -200,7 +200,6 @@
           >
             <el-form-item
               :label="'客户'"
-              label-width="90px"
               prop="customerCode"
             >
 
