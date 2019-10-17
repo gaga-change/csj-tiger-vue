@@ -67,11 +67,12 @@
             <el-form-item
               label="费用区分"
               prop="expenseCodes"
-              :rules="[{ required: true, message: '必填项', trigger: 'blur' }]"
+              :rules="!!row ? [] : [{ required: true, message: '必填项', trigger: 'blur' }]"
             >
               <el-select
                 v-model="searchForm.expenseCodes"
                 multiple
+                :disabled="!!row"
                 placeholder="请选择费用区分"
               >
                 <el-option
