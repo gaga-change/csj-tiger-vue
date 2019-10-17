@@ -8,7 +8,7 @@
         :api="listApi"
         :showControl="true"
         :controlWidth="100"
-        :labelWidth="100"
+        :labelWidth="120"
       >
         <template slot-scope="scope">
 
@@ -62,8 +62,10 @@ const tableConfig = [
   { label: '外部订单号', prop: 'busiBillNo', width: 120 },
   { label: '物流单号', prop: 'logisticsOrderCode', width: 120 },
   { label: '承运商编码', prop: 'consoildatorCode', width: 120 },
+  { label: '承运商名称', prop: 'consoildatorName', width: 120 },
   { label: '地址', prop: 'dispatchAddr', width: 120 },
   { label: '客户编码', prop: 'customerCode', width: 120 },
+  { label: '客户名称', prop: 'customerName', width: 120 },
   { label: '结算日期', prop: 'settlementDate', type: 'time', format: 'YYYY-MM-DD', width: 120 },
   { label: '费用', prop: 'expenseAmt', width: 120 },
   { label: '结算方式', prop: 'settlementType', type: 'enum', enum: 'settlementType2', width: 120 },

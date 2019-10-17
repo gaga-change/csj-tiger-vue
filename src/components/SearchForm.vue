@@ -24,6 +24,7 @@
               v-model="searchForms[item.prop]"
               clearable
               :placeholder="`请选择${item.label}`"
+              @change="hanldeSubmit"
               size="mini"
             >
               <el-option
@@ -165,6 +166,9 @@ export default {
     this.bindKeys()
   },
   methods: {
+    handleSelectChange() {
+
+    },
     bindKeys() {
       const query = this.$route.query
       this.config.forEach(v => {
@@ -192,6 +196,11 @@ export default {
           }
         })
       }
+      Object.keys(searchForms).forEach(key => {
+        if (!searchForms[key]) {
+          searchForms[key] = undefined
+        }
+      })
       this.$emit('search', this.paramsTrim(searchForms), () => {
         this.submitLoading = false
       })
