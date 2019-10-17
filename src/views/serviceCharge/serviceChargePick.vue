@@ -59,6 +59,7 @@ const tableConfig = [
   { label: '货主', prop: 'ownerName', width: 120 },
   { label: '是否有外部订单号', prop: 'isHasOrder', type: 'enum', enum: 'isHasOrderEnum', width: 120 },
   { label: '费用区分', prop: 'expenseName', width: 120 },
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList', width: 120 },
   { label: '外部订单号', prop: 'busiBillNo', width: 120 },
   { label: '物流单号', prop: 'logisticsOrderCode', width: 120 },
   { label: '承运商编码', prop: 'consoildatorCode', width: 120 },
@@ -74,6 +75,8 @@ const tableConfig = [
 ]
 const searchConfig = [
   { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'ownerInfoMap' },
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
+  { label: '费用区分', prop: 'expenseCode' },
   { label: '是否有外部订单号', prop: 'isHasOrder', type: 'enum', enum: 'isHasOrderEnum' },
   { label: '物流单号', prop: 'logisticsOrderCode' },
   { label: '结算日期', prop: 'settlementDate', props: ['settlementDateStart', 'settlementDateEnd'], type: 'timeArea' },

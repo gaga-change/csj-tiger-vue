@@ -166,9 +166,6 @@ export default {
     this.bindKeys()
   },
   methods: {
-    handleSelectChange() {
-
-    },
     bindKeys() {
       const query = this.$route.query
       this.config.forEach(v => {
