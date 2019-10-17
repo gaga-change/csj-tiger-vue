@@ -9,6 +9,7 @@
         :showControl="true"
         :controlWidth="100"
         :labelWidth="120"
+        @search="handleSearch"
       >
         <template slot-scope="scope">
 
@@ -24,7 +25,13 @@
         </template>
         <template slot="btns">
           <div class="text-right">
+            <a :href="`/webApi/serviceChargeBill/export?${linkData}`">
+              <el-button type="primary">
+                导出Excel
+              </el-button>
+            </a>
             <upload-excel
+              class="ml10"
               @uploadRes="uploadRes"
               :name="'file'"
               :importText="'导入'"
@@ -49,6 +56,7 @@
 </template>
 
 <script>
+import { stringify } from 'qs';
 import serviceChargePickForm from './components/serviceChargePickForm'
 import { serviceChargeBillDelete } from '@/api'
 
@@ -92,9 +100,14 @@ export default {
       searchConfig,
       listApi: serviceChargeBillQueryPageList,
       nowRow: null,
+      linkData: ''
     }
   },
   methods: {
+    /** 搜索事件 */
+    handleSearch(params) {
+      this.linkData = stringify(params)
+    },
     /** 刷新列表 */
     getTableData() {
       this.$refs['baseList'].fetchData()
