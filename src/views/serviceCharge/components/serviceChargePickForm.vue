@@ -194,13 +194,34 @@
             :xl="6"
           >
             <el-form-item
-              label="地址:"
+              label="所在地区:"
+              prop="_addressArea"
+            >
+              <el-cascader
+                style="width:200px"
+                :options="Area"
+                clearable
+                v-model="searchForm._addressArea"
+                placeholder="请选择"
+                class="formitem"
+              >
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="12"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="详细地址:"
               prop="dispatchAddr"
             >
               <el-input
                 style="width:200px"
                 v-model="searchForm.dispatchAddr"
-                placeholder="请输入地址"
+                placeholder="请输入详细地址"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -359,7 +380,7 @@ import { mapGetters } from 'vuex'
 import { serviceChargePickFormTableConfig } from '../config'
 import { selectLogisticsExpense, serviceChargeBillSelectDetail, serviceChargeBillSave, serviceChargeBillUpdate } from '@/api'
 import { consoilInfoList } from '@/api/carrier'
-// import { outOrderNo, outRelativeNo } from '@/api/outgoing'
+import { Area } from '@/utils/area'
 import selectCustomer from './selectCustomer'
 import selectOutcode from './selectOutcode'
 import selectLogisticsorder from './selectLogisticsorder'
@@ -377,6 +398,7 @@ export default {
   components: { selectCustomer, selectOutcode, selectLogisticsorder },
   data() {
     return {
+      Area,
       serviceChargePickFormTableConfig,
       selectLogisticsExpenseLoading: false,
       serviceChargeBillSaveLoading: false,
@@ -413,6 +435,7 @@ export default {
         settlementType: null,
         remarkInfo: null,
         arrivalLinkName: null,
+        _addressArea: undefined,
       },
       isHasOrderList: [{ id: 0, value: '有外部订单' }, { id: 1, value: '有外部订单配送单' }, { id: 2, value: '无外部订单' }],
       consoil: [],
@@ -456,6 +479,9 @@ export default {
             this.$set(this.searchForm, key, detail[key] === null ? undefined : detail[key])
           })
           this.searchForm.expenseCodes = (detail.expenseList || []).map(v => v.expenseCode)
+          // 省市区回显
+          if (detail.arrivalProvince)
+            this.searchForm._addressArea = [detail.arrivalProvince, detail.arrivalCity, detail.arrivalDistrict]
           this.searchForm.id = detail.id
           if (this.searchForm.isHasOrder == 1) {
             this.busiBilldisabled = true
@@ -554,6 +580,13 @@ export default {
             }
           })
           delete params.expenseCodes
+          // 处理省市区
+          if (params._addressArea && params._addressArea.length > 0) {
+            params.arrivalProvince = params._addressArea[0]
+            params.arrivalCity = params._addressArea[1]
+            params.arrivalDistrict = params._addressArea[2]
+          }
+          delete params._addressArea
           params.settlementDate = new Date(params.settlementDate).getTime()
           api({
             ...params,
