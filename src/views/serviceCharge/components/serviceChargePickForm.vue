@@ -70,6 +70,7 @@
               :rules="!!row ? [] : [{ required: true, message: '必填项', trigger: 'blur' }]"
             >
               <el-select
+                style="width:200px"
                 v-model="searchForm.expenseCodes"
                 multiple
                 :disabled="!!row"
@@ -109,6 +110,7 @@
               :rules="[{ required: true, message: '必填项' }]"
             >
               <el-select
+                style="width:200px"
                 @onfoucs="showmessage"
                 v-model="searchForm.isHasOrder"
                 placeholder="请选择"
@@ -134,6 +136,7 @@
               prop="busiBillNo"
             >
               <el-input
+                style="width:200px"
                 v-model="searchForm.busiBillNo"
                 placeholder="请输入外部订单号"
                 class="formitem"
@@ -152,6 +155,7 @@
               prop="logisticsOrderCode"
             >
               <el-input
+                style="width:200px"
                 v-model="searchForm.logisticsOrderCode"
                 placeholder="请输入物流单号"
                 class="formitem"
@@ -194,6 +198,7 @@
               prop="dispatchAddr"
             >
               <el-input
+                style="width:200px"
                 v-model="searchForm.dispatchAddr"
                 placeholder="请输入地址"
                 class="formitem"
@@ -213,6 +218,7 @@
 
               <select-customer
                 :label="'客户'"
+                style="width:200px"
                 v-model="searchForm.customerCode"
                 :ownerCode="searchForm.ownerCode"
               >
@@ -231,6 +237,7 @@
               :rules="[{ required: true, message:'请输入费用' }]"
             >
               <el-input-number
+                style="width:200px"
                 v-model="searchForm.expenseAmt"
                 :min="0"
                 size="mini"
@@ -249,6 +256,7 @@
               :rules="[{ required: true, message:'请选择' }]"
             >
               <el-select
+                style="width:200px"
                 v-model="searchForm.settlementType"
                 clearable
                 placeholder="请选择结算方式"
@@ -261,6 +269,25 @@
                   :value="item.key"
                 ></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="12"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="收件人:"
+              prop="arrivalLinkName"
+            >
+              <el-input
+                style="width:200px"
+                v-model="searchForm.arrivalLinkName"
+                placeholder="请输入收件人"
+                class="formitem"
+                maxlength="50"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col
@@ -384,7 +411,8 @@ export default {
         customerCode: null,
         expenseAmt: null,
         settlementType: null,
-        remarkInfo: null
+        remarkInfo: null,
+        arrivalLinkName: null,
       },
       isHasOrderList: [{ id: 0, value: '有外部订单' }, { id: 1, value: '有外部订单配送单' }, { id: 2, value: '无外部订单' }],
       consoil: [],
