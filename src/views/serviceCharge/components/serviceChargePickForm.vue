@@ -212,6 +212,25 @@
             :xl="6"
           >
             <el-form-item
+              label="收件人:"
+              prop="arrivalLinkName"
+            >
+              <el-input
+                style="width:200px"
+                v-model="searchForm.arrivalLinkName"
+                placeholder="请输入收件人"
+                class="formitem"
+                maxlength="50"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :sm="12"
+            :md="12"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
               :label="'客户'"
               prop="customerCode"
             >
@@ -269,25 +288,6 @@
                   :value="item.key"
                 ></el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="12"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="收件人:"
-              prop="arrivalLinkName"
-            >
-              <el-input
-                style="width:200px"
-                v-model="searchForm.arrivalLinkName"
-                placeholder="请输入收件人"
-                class="formitem"
-                maxlength="50"
-              ></el-input>
             </el-form-item>
           </el-col>
           <el-col
