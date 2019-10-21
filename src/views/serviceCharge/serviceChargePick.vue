@@ -9,6 +9,7 @@
         :showControl="true"
         :controlWidth="100"
         :labelWidth="120"
+        :parseData="parseData"
         @search="handleSearch"
       >
         <template slot-scope="scope">
@@ -72,7 +73,8 @@ const tableConfig = [
   { label: '物流单号', prop: 'logisticsOrderCode', width: 120 },
   { label: '承运商编码', prop: 'consoildatorCode', width: 120 },
   { label: '承运商名称', prop: 'consoildatorName', width: 120 },
-  { label: '地址', prop: 'dispatchAddr', width: 120 },
+  { label: '所在地区', prop: '_area', width: 120 },
+  { label: '详细地址', prop: 'dispatchAddr', width: 120 },
   { label: '客户编码', prop: 'customerCode', width: 120 },
   { label: '客户名称', prop: 'customerName', width: 120 },
   { label: '结算日期', prop: 'settlementDate', type: 'time', format: 'YYYY-MM-DD', width: 120 },
@@ -111,6 +113,19 @@ export default {
     /** 刷新列表 */
     getTableData() {
       this.$refs['baseList'].fetchData()
+    },
+    /** 可选 返回列表添加字段 */
+    parseData(res) {
+      let data = res.data.list || []
+      let total = res.data.total
+      data.forEach(v => {
+        let temp = []
+        v.arrivalProvince && temp.push(v.arrivalProvince)
+        v.arrivalCity && temp.push(v.arrivalCity)
+        v.arrivalDistrict && temp.push(v.arrivalDistrict)
+        v._area = temp.join('/')
+      })
+      return { data, total }
     },
     /** 删除 */
     handleDelete(row) {
