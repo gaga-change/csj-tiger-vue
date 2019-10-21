@@ -280,6 +280,7 @@
               <select-customer
                 :label="'客户'"
                 style="width:200px"
+                @change="item => this.searchForm.customerName = item ? item.customerName : undefined"
                 v-model="searchForm.customerCode"
                 :ownerCode="searchForm.ownerCode"
               >
@@ -450,12 +451,14 @@ export default {
         busiBillNo: null,
         logisticsOrderCode: null,
         consoildatorCode: null,
+        consoildatorName: null,
         dispatchAddr: null,
         customerCode: null,
         expenseAmt: null,
         settlementType: null,
         remarkInfo: null,
         arrivalLinkName: null,
+        customerName: undefined,
         _addressArea: undefined,
       },
       isHasOrderList: [{ id: 0, value: '有外部订单' }, { id: 1, value: '有外部订单配送单' }, { id: 2, value: '无外部订单' }],
@@ -609,6 +612,9 @@ export default {
           }
           delete params._addressArea
           params.settlementDate = new Date(params.settlementDate).getTime()
+          // 承运商名称
+          params.consoildatorName = this.consoil.find(v => v.consoildatorCode === params.consoildatorCode).consoildatorName
+
           // if (this.row) { // 编辑
           //   delete params.expenseList
           // }
