@@ -58,46 +58,67 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col
-            :sm="12"
-            :md="12"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="费用区分"
-              prop="expenseCodes"
-              :rules="!!row ? [] : [{ required: true, message: '必填项', trigger: 'blur' }]"
+          <template>
+            <el-col
+              :sm="12"
+              :md="12"
+              :lg="8"
+              :xl="6"
+              v-if="row"
             >
-              <el-select
-                style="width:200px"
-                v-model="searchForm.expenseCodes"
-                multiple
-                :disabled="!!row"
-                placeholder="请选择费用区分"
+              <el-form-item
+                label="费用区分:"
+                prop="expenseName"
               >
-                <el-option
+                <el-input
+                  style="width:200px"
+                  :value="searchForm.expenseName"
+                  class="formitem"
                   disabled
-                  label="款项名称"
-                  value="款项性质"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col
+              :sm="12"
+              :md="12"
+              :lg="8"
+              :xl="6"
+              v-else
+            >
+              <el-form-item
+                label="费用区分"
+                prop="expenseCodes"
+                :rules="[{ required: true, message: '必填项', trigger: 'blur' }]"
+              >
+                <el-select
+                  style="width:200px"
+                  v-model="searchForm.expenseCodes"
+                  multiple
+                  placeholder="请选择费用区分"
                 >
-                  <span style="float: left"> 款项名称</span>
-                  <span style="float: right; ">款项性质
-                  </span>
-                </el-option>
-                <el-option
-                  v-for="item in expenseEnum"
-                  :label="item.expenseName"
-                  :key="item.expenseCode"
-                  :value="item.expenseCode"
-                >
-                  <span style="float: left">{{ item.expenseName }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px; padding-left:5px;">{{ item.expenseType | apiEnum(mapConfig, 'getExpenseTypeList') }}
-                  </span>
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+                  <el-option
+                    disabled
+                    label="款项名称"
+                    value="款项性质"
+                  >
+                    <span style="float: left"> 款项名称</span>
+                    <span style="float: right; ">款项性质
+                    </span>
+                  </el-option>
+                  <el-option
+                    v-for="item in expenseEnum"
+                    :label="item.expenseName"
+                    :key="item.expenseCode"
+                    :value="item.expenseCode"
+                  >
+                    <span style="float: left">{{ item.expenseName }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px; padding-left:5px;">{{ item.expenseType | apiEnum(mapConfig, 'getExpenseTypeList') }}
+                    </span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </template>
           <el-col
             :sm="12"
             :md="12"
@@ -588,6 +609,9 @@ export default {
           }
           delete params._addressArea
           params.settlementDate = new Date(params.settlementDate).getTime()
+          // if (this.row) { // 编辑
+          //   delete params.expenseList
+          // }
           api({
             ...params,
             id: this.row ? this.row.id : null,
