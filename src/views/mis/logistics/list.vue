@@ -170,6 +170,7 @@
           <template slot-scope="scope">
             <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
             <span v-else-if="column.type === 'date' && scope.row[column.prop]">{{ scope.row[column.prop] | parseTime }}</span>
+            <span v-else-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
             <span v-else-if="column.useLocalEnum && column.type">{{
               scope.row[column.prop] | localEnum(column.type)
             }}</span>

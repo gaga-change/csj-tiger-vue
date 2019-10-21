@@ -181,7 +181,6 @@
 import { createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
 import { queryLogisticsExpenseAll } from '@/api'
 import { dealNameValueToKeyValue } from '@/utils'
-import { expenseType } from '@/utils/enum'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 export default {
@@ -191,7 +190,7 @@ export default {
       searchConfig: [
         { label: '款项编码', prop: 'expenseCode' },
         { label: '款项名称', prop: 'expenseName' },
-        { label: '款项性质', prop: 'expenseType', localEnum: 'expenseType' }
+        { label: '款项性质', prop: 'expenseType', apiEnum: 'getExpenseTypeList' }
       ],
       searchData: {},
       loading: false,
@@ -205,8 +204,8 @@ export default {
       dialogFormVisible: false,
       submitloading: false,
       paymentForm: {
-        expenseName:null,
-        expenseType:2
+        expenseName: null,
+        expenseType: 2
       },
       expenseType
     }
@@ -275,7 +274,7 @@ export default {
           this.paymentForm[i] = null
         }
       }
-      this.paymentForm.expenseState=2
+      this.paymentForm.expenseState = 2
       this.dialogFormVisible = true
     },
     submitSearchForm() {
