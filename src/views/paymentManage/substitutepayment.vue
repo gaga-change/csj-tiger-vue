@@ -174,6 +174,7 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
+    <div class="mt20"></div>
   </div>
 </template>
 
@@ -207,7 +208,6 @@ export default {
         expenseName: null,
         expenseType: 2
       },
-      expenseType
     }
   },
   computed: {
