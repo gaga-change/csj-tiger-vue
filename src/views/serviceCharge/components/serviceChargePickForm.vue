@@ -198,6 +198,7 @@
                 style="width: 200px;"
                 v-model="searchForm.consoildatorCode"
                 placeholder="请选择承运商"
+                @change="handelConsoildatorChange"
               >
                 <el-option
                   v-for="item in consoil"
@@ -491,6 +492,10 @@ export default {
     this.getConsoilInfoList()
   },
   methods: {
+    /** 承运商 下拉框切换事件 更新绑定【consoildatorName】  */
+    handelConsoildatorChange(code) {
+      this.searchForm.consoildatorName = this.consoil.find(v => v.consoildatorCode === code).consoildatorName
+    },
     /** 显示详情 */
     updateDetail() {
       if (this.row) {
@@ -503,6 +508,12 @@ export default {
             this.$set(this.searchForm, key, detail[key] === null ? undefined : detail[key])
           })
           this.searchForm.expenseCodes = (detail.expenseList || []).map(v => v.expenseCode)
+          this.searchForm.expenseList = [
+            {
+              expenseCode: detail.expenseCode,
+              expenseName: detail.expenseName
+            }
+          ]
           // 省市区回显
           if (detail.arrivalProvince)
             this.searchForm._addressArea = [detail.arrivalProvince, detail.arrivalCity, detail.arrivalDistrict]
@@ -597,12 +608,15 @@ export default {
           }
           this.serviceChargeBillSaveLoading = true
           params.ownerName = this.mapConfig['ownerInfoMap'].find(v => v.key === params.ownerCode).value
-          params.expenseList = params.expenseCodes.map(code => {
-            return {
-              expenseCode: code,
-              expenseName: this.expenseEnum.find(v => v.expenseCode === code).expenseName
-            }
-          })
+          if (!this.row) {
+            /** 创建时 */
+            params.expenseList = params.expenseCodes.map(code => {
+              return {
+                expenseCode: code,
+                expenseName: this.expenseEnum.find(v => v.expenseCode === code).expenseName
+              }
+            })
+          }
           delete params.expenseCodes
           // 处理省市区
           if (params._addressArea && params._addressArea.length > 0) {
@@ -612,9 +626,6 @@ export default {
           }
           delete params._addressArea
           params.settlementDate = new Date(params.settlementDate).getTime()
-          // 承运商名称
-          params.consoildatorName = this.consoil.find(v => v.consoildatorCode === params.consoildatorCode).consoildatorName
-
           // if (this.row) { // 编辑
           //   delete params.expenseList
           // }
