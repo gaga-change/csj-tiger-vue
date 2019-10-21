@@ -8,12 +8,13 @@ Object.keys(appendMap).forEach(key => {
 const map = {
   state: {
     mapConfig: {
+      loading: true,
       ...turnAppendMap
     },
   },
   mutations: {
     SET_MAP: (state, config) => {
-      state.mapConfig = { ...state.mapConfig, ...config }
+      state.mapConfig = { ...state.mapConfig, ...config, loading: false }
     },
   },
 

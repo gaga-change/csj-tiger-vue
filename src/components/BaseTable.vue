@@ -295,14 +295,14 @@ export default {
                     console.error(`列【${configItem.label} : ${configItem.prop}】,需要 【enum】字段`)
                   } else {
                     const enumArr = this.mapConfig[configItem.enum] || []
-                    if (!enumArr.length && Object.keys(this.mapConfig).length) {
+                    if (!enumArr.length && !this.mapConfig.loading) {
                       console.error(`枚举异常, 【${configItem.enum}】未配置`)
                     }
                     let temp = enumArr.find(v => v.key == cellValue)
                     if (temp) {
                       res = temp.value
                     } else {
-                      console.error(`枚举异常, 在【${configItem.enum}】下未找到相应枚举值【${cellValue}】`)
+                      !this.mapConfig.loading && console.error(`枚举异常, 在【${configItem.enum}】下未找到相应枚举值【${cellValue}】`)
                       res = ''
                     }
                   }
