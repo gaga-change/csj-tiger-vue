@@ -194,7 +194,7 @@ export default {
         })
       }
       Object.keys(searchForms).forEach(key => {
-        if (!searchForms[key]) {
+        if (searchForms[key] === null || searchForms[key] === '') {
           searchForms[key] = undefined
         }
       })

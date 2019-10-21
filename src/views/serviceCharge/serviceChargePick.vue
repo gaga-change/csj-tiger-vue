@@ -84,7 +84,7 @@ const tableConfig = [
 const searchConfig = [
   { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'ownerInfoMap' },
   { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
-  { label: '费用区分', prop: 'expenseCode' },
+  { label: '费用区分', prop: 'expenseName' },
   { label: '是否有外部订单号', prop: 'isHasOrder', type: 'enum', enum: 'isHasOrderEnum' },
   { label: '物流单号', prop: 'logisticsOrderCode' },
   { label: '结算日期', prop: 'settlementDate', props: ['settlementDateStart', 'settlementDateEnd'], type: 'timeArea' },
