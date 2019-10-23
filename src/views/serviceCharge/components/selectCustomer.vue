@@ -36,19 +36,17 @@
         class=""
         v-if="selectVisiable"
       >
-        <base-table2
-          ref="baseTable"
+        <base-list
+          ref="baseList"
+          :btnInline="true"
+          :tableConfig="tableConfig"
+          :searchConfig="searchConfig"
           :api="getCustomerInfoPage"
-          :data.sync="tableData"
-          :initSearchParams="searchParams"
-          :highlight-current-row="true"
+          :appendSearchParams="appendSearchParams"
+          :highlightCurrentRow="true"
           @currentChange="chooseCustomer"
-          :config="[
-      {label: label + '编号', prop: 'customerCode'},
-      {label: label + '名称', prop: 'customerName'},
-      ]"
         >
-        </base-table2>
+        </base-list>
       </div>
     </el-dialog>
   </div>
@@ -58,7 +56,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getCustomerInfoPage } from '@/api'
-
+const tableConfig = [
+  { label: '客户编号', prop: 'customerCode' },
+  { label: '客户名称', prop: 'customerName' },
+]
+const searchConfig = [
+  { label: '客户编号', prop: 'customerCode' },
+  { label: '客户名称', prop: 'customerName' },
+]
 export default {
   props: {
     ownerCode: {
@@ -76,18 +81,20 @@ export default {
   },
   data() {
     return {
+      tableConfig,
+      searchConfig,
       getCustomerInfoPage,
       tableData: [],
       selectRow: null,
       selectVisiable: false,
-      searchParams: {
+      appendSearchParams: {
         ownerCode: this.ownerCode
       }
     }
   },
   watch: {
     ownerCode(val) {
-      this.searchParams.ownerCode = val
+      this.appendSearchParams.ownerCode = val
     }
   },
   computed: {
