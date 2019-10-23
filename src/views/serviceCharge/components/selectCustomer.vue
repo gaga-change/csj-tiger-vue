@@ -88,7 +88,8 @@ export default {
       selectRow: null,
       selectVisiable: false,
       appendSearchParams: {
-        ownerCode: this.ownerCode
+        ownerCode: this.ownerCode,
+        billType: 21
       }
     }
   },
@@ -130,11 +131,11 @@ export default {
 
 </script>
 <style rel="stylesheet/scss" lang="scss">
-.selectCustomerTemplate {
-  .show-text-input {
-    input {
-      // border: none !important ;
-    }
-  }
-}
+// .selectCustomerTemplate {
+//   .show-text-input {
+//     input {
+//       // border: none !important ;
+//     }
+//   }
+// }
 </style>
