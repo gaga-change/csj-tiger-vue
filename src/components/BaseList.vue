@@ -8,6 +8,7 @@
         :config="searchConfig"
         @search="handleSearch"
         :labelWidth="labelWidth"
+        :btnInline="btnInline"
       >
       </search-form>
     </div>
@@ -29,6 +30,8 @@
         :select="select"
         @selectionChange="selectionChange"
         @expandChange="row => $emit('expandChange', row)"
+        @currentChange="(currentRow, oldCurrentRow) => $emit('currentChange', currentRow, oldCurrentRow)"
+        :highlightCurrentRow="highlightCurrentRow"
         :selectable="selectable"
         :expand="expand"
       >
@@ -119,6 +122,16 @@ export default {
       type: Function,
       default: () => true
     },
+    /** 是否单选 */
+    highlightCurrentRow: {
+      type: Boolean,
+      default: false
+    },
+    /** 搜索按钮 是否和输入框在同一行 */
+    btnInline: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     let initSearchParams = {}
