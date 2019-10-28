@@ -302,7 +302,6 @@
               <el-input-number
                 style="width:200px"
                 v-model="searchForm.expenseAmt"
-                :min="0"
                 size="mini"
               ></el-input-number>
             </el-form-item>
