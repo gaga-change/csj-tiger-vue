@@ -20,3 +20,5 @@ export const serviceChargeBillUpdate = params => http.put(`/webApi/serviceCharge
 export const getCustomerInfoPage = params => http.post(`/webApi/customer/getCustomerInfoPage`, params)
 /** 新增商品 */
 export const addProduct = params => http.post(`/webApi/sku/info/add`, params)
+/** 首页获取待办事项 */
+export const todoList = params => http.get(`/webApi/todo/todo`, { params })

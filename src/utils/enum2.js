@@ -42,3 +42,14 @@ export const settlementType2 = [{
   name: '自提',
   value: 6
 }]
+// 主页 - 待办列表
+export const toDoTypeEnum = [
+  {
+    name: '入库计划',
+    value: 0
+  },
+  {
+    name: '出库计划',
+    value: 1
+  },
+]
