@@ -4,7 +4,7 @@
       <template v-if="fetchSuccess">
         <template>
           <el-button
-            size="small"
+            size="mini"
             type="primary"
             @click="submitOrder('ruleForm')"
             :loading="submitloading"
@@ -23,7 +23,7 @@
         ref="ruleForm"
         label-width="70px"
         label-position="left"
-        size="small"
+        size="mini"
       >
         <div style="margin:8px 0 12px">
           <item-title text="基本信息" />
@@ -203,7 +203,7 @@
           >
             <el-table
               :data="planform.details"
-              size="small"
+              size="mini"
               v-loading="loading"
               max-height="600"
             >
@@ -357,12 +357,12 @@
       >
         <el-button
           slot="trigger"
-          size="small"
+          size="mini"
           type="primary"
         >选取文件</el-button>
         <el-button
           style="margin-left: 10px;"
-          size="small"
+          size="mini"
           type="success"
           @click="submitEnclosureUpload"
           v-show="uploadButtonVisible"

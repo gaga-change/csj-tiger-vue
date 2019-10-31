@@ -12,7 +12,7 @@
       <router-link :to="{ name: 'newLogistics' }">
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           style="margin:10px"
         >新建配送单</el-button>
       </router-link>
@@ -149,7 +149,7 @@
       >
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           style="margin:10px"
           @click="newFee"
         >添加</el-button>
@@ -158,7 +158,7 @@
         :data="feeTableData"
         v-loading="tableLoading"
         border
-        size="small"
+        size="mini"
       >
         <el-table-column
           v-for="(column, index) in subsituteConfig"

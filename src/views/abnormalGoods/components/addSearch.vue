@@ -2,8 +2,8 @@
    <div class="entryInvoice-form">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button type="success"  size="small" :disabled="disabled"   @click="submit('save')" >保存</el-button>
-         <el-button type="success"  size="small" :disabled="disabled" @click="submit('submit')">提交</el-button>
+         <el-button type="success"  size="mini" :disabled="disabled"   @click="submit('save')" >保存</el-button>
+         <el-button type="success"  size="mini" :disabled="disabled" @click="submit('submit')">提交</el-button>
       </template>
     </sticky>
     <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
@@ -89,7 +89,7 @@
              :rules="[
               { required: true, message: '该项为必填'},
              ]">
-              <el-input type="text" size="small"  :disabled="true"     v-model="searchForm.outContractNo" ></el-input>
+              <el-input type="text" size="mini"  :disabled="true"     v-model="searchForm.outContractNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -111,13 +111,13 @@
 
           <el-col :span="6" style="min-width:300px">
             <el-form-item label="退回地址" label-width="70px" >
-                <el-input type="text" size="small"      placeholder="输入退回地址"    v-model="searchForm.returnAddress" ></el-input>
+                <el-input type="text" size="mini"      placeholder="输入退回地址"    v-model="searchForm.returnAddress" ></el-input>
             </el-form-item>
           </el-col>   
           
            <el-col :span="6" style="min-width:300px">
             <el-form-item label="联系电话" label-width="80px"  >
-               <el-input type="text" size="small"      placeholder="输入联系电话"    v-model="searchForm.linkTel" ></el-input>
+               <el-input type="text" size="mini"      placeholder="输入联系电话"    v-model="searchForm.linkTel" ></el-input>
             </el-form-item>
           </el-col>   
 

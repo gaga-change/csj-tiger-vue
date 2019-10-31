@@ -3,33 +3,33 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template  v-if="cardData.approveStatus == 0">
-         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')"
+         <el-button  style="margin-left: 10px;" size="mini"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')"
          v-loading="buttonDisabled"
             @click="linkToCreate('rebulid')">编辑
         </el-button>
-         <el-button  style="margin-left: 10px;" size="small" type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="mini" type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="submitReceipt()">提交
         </el-button>  
-         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="mini"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="deleteIt">删除
           </el-button>
       </template> 
       <template v-else-if="cardData.approveStatus == 1">
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission ('receiptFinaCheck')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission ('receiptFinaCheck')" v-loading="buttonDisabled"
             @click="Modify('FinaCheck')">审核
           </el-button>  
-          <el-button  style="margin-left: 10px;" size="small"  type="warning" :disabled="buttonDisabled||!$haspermission('receiptFinaCheck')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  type="warning" :disabled="buttonDisabled||!$haspermission('receiptFinaCheck')" v-loading="buttonDisabled"
               @click="Modify('FinaReject')">驳回
           </el-button>  
       </template>
-       <el-button  style="margin-left: 10px;" v-else-if="cardData.approveStatus == 2 && cardData.relationStatus==0" size="small" type="primary"  :disabled="buttonDisabled||!$haspermission('receiptSalesman')" v-loading="buttonDisabled"
+       <el-button  style="margin-left: 10px;" v-else-if="cardData.approveStatus == 2 && cardData.relationStatus==0" size="mini" type="primary"  :disabled="buttonDisabled||!$haspermission('receiptSalesman')" v-loading="buttonDisabled"
             @click="salesman()">提交 
         </el-button>  
         <template v-else-if="cardData.approveStatus==3">
-          <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="linkToCreate('rebulid')">编辑
           </el-button>  
-           <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
+           <el-button  style="margin-left: 10px;" size="mini"   type="primary" :disabled="buttonDisabled||!$haspermission('receiptcreate')" v-loading="buttonDisabled"
             @click="deleteIt">删除
           </el-button>  
         </template>
@@ -48,7 +48,7 @@
           <el-form-item label="分配业务员"  :rules="[
                 { required: true, message: '该项为必填'},
               ]" prop="userId">
-            <!-- <el-input type="text" size="small" v-model="searchForm.username" ></el-input> -->
+            <!-- <el-input type="text" size="mini" v-model="searchForm.username" ></el-input> -->
              <el-select v-model="searchForm.userId" 
              placeholder="请选择业务员">
               <el-option

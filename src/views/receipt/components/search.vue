@@ -7,7 +7,7 @@
             <el-select v-model="searchForm.paymenterId"
               :filter-method="cusCodeFilter" 
               clearable
-              size="small"
+              size="mini"
               filterable placeholder="请选择客户名称" @focus="clearCustomerFilterMark" @change="customerChange"  >
               <el-option 
                 value=""
@@ -31,12 +31,12 @@
 
         <!-- <el-col :span="6">
           <el-form-item label="合同编号" >
-            <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
+            <el-input type="text" size="mini" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col> -->
         <el-col :span="6">
           <el-form-item label="款项性质">
-            <el-select v-model="searchForm.moneyState" size="small" :clearable="true"   filterable placeholder="请选择款项性质">
+            <el-select v-model="searchForm.moneyState" size="mini" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -49,7 +49,7 @@
 
           <el-col :span="6" style="min-width:300px"  >
             <el-form-item label="货主" >
-              <el-select    v-model="searchForm.ownerCode"  size="small"  placeholder="请选择货主">
+              <el-select    v-model="searchForm.ownerCode"  size="mini"  placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -58,7 +58,7 @@
         <el-col :span="6" v-if="searchForm.searchItem == 'register'">
             <el-form-item label-width="70px" label="关联状态:" class="postInfo-container-item">
               <el-select v-model="searchForm.relationStatus" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择关联状态" prefix-icon="el-icon-search">
+              size="mini" style='min-width:220px;' filterable clearable placeholder="请选择关联状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in RelationStatusEnum"
                   :key="item.value"
@@ -70,25 +70,25 @@
         </el-col>
         <el-col :span="6" v-if="searchForm.searchItem == 'associate'">
           <el-form-item label="收款单号" label-width="90px">
-            <el-input type="text" size="small"  v-model="searchForm.receiveNo" ></el-input>
+            <el-input type="text" size="mini"  v-model="searchForm.receiveNo" ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="10">  
          <el-col :span="6">
           <el-form-item label="业务员" label-width="70px" v-if="searchForm.searchItem == 'register'">
-            <el-input type="text" size="small"  v-model="searchForm.salesman" ></el-input>
+            <el-input type="text" size="mini"  v-model="searchForm.salesman" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="searchForm.searchItem == 'associate'">
           <el-form-item label="财务登记人" label-width="90px">
-            <el-input type="text" size="small"  v-model="searchForm.inputUserName" ></el-input>
+            <el-input type="text" size="mini"  v-model="searchForm.inputUserName" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
             <el-form-item label-width="70px" label="登记状态:" class="postInfo-container-item" prop="invoicetype">
               <el-select v-model="searchForm.approveStatus" 
-              size="small" style='min-width:220px;' filterable clearable placeholder="请选择登记状态" prefix-icon="el-icon-search">
+              size="mini" style='min-width:220px;' filterable clearable placeholder="请选择登记状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in ApproveStatusEnum"
                   :key="item.value"
@@ -100,7 +100,7 @@
         </el-col>  
         <el-col :span="6">
           <el-form-item label-width="70px" label="收款日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.paymentDate" type="daterange" format="yyyy-MM-dd" start-placeholder="开始日期"
+            <el-date-picker size="mini" v-model="searchForm.paymentDate" type="daterange" format="yyyy-MM-dd" start-placeholder="开始日期"
       end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
@@ -109,8 +109,8 @@
       <el-row :gutter="10">
         <el-col :span="6">
             <el-form-item label-width="0">
-              <el-button type="primary"  size="small"  @click="submitIt">查询</el-button>
-              <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
+              <el-button type="primary"  size="mini"  @click="submitIt">查询</el-button>
+              <el-button type="primary"  size="mini" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-col>
       </el-row>  

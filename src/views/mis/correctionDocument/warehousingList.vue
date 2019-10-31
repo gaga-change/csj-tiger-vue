@@ -4,7 +4,7 @@
 
     <div class="operationitem">
       <router-link :to="`/correctionDocument/warehousingAdd?time=${moment().valueOf()}`">
-        <el-button type="primary" size="small">创建订正单</el-button>
+        <el-button type="primary" size="mini">创建订正单</el-button>
       </router-link>
     </div>
 

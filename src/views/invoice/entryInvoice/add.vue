@@ -24,9 +24,9 @@
       :before-close="()=>dialogVisible=false">
        <div style="display:flex;align-items: center;margin-bottom:12px">
            <span style="font-size:14px;padding-right:10px">商品名称 :</span>
-           <el-input type="text" size="small" style="width:200px;margin-right:12px" v-model.trim="alertSkuName"  @keyup.enter.native="alertSeach"  ></el-input> 
-           <el-button type="primary" size="small" @click="alertSeach"> 查询</el-button>
-           <el-button type="primary" size="small" style="margin-right:12px" @click="()=>{this.alertSkuName='';this.alertSeach()}"> 重置</el-button>
+           <el-input type="text" size="mini" style="width:200px;margin-right:12px" v-model.trim="alertSkuName"  @keyup.enter.native="alertSeach"  ></el-input> 
+           <el-button type="primary" size="mini" @click="alertSeach"> 查询</el-button>
+           <el-button type="primary" size="mini" style="margin-right:12px" @click="()=>{this.alertSkuName='';this.alertSeach()}"> 重置</el-button>
        </div>
        <web-pagination-table 
         @SelectionChange="handleSelectionChange"

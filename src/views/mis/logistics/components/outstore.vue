@@ -5,30 +5,30 @@
         <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主" prop="ownerCode">
-              <el-select  v-model="searchForm.ownerCode" clearable  placeholder="请选择货主" size="small" class="formitem">
+              <el-select  v-model="searchForm.ownerCode" clearable  placeholder="请选择货主" size="mini" class="formitem">
                 <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="客户编码" prop="arrivalCode">
-              <el-input v-model="searchForm.arrivalCode" class="formitem" size="small" placeholder="请输入客户编码"></el-input>
+              <el-input v-model="searchForm.arrivalCode" class="formitem" size="mini" placeholder="请输入客户编码"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="出库单号" prop="warehouseExeCode">
-              <el-input v-model="searchForm.warehouseExeCode" class="formitem" size="small" placeholder="请输入出库单号"></el-input>
+              <el-input v-model="searchForm.warehouseExeCode" class="formitem" size="mini" placeholder="请输入出库单号"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="外部订单号" prop="busiBillNo" labelWidth="75px">
-              <el-input v-model="searchForm.busiBillNo" class="formitem" size="small" placeholder="请输入外部订单号"></el-input>
+              <el-input v-model="searchForm.busiBillNo" class="formitem" size="mini" placeholder="请输入外部订单号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-button @click="submit" size="small" type="primary">查询</el-button>
-          <el-button @click="resetForm" size="small">重置</el-button>
+          <el-button @click="submit" size="mini" type="primary">查询</el-button>
+          <el-button @click="resetForm" size="mini">重置</el-button>
         </el-row>
       </el-card>
     </el-form>

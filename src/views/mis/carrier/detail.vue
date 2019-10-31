@@ -11,12 +11,12 @@
         >
           <el-button
             type="success"
-            size="small"
+            size="mini"
           >修改</el-button>
         </router-link>
 
         <el-button
-          size="small"
+          size="mini"
           @click="onDelete"
         >删除</el-button>
       </template>

@@ -7,13 +7,13 @@
       <template>
         <el-button
           type="success"
-          size="small"
+          size="mini"
           @click="submit('save')"
           :loading="saveLoading"
         >保存</el-button>
         <el-button
           type="success"
-          size="small"
+          size="mini"
           @click="submit('submit')"
           :loading="submitLoading"
         >提交</el-button>
@@ -43,7 +43,7 @@
             >
               <el-input
                 type="text"
-                size="small"
+                size="mini"
                 :disabled="true"
                 @keyup.enter.native="submit"
                 v-model="searchForm.arrivalName"
@@ -62,7 +62,7 @@
             >
               <el-input
                 type="text"
-                size="small"
+                size="mini"
                 :disabled="true"
                 @keyup.enter.native="submit"
                 v-model="searchForm.busiBillNo"
@@ -81,7 +81,7 @@
             >
               <el-input
                 type="text"
-                size="small"
+                size="mini"
                 :disabled="true"
                 @keyup.enter.native="submit"
                 v-model="searchForm.contractNo"
@@ -123,7 +123,7 @@
             >
               <el-input
                 type="text"
-                size="small"
+                size="mini"
                 @keyup.enter.native="submit"
                 placeholder="请输入收货人"
                 v-model="searchForm.receiveName"
@@ -142,7 +142,7 @@
             >
               <el-input
                 type="text"
-                size="small"
+                size="mini"
                 @keyup.enter.native="submit"
                 placeholder="请输入联系电话"
                 v-model="searchForm.receiveTel"

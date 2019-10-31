@@ -3,7 +3,7 @@
       <search @submit="submit" :searchForm="searchForm"></search>
 
       <div class="operationitem">
-          <el-button type="primary" size="small"  @click="showDialog('add')">新增仓配点</el-button>
+          <el-button type="primary" size="mini"  @click="showDialog('add')">新增仓配点</el-button>
       </div>
 
       <base-table

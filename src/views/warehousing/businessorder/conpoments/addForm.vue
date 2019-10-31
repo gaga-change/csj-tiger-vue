@@ -33,7 +33,7 @@
               v-model="searchForm.skuName"
               disabled
               placeholder="商品名称"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -48,7 +48,7 @@
             <el-input
               v-model="searchForm.planInQty"
               placeholder="请输入数量"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -63,7 +63,7 @@
               disabled
               v-model="searchForm.providerSkuName"
               placeholder="商品供应商名称"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -78,7 +78,7 @@
               disabled
               v-model="searchForm.providerSkuCode"
               placeholder="商品供应商编码"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -93,7 +93,7 @@
             <el-input
               v-model="searchForm.purchasePrice"
               placeholder="请输入订货进价"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>

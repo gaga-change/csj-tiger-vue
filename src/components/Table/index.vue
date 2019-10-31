@@ -11,7 +11,7 @@
         :summary-method="summaryMethod"
         :border="border"
         :show-summary="showSummary"
-        size="small"
+        size="mini"
         :style="tableStyle">
           <el-table-column
             type="selection"
@@ -37,7 +37,7 @@
         @current-change="handleCurrentChange"
         :current-page.sync="tableCurrentPage"
         :page-sizes="pageSizes"
-        size="small"
+        size="mini"
         :page-size="tablePageSize"
         :layout="layout"
          v-if="total>maxTotal"

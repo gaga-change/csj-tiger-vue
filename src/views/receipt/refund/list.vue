@@ -2,14 +2,14 @@
   <div  class="refund">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button type="success"  size="small" v-if="$haspermission('addRefund')"  @click="addRefund"  >创建退款单</el-button>
+         <el-button type="success"  size="mini" v-if="$haspermission('addRefund')"  @click="addRefund"  >创建退款单</el-button>
       </template>
     </sticky>
      <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
         <search-invoice  :searchForm="searchForm"   @submit="submit"  :select="true" ref="listSearchFormDom" ></search-invoice>
         <el-col :span="24" style="margin-bottom:12px;">
-            <el-button type="primary"  size="small"  @click="select">查询</el-button>
-            <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
+            <el-button type="primary"  size="mini"  @click="select">查询</el-button>
+            <el-button type="primary"  size="mini" @click="resetForm">重置</el-button>
         </el-col>
      </el-card>
       <base-table 

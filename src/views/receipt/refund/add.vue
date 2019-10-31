@@ -6,7 +6,7 @@
           @click="submitSure('save')"
           v-loading="saveLoding"
           :disabled="saveDisabled"
-          size="small">
+          size="mini">
             {{this.$route.query.modify?'保存修改':'保存'}}
           </el-button>
  
@@ -15,7 +15,7 @@
            v-loading="submitLoding"
            :disabled="submitDisabled"
           @click="submitSure('submit')"
-          size="small">
+          size="mini">
             {{this.$route.query.modify?'提交修改':'提交'}}
           </el-button>
       </template>

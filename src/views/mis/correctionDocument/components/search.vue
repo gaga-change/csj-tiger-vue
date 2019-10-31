@@ -4,13 +4,13 @@
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'busiBillNo' in searchForm">
             <el-form-item label="业务单号:">
-              <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'revisalType' in searchForm">
             <el-form-item label="订正类型" >
-              <el-select  v-model="searchForm.revisalType" clearable  placeholder="请选择订正类型：" size="small" class="formitem">
+              <el-select  v-model="searchForm.revisalType" clearable  placeholder="请选择订正类型：" size="mini" class="formitem">
                  <el-option v-for="item in misRevisalTypeEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -18,13 +18,13 @@
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'ownerCode' in searchForm">
             <el-form-item label="货主:">
-              <el-input v-model="searchForm.ownerCode" placeholder="请输入货主" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.ownerCode" placeholder="请输入货主" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="'revisalState' in searchForm">
             <el-form-item label="单据状态" >
-              <el-select  v-model="searchForm.revisalState" clearable  placeholder="请选择单据状态：" size="small" class="formitem">
+              <el-select  v-model="searchForm.revisalState" clearable  placeholder="请选择单据状态：" size="mini" class="formitem">
                  <el-option v-for="item in misRevisalStateEnum" :label="item.name" :key="item.value"  :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -34,7 +34,7 @@
               <el-form-item label="订正日期" prop="time">
                  <el-date-picker
                     v-model="searchForm.time"
-                    size="small"
+                    size="mini"
                     type="daterange"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期">

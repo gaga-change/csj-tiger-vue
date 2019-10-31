@@ -6,14 +6,14 @@
         <el-date-picker
           v-model="searchForm.date"
           type="date"
-          size="small"
+          size="mini"
           placeholder="请选择日期"
           unlink-panels>
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
-        <el-button type="primary" @click="onExport" :disabled="downloadLoading" size="small">导出</el-button>
+        <el-button type="primary" @click="onSubmit" size="mini">查询</el-button>
+        <el-button type="primary" @click="onExport" :disabled="downloadLoading" size="mini">导出</el-button>
       </el-form-item>
     </el-form>
   </el-card>

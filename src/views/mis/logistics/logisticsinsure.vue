@@ -11,14 +11,14 @@
     >
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         style="margin:10px"
         :loading="insureloading"
         @click="insureSubmit('insure')"
       >投保</el-button>
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         style="margin:10px"
         :loading="unInsureloading"
         @click="insureSubmit('unInsure')"

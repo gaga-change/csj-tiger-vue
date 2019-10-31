@@ -8,13 +8,13 @@
     >
       <template>
         <el-button
-          size="small"
+          size="mini"
           v-if="$route.query.busiBillNo"
           @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillClose','确定要关闭吗?')"
         >关闭</el-button>
         <el-button
           v-if="[0,2,4].includes(infoData.billStatus)"
-          size="small"
+          size="mini"
           @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillDelete','确定要删除吗?')"
         >删除</el-button>
         <router-link
@@ -24,7 +24,7 @@
         >
           <el-button
             type="success"
-            size="small"
+            size="mini"
           >修改</el-button>
         </router-link>
         <router-link
@@ -34,13 +34,13 @@
         >
           <el-button
             type="success"
-            size="small"
+            size="mini"
           >调整</el-button>
         </router-link>
         <el-button
           v-if="[0,2].includes(infoData.billStatus)"
           type="success"
-          size="small"
+          size="mini"
           @click="operation({id:$route.query.id,busiBillNo:$route.query.busiBillNo},'outBillCheck','请输入审核意见 !')"
         >审核</el-button>
         <router-link
@@ -50,7 +50,7 @@
         >
           <el-button
             type="success"
-            size="small"
+            size="mini"
           >创建计划单</el-button>
         </router-link>
       </template>

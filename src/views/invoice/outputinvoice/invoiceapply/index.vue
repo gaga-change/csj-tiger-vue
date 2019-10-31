@@ -2,7 +2,7 @@
   <div class="outgoing-quiry-container">
   <div >
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-    <el-button  style="margin-left: 10px;" type="success" size="small"
+    <el-button  style="margin-left: 10px;" type="success" size="mini"
         @click="linkToInvoice()" :disabled="!$haspermission('salseinvoicecreate')">新建发票申请</el-button>
   </sticky>
     <search-invoice @searchTrigger="submitForm" @resetSearch="resetForm" :searchForms="ruleForm"></search-invoice>

@@ -9,19 +9,19 @@
         <el-button
           v-if="$route.query.history"
           type="success"
-          size="small"
+          size="mini"
           @click="sureQty"
           :loading="sureQtyLoding"
         >确认并生成出库单</el-button>
         <el-button
           v-if="config.planState === 5 || config.planState === 6"
-          size="small"
+          size="mini"
           @click="printing"
         >打印</el-button>
         <el-button
           v-if="config.planState === 1 || config.planState === 0"
           type="success"
-          size="small"
+          size="mini"
           @click="planCheck(1)"
           :loading="auditLoading"
           :disabled="rejectLoading"
@@ -29,7 +29,7 @@
         <el-button
           v-if="config.planState === 0"
           type="warning"
-          size="small"
+          size="mini"
           @click="planCheck(0)"
           :disabled="auditLoading"
           :loading="rejectLoading"

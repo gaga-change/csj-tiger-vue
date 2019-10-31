@@ -2,9 +2,9 @@
    <div class="entryInvoice-form">
     <sticky  v-if="!isDisplaySubmit"  :className="'sub-navbar published'" style="margin-bottom: 8px">
         <template >
-          <el-button  style="margin-left: 10px;" :disabled="disabled"  size="small"   @click="submit('save')">保存
+          <el-button  style="margin-left: 10px;" :disabled="disabled"  size="mini"   @click="submit('save')">保存
           </el-button>
-          <el-button   style="margin-left: 10px;" :disabled="disabled"  size="small"  type="success"  @click="submit('submit')">保存并提交
+          <el-button   style="margin-left: 10px;" :disabled="disabled"  size="mini"  type="success"  @click="submit('submit')">保存并提交
           </el-button>
         </template> 
     </sticky>
@@ -88,7 +88,7 @@
             </el-select>
               <el-input
                type="text" 
-               size="small" 
+               size="mini" 
                placeholder="请输入订单编号"  
                v-if="onlySelect" 
                v-model="searchForm.busiBillNo" ></el-input>
@@ -97,7 +97,7 @@
 
           <el-col :span="6" v-if="searchForm.contractnNo!==undefined">
             <el-form-item label="合同编号" >
-              <el-input type="text" size="small"  placeholder="请选择合同编号"    v-model="searchForm.contractnNo" ></el-input>
+              <el-input type="text" size="mini"  placeholder="请选择合同编号"    v-model="searchForm.contractnNo" ></el-input>
             </el-form-item>
           </el-col>
           
@@ -118,7 +118,7 @@
               { required: true, message: '该项为必填'},
             ]">
                 <el-select v-model="searchForm.invoiceType" 
-              size="small"  filterable clearable placeholder="请选择发票种类" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择发票种类" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in InvoiceType"
                   :key="item.value"
@@ -137,7 +137,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  placeholder="请输入发票号码"   v-model="searchForm.invoiceNo" ></el-input>
+              <el-input type="text" size="mini"  placeholder="请输入发票号码"   v-model="searchForm.invoiceNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -149,7 +149,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  @change="asInvoiceAmtChange()"  v-model.number="searchForm.asInvoiceAmt" ></el-input>
+              <el-input type="text" size="mini"  @change="asInvoiceAmtChange()"  v-model.number="searchForm.asInvoiceAmt" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -161,7 +161,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-input type="text" size="small"  @change="asInvoiceTaxAmtChange()"    v-model.number="searchForm.asInvoiceTaxAmt" ></el-input>
+              <el-input type="text" size="mini"  @change="asInvoiceTaxAmtChange()"    v-model.number="searchForm.asInvoiceTaxAmt" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -179,7 +179,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-date-picker size="small" v-model="searchForm.makeDate"  placeholder="选择日期">
+              <el-date-picker size="mini" v-model="searchForm.makeDate"  placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -192,7 +192,7 @@
             :rules="isDisplaySubmit?[]:[
               { required: true, message: '该项为必填'},
             ]">
-              <el-date-picker size="small" v-model="searchForm.arriveDate"  placeholder="选择日期">
+              <el-date-picker size="mini" v-model="searchForm.arriveDate"  placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -200,7 +200,7 @@
            <el-col :span="6" v-if="searchForm.invoiceStatus!==undefined"  style="min-width:300px">
             <el-form-item label="发票状态" >
                <el-select v-model="searchForm.invoiceStatus" 
-              size="small"  filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择发票状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in InvoiceStatus"
                   :key="item.value"
@@ -214,7 +214,7 @@
            <el-col :span="6" v-if="searchForm.cancelApplyStatus!==undefined" style="min-width:300px" >
             <el-form-item label="作废状态" >
                <el-select v-model="searchForm.cancelApplyStatus" 
-              size="small"  filterable clearable placeholder="请选择作废状态" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择作废状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in invoiceCancelStatusConfig"
                   :key="item.value"
@@ -229,7 +229,7 @@
           <el-col :span="6"  v-if="searchForm.ticketStatus!==undefined"  style="min-width:300px">
             <el-form-item label="单据状态" >
               <el-select v-model="searchForm.ticketStatus" 
-              size="small"  filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择单据状态" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in entryInvoiceTicketStatus"
                   :key="item.value"
@@ -250,7 +250,7 @@
             ]">
              <el-select v-model="searchForm.invoiceNature" 
               @change="propsChange('NatureInvoice')"
-              size="small"  filterable clearable placeholder="请选择发票性质" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择发票性质" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in NatureInvoice"
                   :key="item.value"
@@ -271,7 +271,7 @@
             ]:[]">
 
               <el-select v-model="searchForm.oldInvoiceId" 
-                size="small"  
+                size="mini"  
                 filterable 
                 clearable 
                 :loading="loading"
@@ -338,8 +338,8 @@
 
           <el-col :span="24" v-if="isDisplaySubmit">
             <el-form-item label-width="0">
-              <el-button type="primary"  size="small"  @click="submit">查询</el-button>
-              <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
+              <el-button type="primary"  size="mini"  @click="submit">查询</el-button>
+              <el-button type="primary"  size="mini" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-col>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="outgoing-quiry-container">
       <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-         <el-button  style="margin-left: 10px;" size="small"   type="primary" :disabled="!$haspermission('receiptcreate')"
+         <el-button  style="margin-left: 10px;" size="mini"   type="primary" :disabled="!$haspermission('receiptcreate')"
             @click="linkToCreate">新建收款单
         </el-button>
       </sticky>

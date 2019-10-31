@@ -25,7 +25,7 @@
               v-model="searchForm[formitem.prop]"
               clearable
               :placeholder="formitem.placeholder"
-              size="small"
+              size="mini"
               class="formitem"
             >
               <el-option
@@ -47,7 +47,7 @@
               v-model="searchForm[formitem.prop]"
               type="daterange"
               :disabled="formitem.disabled"
-              size="small"
+              size="mini"
               unlink-panels
               class="formitem"
               range-separator="-"
@@ -59,7 +59,7 @@
               v-else-if="formitem.type==='date'"
               v-model="searchForm[formitem.prop]"
               :disabled="formitem.disabled"
-              size="small"
+              size="mini"
               class="formitem"
               type="date"
               placeholder="选择日期"
@@ -69,7 +69,7 @@
               v-else-if="formitem.type==='datetime'"
               v-model="searchForm[formitem.prop]"
               :disabled="formitem.disabled"
-              size="small"
+              size="mini"
               class="formitem"
               type="datetime"
               placeholder="选择日期时间"
@@ -81,7 +81,7 @@
               v-model="searchForm[formitem.prop]"
               :disabled="formitem.disabled"
               :placeholder="formitem.placeholder"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
             <el-input
@@ -91,14 +91,14 @@
               :disabled="formitem.disabled"
               :rows="formitem.rows||1"
               :placeholder="formitem.placeholder"
-              size="small"
+              size="mini"
             ></el-input>
             <el-cascader
               v-else-if="formitem.type==='cascader'"
               :options="formitem.options"
               :disabled="formitem.disabled"
               v-model="searchForm[formitem.prop]"
-              size="small"
+              size="mini"
               class="formitem"
             >
             </el-cascader>
@@ -107,7 +107,7 @@
               v-model="searchForm[formitem.prop]"
               :disabled="formitem.disabled"
               :placeholder="formitem.placeholder"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>

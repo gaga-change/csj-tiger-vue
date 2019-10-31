@@ -8,12 +8,12 @@
     >
       <template>
         <el-button
-          size="small"
+          size="mini"
           v-if="[0,2].includes(infoData.billStatus)"
           @click="operation('close')"
         >关闭</el-button>
         <el-button
-          size="small"
+          size="mini"
           v-if="[0,2].includes(infoData.billStatus)"
           @click="operation('delete')"
         >删除</el-button>
@@ -24,18 +24,18 @@
         >
           <el-button
             type="success"
-            size="small"
+            size="mini"
           >修改</el-button>
         </router-link>
         <el-button
           type="success"
-          size="small"
+          size="mini"
           v-if="[0,2].includes(infoData.billStatus)"
           @click="operation('examine')"
         >审核</el-button>
         <el-button
           type="success"
-          size="small"
+          size="mini"
           @click="printing"
           v-if="[1].includes(infoData.billStatus)"
         >打印</el-button>
@@ -45,7 +45,7 @@
         >
           <el-button
             type="success"
-            size="small"
+            size="mini"
             v-if="[1].includes(infoData.billStatus) && infoData.billState !== 8 && !infoData.billNo.includes('DB')"
           >创建计划单</el-button>
         </router-link>

@@ -5,24 +5,24 @@
       <template v-if="(userInfo.roles.includes('superAdmin')||userInfo.roles.includes('cashier'))">
         <!-- 出纳操作 -->
          <template  v-if="(cardData.moneyState==2&&cardData.paymentStatus==3)||(cardData.moneyState==0&&cardData.paymentStatus==4)">
-           <el-button @click="editReal" v-if="!editable" size="small"  type="primary">创建付款登记</el-button>
+           <el-button @click="editReal" v-if="!editable" size="mini"  type="primary">创建付款登记</el-button>
            <template v-else>
-              <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              <!-- <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
               @click="saveOrder(0,'ruleForm')">保存
               </el-button> -->
-              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
                   @click="saveOrder(1,'ruleForm')">提交
               </el-button>
            </template>
           
         </template>  
         <template v-else-if="cardData.registerStatus == 0||cardData.registerStatus == 9">
-          <el-button @click="editReal" v-if="!editable" size="small"  type="primary">编辑</el-button>
+          <el-button @click="editReal" v-if="!editable" size="mini"  type="primary">编辑</el-button>
            <template v-else>
-              <!-- <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              <!-- <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
               @click="saveOrder(0,'ruleForm')">保存
               </el-button> -->
-              <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
+              <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('paymentRegister')" v-loading="buttonDisabled"
                   @click="saveOrder(1,'ruleForm')">提交
             </el-button>
            </template>
@@ -30,17 +30,17 @@
         </template> 
         <!-- $route.query.from=='needWork'&& 之前走工作流审核 -->
         <template v-else-if="cardData.registerStatus==5">
-            <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+            <el-button  style="margin-left: 10px;" size="mini"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
               @click="Modify('payCheckRegister')">审核
             </el-button>
-            <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
+            <el-button  style="margin-left: 10px;" size="mini"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
                 @click="Modify('payRejectSingleRegister')">驳回
             </el-button>  
         </template>
         <!-- <el-tag v-else>
           暂无操作
         </el-tag> -->
-        <el-button  style="margin-left: 10px;" size="small"  type="primary" 
+        <el-button  style="margin-left: 10px;" size="mini"  type="primary" 
               @click="makePrint">打印
           </el-button>
         </template>
@@ -69,7 +69,7 @@
                   <el-date-picker
                     v-model="ruleForm.realPaymentDate"
                     type="date"
-                    size="small"
+                    size="mini"
                     placeholder="付款日期"
                     :disabled="!editable">
                   </el-date-picker>
@@ -77,7 +77,7 @@
               </el-col>
                 <el-col :span="6">
                 <el-form-item label="结算方式" prop="paymentMode">
-                  <el-select v-model="ruleForm.paymentMode" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search" :disabled="!editable">
+                  <el-select v-model="ruleForm.paymentMode" size="mini" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search" :disabled="!editable">
                     <el-option
                       v-for="item in PaymentModeEnumFilter"
                       :key="item.value"
@@ -91,30 +91,30 @@
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="付款金额" prop="applyPaymentAmt">
-                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="small" placeholder="付款金额"></el-input>
+                  <el-input type="number" v-model="ruleForm.applyPaymentAmt" :disabled='!editable||cardData.moneyType!=3' size="mini" placeholder="付款金额"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="贴息" prop="realInterestAmt">
-                  <el-input v-model="ruleForm.realInterestAmt" size="small" type="number" :disabled="!editable"></el-input>
+                  <el-input v-model="ruleForm.realInterestAmt" size="mini" type="number" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
           
               <el-col :span="6">
                 <el-form-item label="实付金额" prop='realPaymentAmt'>
-                  <el-input type="text" size="small" disabled v-model="ruleForm.realPaymentAmt" ></el-input>
+                  <el-input type="text" size="mini" disabled v-model="ruleForm.realPaymentAmt" ></el-input>
                 </el-form-item>
               </el-col>
               </el-row>
             <el-row :gutter="10">
               <el-col :span="6" >
                 <el-form-item label="备注">
-                  <el-input type="textarea" size="small" v-model="ruleForm.remarkInfo" :disabled="!editable"></el-input>
+                  <el-input type="textarea" size="mini" v-model="ruleForm.remarkInfo" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" >
                 <el-form-item label="交易流水号">
-                  <el-input type="text" size="small" v-model="ruleForm.paymentRecordNo" :disabled="!editable"></el-input>
+                  <el-input type="text" size="mini" v-model="ruleForm.paymentRecordNo" :disabled="!editable"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
@@ -158,8 +158,8 @@
         :on-change="handelUploadChange"
         :on-success="handleUploadSuccess"
         :auto-upload="false">
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
+        <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="mini" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
     </el-dialog>

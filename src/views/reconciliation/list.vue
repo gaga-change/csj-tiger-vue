@@ -2,7 +2,7 @@
     <div>
       <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button  type="success" size="small" v-if="$haspermission('reconciliationAdd')"   @click="add">新增对账单 </el-button>
+         <el-button  type="success" size="mini" v-if="$haspermission('reconciliationAdd')"   @click="add">新增对账单 </el-button>
       </template>
     </sticky>
      

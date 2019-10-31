@@ -3,7 +3,7 @@
     <el-input
       :value="showText"
       :disabled="disabled"
-      size="small"
+      size="mini"
       :style="{ width: width + 'px' }"
       placeholder="请选择"
       @focus="selectParentClass()"

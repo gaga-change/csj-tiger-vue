@@ -10,7 +10,7 @@
           <el-form
             :inline="true"
             :model="ruleForm"
-            size="small"
+            size="mini"
             :rules="rules"
             ref="ruleForm"
             class="demo-form-inline"
@@ -254,7 +254,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="submitForm('ruleForm')"
                 >查询</el-button>
               </el-form-item>
@@ -262,7 +262,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="resetForm('ruleForm')"
                 >重置</el-button>
               </el-form-item>
@@ -276,18 +276,18 @@
       <a :href="`/webApi/out/order/export?${stringify(this.linkData)}`">
         <el-button
           type="primary"
-          size="small"
+          size="mini"
         >导出Excel</el-button>
       </a>
     <!--   <el-button
         type="primary"
-        size="small"
+        size="mini"
         @click="printing"
         class="ml10"
       >发货清单打印</el-button>
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         @click="printFn"
         class="ml10"
       >发货清单打印FN</el-button> -->

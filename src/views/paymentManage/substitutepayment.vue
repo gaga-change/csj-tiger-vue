@@ -5,7 +5,7 @@
         :inline="true"
         ref="ruleForm"
         :model="searchData"
-        size="small"
+        size="mini"
         label-width="70px"
         label-position="left"
         class="demo-form-inline"
@@ -63,7 +63,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              size="small"
+              size="mini"
               @click="submitSearchForm"
             >查询</el-button>
           </el-form-item>
@@ -71,7 +71,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              size="small"
+              size="mini"
               @click="resetSearchForm"
             >重置</el-button>
           </el-form-item>
@@ -84,7 +84,7 @@
     >
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         style="margin:10px"
         @click="newPayment"
       >新建款项</el-button>

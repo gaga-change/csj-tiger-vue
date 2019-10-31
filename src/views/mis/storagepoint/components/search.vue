@@ -4,19 +4,19 @@
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="仓配点名称:">
-              <el-input v-model="searchForm.warehouseName" placeholder="请输入仓配点名称" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.warehouseName" placeholder="请输入仓配点名称" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="仓配点编码:">
-              <el-input v-model="searchForm.warehouseNo" placeholder="请输入仓配点编码" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.warehouseNo" placeholder="请输入仓配点编码" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="区域中心" >
-              <el-select  v-model="searchForm.regionalCenter" clearable  placeholder="请选择区域中心：" size="small" class="formitem">
+              <el-select  v-model="searchForm.regionalCenter" clearable  placeholder="请选择区域中心：" size="mini" class="formitem">
                  <el-option v-for="item in mapConfig['getRegional']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>

@@ -7,13 +7,13 @@
       <template>
         <!-- <el-button
           type="primary"
-          size="small"
+          size="mini"
           @click="outPlanClose"
           :disabled="outPlanCloseLoading"
         >关闭</el-button> -->
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           @click="submit"
           :disabled="submitLoading"
         >提交</el-button>

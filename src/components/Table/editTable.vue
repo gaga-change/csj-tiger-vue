@@ -141,7 +141,7 @@
         :current-page.sync="currentPage"
         :page-sizes="[...pageSizes,total]"
         :page-size="pageSize"
-        size="small"
+        size="mini"
         :layout="layout"
         :total="total">
       </el-pagination>

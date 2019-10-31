@@ -2,7 +2,7 @@
   <div class="entryInvoice-list">
      <sticky  :className="'sub-navbar published'" style="margin-bottom: 8px">
         <template >
-          <el-button style="margin-left: 10px;"  size="small" type="success"  @click="toadd">新建发票
+          <el-button style="margin-left: 10px;"  size="mini" type="success"  @click="toadd">新建发票
           </el-button>
         </template> 
       </sticky>

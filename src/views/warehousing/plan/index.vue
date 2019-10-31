@@ -10,7 +10,7 @@
           <el-form
             :inline="true"
             :model="ruleForm"
-            size="small"
+            size="mini"
             :rules="rules"
             ref="ruleForm"
             class="demo-form-inline"
@@ -254,7 +254,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="submitForm('ruleForm')"
                 >查询</el-button>
               </el-form-item>
@@ -262,7 +262,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="resetForm('ruleForm')"
                 >重置</el-button>
               </el-form-item>
@@ -292,7 +292,7 @@
       row-key="id"
       ref="listTable"
       @selection-change="selectionChange"
-      size="small"
+      size="mini"
       border
     >
       <el-table-column

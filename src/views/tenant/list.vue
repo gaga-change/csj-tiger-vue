@@ -7,7 +7,7 @@
     <div>
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         style="float:right;margin-bottom:8px;"
         @click="goAddRouter"
       >新增租户</el-button>

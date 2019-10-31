@@ -16,20 +16,20 @@
       <el-button
         style="margin-left: 20px;"
         type="primary"
-        size="small"
+        size="mini"
         @click="currentPage=1;gettotallist()"
       >查询</el-button>
       <el-button
         style="margin-left: 20px;"
         type="primary"
-        size="small"
+        size="mini"
         @click="currentPage=1;searchSkuForm.warehouseExeCode=null;searchSkuForm.billNo=null;gettotallist()"
       >重置</el-button>
 
     </div>
     <el-table
       :data="data"
-      size="small"
+      size="mini"
       ref="singleTable"
       highlight-current-row
       @current-change="submit"
@@ -52,7 +52,7 @@
     <el-pagination
       style="text-align: right;"
       v-if="!!totalLen"
-      size="small"
+      size="mini"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
       :page-sizes="[10]"
