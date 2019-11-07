@@ -610,6 +610,7 @@ export default {
           let one = this.searchForm.expenseCodeArr[this.searchForm.expenseCodeArr.length - 1]
           if (!one.expenseCode) {
             one.expenseCode = item.expenseCode
+            one.expenseName = item.expenseName
           } else
             // 添加
             this.searchForm.expenseCodeArr.push({
