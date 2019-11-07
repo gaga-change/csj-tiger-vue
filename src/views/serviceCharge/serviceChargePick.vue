@@ -50,7 +50,7 @@
     </div>
     <service-charge-pick-form
       :visible.sync="serviceChargePickFormVisible"
-      @confirm="confirm"
+      @confirm="getTableData"
       :row="nowRow"
     />
   </div>
@@ -152,10 +152,6 @@ export default {
     uploadRes(result) {
       this.getTableData()
     },
-    /** 添加后刷新列表 */
-    confirm() {
-      this.getTableData()
-    }
   },
 }
 </script>
