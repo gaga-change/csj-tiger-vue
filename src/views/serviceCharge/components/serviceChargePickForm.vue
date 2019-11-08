@@ -621,8 +621,16 @@ export default {
             })
         }
       } else {
-        // 删除 
-        this.searchForm.expenseCodeArr = this.searchForm.expenseCodeArr.filter(v => v.expenseCode !== item.expenseCode)
+        // 删除 , 如果只有一项则清空处理
+        let alreadyExist = this.searchForm.expenseCodeArr.find(v => v.expenseCode === item.expenseCode)
+        if (alreadyExist) {
+          if (this.searchForm.expenseCodeArr.length === 1) {
+            this.searchForm.expenseCodeArr[0].expenseCode = undefined
+            this.searchForm.expenseCodeArr[0].expenseName = undefined
+          } else {
+            this.searchForm.expenseCodeArr = this.searchForm.expenseCodeArr.filter(v => v.expenseCode !== item.expenseCode)
+          }
+        }
       }
     },
     /** 承运商 下拉框切换事件 更新绑定【consoildatorName】  */
