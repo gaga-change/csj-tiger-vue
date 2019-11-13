@@ -8,6 +8,7 @@ export const tableConfig = [
   { label: '供应商商品名称', prop: 'customerSkuName' },
   { label: '订货进价', prop: 'inPrice' },
   { label: '金额', prop: 'planInAmt' },
+  { label: '备注', prop: 'remarkInfo' }
 ];
 
 export const infoConfig = [
