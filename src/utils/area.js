@@ -1,8 +1,8 @@
 export const Area = [
   {
-    value: '北京市',
+    value: '北京',
 
-    label: '北京市',
+    label: '北京',
 
     children: [
       {
@@ -52,15 +52,15 @@ export const Area = [
   },
 
   {
-    value: '天津市',
+    value: '天津',
 
-    label: '天津市',
+    label: '天津',
 
     children: [
       {
-        value: '天津',
+        value: '天津市',
 
-        label: '天津',
+        label: '天津市',
 
         children: [
           { value: '和平区', label: '和平区' },
@@ -2080,15 +2080,15 @@ export const Area = [
   },
 
   {
-    value: '上海市',
+    value: '上海',
 
-    label: '上海市',
+    label: '上海',
 
     children: [
       {
-        value: '上海',
+        value: '上海市',
 
-        label: '上海',
+        label: '上海市',
 
         children: [
           { value: '黄浦区', label: '黄浦区' },
@@ -6034,15 +6034,15 @@ export const Area = [
   },
 
   {
-    value: '重庆市',
+    value: '重庆',
 
-    label: '重庆市',
+    label: '重庆',
 
     children: [
       {
-        value: '市辖区',
+        value: '重庆市',
 
-        label: '市辖区',
+        label: '重庆市',
 
         children: [
           { value: '万州区', label: '万州区' },
