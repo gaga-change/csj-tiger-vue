@@ -6081,16 +6081,8 @@ export const Area = [
 
           { value: '永川区', label: '永川区' },
 
-          { value: '永川区', label: '永川区' }
-        ]
-      },
+          { value: '永川区', label: '永川区' },
 
-      {
-        value: '县',
-
-        label: '县',
-
-        children: [
           { value: '綦江县', label: '綦江县' },
 
           { value: '潼南县', label: '潼南县' },
