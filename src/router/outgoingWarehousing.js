@@ -13,7 +13,7 @@ export default [
       {
         name: 'outgoing-businessorder-index',
         path: 'businessorder',
-        meta: { title: '出库业务单', noCache: false },
+        meta: { title: '出库业务单', noCache: true },
         component: _import('outgoing/businessorder/index')
       },
       {
@@ -104,7 +104,7 @@ export default [
       {
         name: 'warehousing-businessorder-index',
         path: 'businessorder',
-        meta: { title: '入库业务单', noCache: false },
+        meta: { title: '入库业务单', noCache: true },
         component: _import('warehousing/businessorder/index')
       },
       {
@@ -314,7 +314,7 @@ export default [
       {
         name: 'requisitionplan',
         path: 'requisitionplan',
-        meta: { title: '调拨单', noCache: false },
+        meta: { title: '调拨单', noCache: true },
         component: _import('requisition/requisitionplan/index')
       },
       {

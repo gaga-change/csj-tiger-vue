@@ -3,14 +3,14 @@
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
          <el-button  type="success"
-          size="small"  
+          size="mini"  
           @click="edit" 
           v-if="[0,2].includes(detailBaseInfoData.receiveStatus)" >
             修改
           </el-button>
 
          <el-button  type="success"
-          size="small"  
+          size="mini"  
           :loading="subLoding"
           @click="Modify({ 
             prompt:'确定要提交吗?',
@@ -22,7 +22,7 @@
           </el-button>
 
          <el-button  type="success"
-          size="small"  
+          size="mini"  
           :loading="examineLoding"
           @click="Modify({ 
           flag:0,
@@ -35,7 +35,7 @@
           </el-button>
 
          <el-button  type="success" 
-         size="small" 
+         size="mini" 
           :loading="rejectLoding"
           @click="Modify({ 
           flag:1,
@@ -47,7 +47,7 @@
            驳回
          </el-button>
 
-         <el-button  size="small" 
+         <el-button  size="mini" 
           :loading="deletLoding"
           @click="Modify({ 
             prompt:'确定要删除吗?',

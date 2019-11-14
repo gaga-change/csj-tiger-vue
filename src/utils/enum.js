@@ -602,18 +602,6 @@ export const revisalTypeEnum = [{
 }
 ];
 
-export const expenseType = [
-  {
-    name: '代支款',
-    value: 1
-  },
-  {
-    name: '收派服务费',
-    value: 2
-  }
-]
-
-
 //仓配点管理票配置
 
 export const warehouseStateEnum = [{
@@ -809,41 +797,6 @@ export const isApprovedEnum = [{
 }
 ]
 
-
-export const warehousingPlanBillStatus = [{
-  name: '草稿',
-  value: 0
-},
-{
-  name: '待审核',
-  value: 1
-},
-{
-  name: '审核通过',
-  value: 2
-},
-{
-  name: '驳回',
-  value: 3
-},
-{
-  name: '已取消',
-  value: 4
-},
-{
-  name: '部分执行',
-  value: 5
-},
-{
-  name: '已完结',
-  value: 6
-},
-{
-  name: '已关闭',
-  value: 7
-}
-]
-
 /** 推送状态 */
 export const pushState = [{
   "name": "未推送",
@@ -971,48 +924,4 @@ export const planStatusList = [{
   name: '全部计划',
   value: 2
 },
-]
-
-export const isHasOrderEnum = [{
-  name: '有外部订单',
-  value: 0
-},
-{
-  name: '有外部订单有配送单',
-  value: 1
-},
-{
-  name: '无外部订单',
-  value: 2
-},
-]
-
-export const settlementType2 = [{
-  name: '',
-  value: 0
-},
-{
-  name: '按单结',
-  value: 1
-},
-{
-  name: '周结',
-  value: 2
-},
-{
-  name: '月结',
-  value: 3
-},
-{
-  name: '现结',
-  value: 4
-},
-{
-  name: '到付',
-  value: 5
-},
-{
-  name: '自提',
-  value: 6
-}
 ]

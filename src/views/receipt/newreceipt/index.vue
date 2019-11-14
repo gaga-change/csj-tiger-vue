@@ -39,14 +39,14 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="金额" prop="paymentAmt">
-            <el-input type="text" size="small" v-model="receipt.paymentAmt"></el-input>
+            <el-input type="text" size="mini" v-model="receipt.paymentAmt"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="付款方式" prop="paymentMode">
-            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择付款方式" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="receipt.paymentMode" filterable clearable placeholder="请选择付款方式" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in paymentModeItem"
                 :key="item.value"
@@ -61,7 +61,7 @@
               <el-date-picker
               v-model="receipt.paymentDate"
               type="date"
-              size="small"
+              size="mini"
               :editable="false"
               placeholder="选择日期时间"
               align="right">
@@ -72,20 +72,20 @@
        <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="付款方银行" prop="paymentBank">
-             <el-input type="text" size="small" v-model="receipt.paymentBank"></el-input>
+             <el-input type="text" size="mini" v-model="receipt.paymentBank"></el-input>
           </el-form-item>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="交易流水" prop="paymentRecordNo">
-            <el-input type="text" size="small" v-model="receipt.paymentRecordNo"></el-input>
+            <el-input type="text" size="mini" v-model="receipt.paymentRecordNo"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
        <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="付款方账户" prop="paymentAccount">
-            <el-input type="text" size="small" v-model="receipt.paymentAccount"></el-input>
+            <el-input type="text" size="mini" v-model="receipt.paymentAccount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -115,16 +115,16 @@
        <el-row :gutter="20" style="height:120px">
         <el-col :span="8">
           <el-form-item label="付款摘要" prop="paymentAbstract">
-            <el-input type="textarea" size="small" v-model="receipt.paymentAbstract" rows='5'></el-input>
+            <el-input type="textarea" size="mini" v-model="receipt.paymentAbstract" rows='5'></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
-          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
-          <!-- <el-button @click="onCancel" size="small" v-loading="submitloading">取消</el-button> -->
+          <el-button type="primary" @click="onSubmit(0)" size="mini" :disabled="submitloading" v-loading="submitloading">保存</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="mini" :disabled="submitloading" v-loading="submitloading">提交</el-button>
+          <!-- <el-button @click="onCancel" size="mini" v-loading="submitloading">取消</el-button> -->
         </el-form-item>
         </el-col>
       </el-row>
@@ -148,8 +148,8 @@
         :on-change="handelUploadChange"
         :on-success="handleUploadSuccess"
         :auto-upload="false">
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
+        <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="mini" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
     </el-dialog>

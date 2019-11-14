@@ -90,11 +90,10 @@ export const alertTable_config = [
   { label: '计划出库数量', prop: 'planOutQty', useEdit: true, width: 150 },
 ]
 
-
 export const detail_planTableConfig = [
   { label: '计划单号', prop: 'planCode', fixed: true, linkTo: '/outgoing/plan-detail', query: [{ key: 'planCode', value: 'planCode' }], width: 150 },
   { label: '业务单号', prop: 'billNo', width: 160 },
-  { label: '单据状态', prop: 'planState', type: 'warehousingPlanBillStatus', useLocalEnum: true, width: 80 },
+  { label: '单据状态', prop: 'planState', type: 'getPlanState', useApi: true, width: 80 },
   { label: '客户名称', prop: 'arrivalName' },
   { label: '货主', prop: 'ownerName' },
   { label: '计划出库仓库', prop: 'planWarehouseName', width: 130 },

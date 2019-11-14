@@ -10,7 +10,7 @@
           <el-form
             :inline="true"
             :model="ruleForm"
-            size="small"
+            size="mini"
             :rules="rules"
             ref="ruleForm"
             class="demo-form-inline"
@@ -179,10 +179,10 @@
                   placeholder="请选择单据状态"
                 >
                   <el-option
-                    v-for="item in warehousingPlanBillStatus"
-                    :label="item.name"
-                    :key="item.value"
-                    :value="item.value"
+                    v-for="(item,index) in mapConfig['getPlanState']"
+                    :label="item.value"
+                    :key="index"
+                    :value="item.key"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -343,7 +343,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="submitForm('ruleForm')"
                 >查询</el-button>
               </el-form-item>
@@ -351,7 +351,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="resetForm('ruleForm')"
                 >重置</el-button>
               </el-form-item>
@@ -375,7 +375,7 @@
       </a>
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         @click="printing"
         class="ml10"
       >打印出库计划单</el-button>
@@ -386,7 +386,7 @@
       ref="listTable"
       row-key="id"
       @selection-change="selectionChange"
-      size="small"
+      size="mini"
       border
     >
       <el-table-column
@@ -521,7 +521,7 @@ import { outPlanSelect, outPlanCheckBatch, outPlanClose, planOrderPrint, outPlan
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig, manual_config, printingTable_config } from './config';
-import { warehousingPlanBillStatus, pushState } from "@/utils/enum.js";
+import { pushState } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { stringify } from 'qs';
 import { MakePrint } from '@/utils'
@@ -555,7 +555,6 @@ export default {
       loading: false,
       tableData: [],
       tableConfig: indexTableConfig,
-      warehousingPlanBillStatus,
       pushState,
       linkData: '',
       batchLoading: false,

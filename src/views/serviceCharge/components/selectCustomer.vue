@@ -1,9 +1,17 @@
 <template>
   <div
     class="selectCustomerTemplate"
-    style="min-height: 28px;line-height: 28px;"
+    :title="!!value ? valueName : ''"
   >
-    <span
+    <el-input
+      class="show-text-input"
+      :value="!!value ? valueName : undefined"
+      @focus="showDialogTable"
+      :placeholder="'请选择' + label"
+      style="width: 200px;"
+    ></el-input>
+    <!-- <el-link>{{!!value ? valueName : '请选择' + label}}</el-link> -->
+    <!-- <span
       style="display: inline-block;
     max-width: 200px;
     overflow: hidden;
@@ -16,7 +24,7 @@
         style="color:#409EFF;white-space: nowrap;"
         @click="showDialogTable"
       > {{!!value ? valueName : '请选择' + label}}</a>
-    </span>
+    </span> -->
     <el-dialog
       :title="'选择' + label"
       :visible.sync="selectVisiable"
@@ -28,19 +36,17 @@
         class=""
         v-if="selectVisiable"
       >
-        <base-table2
-          ref="baseTable"
+        <base-list
+          ref="baseList"
+          :btnInline="true"
+          :tableConfig="tableConfig"
+          :searchConfig="searchConfig"
           :api="getCustomerInfoPage"
-          :data.sync="tableData"
-          :initSearchParams="searchParams"
-          :highlight-current-row="true"
+          :appendSearchParams="appendSearchParams"
+          :highlightCurrentRow="true"
           @currentChange="chooseCustomer"
-          :config="[
-      {label: label + '编号', prop: 'customerCode'},
-      {label: label + '名称', prop: 'customerName'},
-      ]"
         >
-        </base-table2>
+        </base-list>
       </div>
     </el-dialog>
   </div>
@@ -50,7 +56,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getCustomerInfoPage } from '@/api'
-
+const tableConfig = [
+  { label: '客户编号', prop: 'customerCode' },
+  { label: '客户名称', prop: 'customerName' },
+]
+const searchConfig = [
+  { label: '客户编号', prop: 'customerCode' },
+  { label: '客户名称', prop: 'customerName' },
+]
 export default {
   props: {
     ownerCode: {
@@ -68,24 +81,27 @@ export default {
   },
   data() {
     return {
+      tableConfig,
+      searchConfig,
       getCustomerInfoPage,
       tableData: [],
       selectRow: null,
       selectVisiable: false,
-      searchParams: {
-        ownerCode: this.ownerCode
+      appendSearchParams: {
+        ownerCode: this.ownerCode,
+        billType: 21
       }
     }
   },
   watch: {
     ownerCode(val) {
-      this.searchParams.ownerCode = val
+      this.appendSearchParams.ownerCode = val
     }
   },
   computed: {
     valueName() {
       if (!this.value) return ''
-      return this.selectRow?this.selectRow.customerName:this.value
+      return this.selectRow ? this.selectRow.customerName : this.value
     },
     ...mapGetters(['mapConfig'])
   },
@@ -115,4 +131,11 @@ export default {
 
 </script>
 <style rel="stylesheet/scss" lang="scss">
+// .selectCustomerTemplate {
+//   .show-text-input {
+//     input {
+//       // border: none !important ;
+//     }
+//   }
+// }
 </style>

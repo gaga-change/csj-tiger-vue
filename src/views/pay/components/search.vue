@@ -7,7 +7,7 @@
             <el-select v-model="searchForm.paymenterCode"
               :filter-method="cusCodeFilter" 
               clearable
-              size="small"
+              size="mini"
               @foucs="clearMark"
               filterable placeholder="请选择客户名称" @change="customerChange"  >
               <el-option 
@@ -31,18 +31,18 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="订单编号" prop="busiBillNo">
-            <el-input type="text" size="small" v-model="searchForm.busiBillNo" ></el-input>
+            <el-input type="text" size="mini" v-model="searchForm.busiBillNo" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="合同编号" >
-            <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
+            <el-input type="text" size="mini" v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="6" style="min-width:300px"  >
           <el-form-item label="货主"   prop="ownerCode">
-            <el-select    size="small"  v-model="searchForm.ownerCode"   placeholder="请选择货主">
+            <el-select    size="mini"  v-model="searchForm.ownerCode"   placeholder="请选择货主">
               <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
             </el-select>
           </el-form-item>
@@ -50,7 +50,7 @@
 
         <el-col :span="6">
           <el-form-item label="款项性质">
-            <el-select v-model="searchForm.moneyState" size="small" :clearable="true"   filterable placeholder="请选择款项性质">
+            <el-select v-model="searchForm.moneyState" size="mini" :clearable="true"   filterable placeholder="请选择款项性质">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -63,14 +63,14 @@
 
         <el-col :span="6">
           <el-form-item label="付款申请号" label-width="85px"  >
-            <el-input type="text" size="small" v-model="searchForm.applyNo" ></el-input>
+            <el-input type="text" size="mini" v-model="searchForm.applyNo" ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
             <el-form-item label-width="70px" label="单据状态:" class="postInfo-container-item" prop="invoicetype">
               <el-select v-model="searchForm.paymentStatus" 
                filterable clearable placeholder="请选择单据状态" 
-              size="small" prefix-icon="el-icon-search">
+              size="mini" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in paymentStatusEnum"
                   :key="item.value"
@@ -82,7 +82,7 @@
         </el-col>  
          <el-col :span="6">
           <el-form-item label="业务板块">
-            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择款项性质" size="small">
+            <el-select v-model="searchForm.busiPlate" :clearable="true"   filterable placeholder="请选择款项性质" size="mini">
               <el-option
                 v-for="item in busiPlateConfig"
                 :key="item.value"
@@ -96,8 +96,8 @@
       <el-row :gutter="10">
         <el-col :span="6">
             <el-form-item label-width="0">
-              <el-button type="primary"  size="small"  @click="submitIt">查询</el-button>
-              <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
+              <el-button type="primary"  size="mini"  @click="submitIt">查询</el-button>
+              <el-button type="primary"  size="mini" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-col>
       </el-row>  

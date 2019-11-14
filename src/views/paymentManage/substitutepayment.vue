@@ -5,7 +5,7 @@
         :inline="true"
         ref="ruleForm"
         :model="searchData"
-        size="small"
+        size="mini"
         label-width="70px"
         label-position="left"
         class="demo-form-inline"
@@ -63,7 +63,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              size="small"
+              size="mini"
               @click="submitSearchForm"
             >查询</el-button>
           </el-form-item>
@@ -71,7 +71,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              size="small"
+              size="mini"
               @click="resetSearchForm"
             >重置</el-button>
           </el-form-item>
@@ -84,7 +84,7 @@
     >
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         style="margin:10px"
         @click="newPayment"
       >新建款项</el-button>
@@ -174,6 +174,7 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
+    <div class="mt20"></div>
   </div>
 </template>
 
@@ -181,7 +182,6 @@
 import { createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
 import { queryLogisticsExpenseAll } from '@/api'
 import { dealNameValueToKeyValue } from '@/utils'
-import { expenseType } from '@/utils/enum'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 export default {
@@ -191,7 +191,7 @@ export default {
       searchConfig: [
         { label: '款项编码', prop: 'expenseCode' },
         { label: '款项名称', prop: 'expenseName' },
-        { label: '款项性质', prop: 'expenseType', localEnum: 'expenseType' }
+        { label: '款项性质', prop: 'expenseType', apiEnum: 'getExpenseTypeList' }
       ],
       searchData: {},
       loading: false,
@@ -205,10 +205,9 @@ export default {
       dialogFormVisible: false,
       submitloading: false,
       paymentForm: {
-        expenseName:null,
-        expenseType:2
+        expenseName: null,
+        expenseType: 2
       },
-      expenseType
     }
   },
   computed: {
@@ -275,7 +274,7 @@ export default {
           this.paymentForm[i] = null
         }
       }
-      this.paymentForm.expenseState=2
+      this.paymentForm.expenseState = 2
       this.dialogFormVisible = true
     },
     submitSearchForm() {

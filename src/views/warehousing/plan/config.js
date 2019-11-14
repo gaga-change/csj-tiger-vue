@@ -39,6 +39,7 @@ export const infoConfig = [
   { title: '在库区分', prop: 'saleType', type: 'getSaleType', useApi: true },
   { title: '预计到货日期', prop: 'planInWarehouseTime', type: 'time' },
   { title: '订单有效期', prop: 'orderTime', type: 'time' },
+  { title: '备注', prop: 'remarkInfo' },
 ];
 
 export const warehousingTableConfig = [
@@ -55,7 +56,7 @@ export const indexTableConfig = [
   { label: '计划单号', prop: 'planCode', width: 150, fixed: true, linkTo: '/warehousing/plan-detail', query: [{ key: 'planCode', value: 'planCode' }] },
   { label: '业务单号', prop: 'billNo', width: 170 },
   { label: '外部订单号', prop: 'busiBillNo', width: 160 },
-  { label: '单据状态', prop: 'planState', type: 'warehousingPlanBillStatus', useLocalEnum: true, width: 80 },
+  { label: '单据状态', prop: 'planState', type: 'getPlanState', useApi: true, width: 80 },
   { label: '供应商名称', prop: 'providerName', width: 180 },
   { label: '货主', prop: 'ownerName', width: 180 },
   { label: '制单人', prop: 'createrName' },

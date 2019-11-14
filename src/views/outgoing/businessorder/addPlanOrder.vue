@@ -2,7 +2,7 @@
   <div class="outgoing-quirydetail-container">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template>
-          <el-button type="primary" size="small" @click="submit" :loading="submitLoading">生成计划单</el-button>
+          <el-button type="primary" size="mini" @click="submit" :loading="submitLoading">生成计划单</el-button>
       </template>
    </sticky>
 
@@ -14,7 +14,7 @@
       <item-title text="相关明细" boxStyle="width:100px"/>
       <div class="itemBox_date">
         <span>计划出库日期:</span>
-        <el-date-picker size="small" v-model="infoData.planOutTime" type="date" placeholder="选择日期"/>
+        <el-date-picker size="mini" v-model="infoData.planOutTime" type="date" placeholder="选择日期"/>
       </div>
     </div>
     

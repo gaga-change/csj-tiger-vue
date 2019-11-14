@@ -3,37 +3,37 @@
   <div style="margin:12px" v-loading="loading">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template>  
-        <el-button  style="margin-left: 10px;" size="small" v-if="cardData.invoiceCancelStatus == 2"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+        <el-button  style="margin-left: 10px;" size="mini" v-if="cardData.invoiceCancelStatus == 2"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
             @click="linkToInvoice(0)">复制 
         </el-button>
         <template v-if="cardData.ticketStatus == 0 || cardData.ticketStatus == 5">
-          <el-button  style="margin-left: 10px;" type="success" size="small" v-if="cardData.ticketStatus == 0 || cardData.ticketStatus == 5"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+          <el-button  style="margin-left: 10px;" type="success" size="mini" v-if="cardData.ticketStatus == 0 || cardData.ticketStatus == 5"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
               @click="linkToInvoice(1)">修改 
           </el-button>
-          <el-button  style="margin-left: 10px;" type="success" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+          <el-button  style="margin-left: 10px;" type="success" size="mini"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
               @click="submitInvoice">提交 
           </el-button>
-           <el-button  style="margin-left: 10px;"  size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+           <el-button  style="margin-left: 10px;"  size="mini"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
               @click="dropSaleInvoiceApi">删除
           </el-button>
 
         </template>
       
         <template v-else-if="cardData.ticketStatus == 1">
-          <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheck')"
+          <el-button  style="margin-left: 10px;" size="mini" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheck')"
               @click="()=>{this.buttonDisabled=true;Modify(2)}" >审核
               <!-- :disabled="buttonDisabled||!$haspermission('invoiceCheck')" -->
           </el-button>
-          <el-button  style="margin-left: 10px;" type="warning" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicereject')"
+          <el-button  style="margin-left: 10px;" type="warning" size="mini" :disabled="buttonDisabled||!$haspermission('salesinvoicereject')"
               @click="()=>{this.buttonDisabled=true;Modify(5)}">驳回
           </el-button>
         </template>
-         <el-button  style="margin-left: 10px;" type="success" size="small" v-else-if="cardData.ticketStatus == 2" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+         <el-button  style="margin-left: 10px;" type="success" size="mini" v-else-if="cardData.ticketStatus == 2" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
               @click="goToBilling">财务开票
           </el-button>
         <template v-if="cardData.ticketStatus>1 && cardData.ticketStatus<5">
            <a :href="printUrl(url,'supply_invoice_export', cardData.id)" target="_blank">
-            <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
+            <el-button size="mini"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
         </template>
          <!-- <template v-if="cardData.ticketStatus > 3">

@@ -4,19 +4,19 @@
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="承运商编码:">
-              <el-input v-model="searchForm.consoildatorCode" placeholder="请输入承运商编码" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.consoildatorCode" placeholder="请输入承运商编码" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="承运商名称:">
-              <el-input v-model="searchForm.consoildatorName" placeholder="请输入承运商名称" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.consoildatorName" placeholder="请输入承运商名称" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="承运商状态" >
-              <el-select  v-model="searchForm.consoildatorState" clearable  placeholder="请选择承运商状态：" size="small" class="formitem">
+              <el-select  v-model="searchForm.consoildatorState" clearable  placeholder="请选择承运商状态：" size="mini" class="formitem">
                  <el-option v-for="item in mapConfig['getConsoildatorState']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>

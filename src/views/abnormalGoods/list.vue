@@ -2,7 +2,7 @@
   <div  class="abnormalGoods">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button type="success"  size="small"  @click="add"  :disabled="!$haspermission('abnormalGoodsCreate')">创建异常签收商品登记单</el-button>
+         <el-button type="success"  size="mini"  @click="add"  :disabled="!$haspermission('abnormalGoodsCreate')">创建异常签收商品登记单</el-button>
       </template>
     </sticky>
      <search-invoice  :searchForm="searchForm"   @submit="this.submit"  ></search-invoice>

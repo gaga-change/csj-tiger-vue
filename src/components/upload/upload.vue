@@ -31,8 +31,8 @@
         name="myFile"
         :on-success="handleEnclosureUploadSuccess"
         :auto-upload="false">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitEnclosureUpload"  v-if="displayBtn" >上传到服务器</el-button>
+          <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="mini" type="success" @click="submitEnclosureUpload"  v-if="displayBtn" >上传到服务器</el-button>
           <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
    </el-dialog>

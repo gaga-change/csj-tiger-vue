@@ -6,19 +6,19 @@
       
           <el-col :span="6">
             <el-form-item label="业务类型" >
-              <el-input type="text" size="small"  @keyup.enter.native="submit"    placeholder="请输入业务类型"    v-model="searchForm.busiType" ></el-input>
+              <el-input type="text" size="mini"  @keyup.enter.native="submit"    placeholder="请输入业务类型"    v-model="searchForm.busiType" ></el-input>
             </el-form-item>
           </el-col>
 
            <el-col :span="6">
             <el-form-item label="业务子类型" label-width="80px" >
-              <el-input type="text" size="small"   @keyup.enter.native="submit"  placeholder="请输入业务子类型"    v-model="searchForm.subType" ></el-input>
+              <el-input type="text" size="mini"   @keyup.enter.native="submit"  placeholder="请输入业务子类型"    v-model="searchForm.subType" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6">
             <el-form-item label="业务唯一编码"  label-width="90px">
-              <el-input type="text" size="small"  @keyup.enter.native="submit"  placeholder="请输入业务唯一编码"    v-model="searchForm.busiKey" ></el-input>
+              <el-input type="text" size="mini"  @keyup.enter.native="submit"  placeholder="请输入业务唯一编码"    v-model="searchForm.busiKey" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -26,7 +26,7 @@
             <el-form-item label="成功标识" >
                 <el-select v-model="searchForm.successFlag" 
                  @change="submit"
-                size="small"  filterable clearable placeholder="请输入成功标识" prefix-icon="el-icon-search">
+                size="mini"  filterable clearable placeholder="请输入成功标识" prefix-icon="el-icon-search">
                   <el-option
                     v-for="item in successFlag"
                     :key="item.value"
@@ -39,8 +39,8 @@
 
           <el-col :span="24">
             <el-form-item label-width="0">
-              <el-button type="primary"  size="small"  @click="submit">查询</el-button>
-              <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
+              <el-button type="primary"  size="mini"  @click="submit">查询</el-button>
+              <el-button type="primary"  size="mini" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-col>
 

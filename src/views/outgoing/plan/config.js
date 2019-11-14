@@ -21,6 +21,7 @@ export const tableConfig = [
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
     }
   },
+  { label: '可用库存', prop: 'canUseSkuQty' },
   { label: '手工出库', prop: 'qty', useEdit: true, width: 160, max: ['planOutQty', 'realOutQty'], min: 0 },
   { label: '备注', prop: 'remarkInfo' },
 ];
@@ -41,6 +42,7 @@ export const infoConfig = [
   { title: '联系电话', prop: 'arrivalLinkTel' },
   { title: '客户地址', prop: 'arrivalAddress' },
   { title: '推送状态', prop: 'issuedState', type: 'getIssuedState', useApi: true },
+  { title: '备注', prop: 'remarkInfo' },
 ]
 
 export const outgoingTableConfig = [
@@ -59,7 +61,7 @@ export const indexTableConfig = [
   { label: '计划单号', prop: 'planCode', fixed: true, linkTo: '/outgoing/plan-detail', query: [{ key: 'planCode', value: 'planCode' }], width: 150 },
   { label: '业务单号', prop: 'billNo', width: 160 },
   { label: '外部订单号', prop: 'busiBillNo', width: 160 },
-  { label: '单据状态', prop: 'planState', type: 'warehousingPlanBillStatus', useLocalEnum: true, width: 80 },
+  { label: '单据状态', prop: 'planState', type: 'getPlanState', useApi: true, width: 80 },
   { label: '挂起类型', prop: 'hangUpType', type: 'getHangUpType', useApi: true, width: 100 },
   { label: '客户名称', prop: 'arrivalName', width: 180 },
   { label: '货主', prop: 'ownerName', width: 180 },

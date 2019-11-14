@@ -12,7 +12,7 @@
               ]:[]">
               <el-select v-model="searchForm.customerCode" 
               @change="customerChange"
-              size="small"  filterable clearable placeholder="请选择客户名称" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择客户名称" prefix-icon="el-icon-search">
               
               <el-option 
                value=""
@@ -38,7 +38,7 @@
             <el-form-item 
              label="客户退款号" 
              label-width="100px" >
-              <el-input type="text" size="small"    placeholder="请输入客户退款号"    v-model.trim="searchForm.refundNo" ></el-input>
+              <el-input type="text" size="mini"    placeholder="请输入客户退款号"    v-model.trim="searchForm.refundNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -50,7 +50,7 @@
              :rules="useRules?[
                { required: true, message: '该项为必填'},
              ]:[]">
-              <el-select  size="small"    v-model="searchForm.moneyState"   placeholder="请选择款项性质">
+              <el-select  size="mini"    v-model="searchForm.moneyState"   placeholder="请选择款项性质">
                 <el-option   v-for="item in mapConfig['getMoneyState']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -67,7 +67,7 @@
               <el-select v-model="searchForm.busiBillNo" 
               @focus="busiBillNoFoucs"
               @change="busiBillNoChange"
-              size="small"  filterable clearable placeholder="请选择来源单据" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择来源单据" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in busiBillNoConfig"
                   :key="item.busiBillNo"
@@ -87,7 +87,7 @@
               :rules="useRules?[
                 { required: true, message: '该项为必填'},
                ]:[]">
-              <el-input type="text" size="small" :disabled="useDisplay"    placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
+              <el-input type="text" size="mini" :disabled="useDisplay"    placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -96,7 +96,7 @@
               label="订单编号"  
               label-width="80px"
               prop="sourceOrderNo"  >
-              <el-input type="text" size="small"    placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
+              <el-input type="text" size="mini"    placeholder="请输入订单编号"    v-model.trim="searchForm.sourceOrderNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -108,7 +108,7 @@
              :rules="useRules?[
                { required: true, message: '该项为必填'},
              ]:[]">
-              <el-input type="text" size="small"  :disabled="useDisplay"   placeholder="请输入合同编号"    v-model.trim="searchForm.contractNo" ></el-input>
+              <el-input type="text" size="mini"  :disabled="useDisplay"   placeholder="请输入合同编号"    v-model.trim="searchForm.contractNo" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -122,7 +122,7 @@
                ]:[]">
               <el-select v-model="searchForm.busiPlate" 
               :disabled="useDisplay"
-              size="small"  filterable clearable placeholder="请选择业务板块" prefix-icon="el-icon-search">
+              size="mini"  filterable clearable placeholder="请选择业务板块" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in busiPlateConfig"
                   :key="item.value"
@@ -141,7 +141,7 @@
                :rules="useRules?[
                  { required: true, message: '该项为必填'},
                ]:[]">
-              <el-select  size="small"    v-model="searchForm.refundReason"   placeholder="请选择退款原因">
+              <el-select  size="mini"    v-model="searchForm.refundReason"   placeholder="请选择退款原因">
                 <el-option   v-for="item in mapConfig['getRefundReason']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -155,13 +155,13 @@
              :rules="useRules?[
                 { required: true, validator: this.numberValidator.bind(this,'applyRefundAmt'), },
              ]:[]">
-              <el-input type="text" size="small"   placeholder="请输入申请退款金额"    v-model.trim="searchForm.applyRefundAmt" ></el-input>
+              <el-input type="text" size="mini"   placeholder="请输入申请退款金额"    v-model.trim="searchForm.applyRefundAmt" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="select?6:8" style="min-width:300px"  v-if="searchForm.ownerCode!==undefined&&this.$route.path.includes('refundList')">
             <el-form-item label="货主"  >
-              <el-select  size="small"    v-model="searchForm.ownerCode"   placeholder="请选择货主">
+              <el-select  size="mini"    v-model="searchForm.ownerCode"   placeholder="请选择货主">
                 <el-option   v-for="item in mapConfig['ownerInfoMap']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -170,7 +170,7 @@
 
           <el-col :span="select?6:8" style="min-width:300px"  v-if="searchForm.refundStatus!==undefined">
             <el-form-item label="单据状态"  >
-              <el-select  size="small"    v-model="searchForm.refundStatus"   placeholder="请选择单据状态">
+              <el-select  size="mini"    v-model="searchForm.refundStatus"   placeholder="请选择单据状态">
                 <el-option   v-for="item in mapConfig['getRefundStatus']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -183,7 +183,7 @@
             :rules="useRules?[
               { required: true, message: '该项为必填'},
              ]:[]">
-              <el-select  size="small"    v-model="searchForm.payWay"   placeholder="请选择付款方式">
+              <el-select  size="mini"    v-model="searchForm.payWay"   placeholder="请选择付款方式">
                 <el-option   v-for="item in mapConfig['getPaymentMode']" :label="item.value"   :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -192,13 +192,13 @@
       
           <el-col :span="8"  style="min-width:300px" v-if="searchForm.bankCode!==undefined">
             <el-form-item label="客户银行账户" label-width="100px"  >
-              <el-input type="text" size="small"     placeholder="请输入客户银行账户"    v-model.trim="searchForm.bankCode" ></el-input>
+              <el-input type="text" size="mini"     placeholder="请输入客户银行账户"    v-model.trim="searchForm.bankCode" ></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8"  style="min-width:300px" v-if="searchForm.bankName!==undefined">
             <el-form-item label="客户银行" label-width="90px"  >
-              <el-input type="text" size="small"    placeholder="请输入客户银行"    v-model.trim="searchForm.bankName" ></el-input>
+              <el-input type="text" size="mini"    placeholder="请输入客户银行"    v-model.trim="searchForm.bankName" ></el-input>
             </el-form-item>
           </el-col>
 
@@ -228,7 +228,7 @@
              :rules="useRules?[
                 { required: true,validator: this.numberValidator.bind(this,'realRefundAmt'),},
              ]:[]">
-              <el-input type="text" size="small"     placeholder="请输入实退金额"    v-model.trim="searchForm.realRefundAmt" ></el-input>
+              <el-input type="text" size="mini"     placeholder="请输入实退金额"    v-model.trim="searchForm.realRefundAmt" ></el-input>
             </el-form-item>
           </el-col>
 

@@ -3,12 +3,12 @@
   <div style="marginBottom:12px">
     <sticky :className="'sub-navbar published'">
       <template >
-         <el-button type="success"  size="small" @click="add" >创建异常签收商品登记单</el-button>
+         <el-button type="success"  size="mini" @click="add" >创建异常签收商品登记单</el-button>
       </template>
     </sticky>
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
-        <el-form :inline="true" :model="ruleForm"  size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline"  label-width="50px"  label-position="left">
+        <el-form :inline="true" :model="ruleForm"  size="mini" :rules="rules" ref="ruleForm"   class="demo-form-inline"  label-width="50px"  label-position="left">
             <el-col :span="6"  style="min-width:300px"   >
             <el-form-item label="回单号" prop="signNo">
               <el-input v-model.lazy.trim="ruleForm.signNo" @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入回单号"></el-input>
@@ -104,11 +104,11 @@
 
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary"  size="small"  @click="submitForm('ruleForm')">查询</el-button>
+              <el-button type="primary"  size="mini"  @click="submitForm('ruleForm')">查询</el-button>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary"  size="small"  @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary"  size="mini"  @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-col>
       </el-form>

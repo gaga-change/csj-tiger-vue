@@ -4,7 +4,7 @@
       <template >
         
          <el-button v-if="cardData.billStatus===0||cardData.billStatus===3" 
-          type="success"  size="small" @click="modify"  >修改</el-button>
+          type="success"  size="mini" @click="modify"  >修改</el-button>
         
          <el-button v-if="cardData.billStatus===0||cardData.billStatus===3"
           @click="Modify({ 
@@ -14,7 +14,7 @@
             errorTips:'操作失败',
             api:'submitPurcRejectApply'})"  
           type="success" 
-          size="small">提交</el-button>
+          size="mini">提交</el-button>
         
          <!-- <el-button v-if="cardData.billStatus===1" 
           @click="Modify({ 
@@ -24,7 +24,7 @@
             errorTips:'驳回失败',
             api:'purcRejectApplyheck'})" 
           type="success" 
-          size="small">驳回</el-button> -->
+          size="mini">驳回</el-button> -->
           
           <el-button v-if="cardData.billStatus===3"  
           @click="Modify({ billStatus:4, 
@@ -33,7 +33,7 @@
             errorTips:'操作失败',
             api:'purcRejectApplyheck'})"  
           type="success"  
-          size="small">关闭</el-button>
+          size="mini">关闭</el-button>
          
          <el-button v-if="cardData.billStatus===0"  
          @click="Modify({ billStatus:-1, 
@@ -42,7 +42,7 @@
           errorTips:'操作失败',
           api:'deletePurcRejectApplyheck'})"  
          type="success" 
-          size="small">删除</el-button>
+          size="mini">删除</el-button>
        
          <!-- <el-button v-if="cardData.billStatus===1" 
           @click="Modify({ billStatus:2,
@@ -51,7 +51,7 @@
             errorTips:'操作失败',
             api:'purcRejectApplyheck'})"  
           type="success"  
-          size="small">同意</el-button> -->
+          size="mini">同意</el-button> -->
       </template>
     </sticky>
      

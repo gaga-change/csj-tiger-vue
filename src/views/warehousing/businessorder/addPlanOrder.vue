@@ -7,7 +7,7 @@
       <template>
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           @click="submit"
           :loading="submitLoading"
         >生成计划单</el-button>

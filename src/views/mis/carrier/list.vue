@@ -9,7 +9,7 @@
       <router-link :to="`/carrier/add?time=${moment().valueOf()}`">
         <el-button
           type="primary"
-          size="small"
+          size="mini"
         >创建承运商</el-button>
       </router-link>
     </div>

@@ -34,7 +34,7 @@
             >
               <el-select
                 v-model="productForm.owner"
-                size="small"
+                size="mini"
                 :disabled="Boolean(this.$route.query.skuCode)"
                 filterable
                 clearable
@@ -66,7 +66,7 @@
               <el-input
                 v-model="productForm.ownerSkuCode"
                 placeholder="请输入货主商品编码"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -82,15 +82,17 @@
               prop="categoryCode"
               :rules="[{ validator: categoryValidator, required: true, trigger: 'change' }]"
             >
-              <choice-category
-                @categorySubmit="categorySubmit"
-                ref="categoryChoice"
-              ></choice-category>
-              <el-input
-                type="hidden"
-                v-model="productForm.categoryCode"
-                style="margin-top:-34px;display: block;"
-              ></el-input>
+              <div style="height:32px">
+                <choice-category
+                  @categorySubmit="categorySubmit"
+                  ref="categoryChoice"
+                ></choice-category>
+                <el-input
+                  type="hidden"
+                  v-model="productForm.categoryCode"
+                  style="margin-top:-34px;display: block;"
+                ></el-input>
+              </div>
             </el-form-item>
           </el-col>
           <el-col
@@ -108,7 +110,7 @@
               <el-input
                 v-model="productForm.skuCode"
                 placeholder="请输入商品编码"
-                size="small"
+                size="mini"
                 class="formitem"
                 :disabled="editable"
               ></el-input>
@@ -128,7 +130,7 @@
               <el-input
                 v-model="productForm.skuName"
                 placeholder="请输入商品名称"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -147,7 +149,7 @@
               <el-input
                 v-model="productForm.skuShortName"
                 placeholder="请输入商品简称"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -166,7 +168,7 @@
               <el-input
                 v-model="productForm.skuDesc"
                 placeholder="请输入商品描述"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -185,7 +187,7 @@
               <el-input
                 v-model="productForm.packUnitName"
                 placeholder="请输入商品包装单位"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -203,7 +205,7 @@
             >
               <el-date-picker
                 v-model="productForm.useDate"
-                size="small"
+                size="mini"
                 class="formitem"
                 type="date"
                 placeholder="选择日期"
@@ -225,7 +227,7 @@
               <el-input
                 v-model="productForm.brandName"
                 placeholder="请输入品牌"
-                size="small"
+                size="mini"
                 class="formitem"
                 :disabled="editable"
               ></el-input>
@@ -245,7 +247,7 @@
               <el-input
                 v-model="productForm.skuFormat"
                 placeholder="请输入规格"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -264,7 +266,7 @@
               <el-input
                 v-model="productForm.skuModel"
                 placeholder="请输入型号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -283,7 +285,7 @@
                 v-model="productForm.materialState"
                 clearable
                 placeholder="请选择商品状态"
-                size="small"
+                size="mini"
                 class="formitem"
               >
                 <el-option
@@ -310,7 +312,7 @@
                 type="number"
                 v-model="productForm.baseSettlementPrice"
                 class="formitem"
-                size="small"
+                size="mini"
                 placeholder="请输入基准结算价"
               >
                 <span slot="suffix">元</span>
@@ -344,7 +346,7 @@
                   v-model="productForm.orderType"
                   clearable
                   placeholder="请选择订货区分"
-                  size="small"
+                  size="mini"
                   class="formitem"
                 >
                   <el-option
@@ -370,7 +372,7 @@
                   v-model="productForm.mangerType"
                   clearable
                   placeholder="请选择商品管理"
-                  size="small"
+                  size="mini"
                   class="formitem"
                 >
                   <el-option
@@ -397,7 +399,7 @@
                   v-model="productForm.saleType"
                   clearable
                   placeholder="请选择在库区分"
-                  size="small"
+                  size="mini"
                   class="formitem"
                 >
                   <el-option
@@ -420,7 +422,7 @@
                   type="number"
                   v-model="productForm.incomeTaxRate"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入进项税率"
                 >
                   <span slot="suffix">%</span>
@@ -438,7 +440,7 @@
                   type="number"
                   v-model="productForm.outputTaxRate"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入销项税率"
                 >
                   <span slot="suffix">%</span>
@@ -459,7 +461,7 @@
                   type="text"
                   v-model="productForm.skuTag"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入商品标签"
                 >
                 </el-input>
@@ -476,7 +478,7 @@
                   type="number"
                   v-model="productForm.expectGrossProfit"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入期望毛利率"
                 >
                   <span slot="suffix">%</span>
@@ -497,7 +499,7 @@
                   v-model="productForm.sizeUnitName"
                   clearable
                   placeholder="请选择尺寸单位"
-                  size="small"
+                  size="mini"
                   class="formitem"
                 >
                   <el-option
@@ -520,7 +522,7 @@
                   type="number"
                   v-model="productForm.skuWeight"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入重量"
                 >
                   <span slot="suffix">kg</span>
@@ -541,7 +543,7 @@
                   v-model="productForm.shelfLifeUnitName"
                   clearable
                   placeholder="请选择保质期区分"
-                  size="small"
+                  size="mini"
                   class="formitem"
                 >
                   <el-option
@@ -564,7 +566,7 @@
                   type="number"
                   v-model="productForm.safeStockFactor"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入安全库存"
                 >
                 </el-input>
@@ -581,7 +583,7 @@
                   type="number"
                   v-model="productForm.skuLength"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入长度"
                 >
                   <span slot="suffix">m</span>
@@ -599,7 +601,7 @@
                   type="number"
                   v-model="productForm.skuVolume"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入体积"
                 >
                   <span slot="suffix">m³</span>
@@ -617,7 +619,7 @@
                   type="number"
                   v-model="productForm.shelfLife"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入保质期"
                 >
                 </el-input>
@@ -634,7 +636,7 @@
                   type="number"
                   v-model="productForm.tagerTurnoverDays"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入周转日数"
                 >
                 </el-input>
@@ -651,7 +653,7 @@
                   type="number"
                   v-model="productForm.skuBreadth"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入宽度"
                 >
                   <span slot="suffix">m</span>
@@ -669,7 +671,7 @@
                   type="text"
                   v-model="productForm.skuLevel"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入等级"
                 >
                 </el-input>
@@ -689,7 +691,7 @@
                   v-model="productForm.skuReturnType"
                   clearable
                   placeholder="请选择退货区分"
-                  size="small"
+                  size="mini"
                   class="formitem"
                 >
                   <el-option
@@ -712,7 +714,7 @@
                   type="number"
                   v-model="productForm.maxStockQty"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入最大在库数量"
                 >
                 </el-input>
@@ -729,7 +731,7 @@
                   type="number"
                   v-model="productForm.skuHeight"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入高度"
                 >
                   <span slot="suffix">m</span>
@@ -747,7 +749,7 @@
                   type="text"
                   v-model="productForm.productFactory"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入产地"
                 >
                 </el-input>
@@ -767,7 +769,7 @@
                   type="text"
                   v-model="productForm.skuStockType"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入销售区分"
                 >
                 </el-input>
@@ -787,7 +789,7 @@
                   type="text"
                   v-model="productForm.remarkInfo"
                   class="formitem"
-                  size="small"
+                  size="mini"
                   placeholder="请输入产地"
                 >
                 </el-input>
@@ -841,7 +843,7 @@
                     <!-- <el-input
                       v-model="newCustomerForm.customerCode"
                       placeholder="请选择客户"
-                      size="small"
+                      size="mini"
                       class="formitem"
                     ></el-input> -->
                   </el-form-item>
@@ -859,7 +861,7 @@
                     <el-input
                       v-model="newCustomerForm.customerSkuCode"
                       placeholder="请输入商品编码"
-                      size="small"
+                      size="mini"
                       class="formitem"
                     ></el-input>
                   </el-form-item>
@@ -877,7 +879,7 @@
                     <el-input
                       v-model="newCustomerForm.customerSkuName"
                       placeholder="请输入客户商品名称"
-                      size="small"
+                      size="mini"
                       class="formitem"
                     ></el-input>
                   </el-form-item>
@@ -895,7 +897,7 @@
                     <el-input
                       v-model="newCustomerForm.customerSkuType"
                       placeholder="请输入客户商品分类码"
-                      size="small"
+                      size="mini"
                       class="formitem"
                     ></el-input>
                   </el-form-item>
@@ -914,7 +916,7 @@
                     <el-input
                       v-model="newCustomerForm.sellPrice"
                       placeholder="请输入客户销价"
-                      size="small"
+                      size="mini"
                       class="formitem"
                     ></el-input>
                   </el-form-item>
@@ -931,7 +933,7 @@
                   >
                     <el-date-picker
                       v-model="newCustomerForm.useDate"
-                      size="small"
+                      size="mini"
                       class="formitem"
                       type="date"
                       placeholder="选择日期"
@@ -952,7 +954,7 @@
                   >
                     <el-date-picker
                       v-model="newCustomerForm.priceValid"
-                      size="small"
+                      size="mini"
                       class="formitem"
                       type="date"
                       placeholder="选择日期"
@@ -974,7 +976,7 @@
                       type="textarea"
                       v-model="newCustomerForm.remarkInfo"
                       :rows="1"
-                      size="small"
+                      size="mini"
                     ></el-input>
 
                   </el-form-item>
@@ -992,7 +994,7 @@
             </el-form>
           </el-card>
           <el-table
-            size="small"
+            size="mini"
             style="margin-top:16px"
             :data="customerTableData"
             border
@@ -1050,7 +1052,7 @@
             @submitForm="submitServicerForm"
           ></search>
           <el-table
-            size="small"
+            size="mini"
             style="margin-top:16px"
             :data="servicerTableData"
             border
@@ -1108,7 +1110,7 @@
         ></el-input>
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           @click="currentPage=1;updateCustomer()"
           :loading="customerListLoading"
         >查询</el-button>
@@ -1116,7 +1118,7 @@
       </div>
       <el-table
         :data="customerList"
-        size="small"
+        size="mini"
         v-loading="customerListLoading"
         ref="singleTable"
         highlight-current-row
@@ -1134,7 +1136,7 @@
       <el-pagination
         style="text-align: right;"
         v-if="!!customerTotal"
-        size="small"
+        size="mini"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -1155,7 +1157,8 @@ import choiceCategory from './components/choiceCategory'
 import * as productEnum from './components/productEnum'
 import { customerConfig, servicerConfig } from './components/config'
 import Sticky from '@/components/Sticky'
-import { addProduct, updateProduct, productDetail } from '@/api/productcenter'
+import { addProduct } from '@/api'
+import { updateProduct, productDetail } from '@/api/productcenter'
 import { getOwnerCustList, getOwnerProviderList } from '@/api/mis'
 import { findValue } from '@/utils'
 import _ from 'lodash';
@@ -1349,7 +1352,7 @@ export default {
       this.$set(this.productForm, 'categoryName', item.text)
     },
     onSubmit() {
-
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$refs['tcfForm2'].clearValidate(['customerCode'])
       this.$refs['servicerForm'].$refs['tcfForm'].clearValidate(['providerCode'])
       if (this.productForm.categoryCode) {
@@ -1373,18 +1376,44 @@ export default {
           if (skuCode) {
             postForm.skuCode = skuCode
           }
+          postForm.isCheck = true
           editMethod(postForm).then(res => {
-            this.submitloading = false
-            if (res.success) {
-              const view = this.visitedViews.filter(v => v.path === this.$route.path)
-              this.$alert('操作成功').then(() => {
-                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                  this.$router.push({ name: 'productsList' })
+            if (!res) {
+              this.submitloading = false
+              return
+            }
+            if (res.code === 'ratel-40620008') {
+              this.$delConfirm(`商品名称【${postForm.skuName}】已存在，是否继续？`, () => {
+                postForm.isCheck = false
+                return editMethod(postForm).then(res => {
+                  if (!res) {
+                    this.submitloading = false
+                    return
+                  }
+                  this.$message({
+                    type: 'success',
+                    message: '操作成功,1.5s后跳往详情页',
+                    duration: 1500,
+                    onClose: () => {
+                      this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                        this.$router.push({ name: 'productsList' })
+                      })
+                    }
+                  })
                 })
               })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '操作成功,1.5s后跳往详情页',
+                duration: 1500,
+                onClose: () => {
+                  this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                    this.$router.push({ name: 'productsList' })
+                  })
+                }
+              })
             }
-          }).catch(err => {
-            this.submitloading = false
           })
         } else if (this.productForm.categoryCode) {
           this.$refs['productForm'].clearValidate(['categoryCode'])

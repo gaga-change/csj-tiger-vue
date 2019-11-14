@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="款项性质" prop="receivable.fundnature">
-            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.fundnature" filterable clearable placeholder="请选择款项性质" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in fundnature"
                 :key="item.value"
@@ -16,7 +16,7 @@
         </el-col>
         <el-col :span="6" v-if="receivableform.receivable.fundnature == 1">
           <el-form-item label="款项类型" prop="receivable.fundtype">
-            <el-select v-model="receivableform.receivable.fundtype" filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.fundtype" filterable clearable placeholder="请选择款项类型" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in fundtype"
                 :key="item.value"
@@ -30,19 +30,19 @@
       <el-row :gutter="20" v-if="receivableform.receivable.fundnature == 1">
         <el-col :span="6">
           <el-form-item label="关联销售单" prop="receivable.saleorder">
-            <el-input type="text"  prefix-icon="el-icon-search" size="small" @focus="saleorderFocus" v-model="receivableform.receivable.saleorder"></el-input>
+            <el-input type="text"  prefix-icon="el-icon-search" size="mini" @focus="saleorderFocus" v-model="receivableform.receivable.saleorder"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="合同编号" prop="receivable.contractno">
-            <el-input type="text" size="small" v-model="receivableform.receivable.contractno"></el-input>
+            <el-input type="text" size="mini" v-model="receivableform.receivable.contractno"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="结算方式" prop="receivable.settlementmethod">
-            <el-select v-model="receivableform.receivable.settlementmethod" size="small" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.settlementmethod" size="mini" filterable clearable placeholder="请选择结算方式" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in settlementmethod"
                 :key="item.value"
@@ -57,7 +57,7 @@
             <el-date-picker
               v-model="receivableform.receivable.recdate"
               type="date"
-              size="small"
+              size="mini"
               :editable="false"
               placeholder="选择日期时间"
               align="right">
@@ -69,12 +69,12 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="本次收款金额" prop="receivable.recamount">
-            <el-input type="number" size="small" v-model="receivableform.receivable.recamount"></el-input>
+            <el-input type="number" size="mini" v-model="receivableform.receivable.recamount"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="付款方" prop="receivable.payer">
-            <el-select v-model="receivableform.receivable.payer" filterable clearable placeholder="请选择付款客户" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="receivableform.receivable.payer" filterable clearable placeholder="请选择付款客户" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in gridData"
                 :key="item.id"
@@ -88,12 +88,12 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="现金折扣" prop="receivable.interestrate">
-            <el-input type="number" size="small" v-model="receivableform.receivable.interestrate"  placeholder="请输入现金折扣"></el-input>
+            <el-input type="number" size="mini" v-model="receivableform.receivable.interestrate"  placeholder="请输入现金折扣"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="结算金额" prop="receivable.settlementamount">
-            <el-input type="text" :value="settlementamount" size="small" disabled></el-input>
+            <el-input type="text" :value="settlementamount" size="mini" disabled></el-input>
             <span v-if="receivableform.receivable.fundnature == 1 && receivableform.receivable.saleorder">该笔销售订单应收{{receivableform.receivable.residualamount}}元</span>
           </el-form-item>
         </el-col>
@@ -101,7 +101,7 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="备注" prop="receivable.memos">
-            <el-input type="textarea" size="small" v-model="receivableform.receivable.memos" rows='5'></el-input>
+            <el-input type="textarea" size="mini" v-model="receivableform.receivable.memos" rows='5'></el-input>
           </el-form-item>
         </el-col>
          <el-col :span="16">
@@ -118,8 +118,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" size="small" :disabled="submitloading" v-loading="submitloading">新建收款单</el-button>
-          <el-button @click="onCancel" size="small">取消</el-button>
+          <el-button type="primary" @click="onSubmit" size="mini" :disabled="submitloading" v-loading="submitloading">新建收款单</el-button>
+          <el-button @click="onCancel" size="mini">取消</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -142,8 +142,8 @@
         :on-change="handelUploadChange"
         :on-success="handleUploadSuccess"
         :auto-upload="false">
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
+        <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="mini" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
     </el-dialog>

@@ -13,14 +13,14 @@
           <el-date-picker
             v-model="payDurationStart"
             type="date" 
-            size="small"
+            size="mini"
             :disabled="timeUsable.start"
             placeholder="开始">
           </el-date-picker> 至
           <el-date-picker
             v-model="durationEnd"
             type="date" 
-            size="small"
+            size="mini"
             :disabled="timeUsable.end"
             placeholder="结束日期">
           </el-date-picker>

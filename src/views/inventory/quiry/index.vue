@@ -10,7 +10,7 @@
           <el-form
             :inline="true"
             :model="ruleForm"
-            size="small"
+            size="mini"
             :rules="rules"
             ref="ruleForm"
             class="demo-form-inline"
@@ -87,14 +87,14 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="submitForm('ruleForm')"
                 >查询</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="resetForm('ruleForm')"
                 >重置</el-button>
               </el-form-item>
@@ -159,7 +159,7 @@ export default {
         { title: '库存可用数量合计', prop: 'totalInventoryTotal' },
         { title: '库存锁定数量合计', prop: 'totalInventoryLockQuantity' },
       ],
-      ownerList:[],
+      ownerList: [],
       warehouseMap: {},
       houseLoading: false
     }
@@ -198,14 +198,13 @@ export default {
         }
         this.houseLoading = false
       }).catch(err => {
-        console.log(err)
         this.houseLoading = false
       })
     },
-    getOwnerSelect(){
-      ownerSelect().then(res=>{
-        if(res.success){
-          this.ownerList=res.data
+    getOwnerSelect() {
+      ownerSelect().then(res => {
+        if (res.success) {
+          this.ownerList = res.data
         }
       })
     },

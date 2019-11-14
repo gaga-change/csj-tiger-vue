@@ -1,71 +1,116 @@
 <template>
   <div>
-    <el-form :model="form" :inline="true" ref="form" label-width="95px">
-      <el-form-item label="费用模板名称" prop="templateName">
+    <el-form
+      :model="form"
+      :inline="true"
+      ref="form"
+      label-width="95px"
+    >
+      <el-form-item
+        label="费用模板名称"
+        prop="templateName"
+      >
         {{form.templateName}}
       </el-form-item>
-      <el-form-item label="承运商" prop="consoildatorCode">
+      <el-form-item
+        label="承运商"
+        prop="consoildatorCode"
+      >
         {{form.consoildatorName}}
       </el-form-item>
-      <el-form-item label="发货点" prop="warehouseList">
-        <span v-for="item in form.warehouseList">{{item.warehouseName + '  '}}</span>
+      <el-form-item
+        label="发货点"
+        prop="warehouseList"
+      >
+        <span
+          v-for="(item, index) in form.warehouseList"
+          :key="index"
+        >{{item.warehouseName + '  '}}</span>
       </el-form-item>
-      <el-form-item label="计费模式" prop="costCalcWay" label-width="70px">
+      <el-form-item
+        label="计费模式"
+        prop="costCalcWay"
+        label-width="70px"
+      >
         {{form.costCalcWay === 2 ? '重量' : form.costCalcWay === 1 ? '体积' : ''}}
       </el-form-item>
-      <el-form-item >
+      <el-form-item>
         <el-tag v-if="form.isDefault">默认模板</el-tag>
       </el-form-item>
       <template v-if="form.costCalcWay === 2">
-        <div class="weightcard">          
-          <el-form-item prop="firstWeight" label="首重" label-width="45px">{{form.firstWeight}}KG，
+        <div class="weightcard">
+          <el-form-item
+            prop="firstWeight"
+            label="首重"
+            label-width="45px"
+          >{{form.firstWeight}}KG，
           </el-form-item>
           <span>超出首重，按照首重费用+续重费用计算</span>
         </div>
-        <el-table :data="tableData" border max-height="400" style="width:100%" v-loading="loading">
+        <el-table
+          :data="tableData"
+          border
+          max-height="400"
+          style="width:100%"
+          v-loading="loading"
+        >
           <el-table-column
             type="index"
-            label="序号">
+            label="序号"
+          >
           </el-table-column>
           <el-table-column
             prop="destinationName"
-            label="运送到地区">
+            label="运送到地区"
+          >
           </el-table-column>
           <el-table-column
             prop="firstWeightPrice"
-            label="首重">
+            label="首重"
+          >
           </el-table-column>
           <el-table-column
             prop="continuousWeightPrice"
-            label="续重">
+            label="续重"
+          >
           </el-table-column>
         </el-table>
       </template>
       <template v-if="form.costCalcWay === 1">
-        <el-table :data="tableData" border max-height="400" style="width:100%" v-loading="loading">
+        <el-table
+          :data="tableData"
+          border
+          max-height="400"
+          style="width:100%"
+          v-loading="loading"
+        >
           <el-table-column
             type="index"
-            label="序号">
+            label="序号"
+          >
           </el-table-column>
           <el-table-column
             prop="destinationName"
-            label="运送到地区">
+            label="运送到地区"
+          >
           </el-table-column>
           <el-table-column
             prop="firstWeightPrice"
-            label="重货">
+            label="重货"
+          >
           </el-table-column>
           <el-table-column
             prop="continuousWeightPrice"
-            label="轻货">
+            label="轻货"
+          >
           </el-table-column>
           <el-table-column
             prop="lowestPrice"
-            label="最低价格">
+            label="最低价格"
+          >
           </el-table-column>
         </el-table>
-      </template>     
-      
+      </template>
     </el-form>
   </div>
 </template>
@@ -89,12 +134,12 @@ export default {
         this.loading = false
         if (res.success) {
           const result = res.data
-          const {items, ...rest} = result
+          const { items, ...rest } = result
           this.form = rest
           this.tableData = items
         }
       }).catch(err => {
-        console.log(err)
+        console.error(err)
       })
     }
   }

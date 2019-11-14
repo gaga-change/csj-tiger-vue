@@ -12,13 +12,13 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="承运商名称:"  prop="consoildatorName"  :rules="[{ required: true, message: '该项为必填'}]" >
-                <el-input v-model="searchForm.consoildatorName" @change="querySearchAsync" placeholder="请输入承运商名称" size="small" class="formitem"></el-input>
+                <el-input v-model="searchForm.consoildatorName" @change="querySearchAsync" placeholder="请输入承运商名称" size="mini" class="formitem"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="配送类型" prop="dispatchType" :rules="[{ required: true, message: '必填项', trigger: ['blur', 'change'] }]">
-                <el-select  v-model="searchForm.dispatchType"   placeholder="请选择配送类型" size="small" class="formitem">
+                <el-select  v-model="searchForm.dispatchType"   placeholder="请选择配送类型" size="mini" class="formitem">
                   <el-option v-for="item in localEnum['dispatchType']" :label="item.name" :key="item.value"  :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -27,7 +27,7 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6" v-if="expressConfig.length">
               <el-form-item label="快递编码:"  prop="companyCode"  :rules="[{ required: true, message: '该项为必填'}]" >
-                  <el-select v-model="searchForm.companyCode" filterable  size="small" class="formitem" placeholder="请选择快递编码"  >
+                  <el-select v-model="searchForm.companyCode" filterable  size="mini" class="formitem" placeholder="请选择快递编码"  >
                     <el-option
                       value="" v-if="expressConfig.length" :disabled="true">
                       <div class="providerList">
@@ -48,7 +48,7 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="承运商状态" >
-                <el-select  v-model="searchForm.consoildatorState" clearable  placeholder="请选择承运商状态：" size="small" class="formitem">
+                <el-select  v-model="searchForm.consoildatorState" clearable  placeholder="请选择承运商状态：" size="mini" class="formitem">
                   <el-option v-for="item in  mapConfig['getConsoildatorState']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
@@ -56,7 +56,7 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="结算区分" >
-                <el-select  v-model="searchForm.settlementWay" clearable  placeholder="请选择承结算区分：" size="small" class="formitem">
+                <el-select  v-model="searchForm.settlementWay" clearable  placeholder="请选择承结算区分：" size="mini" class="formitem">
                   <el-option v-for="item in mapConfig['getSettlementType']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
                 </el-select>
               </el-form-item>
@@ -64,13 +64,13 @@
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="联系电话:"  prop="linkTel"  :rules="[{ required: false, message:'请输入正确格式的手机号',pattern:/^1[34578]\d{9}$/ }]" >
-                <el-input v-model="searchForm.linkTel" placeholder="请输入联系电话" size="small" class="formitem"></el-input>
+                <el-input v-model="searchForm.linkTel" placeholder="请输入联系电话" size="mini" class="formitem"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="联系人:">
-                <el-input v-model="searchForm.linkUser" placeholder="请输入联系人" size="small" class="formitem"></el-input>
+                <el-input v-model="searchForm.linkUser" placeholder="请输入联系人" size="mini" class="formitem"></el-input>
               </el-form-item>
             </el-col>
 

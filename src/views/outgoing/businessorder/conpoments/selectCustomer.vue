@@ -10,7 +10,6 @@
     text-overflow: ellipsis;"
       :title="!!value ? valueName : ''"
     >
-
       <a
         href="JavaScript:void(0)"
         style="color:#409EFF;white-space: nowrap;"
@@ -28,32 +27,30 @@
         class=""
         v-if="selectVisiable"
       >
-        <!-- <div style="margin-bottom:20px">
+        <div style="margin-bottom:20px">
           <el-input
-            v-model="searchParams.skuCode"
-            placeholder="请输入商品编码"
+            v-model="searchParams.customerCode"
+            placeholder="请输入客户编码"
             style="width:200px;"
             maxlength="20"
           ></el-input>
           <el-input
-            v-model="searchParams.skuName"
-            placeholder="请输入商品名称"
+            v-model="searchParams.customerName"
+            placeholder="请输入客户名称"
             style="width:200px;margin-left: 20px;"
             maxlength="20"
           ></el-input>
           <el-button
             style="margin-left: 20px;"
             type="primary"
-            size="small"
             @click="search()"
           >查询</el-button>
           <el-button
             style="margin-left: 20px;"
             type="primary"
-            size="small"
             @click="reset()"
           >重置</el-button>
-        </div> -->
+        </div>
         <base-table2
           ref="baseTable"
           :api="getCustomerInfoPage"
@@ -103,8 +100,8 @@ export default {
       selectRow: null,
       selectVisiable: false,
       searchParams: {
-        skuName: undefined,
-        skuCode: undefined,
+        customerName: undefined,
+        customerCode: undefined,
         ownerCode: this.ownerCode,
         billType: this.busiBillType
       }
@@ -121,7 +118,7 @@ export default {
   computed: {
     valueName() {
       if (!this.value) return ''
-      return this.selectRow?this.selectRow.customerName:this.value
+      return this.selectRow ? this.selectRow.customerName : this.value
     },
     saleTypeMap() {
       let obj = {}
@@ -154,9 +151,10 @@ export default {
     },
     reset() {
       this.searchParams = {
-        skuName: '',
-        skuCode: '',
-        ownerCode: this.ownerCode
+        customerName: '',
+        customerCode: '',
+        ownerCode: this.ownerCode,
+        billType: this.busiBillType
       }
       this.search()
     },

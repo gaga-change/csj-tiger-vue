@@ -69,14 +69,6 @@ export function getProductList(data) {
   })
 }
 
-// 新增商品
-export function addProduct(data) {
-  return request({
-    url: `/webApi/sku/info/add`,
-    method: 'post',
-    data: data
-  })
-}
 // 修改商品
 export function updateProduct(data) {
   return request({

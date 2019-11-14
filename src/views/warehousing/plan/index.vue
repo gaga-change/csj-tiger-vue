@@ -10,7 +10,7 @@
           <el-form
             :inline="true"
             :model="ruleForm"
-            size="small"
+            size="mini"
             :rules="rules"
             ref="ruleForm"
             class="demo-form-inline"
@@ -133,10 +133,10 @@
                   placeholder="请选择单据状态"
                 >
                   <el-option
-                    v-for="item in warehousingPlanBillStatus"
-                    :label="item.name"
-                    :key="item.value"
-                    :value="item.value"
+                    v-for="(item,index) in mapConfig['getPlanState']"
+                    :label="item.value"
+                    :key="index"
+                    :value="item.key"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -254,7 +254,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="submitForm('ruleForm')"
                 >查询</el-button>
               </el-form-item>
@@ -262,7 +262,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  size="small"
+                  size="mini"
                   @click="resetForm('ruleForm')"
                 >重置</el-button>
               </el-form-item>
@@ -292,7 +292,7 @@
       row-key="id"
       ref="listTable"
       @selection-change="selectionChange"
-      size="small"
+      size="mini"
       border
     >
       <el-table-column
@@ -376,7 +376,6 @@ import moment from 'moment';
 import { inPlanSelect, batchApprovePlan, inPlanClose, inCloseOperate } from '@/api/warehousing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig } from './config';
-import { warehousingPlanBillStatus } from "@/utils/enum.js";
 import editTable from '@/components/Table/editTable';
 import { mapGetters } from 'vuex'
 import { stringify } from 'qs';
@@ -400,7 +399,6 @@ export default {
       },
       total: 0,
       tableConfig: indexTableConfig,
-      warehousingPlanBillStatus,
       rules: {
 
       },

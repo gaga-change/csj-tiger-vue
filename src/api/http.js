@@ -14,16 +14,20 @@ newAxios.interceptors.response.use(function (response) {
   let message = data.message || data.errorMsg || ''
   // 系统异常提示（返回的数据为 null）
   if (~['TIGER-40620081', 'user-not-login'].findIndex(v => v === data.code)) {
-    Message({
-      type: 'error',
-      message: '登录已失效，3秒后自动跳转登录',
-      onClose: () => {
-        sessionStorage.setItem('warehouse', '')
-        location.href = `/csj_login`
-      },
-      duration: 3000
-    })
+    // Message({
+    //   type: 'error',
+    //   message: '登录已失效，3秒后自动跳转登录',
+    //   onClose: () => {
+    //     sessionStorage.setItem('warehouse', '')
+    //     location.href = `/csj_login`
+    //   },
+    //   duration: 3000
+    // })
+    sessionStorage.setItem('warehouse', '')
+    location.href = `/csj_login`
     data = null
+  } else if (~['ratel-40620008'].findIndex(v => v === data.code)) {
+    // 白名单
   } else if (data.code !== '200') {
     Message({
       type: 'error',
@@ -59,6 +63,35 @@ const http = {
   put(...params) {
     return newAxios.put(...params).then(res => res).catch(err => null)
   }
+}
+
+/** 发布环境 - 监听版本更新 */
+if (process.env.NODE_ENV !== "development") {
+  let tick = () => {
+    setTimeout(() => {
+      axios.get('/version.txt', {
+        headers: {
+          'Cache-Control': 'public,max-age=0'
+        }
+      }).then(res => {
+        let newVersion = res.data.toString().trim()
+        if (process.env.IMAGE_TAG !== newVersion) {
+          update(newVersion)
+        } else {
+          tick()
+        }
+      })
+    }, 5000)
+  }
+  function update(v) {
+    console.log(`版本更新，当前版本：${process.env.IMAGE_TAG}，最新版本：${v}`)
+    Notification({
+      title: '提示',
+      message: '当前系统版本更新，刷新页面获取最新内容！',
+      duration: 0
+    });
+  }
+  tick()
 }
 
 export default http

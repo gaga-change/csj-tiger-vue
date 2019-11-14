@@ -1,8 +1,8 @@
 import request from '@/utils/request'
-import {stringify} from 'qs';
+import { stringify } from 'qs';
 
 //列表查询
-export function skuInfoProviderList(ownerCode,arrivalCode,customerType, data={}) {
+export function skuInfoProviderList(ownerCode, arrivalCode, customerType, data = {}) {
   return request({
     url: `/webApi/sku/info/provider/list`,
     method: 'get',
@@ -11,7 +11,7 @@ export function skuInfoProviderList(ownerCode,arrivalCode,customerType, data={})
 }
 
 //入库业务单数据
-export function inBillSelect(data={}) {
+export function inBillSelect(data = {}) {
   return request({
     url: `/webApi/in/bill/select?${stringify(data)}`,
     method: 'get',
@@ -20,7 +20,7 @@ export function inBillSelect(data={}) {
 
 
 //入库业务单详情数据
-export function inBillDetail(data={}) {
+export function inBillDetail(data = {}) {
   return request({
     url: `/webApi/in/bill/detail?${stringify(data)}`,
     method: 'get',
@@ -29,7 +29,7 @@ export function inBillDetail(data={}) {
 
 
 //入库计划数据
-export function inPlanSelect(data={}) {
+export function inPlanSelect(data = {}) {
   return request({
     url: `/webApi/in/plan/getInPlanData?${stringify(data)}`,
     method: 'get',
@@ -37,7 +37,7 @@ export function inPlanSelect(data={}) {
 }
 
 //入库计划详情数据
-export function inPlanDetail(data={}) {
+export function inPlanDetail(data = {}) {
   return request({
     url: `/webApi/in/plan/getInPlanDetailByPlanCode?${stringify(data)}`,
     method: 'get',
@@ -53,7 +53,7 @@ export function inPlanClose(planCode) {
 }
 
 //入库计划修改
-export function inPlanUpdate(data={}) {
+export function inPlanUpdate(data = {}) {
   return request({
     url: `/webApi/in/plan/update`,
     method: 'put',
@@ -62,7 +62,7 @@ export function inPlanUpdate(data={}) {
 }
 
 //入库单查询数据
-export function inOrderSelect(data={}) {
+export function inOrderSelect(data = {}) {
   return request({
     url: `/webApi/in/order/inWarehouseOrderList?${stringify(data)}`,
     method: 'get',
@@ -71,7 +71,7 @@ export function inOrderSelect(data={}) {
 
 
 //入库单查询详情数据
-export function inOrderDetail(data={}) {
+export function inOrderDetail(data = {}) {
   return request({
     url: `/webApi/in/order/inWarehouseOrderDetailList?${stringify(data)}`,
     method: 'get',
@@ -79,7 +79,7 @@ export function inOrderDetail(data={}) {
 }
 
 // 入库单查询 合计接口
-export function selectSumNo(data={}) {
+export function selectSumNo(data = {}) {
   return request({
     url: `api/in/order/selectSumNo`,
     method: 'post',
@@ -87,7 +87,7 @@ export function selectSumNo(data={}) {
   })
 }
 
-export function inBillAdd(data={}) {
+export function inBillAdd(data = {}) {
   return request({
     url: `/webApi/in/bill/add`,
     method: 'post',
@@ -95,10 +95,10 @@ export function inBillAdd(data={}) {
   })
 }
 
-export function customerInfo(ownerCode,busiBillType=22) {
+export function customerInfo(ownerCode, busiBillType = 22) {
 
   return request({
-    url:`/webApi/customer/info/${ownerCode}/${busiBillType}`,
+    url: `/webApi/customer/info/${ownerCode}/${busiBillType}`,
     method: 'get',
   })
 }
@@ -111,7 +111,7 @@ export function inbilldetail(inWarehouseBillId) {
 }
 
 
-export function inBillUpdate(data={}) {
+export function inBillUpdate(data = {}) {
   return request({
     url: `/webApi/in/bill/update`,
     method: 'post',
@@ -126,10 +126,10 @@ export function inbillPrint(inWarehouseBillId) {
   })
 }
 
-export function inBillUpdateStatus(data={}) {
+export function inBillUpdateStatus(data = {}) {
   return request({
     url: `/webApi/in/bill/updateStatus?${stringify(data)}`,
-    method:'put'
+    method: 'put'
   })
 }
 
@@ -141,14 +141,14 @@ export function inPlanInitAdd(inWarehouseBillId) {
 }
 
 
-export function getRecommendStock(ownerCode,skuCode) {
+export function getRecommendStock(ownerCode, skuCode) {
   return request({
     url: `/webApi/sku/info/getRecommendStock/${ownerCode}/${skuCode}`,
     method: 'get'
   })
 }
 
-export function inPlanAdd(data={}) {
+export function inPlanAdd(data = {}) {
   return request({
     url: `/webApi/in/plan/add`,
     method: 'post',
@@ -157,7 +157,7 @@ export function inPlanAdd(data={}) {
 }
 
 //手工创建入库单
-export function orderSave(data={}) {
+export function orderSave(data = {}) {
   return request({
     url: `/webApi/in/order/save`,
     method: 'post',
@@ -202,7 +202,7 @@ export function batchAdd(data) {
 }
 
 // /api/in/plan/batchApprovePlan
-export function batchApprovePlan(data={}) {
+export function batchApprovePlan(data = {}) {
   return request({
     url: `/api/in/plan/batchApprovePlan`,
     method: 'post',
@@ -213,7 +213,8 @@ export function batchApprovePlan(data={}) {
 //入库计划单手工完结
 export function inCloseOperate(data) {
   return request({
-    url: `/webApi/in/plan/end/${data}`,
-    method: 'PUT'
+    url: `/webApi/in/plan/end`,
+    method: 'post',
+    data: { planCode: data }
   })
 }

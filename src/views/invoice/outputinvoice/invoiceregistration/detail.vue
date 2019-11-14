@@ -2,26 +2,26 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">  
-        <el-button  style="margin-left: 10px;" type="success" v-if="cardData.ticketStatus == 0" size="small"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
+        <el-button  style="margin-left: 10px;" type="success" v-if="cardData.ticketStatus == 0" size="mini"  :disabled="buttonDisabled||!$haspermission('salseinvoicecreate')"
             @click="linkToInvoice(1)">提交 
         </el-button>
         <template v-else-if="cardData.ticketStatus == 3">
-          <el-button  style="margin-left: 10px;" type="success" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
+          <el-button  style="margin-left: 10px;" type="success" size="mini" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
               @click="goToBilling">修改财务开票
           </el-button>
-          <el-button  style="margin-left: 10px;" size="small" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
+          <el-button  style="margin-left: 10px;" size="mini" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
               @click="()=>{this.buttonDisabled=true;Modify(4)}" >复核
           </el-button>
         </template>
         
         <template v-if="cardData.ticketStatus>1">
            <a :href="printUrl(url,'supply_invoice_export', cardData.id)" target="_blank">
-            <el-button size="small"  style="margin-left: 10px;">导出开票清单</el-button>
+            <el-button size="mini"  style="margin-left: 10px;">导出开票清单</el-button>
           </a>
         </template>
 
         <template v-if="cardData.invoiceCancelStatus==0&&cardData.ticketStatus==4">
-          <el-button  style="margin-left: 10px;" size="small" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
+          <el-button  style="margin-left: 10px;" size="mini" :disabled="buttonDisabled||!$haspermission('salesinvoicecheckreview')"
               @click="()=>{this.buttonDisabled=true;this.Modify(-1)}" >作废申请
           </el-button>
         </template>

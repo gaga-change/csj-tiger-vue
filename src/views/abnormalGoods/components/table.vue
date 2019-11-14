@@ -1,7 +1,7 @@
 <template>
     <el-table
     :data="tableData"
-     size="small"
+     size="mini"
      align="center"
      style="width: 100%">
 

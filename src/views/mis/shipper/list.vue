@@ -2,13 +2,13 @@
   <div class="carrier">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-        <el-button type="primary" size="small" @click="submit('addWarehouse')">确定</el-button>
+        <el-button type="primary" size="mini" @click="submit('addWarehouse')">确定</el-button>
       </template>
     </sticky>
       <search @submit="submit" :searchForm="searchForm"></search>
       <div class="operationitem">
            <router-link :to="`/shipper/add?time=${moment().valueOf()}`">
-                <el-button type="primary" size="small">增加货主</el-button>
+                <el-button type="primary" size="mini">增加货主</el-button>
             </router-link>
       </div>
 
@@ -28,7 +28,7 @@
          width="600px"
         :before-close="()=>this.handleClose('warehouse')">
         <div class="btnBox" style="margin-bottom:12px">
-          <el-button type="primary" size="small"  @click="showAddDialog('addWarehouse')">重新关联</el-button>
+          <el-button type="primary" size="mini"  @click="showAddDialog('addWarehouse')">重新关联</el-button>
         </div> 
         <web-pagination-table 
           :loading="false"

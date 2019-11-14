@@ -7,7 +7,7 @@
             <el-input
               type="text"
               v-model.trim="form.skuName"
-              size="small"
+              size="mini"
               class="inputstyle"
               placeholder="请输入商品名称"
             ></el-input>
@@ -18,7 +18,7 @@
             <el-input
               type="text"
               v-model.trim="form.brandName"
-              size="small"
+              size="mini"
               class="inputstyle"
               placeholder="请输入品牌"
             ></el-input>
@@ -29,7 +29,7 @@
             <el-input
               type="text"
               v-model.trim="form.skuFormat"
-              size="small"
+              size="mini"
               class="inputstyle"
               placeholder="请输入规格"
             ></el-input>
@@ -40,7 +40,7 @@
             <el-select
               v-model="form.ownerCode"
               clearable
-              size="small"
+              size="mini"
               placeholder="请选择货主"
             >
               <el-option
@@ -62,7 +62,7 @@
             <el-date-picker
               v-model="form.createDate"
               type="daterange"
-              size="small"
+              size="mini"
               align="right"
               style="width:220px"
               ref="timepicker"
@@ -77,10 +77,10 @@
         </el-col>
       </el-row>
       <el-row type="flex" justify="start">
-        <el-button type="primary" size="small" @click="searchSubmit"
+        <el-button type="primary" size="mini" @click="searchSubmit"
           >查询</el-button
         >
-        <el-button size="small" @click="searchReset">重置</el-button>
+        <el-button size="mini" @click="searchReset">重置</el-button>
       </el-row>
     </el-form>
   </el-card>

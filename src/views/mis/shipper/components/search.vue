@@ -4,13 +4,13 @@
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主编码:">
-              <el-input v-model="searchForm.货主编码" placeholder="请输入货主编码" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.货主编码" placeholder="请输入货主编码" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主名称:">
-              <el-input v-model="searchForm.货主名称" placeholder="请输入货主名称" size="small" class="formitem"></el-input>
+              <el-input v-model="searchForm.货主名称" placeholder="请输入货主名称" size="mini" class="formitem"></el-input>
             </el-form-item>
           </el-col>
 

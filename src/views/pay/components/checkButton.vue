@@ -1,9 +1,9 @@
 <template>
   <span>
-     <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
+     <el-button  style="margin-left: 10px;" size="mini"  :disabled="buttonDisabled||!$haspermission('paymentCheck')" v-loading="buttonDisabled" type="primary"
             @click="Modify('payCheck')">审核
           </el-button>
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
+          <el-button  style="margin-left: 10px;" size="mini"  :disabled="buttonDisabled||!$haspermission('paymentReject')" v-loading="buttonDisabled" type="primary"
               @click="Modify('payReject')">驳回
           </el-button>  
   </span>

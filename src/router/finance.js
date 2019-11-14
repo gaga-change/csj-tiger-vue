@@ -188,7 +188,7 @@ export default [
         component: _import('serviceCharge/serviceChargePick'),
         name: 'serviceChargePick',
         meta: {
-          title: '收派服务费',
+          title: '附加收支管理',
           noCache: true,
         }
       },

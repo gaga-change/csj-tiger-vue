@@ -8,7 +8,7 @@
         :data="!usePagination?allTableData:tableData"
          @current-change="handleCurrentRedioChange"
         :highlight-current-row="highlightCurrentRow"
-         size="small"
+         size="mini"
         :height="height"
         :max-height="maxHeight"
         :border="border"
@@ -68,7 +68,7 @@
         :current-page.sync="currentPage"
         :page-sizes="[...pageSizes,total]"
         :page-size="pageSize"
-        size="small"
+        size="mini"
         :layout="layout"
         :total="total">
       </el-pagination>
