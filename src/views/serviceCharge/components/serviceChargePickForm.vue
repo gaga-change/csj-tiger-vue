@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title="收派服务费"
+      title="附加收支管理"
       :visible="visible"
       width="80%"
       @close="close"
@@ -531,7 +531,7 @@ export default {
         _addressArea: undefined,
         dispatchType: null, // 配送类型
         consoildatorCode: null, // 承运商编码
-        chargeType: null, // 计费方式
+        chargeType: 2, // 计费方式
         boxQty: undefined, // 箱数
         skuWeight: undefined, // 重量
         skuVolume: undefined, // 体积
@@ -735,6 +735,7 @@ export default {
         this.$nextTick(() => {
           this.$refs['searchForm'].resetFields()
           this.expenseList = []
+          this.searchForm.chargeType = 2
           this.searchForm.expenseCodeArr = [{
             expenseCode: undefined,
             expenseAmt: undefined,
