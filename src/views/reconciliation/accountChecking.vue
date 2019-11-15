@@ -30,7 +30,7 @@
         <el-button
           type="primary"
           size="mini"
-          @click="handleCreate"
+          @click="handelDel"
         >
           删除
         </el-button>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { queryStatementList, selectAllConsolidator } from '@/api'
+import { queryStatementList, selectAllConsolidator, batchDeleteStatement } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
   { label: '承运商编码', prop: 'consoildatorCode', width: 140 },
@@ -71,6 +71,7 @@ export default {
       // 可选 附加查询条件
       appendSearchParams: {},
       selectRows: [],
+      delLoading: false,
     }
   },
   created() {
@@ -113,6 +114,20 @@ export default {
     /** 新建 */
     handleCreate() {
       this.$router.push({ path: '/qualityTesting/create' })
+    },
+    /** 删除 */
+    handelDel() {
+      if (!this.selectRows.length) {
+        return this.$message.warning('请勾选对账单')
+      }
+      this.delLoading = true
+      batchDeleteStatement({
+        statementIdList: this.selectRows.map(v => v.id)
+      }).then(res => {
+        this.delLoading = false
+        if (!res) return
+        this.$message.success('删除成功！')
+      })
     }
   }
 }

@@ -28,3 +28,5 @@ export const queryStatementList = params => http.get(`/webApi/consoil/statement/
 export const queryCostSattleList = params => http.get(`/webApi/consoil/statement/queryCostSattleList`, { params })
 /** 查询所有承运商 */
 export const selectAllConsolidator = params => http.get(`/webApi/consoil/statement/selectAllConsolidator`, { params })
+/** 承运商对账删除接口 */
+export const batchDeleteStatement = params => http.post(`/webApi/consoil/statement/batchDeleteStatement`, params)
