@@ -526,7 +526,7 @@ export default {
         if (data.ownerCode) {
           this.getCustomerInfo(data.ownerCode);
         }
-        ['busiBillNo', 'ownerCode', 'contractNo', 'orderTime', 'providerCode', 'planInWarehouseTime'].forEach(v => {
+        ['busiBillNo', 'ownerCode', 'contractNo', 'orderTime', 'providerCode', 'planInWarehouseTime', 'remarkInfo'].forEach(v => {
           searchForm[v] = data[v]
         })
         searchForm.detailItemList = data.items.map((v, i) => {
