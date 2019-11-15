@@ -23,7 +23,7 @@
         <el-button
           type="primary"
           size="mini"
-          @click="handleCreate"
+          @click="importFileVisible=true"
         >
           导入
         </el-button>
@@ -36,10 +36,15 @@
         </el-button>
       </template>
     </base-list>
+    <importFile
+      :visible.sync="importFileVisible"
+      @submited="getTableData()"
+    />
   </div>
 </template>
 
 <script>
+import importFile from './components/importFile'
 import { queryStatementList, selectAllConsolidator, batchDeleteStatement } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
@@ -63,6 +68,7 @@ const searchConfig = [
   { label: '配送单号', prop: 'dispatchNo' },
 ]
 export default {
+  components: { importFile },
   data() {
     return {
       tableConfig,
@@ -72,6 +78,7 @@ export default {
       appendSearchParams: {},
       selectRows: [],
       delLoading: false,
+      importFileVisible: false,
     }
   },
   created() {
