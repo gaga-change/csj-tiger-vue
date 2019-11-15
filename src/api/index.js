@@ -22,3 +22,11 @@ export const getCustomerInfoPage = params => http.post(`/webApi/customer/getCust
 export const addProduct = params => http.post(`/webApi/sku/info/add`, params)
 /** 首页获取待办事项 */
 export const todoList = params => http.get(`/webApi/todo/todo`, { params })
+/** 分页查询承运商外部对账列表 */
+export const queryStatementList = params => http.get(`/webApi/consoil/statement/queryStatementList`, { params })
+/** 承运商费用结算分页查询 */
+export const queryCostSattleList = params => http.get(`/webApi/consoil/statement/queryCostSattleList`, { params })
+/** 查询所有承运商 */
+export const selectAllConsolidator = params => http.get(`/webApi/consoil/statement/selectAllConsolidator`, { params })
+/** 承运商对账删除接口 */
+export const batchDeleteStatement = params => http.post(`/webApi/consoil/statement/batchDeleteStatement`, params)

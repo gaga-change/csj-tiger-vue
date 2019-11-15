@@ -14,7 +14,7 @@ const map = {
   },
   mutations: {
     SET_MAP: (state, config) => {
-      state.mapConfig = { ...state.mapConfig, ...config, loading: false }
+      state.mapConfig = { ...state.mapConfig, ...config }
     },
   },
 
@@ -22,6 +22,7 @@ const map = {
     // 获取枚举信息
     gitMap({ commit, state }) {
       config().then(res => {
+        res.loading = false
         commit('SET_MAP', res);
       }).catch(err => {
         console.error(err)

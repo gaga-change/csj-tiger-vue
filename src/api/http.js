@@ -8,8 +8,7 @@ let newAxios = axios.create({
   timeout: 15000 // 请求超时时间
 })
 
-// 响应拦截器
-newAxios.interceptors.response.use(function (response) {
+export function httpMiddler(response) {
   let data = response.data
   let message = data.message || data.errorMsg || ''
   // 系统异常提示（返回的数据为 null）
@@ -37,7 +36,10 @@ newAxios.interceptors.response.use(function (response) {
     data = null
   }
   return data
-}, function (error) {
+}
+
+// 响应拦截器
+newAxios.interceptors.response.use(httpMiddler, function (error) {
   let message = error.message
   if (message === 'timeout of 1500ms exceeded') message = '请求超时，请稍后再试！'
   Notification({
