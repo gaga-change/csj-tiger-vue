@@ -30,3 +30,5 @@ export const queryCostSattleList = params => http.get(`/webApi/consoil/statement
 export const selectAllConsolidator = params => http.get(`/webApi/consoil/statement/selectAllConsolidator`, { params })
 /** 承运商对账删除接口 */
 export const batchDeleteStatement = params => http.post(`/webApi/consoil/statement/batchDeleteStatement`, params)
+/** 承运商 加入 确认 移除结算 */
+export const addOrDeleteSattle = params => http.post(`/webApi/consoil/statement/addOrDeleteSattle`, params)

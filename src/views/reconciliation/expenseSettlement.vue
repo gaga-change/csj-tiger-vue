@@ -22,38 +22,40 @@
       <template slot="btns">
         <el-button
           type="primary"
-          size="mini"
-          @click="handleCreate"
+          @click="handleAdd"
         >
           加入结算表
         </el-button>
         <el-button
           type="primary"
-          size="mini"
-          @click="handleCreate"
+          @click="handleConfirm"
         >
           确定结算
         </el-button>
         <el-button
           type="primary"
-          size="mini"
-          @click="handleCreate"
+          @click="hanldeRemove"
         >
           从结算表中移除
         </el-button>
         <el-button
           type="primary"
-          size="mini"
-          @click="handleCreate"
+          @click="handlePreview"
         >
           去报表中预览
         </el-button>
       </template>
     </base-list>
+    <addSettlement
+      :visible.sync="addSettlementVisible"
+      :rows="selectRowsStatus0"
+      @submited="getTableData()"
+    />
   </div>
 </template>
 
 <script>
+import addSettlement from './components/addSettlement'
 import { queryCostSattleList, selectAllConsolidator } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
@@ -78,6 +80,7 @@ const searchConfig = [
   { label: '结算状态 ', prop: 'costSettlementStatus', type: 'enum', enum: 'costSettlementStatusEnum' },
 ]
 export default {
+  components: { addSettlement },
   data() {
     return {
       tableConfig,
@@ -86,12 +89,37 @@ export default {
       // 可选 附加查询条件
       appendSearchParams: {},
       selectRows: [],
+      addSettlementVisible: false,
+    }
+  },
+  computed: {
+    selectRowsStatus0() {
+      return this.selectRows.filter(v => v.costSettlementStatus === 0)
     }
   },
   created() {
     this.selectAllConsolidator()
   },
   methods: {
+    /** 加入结算 */
+    handleAdd() {
+      if (!this.selectRowsStatus0.length) {
+        return this.$message.warning('勾选项中没有未结算状态')
+      }
+      this.addSettlementVisible = true
+    },
+    /** 确定结算 */
+    handleConfirm() {
+
+    },
+    /** 从结算表中移除 */
+    hanldeRemove() {
+
+    },
+    /** 去报表中预览 */
+    handlePreview() {
+
+    },
     /** 获取所有承运商 */
     selectAllConsolidator() {
       selectAllConsolidator().then(res => {
