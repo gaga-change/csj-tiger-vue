@@ -158,10 +158,10 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           const { consoildatorCode } = this.formData
-          const consoildatorCodeName = this.mapConfig._consoildatorNameApi.find(v => v.key === consoildatorCode).value
+          const consoildatorName = this.mapConfig._consoildatorNameApi.find(v => v.key === consoildatorCode).value
           this.params = {
             consoildatorCode,
-            consoildatorCodeName
+            consoildatorName
           }
           if (this.fileList.length === 0) {
             return this.$message.warning('请导入文件！')
