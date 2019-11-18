@@ -69,7 +69,7 @@ const tableConfig = [
   { label: '物流单号', prop: 'logisticsOrderCode' },
   { label: '客户名称', prop: 'customerName' },
   { label: '客户地址', prop: 'dispatchAddr' },
-  { label: '件数', prop: 'packagesQty' },
+  { label: '件数', prop: 'boxQty' },
   { label: '重量', prop: 'skuWeight' },
   { label: '体积', prop: 'skuVolume' },
   { label: '运费', prop: 'dispatchCost' },

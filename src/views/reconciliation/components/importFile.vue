@@ -45,15 +45,23 @@
               :file-list="fileList"
               :limit="1"
               :auto-upload="false"
+              :before-upload="beforeUpload"
               :on-remove="handleRemove"
               :on-success="handleSuccess"
               :on-exceed="handleExceed"
               :on-change="handleChange"
             >
-              <el-link
-                size="small"
+              <el-button
+                slot="trigger"
                 type="primary"
-              >导入账单</el-link>
+              >选取文件</el-button>
+              <div
+                slot="tip"
+                class="el-upload__tip"
+              >只能上传xls和xlsx文件,文件最大不能超过5M。<a
+                  href="/static/templet/accountChecking.xlsx"
+                  style="color: #409EFF;"
+                >下载模板</a></div>
             </el-upload>
           </el-form-item>
         </el-form>
@@ -118,6 +126,12 @@ export default {
   created() {
   },
   methods: {
+    beforeUpload(file) {
+      if (file.size > 5000 * 1000) {
+        this.$message.error('上传附件不能大于5M')
+        return false
+      }
+    },
     handleRemove(file, fileList) {
       this.fileList = fileList
     },
@@ -136,7 +150,8 @@ export default {
       this.close()
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      this.$message.warning(`当前限制选择上传 1 个文件`)
     },
     /** 确定 */
     confirm() {
@@ -160,6 +175,7 @@ export default {
     },
     /** 关闭弹窗 */
     close() {
+      this.$refs['form'] && this.$refs['form'].resetFields()
       this.visible && this.$emit('update:visible', false)
     },
     handleClose(done) {
