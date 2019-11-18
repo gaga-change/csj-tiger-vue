@@ -146,7 +146,7 @@ export default {
       this.hanldeRemoveLoading = true
       addOrDeleteSattle({
         flag: 2,
-        voList: rows.map(v => ({
+        voList: this.selectRows.map(v => ({
           id: v.id,
           tag: v.tag
         }))
@@ -159,7 +159,7 @@ export default {
     },
     /** 去报表中预览 */
     handlePreview() {
-
+      this.$message('功能暂未开通')
     },
     /** 获取所有承运商 */
     selectAllConsolidator() {
