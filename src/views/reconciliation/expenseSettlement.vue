@@ -28,6 +28,7 @@
         </el-button>
         <el-button
           type="primary"
+          :loading="handleConfirmLoading"
           @click="handleConfirm"
         >
           确定结算
@@ -35,6 +36,7 @@
         <el-button
           type="primary"
           @click="hanldeRemove"
+          :loading="hanldeRemoveLoading"
         >
           从结算表中移除
         </el-button>
@@ -56,7 +58,7 @@
 
 <script>
 import addSettlement from './components/addSettlement'
-import { queryCostSattleList, selectAllConsolidator } from '@/api'
+import { queryCostSattleList, selectAllConsolidator, addOrDeleteSattle } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
   { label: '结算状态', prop: 'costSettlementStatus', type: 'enum', enum: 'costSettlementStatusEnum' },
@@ -90,6 +92,8 @@ export default {
       appendSearchParams: {},
       selectRows: [],
       addSettlementVisible: false,
+      handleConfirmLoading: false,
+      hanldeRemoveLoading: false,
     }
   },
   computed: {
@@ -103,6 +107,9 @@ export default {
   methods: {
     /** 加入结算 */
     handleAdd() {
+      if (!this.selectRows.length) {
+        return this.$message.warning('请勾选列表项')
+      }
       if (!this.selectRowsStatus0.length) {
         return this.$message.warning('勾选项中没有未结算状态')
       }
@@ -110,11 +117,45 @@ export default {
     },
     /** 确定结算 */
     handleConfirm() {
-
+      if (!this.selectRows.length) {
+        return this.$message.warning('请勾选列表项')
+      }
+      const rows = this.selectRows.filter(v => v.costSettlementStatus === 0 || v.costSettlementStatus === 1)
+      if (!rows) {
+        return this.$message.warning('勾选项中没有未结算或结算中状态')
+      }
+      this.handleConfirmLoading = true
+      addOrDeleteSattle({
+        flag: 1,
+        voList: rows.map(v => ({
+          id: v.id,
+          tag: v.tag
+        }))
+      }).then(res => {
+        this.handleConfirmLoading = false
+        if (!res) return
+        this.$message.success('操作成功！')
+        this.getTableData()
+      })
     },
     /** 从结算表中移除 */
     hanldeRemove() {
-
+      if (!this.selectRows.length) {
+        return this.$message.warning('请勾选列表项')
+      }
+      this.hanldeRemoveLoading = true
+      addOrDeleteSattle({
+        flag: 2,
+        voList: rows.map(v => ({
+          id: v.id,
+          tag: v.tag
+        }))
+      }).then(res => {
+        this.hanldeRemoveLoading = false
+        if (!res) return
+        this.$message.success('操作成功！')
+        this.getTableData()
+      })
     },
     /** 去报表中预览 */
     handlePreview() {

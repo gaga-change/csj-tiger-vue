@@ -60,7 +60,7 @@ export const costSettlementStatusEnum = [
     value: 0
   },
   {
-    name: '结算种',
+    name: '结算中',
     value: 1
   },
   {
