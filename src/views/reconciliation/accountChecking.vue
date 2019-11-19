@@ -139,6 +139,7 @@ export default {
         this.delLoading = false
         if (!res) return
         this.$message.success('删除成功！')
+        this.getTableData()
       })
     }
   }
