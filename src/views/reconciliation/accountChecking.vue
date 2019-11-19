@@ -61,6 +61,11 @@ const tableConfig = [
   { label: '签回单费', prop: 'signAmt' },
   { label: '附加费用', prop: 'extraAmt' },
   { label: '结算金额', prop: 'settlementAmt' },
+  { label: '结算方式', prop: 'settlementWay' },
+  { label: '省份', prop: 'sendProvince' },
+  { label: '城市', prop: 'sendCity' },
+  { label: '收件人', prop: 'recieverName' },
+  { label: '产品类型', prop: 'productType' },
 ]
 const searchConfig = [
   { label: '承运商', prop: 'consoildatorCode', type: 'enum', enum: '_consoildatorNameApi' },
