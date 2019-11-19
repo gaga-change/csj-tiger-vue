@@ -113,6 +113,11 @@ export default {
       if (!this.selectRowsStatus0.length) {
         return this.$message.warning('勾选项中没有未结算状态')
       }
+      let consoildatorCodes = this.selectRowsStatus0.map(v => v.consoildatorCode)
+      consoildatorCodes = [...new Set(consoildatorCodes)]
+      if (consoildatorCodes.length > 1) {
+        return this.$message.warning('请选择同一家供应商的单据进行结算')
+      }
       this.addSettlementVisible = true
     },
     /** 确定结算 */
