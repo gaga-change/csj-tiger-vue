@@ -125,9 +125,9 @@ export default {
       if (!this.selectRows.length) {
         return this.$message.warning('请勾选列表项')
       }
-      const rows = this.selectRows.filter(v => v.costSettlementStatus === 0 || v.costSettlementStatus === 1)
-      if (!rows) {
-        return this.$message.warning('勾选项中没有未结算或结算中状态')
+      const rows = this.selectRows.filter(v => v.costSettlementStatus === 1)
+      if (!rows.length) {
+        return this.$message.warning('勾选项中没有结算中状态')
       }
       this.handleConfirmLoading = true
       addOrDeleteSattle({
@@ -148,10 +148,14 @@ export default {
       if (!this.selectRows.length) {
         return this.$message.warning('请勾选列表项')
       }
+      const rows = this.selectRows.filter(v => v.costSettlementStatus === 1)
+      if (!rows.length) {
+        return this.$message.warning('勾选项中没有结算中状态')
+      }
       this.hanldeRemoveLoading = true
       addOrDeleteSattle({
         flag: 2,
-        voList: this.selectRows.map(v => ({
+        voList: this.rows.map(v => ({
           id: v.id,
           tag: v.tag
         }))
