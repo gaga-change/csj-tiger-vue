@@ -155,7 +155,7 @@ export default {
       this.hanldeRemoveLoading = true
       addOrDeleteSattle({
         flag: 2,
-        voList: this.rows.map(v => ({
+        voList: rows.map(v => ({
           id: v.id,
           tag: v.tag
         }))
