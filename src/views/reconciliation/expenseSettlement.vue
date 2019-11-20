@@ -72,8 +72,9 @@ const tableConfig = [
   { label: '件数', prop: 'boxQty' },
   { label: '重量', prop: 'skuWeight' },
   { label: '体积', prop: 'skuVolume' },
-  { label: '运费', prop: 'dispatchCost' },
-  { label: '运费区分', prop: 'expenseName' },
+  { label: '运费', prop: 'logisticsFare' },
+  { label: '费用区分', prop: 'expenseName' },
+  { label: '费用金额', prop: 'expenseAmt' },
 ]
 const searchConfig = [
   { label: '承运商', prop: 'consoildatorCode', type: 'enum', enum: '_consoildatorNameApi' },
