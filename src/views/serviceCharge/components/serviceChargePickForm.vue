@@ -94,7 +94,6 @@
         <el-form-item
           label="承运商"
           prop="consoildatorCode"
-          :rules="[{ required: true, message:'请选择承运商' }]"
         >
           <el-select
             style="width: 200px;"
