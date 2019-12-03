@@ -78,7 +78,7 @@ const tableConfig = [
 ]
 const searchConfig = [
   { label: '承运商', prop: 'consoildatorCode', type: 'enum', enum: '_consoildatorNameApi' },
-  { label: '出库日期', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea' },
+  { label: '出库日期', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date('2019-10-01'), new Date()] },
   { label: '物流单号', prop: 'logisticsOrderCode' },
   { label: '结算状态 ', prop: 'costSettlementStatus', type: 'enum', enum: 'costSettlementStatusEnum' },
 ]
