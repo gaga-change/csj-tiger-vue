@@ -8,6 +8,7 @@ export const tableConfig = [
   { label: '供应商商品名称', prop: 'customerSkuName' },
   { label: '订货进价', prop: 'inPrice' },
   { label: '金额', prop: 'planInAmt' },
+  { label: '备注', prop: 'remarkInfo' }
 ];
 
 export const infoConfig = [
@@ -98,7 +99,8 @@ export const addtable_config = [
   { label: '数量', prop: 'planInQty', useEdit: true, width: 180 },
   { label: '商品供应商编码', prop: 'providerSkuCode' },
   { label: '商品供应商名称', prop: 'providerSkuName' },
-  { label: '进货价', prop: 'purchasePrice' }
+  { label: '进货价', prop: 'purchasePrice' },
+  { label: '备注', prop: 'remarkInfo' }
 ]
 
 export const printingTable_config = [

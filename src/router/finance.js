@@ -19,6 +19,20 @@ export default [
         hidden: false,
       },
       {
+        name: 'expenseSettlement',
+        path: 'expenseSettlement',
+        meta: { title: '承运商费用结算', noCache: true },
+        component: _import('reconciliation/expenseSettlement'),
+        hidden: false,
+      },
+      {
+        name: 'accountChecking',
+        path: 'accountChecking',
+        meta: { title: '承运商外部对账单', noCache: true },
+        component: _import('reconciliation/accountChecking'),
+        hidden: false,
+      },
+      {
         name: 'reconciliationAdd',
         path: 'add',
         meta: { title: '新增对账单', noCache: false },

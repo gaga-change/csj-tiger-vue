@@ -28,8 +28,8 @@
               size="mini"
             >
               <el-option
-                v-for="item in mapConfig[item.enum]"
-                :key="item.key"
+                v-for="(item, index) in mapConfig[item.enum]"
+                :key="index"
                 :label="item.value"
                 :value="item.key"
               >
