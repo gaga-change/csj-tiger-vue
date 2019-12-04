@@ -251,15 +251,13 @@ export default {
         carrierProjectContact({consoildatorCode:this.submitInfo.consoildatorCode,consoildatorName:this.submitInfo.consoildatorName,projectList:submitData}).then(res=>{
           if (res.success) {
             this.$message.success('关联成功')
-            this.fetchData()
+            this.fetch()
             this.projectVisible=false
             this.$refs['linkTable'].clearSelection()
             this.linkData=[]
           } else {
             this.$message.error('操作失败')
           }
-        }).catch(err => {
-          this.$message.error('操作失败')
         })
       }else{
         this.$refs['linkTable'].clearSelection()
