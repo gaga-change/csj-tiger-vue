@@ -299,7 +299,7 @@ export default {
       }
     },
     firstprojectInfo() {
-      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize }).then(res => {
+      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize,projectStatus:1 }).then(res => {
         const result = res.data
         this.projectData = result && result.list
         this.projecttotal = result.total
@@ -310,7 +310,7 @@ export default {
       })
     },
     projectInfo() {
-      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize }).then(res => {
+      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize,projectStatus:1 }).then(res => {
         const result = res.data
         this.projectData = result && result.list
         this.projecttotal = result.total
