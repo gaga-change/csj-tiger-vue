@@ -129,7 +129,7 @@ export default {
     },
     /** 删除 */
     handleDelete(row) {
-      this.$delConfirm('此操作将永久删除改收派服务费配置, 是否继续?', () => serviceChargeBillDelete(row.id).then(res => {
+      this.$delConfirm('此操作将永久删除该收派服务费配置, 是否继续?', () => serviceChargeBillDelete(row.id).then(res => {
         if (!res) return
         this.$message.success('删除成功！')
         this.getTableData()
