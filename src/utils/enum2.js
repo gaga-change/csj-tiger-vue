@@ -53,3 +53,18 @@ export const toDoTypeEnum = [
     value: 1
   },
 ]
+// 承运商费用结算 - 承运商结算状态
+export const costSettlementStatusEnum = [
+  {
+    name: '未结算',
+    value: 0
+  },
+  {
+    name: '结算中',
+    value: 1
+  },
+  {
+    name: '已结算',
+    value: 2
+  }
+]

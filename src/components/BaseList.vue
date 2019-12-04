@@ -138,7 +138,12 @@ export default {
     let query = this.$route.query
     this.searchConfig.forEach(v => {
       if (v.default !== undefined && v.default !== null) {
-        initSearchParams[v.prop] = v.default
+        if (v.props && v.props.length) {
+          initSearchParams[v.props[0]] = new Date(v.default[0]).getTime()
+          initSearchParams[v.props[1]] = new Date(v.default[1]).getTime()
+        } else {
+          initSearchParams[v.prop] = v.default
+        }
       }
       if (query[v.prop]) {
         initSearchParams[v.prop] = query[v.prop]
