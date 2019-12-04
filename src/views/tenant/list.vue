@@ -117,6 +117,47 @@
         >取消</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="projectVisible"
+      width="600px"
+      title="关联项目部"
+    >
+      <el-table
+      :data="projectData"
+      border
+      size="small"
+      style="margin-bottom:12px"
+      @selection-change="handleSelectionChange"
+      ref="linkTable"
+    >
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
+      <el-table-column
+        label="项目部编码"
+        prop="projectCode"
+      ></el-table-column>
+      <el-table-column
+        label="项目部名称"
+        prop="projectName"
+      ></el-table-column>
+    </el-table>
+    <el-pagination
+      @size-change="handleProjectSizeChange"
+      @current-change="handleProjectCurrentPageChange"
+      :current-page="projectpageNum"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="projecttotal"
+    >
+    </el-pagination>
+    <div style="text-align:center;">
+      <el-button style="margin:10px" size="mini" @click="linkSubmit(false)">关闭</el-button>
+      <el-button type="primary" style="margin:10px" size="mini" @click="linkSubmit(true)">提交</el-button>
+    </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -126,6 +167,7 @@ import { listIndexConfig } from './components/config'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { tenantList, delTenant, effectTenant, saveOwnerWarehouse, ownerWarehouseList, configPush, configInfo } from '@/api/tenant'
+import { projectInfo, tenantProjectContact, tenantProjectInfo } from '@/api/mis'
 import moment from 'moment'
 export default {
   components: { SearchFrom, BaseTable },
@@ -157,7 +199,16 @@ export default {
         configList: [{ name: '商品', basicInfoType: 1, warehouseSysCodeList: [] }, { name: '供应商', basicInfoType: 3, warehouseSysCodeList: [] }, { name: '客户', basicInfoType: 4, warehouseSysCodeList: [] }]
       },
       configbtn: false,
-      configLoading: false
+      configLoading: false,
+      projectVisible:false,
+      projectData:[],
+      projectpageNum: 1,
+      projectpageSize: 10,
+      projecttotal: 0,
+      linkData:[],
+      submitInfo:null,
+      contactedData:[],
+      pageSize:10
     }
   },
   computed: {
@@ -234,14 +285,114 @@ export default {
               >
                 推送配置
               </a>
+              <a
+                onClick={() => {
+                  this.showProject(row)
+                }}
+                style={this.linkstyle}
+              >
+                关联项目部
+              </a>
             </div>
           )
         }
       }
     })
+    this.projectInfo()
   },
 
   methods: {
+     showProject(row){
+      this.projectVisible=true
+      this.submitInfo=row
+      this.getTenantProjectInfo(row.ownerCode)
+      this.projectpageNum = 1
+      this.projectInfo()
+    },
+    getTenantProjectInfo(val){
+      this.contactedData=[]
+      tenantProjectInfo({ownerCode:val}).then(res=>{
+        if (res.success) {
+          this.contactedData=res.data&&res.data.length>0?res.data:[]
+          this.checkedTable()
+        }else{
+          this.contactedData=[]
+        } 
+      }).catch(err=>{
+        this.contactedData=[]
+      })
+    },
+    checkedTable(){
+      if(this.contactedData && this.contactedData.length>0){
+        this.$refs.linkTable.clearSelection()
+        this.contactedData.map(item=>{
+          this.projectData.map(val=>{
+            if(val.projectCode==item.projectCode){
+              this.$refs.linkTable.toggleRowSelection(val,true)
+            }
+          })
+        })
+      }
+    },
+    projectInfo() {
+      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize }).then(res => {
+        const result = res.data
+        this.projectData = result && result.list
+        this.projecttotal = result.total
+        this.$nextTick(function () {
+          this.checkedTable()
+        })
+      }).catch(err => {
+      })
+    },
+    handleProjectSizeChange(val) {
+      this.projectpageSize = val
+      this.projectInfo()
+    },
+    handleProjectCurrentPageChange(val) {
+      this.projectpageNum = val
+      this.projectInfo()
+    },
+    handleSelectionChange(val){
+      if (val.length > 1) {
+        this.$refs.linkTable.clearSelection()
+        this.$refs.linkTable.toggleRowSelection(val.pop())
+       } else {
+        this.linkData = val
+      }
+    },
+    linkSubmit(val){
+      let isSubmit=val
+      if(isSubmit){
+        if(this.linkData.length<=0){
+          this.$message.error('请勾选选项')
+          return
+        }
+        let submitData=[]
+        this.linkData.map(item=>{
+          submitData.push({
+            projectCode:item.projectCode,
+            projectName:item.projectName
+          })
+        })
+        tenantProjectContact({ownerCode:this.submitInfo.ownerCode,ownerName:this.submitInfo.ownerName,projectList:submitData}).then(res=>{
+          if (res.success) {
+            this.$message.success('关联成功')
+            this.projectVisible=false
+            this.$refs['linkTable'].clearSelection()
+            this.linkData=[]
+          } else {
+            this.$message.error('操作失败')
+          }
+        }).catch(err => {
+          this.$message.error('操作失败')
+        })
+      }else{
+        this.$refs['linkTable'].clearSelection()
+        this.linkData=[]
+        this.projectVisible=false
+      }
+    },
     showConfig(row) {
       let rowdata = row
       this.configForm.isSync = row.isSync

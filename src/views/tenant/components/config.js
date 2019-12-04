@@ -8,7 +8,7 @@ export  const listIndexConfig=[ //list页配置
     { label:'创建者',prop:'createrName'},
     { label:'最后操作日期',prop:'gmtModify',type:'time',width:120,},
     { label:'最后操作者',prop:'modifierName'},
-    { label:'操作',useLink:true,fixed:'right',width:250},
+    { label:'操作',useLink:true,fixed:'right',width:340},
   ]
 
 
