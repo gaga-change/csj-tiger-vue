@@ -276,17 +276,19 @@
       let isSubmit=val
       if(isSubmit){
         this.currentContact()
-        if(this.contactedData.length<=0){
-          this.$message.error('请勾选选项')
-          return
-        }
+        // if(this.contactedData.length<=0){
+        //   this.$message.error('请勾选选项')
+        //   return
+        // }
         let submitData=[]
-        this.contactedData.map(item=>{
-          submitData.push({
-            projectCode:item.projectCode,
-            projectName:item.projectName
+        if(this.contactedData.length>0){
+          this.contactedData.map(item=>{
+            submitData.push({
+              projectCode:item.projectCode,
+              projectName:item.projectName
+            })
           })
-        })
+        }
         warehouseProjectContact({warehouseNo:this.submitInfo.warehouseNo,warehouseName:this.submitInfo.warehouseName,projectList:submitData}).then(res=>{
           if (res.success) {
             this.$message.success('关联成功')
