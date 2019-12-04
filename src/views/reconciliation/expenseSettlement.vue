@@ -2,6 +2,7 @@
   <div class="ComponentNameClass">
     <base-list
       ref="baseList"
+      :pageSizes="[10, 20, 30, 50, 500, 1000]"
       :tableConfig="tableConfig"
       :searchConfig="searchConfig"
       :api="listApi"
