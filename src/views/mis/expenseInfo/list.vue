@@ -315,7 +315,6 @@ export default {
         this.projectData = result && result.list
         this.projecttotal = result.total
         this.$nextTick(function () {
-          // this.currentContact()
           this.checkedTable()
         })
       }).catch(err => {
@@ -376,17 +375,19 @@ export default {
       let isSubmit=val
       if(isSubmit){
         this.currentContact()
-        if(this.contactedData.length<=0){
-          this.$message.error('请勾选选项')
-          return
-        }
+        // if(this.contactedData.length<=0){
+        //   this.$message.error('请勾选选项')
+        //   return
+        // }
         let submitData=[]
-        this.contactedData.map(item=>{
-          submitData.push({
-            projectCode:item.projectCode,
-            projectName:item.projectName
+        if(this.contactedData.length>0){
+          this.contactedData.map(item=>{
+            submitData.push({
+              projectCode:item.projectCode,
+              projectName:item.projectName
+            })
           })
-        })
+        }
         costProjectContact({costCode:this.submitId.costCode,costName:this.submitId.costName,projectList:submitData}).then(res=>{
           if (res.success) {
             this.$message.success('关联成功')

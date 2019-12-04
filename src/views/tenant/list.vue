@@ -364,17 +364,19 @@ export default {
     linkSubmit(val){
       let isSubmit=val
       if(isSubmit){
-        if(this.linkData.length<=0){
-          this.$message.error('请勾选选项')
-          return
-        }
+        // if(this.linkData.length<=0){
+        //   this.$message.error('请勾选选项')
+        //   return
+        // }
         let submitData=[]
-        this.linkData.map(item=>{
-          submitData.push({
-            projectCode:item.projectCode,
-            projectName:item.projectName
+        if(this.linkData.length>0){
+          this.linkData.map(item=>{
+            submitData.push({
+              projectCode:item.projectCode,
+              projectName:item.projectName
+            })
           })
-        })
+        }
         tenantProjectContact({ownerCode:this.submitInfo.ownerCode,ownerName:this.submitInfo.ownerName,projectList:submitData}).then(res=>{
           if (res.success) {
             this.$message.success('关联成功')
