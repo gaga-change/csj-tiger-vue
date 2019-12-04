@@ -102,18 +102,6 @@ export default {
                   启用
                 </a>
               )}
-              <a
-                onClick={() => {
-                  this.delete({ ids: [row.id], ownerCode: row.ownerCode })
-                }}
-                style={{
-                  color: '#3399ea',
-                  whiteSpace: 'nowrap',
-                  margin: '0 10px 0 0'
-                }}
-              >
-                删除
-              </a>
             </div>
           )
         }
