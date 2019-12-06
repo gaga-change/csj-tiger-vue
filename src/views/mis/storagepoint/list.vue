@@ -298,8 +298,6 @@
           } else {
             this.$message.error('操作失败')
           }
-        }).catch(err => {
-          this.$message.error('操作失败')
         })
       }else{
         this.$refs['linkTable'].clearSelection()

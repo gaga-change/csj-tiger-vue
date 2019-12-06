@@ -6,7 +6,7 @@ export  const storagepointListConfig=[
   { label:'仓库类型',prop:'warehouseType',useApi:true,type:'getWarehouseType'},
   { label:'区域中心',prop:'regionalCenter',useApi:true,type:'getRegional'},
   { label:'启用状态',prop:'warehouseState',useLocalEnum:true,type:'warehouseStateEnum'},
-  { label:'操作',fixed:'right',useLink:true,width:220},
+  { label:'操作',fixed:'right',useLink:true,width:260},
 ]
 
 export  const storagepointDetailConfig=[
