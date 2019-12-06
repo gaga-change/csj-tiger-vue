@@ -386,8 +386,6 @@ export default {
           } else {
             this.$message.error('操作失败')
           }
-        }).catch(err => {
-          this.$message.error('操作失败')
         })
       }else{
         this.$refs['linkTable'].clearSelection()
@@ -487,16 +485,19 @@ export default {
     showStore(row) {
       this.dialogVisible = true
       this.storeLoading = true
+      this.addForm.warehouses=[]
+      this.addForm.ownerCode = row.ownerCode
       ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
-        let result = res.data.map(v => v.warehouseCode);
-        let arr = [];
-        result.forEach(v => {
-          if (!arr.includes(v)) {
-            arr.push(v)
-          }
-        })
-        this.addForm.warehouses = arr
-        this.addForm.ownerCode = row.ownerCode
+        if(res.data && res.data.length>0){
+          let result = res.data.map(v => v.warehouseCode);
+          let arr = [];
+          result.forEach(v => {
+            if (!arr.includes(v)) {
+              arr.push(v)
+            }
+          })
+          this.addForm.warehouses = arr
+        }
         this.storeLoading = false
       }).catch(err => {
         console.error(err)
