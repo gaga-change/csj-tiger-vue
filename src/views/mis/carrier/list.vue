@@ -228,6 +228,7 @@ export default {
     },
     handleProjectCurrentPageChange(val) {
       this.projectpageNum = val
+      this.currentContact()
       this.projectInfo()
     },
     handleSelectionChange(val){

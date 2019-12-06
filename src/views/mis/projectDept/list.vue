@@ -230,7 +230,6 @@ export default {
             this.$message.error('操作失败')
           }
         }).catch(err => {
-          this.$message.error('操作失败')
           loading.close()
         })
       })
