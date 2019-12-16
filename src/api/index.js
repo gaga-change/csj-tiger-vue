@@ -32,3 +32,9 @@ export const selectAllConsolidator = params => http.get(`/webApi/consoil/stateme
 export const batchDeleteStatement = params => http.post(`/webApi/consoil/statement/batchDeleteStatement`, params)
 /** 承运商 加入 确认 移除结算 */
 export const addOrDeleteSattle = params => http.post(`/webApi/consoil/statement/addOrDeleteSattle`, params)
+/** 查询模板列表 */
+export const queryTemplateList = params => http.post(`/webApi/template/queryTemplateList`, params)
+/** 承运商列表 */
+export const consoilInfoList = params => http.get(`webApi/consoil/info/list`, { params })
+/** 删除模板 */
+export const deleteTemplateInfo = params => http.get(`/webApi/template/deleteTemplateInfo`, { params })
