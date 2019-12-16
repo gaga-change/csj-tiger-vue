@@ -10,6 +10,7 @@ import Basics from './basics' //基本信息
 import Logistics from './logistics' //物流
 // import Report from './report' //报表
 import Finance from './finance' //财务
+import freight from './freight' //物流费用
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
@@ -42,6 +43,7 @@ export const asyncRouterMap = [
   ...Logistics,
   // ...Report,
   ...Finance,
+  ...freight,
   {
     path: '/err',
     component: Layout,
