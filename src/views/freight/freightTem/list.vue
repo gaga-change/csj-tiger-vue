@@ -48,16 +48,16 @@
 import { queryTemplateList, consoilInfoList, deleteTemplateInfo } from '@/api'
 const tableConfig = [
   { label: '模板名称', prop: 'templateName' },
-  { label: '承运商 ', prop: 'carrierName' },
-  { label: '运输种类', prop: 'type' },
+  { label: '承运商 ', prop: 'consoildatorName' },
+  { label: '运输种类', prop: 'templateType', type: 'enum', enum: 'getTemplateTransport' },
   { label: '出发地', prop: 'startPlace' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
   { label: '创建者', prop: 'createrName' },
 ]
 
 const searchConfig = [
-  { label: '承运商 ', prop: 'carrierCode', type: 'enum', enum: '_consoilInfoList_state31' },
-  { label: '运输种类', prop: 'type', type: 'enum', enum: 'warehouseAreaNatureEnum' },
+  { label: '承运商 ', prop: 'consoildatorName', type: 'enum', enum: '_consoilInfoList_state31' },
+  { label: '运输种类', prop: 'templateType', type: 'enum', enum: 'getTemplateTransport' },
 ]
 
 export default {
