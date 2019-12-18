@@ -20,3 +20,22 @@ export  const carrierDetailConfig=[
   { title:'合同结束日期',prop:'contractEndDate',type:'time'},
   { title:'支付约定',prop:'payPromise'}
 ]
+
+export  const quationListConfig=[
+  { label:'序号',type:'index',width:50},
+  { label:'货主',prop:'ownerName'},
+  { label:'创建日期',prop:'gmtCreate',type:'time'},
+  { label:'创建人',prop:'createrName'},
+  { label:'操作',fixed:'right',useLink:true,width:220}
+]
+
+export  const quationTemConfig=[
+  { label:'序号',type:'index',width:50},
+  { label:'模板名称',prop:'templateName'},
+  { label:'承运商',prop:'carrierName'},
+  { label:'运输种类',prop:'type',apiEnum:'getTemplateTransport'},
+  { label:'出发地',prop:'startPlace'},
+  { label:'目的地',prop:'endPlaseList'},
+  { label:'重货计费规则',prop:'heavyRulesList'},
+  { label:'轻货计费规则',prop:'lightRulesList'}
+]

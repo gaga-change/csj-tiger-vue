@@ -41,6 +41,13 @@ export default [
         meta: { title: '报价', noCache: false }
       },
       {
+        path: 'detail',
+        component: _import('freight/quationList/detail'),
+        name: 'quationInfoDetail',
+        hidden: true,
+        meta: { title: '报价详情', noCache: false }
+      },
+      {
         path: 'list',
         component: _import('freight/quationList/list'),
         name: 'quationInfoList',
