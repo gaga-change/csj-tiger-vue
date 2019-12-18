@@ -5,7 +5,7 @@ export const getInfo = params => http.get(`/webApi/base/user/info`, { params })
 /** 款项列表 */
 export const queryLogisticsExpenseAll = params => http.get(`/webApi/logistics-expense/query-logistics-expense-all`, { params })
 /** 收派服务费 */
-export const selectLogisticsExpense = params => http.get(`/webApi/logistics-expense/select-logistics-expense`, { params })
+export const selectLogisticsExpense = params => http.post(`/webApi/logistics-expense/select-logistics-expense`, params)
 /** 收派服务费明细 */
 export const serviceChargeBillSelectDetail = billId => http.get(`/webApi/serviceChargeBill/selectDetail/${billId}`)
 /** 收派服务费删除 */

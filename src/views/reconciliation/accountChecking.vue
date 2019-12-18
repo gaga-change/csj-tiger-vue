@@ -66,6 +66,7 @@ const tableConfig = [
   { label: '城市', prop: 'sendCity' },
   { label: '收件人', prop: 'recieverName' },
   { label: '产品类型', prop: 'productType' },
+  { label: '导入日期', prop: 'gmtCreate', type: 'time', format: 'YYYY-MM-DD' },
 ]
 const searchConfig = [
   { label: '承运商', prop: 'consoildatorCode', type: 'enum', enum: '_consoildatorNameApi' },
