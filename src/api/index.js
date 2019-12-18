@@ -38,3 +38,5 @@ export const queryTemplateList = params => http.post(`/webApi/template/queryTemp
 export const consoilInfoList = params => http.get(`webApi/consoil/info/list`, { params })
 /** 删除模板 */
 export const deleteTemplateInfo = params => http.get(`/webApi/template/deleteTemplateInfo`, { params })
+/** 新建模板 */
+export const saveTemplate = params => http.post(`/webApi/template/saveTemplate`, params)

@@ -80,40 +80,51 @@
             <th>操作</th>
           </tr>
           <tr
-            v-for="item in formData.costRulesList"
+            v-for="(item, index) in formData.costRulesList"
             :key="item.key"
           >
-            <td>
-              {{typeof formData.templateType}}
-              {{formData.templateType}}
-              <template v-if="formData.templateType == 0">
+            <td style="position: relative;padding-right: 30px;">
+              <template v-if="formData.templateType + '' === '0'">
                 {{item.checkProvinceListName}}
                 <el-link
+                  style="position: absolute;right: 5px;bottom: 5px;"
                   type="primary"
                   @click="handleEditPlace(item)"
-                >编辑 0</el-link>
+                >编辑</el-link>
               </template>
-              <template v-else>
+              <template v-else-if="formData.templateType + '' === '1'">
                 {{item.checkCityListName}}
                 <el-link
+                  style="position: absolute;right: 5px;bottom: 5px;"
                   type="primary"
                   @click="handleEditCity(item)"
-                  :disabled="typeof formData.templateType != 1"
-                >编辑 1</el-link>
+                >编辑</el-link>
+              </template>
+              <template v-else>
+                <span style="color:#909399;font-size:12px">请先选择运输种类</span>
               </template>
             </td>
-            <td>
-              123
-              <el-link type="primary">编辑</el-link>
+            <td style="position: relative;padding-right: 30px;">
+              <span style="white-space: pre;">{{item.heavy.rulesListName}}</span>
+              <el-link
+                style="position: absolute;right: 5px;bottom: 5px;"
+                type="primary"
+                @click="selectedRow=item.heavy;addCostRuleVisible=true"
+              >编辑</el-link>
             </td>
-            <td>
-              123
-              <el-link type="primary">编辑</el-link>
+            <td style="position: relative;padding-right: 30px;">
+              <span style="white-space: pre;">{{item.light.rulesListName}}</span>
+              <el-link
+                style="position: absolute;right: 5px;bottom: 5px;"
+                type="primary"
+                @click="selectedRow=item.light;addCostRuleVisible=true"
+              >编辑</el-link>
             </td>
             <td>
               <el-link
                 type="warning"
                 icon="el-icon-delete"
+                @click="handleDel(item, index)"
               >删除</el-link>
             </td>
           </tr>
@@ -122,6 +133,7 @@
           <el-link
             type="primary"
             icon="el-icon-plus"
+            @click="handleAdd"
           >增加目的地运费</el-link>
         </div>
       </div>
@@ -163,47 +175,68 @@
       :row="selectedRow"
       @submited="handleSelectCity"
     />
+    <addCostRule
+      :visible.sync="addCostRuleVisible"
+      :row="selectedRow"
+      @submited="handleCostRule"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { Area } from '@/utils/area'
-import { consoilInfoList } from '@/api'
+import { Area } from '@/utils/area2'
+import { consoilInfoList, saveTemplate } from '@/api'
 import addProvince from './components/addProvince'
 import addCity from './components/addCity'
-
+import addCostRule from './components/addCostRule'
+const getItem = () => (
+  {
+    key: Date.now(),
+    endPlaseList: '',
+    checkProvinceList: [],
+    checkProvinceListName: '',
+    checkCityList: [],
+    checkCityListName: '',
+    heavy: {
+      rulesList: [],
+      rulesListName: '',
+      typeName: '公斤',
+      lowPrice: undefined,
+    },
+    light: {
+      rulesList: [],
+      rulesListName: '',
+      typeName: '方',
+      lowPrice: undefined,
+    }
+  }
+)
 export default {
-  components: { addProvince, addCity },
+  components: { addProvince, addCity, addCostRule },
   data() {
     return {
       Area,
       loading: false,
       addProvinceVisible: false,
       addCityVisible: false,
+      addCostRuleVisible: false,
       selectedRow: null,
       formData: {
         templateName: '',
         consoildatorCode: '',
-        consoildatorNam: '',
+        consoildatorName: '',
         templateType: undefined,
         startPlace: '',
         remarkInfo: '',
         costRulesList: [
-          {
-            key: Date.now(),
-            endPlaseList: '',
-            checkProvinceList: [],
-            checkProvinceListName: '',
-            checkCityList: [],
-            checkCityListName: '',
-          }
+          getItem()
         ],
       },
       rules: {
         templateName: [{ required: true, message: '必填项', trigger: ['blur', 'change'] },],
         consoildatorCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] },],
-        consoildatorNam: [{ required: true, message: '必填项', trigger: ['blur', 'change'] },],
+        consoildatorName: [{ required: true, message: '必填项', trigger: ['blur', 'change'] },],
         templateType: [{ required: true, message: '必填项', trigger: ['blur', 'change'] },],
         startPlace: [{ required: true, message: '必填项', trigger: ['blur', 'change'] },],
       },
@@ -220,27 +253,79 @@ export default {
   },
   methods: {
     confirm() {
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$refs['form'].validate((valid) => {
         if (valid) {
           let params = this.$copy(this.formData)
-          params.startPlace = params.startPlace.join('/')
-          // this.loading = true
-          // let params = { ...this.formData }
-          // for (let key in params) {
-          //   if (params[key] === undefined) {
-          //     params[key] = ''
-          //   }
-          // }
-          // saveApi(params).then(res => {
-          //   this.loading = false
-          //   if (!res) return
-          //   this.$message.success('操作成功！')
-          //   this.$emit('submited')
-          //   this.close()
-          // })
-          console.log(params)
+          params.startPlace = params.startPlace.join('_')
+          if (params.costRulesList.length == 0) {
+            return this.$message.error('请填写目的地运费！')
+          }
+          for (let i = 0; i < params.costRulesList.length; i++) {
+            console.log(params, params.costRulesList)
+            let item = params.costRulesList[i]
+            item.groupId = i + 1
+            if (params.templateType == 0) {
+              item.endPlaseList = item.checkProvinceList
+            } else {
+              item.endPlaseList = item.checkCityList
+            }
+            if (item.endPlaseList.length == 0) {
+              return this.$message.error('请选择目的地！')
+            }
+            if (item.heavy.rulesList.length == 0) {
+              return this.$message.error('请完善计费规则！')
+            }
+            item.heavyRulesList = item.heavy.rulesList
+            if (item.light.rulesList.length == 0) {
+              return this.$message.error('请完善计费规则！')
+            }
+            item.lightRulesList = item.light.rulesList
+            item.heavyLowPrice = item.heavy.lowPrice
+            item.lightLowPrice = item.light.lowPrice
+            delete item.light
+            delete item.heavy
+            delete item.checkProvinceList
+            delete item.checkProvinceListName
+            delete item.checkCityList
+            delete item.checkCityListName
+            delete item.key
+          }
+          this.loading = true
+          saveTemplate(params).then(res => {
+            this.loading = false
+            if (!res) return
+            this.$message({
+              type: 'success',
+              message: '操作成功,即将跳转到列表页！',
+              duration: 1500,
+              onClose: () => {
+                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                  this.$router.push({
+                    path: `/freight/freightTem/list`,
+                  })
+                }).catch(err => {
+                  console.error(err)
+                })
+              }
+            })
+          })
         }
       })
+    },
+    /** 增加一行 */
+    handleAdd() {
+      this.formData.costRulesList.push(getItem())
+    },
+    /** 删除某行 */
+    handleDel(item, index) {
+      this.formData.costRulesList.splice(index, 1)
+    },
+    /** 规则选择结束 */
+    handleCostRule({ rulesList, rulesListName, lowPrice }) {
+      this.selectedRow.rulesList = rulesList
+      this.selectedRow.rulesListName = rulesListName
+      this.selectedRow.lowPrice = lowPrice
     },
     /** 城市选择结束 */
     handleSelectCity({ checkCityList, checkCityListNames }) {
@@ -263,7 +348,7 @@ export default {
       this.addProvinceVisible = true
     },
     consoildatorCodeChange(val) {
-      this.formData.consoildatorNam = this.mapConfig['_consoilInfoList_state31'].find(v => v.key === val).value
+      this.formData.consoildatorName = this.mapConfig['_consoilInfoList_state31'].find(v => v.key === val).value
     },
     getConsoilInfoList() {
       consoilInfoList({

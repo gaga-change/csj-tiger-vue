@@ -92,7 +92,6 @@ export default {
       Object.keys(this.formData).forEach(key => {
         this.$set(this.formData, key, this.rowData[key] || [])
       })
-      console.log(this.$copy(this.formData))
     }
   },
   data() {
@@ -123,7 +122,7 @@ export default {
     confirm() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.loading = true
+          // this.loading = true
           let params = { ...this.formData }
           params.checkProvinceListNames = params.checkProvinceList.map(code => this.Area.find(v => v.value === code).label)
           this.$emit('submited', params)
