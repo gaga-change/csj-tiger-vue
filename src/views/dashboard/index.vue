@@ -52,6 +52,8 @@ export default {
           return <router-link to={{ path: linkTo, query: json }} style={{ color: '#3399ea' }}>{configItem.linkText ? configItem.linkText : cellValue}</router-link>
         }
       },
+      { label: '货主', prop: 'ownerName' },
+      { label: '外部订单号', prop: 'busiBillNo' },
       { label: '处理动作', prop: 'planState', type: 'enum', enum: 'getPlanState' },
       { label: '创建日期', prop: 'gmtCreate', type: 'time' },
     ]

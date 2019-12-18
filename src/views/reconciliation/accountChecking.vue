@@ -71,6 +71,8 @@ const searchConfig = [
   { label: '承运商', prop: 'consoildatorCode', type: 'enum', enum: '_consoildatorNameApi' },
   { label: '寄件日期', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea' },
   { label: '配送单号', prop: 'dispatchNo' },
+  { label: '导入日期', prop: 'importTimeArea', props: ['createBeginDate', 'createEndDate'], type: 'timeArea' },
+  { label: '结算金额', prop: 'settlement', props:['minSettlementAmt', 'maxSettlementAmt'],type: 'numRange' },
 ]
 export default {
   components: { importFile },
