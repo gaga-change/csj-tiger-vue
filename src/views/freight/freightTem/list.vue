@@ -59,7 +59,7 @@ const tableConfig = [
 ]
 
 const searchConfig = [
-  { label: '承运商 ', prop: 'consoildatorName', type: 'enum', enum: '_consoilInfoList_state31' },
+  { label: '承运商 ', prop: 'consoildatorCode', type: 'enum', enum: '_consoilInfoList_state31' },
   { label: '运输种类', prop: 'templateType', type: 'enum', enum: 'getTemplateTransport' },
 ]
 
