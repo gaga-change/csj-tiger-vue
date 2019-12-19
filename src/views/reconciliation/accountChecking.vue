@@ -48,8 +48,8 @@ import importFile from './components/importFile'
 import { queryStatementList, selectAllConsolidator, batchDeleteStatement } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
-  { label: '承运商编码', prop: 'consoildatorCode', width: 140 },
-  { label: '承运商名称', prop: 'consoildatorName' },
+  { label: '承运商编码', prop: 'consoildatorCode', width: 120 },
+  { label: '承运商名称', prop: 'consoildatorName', width: 120 },
   { label: '寄件日期', prop: 'sendDate', type: 'time', format: 'YYYY-MM-DD' },
   { label: '起始地', prop: 'startAddress' },
   { label: '车牌号', prop: 'licensePlateNo' },
@@ -66,11 +66,14 @@ const tableConfig = [
   { label: '城市', prop: 'sendCity' },
   { label: '收件人', prop: 'recieverName' },
   { label: '产品类型', prop: 'productType' },
+  { label: '导入日期', prop: 'gmtCreate', type: 'time', format: 'YYYY-MM-DD' },
 ]
 const searchConfig = [
   { label: '承运商', prop: 'consoildatorCode', type: 'enum', enum: '_consoildatorNameApi' },
   { label: '寄件日期', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea' },
   { label: '配送单号', prop: 'dispatchNo' },
+  { label: '导入日期', prop: 'importTimeArea', props: ['createBeginDate', 'createEndDate'], type: 'timeArea' },
+  { label: '结算金额', prop: 'settlement', props:['minSettlementAmt', 'maxSettlementAmt'],type: 'numRange' },
 ]
 export default {
   components: { importFile },
