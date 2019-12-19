@@ -240,8 +240,9 @@ export default {
     /** 确定 */
     confirm() {
       let strList = []
-      for (let i = 0; i < this.formData.rulesList.length; i++) {
-        let item = this.formData.rulesList[i]
+      let params = this.$copy(this.formData)
+      for (let i = 0; i < params.rulesList.length; i++) {
+        let item = params.rulesList[i]
         if (item.endWeight <= item.startWeight) {
           return this.$message.error('范围数值错误，范围最大值不能小于等于最小值')
         }
@@ -262,20 +263,22 @@ export default {
         }
         if (item.checkPrice) {
           str += `${item.price}元`
+          item.unitPrice = undefined
         } else {
           str += `，单价${item.unitPrice}元`
+          item.price = undefined
         }
         strList.push(str)
       }
-      if (!this.formData.rulesList[this.formData.rulesList.length - 1].noEndWeight) {
+      if (!params.rulesList[params.rulesList.length - 1].noEndWeight) {
         return this.$message.error('配置不完整，最后一项区间结束必须为 ∞ ')
       }
-      if (this.formData.lowPrice) {
-        strList.push(`最低一票${this.formData.lowPrice}元`)
+      if (params.lowPrice) {
+        strList.push(`最低一票${params.lowPrice}元`)
       }
       this.$emit('submited', {
-        lowPrice: this.formData.lowPrice,
-        rulesList: this.$copy(this.formData.rulesList),
+        lowPrice: params.lowPrice,
+        rulesList: this.$copy(params.rulesList),
         rulesListName: strList.join('\r\n')
       })
       this.close()
