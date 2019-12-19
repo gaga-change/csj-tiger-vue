@@ -48,8 +48,8 @@ import importFile from './components/importFile'
 import { queryStatementList, selectAllConsolidator, batchDeleteStatement } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
-  { label: '承运商编码', prop: 'consoildatorCode', width: 140 },
-  { label: '承运商名称', prop: 'consoildatorName' },
+  { label: '承运商编码', prop: 'consoildatorCode', width: 120 },
+  { label: '承运商名称', prop: 'consoildatorName', width: 120 },
   { label: '寄件日期', prop: 'sendDate', type: 'time', format: 'YYYY-MM-DD' },
   { label: '起始地', prop: 'startAddress' },
   { label: '车牌号', prop: 'licensePlateNo' },
