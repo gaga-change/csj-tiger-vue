@@ -207,7 +207,7 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import { Area, areaTools } from '@/utils/area2'
-import { consoilInfoList, saveTemplate, selectTemplateInfo } from '@/api'
+import { consoilInfoList, saveTemplate, selectTemplateInfo, updateTemplateInfo } from '@/api'
 import addProvince from './components/addProvince'
 import addCity from './components/addCity'
 import addCostRule from './components/addCostRule'
@@ -428,8 +428,13 @@ export default {
             delete item.checkCityListName
             delete item.key
           }
+          let api = saveTemplate
+          if (this.$route.query.id) {
+            api = updateTemplateInfo
+            params.id = this.$route.query.id
+          }
           this.loading = true
-          saveTemplate(params).then(res => {
+          api(params).then(res => {
             if (!res) {
               this.loading = false
               return false
