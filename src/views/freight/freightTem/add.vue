@@ -21,6 +21,7 @@
             style="width:200px;"
             v-model="formData.templateName"
             placeholder="请输入模版名称"
+            :disabled="!!$route.query.id"
           ></el-input>
         </el-form-item>
         <el-form-item
