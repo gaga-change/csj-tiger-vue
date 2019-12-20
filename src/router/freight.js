@@ -38,14 +38,14 @@ export default [
         component: _import('freight/quationList/add'),
         name: 'newQuation',
         hidden: true,
-        meta: { title: '报价', noCache: false }
+        meta: { title: '报价', noCache: true }
       },
       {
         path: 'detail',
         component: _import('freight/quationList/detail'),
         name: 'quationInfoDetail',
         hidden: true,
-        meta: { title: '报价详情', noCache: false }
+        meta: { title: '报价详情', noCache: true}
       },
       {
         path: 'list',

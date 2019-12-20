@@ -150,9 +150,7 @@ export default {
         const result = res.data
         this.temData = result && result.list
         this.projecttotal = result.total
-        this.$nextTick(()=>{
-          this.getDetail()
-        })
+        this.getDetail()
       }).catch(err => {
       })
     },
