@@ -47,7 +47,7 @@
         <span class="titleactive" style="display:inline-block;width:90px;text-align:center;line-height:38px;border:1px solid #ccc;margin:0;">大陆</span>
         <span style="display:inline-block;width:90px;text-align:center;line-height:38px;line-height:38px;border:1px solid #ccc;margin:0;">港澳台</span>
       </div>
-        <el-tabs v-model="activeName">
+        <el-tabs v-model="activeName" :before-leave="tableave" @tab-click="tabclick">
           <el-tab-pane  name="proviceName" label="省份">
             <div style="height:200px;overflow-y:scroll;">
               <template v-for="item in provinceData">
@@ -290,7 +290,56 @@ export default {
       }else{
         this.searchForm.ruleType=0
       }
-    }
+    },
+    tableave(activeName, oldActiveName){
+      if(oldActiveName==='proviceName'){
+        if(this.areaType=='start'){
+          if(this.startPlace.length<=0){
+            return false
+          }
+        }else if(this.areaType=='end'){
+          if(this.endPlace.length<=0){
+            return false
+          }
+        }
+      }else if(oldActiveName==='cityName' && activeName==='areaName' ){
+        if(this.areaType=='start'){
+          if(this.startPlace.length<=1){
+            return false
+          }
+        }else if(this.areaType=='end'){
+          if(this.endPlace.length<=1){
+            return false
+          }
+        }
+      }
+    },
+    tabclick(tab, event){
+      if(tab.name=='proviceName'){
+        if(this.areaType=='start'){
+          this.startPlace=[]
+          this.startPlaceName=[]
+        }else if(this.areaType=='end'){
+          this.endPlace=[]
+          this.endPlaceName=[]
+        }
+        this.cityData=[]
+        this.areaInfoData=[]
+      }else if(tab.name=='cityName'){
+        if(this.areaType=='start'){
+          if(this.startPlace.length>=2){
+            this.startPlace.splice(1,this.startPlace.length-1)
+            this.startPlaceName.splice(1,this.startPlaceName.length-1)
+          }
+        }else if(this.areaType=='end'){
+          if(this.endPlace.length>=2){
+            this.endPlace.splice(1,this.endPlace.length-1)
+            this.endPlaceName.splice(1,this.endPlaceName.length-1)
+          }
+        }
+        this.areaInfoData=[]
+      }
+    },
   }
 }
 
