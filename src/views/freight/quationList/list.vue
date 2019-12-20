@@ -5,14 +5,14 @@
       :searchForm="searchForm"
     ></search>
 
-<!--     <div class="operationitem">
-      <router-link :to="`/carrier/add?time=${moment().valueOf()}`">
+    <div class="operationitem">
+      <router-link :to="`/freightCount/add`">
         <el-button
           type="primary"
           size="mini"
-        >创建承运商</el-button>
+        >物流费用估算</el-button>
       </router-link>
-    </div> -->
+    </div>
 
     <base-table
       @sizeChange="handleSizeChange"

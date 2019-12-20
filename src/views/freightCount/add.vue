@@ -5,15 +5,15 @@
       <el-row :gutter="10">
         <el-col :span="24">
           <el-form-item label="原寄地:"  prop="startPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
-            <div @click="showarea('start',$event)">
-              <el-input v-model="searchForm.startPlaceName" size="mini" class="formitem" style="width:100%;" :disabled="true"></el-input>
+            <div @click="showarea('start',$event)" style="width:280px;">
+              <el-input v-model="searchForm.startPlaceName" size="mini" style="width:100% !important;" :disabled="true"></el-input>
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="目的地:"  prop="endPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
-            <div @click="showarea('end',$event)">
-              <el-input v-model="searchForm.endPlaceName" size="mini" class="formitem" :disabled="true"></el-input>
+            <div @click="showarea('end',$event)" style="width:280px;">
+              <el-input v-model="searchForm.endPlaceName" size="mini" style="width:100% !important;" :disabled="true"></el-input>
             </div>
           </el-form-item>
         </el-col>
@@ -68,7 +68,7 @@
           </el-tab-pane>
           <el-tab-pane name="cityName" label="城市">
             <div style="height:200px;overflow-y:scroll;">
-                <div class="clearfix" style="width:350px;">
+                <div class="clearfix" style="width:360px;">
                   <template v-for="item in cityData">
                     <span class="provincename cityname" @click="nextStep('city',item)">{{item.label}}</span>
                   </template>
@@ -77,7 +77,7 @@
           </el-tab-pane>
           <el-tab-pane name="areaName" label="区县">
             <div style="height:200px;overflow-y:scroll;">
-              <div class="clearfix" style="width:350px;">
+              <div class="clearfix" style="width:360px;">
                 <template v-for="item in areaInfoData">
                   <span class="provincename cityname" @click="nextStep('area',item)">{{item.label}}</span>
                 </template>
@@ -330,13 +330,17 @@ export default {
   line-height:36px;
 }
 .provincename{
-  display:inline-block;
+  float:left;
   width:80px;
+  height:30px;
+  max-height:38px;
   padding:0 10px;
   margin-top:10px;
   cursor:pointer;
+  font-size:15px;
   &.cityname{
     display:block;
+    width:90px;
     float:left;
     margin-bottom:20px;
   }
