@@ -7,7 +7,8 @@
       :api="listApi"
       :showControl="true"
       :showIndex="true"
-      :controlWidth="160"
+      :controlWidth="120"
+      :parseData="parseData"
     >
       <template slot-scope="scope">
         <el-link
@@ -19,11 +20,11 @@
           type="primary"
           @click="$router.push({path:`/freight/freightTem/add`,query:{id: scope.row.id}})"
         >修改</el-link>
-        <el-divider direction="vertical"></el-divider>
-        <el-link
+        <!-- <el-divider direction="vertical"></el-divider> -->
+        <!-- <el-link
           type="primary"
           @click="$router.push({path:`/freight/freightTem/add`,query:{id: scope.row.id}})"
-        >查看</el-link>
+        >查看</el-link> -->
       </template>
       <template slot="btns">
         <el-button
@@ -46,23 +47,27 @@
 
 <script>
 import { queryTemplateList, consoilInfoList, deleteTemplateInfo } from '@/api'
+import { Area, areaTools } from '@/utils/area2'
+
 const tableConfig = [
   { label: '模板名称', prop: 'templateName' },
   { label: '承运商 ', prop: 'consoildatorName' },
   { label: '运输种类', prop: 'templateType', type: 'enum', enum: 'getTemplateTransport' },
-  { label: '出发地', prop: 'startPlace' },
+  { label: '出发地', prop: 'startPlaceName' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
   { label: '创建者', prop: 'createrName' },
 ]
 
 const searchConfig = [
-  { label: '承运商 ', prop: 'consoildatorName', type: 'enum', enum: '_consoilInfoList_state31' },
+  { label: '承运商 ', prop: 'consoildatorCode', type: 'enum', enum: '_consoilInfoList_state31' },
   { label: '运输种类', prop: 'templateType', type: 'enum', enum: 'getTemplateTransport' },
 ]
 
 export default {
   data() {
     return {
+      Area,
+      getCityByCode: areaTools().getCityByCode,
       tableConfig,
       searchConfig,
       listApi: queryTemplateList,
@@ -99,8 +104,14 @@ export default {
       let data = res.data.list || []
       let total = res.data.total
       data.forEach(v => {
-        v.updateLockStatusOutLoading = false
-        v.updateLockStatusInLoading = false
+        // v.updateLockStatusOutLoading = false
+        // v.updateLockStatusInLoading = false
+        if (v.templateType == 1 && v.startPlace) {
+          v.startPlaceName = this.getCityByCode(v.startPlace)
+        } else if (v.startPlace) {
+          let place = this.Area.find(item => item.value === v.startPlace)
+          v.startPlaceName = place ? place.label : v.startPlace
+        }
       })
       return { data, total }
     },

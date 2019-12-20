@@ -1,5 +1,8 @@
 <template>
-  <div class="FreightTemDdd">
+  <div
+    class="FreightTemDdd"
+    v-loading="selectTemplateInfoLoading"
+  >
     <el-form
       :inline="true"
       :model="formData"
@@ -18,6 +21,7 @@
             style="width:200px;"
             v-model="formData.templateName"
             placeholder="请输入模版名称"
+            :disabled="!!$route.query.id"
           ></el-input>
         </el-form-item>
         <el-form-item
@@ -46,6 +50,7 @@
           <el-select
             style="width:200px;"
             v-model="formData.templateType"
+            @change="formData.startPlace = undefined"
             placeholder="请选择运输种类"
             clearable
           >
@@ -53,7 +58,7 @@
               v-for="(item, index) in mapConfig['getTemplateTransport'] || []"
               :key="index"
               :label="item.value"
-              :value="item.key"
+              :value="(item.key + '')"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -62,12 +67,28 @@
           prop="startPlace"
         >
           <el-cascader
+            v-if="formData.templateType + '' === '0'"
             style="width:200px;"
-            :options="Area"
+            :options="provinceOptions"
             v-model="formData.startPlace"
             placeholder="请选择出发地"
           >
           </el-cascader>
+          <el-cascader
+            v-else-if="formData.templateType + '' === '1'"
+            style="width:200px;"
+            :options="cityOptions"
+            v-model="formData.startPlace"
+            placeholder="请选择出发地"
+          >
+          </el-cascader>
+          <el-input
+            v-else
+            placeholder="请先选择运输种类"
+            disabled="disabled"
+          >
+
+          </el-input>
         </el-form-item>
       </div>
       <!-- table操作栏 -->
@@ -185,8 +206,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Area } from '@/utils/area2'
-import { consoilInfoList, saveTemplate } from '@/api'
+import _ from 'lodash'
+import { Area, areaTools } from '@/utils/area2'
+import { consoilInfoList, saveTemplate, selectTemplateInfo, updateTemplateInfo } from '@/api'
 import addProvince from './components/addProvince'
 import addCity from './components/addCity'
 import addCostRule from './components/addCostRule'
@@ -215,9 +237,30 @@ const getItem = () => (
 export default {
   components: { addProvince, addCity, addCostRule },
   data() {
+    let provinceOptions = Area.map(v => {
+      return {
+        ...v,
+        children: undefined
+      }
+    })
+    let cityOptions = Area.map(v => {
+      return {
+        ...v,
+        children: v.children.map(v => {
+          return {
+            ...v,
+            children: undefined
+          }
+        })
+      }
+    })
     return {
       Area,
+      getCityByCode: areaTools().getCityByCode,
+      provinceOptions,
+      cityOptions,
       loading: false,
+      selectTemplateInfoLoading: false,
       addProvinceVisible: false,
       addCityVisible: false,
       addCostRuleVisible: false,
@@ -250,19 +293,114 @@ export default {
   },
   created() {
     this.getConsoilInfoList()
+    if (this.$route.query.id) {
+      this.initDetail()
+    }
   },
   methods: {
+    initDetail() {
+      this.selectTemplateInfoLoading = true
+      selectTemplateInfo({ id: this.$route.query.id }).then(res => {
+        this.selectTemplateInfoLoading = false
+        if (!res) return
+        let detail = res.data
+        let keys = 'templateName consoildatorCode consoildatorName remarkInfo'
+        keys.split(' ').forEach(key => {
+          this.formData[key] = detail[key]
+        })
+        this.formData.templateType = detail.templateType + ''
+        this.formData.startPlace = [detail.startPlace]
+        if (detail.templateType == 1) {
+          this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
+        }
+        this.formData.costRulesList = detail.costRulesList.map((costItem, index) => {
+          let item = {
+            key: Date.now() + Math.random(),
+            endPlaseList: [],
+            checkProvinceList: [],
+            checkProvinceListName: '',
+            checkCityList: [],
+            checkCityListName: '',
+            heavy: {
+              rulesList: [],
+              rulesListName: '',
+              typeName: '公斤',
+              lowPrice: undefined,
+            },
+            light: {
+              rulesList: [],
+              rulesListName: '',
+              typeName: '方',
+              lowPrice: undefined,
+            }
+          }
+          if (detail.templateType == 0) {
+            item.checkProvinceList = costItem.endPlaseList
+            item.checkProvinceListName = item.checkProvinceList.map(code => this.Area.find(v => v.value === code).label).join('，')
+          } else {
+            item.checkCityList = costItem.endPlaseList
+            item.checkCityListName = item.checkCityList.map(code => this.getCityByCode(code)).join('，')
+          }
+          item.heavy.rulesList = costItem.heavyRulesList.map(v => {
+            return {
+              startWeight: v.startWeight,
+              endWeight: v.endWeight,
+              noEndWeight: v.endWeight === undefined || v.endWeight === null,
+              unitPrice: v.unitPrice,
+              price: v.price,
+              checkPrice: v.price !== undefined || v.price !== null,
+            }
+          })
+          item.heavy.rulesListName = this.turnRuleName(item.heavy)
+          item.light.rulesList = costItem.lightRulesList.map(v => {
+            return {
+              startWeight: v.startWeight,
+              endWeight: v.endWeight,
+              noEndWeight: v.endWeight === undefined || v.endWeight === null,
+              unitPrice: v.unitPrice,
+              price: v.price,
+              checkPrice: v.price !== undefined || v.price !== null,
+            }
+          })
+          item.light.rulesListName = this.turnRuleName(item.light)
+          item.heavy.lowPrice = costItem.heavyLowPrice
+          item.light.lowPrice = costItem.lightLowPrice
+          return item
+        })
+      })
+    },
+    turnRuleName(formData) {
+      let strList = []
+      for (let i = 0; i < formData.rulesList.length; i++) {
+        let item = formData.rulesList[i]
+        let str = ''
+        if (item.noEndWeight) {
+          str += `${item.startWeight}${formData.typeName}以上`
+        } else {
+          str += `${item.endWeight}${formData.typeName}以内`
+        }
+        if (item.checkPrice) {
+          str += `${item.price}元`
+        } else {
+          str += `，单价${item.unitPrice}元`
+        }
+        strList.push(str)
+      }
+      if (formData.lowPrice) {
+        strList.push(`最低一票${formData.lowPrice}元`)
+      }
+      return strList.join('\r\n')
+    },
     confirm() {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$refs['form'].validate((valid) => {
         if (valid) {
           let params = this.$copy(this.formData)
-          params.startPlace = params.startPlace.join('_')
+          params.startPlace = params.startPlace.pop()
           if (params.costRulesList.length == 0) {
             return this.$message.error('请填写目的地运费！')
           }
           for (let i = 0; i < params.costRulesList.length; i++) {
-            console.log(params, params.costRulesList)
             let item = params.costRulesList[i]
             item.groupId = i + 1
             if (params.templateType == 0) {
@@ -291,10 +429,17 @@ export default {
             delete item.checkCityListName
             delete item.key
           }
+          let api = saveTemplate
+          if (this.$route.query.id) {
+            api = updateTemplateInfo
+            params.id = this.$route.query.id
+          }
           this.loading = true
-          saveTemplate(params).then(res => {
-            this.loading = false
-            if (!res) return
+          api(params).then(res => {
+            if (!res) {
+              this.loading = false
+              return false
+            }
             this.$message({
               type: 'success',
               message: '操作成功,即将跳转到列表页！',
