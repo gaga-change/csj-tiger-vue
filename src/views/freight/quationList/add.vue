@@ -38,6 +38,7 @@
           :key="index"
           :prop="column.prop"
           :label="column.label"
+          :width="column.width"
         >
           <template slot-scope="scope">
             <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
@@ -48,9 +49,31 @@
               <span v-else-if="column.type === 'index'">{{
               scope.$index+1
               }}</span>
-              <template v-else-if="(column.prop === 'heavyRulesList' || column.prop === 'lightRulesList') || column.prop === 'endPlaseList'">
+              <template v-else-if="column.prop === 'heavyRulesList' || column.prop === 'lightRulesList'">
                 <template v-if="scope.row[column.prop] && scope.row[column.prop].length>0" v-for="item in scope.row[column.prop]">
-                  <span>{{item+';'}}</span>
+                  <template v-if="item.startWeight>=0 && item.endWeight">
+                    <div>
+                      <span>{{item.startWeight+'~'+item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')}}</span>
+                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):item.price+'元；'}}</span>
+                    </div>
+                  </template>
+                  <template v-else-if="item.startWeight>=0 && !item.endWeight">
+                    <div>
+                      <span>{{item.startWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以上'}}</span>
+                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):item.price+'元；'}}</span>
+                    </div>
+                  </template>
+                  <template v-else-if="!item.startWeight && item.endWeight">
+                    <div>
+                        <span>{{item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以内'}}</span>
+                        <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):item.price+'元；'}}</span>
+                    </div>
+                  </template>
+                </template>
+              </template>
+              <template v-else-if="column.prop === 'endPlaseList'">
+                <template v-if="scope.row[column.prop] && scope.row[column.prop].length>0" v-for="item in scope.row[column.prop]">
+                  <span>{{areaMap.get(item)+';'}}</span>
                 </template>
               </template>
             <span v-else>{{scope.row[column.prop]}}</span>
@@ -125,7 +148,7 @@
       ></el-table-column>
       <el-table-column
         label="承运商"
-        prop="carrierName"
+        prop="consoildatorName"
       ></el-table-column>
       <el-table-column
         label="出发地"
@@ -158,6 +181,7 @@ import { tenantList } from '@/api/tenant'
 import { quationTemConfig } from '../components/config'
 import BaseTable from '@/components/Table'
 import * as localEnum from '@/utils/enum'
+import { Area } from '@/utils/area2'
 export default {
   name: 'newQuation',
   components: { Sticky },
@@ -200,16 +224,23 @@ export default {
       visitedViews: 'visitedViews'
     })
   },
-  watch: {
-    '$route': 'getTemInfo'
+  created(){
+    this.areaMap = new Map()
+      const _ = arr => {
+        arr.forEach(item => {
+          if (item.children) {
+            _(item.children)
+          }
+          this.areaMap.set(item.value, item.label)
+        })
+      }
+    _(Area)
   },
-
   mounted() {
     this.getTemInfo()
     this.getConsoilInfoList()
     this.getOwnerData()
   },
-
   methods: {
     getownerName(){
       if(this.searchForm.ownerCode){
@@ -230,10 +261,10 @@ export default {
                 this.tableData.push({
                   templateCode:item.templateCode,
                   templateName:item.templateName,
-                  carrierCode:item.carrierCode,
-                  carrierName:item.carrierName,
-                  type:item.type,
-                  startPlace:item.startPlace,
+                  consoildatorCode:item.consoildatorCode,
+                  consoildatorName:item.consoildatorName,
+                  templateType:item.templateType,
+                  startPlace:this.areaMap.get(item.startPlace),
                   endPlaseList:subitem.endPlaseList,
                   heavyRulesList:subitem.heavyRulesList,
                   lightRulesList:subitem.lightRulesList
@@ -370,10 +401,10 @@ export default {
                   this.tableData.push({
                     templateCode:item.templateCode,
                     templateName:item.templateName,
-                    carrierCode:item.carrierCode,
-                    carrierName:item.carrierName,
-                    type:item.type,
-                    startPlace:item.startPlace,
+                    consoildatorCode:item.consoildatorCode,
+                    consoildatorName:item.consoildatorName,
+                    templateType:item.templateType,
+                    startPlace:this.areaMap.get(item.startPlace),
                     endPlaseList:subitem.endPlaseList,
                     heavyRulesList:subitem.heavyRulesList,
                     lightRulesList:subitem.lightRulesList
@@ -423,21 +454,6 @@ export default {
       })
     },
     handleCurrentChange(val){
-      // if(this.searchForm.templateList && this.searchForm.templateList.length>0){
-      //   if(this.searchForm.templateList.findIndex(indexItem => indexItem.templateCode === val.templateCode)<0){
-      //     this.searchForm.templateList.push({
-      //       templateCode:val.templateCode,
-      //       templateName:val.templateName
-      //     })
-      //     this.tagsData.push(val)
-      //   }
-      // }else{
-      //   this.searchForm.templateList.push({
-      //     templateCode:val.templateCode,
-      //     templateName:val.templateName
-      //   })
-      //   this.tagsData.push(val)
-      // }
       if(this.tagsData && this.tagsData.length>0){
         if(this.tagsData.findIndex(indexItem => indexItem.templateCode === val.templateCode)<0){
           this.tagsData.push(val)
@@ -447,7 +463,6 @@ export default {
       }
     },
     deletetag(val){
-      // this.searchForm.templateList.splice(this.searchForm.templateList.findIndex(indexItem => indexItem.templateCode === val.templateCode), 1)
       this.tagsData.splice(this.tagsData.findIndex(indexItem => indexItem.templateCode === val.templateCode), 1)
     }
   }

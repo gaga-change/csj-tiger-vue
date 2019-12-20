@@ -53,3 +53,12 @@ export function temSelect(data) {
     data:data
   })
 }
+
+//物流计算
+export function costCount(data) {
+  return request({
+    url: `/webApi/estimate/estimationPlan`,
+    method: 'post',
+    data:data
+  })
+}
