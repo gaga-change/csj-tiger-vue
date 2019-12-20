@@ -1,15 +1,14 @@
 <template lang="html">
-  <el-card shadow="hover">
+  <el-card shadow="hover" style="margin-bottom:10px;">
     <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
       <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主:">
-               <el-select  v-model="searchForm.ownerCode" clearable  placeholder="请选择货主：" size="mini" class="formitem">
+               <el-select  v-model="searchForm.ownerCode" clearable filterable placeholder="请搜索货主：" size="mini" class="formitem">
                  <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="创建时间段:">
               <el-date-picker

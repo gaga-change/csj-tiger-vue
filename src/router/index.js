@@ -28,7 +28,23 @@ export const constantRouterMap = [
         component: _import('dashboard/index')
       }
     ]
-  }
+  },
+  {
+    path: '/freightCount',
+    component: _import('freightCount/add'),
+    redirect: 'freightCount/add',
+    mark:'物流费用',
+    meta: { title: '物流计算', noCache: true,icon:'sale' },
+    hidden: false,
+    children: [
+      {
+        name: 'freightCountAdd',
+        path: 'add',
+        meta: { title: '物流计算', noCache: true},
+        component: _import('freightCount/add')
+      },
+    ]
+  },
 ]
 
 export default new Router({

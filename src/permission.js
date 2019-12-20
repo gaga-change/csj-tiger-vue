@@ -3,7 +3,7 @@ import router from './router'
 import store from './store'
 import { asyncRouterMap } from '@/router'
 import 'nprogress/nprogress.css'
-const whiteList = ['/csj_login'] // 不重定向白名单
+const whiteList = ['/csj_login','/freightCount/add'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (whiteList.includes(to.path)) {

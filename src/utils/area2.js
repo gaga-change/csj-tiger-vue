@@ -2,6 +2,7 @@ export const Area = [
   {
     "value": "110000",
     "label": "北京市",
+    "pinyin": "beijing",
     "children": [
       {
         "value": "110000",
@@ -78,6 +79,7 @@ export const Area = [
   {
     "value": "120000",
     "label": "天津市",
+    "pinyin": "tianjin",
     "children": [
       {
         "value": "120000",
@@ -154,6 +156,7 @@ export const Area = [
   {
     "value": "130000",
     "label": "河北省",
+    "pinyin": "hebeisheng",
     "children": [
       {
         "value": "130100",
@@ -898,6 +901,7 @@ export const Area = [
   {
     "value": "140000",
     "label": "山西省",
+    "pinyin": "shanxisheng",
     "children": [
       {
         "value": "140100",
@@ -1438,6 +1442,7 @@ export const Area = [
   {
     "value": "150000",
     "label": "内蒙古自治区",
+    "pinyin": "neimengguzizhiqu",
     "children": [
       {
         "value": "150100",
@@ -1928,6 +1933,7 @@ export const Area = [
   {
     "value": "210000",
     "label": "辽宁省",
+    "pinyin": "liaoningsheng",
     "children": [
       {
         "value": "210100",
@@ -2418,6 +2424,7 @@ export const Area = [
   {
     "value": "220000",
     "label": "吉林省",
+    "pinyin": "jilinsheng",
     "children": [
       {
         "value": "220100",
@@ -2718,6 +2725,7 @@ export const Area = [
   {
     "value": "230000",
     "label": "黑龙江省",
+    "pinyin": "heilongjiangsheng",
     "children": [
       {
         "value": "230100",
@@ -3314,6 +3322,7 @@ export const Area = [
   {
     "value": "310000",
     "label": "上海市",
+    "pinyin": "shanghai",
     "children": [
       {
         "value": "310000",
@@ -3390,6 +3399,7 @@ export const Area = [
   {
     "value": "320000",
     "label": "江苏省",
+    "pinyin": "jiangsusheng",
     "children": [
       {
         "value": "320100",
@@ -3858,6 +3868,7 @@ export const Area = [
   {
     "value": "330000",
     "label": "浙江省",
+    "pinyin": "zhejiangsheng",
     "children": [
       {
         "value": "330100",
@@ -4286,6 +4297,7 @@ export const Area = [
   {
     "value": "340000",
     "label": "安徽省",
+    "pinyin": "anhuisheng",
     "children": [
       {
         "value": "340100",
@@ -4808,6 +4820,7 @@ export const Area = [
   {
     "value": "350000",
     "label": "福建省",
+    "pinyin": "fujiansheng",
     "children": [
       {
         "value": "350100",
@@ -5208,6 +5221,7 @@ export const Area = [
   {
     "value": "360000",
     "label": "江西省",
+    "pinyin": "jiangxisheng",
     "children": [
       {
         "value": "360100",
@@ -5680,6 +5694,7 @@ export const Area = [
   {
     "value": "370000",
     "label": "山东省",
+    "pinyin": "shandongsheng",
     "children": [
       {
         "value": "370100",
@@ -6330,6 +6345,7 @@ export const Area = [
   {
     "value": "410000",
     "label": "河南省",
+    "pinyin": "henansheng",
     "children": [
       {
         "value": "410100",
@@ -7066,6 +7082,7 @@ export const Area = [
   {
     "value": "420000",
     "label": "湖北省",
+    "pinyin": "hubeisheng",
     "children": [
       {
         "value": "420100",
@@ -7546,6 +7563,7 @@ export const Area = [
   {
     "value": "430000",
     "label": "湖南省",
+    "pinyin": "hunansheng",
     "children": [
       {
         "value": "430100",
@@ -8124,6 +8142,7 @@ export const Area = [
   {
     "value": "440000",
     "label": "广东省",
+    "pinyin": "guangdongsheng",
     "children": [
       {
         "value": "440100",
@@ -8742,6 +8761,7 @@ export const Area = [
   {
     "value": "450000",
     "label": "广西壮族自治区",
+    "pinyin": "guangxizhuangzuzizhiqu",
     "children": [
       {
         "value": "450100",
@@ -9276,6 +9296,7 @@ export const Area = [
   {
     "value": "460000",
     "label": "海南省",
+    "pinyin": "hainansheng",
     "children": [
       {
         "value": "460100",
@@ -9336,6 +9357,7 @@ export const Area = [
   {
     "value": "500000",
     "label": "重庆市",
+    "pinyin": "chongqing",
     "children": [
       {
         "value": "500000",
@@ -9500,6 +9522,7 @@ export const Area = [
   {
     "value": "510000",
     "label": "四川省",
+    "pinyin": "sichuansheng",
     "children": [
       {
         "value": "510100",
@@ -10364,6 +10387,7 @@ export const Area = [
   {
     "value": "520000",
     "label": "贵州省",
+    "pinyin": "guizhousheng",
     "children": [
       {
         "value": "520100",
@@ -10776,6 +10800,7 @@ export const Area = [
   {
     "value": "530000",
     "label": "云南省",
+    "pinyin": "yunnansheng",
     "children": [
       {
         "value": "530100",
@@ -11394,6 +11419,7 @@ export const Area = [
   {
     "value": "540000",
     "label": "西藏自治区",
+    "pinyin": "xizangzizhiqu",
     "children": [
       {
         "value": "540100",
@@ -11738,6 +11764,7 @@ export const Area = [
   {
     "value": "610000",
     "label": "陕西省",
+    "pinyin": "shanxisheng",
     "children": [
       {
         "value": "610100",
@@ -12232,6 +12259,7 @@ export const Area = [
   {
     "value": "620000",
     "label": "甘肃省",
+    "pinyin": "gansusheng",
     "children": [
       {
         "value": "620100",
@@ -12665,6 +12693,7 @@ export const Area = [
   {
     "value": "630000",
     "label": "青海省",
+    "pinyin": "qinghaisheng",
     "children": [
       {
         "value": "630100",
@@ -12895,6 +12924,7 @@ export const Area = [
   {
     "value": "640000",
     "label": "宁夏回族自治区",
+    "pinyin": "ningxiahuizuzizhiqu",
     "children": [
       {
         "value": "640100",
@@ -13019,6 +13049,7 @@ export const Area = [
   {
     "value": "650000",
     "label": "新疆维吾尔自治区",
+    "pinyin": "xinjiangweiwuerzizhiqu",
     "children": [
       {
         "value": "650100",

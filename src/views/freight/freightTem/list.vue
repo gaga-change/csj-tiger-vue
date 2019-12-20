@@ -34,12 +34,14 @@
         >
           新建模板
         </el-button>
-        <el-button
-          type="primary"
-          size="mini"
-        >
-          报价
-        </el-button>
+        <router-link :to="`/freight/quationList/add`">
+          <el-button
+            type="primary"
+            size="mini"
+          >
+            报价
+          </el-button>
+        </router-link>
       </template>
     </base-list>
   </div>

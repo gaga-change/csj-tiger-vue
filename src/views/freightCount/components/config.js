@@ -32,10 +32,10 @@ export  const quationListConfig=[
 export  const quationTemConfig=[
   { label:'序号',type:'index',width:50},
   { label:'模板名称',prop:'templateName'},
-  { label:'承运商',prop:'consoildatorName'},
-  { label:'运输种类',prop:'templateType',apiEnum:'getTemplateTransport'},
+  { label:'承运商',prop:'carrierName'},
+  { label:'运输种类',prop:'type',apiEnum:'getTemplateTransport'},
   { label:'出发地',prop:'startPlace'},
   { label:'目的地',prop:'endPlaseList'},
-  { label:'重货计费规则',prop:'heavyRulesList',width:220},
-  { label:'轻货计费规则',prop:'lightRulesList',width:220}
+  { label:'重货计费规则',prop:'heavyRulesList'},
+  { label:'轻货计费规则',prop:'lightRulesList'}
 ]
