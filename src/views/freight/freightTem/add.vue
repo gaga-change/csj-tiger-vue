@@ -311,7 +311,8 @@ export default {
         this.formData.templateType = detail.templateType + ''
         this.formData.startPlace = [detail.startPlace]
         if (detail.templateType == 1) {
-          this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
+          this.formData.startPlace = detail.startPlace.split('_')
+          // this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
         }
         this.formData.costRulesList = detail.costRulesList.map((costItem, index) => {
           let item = {
@@ -396,7 +397,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           let params = this.$copy(this.formData)
-          params.startPlace = params.startPlace.pop()
+          params.startPlace = params.startPlace.join('_')
           if (params.costRulesList.length == 0) {
             return this.$message.error('请填写目的地运费！')
           }
