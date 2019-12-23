@@ -46,6 +46,9 @@
                     style="width: 50px"
                     :controls="false"
                     v-model="item.price"
+                    :precision="2"
+                    :min="0"
+                    :max="99999999"
                   >
                   </el-input-number>
                 </el-radio>
@@ -67,6 +70,9 @@
                     style="width: 50px"
                     :controls="false"
                     v-model="item.unitPrice"
+                    :precision="2"
+                    :min="0"
+                    :max="99999999"
                   >
                   </el-input-number>
                 </el-radio>
