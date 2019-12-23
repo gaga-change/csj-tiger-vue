@@ -126,7 +126,7 @@
               </template>
             </td>
             <td style="position: relative;padding-right: 30px;">
-              <span style="white-space: pre;">{{item.heavy.rulesListName}}</span>
+              <span style="white-space: pre;line-height:1.3">{{item.heavy.rulesListName}}</span>
               <el-link
                 style="position: absolute;right: 5px;bottom: 5px;"
                 type="primary"
@@ -134,7 +134,7 @@
               >编辑</el-link>
             </td>
             <td style="position: relative;padding-right: 30px;">
-              <span style="white-space: pre;">{{item.light.rulesListName}}</span>
+              <span style="white-space: pre;line-height:1.3">{{item.light.rulesListName}}</span>
               <el-link
                 style="position: absolute;right: 5px;bottom: 5px;"
                 type="primary"
@@ -350,7 +350,7 @@ export default {
               price: v.price,
               checkPrice: v.price !== undefined || v.price !== null,
             }
-          })
+          }).sort((a, b) => a.startWeight - b.startWeight)
           item.light.rulesList = costItem.lightRulesList.map(v => {
             return {
               startWeight: v.startWeight,
@@ -360,7 +360,7 @@ export default {
               price: v.price,
               checkPrice: v.price !== undefined || v.price !== null,
             }
-          })
+          }).sort((a, b) => a.startWeight - b.startWeight)
           item.heavy.lowPrice = costItem.heavyLowPrice
           item.light.lowPrice = costItem.lightLowPrice
           item.heavy.rulesListName = this.turnRuleName(item.heavy)
