@@ -126,7 +126,7 @@
               </template>
             </td>
             <td style="position: relative;padding-right: 30px;">
-              <span style="white-space: pre;">{{item.heavy.rulesListName}}</span>
+              <span style="white-space: pre;line-height:1.3">{{item.heavy.rulesListName}}</span>
               <el-link
                 style="position: absolute;right: 5px;bottom: 5px;"
                 type="primary"
@@ -134,7 +134,7 @@
               >编辑</el-link>
             </td>
             <td style="position: relative;padding-right: 30px;">
-              <span style="white-space: pre;">{{item.light.rulesListName}}</span>
+              <span style="white-space: pre;line-height:1.3">{{item.light.rulesListName}}</span>
               <el-link
                 style="position: absolute;right: 5px;bottom: 5px;"
                 type="primary"
@@ -311,7 +311,8 @@ export default {
         this.formData.templateType = detail.templateType + ''
         this.formData.startPlace = [detail.startPlace]
         if (detail.templateType == 1) {
-          this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
+          this.formData.startPlace = detail.startPlace.split('_')
+          // this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
         }
         this.formData.costRulesList = detail.costRulesList.map((costItem, index) => {
           let item = {
@@ -350,8 +351,7 @@ export default {
               price: v.price,
               checkPrice: v.price !== undefined || v.price !== null,
             }
-          })
-          item.heavy.rulesListName = this.turnRuleName(item.heavy)
+          }).sort((a, b) => a.startWeight - b.startWeight)
           item.light.rulesList = costItem.lightRulesList.map(v => {
             return {
               startWeight: v.startWeight,
@@ -361,10 +361,11 @@ export default {
               price: v.price,
               checkPrice: v.price !== undefined || v.price !== null,
             }
-          })
-          item.light.rulesListName = this.turnRuleName(item.light)
+          }).sort((a, b) => a.startWeight - b.startWeight)
           item.heavy.lowPrice = costItem.heavyLowPrice
           item.light.lowPrice = costItem.lightLowPrice
+          item.heavy.rulesListName = this.turnRuleName(item.heavy)
+          item.light.rulesListName = this.turnRuleName(item.light)
           return item
         })
       })
@@ -380,9 +381,9 @@ export default {
           str += `${item.endWeight}${formData.typeName}以内`
         }
         if (item.checkPrice) {
-          str += `${item.price}元`
+          str += `${item.price || 0}元`
         } else {
-          str += `，单价${item.unitPrice}元`
+          str += `，单价${item.unitPrice || 0}元`
         }
         strList.push(str)
       }
@@ -396,7 +397,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           let params = this.$copy(this.formData)
-          params.startPlace = params.startPlace.pop()
+          params.startPlace = params.startPlace.join('_')
           if (params.costRulesList.length == 0) {
             return this.$message.error('请填写目的地运费！')
           }
