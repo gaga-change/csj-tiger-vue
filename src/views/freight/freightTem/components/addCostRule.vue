@@ -268,10 +268,10 @@ export default {
           str += `${item.endWeight}${this.rowData.typeName}以内`
         }
         if (item.checkPrice) {
-          str += `${item.price}元`
+          str += `${item.price || 0}元`
           item.unitPrice = undefined
         } else {
-          str += `，单价${item.unitPrice}元`
+          str += `，单价${item.unitPrice || 0}元`
           item.price = undefined
         }
         strList.push(str)
