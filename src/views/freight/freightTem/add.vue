@@ -351,7 +351,6 @@ export default {
               checkPrice: v.price !== undefined || v.price !== null,
             }
           })
-          item.heavy.rulesListName = this.turnRuleName(item.heavy)
           item.light.rulesList = costItem.lightRulesList.map(v => {
             return {
               startWeight: v.startWeight,
@@ -362,9 +361,10 @@ export default {
               checkPrice: v.price !== undefined || v.price !== null,
             }
           })
-          item.light.rulesListName = this.turnRuleName(item.light)
           item.heavy.lowPrice = costItem.heavyLowPrice
           item.light.lowPrice = costItem.lightLowPrice
+          item.heavy.rulesListName = this.turnRuleName(item.heavy)
+          item.light.rulesListName = this.turnRuleName(item.light)
           return item
         })
       })
