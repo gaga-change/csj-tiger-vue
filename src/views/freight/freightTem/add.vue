@@ -339,7 +339,10 @@ export default {
             item.checkProvinceList = costItem.endPlaseList
             item.checkProvinceListName = item.checkProvinceList.map(code => this.Area.find(v => v.value === code).label).join('，')
           } else {
-            item.checkCityList = costItem.endPlaseList
+            item.checkCityList = costItem.endPlaseList.map(v => {
+              let temp = v.split('_')
+              return temp[temp.length - 1]
+            })
             item.checkCityListName = item.checkCityList.map(code => this.getCityByCode(code)).join('，')
           }
           item.heavy.rulesList = costItem.heavyRulesList.map(v => {
@@ -407,7 +410,10 @@ export default {
             if (params.templateType == 0) {
               item.endPlaseList = item.checkProvinceList
             } else {
-              item.endPlaseList = item.checkCityList
+              item.endPlaseList = item.checkCityList.map(v => {
+                // this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
+                return [v.substr(0, 2) + '0000', v].join('_')
+              })
             }
             if (item.endPlaseList.length == 0) {
               return this.$message.error('请选择目的地！')
