@@ -19,24 +19,24 @@
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="重量:"  prop="weight"  :rules="[{ required: true, message: '该项为必填',pattern:/^[\.\d]*$/,trigger: ['blur']}]" >
-            <el-input v-model="searchForm.weight" size="mini" class="formitem" style="width:100%;" @blur="typeCount">
+            <el-input v-model="searchForm.weight" size="mini" class="formitem" style="width:100%;">
               <template slot="append">kg</template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="体积:"  prop="volume" :rules="[{ required: false, message: '必须为数字',pattern:/^[\.\d]*$/,trigger: ['blur']}]">
-           <el-input v-model="searchForm.volume" size="mini" class="formitem" style="width:100%;" @blur="typeCount">
+           <el-input v-model="searchForm.volume" size="mini" class="formitem" style="width:100%;">
              <template slot="append">m³</template>
            </el-input>
           </el-form-item>
         </el-col> 
-        <el-col :sm="12" :md="8" :lg="8" :xl="6">
+        <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <div style="margin-top:30px;color:#606266;">
             <span v-if="searchForm.ruleType==0">重货</span>
             <span v-if="searchForm.ruleType==1">抛货</span>
           </div>
-        </el-col>       
+        </el-col>        -->
     </el-row>
     <el-row style="margin-top:15px;">
       <el-button type="primary" size="large" @click="submit">估算费用</el-button>
@@ -103,30 +103,32 @@
         <ul>
           <li v-for="item in showData">
             <h2>方案一:{{item.carrierName}}</h2>
-            <div>
-              <span>{{searchForm.ruleType==0?'重货:':'抛货:'}}</span>
-              <template v-if="item.rulesList && item.rulesList" v-for="subitem in item.rulesList">
-                <template v-if="subitem.startWeight>=0 && subitem.endWeight">
-                  <span>
-                    <span>{{subitem.startWeight+'~'+subitem.endWeight+(searchForm.ruleType==0?'公斤':'m³')}}</span>
-                    <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(searchForm.ruleType==0?'公斤；':'m³；')):subitem.price+'元；'}}</span>
-                  </span>
-                </template>
-                <template v-else-if="subitem.startWeight>=0 && !subitem.endWeight">
-                  <span>
-                    <span>{{subitem.startWeight+(searchForm.ruleType==0?'公斤':'m³')+'以上'}}</span>
-                    <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(searchForm.ruleType==0?'公斤；':'m³；')):subitem.price+'元；'}}</span>
-                  </span>
-                </template>
-                <template v-else-if="!subitem.startWeight && subitem.endWeight">
-                  <span>
-                      <span>{{subitem.endWeight+(searchForm.ruleType==0?'公斤':'m³')+'以内'}}</span>
-                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(searchForm.ruleType==0?'公斤；':'m³；')):subitem.price+'元；'}}</span>
+            <template v-if="item.rulesInfo && item.rulesInfo.length>0" v-for="childitem in item.rulesInfo">
+              <div>
+                <span>{{childitem.type==1?'重货:':'抛货:'}}</span>
+                <template v-if="childitem.ruleList && childitem.ruleList" v-for="subitem in childitem.ruleList">
+                  <template v-if="subitem.startWeight>=0 && subitem.endWeight">
+                    <span>
+                      <span>{{subitem.startWeight+'~'+subitem.endWeight+(childitem.type==1?'公斤':'m³')}}</span>
+                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):subitem.price+'元 一口价；'}}</span>
                     </span>
+                  </template>
+                  <template v-else-if="subitem.startWeight>=0 && !subitem.endWeight">
+                    <span>
+                      <span>{{subitem.startWeight+(childitem.type==1?'公斤':'m³')+'以上'}}</span>
+                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):subitem.price+'元 一口价；'}}</span>
+                    </span>
+                  </template>
+                  <template v-else-if="!subitem.startWeight && subitem.endWeight">
+                    <span>
+                        <span>{{subitem.endWeight+(childitem.type==1?'公斤':'m³')+'以内'}}</span>
+                        <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):subitem.price+'元 一口价；'}}</span>
+                      </span>
+                  </template>
                 </template>
-              </template>
-              <span>{{(item.lowPrice==0 || item.lowPrice)?('最低一票'+item.lowPrice+'元'):''}}</span>
-           </div>
+                <span>{{(childitem.lowPrice>=0)?('最低一票'+childitem.lowPrice+'元'):''}}</span>
+             </div>
+            </template>
             <div class="price">预估价格:{{item.budgetPrice}}元</div>
           </li>
         </ul>
@@ -155,7 +157,7 @@ export default {
         endPlaceName:null,
         weight:null,
         volume:null,
-        ruleType:0
+        ruleType:null
       },
       mainLandData:[
         {pinyinArea:['a','b','c','d','e','f'],pinyin:'A-F',provinceList:[]},
@@ -193,7 +195,6 @@ export default {
         this.otherProvince.push(item)
       }
     })
-    console.log(this.otherProvince)
     areaData.forEach(item=>{
       this.mainLandData.map(subitem=>{
         if(subitem.pinyinArea.indexOf(item.pinyin.substring(0,1))>-1){
@@ -223,7 +224,18 @@ export default {
       menu.style.top = event.clientY+10 + "px"
       this.areaVisible =true
       this.areaPath=1
+      this.provinceData=[]
       this.provinceData=JSON.parse(JSON.stringify(this.mainLandData))
+      this.activeName='proviceName'
+      this.cityData=[]
+      this.areaInfoData=[]
+      if(this.areaType=='start'){
+        this.startPlace=[]
+        this.startPlaceName=[]
+      }else if(this.areaType=='end'){
+        this.endPlace=[]
+        this.endPlaceName=[]
+      }
     },
     nextStep(type,value){
       if(this.areaPath==1){
@@ -320,11 +332,28 @@ export default {
             if (res.success) {
               this.showElement=true
               this.showData=res.data
+              if(this.showData && this.showData.length>0){
+                this.showData.map(item=>{
+                  let rulesListData=[]
+                  if(item.heavyRulesList && item.heavyRulesList.length>0){
+                    rulesListData.push({
+                      type:1,
+                      ruleList:item.heavyRulesList,
+                      lowPrice:item.heavyLowPrice
+                    })
+                  }else if(item.lightRulesList && item.lightRulesList.length>0){
+                    rulesListData.push({
+                      type:2,
+                      ruleList:item.lightRulesList,
+                      lightLowPrice:item.lightLowPrice
+                    })
+                  }
+                  item.rulesInfo=rulesListData
+                })
+              }
             } else {
               this.$message.error('操作失败')
             }
-          }).catch(err => {
-            this.$message.error('操作失败')
           })
         }
       })

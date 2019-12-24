@@ -26,7 +26,7 @@
             </el-form-item>
           </el-col>      
     </el-row>
-    <div style="width:1000px;margin:20px 0;">
+    <div style="margin:20px 0;">
       <el-table
         :data="tableData"
         border
@@ -73,7 +73,7 @@
               </template>
               <template v-else-if="column.prop === 'endPlaseList'">
                 <template v-if="scope.row[column.prop] && scope.row[column.prop].length>0" v-for="item in scope.row[column.prop]">
-                  <span>{{areaMap.get(item)+';'}}</span>
+                  <div>{{item+';'}}</div>
                 </template>
               </template>
             <span v-else>{{scope.row[column.prop]}}</span>
@@ -84,7 +84,7 @@
     <el-row>
       <el-col :sm="12" :md="8" :lg="8" :xl="6">
         <el-form-item label="总费用折扣%"  label-width="100px">
-          <el-input-number v-model="searchForm.discount" controls-position="right" :min="0"></el-input-number>
+          <el-input-number v-model="searchForm.quoteDiscount" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
@@ -151,8 +151,16 @@
         prop="consoildatorName"
       ></el-table-column>
       <el-table-column
+        label="运输种类"
+        prop="consoildatorName"
+      >
+        <template slot-scope="scope">
+          <span>{{scope.row.templateType | apiEnum(mapConfig, 'getTemplateTransport') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="出发地"
-        prop="startPlace"
+        prop="startPlaceName"
       ></el-table-column>
     </el-table>
     <el-pagination
@@ -191,7 +199,7 @@ export default {
         ownerName:null,
         nameList:'',
         templateList:[],
-        discount:null
+        quoteDiscount:null
       },
       expressConfig: [],
       localEnum,
@@ -264,7 +272,7 @@ export default {
                   consoildatorCode:item.consoildatorCode,
                   consoildatorName:item.consoildatorName,
                   templateType:item.templateType,
-                  startPlace:this.areaMap.get(item.startPlace),
+                  startPlace:item.startPlaceName,
                   endPlaseList:subitem.endPlaseList,
                   heavyRulesList:subitem.heavyRulesList,
                   lightRulesList:subitem.lightRulesList
@@ -335,22 +343,59 @@ export default {
       }
     },
     showTem(){
-      this.temVisible=true
+      this.tagsData=[]
       if(this.searchForm.templateList && this.searchForm.templateList.length>0){
         this.searchForm.templateList.map(item=>{
-          this.tagsData.push(this.temData.filter(v=>v.templateCode===item.templateCode))
+          this.tagsData.push(this.temData.filter(v=>v.templateCode===item.templateCode)[0])
         })
-        this.tagsData=JSON.parse(JSON.stringify(this.searchForm.templateList))
       }
+      this.temVisible=true
     },
     handleProjectCurrentPageChange(val){
       this.projectpageNum=val
       this.getTemInfo()
     },
     getTemInfo() {
+      let that=this
       temSelect({ pageNum: this.projectpageNum, pageSize: this.projectpageSize, ...this.temForm }).then(res => {
         const result = res.data
         this.temData = result && result.list
+        this.temData.forEach(v => {
+        if (v.templateType == 1 && v.startPlace) {
+          let temp = v.startPlace.split('_')
+          if (temp.length === 2) {
+            v.startPlaceName = [this.areaMap.get(temp[0]), this.areaMap.get(temp[1])].join('_')
+          }
+          if(v.costRulesList && v.costRulesList.length>0){
+            v.costRulesList.forEach(rule=>{
+              if(rule.endPlaseList && rule.endPlaseList.length>0){
+                let endPlaceData=[]
+                rule.endPlaseList.forEach(item=>{
+                  item=item.split('_')
+                  item=[that.areaMap.get(item[0]),that.areaMap.get(item[1])].join('_')
+                  endPlaceData.push(item)
+                })
+                rule.endPlaseList=endPlaceData
+              }
+            })
+          }
+        } else if (v.startPlace) {
+          let place = this.areaMap.get(v.startPlace)
+          v.startPlaceName = place
+          if(v.costRulesList && v.costRulesList.length>0){
+            v.costRulesList.forEach(rule=>{
+              if(rule.endPlaseList && rule.endPlaseList.length>0){
+                let endPlaceData=[]
+                rule.endPlaseList.forEach(item=>{
+                  item=that.areaMap.get(item)
+                  endPlaceData.push(item)
+                })
+                rule.endPlaseList=endPlaceData
+              }
+            })
+          }
+        }
+      })
         this.projecttotal = result.total
         this.$nextTick(()=>{
           this.getDetail()
@@ -394,7 +439,7 @@ export default {
               tableData.push(this.temData.filter(v=>v.templateCode===item.templateCode)[0])
             })
             this.searchForm.nameList=namelist.join(',')
-            this.searchForm.discount=this.searchForm.quoteDiscount*100
+            this.searchForm.quoteDiscount=this.searchForm.quoteDiscount
             tableData.map(item=>{
               if(item.costRulesList && item.costRulesList.length>0){
                 item.costRulesList.map(subitem=>{

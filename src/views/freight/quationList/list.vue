@@ -6,7 +6,7 @@
     ></search>
 
     <div class="operationitem">
-      <router-link :to="`/freightCount/add`">
+      <router-link :to="`/freightCount/add`" target="_blank">
         <el-button
           type="primary"
           size="mini"
