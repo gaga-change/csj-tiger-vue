@@ -418,13 +418,11 @@ export default {
             if (item.endPlaseList.length == 0) {
               return this.$message.error('请选择目的地！')
             }
-            if (item.heavy.rulesList.length == 0) {
+            if (item.heavy.rulesList.length == 0 && item.light.rulesList.length == 0) {
               return this.$message.error('请完善计费规则！')
             }
             item.heavyRulesList = item.heavy.rulesList
-            if (item.light.rulesList.length == 0) {
-              return this.$message.error('请完善计费规则！')
-            }
+
             item.lightRulesList = item.light.rulesList
             item.heavyLowPrice = item.heavy.lowPrice
             item.lightLowPrice = item.light.lowPrice
