@@ -352,7 +352,7 @@ export default {
               noEndWeight: v.endWeight === undefined || v.endWeight === null,
               unitPrice: v.unitPrice,
               price: v.price,
-              checkPrice: v.price !== undefined || v.price !== null,
+              checkPrice: v.price !== undefined && v.price !== null,
             }
           }).sort((a, b) => a.startWeight - b.startWeight)
           item.light.rulesList = costItem.lightRulesList.map(v => {
@@ -362,7 +362,7 @@ export default {
               noEndWeight: v.endWeight === undefined || v.endWeight === null,
               unitPrice: v.unitPrice,
               price: v.price,
-              checkPrice: v.price !== undefined || v.price !== null,
+              checkPrice: v.price !== undefined && v.price !== null,
             }
           }).sort((a, b) => a.startWeight - b.startWeight)
           item.heavy.lowPrice = costItem.heavyLowPrice

@@ -249,7 +249,7 @@ export default {
       let params = this.$copy(this.formData)
       for (let i = 0; i < params.rulesList.length; i++) {
         let item = params.rulesList[i]
-        if (item.endWeight <= item.startWeight) {
+        if (!item.noEndWeight && item.endWeight <= item.startWeight) {
           return this.$message.error('范围数值错误，范围最大值不能小于等于最小值')
         }
         if (!item.noEndWeight && !item.endWeight) {
