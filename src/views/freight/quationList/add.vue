@@ -33,6 +33,13 @@
         size="small"
         ref="temTable"
       >
+        <!-- <el-table-column
+          :label="'描述'"
+        >
+          <template slot-scope="scope">
+            <span>{{scope.row.heavyLowPrice}}</span>
+          </template>
+        </el-table-column> -->
         <el-table-column
           v-for="(column, index) in quationTemConfig"
           :key="index"
@@ -54,21 +61,31 @@
                   <template v-if="item.startWeight>=0 && item.endWeight">
                     <div>
                       <span>{{item.startWeight+'~'+item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')}}</span>
-                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):item.price+'元；'}}</span>
+                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
                     </div>
                   </template>
                   <template v-else-if="item.startWeight>=0 && !item.endWeight">
                     <div>
                       <span>{{item.startWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以上'}}</span>
-                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):item.price+'元；'}}</span>
+                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
                     </div>
                   </template>
                   <template v-else-if="!item.startWeight && item.endWeight">
                     <div>
                         <span>{{item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以内'}}</span>
-                        <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):item.price+'元；'}}</span>
+                        <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
                     </div>
                   </template>
+                </template>
+                <template v-if="column.prop === 'heavyRulesList'">
+                  <div>
+                    <span>{{(scope.row.heavyLowPrice && scope.row.heavyLowPrice>=0)?('最低一票'+scope.row.heavyLowPrice+'元'):''}}</span>
+                  </div>
+                </template>
+                <template v-else>
+                   <div>
+                    <span>{{(scope.row.lightLowPrice && scope.row.lightLowPrice>=0)?('最低一票'+scope.row.lightLowPrice+'元'):''}}</span>
+                  </div>
                 </template>
               </template>
               <template v-else-if="column.prop === 'endPlaseList'">
@@ -275,7 +292,9 @@ export default {
                   startPlace:item.startPlaceName,
                   endPlaseList:subitem.endPlaseList,
                   heavyRulesList:subitem.heavyRulesList,
-                  lightRulesList:subitem.lightRulesList
+                  lightRulesList:subitem.lightRulesList,
+                  heavyLowPrice:subitem.heavyLowPrice,
+                  lightLowPrice:subitem.lightLowPrice
                 })
               })
             }else{
@@ -452,7 +471,9 @@ export default {
                     startPlace:item.startPlaceName,
                     endPlaseList:subitem.endPlaseList,
                     heavyRulesList:subitem.heavyRulesList,
-                    lightRulesList:subitem.lightRulesList
+                    lightRulesList:subitem.lightRulesList,
+                    heavyLowPrice:subitem.heavyLowPrice,
+                    lightLowPrice:subitem.lightLowPrice
                   })
                 })
               }else{

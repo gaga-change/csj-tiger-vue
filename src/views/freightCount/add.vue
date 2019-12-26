@@ -6,14 +6,14 @@
         <el-col :span="24">
           <el-form-item label="原寄地"  prop="startPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
             <div @click="showarea('start',$event)" style="width:280px;">
-              <el-input v-model="searchForm.startPlaceName" size="mini" style="width:100% !important;" :disabled="true"></el-input>
+              <el-input v-model="searchForm.startPlaceName" size="mini" style="width:100% !important;" :disabled="true" id="startele"></el-input>
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="目的地"  prop="endPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
             <div @click="showarea('end',$event)" style="width:280px;">
-              <el-input v-model="searchForm.endPlaceName" size="mini" style="width:100% !important;" :disabled="true"></el-input>
+              <el-input v-model="searchForm.endPlaceName" size="mini" style="width:100% !important;" :disabled="true" id="endele"></el-input>
             </div>
           </el-form-item>
         </el-col>
@@ -111,8 +111,8 @@
     <div v-if="showElement" style="margin-top:20px;">
       <template v-if="showData && showData.length>0">
         <ul>
-          <li v-for="item in showData">
-            <h2>方案一:{{item.carrierName}}</h2>
+          <li v-for="(item,index) in showData">
+            <h2>{{'方案'+(index+1)+':'+item.carrierName}}</h2>
             <template v-if="item.rulesInfo && item.rulesInfo.length>0" v-for="childitem in item.rulesInfo">
               <div>
                 <span>{{childitem.type==1?'重货:':'抛货:'}}</span>
@@ -120,19 +120,19 @@
                   <template v-if="subitem.startWeight>=0 && subitem.endWeight">
                     <span>
                       <span>{{subitem.startWeight+'~'+subitem.endWeight+(childitem.type==1?'公斤':'m³')}}</span>
-                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):subitem.price+'元 一口价；'}}</span>
+                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):'一口价'+subitem.price+'元 ；'}}</span>
                     </span>
                   </template>
                   <template v-else-if="subitem.startWeight>=0 && !subitem.endWeight">
                     <span>
                       <span>{{subitem.startWeight+(childitem.type==1?'公斤':'m³')+'以上'}}</span>
-                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):subitem.price+'元 一口价；'}}</span>
+                      <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):'一口价'+subitem.price+'元 ；'}}</span>
                     </span>
                   </template>
                   <template v-else-if="!subitem.startWeight && subitem.endWeight">
                     <span>
                         <span>{{subitem.endWeight+(childitem.type==1?'公斤':'m³')+'以内'}}</span>
-                        <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):subitem.price+'元 一口价；'}}</span>
+                        <span>{{subitem.unitPrice?(subitem.unitPrice+'元/'+(childitem.type==1?'公斤；':'m³；')):'一口价'+subitem.price+'元；'}}</span>
                       </span>
                   </template>
                 </template>
@@ -192,6 +192,7 @@ export default {
       showData:[],
       showElement:false,
       areaPath:1,
+      ishide:false
     }
   },
 
@@ -229,11 +230,16 @@ export default {
       }
     },
     showarea(type,event,element) {
+      this.ishide=false
       this.areaType=type
       let menu = document.getElementById("areadiv")
       menu.style.left = event.clientX-60 + "px"
       menu.style.top = event.clientY+10 + "px"
+      let body = document.querySelector('body')
       this.areaVisible =true
+      window.addEventListener('click',(e)=>{
+        this.showevent(e,menu)
+      },false)
       this.areaPath=1
       this.provinceData=[]
       this.provinceData=JSON.parse(JSON.stringify(this.mainLandData))
@@ -246,6 +252,14 @@ export default {
       }else if(this.areaType=='end'){
         this.endPlace=[]
         this.endPlaceName=[]
+      }
+    },
+    showevent(e,menu){
+      let showIdData=['startele','endele','areadiv']
+      if(showIdData.indexOf(e.target.id)>-1 || (menu.contains(e.target) && !this.ishide)){
+        this.areaVisible=true
+      }else{
+        this.areaVisible=false
       }
     },
     nextStep(type,value){
@@ -262,6 +276,7 @@ export default {
             this.endPlace.push(value.value)
             this.endPlaceName.push(value.label)
           }
+          this.ishide=false
           this.cityData=[]
           this.areaInfoData=[]
           this.cityData=value.children
@@ -282,6 +297,7 @@ export default {
             this.endPlace.push(value.value)
             this.endPlaceName.push(value.label)
           }
+          this.ishide=false
           this.areaInfoData=[]
           this.areaInfoData=value.children
           this.activeName='areaName'
@@ -305,6 +321,7 @@ export default {
             this.searchForm.endPlace=this.endPlace.join('_')
             this.searchForm.endPlaceName=this.endPlaceName.join('_')
           }
+          this.ishide=true
           this.areaVisible=false
           this.activeName='proviceName'
           this.cityData=[]
@@ -327,6 +344,7 @@ export default {
             this.searchForm.endPlace=this.endPlace.join('_')
             this.searchForm.endPlaceName=this.endPlaceName.join('_')
           }
+          this.ishide=true
           this.areaVisible=false
           this.activeName='proviceName'
           this.cityData=[]
