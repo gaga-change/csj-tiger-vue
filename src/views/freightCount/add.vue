@@ -375,7 +375,7 @@ export default {
                     rulesListData.push({
                       type:2,
                       ruleList:item.lightRulesList,
-                      lightLowPrice:item.lightLowPrice
+                      lowPrice:item.lightLowPrice
                     })
                   }
                   item.rulesInfo=rulesListData
