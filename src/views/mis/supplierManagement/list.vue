@@ -160,8 +160,8 @@ export default {
       dialogTitle: '新增供应商',
       addVisible: false,
       addForm: {
-        providerLevel: 1,
-        providerState: 1
+        providerLevel: "1",
+        providerState: "1"
       },
 
       //关联货主项
@@ -277,8 +277,8 @@ export default {
         this.addVisible = true;
         this.dialogTitle = "新增供应商"
         this.addForm = {
-          providerLevel: 1,
-          providerState: 1
+          providerLevel: "1",
+          providerState: "1"
         }
       } else if (type === 'relation') {
         this.relationVisible = true;

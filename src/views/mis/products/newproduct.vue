@@ -1169,7 +1169,7 @@ export default {
     return {
       productForm: {
         currentCode: null,
-        saleType: 3,
+        saleType: "1",
       },
       activeTab: 'first',
       customerConfig,

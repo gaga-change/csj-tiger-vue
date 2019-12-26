@@ -329,8 +329,8 @@ export default {
     return {
       addForm: {
         costCalcWay: 1,
-        chargeType:2,
-        settlementType:3
+        chargeType:"2",
+        settlementType:"3"
       },
       carrier: [],
       submitloading: false,
@@ -596,8 +596,8 @@ export default {
                     this.addForm[i]=null
                   }
                   this.addForm.costCalcWay=1
-                  this.addForm.chargeType=2
-                  this.addForm.settlementType=3
+                  this.addForm.chargeType="2"
+                  this.addForm.settlementType="3"
                   this.outTableData=[]
                   this.unionOutStore()
                 }
