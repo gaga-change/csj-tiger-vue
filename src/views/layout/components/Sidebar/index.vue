@@ -32,7 +32,7 @@ export default {
   components: { SidebarItem, ScrollBar },
   data() {
     return {
-      version: process.env.IMAGE_TAG
+      version: process.env.IMAGE_TAG || '0.0.0'
     }
   },
   computed: {
