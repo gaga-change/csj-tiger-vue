@@ -264,6 +264,7 @@ export default {
         let str = ''
         if (item.noEndWeight) {
           str += `${item.startWeight}${this.rowData.typeName}以上`
+          item.endWeight = undefined
         } else {
           str += `${item.endWeight}${this.rowData.typeName}以内`
         }
