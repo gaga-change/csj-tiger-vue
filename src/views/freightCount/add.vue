@@ -4,33 +4,43 @@
       <el-form ref="searchForm" labelWidth="90px" :model="searchForm">
       <el-row :gutter="10">
         <el-col :span="24">
-          <el-form-item label="原寄地:"  prop="startPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
+          <el-form-item label="原寄地"  prop="startPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
             <div @click="showarea('start',$event)" style="width:280px;">
               <el-input v-model="searchForm.startPlaceName" size="mini" style="width:100% !important;" :disabled="true"></el-input>
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="目的地:"  prop="endPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
+          <el-form-item label="目的地"  prop="endPlace"  :rules="[{ required: true, message: '该项为必填'}]" >
             <div @click="showarea('end',$event)" style="width:280px;">
               <el-input v-model="searchForm.endPlaceName" size="mini" style="width:100% !important;" :disabled="true"></el-input>
             </div>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="重量:"  prop="weight"  :rules="[{ required: true, message: '该项为必填',pattern:/^[\.\d]*$/,trigger: ['blur']}]" >
+          <el-form-item label="重量"  prop="weight"  :rules="[{ required: true, message: '该项为必填',pattern:/^[\.\d]*$/,trigger: ['blur']}]" >
             <el-input v-model="searchForm.weight" size="mini" class="formitem" style="width:100%;">
               <template slot="append">kg</template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
-          <el-form-item label="体积:"  prop="volume" :rules="[{ required: false, message: '必须为数字',pattern:/^[\.\d]*$/,trigger: ['blur']}]">
+          <el-form-item label="体积"  prop="volume" :rules="[{ required: false, message: '必须为数字',pattern:/^[\.\d]*$/,trigger: ['blur']}]">
            <el-input v-model="searchForm.volume" size="mini" class="formitem" style="width:100%;">
              <template slot="append">m³</template>
            </el-input>
           </el-form-item>
         </el-col> 
+         <el-col :span="24">
+          <el-form-item label="寄件时间"  prop="time"  :rules="[{ required: true, message: '该项为必填',trigger: ['blur']}]" >
+            <el-date-picker
+              style="width:280px;"
+              v-model="searchForm.time"
+              type="datetime"
+              placeholder="请选择寄件时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
         <!-- <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <div style="margin-top:30px;color:#606266;">
             <span v-if="searchForm.ruleType==0">重货</span>
@@ -126,7 +136,7 @@
                       </span>
                   </template>
                 </template>
-                <span>{{(childitem.lowPrice>=0)?('最低一票'+childitem.lowPrice+'元'):''}}</span>
+                <span>{{(childitem.lowPrice && childitem.lowPrice>=0)?('最低一票'+childitem.lowPrice+'元'):''}}</span>
              </div>
             </template>
             <div class="price">预估价格:{{item.budgetPrice}}元</div>
@@ -157,7 +167,8 @@ export default {
         endPlaceName:null,
         weight:null,
         volume:null,
-        ruleType:null
+        ruleType:null,
+        time:null
       },
       mainLandData:[
         {pinyinArea:['a','b','c','d','e','f'],pinyin:'A-F',provinceList:[]},
@@ -341,7 +352,8 @@ export default {
                       ruleList:item.heavyRulesList,
                       lowPrice:item.heavyLowPrice
                     })
-                  }else if(item.lightRulesList && item.lightRulesList.length>0){
+                  }
+                  if(item.lightRulesList && item.lightRulesList.length>0){
                     rulesListData.push({
                       type:2,
                       ruleList:item.lightRulesList,

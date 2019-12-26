@@ -449,7 +449,7 @@ export default {
                     consoildatorCode:item.consoildatorCode,
                     consoildatorName:item.consoildatorName,
                     templateType:item.templateType,
-                    startPlace:this.areaMap.get(item.startPlace),
+                    startPlace:item.startPlaceName,
                     endPlaseList:subitem.endPlaseList,
                     heavyRulesList:subitem.heavyRulesList,
                     lightRulesList:subitem.lightRulesList
