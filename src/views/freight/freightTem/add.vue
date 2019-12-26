@@ -349,7 +349,7 @@ export default {
             return {
               startWeight: v.startWeight,
               endWeight: v.endWeight,
-              noEndWeight: v.endWeight === undefined || v.endWeight === null,
+              noEndWeight: v.endWeight === undefined || v.endWeight === null || v.endWeight === 0,
               unitPrice: v.unitPrice,
               price: v.price,
               checkPrice: v.price !== undefined && v.price !== null,
@@ -359,7 +359,7 @@ export default {
             return {
               startWeight: v.startWeight,
               endWeight: v.endWeight,
-              noEndWeight: v.endWeight === undefined || v.endWeight === null,
+              noEndWeight: v.endWeight === undefined || v.endWeight === null || v.endWeight === 0,
               unitPrice: v.unitPrice,
               price: v.price,
               checkPrice: v.price !== undefined && v.price !== null,
