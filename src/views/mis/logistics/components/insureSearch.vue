@@ -97,6 +97,7 @@
           >
             <el-select
               v-model="searchForm.consoildatorCode"
+              multiple
               clearable
               placeholder="请选择承运商"
               size="mini"
