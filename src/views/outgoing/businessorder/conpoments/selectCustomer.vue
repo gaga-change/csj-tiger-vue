@@ -81,7 +81,7 @@ export default {
       default: ''
     },
     busiBillType: {
-      type: String,
+      type: Number,
       default: null
     },
     label: {
