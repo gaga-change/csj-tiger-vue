@@ -543,7 +543,7 @@ export default {
       //表单项
       searchForm: {
         saleType: 1,
-        busiBillType: 21,
+        busiBillType: "21",
         ownerCode: '',
         outWarehouseBillDetailList: []
       },
