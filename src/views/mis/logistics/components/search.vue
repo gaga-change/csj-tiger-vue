@@ -135,7 +135,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col
+        <el-col
           :sm="12"
           :md="8"
           :lg="8"
@@ -156,7 +156,7 @@
               <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-        </el-col> -->
+        </el-col>
       </el-row>
       <el-row>
         <el-button
