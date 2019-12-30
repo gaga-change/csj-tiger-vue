@@ -45,34 +45,34 @@ export default [
       },
     ]
   },
-  {
-    path: '/priceTemplate',
-    component: Layout,
-    redirect: '/priceTemplate/list',
-    name: 'priceTemplate',
-    mark: '物流',
-    meta: { title: '费用模版管理', icon: 'sale' },
-    children: [
-      {
-        path: 'list',
-        component: _import('mis/priceTemplate/priceTemplateList'),
-        name: 'priceTemplateList',
-        meta: { title: '费用模版管理' }
-      },
-      {
-        path: 'create',
-        component: _import('mis/priceTemplate/priceTemplateCreate'),
-        name: 'priceTemplateCreate',
-        meta: { title: '新建费用模版' },
-        hidden: true
-      },
-      {
-        path: 'detail',
-        component: _import('mis/priceTemplate/priceTemplateDetail'),
-        name: 'priceTemplateDetail',
-        meta: { title: '费用模版详情' },
-        hidden: true
-      }
-    ]
-  }
+  // {
+  //   path: '/priceTemplate',
+  //   component: Layout,
+  //   redirect: '/priceTemplate/list',
+  //   name: 'priceTemplate',
+  //   mark: '物流',
+  //   meta: { title: '费用模版管理', icon: 'sale' },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: _import('mis/priceTemplate/priceTemplateList'),
+  //       name: 'priceTemplateList',
+  //       meta: { title: '费用模版管理' }
+  //     },
+  //     {
+  //       path: 'create',
+  //       component: _import('mis/priceTemplate/priceTemplateCreate'),
+  //       name: 'priceTemplateCreate',
+  //       meta: { title: '新建费用模版' },
+  //       hidden: true
+  //     },
+  //     {
+  //       path: 'detail',
+  //       component: _import('mis/priceTemplate/priceTemplateDetail'),
+  //       name: 'priceTemplateDetail',
+  //       meta: { title: '费用模版详情' },
+  //       hidden: true
+  //     }
+  //   ]
+  // }
 ]
