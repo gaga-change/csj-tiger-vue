@@ -285,3 +285,147 @@ export function deleteFreightTemplate(templateCode) {
     method: 'delete'
   })
 }
+
+//项目部列表
+export function projectInfo(data) {
+  return request({
+    url: `/webApi/project/info/page`,
+    method: 'get',
+    params: data
+  })
+}
+
+//项目部新增
+export function projectCreate(data) {
+  return request({
+    url: `/webApi/project/info/save`,
+    method: 'post',
+    data: data
+  })
+}
+
+//项目部修改
+export function projectUpdate(data) {
+  return request({
+    url: `/webApi/project/info/update`,
+    method: 'post',
+    data: data
+  })
+}
+
+//项目部启禁用
+export function projectStatusChange(data) {
+  return request({
+    url: `/webApi/project/info/effect`,
+    method: 'post',
+    data: data
+  })
+}
+
+//费用列表
+export function costInfo(data) {
+  return request({
+    url: `/webApi/cost/info/page`,
+    method: 'get',
+    params: data
+  })
+}
+
+//费用新增
+export function costInfoCreate(data) {
+  return request({
+    url: `/webApi/cost/info/save`,
+    method: 'post',
+    data: data
+  })
+}
+
+//费用修改
+export function costInfoUpdate(data) {
+  return request({
+    url: `/webApi/cost/info/update`,
+    method: 'post',
+    data: data
+  })
+}
+
+//费用启禁用
+export function costStatusChange(data) {
+  return request({
+    url: `/webApi/cost/info/effect`,
+    method: 'post',
+    data: data
+  })
+}
+
+//费用关联项目部
+export function costProjectContact(data) {
+  return request({
+    url: `/webApi/cost/info/updateCostProject`,
+    method: 'post',
+    data: data
+  })
+}
+
+//查看费用关联项目部
+export function costProjectInfo(data) {
+  return request({
+    url: `/webApi/cost/info/getProject`,
+    method: 'get',
+    params: data
+  })
+}
+
+//货主关联项目部
+export function tenantProjectContact(data) {
+  return request({
+    url: `/webApi/owner/info/updateOwnerProject`,
+    method: 'post',
+    data: data
+  })
+}
+
+//获取货主已关联项目部
+export function tenantProjectInfo(data) {
+  return request({
+    url: `/webApi/owner/info/getProject`,
+    method: 'get',
+    params: data
+  })
+}
+
+//承运商关联项目部
+export function carrierProjectContact(data) {
+  return request({
+    url: `/webApi/consoil/info/updateConsolidatorProject`,
+    method: 'post',
+    data: data
+  })
+}
+
+//获取承运商已关联项目部
+export function carrierProjectInfo(data) {
+  return request({
+    url: `/webApi/consoil/info/getProject`,
+    method: 'get',
+    params: data
+  })
+}
+
+//仓库关联项目部
+export function warehouseProjectContact(data) {
+  return request({
+    url: `/webApi/base/set/warehouse/updateWarehouseProject`,
+    method: 'post',
+    data: data
+  })
+}
+
+//获取仓库已关联项目部
+export function warehouseProjectInfo(data) {
+  return request({
+    url: `/webApi/base/set/warehouse/getProject`,
+    method: 'get',
+    params: data
+  })
+}

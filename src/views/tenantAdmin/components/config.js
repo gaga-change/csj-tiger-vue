@@ -1,13 +1,14 @@
 export  const listIndexConfig=[ //list页配置
     { label:'序号',type:'index', width:55},
-    { label:'租户名称',prop:'ownerName',width:240,},
+    { label:'租户名称',prop:'tenantName',width:240,},
     { label:'用户名',prop:'userName',width:155},
     { label:'手机',prop:'linkTel',width:155},
-    { label:'启用状态',prop:'userStatus',type:'userStatus',useLocalEnum:true},
+    { label:'启用状态',prop:'userStatus',type:'userAdminStatusFilter',useLocalEnum:true},
     { label:'创建日期',prop:'gmtCreate',type:'time',width:140,},
     { label:'创建者',prop:'createrName',width:120},
     { label:'最后操作日期',prop:'gmtModify',type:'time',width:140,},
     { label:'最后操作者',prop:'modifierName',width:125},
+    { label:'来源',prop:'fromSysCode'},
     { label:'操作',useLink:true,fixed:'right',width:150},
   ]
 

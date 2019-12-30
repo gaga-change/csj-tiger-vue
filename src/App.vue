@@ -81,7 +81,7 @@ $dirMap: (
   "b": "bottom"
 );
 
-$dirSizeList: 5 10 15 20 25;
+$dirSizeList: 5 10 15 20 25 35;
 
 @each $dir in $dirList {
   @each $size in $dirSizeList {

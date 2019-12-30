@@ -2,6 +2,7 @@
   <div class="ComponentNameClass">
     <base-list
       ref="baseList"
+      :pageSizes="[10, 20, 30, 50, 500, 1000]"
       :tableConfig="tableConfig"
       :searchConfig="searchConfig"
       :api="listApi"
@@ -58,7 +59,7 @@
 
 <script>
 import addSettlement from './components/addSettlement'
-import { queryCostSattleList, selectAllConsolidator, addOrDeleteSattle } from '@/api'
+import { queryCostSattleList, selectAllConsolidator, addOrDeleteSattle, selectLogisticsExpense } from '@/api'
 const tableConfig = [
   { label: '序号', prop: '_index', width: 80 },
   { label: '结算状态', prop: 'costSettlementStatus', type: 'enum', enum: 'costSettlementStatusEnum' },
@@ -73,6 +74,7 @@ const tableConfig = [
   { label: '重量', prop: 'skuWeight' },
   { label: '体积', prop: 'skuVolume' },
   { label: '运费', prop: 'logisticsFare' },
+  { label: '总运费', prop: 'totalCost' },
   { label: '费用区分', prop: 'expenseName' },
   { label: '费用金额', prop: 'expenseAmt' },
 ]
@@ -81,6 +83,7 @@ const searchConfig = [
   { label: '出库日期', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date('2019-10-01'), new Date()] },
   { label: '物流单号', prop: 'logisticsOrderCode' },
   { label: '结算状态 ', prop: 'costSettlementStatus', type: 'enum', enum: 'costSettlementStatusEnum' },
+  { label: '费用区分 ', prop: 'expenseName', type: 'enum', enum: '_selectLogisticsExpense1_5' },
 ]
 export default {
   components: { addSettlement },
@@ -104,6 +107,18 @@ export default {
   },
   created() {
     this.selectAllConsolidator()
+    selectLogisticsExpense({ expenseTypeList: [1, 5] }).then(res => {
+      if (!res) return
+      this.$store.commit('ADD_MAP', {
+        name: '_selectLogisticsExpense1_5',
+        keyValue: (res.data || []).map(v => {
+          return {
+            value: v.expenseName,
+            key: v.expenseName
+          }
+        })
+      })
+    })
   },
   methods: {
     /** 加入结算 */

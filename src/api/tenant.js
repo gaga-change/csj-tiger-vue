@@ -14,6 +14,13 @@ export function tenantAdminList(data) {
     data: data
   })
 }
+// export function tenantAdminList(data) {
+//   return request({
+//     url: '/webApi/tenant/admin/page',
+//     method: 'post',
+//     data: data
+//   })
+// }
 
 export function saveTenant(data) {
   return request({

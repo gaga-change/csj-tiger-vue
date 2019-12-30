@@ -93,10 +93,11 @@
         >
           <el-form-item
             label="承运商："
-            prop="consoildatorCode"
+            prop="consoildatorCodeList"
           >
             <el-select
-              v-model="searchForm.consoildatorCode"
+              v-model="searchForm.consoildatorCodeList"
+              multiple
               clearable
               placeholder="请选择承运商"
               size="mini"

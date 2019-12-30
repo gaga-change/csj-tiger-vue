@@ -10,6 +10,7 @@ import Basics from './basics' //基本信息
 import Logistics from './logistics' //物流
 // import Report from './report' //报表
 import Finance from './finance' //财务
+import freight from './freight' //物流费用
 
 export const constantRouterMap = [
   { path: '/login', redirect: '/csj_login', hidden: true },
@@ -27,7 +28,23 @@ export const constantRouterMap = [
         component: _import('dashboard/index')
       }
     ]
-  }
+  },
+  {
+    path: '/freightCount',
+    component: _import('freightCount/add'),
+    redirect: 'freightCount/add',
+    mark:'物流费用',
+    meta: { title: '物流计算', noCache: true,icon:'sale' },
+    hidden: false,
+    children: [
+      {
+        name: 'freightCountAdd',
+        path: 'add',
+        meta: { title: '物流计算', noCache: true},
+        component: _import('freightCount/add')
+      },
+    ]
+  },
 ]
 
 export default new Router({
@@ -42,6 +59,7 @@ export const asyncRouterMap = [
   ...Logistics,
   // ...Report,
   ...Finance,
+  ...freight,
   {
     path: '/err',
     component: Layout,

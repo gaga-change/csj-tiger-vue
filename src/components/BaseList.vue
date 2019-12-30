@@ -19,6 +19,7 @@
       <base-table
         ref='baseTable'
         :api="api"
+        :pageSizes="pageSizes"
         :parseData="parseData"
         :config="tableConfig"
         :data.sync="tableData"
@@ -59,6 +60,10 @@
 <script>
 export default {
   props: {
+    pageSizes: {
+      type: Array,
+      default: () => [10, 20, 30, 50]
+    },
     /** 是否扩展 */
     expand: {
       type: Boolean,

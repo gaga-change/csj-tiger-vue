@@ -10,7 +10,6 @@ import PopoverBtn from '@/components/PopoverBtn'
 import BaseTable2 from '@/components/Table/table2.vue'
 import SearchForm2 from '@/components/SearchForm/index'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
-
 import BaseTable from '@/components/BaseTable'
 import SearchForm from '@/components/SearchForm'
 import BaseList from '@/components/BaseList'
@@ -18,20 +17,15 @@ import DoubleList from '@/components/DoubleList'
 import PrintTableDialog from '@/components/PrintTableDialog'
 import BasePrintTable from '@/components/BasePrintTable'
 import DetailItem from '@/components/DetailItem'
-
 import 'normalize.css/normalize.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
-
 import App from './App'
 import router from './router'
 import store from './store'
-
 import '@/icons'
 import '@/permission'
-
 import * as filters from './filters' // global filters
-
 import { EXTENDS } from './assets/extends'
 
 // register global utility filters.
@@ -56,6 +50,7 @@ Vue.component('DoubleList', DoubleList);
 Vue.component('PrintTableDialog', PrintTableDialog);
 Vue.component('BasePrintTable', BasePrintTable);
 Vue.component('DetailItem', DetailItem);
+
 Vue.prototype.$copy = obj => cloneDeep(obj)
 Vue.prototype.$delConfirm = (msg, api) => {
   MessageBox.confirm(msg || '此操作将永久删除该行, 是否继续?', '提示', {
@@ -81,7 +76,7 @@ Vue.prototype.$delConfirm = (msg, api) => {
 
 Vue.config.productionTip = false
 if (process.env.NODE_ENV === 'production') {
-  console.log('--- 当前版本：', process.env.IMAGE_TAG)
+  console.log('当前版本：', process.env.IMAGE_TAG)
 }
 new Vue({
   el: '#app',
