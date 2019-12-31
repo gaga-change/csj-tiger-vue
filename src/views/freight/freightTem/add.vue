@@ -126,7 +126,7 @@
               </template>
             </td>
             <td style="position: relative;padding-right: 30px;">
-              <span style="white-space: pre;">{{item.heavy.rulesListName}}</span>
+              <span style="white-space: pre;line-height:1.3">{{item.heavy.rulesListName}}</span>
               <el-link
                 style="position: absolute;right: 5px;bottom: 5px;"
                 type="primary"
@@ -134,7 +134,7 @@
               >编辑</el-link>
             </td>
             <td style="position: relative;padding-right: 30px;">
-              <span style="white-space: pre;">{{item.light.rulesListName}}</span>
+              <span style="white-space: pre;line-height:1.3">{{item.light.rulesListName}}</span>
               <el-link
                 style="position: absolute;right: 5px;bottom: 5px;"
                 type="primary"
@@ -311,7 +311,8 @@ export default {
         this.formData.templateType = detail.templateType + ''
         this.formData.startPlace = [detail.startPlace]
         if (detail.templateType == 1) {
-          this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
+          this.formData.startPlace = detail.startPlace.split('_')
+          // this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
         }
         this.formData.costRulesList = detail.costRulesList.map((costItem, index) => {
           let item = {
@@ -338,33 +339,36 @@ export default {
             item.checkProvinceList = costItem.endPlaseList
             item.checkProvinceListName = item.checkProvinceList.map(code => this.Area.find(v => v.value === code).label).join('，')
           } else {
-            item.checkCityList = costItem.endPlaseList
+            item.checkCityList = costItem.endPlaseList.map(v => {
+              let temp = v.split('_')
+              return temp[temp.length - 1]
+            })
             item.checkCityListName = item.checkCityList.map(code => this.getCityByCode(code)).join('，')
           }
           item.heavy.rulesList = costItem.heavyRulesList.map(v => {
             return {
               startWeight: v.startWeight,
               endWeight: v.endWeight,
-              noEndWeight: v.endWeight === undefined || v.endWeight === null,
+              noEndWeight: v.endWeight === undefined || v.endWeight === null || v.endWeight === 0,
               unitPrice: v.unitPrice,
               price: v.price,
-              checkPrice: v.price !== undefined || v.price !== null,
+              checkPrice: v.price !== undefined && v.price !== null,
             }
-          })
-          item.heavy.rulesListName = this.turnRuleName(item.heavy)
+          }).sort((a, b) => a.startWeight - b.startWeight)
           item.light.rulesList = costItem.lightRulesList.map(v => {
             return {
               startWeight: v.startWeight,
               endWeight: v.endWeight,
-              noEndWeight: v.endWeight === undefined || v.endWeight === null,
+              noEndWeight: v.endWeight === undefined || v.endWeight === null || v.endWeight === 0,
               unitPrice: v.unitPrice,
               price: v.price,
-              checkPrice: v.price !== undefined || v.price !== null,
+              checkPrice: v.price !== undefined && v.price !== null,
             }
-          })
-          item.light.rulesListName = this.turnRuleName(item.light)
+          }).sort((a, b) => a.startWeight - b.startWeight)
           item.heavy.lowPrice = costItem.heavyLowPrice
           item.light.lowPrice = costItem.lightLowPrice
+          item.heavy.rulesListName = this.turnRuleName(item.heavy)
+          item.light.rulesListName = this.turnRuleName(item.light)
           return item
         })
       })
@@ -380,9 +384,9 @@ export default {
           str += `${item.endWeight}${formData.typeName}以内`
         }
         if (item.checkPrice) {
-          str += `${item.price}元`
+          str += `${item.price || 0}元`
         } else {
-          str += `，单价${item.unitPrice}元`
+          str += `，单价${item.unitPrice || 0}元`
         }
         strList.push(str)
       }
@@ -396,7 +400,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           let params = this.$copy(this.formData)
-          params.startPlace = params.startPlace.pop()
+          params.startPlace = params.startPlace.join('_')
           if (params.costRulesList.length == 0) {
             return this.$message.error('请填写目的地运费！')
           }
@@ -406,18 +410,19 @@ export default {
             if (params.templateType == 0) {
               item.endPlaseList = item.checkProvinceList
             } else {
-              item.endPlaseList = item.checkCityList
+              item.endPlaseList = item.checkCityList.map(v => {
+                // this.formData.startPlace.unshift(detail.startPlace.substr(0, 2) + '0000')
+                return [v.substr(0, 2) + '0000', v].join('_')
+              })
             }
             if (item.endPlaseList.length == 0) {
               return this.$message.error('请选择目的地！')
             }
-            if (item.heavy.rulesList.length == 0) {
+            if (item.heavy.rulesList.length == 0 && item.light.rulesList.length == 0) {
               return this.$message.error('请完善计费规则！')
             }
             item.heavyRulesList = item.heavy.rulesList
-            if (item.light.rulesList.length == 0) {
-              return this.$message.error('请完善计费规则！')
-            }
+
             item.lightRulesList = item.light.rulesList
             item.heavyLowPrice = item.heavy.lowPrice
             item.lightLowPrice = item.light.lowPrice

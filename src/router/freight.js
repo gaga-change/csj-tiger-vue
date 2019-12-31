@@ -8,7 +8,7 @@ export default [
     path: '/freight/freightTem',
     component: Layout,
     redirect: '/freight/freightTem/list',
-    mark: '物流费用',
+    mark: '物流',
     meta: { title: '物流费用模板', icon: 'sale' },
     children: [
       {
@@ -30,7 +30,7 @@ export default [
     path: '/freight/quationList',
     component: Layout,
     redirect: '/freight/quationList/list',
-    mark: '物流费用',
+    mark: '物流',
     meta: { title: '报价单列表', icon: 'sale' },
     children: [
       {

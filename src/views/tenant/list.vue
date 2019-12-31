@@ -285,20 +285,12 @@ export default {
               >
                 推送配置
               </a>
-              <a
-                onClick={() => {
-                  this.showProject(row)
-                }}
-                style={this.linkstyle}
-              >
-                关联项目部
-              </a>
             </div>
           )
         }
       }
     })
-    this.projectInfo()
+    // this.projectInfo()
   },
 
   methods: {

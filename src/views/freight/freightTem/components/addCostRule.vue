@@ -46,6 +46,9 @@
                     style="width: 50px"
                     :controls="false"
                     v-model="item.price"
+                    :precision="2"
+                    :min="0"
+                    :max="99999999"
                   >
                   </el-input-number>
                 </el-radio>
@@ -67,6 +70,9 @@
                     style="width: 50px"
                     :controls="false"
                     v-model="item.unitPrice"
+                    :precision="2"
+                    :min="0"
+                    :max="99999999"
                   >
                   </el-input-number>
                 </el-radio>
@@ -243,7 +249,7 @@ export default {
       let params = this.$copy(this.formData)
       for (let i = 0; i < params.rulesList.length; i++) {
         let item = params.rulesList[i]
-        if (item.endWeight <= item.startWeight) {
+        if (!item.noEndWeight && item.endWeight <= item.startWeight) {
           return this.$message.error('范围数值错误，范围最大值不能小于等于最小值')
         }
         if (!item.noEndWeight && !item.endWeight) {
@@ -258,14 +264,15 @@ export default {
         let str = ''
         if (item.noEndWeight) {
           str += `${item.startWeight}${this.rowData.typeName}以上`
+          item.endWeight = undefined
         } else {
           str += `${item.endWeight}${this.rowData.typeName}以内`
         }
         if (item.checkPrice) {
-          str += `${item.price}元`
+          str += `${item.price || 0}元`
           item.unitPrice = undefined
         } else {
-          str += `，单价${item.unitPrice}元`
+          str += `，单价${item.unitPrice || 0}元`
           item.price = undefined
         }
         strList.push(str)

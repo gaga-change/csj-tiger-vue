@@ -34,8 +34,8 @@ export  const quationTemConfig=[
   { label:'模板名称',prop:'templateName'},
   { label:'承运商',prop:'consoildatorName'},
   { label:'运输种类',prop:'templateType',apiEnum:'getTemplateTransport'},
-  { label:'出发地',prop:'startPlace'},
-  { label:'目的地',prop:'endPlaseList'},
+  { label:'出发地',prop:'startPlace',width:150},
+  { label:'目的地',prop:'endPlaseList',width:150},
   { label:'重货计费规则',prop:'heavyRulesList',width:220},
   { label:'轻货计费规则',prop:'lightRulesList',width:220}
 ]

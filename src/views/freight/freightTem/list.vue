@@ -106,10 +106,11 @@ export default {
       let data = res.data.list || []
       let total = res.data.total
       data.forEach(v => {
-        // v.updateLockStatusOutLoading = false
-        // v.updateLockStatusInLoading = false
         if (v.templateType == 1 && v.startPlace) {
-          v.startPlaceName = this.getCityByCode(v.startPlace)
+          let temp = v.startPlace.split('_')
+          if (temp.length === 2) {
+            v.startPlaceName = [this.Area.find(item => item.value === temp[0]).label, this.getCityByCode(temp[1])].join(' - ')
+          }
         } else if (v.startPlace) {
           let place = this.Area.find(item => item.value === v.startPlace)
           v.startPlaceName = place ? place.label : v.startPlace

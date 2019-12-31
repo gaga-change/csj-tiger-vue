@@ -54,11 +54,18 @@ export default {
       choice: {},
       loading: false,
       tree: [],
-      showText: ''
+      isshow:false
     }
   },
   created() {
     this.getTree()
+  },
+  computed:{
+    showText:function(){
+      if(this.isshow){
+        return this.choice.text
+      }
+    }
   },
   methods: {
     reset() {
@@ -89,6 +96,7 @@ export default {
       } else {
         this.choice = findCategory(this.tree, params) || {}
       }
+      this.isshow=true
     },
     getTree() {
       return new Promise((resolve, reject) => {
@@ -107,7 +115,8 @@ export default {
       })
     },
     getNewparentcategory() {
-      this.showText = this.choice.text
+      this.isshow=true
+      // this.showText = this.choice.text
       this.$emit('categorySubmit', this.choice)
       this.categoryVisible = false
     }
