@@ -36,9 +36,18 @@
       </el-form-item>
       <el-form-item
         label="推送配置："
-        prop="isSyncValue"
+        prop="storeSysCodeArr"
       >
-        <el-checkbox v-model="isSyncValue" @change="showWarning">INFO</el-checkbox>
+        <el-checkbox-group v-model="addForm.storeSysCodeArr">
+          <el-checkbox
+            label="INFO"
+            @change="val => showWarning(val, 'INFO')"
+          >INFO</el-checkbox>
+          <el-checkbox
+            label="SHARK"
+            @change="val => showWarning(val, 'SHARK')"
+          >SHARK</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
       <el-form-item label="营业执照：">
         <upload-mode
@@ -50,8 +59,9 @@
         >
         </upload-mode>
         <div
-          v-for="file in fileList"
+          v-for="(file, index) in fileList"
           class="photoview"
+          :key="index"
         >
           <img
             :src="file.path"
@@ -160,7 +170,7 @@
         <el-button
           type="primary"
           @click="onSubmit"
-          v-loading="submitloading"
+          :loading="submitloading"
           :disabled="submitloading"
         >提交</el-button>
         <el-button @click="onCancel">取消</el-button>
@@ -208,14 +218,14 @@ export default {
     }
     return {
       addForm: {
+        storeSysCodeArr: []
       },
       fileList: [],
       submitloading: false,
       validateOwnerName,
       validateTel,
       validateDcno,
-      isSyncValue:null,
-      isSync:null
+      storeSysCode: '',
     }
   },
   computed: {
@@ -232,27 +242,23 @@ export default {
       tenantDetail({ ownerCode: this.$route.query.ownerCode }).then(res => {
         loading.close()
         const result = res.data
+        result.storeSysCodeArr = result.storeSysCode.split('-').filter(v => {
+          return v && ['INFO', 'SHARK'].find(i => i === v)
+        })
+        this.storeSysCode = result.storeSysCode
         this.addForm = result
-        this.isSync=result.isSync
-        if(result.isSync && result.isSync==1){
-          this.isSyncValue=true
-        }else{
-          this.isSyncValue=false
-        }
         this.fileList = result.files
       }).catch((err) => {
         loading.close()
       })
     },
-    showWarning(val){
-      if(this.$route.query.ownerCode && this.isSync!=1){
-        if(val){
-          this.$message({
-            message:'如需推送该货主下配置推送前的商品、客户、供应商时，可通过“修改商品”或者“绑定货主”操作推送',
-            type:'warning',
-            duration:3000
-          })
-        }
+    showWarning(val, key) {
+      if (this.$route.query.ownerCode && this.storeSysCode.indexOf(key) === -1 && val) {
+        this.$message({
+          message: '如需推送该货主下配置推送前的商品、客户、供应商时，可通过“修改商品”或者“绑定货主”操作推送',
+          type: 'warning',
+          duration: 3000
+        })
       }
     },
     removeFile(enc) {
@@ -272,9 +278,12 @@ export default {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
           this.addForm.files = this.fileList
-          this.addForm.isSync=(this.isSyncValue==true?1:0)
           const Api = this.addForm.ownerCode ? tenantUpdate : saveTenant
-          Api(this.addForm).then(res => {
+          let params = this.$copy(this.addForm)
+          params.storeSysCode = params.storeSysCodeArr.join('-')
+          this.submitloading = true
+          Api(params).then(res => {
+            this.submitloading = false
             this.$message.success('操作成功~')
             this.$store.dispatch('delVisitedViews', view[0]).then(() => {
               this.$router.push({
@@ -282,6 +291,7 @@ export default {
               })
             })
           }).catch(err => {
+            this.submitloading = false
             console.error(err)
           })
         }
