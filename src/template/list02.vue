@@ -70,7 +70,15 @@ export default {
     /** 新建 */
     handleCreate() {
       this.$router.push({ path: '/qualityTesting/create' })
-    }
+    },
+    /** 删除 */
+    handleDel(row) {
+      this.$delConfirm('此操作将永久删除该模板, 是否继续?', () => deleteLogisticsExpenseInfo(row.id).then(res => {
+        if (!res) return
+        this.$message.success('删除成功！')
+        this.getTableData()
+      }))
+    },
   }
 }
 </script>

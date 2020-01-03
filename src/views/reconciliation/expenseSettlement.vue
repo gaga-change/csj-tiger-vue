@@ -107,7 +107,7 @@ export default {
   },
   created() {
     this.selectAllConsolidator()
-    selectLogisticsExpense({ expenseTypeList: [1, 5] }).then(res => {
+    selectLogisticsExpense({ expenseTypeList: [1, 5, 7] }).then(res => {
       if (!res) return
       this.$store.commit('ADD_MAP', {
         name: '_selectLogisticsExpense1_5',
