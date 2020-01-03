@@ -76,7 +76,7 @@
           :xl="6"
         >
           <el-form-item
-            label="下单日期："
+            label="制单日期："
             prop="orderDate"
           >
             <el-date-picker
@@ -153,7 +153,12 @@
               size="mini"
               class="formitem"
             >
-              <el-option v-for="item in mapConfig['ownerInfoMap']" :label="item.value" :key="item.key"  :value="item.key"></el-option>
+              <el-option
+                v-for="item in mapConfig['ownerInfoMap']"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-col>
