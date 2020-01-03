@@ -52,3 +52,5 @@ export const saveTemplate = params => http.post(`/webApi/template/saveTemplate`,
 export const updateTemplateInfo = params => http.post(`/webApi/template/updateTemplateInfo`, params)
 /** 模板详情 */
 export const selectTemplateInfo = params => http.get(`/webApi/template/selectTemplateInfo`, { params })
+/** 审核配置列表 */
+export const basicAuditConfigList = params => http.get(`/webApi/basicAuditConfig/queryPageList`, { params })

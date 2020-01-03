@@ -35,11 +35,23 @@
         :highlightCurrentRow="highlightCurrentRow"
         :selectable="selectable"
         :expand="expand"
+        :showIndex="showIndex"
       >
         <template slot-scope="scope">
           <slot
             v-bind:row="scope.row"
             v-bind:index="scope.index"
+          ></slot>
+        </template>
+        <template
+          slot="col"
+          slot-scope="scope"
+        >
+          <slot
+            name="col"
+            v-bind:row="scope.row"
+            v-bind:index="scope.index"
+            v-bind:item="scope.item"
           ></slot>
         </template>
         <template
@@ -96,6 +108,11 @@ export default {
     parseData: {
       type: Function,
       default: null,
+    },
+    /** 是否展示序号 */
+    showIndex: {
+      type: Boolean,
+      default: false
     },
     /** 显示 【操作】 */
     showControl: {

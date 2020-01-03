@@ -1,5 +1,5 @@
 <template>
-  <div class="ctabel TableIndexCom">
+  <div class="Component_BaseTable">
     <el-table
       :class="{'radio-table': highlightCurrentRow}"
       ref="table"
@@ -94,6 +94,15 @@
               >
               </el-option>
             </el-select>
+            <template v-if="item.type === 'slot'">
+              <slot
+                name="col"
+                v-bind:row="scope.row"
+                v-bind:index="scope.$index"
+                v-bind:item="item"
+              >
+              </slot>
+            </template>
           </template>
         </el-table-column>
         <el-table-column
@@ -118,11 +127,6 @@
         <template slot-scope="scope">
           <div class="f12">
             <slot
-              v-bind:row="scope.row"
-              v-bind:index="scope.$index"
-            ></slot>
-            <slot
-              name="edit"
               v-bind:row="scope.row"
               v-bind:index="scope.$index"
             ></slot>
@@ -434,7 +438,9 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.TableIndexCom {
+.Component_BaseTable {
+  width: 100%;
+
   td {
     word-break: break-word;
   }
@@ -444,12 +450,6 @@ export default {
         cursor: pointer;
       }
     }
-  }
-}
-.ctabel {
-  width: 100%;
-  .el-radio__label {
-    display: none;
   }
 }
 </style>

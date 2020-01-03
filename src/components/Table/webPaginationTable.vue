@@ -1,47 +1,35 @@
 <template>
-  <div class="ctabel">
-      <el-table
-        ref="multipleTable"
-        v-loading="loading"
-        :element-loading-text="elementLoadingText"
-        :element-loading-background="elementLoadingBackground"
-        :data="!usePagination?allTableData:tableData"
-         @current-change="handleCurrentRedioChange"
-        :highlight-current-row="highlightCurrentRow"
-         size="mini"
-        :height="height"
-        :max-height="maxHeight"
-        :border="border"
-        :show-summary="showSummary"
-        :summary-method="getSummaries||getSummarie"
-         @selection-change="handleSelectionChange"
-        :style="tableStyle"
-        :row-class-name="tableRowClassName"
-        >
-        <template v-for="item in tableConfig">
-          <template v-if="tableType=='productNum'">
-            <template v-if="item.prop=='skuCode'">
-              <el-table-column label="商品编码">
-                <template slot-scope="scope">
-                  <span>{{scope.row.skuCode}}</span>
-                  <span>{{scope.row.pointtitle}}</span>
-                </template>
-              </el-table-column>
-            </template>
-            <template v-else>
-              <el-table-column
-                :formatter="item.formatter"
-                :key="item.lable"
-                :type="item.columnType"
-                :class-name="item.className"
-                :fixed="item.fixed"
-                :align="item.align"
-                :width="item.width"
-                :min-width="item.minWidth"
-                :prop="item.prop"
-                :label="item.label">
-              </el-table-column>
-            </template>
+  <div class="WebPaginationTable">
+    <el-table
+      ref="multipleTable"
+      v-loading="loading"
+      :element-loading-text="elementLoadingText"
+      :element-loading-background="elementLoadingBackground"
+      :data="!usePagination?allTableData:tableData"
+      @current-change="handleCurrentRedioChange"
+      :highlight-current-row="highlightCurrentRow"
+      size="mini"
+      :height="height"
+      :max-height="maxHeight"
+      :border="border"
+      :show-summary="showSummary"
+      :summary-method="getSummaries||getSummarie"
+      @selection-change="handleSelectionChange"
+      :style="tableStyle"
+      :row-class-name="tableRowClassName"
+    >
+      <template v-for="(item, index) in tableConfig">
+        <template v-if="tableType=='productNum'">
+          <template v-if="item.prop=='skuCode'">
+            <el-table-column
+              label="商品编码"
+              :key="index"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.skuCode}}</span>
+                <span>{{scope.row.pointtitle}}</span>
+              </template>
+            </el-table-column>
           </template>
           <template v-else>
             <el-table-column
@@ -54,184 +42,202 @@
               :width="item.width"
               :min-width="item.minWidth"
               :prop="item.prop"
-              :label="item.label">
+              :label="item.label"
+            >
             </el-table-column>
           </template>
         </template>
-      </el-table>
+        <template v-else>
+          <el-table-column
+            :formatter="item.formatter"
+            :key="item.lable"
+            :type="item.columnType"
+            :class-name="item.className"
+            :fixed="item.fixed"
+            :align="item.align"
+            :width="item.width"
+            :min-width="item.minWidth"
+            :prop="item.prop"
+            :label="item.label"
+          >
+          </el-table-column>
+        </template>
+      </template>
+    </el-table>
 
-      <el-pagination
-        v-if="total>maxTotal&&usePagination"
-        :style="paginationStyle"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="[...pageSizes,total]"
-        :page-size="pageSize"
-        size="mini"
-        :layout="layout"
-        :total="total">
-      </el-pagination>
+    <el-pagination
+      v-if="total>maxTotal&&usePagination"
+      :style="paginationStyle"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-sizes="[...pageSizes,total]"
+      :page-size="pageSize"
+      size="mini"
+      :layout="layout"
+      :total="total"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
 
-import _  from 'lodash';
+import _ from 'lodash';
 import moment from 'moment';
 import { mapGetters } from 'vuex'
-import  * as Enum from "@/utils/enum.js";
+import * as Enum from "@/utils/enum.js";
 export default {
-   props: {
-    highlightCurrentRow:{
-       type: Boolean,
-       default: false
+  props: {
+    highlightCurrentRow: {
+      type: Boolean,
+      default: false
     },
-     loading: {
+    loading: {
       type: Boolean,
       default: false
     },
     allTableData: {
       type: Array,
-      default:()=>[]
+      default: () => []
     },
-    config:{
+    config: {
       type: Array,
-      default:()=> []
+      default: () => []
     },
-    getSummaries:{
+    getSummaries: {
       type: Function,
     },
-    height:{
+    height: {
       type: Number,
     },
-    maxHeight:{
+    maxHeight: {
       type: Number,
     },
-    showSummary:{
+    showSummary: {
       type: Boolean,
       default: false
     },
-    pageSizes:{
+    pageSizes: {
       type: Array,
-      default:()=> [10, 20, 50, 100]
+      default: () => [10, 20, 50, 100]
     },
 
-    layout:{
+    layout: {
       type: String,
       default: "total, sizes, prev, pager, next, jumper"
     },
-    maxTotal:{
+    maxTotal: {
       type: Number,
       default: 10
     },
-    elementLoadingText:{
+    elementLoadingText: {
       type: String,
       default: "加载中"
     },
-    elementLoadingBackground:{
+    elementLoadingBackground: {
       type: String,
       default: "rgba(255, 255, 255, 0.5)"
     },
-    border:{
+    border: {
       type: Boolean,
       default: true
     },
-    tableStyle:{
+    tableStyle: {
       type: String,
       default: "width: 100%"
     },
-    paginationStyle:{
+    paginationStyle: {
       type: String,
       default: "marginTop:16px"
     },
-    usePagination:{
+    usePagination: {
       type: Boolean,
       default: false
     },
-    tableType:{
+    tableType: {
       type: String,
-      default:''
+      default: ''
     }
   },
 
   data() {
     return {
-      tableConfig:[],
-      currentPage:1,
-      pageSize:10,
+      tableConfig: [],
+      currentPage: 1,
+      pageSize: 10,
       // showType:null
     }
   },
 
-  beforeMount(){
-    let tableConfig=_.cloneDeep(this.config);
-    for(let i in tableConfig){
-       if(tableConfig[i].type){
-         if(tableConfig[i].useApi){
-            tableConfig[i].formatter=(row, column, cellValue, index)=>this.mapConfig[tableConfig[i].type]&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue)&&this.mapConfig[tableConfig[i].type].find(v=>v.key==cellValue).value||cellValue
-         }  else if(tableConfig[i].useLocalEnum){
-            tableConfig[i].formatter=(row, column, cellValue, index)=>Enum[tableConfig[i].type]&&Enum[tableConfig[i].type].find(v=>v.value==cellValue)&&Enum[tableConfig[i].type].find(v=>v.value==cellValue).name||cellValue
-         } else{
-          switch(tableConfig[i].type){
-            case 'time':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?moment(cellValue).format(tableConfig[i].format||'YYYY-MM-DD HH:mm:ss'):'';break;
-            case 'rate':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue+'%';break;
-            case 'Boolean':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue?'是':'否' ;break;
-            case 'index':tableConfig[i].formatter=(row, column, cellValue, index)=>(this.pageSize)*(this.currentPage-1)+index+1;break;
-            case 'toFixed':tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue&&Number(Number(cellValue).toFixed(2));break;
-            case 'code':tableConfig[i].formatter=(row, column, cellValue, index)=> <bar-code code={cellValue}/> ;break;
-           }
-         }
-       } else if(tableConfig[i].dom){
-         tableConfig[i].formatter=tableConfig[i].dom
-       } else if(tableConfig[i].linkTo){
-          tableConfig[i].formatter=(row, column, cellValue, index)=>{
-            let json={};
-            tableConfig[i].query.forEach(item=>{
-                json[item.key]=row[item.value]
-            })
-            return  <router-link  to={{path:tableConfig[i].linkTo,query:json}} style={{color:'#3399ea'}}>{tableConfig[i].linkText?  tableConfig[i].linkText:cellValue}</router-link>
+  beforeMount() {
+    let tableConfig = _.cloneDeep(this.config);
+    for (let i in tableConfig) {
+      if (tableConfig[i].type) {
+        if (tableConfig[i].useApi) {
+          tableConfig[i].formatter = (row, column, cellValue, index) => this.mapConfig[tableConfig[i].type] && this.mapConfig[tableConfig[i].type].find(v => v.key == cellValue) && this.mapConfig[tableConfig[i].type].find(v => v.key == cellValue).value || cellValue
+        } else if (tableConfig[i].useLocalEnum) {
+          tableConfig[i].formatter = (row, column, cellValue, index) => Enum[tableConfig[i].type] && Enum[tableConfig[i].type].find(v => v.value == cellValue) && Enum[tableConfig[i].type].find(v => v.value == cellValue).name || cellValue
+        } else {
+          switch (tableConfig[i].type) {
+            case 'time': tableConfig[i].formatter = (row, column, cellValue, index) => cellValue ? moment(cellValue).format(tableConfig[i].format || 'YYYY-MM-DD HH:mm:ss') : ''; break;
+            case 'rate': tableConfig[i].formatter = (row, column, cellValue, index) => cellValue + '%'; break;
+            case 'Boolean': tableConfig[i].formatter = (row, column, cellValue, index) => cellValue ? '是' : '否'; break;
+            case 'index': tableConfig[i].formatter = (row, column, cellValue, index) => (this.pageSize) * (this.currentPage - 1) + index + 1; break;
+            case 'toFixed': tableConfig[i].formatter = (row, column, cellValue, index) => cellValue && Number(Number(cellValue).toFixed(2)); break;
+            case 'code': tableConfig[i].formatter = (row, column, cellValue, index) => <bar-code code={cellValue} />; break;
           }
+        }
+      } else if (tableConfig[i].dom) {
+        tableConfig[i].formatter = tableConfig[i].dom
+      } else if (tableConfig[i].linkTo) {
+        tableConfig[i].formatter = (row, column, cellValue, index) => {
+          let json = {};
+          tableConfig[i].query.forEach(item => {
+            json[item.key] = row[item.value]
+          })
+          return <router-link to={{ path: tableConfig[i].linkTo, query: json }} style={{ color: '#3399ea' }}>{tableConfig[i].linkText ? tableConfig[i].linkText : cellValue}</router-link>
+        }
 
-        } else{
-          tableConfig[i].formatter=(row, column, cellValue, index)=>cellValue!==undefined&&cellValue!==null&&cellValue!==''?cellValue:''
-       }
+      } else {
+        tableConfig[i].formatter = (row, column, cellValue, index) => cellValue !== undefined && cellValue !== null && cellValue !== '' ? cellValue : ''
+      }
     }
-    this.tableConfig=tableConfig;
+    this.tableConfig = tableConfig;
     // this.showType=this.tableType
   },
 
   computed: {
-     ...mapGetters([
+    ...mapGetters([
       'mapConfig',
     ]),
 
-    total:{
+    total: {
       get: function () {
-       return this.allTableData&&this.allTableData.length||0
+        return this.allTableData && this.allTableData.length || 0
       },
-      set:function(){
+      set: function () {
 
       }
     },
-    showType:{
+    showType: {
       get: function () {
-       return this.tableType
+        return this.tableType
       },
-      set:function(){
-        
+      set: function () {
+
       }
     },
-     tableData:{
+    tableData: {
       get: function () {
-       let from = this.pageSize*(this.currentPage-1);
-       let to = from + this.pageSize;
-       if(!this.allTableData){
-         return []
-       }
-       return this.allTableData.slice(from,to)
+        let from = this.pageSize * (this.currentPage - 1);
+        let to = from + this.pageSize;
+        if (!this.allTableData) {
+          return []
+        }
+        return this.allTableData.slice(from, to)
       },
-      set:function(){
+      set: function () {
 
       }
     }
@@ -239,57 +245,57 @@ export default {
 
 
   methods: {
-    tableRowClassName({row, rowIndex}) {
-      if(this.showType!='productNum'){
+    tableRowClassName({ row, rowIndex }) {
+      if (this.showType != 'productNum') {
         return '';
       }
-      if ((row.canUseSkuQty-row.planOutQty)<0) {
+      if ((row.canUseSkuQty - row.planOutQty) < 0) {
         return 'warning-row';
-      }else{
-       return ''; 
+      } else {
+        return '';
       }
     },
-     handleSizeChange(val){
-        this.pageSize=val
-     },
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
 
-     handleCurrentChange(val){
-       this.currentPage=val
-     },
+    handleCurrentChange(val) {
+      this.currentPage = val
+    },
 
-     handleSelectionChange(val){
-       this.$emit('SelectionChange', val);
-     },
+    handleSelectionChange(val) {
+      this.$emit('SelectionChange', val);
+    },
 
-      handleCurrentRedioChange(currentRow, oldCurrentRow){
-       this.$emit('currentRedioChange', currentRow, oldCurrentRow);
-     },
+    handleCurrentRedioChange(currentRow, oldCurrentRow) {
+      this.$emit('currentRedioChange', currentRow, oldCurrentRow);
+    },
 
     getSummarie(param) {
       const { columns, data } = param;
       const sums = [];
       columns.forEach((items, index) => {
-        let column=items;
-        let json=this.config.find(citems=>citems.label===items.label)||{};
-        column={...items,...json};
+        let column = items;
+        let json = this.config.find(citems => citems.label === items.label) || {};
+        column = { ...items, ...json };
 
-        if(index===0){
+        if (index === 0) {
           sums[index] = '合计';
-          return ;
+          return;
         }
 
-        if(!column.useSum){
+        if (!column.useSum) {
           return ''
         }
 
-        const values = data.map(item =>{
-          if(column.useSum.includes&&column.useSum.includes(',')){
-            let arr=column.useSum.split(',');
-              return arr.reduce((a,b)=>{
-                return Number(a)*Number(item[b])
-              },1)
-          } else{
-              return Number(item[column.prop])
+        const values = data.map(item => {
+          if (column.useSum.includes && column.useSum.includes(',')) {
+            let arr = column.useSum.split(',');
+            return arr.reduce((a, b) => {
+              return Number(a) * Number(item[b])
+            }, 1)
+          } else {
+            return Number(item[column.prop])
           }
         });
 
@@ -303,10 +309,10 @@ export default {
             }
           }, 0);
           const fix = column.toFixed === undefined ? 2 : column.toFixed
-          if(column.unitName){
-              sums[index]=Number(sums[index]).toFixed(fix) + column.unitName;
-          } else{
-              sums[index]=Number(sums[index]).toFixed(fix)
+          if (column.unitName) {
+            sums[index] = Number(sums[index]).toFixed(fix) + column.unitName;
+          } else {
+            sums[index] = Number(sums[index]).toFixed(fix)
           }
 
         } else {
@@ -320,7 +326,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .ctabel{
-    width: 100%;
-  }
+.WebPaginationTable {
+  width: 100%;
+}
 </style>

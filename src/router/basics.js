@@ -200,6 +200,12 @@ export default [
         meta: { title: '仓库用户配置', noCache: true },
         component: _import('businessset/warehouseuser/index')
       },
+      {
+        name: 'auditSetList',
+        path: 'auditSetList',
+        meta: { title: '审核配置', noCache: true },
+        component: _import('businessset/auditSet/auditSetList')
+      },
     ]
   },
   {
