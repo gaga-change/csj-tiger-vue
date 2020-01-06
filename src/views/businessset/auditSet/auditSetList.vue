@@ -61,7 +61,8 @@ export default {
   methods: {
     hanleChangeSelect(val, row) {
       this.$delConfirm('此操作将修改审批设置, 是否继续?', () => basicAuditConfigUpdate({
-        ...row
+        ...row,
+        auditType: val
       }).then(res => {
         if (!res) {
           row.auditTypeSelect = row.auditType
@@ -80,9 +81,10 @@ export default {
     /** 可选 返回列表添加字段 */
     parseData(res) {
       let data = res.data.list || []
-      let total = res.data.total
-      data.forEach(v => {
-        v.auditTypeSelect = auditType
+      let { total, pageNum, pageSize } = res.data
+      data.forEach((v, i) => {
+        v.auditTypeSelect = v.auditType
+        v.index = (pageNum - 1) * pageSize + i + 1
       })
       // return { data: [{ index: 1, ownerName: 'gaga', auditType: 2, billType: 1, auditTypeSelect: 2 }], total: 1 }
       return { data, total }

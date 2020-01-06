@@ -60,8 +60,9 @@ export default {
     /** 可选 返回列表添加字段 */
     parseData(res) {
       let data = res.data.list || []
-      let total = res.data.total
-      data.forEach(v => {
+      let { total, pageNum, pageSize } = res.data
+      data.forEach((v, i) => {
+        v.index = (pageNum - 1) * pageSize + i + 1
         v.updateLockStatusOutLoading = false
         v.updateLockStatusInLoading = false
       })
