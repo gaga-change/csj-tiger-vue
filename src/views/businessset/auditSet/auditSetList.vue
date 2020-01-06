@@ -29,20 +29,13 @@
         <el-divider direction="vertical"></el-divider>
       </template>
       <template slot="btns">
-        <el-button
-          type="primary"
-          size="mini"
-          @click="handleCreate"
-        >
-          新建质检记录
-        </el-button>
       </template>
     </base-list>
   </div>
 </template>
 
 <script>
-import { basicAuditConfigList } from '@/api'
+import { basicAuditConfigList, basicAuditConfigUpdate } from '@/api'
 const tableConfig = [
   { label: '序号', prop: 'index', width: 50 },
   { label: '货主', prop: 'ownerName' },
@@ -50,7 +43,7 @@ const tableConfig = [
   { label: '审批设置', prop: 'auditType', type: 'slot', edit: true },
 ]
 const searchConfig = [
-  { label: '货主', prop: 'createrName' },
+  { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'ownerInfoMap' },
 ]
 export default {
   data() {
@@ -62,9 +55,23 @@ export default {
       appendSearchParams: {},
     }
   },
+  created() {
+
+  },
   methods: {
     hanleChangeSelect(val, row) {
-      console.log(val, row)
+      this.$delConfirm('此操作将修改审批设置, 是否继续?', () => basicAuditConfigUpdate({
+        ...row
+      }).then(res => {
+        if (!res) {
+          row.auditTypeSelect = row.auditType
+          return
+        }
+        this.$message.success('修改成功！')
+        this.getTableData()
+      }), () => {
+        row.auditTypeSelect = row.auditType
+      })
     },
     /** 刷新列表 */
     getTableData() {
@@ -75,10 +82,10 @@ export default {
       let data = res.data.list || []
       let total = res.data.total
       data.forEach(v => {
-        v.updateLockStatusOutLoading = false
-        v.updateLockStatusInLoading = false
+        v.auditTypeSelect = auditType
       })
-      return { data: [{ index: 1, ownerName: 'gaga', auditType: 2, billType: 1, auditTypeSelect: 2 }], total: 1 }
+      // return { data: [{ index: 1, ownerName: 'gaga', auditType: 2, billType: 1, auditTypeSelect: 2 }], total: 1 }
+      return { data, total }
     },
     /** 新建 */
     handleCreate() {

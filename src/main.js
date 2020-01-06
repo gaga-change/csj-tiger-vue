@@ -54,7 +54,7 @@ Vue.component('DetailItem', DetailItem);
 Vue.component('BaseForm', BaseForm);
 
 Vue.prototype.$copy = obj => cloneDeep(obj)
-Vue.prototype.$delConfirm = (msg, api) => {
+Vue.prototype.$delConfirm = (msg, api, close) => {
   MessageBox.confirm(msg || '此操作将永久删除该行, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -73,7 +73,9 @@ Vue.prototype.$delConfirm = (msg, api) => {
       }
     }
   }).then(() => {
-  }).catch(() => { })
+  }).catch(() => {
+    close && close()
+  })
 }
 
 Vue.config.productionTip = false

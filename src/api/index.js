@@ -50,7 +50,11 @@ export const deleteTemplateInfo = params => http.get(`/webApi/template/deleteTem
 export const saveTemplate = params => http.post(`/webApi/template/saveTemplate`, params)
 /** 修改模板 */
 export const updateTemplateInfo = params => http.post(`/webApi/template/updateTemplateInfo`, params)
+/** 审核配置 - 修改 */
+export const basicAuditConfigUpdate = params => http.post(`/webApi/basicAuditConfig/update`, params)
 /** 模板详情 */
 export const selectTemplateInfo = params => http.get(`/webApi/template/selectTemplateInfo`, { params })
 /** 审核配置列表 */
 export const basicAuditConfigList = params => http.get(`/webApi/basicAuditConfig/queryPageList`, { params })
+// /** 货主列表 */
+// export const ownerInfoList = params => http.get(`webApi/owner/info/list`, { params })

@@ -23,6 +23,7 @@
             <el-select
               v-model="searchForms[item.prop]"
               clearable
+              filterable
               :placeholder="`请选择${item.label}`"
               @change="hanldeSubmit"
               size="mini"
@@ -59,8 +60,17 @@
             </el-date-picker>
           </template>
           <template v-else-if="item.type==='numRange'">
-            <el-input-number v-model="searchForms[item.props[0]]" controls-position="right" :min="0"
-            placeholder="开始金额"></el-input-number>至<el-input-number v-model="searchForms[item.props[1]]" controls-position="right" :min="searchForms[item.props[0]]" placeholder="结束金额"></el-input-number>
+            <el-input-number
+              v-model="searchForms[item.props[0]]"
+              controls-position="right"
+              :min="0"
+              placeholder="开始金额"
+            ></el-input-number>至<el-input-number
+              v-model="searchForms[item.props[1]]"
+              controls-position="right"
+              :min="searchForms[item.props[0]]"
+              placeholder="结束金额"
+            ></el-input-number>
           </template>
           <template v-else>
             <el-input
@@ -184,9 +194,9 @@ export default {
       })
     },
     hanldeSubmit() {
-      
+
       let searchForms = { ...this.searchForms }
-      let nextStep=true
+      let nextStep = true
       // 获取需要解析的字段, 针对 范围型数据
       if (this.configRange.length) {
         this.configRange.forEach(({ prop, props, type }) => {
@@ -196,15 +206,15 @@ export default {
             searchForms[props[0]] = new Date(valArr[0]).getTime()
             searchForms[props[1]] = new Date(valArr[1]).getTime()
           }
-          if(type==='numRange'){
-            if(searchForms[props[0]]>searchForms[props[1]]){
+          if (type === 'numRange') {
+            if (searchForms[props[0]] > searchForms[props[1]]) {
               this.$message.error('结束金额必须大于等于开始金额')
-              nextStep=false
+              nextStep = false
             }
           }
         })
       }
-      if(!nextStep){
+      if (!nextStep) {
         return
       }
       this.submitLoading = true
@@ -222,7 +232,7 @@ export default {
       this.$refs['searchForm'].resetFields()
       this.config.forEach(v => {
         this.$set(this.searchForms, v.prop, undefined)
-        if(v.type==='numRange'){
+        if (v.type === 'numRange') {
           this.$set(this.searchForms, v.props[0], undefined)
           this.$set(this.searchForms, v.props[1], undefined)
         }
