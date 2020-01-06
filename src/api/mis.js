@@ -8,14 +8,6 @@ export function getOutStoreList(data = {}) {
   })
 }
 
-export function createLogisticsExpense(data = {}) {
-  return request({
-    url: `/webApi/logistics-expense/create-logistics-expense`,
-    method: 'post',
-    data: data
-  })
-}
-
 export function getCustomerList(data = {}) {
   return request({
     url: `/webApi/customer/list`,
@@ -180,19 +172,7 @@ export function deleteLogisticsExpense(id) {
     method: 'DELETE'
   })
 }
-export function deleteLogisticsExpenseInfo(id) {
-  return request({
-    url: `/webApi/logistics-expense/delete-logistics-expense-info/${id}`,
-    method: 'DELETE'
-  })
-}
-export function updateLogisticsExpenseInfo(data) {
-  return request({
-    url: `/webApi/logistics-expense/update-logistics-expense-info`,
-    method: 'PUT',
-    data
-  })
-}
+
 export function queryDispatchDetail(data) {
   return request({
     url: `/webApi/logistics-dispatch/query-dispatch-detail`,

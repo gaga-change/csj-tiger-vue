@@ -2,8 +2,16 @@ import http from './http'
 
 /** 获取用户信息 */
 export const getInfo = params => http.get(`/webApi/base/user/info`, { params })
-/** 款项列表 */
+/** 款项列表 - 全部 */
 export const queryLogisticsExpenseAll = params => http.get(`/webApi/logistics-expense/query-logistics-expense-all`, { params })
+/** 款项列表 */
+export const queryLogisticsExpense = params => http.get(`/webApi/logistics-expense/query-logistics-expense`, { params })
+/** 款项新建 */
+export const createLogisticsExpense = params => http.post(`/webApi/logistics-expense/create-logistics-expense`, params)
+/** 款项修改 */
+export const updateLogisticsExpenseInfo = params => http.put(`/webApi/logistics-expense/update-logistics-expense-info`, params)
+/** 删除款项性质 */
+export const deleteLogisticsExpenseInfo = id => http.delete(`/webApi/logistics-expense/delete-logistics-expense-info/${id}`)
 /** 收派服务费 */
 export const selectLogisticsExpense = params => http.post(`/webApi/logistics-expense/select-logistics-expense`, params)
 /** 收派服务费明细 */

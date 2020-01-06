@@ -17,6 +17,7 @@ import DoubleList from '@/components/DoubleList'
 import PrintTableDialog from '@/components/PrintTableDialog'
 import BasePrintTable from '@/components/BasePrintTable'
 import DetailItem from '@/components/DetailItem'
+import BaseForm from '@/components/BaseForm'
 import 'normalize.css/normalize.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
@@ -50,6 +51,7 @@ Vue.component('DoubleList', DoubleList);
 Vue.component('PrintTableDialog', PrintTableDialog);
 Vue.component('BasePrintTable', BasePrintTable);
 Vue.component('DetailItem', DetailItem);
+Vue.component('BaseForm', BaseForm);
 
 Vue.prototype.$copy = obj => cloneDeep(obj)
 Vue.prototype.$delConfirm = (msg, api) => {
