@@ -7,20 +7,20 @@ export function tenantList(data) {
     params: data
   })
 }
-export function tenantAdminList(data) {
-  return request({
-    url: '/webApi/owner/info/listAdmin',
-    method: 'post',
-    data: data
-  })
-}
 // export function tenantAdminList(data) {
 //   return request({
-//     url: '/webApi/tenant/admin/page',
+//     url: '/webApi/owner/info/listAdmin',
 //     method: 'post',
 //     data: data
 //   })
 // }
+export function tenantAdminList(data) {
+  return request({
+    url: '/webApi/tenant/admin/page',
+    method: 'post',
+    data: data
+  })
+}
 
 export function saveTenant(data) {
   return request({

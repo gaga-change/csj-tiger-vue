@@ -131,7 +131,7 @@
 
     mounted(){
       this.fetch()
-      // this.projectInfo()
+      this.projectInfo()
     },
 
     created(){
@@ -156,6 +156,10 @@
                      {
                        <span class="tableLink" onClick={this.operation.bind(this,'switch',row)}>{row.warehouseState===1?'禁用':'启用'}</span>
                      }
+                    {
+                      <span class="tableLink" onClick={this.showProject.bind(this,row)}>关联项目部</span>
+                    }
+
                 </div>
               )
             }
