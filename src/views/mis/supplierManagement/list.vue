@@ -340,6 +340,7 @@ export default {
         updateOwnerProvider({
           id: this.activeRow.id,
           providerCode: this.activeRow.providerCode,
+          providerName: this.activeRow.providerName,
           ...this.ownerListForm
         }).then(res => {
           if (res.success) {
