@@ -436,6 +436,10 @@ export default {
       costInfo({ pageNum: this.pageNum, pageSize: this.pageSize, ...this.searchData }).then(res => {
         const result = res.data
         this.tableData = result && result.list
+        this.tableData.map(item=>{
+          item.costFlag=item.costFlag.toString()
+          item.costStatus=item.costStatus.toString()
+        })
         this.total = result.total
         this.currentPage = result.pageNum
         this.loading = false

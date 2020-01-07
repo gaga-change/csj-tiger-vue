@@ -109,7 +109,7 @@ export default {
 
   mounted() {
     this.fetch()
-    // this.projectInfo()
+    this.projectInfo()
   },
 
   created() {
@@ -117,22 +117,6 @@ export default {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
           return (
-            // <div class="tableLinkBox">
-            //   {
-            //     <router-link to={`/carrier/detail?consoildatorCode=${row.consoildatorCode}`} class="tableLink">查看</router-link>
-            //   }
-
-            //   {
-            //     <router-link to={`/carrier/add?consoildatorCode=${row.consoildatorCode}&type=modify`} class="tableLink">修改</router-link>
-            //   }
-
-            //   {
-            //     <span class="tableLink" onClick={this.delete.bind(this, row)}>删除</span>
-            //   }
-            //   {
-            //     <span class="tableLink" onClick={this.showProject.bind(this,row)}>关联项目部</span>
-            //   }
-            // </div>
             <div class="tableLinkBox">
               {
                 <router-link to={`/carrier/detail?consoildatorCode=${row.consoildatorCode}`} class="tableLink">查看</router-link>
@@ -144,6 +128,9 @@ export default {
 
               {
                 <span class="tableLink" onClick={this.delete.bind(this, row)}>删除</span>
+              }
+              {
+                <span class="tableLink" onClick={this.showProject.bind(this,row)}>关联项目部</span>
               }
             </div>
           )
