@@ -13,7 +13,15 @@
         {{detailForm.ownerName}}
       </el-form-item>
       <el-form-item label="推送配置：">
-        <el-checkbox :value="(detailForm.isSync && detailForm.isSync==1)?true:false" :disabled="true">INFO</el-checkbox>
+        <!-- <el-checkbox :value="(detailForm.isSync && detailForm.isSync==1)?true:false" :disabled="true">INFO</el-checkbox> -->
+        <el-checkbox-group v-model="detailForm.storeSysCodeArr" :disabled="true">
+          <el-checkbox
+            label="INFO"
+          >INFO</el-checkbox>
+          <el-checkbox
+            label="SHARK"
+          >SHARK</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
       <el-form-item label="状态：" prop="ownerState">
         {{filter('ownerState',detailForm.ownerState)}}
@@ -101,7 +109,11 @@ export default {
       })
       const { ownerCode } = this.$route.query
       tenantDetail({ ownerCode }).then(res => {
-        this.detailForm = res.data
+        const result = res.data
+        result.storeSysCodeArr = result.storeSysCode.split('-').filter(v => {
+          return v && ['INFO', 'SHARK'].find(i => i === v)
+        })
+        this.detailForm = result
         loading.close()
       }).catch(err => {
         console.error(err)
