@@ -15,7 +15,7 @@
              api:'refundApprove',
              loding:'toExamine'
           })"
-          size="small">
+          size="mini">
             审核
           </el-button>
 
@@ -32,14 +32,14 @@
              api:'refundApprove',
              loding:'reject'
           })"
-          size="small">
+          size="mini">
             驳回
           </el-button>
 
           <el-button  type="success"
           @click="modify"
           v-if="[0,2].includes(cardData.refundStatus)&&$haspermission('editRefund')"
-          size="small">
+          size="mini">
             修改
           </el-button>
   
@@ -55,7 +55,7 @@
             api:'refundApprove',
             loding:'submit'
           })"
-           size="small">
+           size="mini">
             提交
           </el-button>
 
@@ -70,14 +70,14 @@
             api:'refundRemove',
             loding:'delete'
           })"
-          size="small">
+          size="mini">
             删除
           </el-button>
 
           <el-button  type="success"
            @click="refund"
            v-if="[3].includes(cardData.refundStatus)&&!this.$route.query.refund&&$haspermission('registerRefund')"
-           size="small">
+           size="mini">
             登记退款
           </el-button>
 
@@ -98,8 +98,8 @@
        <item-title text="登记退款相关表单"/>
        <el-card class="simpleCard"  shadow="never"  body-style="padding:12px">
         <search-invoice  :searchForm="searchForm" :useRules="true"  @fileListChange="fileListChange"  @submit="submit" :showPayForm="true"  ref="detailSearchFormDom" ></search-invoice>
-        <el-button type="primary"  size="small" v-loading="refundLoding" :disabled="refundDisable"  @click="submitSure">登记确认</el-button>
-        <el-button type="primary"  size="small" :disabled="refundDisable" @click="resetForm">取消</el-button>
+        <el-button type="primary"  size="mini" v-loading="refundLoding" :disabled="refundDisable"  @click="submitSure">登记确认</el-button>
+        <el-button type="primary"  size="mini" :disabled="refundDisable" @click="resetForm">取消</el-button>
       </el-card>
     </div>
     <alert-detail 

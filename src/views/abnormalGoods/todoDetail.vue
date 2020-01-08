@@ -3,7 +3,7 @@
 
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button  type="success"  size="small"  @click="outgoingOk"  :disabled="outgoingButtonDisabled"   >出库确认</el-button>
+         <el-button  type="success"  size="mini"  @click="outgoingOk"  :disabled="outgoingButtonDisabled"   >出库确认</el-button>
       </template>
     </sticky>
 

@@ -3,7 +3,7 @@
   <div style="marginBottom:12px">
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16"  >
-        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px" size="small"  label-position="left">
+        <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm"   class="demo-form-inline" label-width="70px" size="mini"  label-position="left">
           <el-col :sm="12" :md="8" :lg="8" :xl="6" >
             <el-form-item label="入库类型"  prop="busiBillType">
               <el-select   @change="submitForm('ruleForm')"   v-model="ruleForm.busiBillType"   placeholder="请选择入库类型">
@@ -93,11 +93,11 @@
 
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
+              <el-button type="primary" size="mini"  @click="submitForm('ruleForm')">查询</el-button>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" size="mini" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-col>
       </el-form>
@@ -107,7 +107,7 @@
 
   <div style="display: flex;justify-content: flex-end;margin-bottom:12px">
       <a :href="`/webApi/in/order/export?${stringify(this.linkData)}`" >
-        <el-button type="primary" size="small" >导出Excel</el-button>
+        <el-button type="primary" size="mini" >导出Excel</el-button>
       </a>
   </div>
 

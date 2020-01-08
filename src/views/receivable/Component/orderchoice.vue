@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item> -->
       <el-form-item label="合同编号">
-        <el-input v-model="postForm.contractno" placeholder="合同编号" size="small"></el-input>
+        <el-input v-model="postForm.contractno" placeholder="合同编号" size="mini"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -20,10 +20,10 @@
       </el-form-item>
       <div v-show="ispul">
         <el-form-item label="来源计划单">
-          <el-input v-model="postForm.enquiryorder" placeholder="来源计划单号" size="small"></el-input>
+          <el-input v-model="postForm.enquiryorder" placeholder="来源计划单号" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="客户">
-          <el-select v-model="postForm.customer" size="small" filterable clearable placeholder="请选择客户"  prefix-icon="el-icon-search">
+          <el-select v-model="postForm.customer" size="mini" filterable clearable placeholder="请选择客户"  prefix-icon="el-icon-search">
             <el-option
               v-for="item in gridData"
               :key="item.id"
@@ -45,7 +45,7 @@
       @current-change="handleCurrentChange"
       highlight-current-row
       max-height="600"
-      size="small"
+      size="mini"
       :key='key'
       :data="orderList" :loading="loading">
       <el-table-column property="ticketno" label="销售单号" width="160"></el-table-column>
@@ -69,7 +69,7 @@
       :current-page="currentPage"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
-      size="small"
+      size="mini"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>

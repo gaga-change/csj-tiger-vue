@@ -2,9 +2,9 @@
 <div class="app-container OutputinvoiceNewoutputinvoiceIndex">
   <sticky :className="'sub-navbar published'" style="margin-bottom: 8px">
     <template v-if="fetchSuccess">
-       <el-button v-loading="loading"  :disabled="disabled"   style="margin-left: 10px;"  size="small"  @click="submitForm('searchForm','save')">保存
+       <el-button v-loading="loading"  :disabled="disabled"   style="margin-left: 10px;"  size="mini"  @click="submitForm('searchForm','save')">保存
       </el-button>
-      <el-button v-loading="loading" :disabled="disabled"  style="margin-left: 10px;"   size="small"  type="success"  @click="submitForm('searchForm','submit')">保存并提交
+      <el-button v-loading="loading" :disabled="disabled"  style="margin-left: 10px;"   size="mini"  type="success"  @click="submitForm('searchForm','submit')">保存并提交
       </el-button>
     </template>
 
@@ -74,14 +74,14 @@
 
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="合同编号"  prop="contractNo" >
-            <el-input type="text" size="small" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
+            <el-input type="text" size="mini" :disabled="true"  v-model="searchForm.contractNo" ></el-input>
           </el-form-item>
         </el-col>
 
          <el-col :span="6" style="margin-bottom:16px;">
             <el-form-item label-width="80px" label="发票种类:"  prop="invoiceType"  class="postInfo-container-item" >
               <el-select v-model="searchForm.invoiceType"    :clearable="true" 
-              size="small" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
+              size="mini" style='min-width:220px;' placeholder="请选择发票种类" prefix-icon="el-icon-search">
                 <el-option v-for="item in InvoiceType" :key="item.value" :label="item.name" :value="item.value">
                 </el-option>
               </el-select>
@@ -96,7 +96,7 @@
              class="postInfo-container-item"  >
               <el-select 
               v-model="searchForm.invoiceNature" 
-              size="small" 
+              size="mini" 
               style='min-width:220px;' 
               placeholder="请选择发票种类"
                @change="invoiceChange" 
@@ -117,7 +117,7 @@
                   v-model="searchForm.oldInvoiceCode" 
                   :clearable="true" 
                    @change="oldInvoiceCodeChange"
-                  size="small" style='min-width:220px;' placeholder="请选择蓝票" prefix-icon="el-icon-search">
+                  size="mini" style='min-width:220px;' placeholder="请选择蓝票" prefix-icon="el-icon-search">
                     <el-option
                      v-for="item in outBusiBillNoConfig" 
                      :key="item.id" 
@@ -130,14 +130,14 @@
           
           <el-col :span="6" style="margin-bottom:16px;margin-left:20px;minWidth:360px">
           <el-form-item label-width="80px" label="申请日期:" prop="applyTime"   class="postInfo-container-item" >
-            <el-date-picker size="small" v-model="searchForm.applyTime"  placeholder="选择日期时间">
+            <el-date-picker size="mini" v-model="searchForm.applyTime"  placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
 
            <el-col :span="6" style="margin-bottom:16px;minWidth:300px">
           <el-form-item label-width="100px" label="最迟开票日期:"  prop="applyLastAllowTime"   class="postInfo-container-item"   >
-            <el-date-picker size="small" v-model="searchForm.applyLastAllowTime"  placeholder="选择日期时间">
+            <el-date-picker size="mini" v-model="searchForm.applyLastAllowTime"  placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -146,20 +146,20 @@
 
         <el-col :span="6" style="margin-bottom:16px">
           <el-form-item label="含税发票金额"    label-width="90px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="Number(allTaxAmount).toFixed(2)" ></el-input>
+            <el-input type="text" size="mini"  :disabled="true" v-model="Number(allTaxAmount).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="7" style="margin-bottom:16px;margin-left:20px">
           <el-form-item label="不含税发票金额"   label-width="100px" >
-            <el-input type="text" size="small"  :disabled="true" 
+            <el-input type="text" size="mini"  :disabled="true" 
             v-model="Number(allNotTaxAmount).toFixed(2)"></el-input>
           </el-form-item>
         </el-col>
         
         <el-col :span="6" style="margin-bottom:16px;">
           <el-form-item label="税额" label-width="40px" >
-            <el-input type="text" size="small"  :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
+            <el-input type="text" size="mini"  :disabled="true" v-model="Number(allActualTicketTax).toFixed(2)" ></el-input>
           </el-form-item>
         </el-col>
 
@@ -176,7 +176,7 @@
               </el-form-item>
            </div> 
           <el-table
-             size="small"
+             size="mini"
              :border="true"
              :row-key="rowKey"
              :expand-row-keys="expandRowKeysArr"
@@ -389,7 +389,7 @@
               <el-form 
                :inline="true" 
                :model="taxNoByWaresIdSeach"  
-               size="small"
+               size="mini"
                label-width="60px" 
                label-position="left"  
                ref="taxNoByWaresIdSeach" >

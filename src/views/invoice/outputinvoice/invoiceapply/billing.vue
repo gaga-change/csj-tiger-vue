@@ -2,7 +2,7 @@
   <div class="outgoing-quiry-container">
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
-        <el-button  style="margin-left: 10px;" size="small" 
+        <el-button  style="margin-left: 10px;" size="mini" 
         v-if="cardData.ticketStatus == 2 || cardData.ticketStatus == 3" type="success" :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')"
             @click="submitBilling" >提交
             <!-- :disabled="buttonDisabled||!$haspermission('salesinvoicebilling')" -->

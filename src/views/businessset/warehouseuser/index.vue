@@ -3,7 +3,7 @@
   <div style="marginBottom:12px">
    <el-card class="box-card"  shadow="never" body-style="padding:12px 12px 0" >
     <el-row :gutter="16" >
-        <el-form :inline="true" :model="ruleForm" size="small" :rules="rules" ref="ruleForm"   class="demo-form-inline">
+        <el-form :inline="true" :model="ruleForm" size="mini" :rules="rules" ref="ruleForm"   class="demo-form-inline">
           <el-col :span="6" >
             <el-form-item label="仓库编号" prop="warehouseNo">
               <el-input v-model.lazy.trim="ruleForm.warehouseNo"   @keyup.enter.native="submitForm('ruleForm')"   placeholder="请输入货主编号"></el-input>
@@ -19,11 +19,11 @@
 
           <el-col :span="24">
             <el-form-item>
-              <el-button type="primary" size="small"  @click="submitForm('ruleForm')">查询</el-button>
+              <el-button type="primary" size="mini"  @click="submitForm('ruleForm')">查询</el-button>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" size="mini" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-col>
       </el-form>
@@ -33,8 +33,8 @@
   <div style="marginBottom:12px">
 
   <div class="operationitem">
-    <el-button type="primary" size="small" :disabled="buttonDisabled||!$haspermission('warehouseuserAdd')" @click="addWarehouseuser">新增</el-button>
-    <el-button type="primary" size="small"  :disabled="buttonDisabled||!$haspermission('warehouseuserDelete')" @click="deleteWarehouseuser">删除</el-button>
+    <el-button type="primary" size="mini" :disabled="buttonDisabled||!$haspermission('warehouseuserAdd')" @click="addWarehouseuser">新增</el-button>
+    <el-button type="primary" size="mini"  :disabled="buttonDisabled||!$haspermission('warehouseuserDelete')" @click="deleteWarehouseuser">删除</el-button>
   </div>
 
   </div>

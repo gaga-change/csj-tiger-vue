@@ -21,6 +21,7 @@ export const tableConfig = [
       return `${row.realOutQty}/${row.planOutQty}(${row.skuUnitName})`
     }
   },
+  { label: '可用库存', prop: 'canUseSkuQty' },
   { label: '手工出库', prop: 'qty', useEdit: true, width: 160, max: ['planOutQty', 'realOutQty'], min: 0 },
   { label: '备注', prop: 'remarkInfo' },
 ];
@@ -41,6 +42,7 @@ export const infoConfig = [
   { title: '联系电话', prop: 'arrivalLinkTel' },
   { title: '客户地址', prop: 'arrivalAddress' },
   { title: '推送状态', prop: 'issuedState', type: 'getIssuedState', useApi: true },
+  { title: '备注', prop: 'remarkInfo' },
 ]
 
 export const outgoingTableConfig = [

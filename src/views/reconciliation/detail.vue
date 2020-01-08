@@ -6,7 +6,7 @@
          <el-button  type="success"
           v-if="detailBaseInfoData.finaPaymentId===null&&$haspermission('reconciliationEidt')"
           @click="modify"
-          size="small">
+          size="mini">
             修改
           </el-button>
 
@@ -14,14 +14,14 @@
           v-if="detailBaseInfoData.finaPaymentId===null&&$haspermission('reconciliationDelete')"
           @click="deleteorider"
           v-loading="deleLoding"
-          size="small">
+          size="mini">
             删除
           </el-button>
 
           <el-button  type="success"
            v-if="detailBaseInfoData.finaPaymentId===null&&$haspermission('reconciliationPayAplay')"
           @click="applay"
-          size="small">
+          size="mini">
             生成付款申请
           </el-button>
 

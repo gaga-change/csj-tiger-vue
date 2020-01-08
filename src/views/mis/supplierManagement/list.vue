@@ -9,7 +9,7 @@
     <div class="operationitem">
       <el-button
         type="primary"
-        size="small"
+        size="mini"
         @click="showAddDialog('add')"
       >创建供应商</el-button>
     </div>
@@ -73,11 +73,11 @@
         <div class="btnBox">
           <el-button
             type="primary"
-            size="small"
+            size="mini"
             @click="submit('addShipper')"
           >确定</el-button>
           <el-button
-            size="small"
+            size="mini"
             @click="()=>this.handleClose('relation')"
           >取消</el-button>
         </div>
@@ -96,7 +96,7 @@
       >
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           @click="showAddDialog('addAddress')"
         >新增地址</el-button>
       </div>
@@ -160,8 +160,8 @@ export default {
       dialogTitle: '新增供应商',
       addVisible: false,
       addForm: {
-        providerLevel: 1,
-        providerState: 1
+        providerLevel: "1",
+        providerState: "1"
       },
 
       //关联货主项
@@ -277,8 +277,8 @@ export default {
         this.addVisible = true;
         this.dialogTitle = "新增供应商"
         this.addForm = {
-          providerLevel: 1,
-          providerState: 1
+          providerLevel: "1",
+          providerState: "1"
         }
       } else if (type === 'relation') {
         this.relationVisible = true;

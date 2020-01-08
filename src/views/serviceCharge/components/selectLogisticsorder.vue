@@ -16,13 +16,13 @@
       <el-button
         style="margin-left: 20px;"
         type="primary"
-        size="small"
+        size="mini"
         @click="search()"
       >查询</el-button>
       <el-button
         style="margin-left: 20px;"
         type="primary"
-        size="small"
+        size="mini"
         @click="reset();"
       >重置</el-button>
     </div>

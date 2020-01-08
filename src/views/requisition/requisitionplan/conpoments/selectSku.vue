@@ -19,20 +19,20 @@
       <el-button
         style="margin-left: 20px;"
         type="primary"
-        size="small"
+        size="mini"
         @click="currentPage=1;dataInfo()"
       >查询</el-button>
       <el-button
         style="margin-left: 20px;"
         type="primary"
-        size="small"
+        size="mini"
         @click="currentPage=1;searchSkuForm.skuCode='';searchSkuForm.skuName='';dataInfo()"
       >重置</el-button>
 
     </div>
     <el-table
       :data="data"
-      size="small"
+      size="mini"
       ref="singleTable"
       highlight-current-row
     >
@@ -88,7 +88,7 @@
     <el-pagination
       style="text-align: right;"
       v-if="!!totalLen"
-      size="small"
+      size="mini"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
       :page-sizes="[10]"

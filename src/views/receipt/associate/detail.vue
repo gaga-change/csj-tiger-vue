@@ -3,50 +3,50 @@
   <div style="margin:12px">
     <sticky :className="'sub-navbar published'" style="margin-bottom: 20px">
       <template  v-if="cardData.relationStatus == 1">
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(0,'submitForm')">保存
         </el-button>  
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(1,'submitForm')">提交
         </el-button>
       </template> 
       <template v-else-if="cardData.relationStatus == 2">
         <template v-if="!editable">
-          <el-button  style="margin-left: 10px;" size="small"  type="primary"  :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  type="primary"  :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
               @click="()=>{this.editable = true}">编辑
           </el-button>  
-           <el-button  style="margin-left: 10px;" size="small"  type="primary"  :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+           <el-button  style="margin-left: 10px;" size="mini"  type="primary"  :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
               @click="saveOrderSubmit">提交
           </el-button>  
         </template>
         <template v-else>
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
               @click="saveOrder(0,'submitForm')">保存
           </el-button>  
-          <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
               @click="saveOrder(1,'submitForm')">提交
           </el-button>
         </template>
       </template> 
      
       <template v-else-if="cardData.relationStatus == 3">
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
             @click="Modify('RelateCheck')">审核
           </el-button>  
-          <el-button  style="margin-left: 10px;" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
+          <el-button  style="margin-left: 10px;" size="mini"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
               @click="Modify('RelateReject')">驳回
           </el-button>  
         </template>
          <template  v-else-if="cardData.relationStatus == 5">
         
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(0,'submitForm')">保存
         </el-button>  
-         <el-button  style="margin-left: 10px;" size="small"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
+         <el-button  style="margin-left: 10px;" size="mini"  type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')" v-loading="buttonDisabled"
             @click="saveOrder(1,'submitForm')">提交
         </el-button>  
       </template>
-       <el-button  style="margin-left: 10px;" v-else-if="cardData.relationStatus == 4" size="small"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
+       <el-button  style="margin-left: 10px;" v-else-if="cardData.relationStatus == 4" size="mini"  :disabled="buttonDisabled||!$haspermission('receiptRelateCheck')" v-loading="buttonDisabled"
             @click="makeInvalid">作废 
         </el-button>  
         <el-tag v-else>
@@ -60,7 +60,7 @@
       <el-row :gutter="10">
          <el-col :span="6">
           <el-form-item label="款项性质" prop="moneyState">
-            <el-select v-model="submitForm.moneyState" :disabled="!editable" size="small" filterable clearable placeholder="款项性质" prefix-icon="el-icon-search" >
+            <el-select v-model="submitForm.moneyState" :disabled="!editable" size="mini" filterable clearable placeholder="款项性质" prefix-icon="el-icon-search" >
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -74,7 +74,7 @@
         <template v-if="submitForm.moneyState===0">
           <el-col :span="6">
             <el-form-item label="款项类型" prop="moneyType">
-              <el-select v-model="submitForm.moneyType" :disabled="!editable" size="small" filterable  clearable placeholder="款项类型" prefix-icon="el-icon-search">
+              <el-select v-model="submitForm.moneyType" :disabled="!editable" size="mini" filterable  clearable placeholder="款项类型" prefix-icon="el-icon-search">
                 <el-option
                   v-for="item in MoneyTypeEnum"
                   :key="item.value"
@@ -100,7 +100,7 @@
      </el-card>
 
       <template  v-if="cardData.relationStatus == 1||(cardData.relationStatus == 2&&editable)||cardData.relationStatus == 5">
-        <el-button v-if="submitForm.moneyState==0" style="margin-right: 25px;float:right" size="small" v-loading="buttonDisabled" type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
+        <el-button v-if="submitForm.moneyState==0" style="margin-right: 25px;float:right" size="mini" v-loading="buttonDisabled" type="primary" :disabled="buttonDisabled||!$haspermission('receiptRelateOrder')"
             @click="choosesalesman()" >关联业务单
         </el-button>
         
@@ -108,7 +108,7 @@
       <el-table
           :data="relateOrderData"
           v-if="submitForm.moneyState===0&&(cardData.relationStatus==1||cardData.relationStatus==2||cardData.relationStatus==5)"
-          size="small"
+          size="mini"
           v-loading="loading"  
           max-height="600">
           <!-- <el-table-column
@@ -207,23 +207,23 @@
             <el-row :gutter="20">
                <el-col :span="6">
                 <el-form-item label="订单编号" >
-                  <el-input type="text" size="small" v-model="searchForm.busiBillNo" ></el-input>
+                  <el-input type="text" size="mini" v-model="searchForm.busiBillNo" ></el-input>
                 </el-form-item>
               </el-col>
                <el-col :span="6">
                 <el-form-item label="合同编号" >
-                  <el-input type="text" size="small" v-model="searchForm.contractNo" ></el-input>
+                  <el-input type="text" size="mini" v-model="searchForm.contractNo" ></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" >
-                <el-button @click="searchOrder" size="small"  type="primary">查询</el-button>
-                <el-button @click="searchReset" size="small" type="primary">重置</el-button>
+                <el-button @click="searchOrder" size="mini"  type="primary">查询</el-button>
+                <el-button @click="searchReset" size="mini" type="primary">重置</el-button>
               </el-col>
             </el-row>
           </el-form>
           <el-table
           :data="filterOrderTableData"
-          size="small"
+          size="mini"
           v-loading="loading"  
           @selection-change="handleSelectionChange"
           max-height="300">

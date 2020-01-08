@@ -19,7 +19,7 @@
             <el-input
               v-model="searchForm.logisticsOrderCode"
               placeholder="请输入物流单号"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -34,7 +34,7 @@
             label="金额大于："
             prop="logisticsOrderCode"
           >
-            <el-input-number v-model="searchForm.outAmt" :min="0" size="small" class="formitem"></el-input-number>
+            <el-input-number v-model="searchForm.outAmt" :min="0" size="mini" class="formitem"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col
@@ -50,7 +50,7 @@
             <el-date-picker
               v-model="searchForm.insureDate"
               type="daterange"
-              size="small"
+              size="mini"
               unlink-panels
               class="formitem"
               range-separator="-"
@@ -74,7 +74,7 @@
               v-model="searchForm.insureState"
               clearable
               placeholder="请选择投保状态"
-              size="small"
+              size="mini"
             >
               <el-option
                 v-for="item in mapConfig['getInsureStatus']"
@@ -93,13 +93,14 @@
         >
           <el-form-item
             label="承运商："
-            prop="consoildatorCode"
+            prop="consoildatorCodeList"
           >
             <el-select
-              v-model="searchForm.consoildatorCode"
+              v-model="searchForm.consoildatorCodeList"
+              multiple
               clearable
               placeholder="请选择承运商"
-              size="small"
+              size="mini"
               class="formitem"
             >
               <el-option
@@ -124,7 +125,7 @@
             <el-date-picker
               v-model="searchForm.orderDate"
               type="daterange"
-              size="small"
+              size="mini"
               unlink-panels
               class="formitem"
               range-separator="-"

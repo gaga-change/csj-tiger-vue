@@ -5,7 +5,7 @@ export  const carrierListConfig=[
   { label:'承运商状态',prop:'consoildatorState',useApi:true,type:'getConsoildatorState'},
   { label:'联系人',prop:'linkUser'},
   { label:'联系电话',prop:'linkTel'},
-  { label:'操作',fixed:'right',useLink:true,width:180},
+  { label:'操作',fixed:'right',useLink:true,width:220},
 ]
 
 export  const carrierDetailConfig=[

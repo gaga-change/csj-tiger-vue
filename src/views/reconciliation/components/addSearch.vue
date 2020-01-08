@@ -2,8 +2,8 @@
    <div class="entryInvoice-form">
     <sticky :className="'sub-navbar published'" style="margin-bottom:12px">
       <template >
-         <el-button  type="success"size="small" :loading="buttonLoding"  v-if="this.$route.query.id===undefined"  @click="submit('submit')">生成对账单 </el-button>
-         <el-button  type="success"size="small" :loading="buttonLoding" v-if="this.$route.query.id!==undefined"  @click="submit('submit')">确认修改 </el-button>
+         <el-button  type="success"size="mini" :loading="buttonLoding"  v-if="this.$route.query.id===undefined"  @click="submit('submit')">生成对账单 </el-button>
+         <el-button  type="success"size="mini" :loading="buttonLoding" v-if="this.$route.query.id!==undefined"  @click="submit('submit')">确认修改 </el-button>
       </template>
     </sticky>
 
@@ -17,7 +17,7 @@
             :rules="[
               { required: true, message: '该项为必填'},
             ]">
-              <el-date-picker size="small" v-model="searchForm.startTime"  placeholder="选择日期">
+              <el-date-picker size="mini" v-model="searchForm.startTime"  placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -30,7 +30,7 @@
             :rules="[
               { required: true, message: '该项为必填'},
             ]">
-              <el-date-picker size="small" v-model="searchForm.endTime"  placeholder="选择日期">
+              <el-date-picker size="mini" v-model="searchForm.endTime"  placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -42,7 +42,7 @@
                { required: true, message: '该项为必填'},
              ]">
               <el-select v-model="searchForm.ownerCode" 
-               size="small"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
+               size="mini"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
                 <el-option
                    v-for="item in mapConfig['ownerInfoMap']" 
                    :label="item.value"   
@@ -60,7 +60,7 @@
              :rules="[
                { required: true, message: '该项为必填'},
              ]">
-               <el-input type="text" size="small"
+               <el-input type="text" size="mini"
                  placeholder="输入服务费百分比" v-model.number="searchForm.serviceRate" >
                  <template  slot="append">
   <span>%</span>

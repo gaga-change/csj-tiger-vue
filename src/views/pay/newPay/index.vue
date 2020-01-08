@@ -6,7 +6,7 @@
           <el-form-item label="申请标题" prop="applyTitle" :rules="[
                 {  required: true, message:'请输入申请标题' }
               ]">
-            <el-input type="text" size="small" v-model="payment.applyTitle"/>
+            <el-input type="text" size="mini" v-model="payment.applyTitle"/>
           </el-form-item>
         </el-col>
       <!-- </el-row>
@@ -18,7 +18,7 @@
             <el-select v-model="payment.paymenterCode"
               :filter-method="cusCodeFilter"
               @clear="cusCodeFilter" 
-              size="small"
+              size="mini"
               @focus="clearMark"
               @change="customerChange"
               clearable
@@ -44,7 +44,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="款项性质" prop="moneyState">
-            <el-select v-model="payment.moneyState"   :disabled="Boolean(this.$route.query.byOut)"    filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search" @change="changeMoneyState">
+            <el-select v-model="payment.moneyState"   :disabled="Boolean(this.$route.query.byOut)"    filterable clearable placeholder="请选择款项性质" size="mini" prefix-icon="el-icon-search" @change="changeMoneyState">
               <el-option
                 v-for="item in MoneyStateEnum"
                 :key="item.value"
@@ -59,7 +59,7 @@
           <el-form-item label="款项类型" prop="moneyType" key="moneyType" :rules="[
                 {  required: true, message:'请选择款项类型' }
               ]">  
-            <el-select v-model="payment.moneyType" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="small" prefix-icon="el-icon-search">
+            <el-select v-model="payment.moneyType" :disabled="false"  filterable clearable placeholder="请选择款项类型" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in MoneyTypeEnum"
                 :key="item.value"
@@ -78,7 +78,7 @@
             <el-select v-model="payment.busiBillNo" :disabled="false" 
             :filter-method="cusBillFilter" 
             @focus="clearMark"
-            @change="selectBusiBillNo" filterable  clearable placeholder="请选择采购订单" size="small" prefix-icon="el-icon-search">
+            @change="selectBusiBillNo" filterable  clearable placeholder="请选择采购订单" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in newBusiBillNoAll"
                 :key="item.busiBillNo"
@@ -91,7 +91,7 @@
         <el-col :span="6" v-if="this.payment.moneyState === 0">
           <el-form-item label="业务板块" prop="busiPlate">
             <el-select v-model="payment.busiPlate" disabled 
-               size="small" prefix-icon="el-icon-search">
+               size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in busiPlateConfig"
                 :key="item.value"
@@ -104,7 +104,7 @@
         <el-col :span="6">
           <template v-if="payment.moneyState === 0">
             <el-form-item label="采购合同" prop="contractNo" >
-              <el-input type="text" size="small" disabled v-model="payment.contractNo" @change="getContract"/>
+              <el-input type="text" size="mini" disabled v-model="payment.contractNo" @change="getContract"/>
             </el-form-item>
           </template>
           <template v-else>
@@ -118,7 +118,7 @@
   >
     <el-input
       type="text"
-      size="small"
+      size="mini"
       v-model="payment.contractNo"
       v-on:blur="getContract"
     />
@@ -143,7 +143,7 @@
        
         <!-- <el-col :span="6">
           <el-form-item label="合同约定付款方式" label-width="120px" prop="paymentMode">
-              <el-select v-model="payment.paymentMode" disabled filterable clearable placeholder="请选择款项性质" size="small" prefix-icon="el-icon-search">
+              <el-select v-model="payment.paymentMode" disabled filterable clearable placeholder="请选择款项性质" size="mini" prefix-icon="el-icon-search">
               <el-option
                 v-for="item in PaymentModeEnum"
                 :key="item.value"
@@ -155,26 +155,26 @@
         </el-col> -->
         <el-col :span="6" v-if="this.payment.moneyState === 0">
           <el-form-item label="已付货款" prop="realPaymentAmt">
-             <el-input type="text" size="small" disabled v-model="payment.realPaymentAmt"></el-input>
+             <el-input type="text" size="mini" disabled v-model="payment.realPaymentAmt"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
        <el-row :gutter="20">
         <!-- <el-col :span="6">
           <el-form-item label="申请金额" prop="paymentAmt">
-             <el-input type="text" size="small" :disabled="xingzhi==0" v-model="payment.paymentAccount"></el-input>
+             <el-input type="text" size="mini" :disabled="xingzhi==0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col> -->
         <el-col :span="6">
           <el-form-item label="申请付款金额" prop="applyPaymentAmt" label-width="100px"  :rules="[
               { validator: checkAmt, required: true }
              ]">
-             <el-input type="text" size="small"  v-model.number="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
-             <el-button @click="getPayInfo" v-show="this.payment.moneyState === 2&&Boolean(this.$route.query.byOut)" size="small" style="display:inline-block" type="text">付款来源</el-button>
+             <el-input type="text" size="mini"  v-model.number="payment.applyPaymentAmt" :style="{maxWidth:(this.payment.moneyState === 2?'120px':'300px')}" ></el-input>
+             <el-button @click="getPayInfo" v-show="this.payment.moneyState === 2&&Boolean(this.$route.query.byOut)" size="mini" style="display:inline-block" type="text">付款来源</el-button>
           </el-form-item>
         </el-col>
          <!-- <el-form-item label="其中:贴息" label-width="90px" prop="paymentAmt">
-             <el-input type="text" size="small" :disabled="xingzhi!=0" v-model="payment.paymentAccount"></el-input>
+             <el-input type="text" size="mini" :disabled="xingzhi!=0" v-model="payment.paymentAccount"></el-input>
           </el-form-item>
         </el-col> -->
        
@@ -185,7 +185,7 @@
               <el-date-picker
               v-model="payment.applyPaymentDate"
               type="date"
-              size="small"
+              size="mini"
               :editable="false"
               placeholder="选择日期时间"
               style="max-width:200px"
@@ -209,18 +209,18 @@
        <el-row :gutter="20">
           <el-col :span="6">
           <el-form-item label="收款方银行账户" label-width="100px" prop="receiveAccount">
-             <el-input type="text" size="small" v-model="payment.receiveAccount"></el-input>
+             <el-input type="text" size="mini" v-model="payment.receiveAccount"></el-input>
           </el-form-item>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="收款方收款银行" label-width="100px" prop="receiveBank">
-            <el-input type="text" size="small" v-model="payment.receiveBank"></el-input>
+            <el-input type="text" size="mini" v-model="payment.receiveBank"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="备注" label-width="80px" prop="remarkInfo">
-            <el-input type="textarea" size="small" :maxlength="100" v-model="payment.remarkInfo" placeholder="一百字以内"></el-input>
+            <el-input type="textarea" size="mini" :maxlength="100" v-model="payment.remarkInfo" placeholder="一百字以内"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -237,8 +237,8 @@
       
       <el-row :gutter="20">
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(0)" size="small" :disabled="submitloading" v-loading="submitloading">保存</el-button>
-          <el-button type="primary" @click="onSubmit(1)" size="small" :disabled="submitloading" v-loading="submitloading">提交</el-button>
+          <el-button type="primary" @click="onSubmit(0)" size="mini" :disabled="submitloading" v-loading="submitloading">保存</el-button>
+          <el-button type="primary" @click="onSubmit(1)" size="mini" :disabled="submitloading" v-loading="submitloading">提交</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -261,8 +261,8 @@
         :on-change="handelUploadChange"
         :on-success="handleUploadSuccess"
         :auto-upload="false">
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
+        <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="mini" type="success" @click="submitUpload" v-show="uploadButtonVisible">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">文件最大不能超过5M。 </div>
       </el-upload>
     </el-dialog>

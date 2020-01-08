@@ -8,7 +8,7 @@
              <el-form-item label="交易主体"  label-width="80px" style="width:300px" >
               <el-select v-model="searchForm.ownerCode" 
                @change="submit" 
-               size="small"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
+               size="mini"  placeholder="请选择交易主体" prefix-icon="el-icon-search">
                 <el-option
                    v-for="item in mapConfig['ownerInfoMap']" 
                    :label="item.value"   
@@ -38,8 +38,8 @@
       
           <el-col :span="24">
             <el-form-item label-width="0">
-              <el-button type="primary"  size="small"  @click="submit">查询</el-button>
-              <el-button type="primary"  size="small" @click="resetForm">重置</el-button>
+              <el-button type="primary"  size="mini"  @click="submit">查询</el-button>
+              <el-button type="primary"  size="mini" @click="resetForm">重置</el-button>
             </el-form-item>
           </el-col>
 

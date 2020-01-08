@@ -5,17 +5,17 @@
 
         <template v-if="planform.receivable.status == -1 || planform.receivable.status == -2">
           <el-button
-            style="margin-left: 10px;" type="warning" size="small"
+            style="margin-left: 10px;" type="warning" size="mini"
             :disabled="!$haspermission('receivableDelete')"
             @click="Modify(3, 'receivable')">删除</el-button>
           <el-button
-            style="margin-left: 10px;" type="primary" size="small"
+            style="margin-left: 10px;" type="primary" size="mini"
             :disabled="!$haspermission('receivableEdit')"
             @click="Edit">修改</el-button>
         </template>
         <template v-else-if="planform.receivable.status == 0">
-          <el-button  style="margin-left: 10px;" type="primary"  size="small" @click="Modify(0, 'receivable', true)" :disabled="!$haspermission('receivableCheck')">审核</el-button>
-          <el-button  style="margin-left: 10px;" type="error" size="small"  @click="Modify(1, 'receivable', true)" :disabled="!$haspermission('receivableReject')">驳回</el-button>
+          <el-button  style="margin-left: 10px;" type="primary"  size="mini" @click="Modify(0, 'receivable', true)" :disabled="!$haspermission('receivableCheck')">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="error" size="mini"  @click="Modify(1, 'receivable', true)" :disabled="!$haspermission('receivableReject')">驳回</el-button>
         </template>
         <template v-else>
           <el-tag >暂无操作</el-tag>
@@ -31,16 +31,16 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="收款单号" prop="receivable.ticketno">
-            <el-input type="text" size="small" v-model="planform.receivable.ticketno" disabled></el-input>
+            <el-input type="text" size="mini" v-model="planform.receivable.ticketno" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="付款方" prop="receivable.payername">
-            <el-input type="text" size="small" v-model="planform.receivable.payername" disabled></el-input>
+            <el-input type="text" size="mini" v-model="planform.receivable.payername" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="收款方" size="small" prop="receivable.receivablesname">
+          <el-form-item label="收款方" size="mini" prop="receivable.receivablesname">
             <el-input type="text" :value="planform.receivable.receivablesname" disabled></el-input>
           </el-form-item>
         </el-col>
@@ -48,36 +48,36 @@
       <el-row :gutter="20"> -->
         <el-col :span="6">
           <el-form-item label="款项性质" prop="receivable.fundnature">
-            <el-input type="text" size="small" :value="planform.receivable.fundnature|fundnatureFilter" disabled></el-input>
+            <el-input type="text" size="mini" :value="planform.receivable.fundnature|fundnatureFilter" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6" v-if="planform.receivable.fundtype">
           <el-form-item label="款项类型">
-            <el-input type="text" size="small" :value="planform.receivable.fundtype|fundtypeFilter" disabled></el-input>
+            <el-input type="text" size="mini" :value="planform.receivable.fundtype|fundtypeFilter" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="本次实收金额" prop="receivable.recamount" label-width="96px">
-            <el-input size="small" type="text" v-model="planform.receivable.recamount" disabled></el-input>
+            <el-input size="mini" type="text" v-model="planform.receivable.recamount" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="现金折扣" >
-            <el-input size="small" type="text" v-model="planform.receivable.interestrate" disabled></el-input>
+            <el-input size="mini" type="text" v-model="planform.receivable.interestrate" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="结算金额" >
-            <el-input type="text" size="small" v-model="planform.receivable.settlementamount" disabled></el-input>
+            <el-input type="text" size="mini" v-model="planform.receivable.settlementamount" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="结算方式" prop="receivable.settlementmethod">
-            <el-input type="text" size="small" :value="planform.receivable.settlementmethod|settlementmethodFilter"
+            <el-input type="text" size="mini" :value="planform.receivable.settlementmethod|settlementmethodFilter"
                       disabled></el-input>
           </el-form-item>
         </el-col>
@@ -85,52 +85,52 @@
       <el-row :gutter="20"> -->
         <el-col :span="6">
           <el-form-item label="制单人" prop="receivable.createuser">
-            <el-input type="text" size="small" v-model="planform.receivable.createuser" disabled></el-input>
+            <el-input type="text" size="mini" v-model="planform.receivable.createuser" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="制单日期" size="small" prop="receivable.createdate">
+          <el-form-item label="制单日期" size="mini" prop="receivable.createdate">
             <el-input type="text" :value="planform.receivable.createdate" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="来源销售单" size="small" label-width="90px" prop="receivable.saleorder">
+          <el-form-item label="来源销售单" size="mini" label-width="90px" prop="receivable.saleorder">
             <el-input type="text" :value="planform.receivable.saleorder" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="审核人" size="small" prop="receivable.checkuser">
+          <el-form-item label="审核人" size="mini" prop="receivable.checkuser">
             <el-input type="text" v-model="planform.receivable.checkuser" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="审核日期" size="small" prop="receivable.checkdate">
+          <el-form-item label="审核日期" size="mini" prop="receivable.checkdate">
             <el-input type="text" :value="planform.receivable.checkdate" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="审核结果" size="small" prop="receivable.status">
+          <el-form-item label="审核结果" size="mini" prop="receivable.status">
             <el-input type="text" :value="planform.receivable.status|statusFilter" disabled></el-input>
           </el-form-item>
         </el-col>
       <!-- </el-row>
       <el-row :gutter="20"> -->
         <el-col :span="6">
-          <el-form-item label="业务板块" size="small" prop="receivable.status">
+          <el-form-item label="业务板块" size="mini" prop="receivable.status">
             <el-input type="text" :value="planform.receivable.businesstype|businesstypeFilter" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-form-item label="备注" size="small" prop="receivable.memos">
+          <el-form-item label="备注" size="mini" prop="receivable.memos">
             <el-input type="text" v-model="planform.receivable.memos" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="收款日期" size="small" prop="receivable.recdate">
+          <el-form-item label="收款日期" size="mini" prop="receivable.recdate">
             <el-input type="text"  :value="planform.receivable.recdate" disabled></el-input>
           </el-form-item>
         </el-col>

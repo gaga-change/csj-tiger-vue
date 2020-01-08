@@ -44,7 +44,7 @@
             >
               <el-select
                 v-model="searchForm.busiBillType"
-                size="small"
+                size="mini"
                 placeholder="请选择业务类型"
               >
                 <el-option
@@ -71,7 +71,7 @@
               <el-input
                 v-model="searchForm.billNo"
                 placeholder="请输入业务单号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -90,7 +90,7 @@
               <el-input
                 v-model="searchForm.busiBillNo"
                 placeholder="请输入外部订单号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -110,7 +110,7 @@
               <el-select
                 v-model="searchForm.ownerCode"
                 filterable
-                size="small"
+                size="mini"
                 @change="ownerCodeChange"
                 placeholder="请选择货主"
               >
@@ -153,7 +153,7 @@
               <el-input
                 v-model="searchForm.contractNo"
                 placeholder="请输入合同号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -173,7 +173,7 @@
             >
               <el-date-picker
                 v-model="searchForm.planInWarehouseTime"
-                size="small"
+                size="mini"
                 type="date"
                 placeholder="选择日期"
               ></el-date-picker>
@@ -195,7 +195,7 @@
               <el-select
                 v-model="searchForm.providerCode"
                 filterable
-                size="small"
+                size="mini"
                 @change="providerChange"
                 @focus="providerFocus"
                 placeholder="请选择供应商"
@@ -239,7 +239,7 @@
             >
               <el-date-picker
                 v-model="searchForm.orderTime"
-                size="small"
+                size="mini"
                 type="date"
                 placeholder="选择日期"
               ></el-date-picker>
@@ -260,7 +260,7 @@
               <el-input
                 v-model="searchForm.fromSystemId"
                 placeholder="请输入订单来源"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -277,7 +277,7 @@
               <el-input
                 v-model="searchForm.createrName"
                 placeholder="请输入创建人"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -317,7 +317,7 @@
                 v-model="searchForm.warehouseCode"
                 clearable
                 placeholder="请选择仓库"
-                size="small"
+                size="mini"
                 class="formitem"
                 @focus="providerFocus"
                 :loading="warehouseCodeLoading"
@@ -342,7 +342,7 @@
               <el-input
                 v-model="searchForm.remarkInfo"
                 placeholder="请输入备注"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -526,7 +526,7 @@ export default {
         if (data.ownerCode) {
           this.getCustomerInfo(data.ownerCode);
         }
-        ['busiBillNo', 'ownerCode', 'contractNo', 'orderTime', 'providerCode', 'planInWarehouseTime'].forEach(v => {
+        ['busiBillNo', 'ownerCode', 'contractNo', 'orderTime', 'providerCode', 'planInWarehouseTime', 'remarkInfo'].forEach(v => {
           searchForm[v] = data[v]
         })
         searchForm.detailItemList = data.items.map((v, i) => {

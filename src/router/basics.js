@@ -218,4 +218,34 @@ export default [
       }
     ]
   },
+  {
+    path: '/projectDept',
+    component: Layout,
+    redirect: '/projectDept/list',
+    mark: '基础档案',
+    meta: { title: '项目部管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/projectDept/list'),
+        name: 'projectDeptList',
+        meta: { title: '项目部管理' }
+      }
+    ]
+  },
+  {
+    path: '/expenseInfo',
+    component: Layout,
+    redirect: '/expenseInfo/list',
+    mark: '基础档案',
+    meta: { title: '费用管理', icon: 'sale' },
+    children: [
+      {
+        path: 'list',
+        component: _import('mis/expenseInfo/list'),
+        name: 'expenseInfoList',
+        meta: { title: '费用管理' }
+      }
+    ]
+  },
 ]

@@ -12,7 +12,7 @@
         <el-row>
           <el-col :sm="12" :md="8" :lg="8" :xl="6">
             <el-form-item label="货主">
-              <el-select v-model="searchForm.ownerCode" clearable placeholder="请选择货主：" size="small" class="formitem"
+              <el-select v-model="searchForm.ownerCode" clearable placeholder="请选择货主：" size="mini" class="formitem"
                 :disabled="isModify">
                 <el-option v-for="item in owners" :label="item.ownerName" :key="item.ownerCode" :value="item.ownerCode"></el-option>
               </el-select>
@@ -34,13 +34,13 @@
             <template v-if="searchForm.warehouseExeCode">
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="业务单号:">
-                  <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="small" class="formitem"
+                  <el-input v-model="searchForm.busiBillNo" placeholder="请输入业务单号" size="mini" class="formitem"
                     disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :sm="12" :md="8" :lg="8" :xl="6">
                 <el-form-item label="供应商:">
-                  <el-input v-model="searchForm.providerName" placeholder="请输入供应商" size="small" class="formitem"
+                  <el-input v-model="searchForm.providerName" placeholder="请输入供应商" size="mini" class="formitem"
                     disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
@@ -48,7 +48,7 @@
             <el-col :sm="12" :md="8" :lg="8" :xl="6">
               <el-form-item label="订正类型">
                 <el-select @change="revisalTypeChange" v-model="searchForm.revisalType" clearable placeholder="请选择订正类型："
-                  size="small" class="formitem" :disabled="isModify">
+                  size="mini" class="formitem" :disabled="isModify">
                   <el-option v-for="item in revisalTypeEnum" :label="item.name" :key="item.value" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>

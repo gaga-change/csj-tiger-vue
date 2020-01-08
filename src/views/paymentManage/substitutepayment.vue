@@ -1,314 +1,98 @@
 <template>
-  <div class="app-container">
-    <el-row :gutter="16">
-      <el-form
-        :inline="true"
-        ref="ruleForm"
-        :model="searchData"
-        size="small"
-        label-width="70px"
-        label-position="left"
-        class="demo-form-inline"
-      >
-        <el-col
-          :span="6"
-          style="min-width:300px"
-        >
-          <el-form-item
-            label="款项编码"
-            prop="expenseCode"
-          >
-            <el-input
-              v-model.lazy.trim="searchData.expenseCode"
-              placeholder="请输入款项编码"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col
-          :span="6"
-          style="min-width:300px"
-        >
-          <el-form-item
-            label="款项名称"
-            prop="expenseName"
-          >
-            <el-input
-              v-model.lazy.trim="searchData.expenseName"
-              placeholder="请输入款项名称"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col
-          :span="6"
-          style="min-width:300px"
-        >
-          <el-form-item
-            label="款项性质"
-            prop="busiBillType"
-          >
-            <el-select
-              v-model="searchData.expenseType"
-              placeholder="请选择款项性质"
-            >
-              <el-option
-                v-for="item in mapConfig['getExpenseTypeList']"
-                :label="item.value"
-                :key="item.key"
-                :value="item.key"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item>
-            <el-button
-              type="primary"
-              size="small"
-              @click="submitSearchForm"
-            >查询</el-button>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button
-              type="primary"
-              size="small"
-              @click="resetSearchForm"
-            >重置</el-button>
-          </el-form-item>
-        </el-col>
-      </el-form>
-    </el-row>
-    <el-row
-      type="flex"
-      justify="end"
+  <div class="ComponentNameClass">
+    <base-list
+      ref="baseList"
+      :tableConfig="tableConfig"
+      :searchConfig="searchConfig"
+      :api="listApi"
+      :showControl="true"
+      :controlWidth="160"
     >
-      <el-button
-        type="primary"
-        size="small"
-        style="margin:10px"
-        @click="newPayment"
-      >新建款项</el-button>
-    </el-row>
-    <el-table
-      :data="tableData"
-      v-loading="loading"
-      border
-    >
-      <el-table-column
-        v-for="(column, index) in searchConfig"
-        :key="index"
-        :prop="column.prop"
-        :label="column.label"
-        :width="column.width"
-      >
-        <template slot-scope="scope">
-          <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
-          <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
-          <span v-else>{{scope.row[column.prop]}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        width="120"
-        fixed="right"
-      >
-        <template slot-scope="scope">
-          <span>
-            <a
-              :style="linkstyle"
-              @click="delFeeRow(scope.row)"
-            >删除</a>
-            <a
-              :style="linkstyle"
-              @click="editFeeRow(scope.row)"
-            >修改</a>
-          </span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-dialog :visible.sync="dialogFormVisible">
-      <el-form
-        :model="paymentForm"
-        labelWidth="80px"
-        ref="createform"
-      >
-        <el-form-item
-          label="款项名称"
-          prop="expenseName"
-          :rules="[{ required: true, message: '该项为必填'}]"
-        >
-          <el-input
-            v-model="paymentForm.expenseName"
-            autocomplete="off"
-            style="width:200px"
-            placeholder="请输入款项名称"
-          ></el-input>
-        </el-form-item>
-        <el-form-item
-          label="款项性质"
-          prop="expenseType"
-          :rules="[{ required: true, message: '该项为必填'}]"
-        >
-          <el-select
-            v-model="paymentForm.expenseType"
-            placeholder="请选择款项性质"
-          >
-            <el-option
-              v-for="item in mapConfig['getExpenseTypeList']"
-              :label="item.value"
-              :value="item.key"
-              :key="item.key"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div
-        slot="footer"
-        class="dialog-footer"
-      >
+      <template slot-scope="scope">
+        <el-link
+          type="primary"
+          @click="handleDel(scope.row)"
+        >删除</el-link>
+        <el-divider direction="vertical"></el-divider>
+        <el-link
+          type="primary"
+          @click="handleModify(scope.row)"
+        >修改</el-link>
+      </template>
+      <template slot="btns">
         <el-button
           type="primary"
-          @click="submitForm(1)"
-          :disabled="submitloading"
-        >保 存</el-button>
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
+          size="mini"
+          @click="handleModify(null)"
+        >
+          新建款项
+        </el-button>
+      </template>
+    </base-list>
+    <addDialogForm
+      :visible.sync="dialogVisible"
+      :row="selectedRow"
+      @submited="getTableData()"
+    />
   </div>
 </template>
 
 <script>
-import { createLogisticsExpense, deleteLogisticsExpenseInfo, updateLogisticsExpenseInfo } from '@/api/mis'
-import { queryLogisticsExpenseAll } from '@/api'
-import { dealNameValueToKeyValue } from '@/utils'
-import { expenseType } from '@/utils/enum'
-import BaseTable from '@/components/Table'
-import { mapGetters } from 'vuex'
+import { queryLogisticsExpense, deleteLogisticsExpenseInfo } from '@/api'
+import addDialogForm from './components/addDialogForm'
+const tableConfig = [
+  { label: '款项编码', prop: 'expenseCode' },
+  { label: '款项名称', prop: 'expenseName' },
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' }
+]
+const searchConfig = [
+  { label: '款项编码', prop: 'expenseCode' },
+  { label: '款项名称', prop: 'expenseName' },
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' }
+]
 export default {
-  components: { BaseTable },
+  components: {
+    addDialogForm,
+  },
   data() {
     return {
-      searchConfig: [
-        { label: '款项编码', prop: 'expenseCode' },
-        { label: '款项名称', prop: 'expenseName' },
-        { label: '款项性质', prop: 'expenseType', localEnum: 'expenseType' }
-      ],
-      searchData: {},
-      loading: false,
-      tableData: [],
-      tableDataTotal: [],
-      linkstyle: {
-        color: '#3399ea',
-        whiteSpace: 'nowrap',
-        margin: '0 10px 0 0'
-      },
-      dialogFormVisible: false,
-      submitloading: false,
-      paymentForm: {
-        expenseName:null,
-        expenseType:2
-      },
-      expenseType
+      dialogVisible: false,
+      selectedRow: null,
+      tableConfig,
+      searchConfig,
+      listApi: queryLogisticsExpense,
+      // 可选 附加查询条件
+      appendSearchParams: {},
     }
-  },
-  computed: {
-    ...mapGetters(['mapConfig'])
-  },
-  mounted() {
-    this.fetchData()
   },
   methods: {
-    submitForm(status) {
-      this.$refs['createform'].validate(valid => {
-        if (valid) {
-          this.submitloading = true
-          const postData = {
-            ...this.paymentForm,
-            expenseState: status
-          }
-          const FUNCTION = postData.id ? updateLogisticsExpenseInfo : createLogisticsExpense
-          FUNCTION(postData).then(res => {
-            if (res.success) {
-              this.$message.success('操作成功~'),
-                this.dialogFormVisible = false
-              this.submitloading = false
-              for (let i in this.paymentForm) {
-                if (i) {
-                  this.paymentForm[i] = null
-                }
-              }
-              this.fetchData()
-            }
-          }).catch(err => {
-            console.error(err)
-            this.submitloading = false
-          })
-        }
+    /** 删除 */
+    handleDel(row) {
+      this.$delConfirm('此操作将永久删除该模板, 是否继续?', () => deleteLogisticsExpenseInfo(row.id).then(res => {
+        if (!res) return
+        this.$message.success('删除成功！')
+        this.getTableData()
+      }))
+    },
+    /** 修改 */
+    handleModify(row) {
+      this.selectedRow = row
+      this.dialogVisible = true
+    },
+    /** 刷新列表 */
+    getTableData() {
+      this.$refs['baseList'].fetchData()
+    },
+    /** 可选 返回列表添加字段 */
+    parseData(res) {
+      let data = res.data.list || []
+      let total = res.data.total
+      data.forEach(v => {
+        v.updateLockStatusOutLoading = false
+        v.updateLockStatusInLoading = false
       })
+      return { data, total }
     },
-    editFeeRow(row) {
-      this.paymentForm = JSON.parse(JSON.stringify(row))
-      this.dialogFormVisible = true
-    },
-    delFeeRow(row) {
-      this.$confirm('是否确认删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.loading = true
-        deleteLogisticsExpenseInfo(row.id).then(res => {
-          this.loading = false
-          if (res.success) {
-            this.$message.success('删除成功~')
-            this.fetchData()
-          }
-        }).catch(err => {
-          console.error(err)
-          this.loading = false
-        })
-      })
-    },
-    newPayment() {
-      for (let i in this.paymentForm) {
-        if (i) {
-          this.paymentForm[i] = null
-        }
-      }
-      this.paymentForm.expenseState=2
-      this.dialogFormVisible = true
-    },
-    submitSearchForm() {
-      this.tableData = this.tableDataTotal
-      function filterTable(tableData, attr, searchData) {
-        return tableData.filter(data => {
-          if (typeof data[attr] === 'number') {
-            return data[attr] === searchData[attr]
-          }
-          return data[attr].includes(searchData[attr])
-        })
-      }
-      for (let key in this.searchData) {
-        this.tableData = filterTable(this.tableData, key, this.searchData)
-      }
-    },
-    resetSearchForm() {
-      this.searchData = {}
-      this.tableData = this.tableDataTotal
-    },
-    fetchData() {
-      this.loading = true
-      queryLogisticsExpenseAll(this.searchData).then(res => {
-        this.tableData = res.data
-        this.tableDataTotal = [...res.data]
-        this.loading = false
-      }).catch(err => {
-        this.loading = false
-      })
-    }
   }
 }
 </script>
-
-<style lang="css">
-</style>

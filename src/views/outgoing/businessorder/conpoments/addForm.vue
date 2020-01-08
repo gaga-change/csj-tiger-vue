@@ -32,7 +32,7 @@
               v-model="searchForm.skuName"
               disabled
               placeholder="商品名称"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -46,7 +46,7 @@
             <el-input
               v-model="searchForm.planOutQty"
               placeholder="请输入数量"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -58,7 +58,7 @@
             <el-input
               v-model="searchForm.remarkInfo"
               placeholder="请输入备注"
-              size="small"
+              size="mini"
               class="formitem"
               type="textarea"
               maxlength="100"

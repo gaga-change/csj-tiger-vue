@@ -47,7 +47,7 @@
                 v-model="searchForm.improveReason"
                 clearable
                 placeholder="请选择调整原因"
-                size="small"
+                size="mini"
                 class="formitem"
               >
                 <el-option
@@ -75,7 +75,7 @@
                 @change="busiBillTypeChange"
                 clearable
                 placeholder="请选择业务单类型"
-                size="small"
+                size="mini"
                 class="formitem"
               >
                 <el-option
@@ -102,7 +102,7 @@
               <el-input
                 v-model="searchForm.billNo"
                 placeholder="请输入业务单号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -122,7 +122,7 @@
               <el-input
                 v-model="searchForm.busiBillNo"
                 placeholder="请输入外部订单号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -142,7 +142,7 @@
               <el-select
                 v-model="searchForm.ownerCode"
                 filterable
-                size="small"
+                size="mini"
                 @change="ownerCodeChange"
                 placeholder="请选择货主"
               >
@@ -206,7 +206,7 @@
               :rules="[{ required: true, message: '该项为必填', trigger: ['blur', 'change']}]"
             >
               <el-select
-                size="small"
+                size="mini"
                 @change="arrivalAddressChange"
                 v-model="searchForm.arrivalAddress"
                 placeholder="请选择地址"
@@ -250,7 +250,7 @@
               <el-input
                 v-model="searchForm.arrivalLinkUser"
                 placeholder="请输入联系人"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -270,7 +270,7 @@
               <el-input
                 v-model="searchForm.arrivalLinkTel"
                 placeholder="请输入联系电话"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -289,7 +289,7 @@
               <el-input
                 v-model="searchForm.createrName"
                 placeholder="请输入创建人"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -307,7 +307,7 @@
             >
               <el-date-picker
                 v-model="searchForm.arrivalPreDate"
-                size="small"
+                size="mini"
                 type="date"
                 placeholder="选择日期"
               ></el-date-picker>
@@ -326,7 +326,7 @@
             >
               <el-date-picker
                 v-model="searchForm.arrivalEffectDate"
-                size="small"
+                size="mini"
                 type="date"
                 placeholder="选择日期"
               ></el-date-picker>
@@ -363,7 +363,7 @@
               <el-input
                 v-model="searchForm.contractNo"
                 placeholder="请输入合同号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -380,7 +380,7 @@
                 v-model="searchForm.sendOutRequire"
                 clearable
                 placeholder="请选择发货要求"
-                size="small"
+                size="mini"
                 class="formitem"
               >
                 <el-option
@@ -404,7 +404,7 @@
               <el-input
                 v-model="searchForm.inquiryNo"
                 placeholder="请输入询价单号"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -420,7 +420,7 @@
               <el-input
                 v-model="searchForm.fromSysCode"
                 placeholder="请输入订单来源"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -441,7 +441,7 @@
                 v-model="searchForm.warehouseCode"
                 clearable
                 placeholder="请选择仓库"
-                size="small"
+                size="mini"
                 class="formitem"
                 @focus="warehouseCodeFocus"
                 :loading="warehouseCodeLoading"
@@ -466,7 +466,7 @@
               <el-input
                 v-model="searchForm.remarkInfo"
                 placeholder="请输入备注"
-                size="small"
+                size="mini"
                 class="formitem"
               ></el-input>
             </el-form-item>
@@ -543,7 +543,7 @@ export default {
       //表单项
       searchForm: {
         saleType: 1,
-        busiBillType: 21,
+        busiBillType: "21",
         ownerCode: '',
         outWarehouseBillDetailList: []
       },

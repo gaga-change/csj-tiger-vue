@@ -14,20 +14,20 @@
       <el-row :gutter="10">
         <el-col :span="6">
           <el-form-item label="发票号" >
-            <el-input type="text" size="small" v-model="searchForm.invoiceCode" ></el-input>
+            <el-input type="text" size="mini" v-model="searchForm.invoiceCode" ></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="8">
           <el-form-item label-width="120px" label="发票日期:"  class="postInfo-container-item">
-            <el-date-picker size="small" v-model="searchForm.invoiceDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
+            <el-date-picker size="mini" v-model="searchForm.invoiceDate" type="date" format="yyyy-MM-dd" placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
 
         <el-col :span="6">
           <el-form-item label="备注" >
-            <el-input type="text" size="small"  v-model="searchForm.remark" ></el-input>
+            <el-input type="text" size="mini"  v-model="searchForm.remark" ></el-input>
           </el-form-item>
         </el-col>
 

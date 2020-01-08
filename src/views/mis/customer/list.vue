@@ -28,7 +28,7 @@
       :data="tableData"
       border
       v-loading="loading"
-      size="small"
+      size="mini"
       style="margin-bottom:12px"
     >
       <el-table-column
@@ -154,7 +154,7 @@
       >
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           style="margin:10px"
           @click="newAddress('新增地址')"
         >新增地址</el-button>
@@ -163,7 +163,7 @@
         :data="addressTableData"
         v-loading="addressLoading"
         border
-        size="small"
+        size="mini"
       >
         <el-table-column
           type="index"

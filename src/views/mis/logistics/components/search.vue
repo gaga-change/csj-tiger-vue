@@ -20,7 +20,7 @@
               v-model="searchForm.consoildatorCode"
               clearable
               placeholder="请选择承运商"
-              size="small"
+              size="mini"
               class="formitem"
             >
               <el-option
@@ -46,7 +46,7 @@
             <el-input
               v-model="searchForm.dispatchNo"
               placeholder="请输入配送单号"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -64,7 +64,7 @@
             <el-input
               v-model="searchForm.logisticsOrderCode"
               placeholder="请输入物流单号"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -76,13 +76,13 @@
           :xl="6"
         >
           <el-form-item
-            label="下单日期："
+            label="制单日期："
             prop="orderDate"
           >
             <el-date-picker
               v-model="searchForm.orderDate"
               type="daterange"
-              size="small"
+              size="mini"
               unlink-panels
               class="formitem"
               range-separator="-"
@@ -105,7 +105,7 @@
             <el-input
               v-model="searchForm.customerName"
               placeholder="请输入客户名称"
-              size="small"
+              size="mini"
               class="formitem"
             ></el-input>
           </el-form-item>
@@ -124,10 +124,37 @@
               v-model="searchForm.settlementType"
               clearable
               placeholder="请选择结算方式"
-              size="small"
+              size="mini"
             >
               <el-option
                 v-for="item in mapConfig['getSettlementType']"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col
+          :sm="12"
+          :md="8"
+          :lg="8"
+          :xl="6"
+        >
+          <el-form-item
+            label="货主："
+            prop="ownerCode"
+          >
+            <el-select
+              v-model="searchForm.ownerCode"
+              filterable
+              clearable
+              placeholder="请选择货主"
+              size="mini"
+              class="formitem"
+            >
+              <el-option
+                v-for="item in mapConfig['ownerInfoMap']"
                 :label="item.value"
                 :key="item.key"
                 :value="item.key"

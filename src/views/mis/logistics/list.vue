@@ -12,7 +12,7 @@
       <router-link :to="{ name: 'newLogistics' }">
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           style="margin:10px"
         >新建配送单</el-button>
       </router-link>
@@ -149,7 +149,7 @@
       >
         <el-button
           type="primary"
-          size="small"
+          size="mini"
           style="margin:10px"
           @click="newFee"
         >添加</el-button>
@@ -158,7 +158,7 @@
         :data="feeTableData"
         v-loading="tableLoading"
         border
-        size="small"
+        size="mini"
       >
         <el-table-column
           v-for="(column, index) in subsituteConfig"
@@ -170,6 +170,7 @@
           <template slot-scope="scope">
             <span v-if="column.type === 'index'">{{ scope.$index + 1 }}</span>
             <span v-else-if="column.type === 'date' && scope.row[column.prop]">{{ scope.row[column.prop] | parseTime }}</span>
+            <span v-else-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
             <span v-else-if="column.useLocalEnum && column.type">{{
               scope.row[column.prop] | localEnum(column.type)
             }}</span>

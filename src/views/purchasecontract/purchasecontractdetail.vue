@@ -3,8 +3,8 @@
     <sticky :className="'sub-navbar published'" >
       <template v-if="fetchSuccess">
         <template v-if="ruleForm.pstatus == 4">
-          <el-button  style="margin-left: 10px;" type="primary" size="small"  @click="()=>{contractModify(1,{},refresh,needValue);this.buttonLoading=true}":disabled="!$haspermission('purchaseContractCheckPass')||this.buttonLoading">审核</el-button>
-          <el-button  style="margin-left: 10px;" type="error" size="small"   @click="()=>{contractModify(0,{},refresh,needValue);this.buttonLoading=true}" :disabled="!$haspermission('purchaseContractCheckPassNot')||this.buttonLoading">驳回</el-button>
+          <el-button  style="margin-left: 10px;" type="primary" size="mini"  @click="()=>{contractModify(1,{},refresh,needValue);this.buttonLoading=true}":disabled="!$haspermission('purchaseContractCheckPass')||this.buttonLoading">审核</el-button>
+          <el-button  style="margin-left: 10px;" type="error" size="mini"   @click="()=>{contractModify(0,{},refresh,needValue);this.buttonLoading=true}" :disabled="!$haspermission('purchaseContractCheckPassNot')||this.buttonLoading">驳回</el-button>
         </template>
         <template v-else>
           <el-tag>暂无操作</el-tag>

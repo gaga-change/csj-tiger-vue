@@ -21,7 +21,7 @@
       width="70%"
       :before-close="()=>dialogVisible=false">
       <div style="display:flex;justify-content: flex-end;margin-bottom:12px">
-          <el-button type="primary"  size="small" @click="againSubmit" >重试</el-button>
+          <el-button type="primary"  size="mini" @click="againSubmit" >重试</el-button>
       </div>
       <item-card :config="listDetailConfig" :loading="cardLoading"   :cardData="cardData"/> 
 

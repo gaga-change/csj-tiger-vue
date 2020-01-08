@@ -2,7 +2,7 @@
   <div class="ediTabel-box">
     <el-table
     :data="tableData"
-     size="small"
+     size="mini"
      align="center"
      style="width: 100%">
     <el-table-column label="商品信息" align="center" >
