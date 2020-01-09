@@ -1194,8 +1194,8 @@ export default {
     return {
       productForm: {
         currentCode: null,
-        saleType: "",
-        isTrace: "",
+        saleType: "1",
+        isTrace: "0",
       },
       activeTab: 'first',
       customerConfig,
@@ -1253,8 +1253,8 @@ export default {
   watch: {
     mapConfigLoding(val) {
       if (!val) { // 枚举加载结束后，初始化相关值
-        this.productForm.isTrace = '0'
-        this.productForm.saleType = '1'
+        // this.productForm.isTrace = '0'
+        // this.productForm.saleType = '1'
       }
     },
     $route(route) {
@@ -1347,6 +1347,7 @@ export default {
       const loading = this.$loading({ text: '请稍后..' })
       productDetail({ skuCode: this.$route.query.skuCode }).then(res => {
         const result = res.data || {}
+        this.$valToString(result, ['isTrace', 'saleType'])
         const { skuCustomerInfoRespList, skuProviderInfoRespList, ownerCode, ownerName, ...rest } = result
         this.customerTableData = skuCustomerInfoRespList
         this.servicerTableData = skuProviderInfoRespList

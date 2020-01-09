@@ -54,6 +54,8 @@ Vue.component('DetailItem', DetailItem);
 Vue.component('BaseForm', BaseForm);
 
 Vue.prototype.$copy = obj => cloneDeep(obj)
+// 将枚举值（数字） 转为字符串，一般用于获取详情时处理
+Vue.prototype.$valToString = (obj, keys) => keys.forEach(key => obj[key] = obj[key] !== null && obj[key] !== undefined ? obj[key] + '' : '')
 Vue.prototype.$delConfirm = (msg, api, close) => {
   MessageBox.confirm(msg || '此操作将永久删除该行, 是否继续?', '提示', {
     confirmButtonText: '确定',
