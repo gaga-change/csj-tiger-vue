@@ -189,6 +189,11 @@
           </el-form-item>
         </el-col>
         <el-col :sm="12" :md="8" :lg="8" :xl="6">
+          <el-form-item label="是否溯源：" prop="isTrace">
+            <span>{{productForm.isTrace|apiEnum(mapConfig, 'getYesNo')}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="8" :lg="8" :xl="6">
           <el-form-item label="备注：" prop="remarkInfo">
             <span>{{productForm.remarkInfo}}</span>
           </el-form-item>
