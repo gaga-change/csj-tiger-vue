@@ -52,9 +52,11 @@ export const saveTemplate = params => http.post(`/webApi/template/saveTemplate`,
 export const updateTemplateInfo = params => http.post(`/webApi/template/updateTemplateInfo`, params)
 /** 审核配置 - 修改 */
 export const basicAuditConfigUpdate = params => http.post(`/webApi/basicAuditConfig/update`, params)
+/** 异常数据查询 */
+export const exceptionDataSelectListPage = params => http.post(`/webApi/exceptionData/selectListPage`, params)
 /** 模板详情 */
 export const selectTemplateInfo = params => http.get(`/webApi/template/selectTemplateInfo`, { params })
 /** 审核配置列表 */
 export const basicAuditConfigList = params => http.get(`/webApi/basicAuditConfig/queryPageList`, { params })
-// /** 货主列表 */
+// /** 货主列表  -- 枚举已有，无需手动添加 */
 // export const ownerInfoList = params => http.get(`webApi/owner/info/list`, { params })
