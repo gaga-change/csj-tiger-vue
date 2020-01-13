@@ -355,5 +355,27 @@ export default [
         hidden: true,
       },
     ]
+  },
+  {
+    path: '/earlyWarning',
+    component: Layout,
+    redirect: 'earlyWarning/earlyWarningPlanList',
+    meta: { title: '预警管理', noCache: true, icon: 'plan' },
+    mark: '出入库',
+    hidden: false,
+    children: [
+      {
+        name: 'earlyWarningPlanList',
+        path: 'earlyWarningPlanList',
+        meta: { title: '异常单据查询', noCache: true },
+        component: _import('earlyWarning/earlyWarningPlan/earlyWarningPlanList')
+      },
+      {
+        name: 'earlyWarningUserList',
+        path: 'earlyWarningUserList',
+        meta: { title: '预警接收人设置', noCache: true },
+        component: _import('earlyWarning/earlyWarningUser/earlyWarningUserList'),
+      },
+    ]
   }
 ]
