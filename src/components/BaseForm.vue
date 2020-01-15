@@ -22,6 +22,7 @@
             style="width:200px;"
             :disabled="item.disabled"
             clearable
+            filterable
           >
             <el-option
               v-for="(item, index) in mapConfig[item.enum]"

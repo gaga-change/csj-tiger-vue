@@ -58,5 +58,11 @@ export const exceptionDataSelectListPage = params => http.post(`/webApi/exceptio
 export const selectTemplateInfo = params => http.get(`/webApi/template/selectTemplateInfo`, { params })
 /** 审核配置列表 */
 export const basicAuditConfigList = params => http.get(`/webApi/basicAuditConfig/queryPageList`, { params })
+// 异常接收人 保存
+export const exceptionReceiverSave = params => http.post(`/webApi/exceptionReceiver/save`, params)
+// 异常接收人 列表
+export const exceptionReceiverList = params => http.post(`/webApi/exceptionReceiver/selectListPage`, params)
+// 异常接收人 删除
+export const exceptionReceiverDelete = id => http.delete(`/webApi/exceptionReceiver/delete/${id}`)
 // /** 货主列表  -- 枚举已有，无需手动添加 */
 // export const ownerInfoList = params => http.get(`webApi/owner/info/list`, { params })
