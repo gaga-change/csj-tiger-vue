@@ -5,20 +5,10 @@
       :tableConfig="tableConfig"
       :searchConfig="searchConfig"
       :api="listApi"
-      :showControl="true"
+      :showControl="false"
       :controlWidth="160"
       :parseData="parseData"
     >
-      <template slot-scope="scope">
-        <el-link
-          type="primary"
-          @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
-        >详情</el-link>
-        <el-divider direction="vertical"></el-divider>
-      </template>
-      <template slot="btns">
-
-      </template>
     </base-list>
   </div>
 </template>
