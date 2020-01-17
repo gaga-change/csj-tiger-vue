@@ -154,6 +154,7 @@ export default {
     /** 关闭弹窗 */
     close() {
       this.searchVal = ""
+      this.locationMenuMapFilter = this.locationMenuMap
       this.visible && this.$emit('update:visible', false)
     },
     handleClose(done) {
