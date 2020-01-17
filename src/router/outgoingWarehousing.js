@@ -204,7 +204,7 @@ export default [
     mark: '出入库',
     children: [
       {
-        name: 'list',
+        name: 'abnormalGoodsList',
         path: 'list',
         meta: { title: '异常商品登记', noCache: true },
         component: _import('abnormalGoods/list')
@@ -217,7 +217,7 @@ export default [
         hidden: true,
       },
       {
-        name: 'detail',
+        name: 'abnormalGoodsDetail',
         path: 'detail',
         meta: { title: '异常商品登记详情', noCache: true },
         component: _import('abnormalGoods/detail'),

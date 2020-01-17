@@ -20,7 +20,7 @@ const user = {
     SET_USERINFO: (state, info) => {
       state.userInfo = info;
       let bakmenus = info.menus && isJSON(info.menus) && JSON.parse(info.menus) || [];
-      state.fetchMenu = jsonFamart(bakmenus, _import, Layout, reportCenterUrl)
+      state.fetchMenu = jsonFamart(bakmenus, _import, Layout, reportCenterUrl).filter(v => !v.hidden)
     },
     SET_COMPANY: (state, company) => {
       state.company = company
