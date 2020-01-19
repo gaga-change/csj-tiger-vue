@@ -44,7 +44,7 @@
 const formConfig = [
   { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'ownerInfoMap' },
   { label: '单据类型', prop: 'billType', type: 'enum', enum: 'getBaseDateType' },
-  { label: '异常类型', prop: 'exceptionType', type: 'enum', enum: 'getIssuedState' },
+  { label: '异常类型', prop: 'exceptionType', type: 'enum', enum: 'getExceptionType' },
   { label: '用户', prop: 'userId', type: 'enum', enum: 'getWxUser' },
 ]
 const rules = {
