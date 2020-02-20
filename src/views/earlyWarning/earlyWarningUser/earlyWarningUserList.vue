@@ -38,7 +38,7 @@ const tableConfig = [
   { label: '序号', prop: 'index', width: 60 },
   { label: '货主', prop: 'ownerName' },
   { label: '单据类型', prop: 'billType', type: 'enum', enum: 'getBaseDateType' },
-  { label: '提醒类型', prop: 'exceptionType', type: 'enum', enum: 'getIssuedState' },
+  { label: '提醒类型', prop: 'exceptionType', type: 'enum', enum: 'getExceptionType' },
   { label: '信息接收人', prop: 'receiveName' },
 ]
 const searchConfig = [

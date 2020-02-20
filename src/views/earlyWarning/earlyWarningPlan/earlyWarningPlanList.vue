@@ -20,7 +20,7 @@ const tableConfig = [
   { label: '货主', prop: 'ownerName' },
   { label: '单据类型', prop: 'billType', type: 'enum', enum: 'getBaseDateType' },
   { label: '单据号', prop: 'billCode' },
-  { label: '异常类型', prop: 'exceptionType', type: 'enum', enum: 'getIssuedState' },
+  { label: '异常类型', prop: 'exceptionType', type: 'enum', enum: 'getExceptionType' },
   { label: '发生时间', prop: 'gmtCreate', type: 'time', width: 140 },
 ]
 const searchConfig = [
