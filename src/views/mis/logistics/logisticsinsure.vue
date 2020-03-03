@@ -191,12 +191,14 @@ export default {
     },
     fetchData() {
       this.loading = true
-      let { insureDate, orderDate, ...rest } = this.searchForm
+      let { insureDate, orderDate, outStoreTime, ...rest } = this.searchForm
       const postData = {
         gmtInsureBegin: insureDate && new Date(insureDate[0]).getTime(),
         gmtInsureEnd: insureDate && new Date(insureDate[1]).getTime(),
         gmtCreateBegin: orderDate && new Date(orderDate[0]).getTime(),
         gmtCreateEnd: orderDate && new Date(orderDate[1]).getTime(),
+        outStoreBeginDate: outStoreTime && new Date(outStoreTime[0]).getTime(),
+        outStoreEndDate: outStoreTime && new Date(outStoreTime[1]).getTime(),
         ...rest
       }
       insureListInfo({

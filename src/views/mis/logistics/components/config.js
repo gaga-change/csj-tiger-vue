@@ -20,6 +20,7 @@ export const insureConfig = [
   { label: '金额', prop: 'outAmt', width: 150 },
   { label: '投保状态', prop: 'insureState', useLocalEnum: true, type: 'insureState' },
   { label: '投保日期', prop: 'gmtInsure', type: 'time', width: 160 },
+  { label: '出库日期', prop: 'outStoreTime', type: 'time', width: 160 },
   { label: '物流单日期', prop: 'gmtCreate', type: 'time', width: 160 }
 ]
 export const headConfig = [
