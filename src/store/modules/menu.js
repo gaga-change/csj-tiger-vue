@@ -6,7 +6,7 @@ const menu = {
   state: {
     localMenu: [],
     markArr: ['出入库', '基础档案', '物流', '财务', '物流费用'],
-    mark: '基础档案',
+    mark: '',
     addedMark: [],
   },
 
