@@ -43,12 +43,14 @@ import addDialogForm from './components/addDialogForm'
 const tableConfig = [
   { label: '款项编码', prop: 'expenseCode' },
   { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' }
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
+  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
 ]
 const searchConfig = [
   { label: '款项编码', prop: 'expenseCode' },
   { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' }
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
+  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
 ]
 export default {
   components: {

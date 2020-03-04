@@ -43,7 +43,8 @@
 <script>
 const formConfig = [
   { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' }
+  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
+  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
 ]
 const rules = {
   expenseName: [
@@ -51,6 +52,9 @@ const rules = {
     { min: 0, max: 20, message: '不能超过20个字符', trigger: ['blur', 'change'] }
   ],
   expenseType: [
+    { required: true, message: '必填项', trigger: ['blur', 'change'] }
+  ],
+  expenseNature: [
     { required: true, message: '必填项', trigger: ['blur', 'change'] }
   ],
 }
