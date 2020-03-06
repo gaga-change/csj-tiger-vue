@@ -62,6 +62,14 @@ export const basicAuditConfigList = params => http.get(`/webApi/basicAuditConfig
 export const exceptionReceiverSave = params => http.post(`/webApi/exceptionReceiver/save`, params)
 // 异常接收人 列表
 export const exceptionReceiverList = params => http.post(`/webApi/exceptionReceiver/selectListPage`, params)
+// 款项性质 保存
+export const expenseTypeSave = params => http.post(`/webApi/expenseType/save`, params)
+// 款项性质 列表
+export const expenseTypeList = params => http.post(`/webApi/expenseType/queryList`, params)
+// 款项性质 删除
+export const expenseTypeDel = params => http.get(`/webApi/expenseType/delete`, { params })
+// 款项性质 修改
+export const expenseTypeUpdate = params => http.get(`/webApi/expenseType/updateDict`, params)
 // 异常接收人 删除
 export const exceptionReceiverDelete = id => http.delete(`/webApi/exceptionReceiver/delete/${id}`)
 // /** 货主列表  -- 枚举已有，无需手动添加 */

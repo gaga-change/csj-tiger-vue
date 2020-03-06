@@ -7,6 +7,7 @@
       :api="listApi"
       :showControl="true"
       :controlWidth="160"
+      :labelWidth="100"
     >
       <template slot-scope="scope">
         <el-link
@@ -25,7 +26,7 @@
           size="mini"
           @click="handleModify(null)"
         >
-          新建款项
+          新建款项性质
         </el-button>
       </template>
     </base-list>
@@ -38,19 +39,15 @@
 </template>
 
 <script>
-import { queryLogisticsExpense, deleteLogisticsExpenseInfo } from '@/api'
-import addDialogForm from './components/addDialogForm'
+import { expenseTypeList, expenseTypeDel } from '@/api'
+import addDialogForm from './components/naturePaymentAddDialogForm'
 const tableConfig = [
-  { label: '款项编码', prop: 'expenseCode' },
-  { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
-  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
+  { label: '款项性质编码', prop: 'dictValue' },
+  { label: '款项性质名称', prop: 'dictName' },
 ]
 const searchConfig = [
-  { label: '款项编码', prop: 'expenseCode' },
-  { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
-  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
+  { label: '款项性质编码', prop: 'dictValue' },
+  { label: '款项性质名称', prop: 'dictName' },
 ]
 export default {
   components: {
@@ -62,7 +59,7 @@ export default {
       selectedRow: null,
       tableConfig,
       searchConfig,
-      listApi: queryLogisticsExpense,
+      listApi: expenseTypeList,
       // 可选 附加查询条件
       appendSearchParams: {},
     }
@@ -70,7 +67,7 @@ export default {
   methods: {
     /** 删除 */
     handleDel(row) {
-      this.$delConfirm('此操作将永久删除该款项, 是否继续?', () => deleteLogisticsExpenseInfo(row.id).then(res => {
+      this.$delConfirm('此操作将永久删除该款项性质, 是否继续?', () => expenseTypeDel({ id: row.id }).then(res => {
         if (!res) return
         this.$message.success('删除成功！')
         this.getTableData()
