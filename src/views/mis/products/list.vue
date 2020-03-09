@@ -103,8 +103,8 @@ export default {
       editUploadButtonVisible: false,
       uploadLoading: false,
       editUploadLoading: false,
-      isCheck:true,
-      modifyIsCheck:true
+      isCheck: true,
+      modifyIsCheck: true
     }
   },
   computed: {
@@ -125,7 +125,7 @@ export default {
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
           return (
-            <div style={{ display: 'flex', flexWrap: 'nowrap'}}>
+            <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
               <span>
                 <a
                   onClick={() => {
@@ -137,7 +137,7 @@ export default {
               </a>
                 <a
                   onClick={() => {
-                    this.edit({ skuCode: row.skuCode })
+                    this.edit({ skuCode: row.skuCode, ownerCode: row.ownerCode })
                   }}
                   style={this.linkstyle}
                 >
@@ -145,7 +145,7 @@ export default {
                 </a>
                 <a
                   onClick={() => {
-                    this.deleteItem({ skuCode: row.skuCode, ownerCode:row.ownerCode })
+                    this.deleteItem({ skuCode: row.skuCode, ownerCode: row.ownerCode })
                   }}
                   style={this.linkstyle}
                 >
@@ -162,7 +162,7 @@ export default {
     this.fetchData()
   },
   methods: {
-    uploadFile(params){
+    uploadFile(params) {
       this.uploadLoading = false
       const _file = params.file;
       const isLt5M = _file.size / 1024 / 1024 < 5;
@@ -170,8 +170,8 @@ export default {
         this.$message.error("请上传5M以下的.xlsx文件");
         return false;
       }
-      let that=this
-      this.isCheck=true
+      let that = this
+      this.isCheck = true
       var formData = new FormData();
       formData.append('file', _file);
       formData.append('isCheck', this.isCheck);
@@ -183,15 +183,15 @@ export default {
           } else {
             this.$message({ message: res.errorMsg, type: 'error' })
           }
-        }else if(res.code=='ratel-40620008') {
+        } else if (res.code == 'ratel-40620008') {
           this.$confirm('商品名重复,请确认是否继续导入', '提示', {
             confirmButtonText: '继续导入',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(_ => {
-            that.isCheck=false
+            that.isCheck = false
             formData.set('isCheck', that.isCheck)
-            RequestUploads(formData).then(res=>{
+            RequestUploads(formData).then(res => {
               if (res.code === '200') {
                 if (res.success) {
                   that.dialogVisible = false
@@ -199,7 +199,7 @@ export default {
                 } else {
                   that.$message({ message: res.errorMsg, type: 'error' })
                 }
-              }else{
+              } else {
                 that.$message({
                   message: res.errorMsg,
                   type: 'error'
@@ -209,7 +209,7 @@ export default {
           }).catch(_ => {
             that.dialogVisible = false
           })
-        }else{
+        } else {
           this.$message({
             message: res.errorMsg,
             type: 'error'
@@ -218,7 +218,7 @@ export default {
         this.$refs['upload'].clearFiles()
       })
     },
-    uploadEditFile(params){
+    uploadEditFile(params) {
       this.editUploadLoading = false
       const _file = params.file;
       const isLt5M = _file.size / 1024 / 1024 < 5;
@@ -226,8 +226,8 @@ export default {
         this.$message.error("请上传5M以下的.xlsx文件");
         return false;
       }
-      let that=this
-      this.modifyIsCheck=true
+      let that = this
+      this.modifyIsCheck = true
       var formData = new FormData();
       formData.append('file', _file);
       formData.append('isCheck', this.modifyIsCheck);
@@ -239,15 +239,15 @@ export default {
           } else {
             this.$message({ message: res.errorMsg, type: 'error' })
           }
-        }else if(res.code=='ratel-40620008') {
+        } else if (res.code == 'ratel-40620008') {
           this.$confirm('商品名重复,请确认是否继续导入', '提示', {
             confirmButtonText: '继续导入',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(_ => {
-            that.modifyIsCheck=false
+            that.modifyIsCheck = false
             formData.set('isCheck', that.modifyIsCheck)
-            modifyRequestUploads(formData).then(res=>{
+            modifyRequestUploads(formData).then(res => {
               if (res.code === '200') {
                 if (res.success) {
                   that.editDialogVisible = false
@@ -255,7 +255,7 @@ export default {
                 } else {
                   that.$message({ message: res.errorMsg, type: 'error' })
                 }
-              }else{
+              } else {
                 that.$message({
                   message: res.errorMsg,
                   type: 'error'
@@ -265,7 +265,7 @@ export default {
           }).catch(_ => {
             that.editDialogVisible = false
           })
-        }else{
+        } else {
           this.$message({
             message: res.errorMsg,
             type: 'error'
@@ -313,21 +313,21 @@ export default {
     view(query) {
       this.$router.push({ name: 'misproductdetail', query })
     },
-    deleteItem(data){
+    deleteItem(data) {
       this.$confirm('是否删除？', '提示', {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'success'
-        }).then(_ => {
-          deleteProduct(data).then(res=>{
-            if(res.success){
-              this.$message.success('删除成功')
-              this.fetchData()
-            }else{
-              this.$message.success('删除失败')
-            }
-          })
-        }).catch(_ => { })
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'success'
+      }).then(_ => {
+        deleteProduct(data).then(res => {
+          if (res.success) {
+            this.$message.success('删除成功')
+            this.fetchData()
+          } else {
+            this.$message.success('删除失败')
+          }
+        })
+      }).catch(_ => { })
     },
     newProduct() {
       this.$router.push({

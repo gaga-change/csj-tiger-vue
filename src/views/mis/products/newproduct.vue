@@ -1345,7 +1345,7 @@ export default {
     },
     getDetail() {
       const loading = this.$loading({ text: '请稍后..' })
-      productDetail({ skuCode: this.$route.query.skuCode }).then(res => {
+      productDetail({ skuCode: this.$route.query.skuCode, ownerCode: this.$route.query.ownerCode }).then(res => {
         const result = res.data || {}
         this.$valToString(result, ['isTrace', 'saleType'])
         const { skuCustomerInfoRespList, skuProviderInfoRespList, ownerCode, ownerName, ...rest } = result
