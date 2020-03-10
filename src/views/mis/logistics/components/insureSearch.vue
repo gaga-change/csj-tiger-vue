@@ -184,7 +184,7 @@ export default {
   data() {
     let nowDate = new Date();
     nowDate.setHours(0, 0, 0, 0);
-    let startDate = new Date(nowDate.getTime() - 3 * 24 * 60 * 60 * 1000);
+    let startDate = new Date(nowDate.getTime() - 2 * 24 * 60 * 60 * 1000);
     let initOrderDate = [startDate, nowDate]
     return {
       initOrderDate,
