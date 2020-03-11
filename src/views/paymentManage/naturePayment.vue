@@ -80,7 +80,9 @@ export default {
     },
     /** 刷新列表 */
     getTableData() {
-      this.$refs['baseList'].fetchData()
+      this.$refs['baseList'].fetchData(() => {
+        this.$store.dispatch('updateMap')
+      })
     },
     /** 可选 返回列表添加字段 */
     parseData(res) {
