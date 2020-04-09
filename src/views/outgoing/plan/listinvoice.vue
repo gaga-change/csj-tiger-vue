@@ -4,6 +4,10 @@
     <div style="display:flex">
       <div style="flex:1;display:flex;flex-wrap:wrap;">
         <span class="f12 mr20 mt10 nowrap">
+          <span class="fw600 mr5">货主 :</span>
+          <span>{{data.ownerName}}</span>
+        </span>
+        <span class="f12 mr20 mt10 nowrap">
           <span class="fw600 mr5">客户编码 :</span>
           <span>{{data.arrivalCode}}</span>
         </span>
@@ -28,7 +32,10 @@
         <div ref="qrCode"></div>
       </div>
     </div>
-    <div class="mt15" style="min-height:100px;margin-bottom:12px;padding-right:20px;">
+    <div
+      class="mt15"
+      style="min-height:100px;margin-bottom:12px;padding-right:20px;"
+    >
       <web-pagination-table
         class="compact-table-area"
         :loading="false"
@@ -36,26 +43,18 @@
         :allTableData="data.itemList||[]"
       />
     </div>
-    <div
-      style="margin-bottom: 12px;display: flex;justify-content: space-between;padding-right: 150px;"
-    >
+    <div style="margin-bottom: 12px;display: flex;justify-content: space-between;padding-right: 150px;">
       <div>
         <span style="font-size: 12px;font-weight: 600;">制单人 :</span>
-        <div
-          style="font-size: 12px; width: 100px;height: 30px; border-bottom: 1px solid #000;display: inline-block"
-        ></div>
+        <div style="font-size: 12px; width: 100px;height: 30px; border-bottom: 1px solid #000;display: inline-block"></div>
       </div>
       <div>
         <span style="font-size: 12px;font-weight: 600;">收货签收 :</span>
-        <div
-          style="font-size: 12px; width: 100px;height: 30px; border-bottom: 1px solid #000;display: inline-block"
-        ></div>
+        <div style="font-size: 12px; width: 100px;height: 30px; border-bottom: 1px solid #000;display: inline-block"></div>
       </div>
       <div>
         <span style="font-size: 12px;font-weight: 600;">日期 :</span>
-        <div
-          style="font-size: 12px;padding-top:20px; display: inline-block"
-        >{{moment().format('YYYY-MM-DD HH:mm:ss')}}</div>
+        <div style="font-size: 12px;padding-top:20px; display: inline-block">{{moment().format('YYYY-MM-DD HH:mm:ss')}}</div>
       </div>
     </div>
   </div>
@@ -70,7 +69,7 @@ export default {
   props: {
     data: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     config: {
       type: Array,
