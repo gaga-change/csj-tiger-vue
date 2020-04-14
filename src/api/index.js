@@ -1,5 +1,10 @@
 import http from './http'
 
+/** 登录 */
+export const userlogin = params => http.post(`/api/sso/login`, params)
+/** 退出登录 */
+export const logout = () => http.get(`/api/sso/logout`)
+
 /** 获取用户信息 */
 export const getInfo = params => http.get(`/webApi/base/user/info`, { params })
 /** 款项列表 - 全部 */

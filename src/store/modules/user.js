@@ -1,9 +1,8 @@
 import { getInfo } from '@/api'
-import { jsonFamart, isJSON } from '@/utils/deepSortMenu'
+import { jsonFamart } from '@/utils/deepSortMenu'
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 import Layout from '@/views/layout/Layout'
 import { reportCenterUrl } from '@/utils'
-import io from 'socket.io-client'
 import { connectSocket } from '@/api/socket'
 
 
@@ -19,7 +18,7 @@ const user = {
   mutations: {
     SET_USERINFO: (state, info) => {
       state.userInfo = info;
-      let bakmenus = info.menus && isJSON(info.menus) && JSON.parse(info.menus) || [];
+      let bakmenus = info.menus || [];
       state.fetchMenu = jsonFamart(bakmenus, _import, Layout, reportCenterUrl).filter(v => !v.hidden)
     },
     SET_COMPANY: (state, company) => {

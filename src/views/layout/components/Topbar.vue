@@ -19,7 +19,7 @@
     </ul>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <span class="welcome">欢迎，{{userInfo.truename}}</span>
+        <span class="welcome">欢迎，{{userInfo.nick || userInfo.email}}</span>
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -68,6 +68,7 @@
 import logoPath from '@/assets/images/logo.png'
 import { mapGetters } from 'vuex'
 import { updatepassword } from '@/api/login'
+import { logout } from '@/api'
 import { LoginPath, TiggerUrl } from '@/utils'
 import SearchMenuDialog from './SearchMenuDialog'
 export default {
@@ -188,7 +189,8 @@ export default {
         cancelButtonText: '取消'
       }).then(action => {
         if (action === 'confirm') {
-          location.href = `/csj_logout`
+          logout()
+          location.href = `/login`
         }
       })
     }

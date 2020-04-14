@@ -13,7 +13,8 @@ import Finance from './finance' //财务
 import freight from './freight' //物流费用
 
 export const constantRouterMap = [
-  { path: '/login', redirect: '/csj_login', hidden: true },
+  // { path: '/login', redirect: '/csj_login', hidden: true },
+  { path: '/login', component: () => import('../views/login/index'), hidden: true },
   { path: '/401', component: _import('401'), hidden: true },
   {
     path: '/',
@@ -33,14 +34,14 @@ export const constantRouterMap = [
     path: '/freightCount',
     component: _import('freightCount/add'),
     redirect: 'freightCount/add',
-    mark:'物流费用',
-    meta: { title: '物流计算', noCache: true,icon:'sale' },
+    mark: '物流费用',
+    meta: { title: '物流计算', noCache: true, icon: 'sale' },
     hidden: false,
     children: [
       {
         name: 'freightCountAdd',
         path: 'add',
-        meta: { title: '物流计算', noCache: true},
+        meta: { title: '物流计算', noCache: true },
         component: _import('freightCount/add')
       },
     ]
@@ -48,7 +49,7 @@ export const constantRouterMap = [
 ]
 
 export default new Router({
-  mode: 'hash',
+  mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
@@ -64,14 +65,14 @@ export const asyncRouterMap = [
     path: '/err',
     component: Layout,
     redirect: 'err/errIndex',
-    mark:'基础档案',
-    meta: { title: '错误处理', noCache: true,icon:'back' },
+    mark: '基础档案',
+    meta: { title: '错误处理', noCache: true, icon: 'back' },
     hidden: false,
     children: [
       {
         name: 'errIndex',
         path: 'errIndex',
-        meta: { title: '错误处理', noCache: true},
+        meta: { title: '错误处理', noCache: true },
         component: _import('errSystem/index')
       },
     ]
