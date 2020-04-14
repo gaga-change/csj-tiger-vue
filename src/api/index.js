@@ -50,5 +50,27 @@ export const deleteTemplateInfo = params => http.get(`/webApi/template/deleteTem
 export const saveTemplate = params => http.post(`/webApi/template/saveTemplate`, params)
 /** 修改模板 */
 export const updateTemplateInfo = params => http.post(`/webApi/template/updateTemplateInfo`, params)
+/** 审核配置 - 修改 */
+export const basicAuditConfigUpdate = params => http.post(`/webApi/basicAuditConfig/update`, params)
+/** 异常数据查询 */
+export const exceptionDataSelectListPage = params => http.post(`/webApi/exceptionData/selectListPage`, params)
 /** 模板详情 */
 export const selectTemplateInfo = params => http.get(`/webApi/template/selectTemplateInfo`, { params })
+/** 审核配置列表 */
+export const basicAuditConfigList = params => http.get(`/webApi/basicAuditConfig/queryPageList`, { params })
+// 异常接收人 保存
+export const exceptionReceiverSave = params => http.post(`/webApi/exceptionReceiver/save`, params)
+// 异常接收人 列表
+export const exceptionReceiverList = params => http.post(`/webApi/exceptionReceiver/selectListPage`, params)
+// 款项性质 保存
+export const expenseTypeSave = params => http.post(`/webApi/expenseType/save`, params)
+// 款项性质 列表
+export const expenseTypeList = params => http.post(`/webApi/expenseType/queryList`, params)
+// 款项性质 删除
+export const expenseTypeDel = params => http.get(`/webApi/expenseType/delete`, { params })
+// 款项性质 修改
+export const expenseTypeUpdate = params => http.post(`/webApi/expenseType/updateDict`, params)
+// 异常接收人 删除
+export const exceptionReceiverDelete = id => http.delete(`/webApi/exceptionReceiver/delete/${id}`)
+// /** 货主列表  -- 枚举已有，无需手动添加 */
+// export const ownerInfoList = params => http.get(`webApi/owner/info/list`, { params })

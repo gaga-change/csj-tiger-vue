@@ -200,6 +200,12 @@ export default [
         meta: { title: '仓库用户配置', noCache: true },
         component: _import('businessset/warehouseuser/index')
       },
+      {
+        name: 'auditSetList',
+        path: 'auditSetList',
+        meta: { title: '审核配置', noCache: true },
+        component: _import('businessset/auditSet/auditSetList')
+      },
     ]
   },
   {
@@ -215,6 +221,12 @@ export default [
         path: 'substitutePayment',
         meta: { title: '款项管理', noCache: true },
         component: _import('paymentManage/substitutepayment')
+      },
+      {
+        name: 'naturePayment',
+        path: 'naturePayment',
+        meta: { title: '款项性质', noCache: true },
+        component: _import('paymentManage/naturePayment')
       }
     ]
   },

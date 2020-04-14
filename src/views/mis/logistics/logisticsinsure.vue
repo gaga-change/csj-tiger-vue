@@ -4,6 +4,7 @@
       @submit="searchSubmit"
       @cancel="searchCancel"
       :consoil="consoil"
+      ref="search"
     ></insure-search>
     <el-row
       type="flex"
@@ -116,7 +117,7 @@ export default {
   },
   mounted() {
     this.getConsoilInfoList()
-    this.fetchData()
+    this.$refs['search'].submit()
   },
   methods: {
     handleSelectionChange(val) {
@@ -184,18 +185,20 @@ export default {
       this.searchForm = formData
       this.fetchData()
     },
-    searchCancel() {
-      this.searchForm = {}
+    searchCancel(formData) {
+      this.searchForm = formData
       this.fetchData()
     },
     fetchData() {
       this.loading = true
-      const { insureDate, orderDate, ...rest } = this.searchForm
+      let { insureDate, orderDate, outStoreTime, ...rest } = this.searchForm
       const postData = {
         gmtInsureBegin: insureDate && new Date(insureDate[0]).getTime(),
         gmtInsureEnd: insureDate && new Date(insureDate[1]).getTime(),
         gmtCreateBegin: orderDate && new Date(orderDate[0]).getTime(),
         gmtCreateEnd: orderDate && new Date(orderDate[1]).getTime(),
+        outStoreBeginDate: outStoreTime && new Date(outStoreTime[0]).getTime(),
+        outStoreEndDate: outStoreTime && new Date(outStoreTime[1]).getTime(),
         ...rest
       }
       insureListInfo({

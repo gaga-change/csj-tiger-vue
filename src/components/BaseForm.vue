@@ -22,6 +22,7 @@
             style="width:200px;"
             :disabled="item.disabled"
             clearable
+            filterable
           >
             <el-option
               v-for="(item, index) in mapConfig[item.enum]"
@@ -158,7 +159,6 @@ export default {
         if (item.type === 'enum' && item.default !== undefined && item.default !== null) item.default = item.default + ''
         this.$set(this.formData, item.prop, item.default)
       })
-      console.log(this.formData)
     },
     /** 确定 */
     validate(callback) {

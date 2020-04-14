@@ -456,7 +456,7 @@
               @click="receivingRegistration(scope.row)"
             >收货登记</span>
             <span
-              v-if="scope.row.issuedState===7"
+              v-if="scope.row.issuedState===7 || scope.row.issuedState===2 || scope.row.issuedState===8"
               class="tableLink"
               @click="deleteItem(scope.row.planCode,scope.row.billNo)"
             >删除</span>

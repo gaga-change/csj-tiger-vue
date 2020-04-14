@@ -204,7 +204,7 @@ export default [
     mark: '出入库',
     children: [
       {
-        name: 'list',
+        name: 'abnormalGoodsList',
         path: 'list',
         meta: { title: '异常商品登记', noCache: true },
         component: _import('abnormalGoods/list')
@@ -217,7 +217,7 @@ export default [
         hidden: true,
       },
       {
-        name: 'detail',
+        name: 'abnormalGoodsDetail',
         path: 'detail',
         meta: { title: '异常商品登记详情', noCache: true },
         component: _import('abnormalGoods/detail'),
@@ -353,6 +353,28 @@ export default [
         meta: { title: '库存查询详情', noCache: true },
         component: _import('inventory/quiry/detail'),
         hidden: true,
+      },
+    ]
+  },
+  {
+    path: '/earlyWarning',
+    component: Layout,
+    redirect: 'earlyWarning/earlyWarningPlanList',
+    meta: { title: '预警管理', noCache: true, icon: 'plan' },
+    mark: '出入库',
+    hidden: false,
+    children: [
+      {
+        name: 'earlyWarningPlanList',
+        path: 'earlyWarningPlanList',
+        meta: { title: '异常单据查询', noCache: true },
+        component: _import('earlyWarning/earlyWarningPlan/earlyWarningPlanList')
+      },
+      {
+        name: 'earlyWarningUserList',
+        path: 'earlyWarningUserList',
+        meta: { title: '预警接收人设置', noCache: true },
+        component: _import('earlyWarning/earlyWarningUser/earlyWarningUserList'),
       },
     ]
   }

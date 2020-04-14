@@ -11,43 +11,49 @@
       <template slot-scope="scope">
         <el-link
           type="primary"
-          @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
-        >详情</el-link>
-        <el-divider direction="vertical"></el-divider>
+          @click="handleDel(scope.row)"
+        >删除</el-link>
       </template>
       <template slot="btns">
         <el-button
           type="primary"
           size="mini"
-          @click="handleCreate"
+          @click="dialogVisible=true"
         >
-          新建质检记录
+          配置
         </el-button>
       </template>
     </base-list>
+    <earlyWarningUserAddFromDialog
+      :visible.sync="dialogVisible"
+      @submited="getTableData()"
+    />
   </div>
 </template>
 
 <script>
-import { checkOrderList } from '@/api'
+import { exceptionReceiverList, exceptionReceiverDelete } from '@/api'
+import earlyWarningUserAddFromDialog from './components/earlyWarningUserAddFromDialog'
 const tableConfig = [
-  { label: '质检单号 ', prop: 'orderCode', width: 140 },
-  { label: '收货单号 ', prop: 'receiveOrderCode', width: 140 },
-  { label: '创建人', prop: 'createrName' },
-  { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
-  { label: '是否虚拟区', prop: 'isVirtual', type: 'enum', enum: 'yesOrNoEnum' },
+  { label: '序号', prop: 'index', width: 60 },
+  { label: '货主', prop: 'ownerName' },
+  { label: '单据类型', prop: 'billType', type: 'enum', enum: 'getBaseDateType' },
+  { label: '提醒类型', prop: 'exceptionType', type: 'enum', enum: 'getExceptionType' },
+  { label: '信息接收人', prop: 'receiveName' },
 ]
 const searchConfig = [
-  { label: '质检单号', prop: 'orderCode' },
-  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea' },
-  { label: '库区性质', prop: 'warehouseAreaNature', type: 'enum', enum: 'warehouseAreaNatureEnum' },
+  { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'ownerInfoMap' },
+  { label: '单据类型', prop: 'billType', type: 'enum', enum: 'getBaseDateType' },
+  { label: '异常时间', prop: 'createTimeArea', props: ['gmtCreateBegin', 'gmtCreateEnd'], type: 'timeArea' },
 ]
 export default {
+  components: { earlyWarningUserAddFromDialog },
   data() {
     return {
+      dialogVisible: false,
       tableConfig,
       searchConfig,
-      listApi: checkOrderList,
+      listApi: exceptionReceiverList,
       // 可选 附加查询条件
       appendSearchParams: {},
     }
@@ -74,7 +80,7 @@ export default {
     },
     /** 删除 */
     handleDel(row) {
-      this.$delConfirm('此操作将永久删除该模板, 是否继续?', () => deleteLogisticsExpenseInfo(row.id).then(res => {
+      this.$delConfirm('此操作将永久删除该预警接收人设置, 是否继续?', () => exceptionReceiverDelete(row.id).then(res => {
         if (!res) return
         this.$message.success('删除成功！')
         this.getTableData()

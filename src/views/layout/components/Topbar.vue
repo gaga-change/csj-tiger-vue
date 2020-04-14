@@ -7,6 +7,9 @@
       物流交付协同平台{{development ? '【开发环境】': ''}}
     </div>
     <ul class="top-nav">
+      <li>
+        <a @click.prevent="showSearch" class="el-icon-search"></a>
+      </li>
       <li  v-for="i in markArr">
         <a  @click="$store.dispatch('setLocalmenu',i)"  :class="{navActive:mark===i}"    target="_blank">{{i}}</a>
       </li>
@@ -55,6 +58,9 @@
         <el-button type="primary" @click="modifyPassword">确 定</el-button>
       </div>
     </el-dialog>
+    <SearchMenuDialog 
+    :visible.sync="searchShow"
+    />
   </div>
 </template>
 
@@ -63,7 +69,9 @@ import logoPath from '@/assets/images/logo.png'
 import { mapGetters } from 'vuex'
 import { updatepassword } from '@/api/login'
 import { LoginPath, TiggerUrl } from '@/utils'
+import SearchMenuDialog from './SearchMenuDialog'
 export default {
+  components: { SearchMenuDialog },
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -89,6 +97,7 @@ export default {
       }
     }
     return {
+      searchShow: false,
       development: false,
       logoPath,
       TiggerUrl,
@@ -146,6 +155,9 @@ export default {
   },
 
   methods: {
+    showSearch() {
+      this.searchShow = true
+    },
     dataRoute() {
       if (!this.dataUrl) {
         this.$message('同步登录BI失败，无法跳转，请刷新页面重试')

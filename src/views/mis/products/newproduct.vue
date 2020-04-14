@@ -319,6 +319,31 @@
               </el-input>
             </el-form-item>
           </el-col>
+          <el-col
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <el-form-item
+              label="是否溯源："
+              prop="isTrace"
+            >
+              <el-select
+                v-model="productForm.isTrace"
+                size="mini"
+                placeholder="请选择"
+                class="formitem"
+              >
+                <el-option
+                  v-for="(item, index) in mapConfig['getYesNo']||[]"
+                  :label="item.value"
+                  :key="index"
+                  :value="item.key"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-card>
 
@@ -1170,6 +1195,7 @@ export default {
       productForm: {
         currentCode: null,
         saleType: "1",
+        isTrace: "0",
       },
       activeTab: 'first',
       customerConfig,
@@ -1214,7 +1240,10 @@ export default {
     editable() {
       return Boolean(this.$route.query.skuCode)
     },
-    ...mapGetters(['mapConfig', 'userInfo', 'visitedViews'])
+    ...mapGetters(['mapConfig', 'userInfo', 'visitedViews']),
+    mapConfigLoding() {
+      return this.mapConfig.loading
+    }
   },
   created() {
     if (this.$route.query.skuCode) {
@@ -1222,6 +1251,12 @@ export default {
     }
   },
   watch: {
+    mapConfigLoding(val) {
+      if (!val) { // 枚举加载结束后，初始化相关值
+        // this.productForm.isTrace = '0'
+        // this.productForm.saleType = '1'
+      }
+    },
     $route(route) {
       if (route.name === 'newproduct' && !route.query.skuCode) {
         this.$router.go(0)
@@ -1310,8 +1345,9 @@ export default {
     },
     getDetail() {
       const loading = this.$loading({ text: '请稍后..' })
-      productDetail({ skuCode: this.$route.query.skuCode }).then(res => {
+      productDetail({ skuCode: this.$route.query.skuCode, ownerCode: this.$route.query.ownerCode }).then(res => {
         const result = res.data || {}
+        this.$valToString(result, ['isTrace', 'saleType'])
         const { skuCustomerInfoRespList, skuProviderInfoRespList, ownerCode, ownerName, ...rest } = result
         this.customerTableData = skuCustomerInfoRespList
         this.servicerTableData = skuProviderInfoRespList

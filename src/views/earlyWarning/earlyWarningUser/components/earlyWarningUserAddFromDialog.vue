@@ -2,9 +2,9 @@
   <div class="">
     <!-- 600px【小型，单列】 70% 【中型，双列】-->
     <el-dialog
-      :title="rowData.id ? '编辑款项':'新建款项'"
+      title="配置预警接收人"
       :visible="visible"
-      width="400px"
+      width="600px"
       :before-close="handleClose"
       @close="close"
     >
@@ -42,21 +42,16 @@
 
 <script>
 const formConfig = [
-  { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
-  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
+  { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'ownerInfoMap' },
+  { label: '单据类型', prop: 'billType', type: 'enum', enum: 'getBaseDateType' },
+  { label: '异常类型', prop: 'exceptionType', type: 'enum', enum: 'getExceptionType' },
+  { label: '用户', prop: 'userId', type: 'enum', enum: 'getWxUser' },
 ]
 const rules = {
-  expenseName: [
-    { required: true, message: '必填项', trigger: ['blur', 'change'] },
-    { min: 0, max: 20, message: '不能超过20个字符', trigger: ['blur', 'change'] }
-  ],
-  expenseType: [
-    { required: true, message: '必填项', trigger: ['blur', 'change'] }
-  ],
-  expenseNature: [
-    { required: true, message: '必填项', trigger: ['blur', 'change'] }
-  ],
+  ownerCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+  billType: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+  exceptionType: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+  receiveName: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
 }
 /**
  * 父级设置
@@ -66,36 +61,19 @@ const rules = {
       @submited="getTableData()"
     />
  */
-import { createLogisticsExpense, updateLogisticsExpenseInfo } from '@/api'
+import { exceptionReceiverSave } from '@/api'
+import { mapGetters } from 'vuex'
 export default {
   props: {
     visible: {
       type: Boolean,
       default: false,
     },
-    /** 数据初始 */
-    row: {
-      type: Object,
-      default: () => null
-    }
   },
   computed: {
-    /** 防止父级传递 null */
-    rowData() {
-      return this.row || {}
-    }
-  },
-  watch: {
-    /** 监听数据切换，重置表单 */
-    visible(val) {
-      if (!val) return
-      this.formConfig.forEach(item => {
-        item.default = this.rowData[item.prop] === null ? undefined : this.rowData[item.prop]
-      })
-      this.$nextTick(() => {
-        this.$refs['form'].init()
-      })
-    }
+    ...mapGetters([
+      'mapConfig',
+    ])
   },
   data() {
     return {
@@ -107,18 +85,14 @@ export default {
   methods: {
     /** 确定 */
     confirm() {
-      this.$refs['form'].validate((valid, formData) => {
+      this.$refs['form'].validate((valid, params) => {
         if (valid) {
+          let owner = this.mapConfig['ownerInfoMap'].find(v => v.key === params.ownerCode)
+          let receive = this.mapConfig['getWxUser'].find(v => v.key === params.userId)
+          params.ownerName = owner.value
+          params.receiveName = receive.value
           this.loading = true
-          let params = this.$copy(formData)
-          params.expenseState = 1
-          let api = createLogisticsExpense
-          if (this.rowData.id) {
-            api = updateLogisticsExpenseInfo
-            params.id = this.rowData.id
-            params.expenseCode = this.rowData.expenseCode
-          }
-          api(params).then(res => {
+          exceptionReceiverSave(params).then(res => {
             this.loading = false
             if (!res) return
             this.$message.success('操作成功！')

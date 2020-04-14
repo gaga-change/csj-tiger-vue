@@ -2,7 +2,7 @@
   <div class="">
     <!-- 600px【小型，单列】 70% 【中型，双列】-->
     <el-dialog
-      :title="rowData.id ? '编辑款项':'新建款项'"
+      :title="rowData.id ? '编辑款项性质':'新建款项性质'"
       :visible="visible"
       width="400px"
       :before-close="handleClose"
@@ -42,20 +42,12 @@
 
 <script>
 const formConfig = [
-  { label: '款项名称', prop: 'expenseName' },
-  { label: '款项性质', prop: 'expenseType', type: 'enum', enum: 'getExpenseTypeList' },
-  { label: '收入/费用', prop: 'expenseNature', type: 'enum', enum: 'expenseNatureEnum' }
+  { label: '款项性质名称', prop: 'dictName' },
 ]
 const rules = {
-  expenseName: [
+  dictName: [
     { required: true, message: '必填项', trigger: ['blur', 'change'] },
     { min: 0, max: 20, message: '不能超过20个字符', trigger: ['blur', 'change'] }
-  ],
-  expenseType: [
-    { required: true, message: '必填项', trigger: ['blur', 'change'] }
-  ],
-  expenseNature: [
-    { required: true, message: '必填项', trigger: ['blur', 'change'] }
   ],
 }
 /**
@@ -66,7 +58,7 @@ const rules = {
       @submited="getTableData()"
     />
  */
-import { createLogisticsExpense, updateLogisticsExpenseInfo } from '@/api'
+import { expenseTypeSave, expenseTypeUpdate } from '@/api'
 export default {
   props: {
     visible: {
@@ -111,12 +103,10 @@ export default {
         if (valid) {
           this.loading = true
           let params = this.$copy(formData)
-          params.expenseState = 1
-          let api = createLogisticsExpense
+          let api = expenseTypeSave
           if (this.rowData.id) {
-            api = updateLogisticsExpenseInfo
+            api = expenseTypeUpdate
             params.id = this.rowData.id
-            params.expenseCode = this.rowData.expenseCode
           }
           api(params).then(res => {
             this.loading = false

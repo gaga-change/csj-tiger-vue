@@ -20,7 +20,7 @@ const map = {
       let temp = { ...state.mapConfig }
       temp[item.name] = item.keyValue
       state.mapConfig = temp
-    }
+    },
   },
   actions: {
     // 获取枚举信息
@@ -31,9 +31,26 @@ const map = {
       }).catch(err => {
         console.error(err)
       })
+    },
+    updateMap({ commit }) {
+      getEnum().then(res => {
+        commit('SET_MAP', res);
+      }).catch(err => {
+        console.error(err)
+      })
     }
-
   }
+}
+
+async function getEnum() {
+  let config = {};
+  await apiMap['getEnum']().then(res => {
+    if (res.success) {
+      config = { ...config, ...res.data }
+    }
+  }).catch(err => {
+  })
+  return config;
 }
 
 async function config() {

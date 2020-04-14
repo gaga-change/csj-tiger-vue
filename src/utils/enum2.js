@@ -68,3 +68,38 @@ export const costSettlementStatusEnum = [
     value: 2
   }
 ]
+// 审核配置 - 单据类型
+export const auditBillTypeEnum = [
+  {
+    name: '入库计划单',
+    value: 1
+  },
+  {
+    name: '出库计划单',
+    value: 2
+  },
+]
+
+// 款项管理 - 收入/费用
+export const expenseNatureEnum = [
+  {
+    name: '费用',
+    value: '0'
+  },
+  {
+    name: '收入',
+    value: '1'
+  },
+]
+
+// // 审核配置 - 审核类型
+// export const auditType = [
+//   {
+//     name: '自动审批',
+//     value: 1
+//   },
+//   {
+//     name: '自动审批',
+//     value: 2
+//   },
+// ]

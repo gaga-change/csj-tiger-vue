@@ -12,7 +12,7 @@ export default [
     hidden: false,
     children: [
       {
-        name: 'list',
+        name: 'reconciliationList',
         path: 'list',
         meta: { title: '仓储服务费对账单', noCache: true },
         component: _import('reconciliation/list'),
@@ -40,7 +40,7 @@ export default [
         hidden: true,
       },
       {
-        name: 'detail',
+        name: 'reconciliationDetail',
         path: 'detail',
         meta: { title: '对账单详情', noCache: true },
         component: _import('reconciliation/detail'),

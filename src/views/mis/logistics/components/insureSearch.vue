@@ -34,7 +34,12 @@
             label="金额大于："
             prop="logisticsOrderCode"
           >
-            <el-input-number v-model="searchForm.outAmt" :min="0" size="mini" class="formitem"></el-input-number>
+            <el-input-number
+              v-model="searchForm.outAmt"
+              :min="0"
+              size="mini"
+              class="formitem"
+            ></el-input-number>
           </el-form-item>
         </el-col>
         <el-col
@@ -56,8 +61,29 @@
               range-separator="-"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-            >
-            </el-date-picker>
+            ></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col
+          :sm="12"
+          :md="8"
+          :lg="8"
+          :xl="6"
+        >
+          <el-form-item
+            label="出库日期："
+            prop="outStoreTime"
+          >
+            <el-date-picker
+              v-model="searchForm.outStoreTime"
+              type="daterange"
+              size="mini"
+              unlink-panels
+              class="formitem"
+              range-separator="-"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            ></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col
@@ -131,8 +157,7 @@
               range-separator="-"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-            >
-            </el-date-picker>
+            ></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -148,7 +173,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   props: {
     consoil: {
@@ -157,28 +182,37 @@ export default {
     }
   },
   data() {
+    let nowDate = new Date();
+    nowDate.setHours(0, 0, 0, 0);
+    let startDate = new Date(nowDate.getTime() - 2 * 24 * 60 * 60 * 1000);
+    let initOrderDate = [startDate, nowDate]
     return {
-      searchForm: {}
-    }
+      initOrderDate,
+      searchForm: {
+        orderDate: [...initOrderDate]
+      }
+    };
   },
   computed: {
-    ...mapGetters(['mapConfig'])
+    ...mapGetters(["mapConfig"])
   },
   methods: {
     submit() {
-      this.$refs['searchForm'].validate((valid) => {
+      this.$refs["searchForm"].validate(valid => {
         if (valid) {
-          this.$emit('submit', this.searchForm)
+          this.$emit("submit", this.searchForm);
         }
-      })
+      });
     },
     resetForm() {
-      this.$refs['searchForm'].resetFields()
-      this.searchForm = {}
-      this.$emit('cancel')
+      this.$refs["searchForm"].resetFields();
+      this.searchForm = {
+        orderDate: [...this.initOrderDate]
+      };
+      this.$emit("cancel", this.searchForm);
     }
   }
-}
+};
 </script>
 
 <style lang="css">

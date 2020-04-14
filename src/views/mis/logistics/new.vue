@@ -329,8 +329,8 @@ export default {
     return {
       addForm: {
         costCalcWay: 1,
-        chargeType:"2",
-        settlementType:"3"
+        chargeType: "2",
+        settlementType: "3"
       },
       carrier: [],
       submitloading: false,
@@ -365,7 +365,7 @@ export default {
       outStoreVisible: false,
       localEnum,
       addressData: [],
-      againloading:false
+      againloading: false
     }
   },
 
@@ -378,7 +378,7 @@ export default {
     totalCost: {
       get: function () {
         let data = 0;
-        ['dispatchCost', 'logisticsPremium', 'insuredCost','toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
+        ['dispatchCost', 'logisticsPremium', 'insuredCost', 'toll', 'oilCost', 'receptCost', 'otherCost'].forEach(v => {
           data += Number(this.addForm[v]) || 0
         })
         data += Number(this.addForm.logisticsFare) || 0
@@ -443,6 +443,8 @@ export default {
     },
     getDetail() {
       queryLogisticsDetail(this.$route.query.id).then(res => {
+        res.data.chargeType += ''
+        res.data.settlementType += ''
         const { relationList, consoildatorName, consoildatorCode, ...rest } = res.data
         this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest }
         this.outTableData = relationList;
@@ -552,12 +554,12 @@ export default {
     },
 
     onSubmit(type) {
-      let submittype=type
+      let submittype = type
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          if(submittype=='once'){
+          if (submittype == 'once') {
             this.submitloading = true
-          }else{
+          } else {
             this.againloading = true
           }
           const {
@@ -583,29 +585,29 @@ export default {
           }
           FUNCTION(postData).then(res => {
             this.submitloading = false
-            this.againloading=false
+            this.againloading = false
             if (res.success) {
               this.$alert('操作成功').then(() => {
-                if(submittype=='once'){
+                if (submittype == 'once') {
                   const view = this.visitedViews.filter(v => v.path === this.$route.path)
                   this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                     this.$router.push({ name: 'logisticsList' })
                   })
-                }else{
-                  for(let i in this.addForm){
-                    this.addForm[i]=null
+                } else {
+                  for (let i in this.addForm) {
+                    this.addForm[i] = null
                   }
-                  this.addForm.costCalcWay=1
-                  this.addForm.chargeType="2"
-                  this.addForm.settlementType="3"
-                  this.outTableData=[]
+                  this.addForm.costCalcWay = 1
+                  this.addForm.chargeType = "2"
+                  this.addForm.settlementType = "3"
+                  this.outTableData = []
                   this.unionOutStore()
                 }
               })
             }
           }).catch(err => {
             this.submitloading = false
-            this.againloading=false
+            this.againloading = false
           })
         }
       })

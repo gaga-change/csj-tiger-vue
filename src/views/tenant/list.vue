@@ -123,40 +123,50 @@
       title="关联项目部"
     >
       <el-table
-      :data="projectData"
-      border
-      size="small"
-      style="margin-bottom:12px"
-      @selection-change="handleSelectionChange"
-      ref="linkTable"
-    >
-      <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column>
-      <el-table-column
-        label="项目部编码"
-        prop="projectCode"
-      ></el-table-column>
-      <el-table-column
-        label="项目部名称"
-        prop="projectName"
-      ></el-table-column>
-    </el-table>
-    <el-pagination
-      @size-change="handleProjectSizeChange"
-      @current-change="handleProjectCurrentPageChange"
-      :current-page="projectpageNum"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="projecttotal"
-    >
-    </el-pagination>
-    <div style="text-align:center;">
-      <el-button style="margin:10px" size="mini" @click="linkSubmit(false)">关闭</el-button>
-      <el-button type="primary" style="margin:10px" size="mini" @click="linkSubmit(true)">提交</el-button>
-    </div>
+        :data="projectData"
+        border
+        size="small"
+        style="margin-bottom:12px"
+        @selection-change="handleSelectionChange"
+        ref="linkTable"
+      >
+        <el-table-column
+          type="selection"
+          width="55"
+        >
+        </el-table-column>
+        <el-table-column
+          label="项目部编码"
+          prop="projectCode"
+        ></el-table-column>
+        <el-table-column
+          label="项目部名称"
+          prop="projectName"
+        ></el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleProjectSizeChange"
+        @current-change="handleProjectCurrentPageChange"
+        :current-page="projectpageNum"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="projecttotal"
+      >
+      </el-pagination>
+      <div style="text-align:center;">
+        <el-button
+          style="margin:10px"
+          size="mini"
+          @click="linkSubmit(false)"
+        >关闭</el-button>
+        <el-button
+          type="primary"
+          style="margin:10px"
+          size="mini"
+          @click="linkSubmit(true)"
+        >提交</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -200,15 +210,15 @@ export default {
       },
       configbtn: false,
       configLoading: false,
-      projectVisible:false,
-      projectData:[],
+      projectVisible: false,
+      projectData: [],
       projectpageNum: 1,
       projectpageSize: 10,
       projecttotal: 0,
-      linkData:[],
-      submitInfo:null,
-      contactedData:[],
-      pageSize:10
+      linkData: [],
+      submitInfo: null,
+      contactedData: [],
+      pageSize: 10
     }
   },
   computed: {
@@ -279,14 +289,6 @@ export default {
               )}
               <a
                 onClick={() => {
-                  this.showConfig(row)
-                }}
-                style={this.linkstyle}
-              >
-                推送配置
-              </a>
-               <a
-                onClick={() => {
                   this.showProject(row)
                 }}
                 style={this.linkstyle}
@@ -298,44 +300,52 @@ export default {
         }
       }
     })
+    //     <a
+    //   onClick={() => {
+    //     this.showConfig(row)
+    //   }}
+    //   style={this.linkstyle}
+    // >
+    //   推送配置
+    // </a>
     this.projectInfo()
   },
 
   methods: {
-     showProject(row){
-      this.projectVisible=true
-      this.submitInfo=row
+    showProject(row) {
+      this.projectVisible = true
+      this.submitInfo = row
       this.getTenantProjectInfo(row.ownerCode)
       this.projectpageNum = 1
       this.projectInfo()
     },
-    getTenantProjectInfo(val){
-      this.contactedData=[]
-      tenantProjectInfo({ownerCode:val}).then(res=>{
+    getTenantProjectInfo(val) {
+      this.contactedData = []
+      tenantProjectInfo({ ownerCode: val }).then(res => {
         if (res.success) {
-          this.contactedData=res.data&&res.data.length>0?res.data:[]
+          this.contactedData = res.data && res.data.length > 0 ? res.data : []
           this.checkedTable()
-        }else{
-          this.contactedData=[]
-        } 
-      }).catch(err=>{
-        this.contactedData=[]
+        } else {
+          this.contactedData = []
+        }
+      }).catch(err => {
+        this.contactedData = []
       })
     },
-    checkedTable(){
-      if(this.contactedData && this.contactedData.length>0){
+    checkedTable() {
+      if (this.contactedData && this.contactedData.length > 0) {
         this.$refs.linkTable.clearSelection()
-        this.contactedData.map(item=>{
-          this.projectData.map(val=>{
-            if(val.projectCode==item.projectCode){
-              this.$refs.linkTable.toggleRowSelection(val,true)
+        this.contactedData.map(item => {
+          this.projectData.map(val => {
+            if (val.projectCode == item.projectCode) {
+              this.$refs.linkTable.toggleRowSelection(val, true)
             }
           })
         })
       }
     },
     projectInfo() {
-      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize,projectStatus:1 }).then(res => {
+      projectInfo({ pageNum: this.projectpageNum, pageSize: this.projectpageSize, projectStatus: 1 }).then(res => {
         const result = res.data
         this.projectData = result && result.list
         this.projecttotal = result.total
@@ -353,44 +363,44 @@ export default {
       this.projectpageNum = val
       this.projectInfo()
     },
-    handleSelectionChange(val){
-      if (val.length > 1) {
-        this.$refs.linkTable.clearSelection()
-        this.$refs.linkTable.toggleRowSelection(val.pop())
-       } else {
-        this.linkData = val
+    handleSelectionChange(val) {
+      if (val.length > 1) {
+        this.$refs.linkTable.clearSelection()
+        this.$refs.linkTable.toggleRowSelection(val.pop())
+      } else {
+        this.linkData = val
       }
     },
-    linkSubmit(val){
-      let isSubmit=val
-      if(isSubmit){
+    linkSubmit(val) {
+      let isSubmit = val
+      if (isSubmit) {
         // if(this.linkData.length<=0){
         //   this.$message.error('请勾选选项')
         //   return
         // }
-        let submitData=[]
-        if(this.linkData.length>0){
-          this.linkData.map(item=>{
+        let submitData = []
+        if (this.linkData.length > 0) {
+          this.linkData.map(item => {
             submitData.push({
-              projectCode:item.projectCode,
-              projectName:item.projectName
+              projectCode: item.projectCode,
+              projectName: item.projectName
             })
           })
         }
-        tenantProjectContact({ownerCode:this.submitInfo.ownerCode,ownerName:this.submitInfo.ownerName,projectList:submitData}).then(res=>{
+        tenantProjectContact({ ownerCode: this.submitInfo.ownerCode, ownerName: this.submitInfo.ownerName, projectList: submitData }).then(res => {
           if (res.success) {
             this.$message.success('关联成功')
-            this.projectVisible=false
+            this.projectVisible = false
             this.$refs['linkTable'].clearSelection()
-            this.linkData=[]
+            this.linkData = []
           } else {
             this.$message.error('操作失败')
           }
         })
-      }else{
+      } else {
         this.$refs['linkTable'].clearSelection()
-        this.linkData=[]
-        this.projectVisible=false
+        this.linkData = []
+        this.projectVisible = false
       }
     },
     showConfig(row) {
@@ -485,10 +495,10 @@ export default {
     showStore(row) {
       this.dialogVisible = true
       this.storeLoading = true
-      this.addForm.warehouses=[]
+      this.addForm.warehouses = []
       this.addForm.ownerCode = row.ownerCode
       ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
-        if(res.data && res.data.length>0){
+        if (res.data && res.data.length > 0) {
           let result = res.data.map(v => v.warehouseCode);
           let arr = [];
           result.forEach(v => {

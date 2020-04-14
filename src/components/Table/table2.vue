@@ -1,5 +1,5 @@
 <template>
-  <div class="ctabel TableIndexCom">
+  <div class="Component_Table2">
     <el-table
       ref="table"
       v-loading="api ? selfLoading: loading"
@@ -535,13 +535,11 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.TableIndexCom {
+.Component_Table2 {
+  width: 100%;
   td {
     word-break: break-word;
   }
-}
-.ctabel {
-  width: 100%;
   .el-radio__label {
     display: none;
   }
