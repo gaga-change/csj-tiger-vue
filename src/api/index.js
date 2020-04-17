@@ -43,7 +43,7 @@ export const addOrDeleteSattle = params => http.post(`/webApi/consoil/statement/
 /** 查询模板列表 */
 export const queryTemplateList = params => http.post(`/webApi/template/queryTemplateList`, params)
 /** 承运商列表 */
-export const consoilInfoList = params => http.get(`webApi/consoil/info/list`, { params })
+export const consoilInfoList = params => http.get(`/webApi/consoil/info/list`, { params })
 /** 删除模板 */
 export const deleteTemplateInfo = params => http.get(`/webApi/template/deleteTemplateInfo`, { params })
 /** 新建模板 */
@@ -73,4 +73,4 @@ export const expenseTypeUpdate = params => http.post(`/webApi/expenseType/update
 // 异常接收人 删除
 export const exceptionReceiverDelete = id => http.delete(`/webApi/exceptionReceiver/delete/${id}`)
 // /** 货主列表  -- 枚举已有，无需手动添加 */
-// export const ownerInfoList = params => http.get(`webApi/owner/info/list`, { params })
+// export const ownerInfoList = params => http.get(`/webApi/owner/info/list`, { params })
