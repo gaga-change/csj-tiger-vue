@@ -35,7 +35,7 @@ export function getEnum() {
 //货主枚举
 export function ownerInfoMap() {
   return request({
-    url: 'webApi/base/info/getOwner',
+    url: '/webApi/base/info/getOwner',
     method: 'get',
   })
 }
