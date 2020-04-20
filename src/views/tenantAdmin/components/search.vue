@@ -17,8 +17,8 @@
           </el-col>
 
           <el-col :span="6" style="min-width:300px">
-            <el-form-item label="租户名称"   style="width:300px" prop="ownerName">
-              <el-input type="text" size="mini"  placeholder="请输入租户名称"    v-model.trim="searchForm.ownerName" ></el-input>
+            <el-form-item label="租户名称"   style="width:300px" prop="tenantName">
+              <el-input type="text" size="mini"  placeholder="请输入租户名称"    v-model.trim="searchForm.tenantName" ></el-input>
             </el-form-item>
           </el-col>
 

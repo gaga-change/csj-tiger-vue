@@ -1,12 +1,15 @@
 <template>
   <div>
-    <search-from :searchForm="searchForm" @submit="submit"></search-from>
-    <div class="msginfo" v-if="selection.length">
+    <search-from
+      :searchForm="searchForm"
+      @submit="submit"
+    ></search-from>
+    <div
+      class="msginfo"
+      v-if="selection.length"
+    >
       <i class="el-icon-info color-108ee9"></i>
-      <span style="margin-left:6px;"
-        >已选择<span class="color-108ee9">{{ selection.length }}</span
-        >项数据</span
-      >
+      <span style="margin-left:6px;">已选择<span class="color-108ee9">{{ selection.length }}</span>项数据</span>
     </div>
     <base-table
       @sizeChange="handleSizeChange"
@@ -36,7 +39,11 @@ export default {
     return {
       searchForm: {
         isAdmin: 1,
-        sourceSystem: 'TIGER'
+        sourceSystem: 'TIGER',
+        userName: undefined,
+        linkTel: undefined,
+        tenantName: undefined,
+        userStatus: undefined,
       },
       listIndexConfig,
       pageSize: 10,
@@ -69,7 +76,7 @@ export default {
       //  >
       //    查看
       // </router-link>
-      
+
       if (item.useLink) {
         item.dom = (row, column, cellValue, index) => {
           return (
