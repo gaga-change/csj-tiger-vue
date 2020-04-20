@@ -12,7 +12,7 @@ export function httpMiddler(response) {
   let data = response.data
   let message = data.detailError || data.message || data.errorMsg || ''
   // 系统异常提示（返回的数据为 null）
-  if (~['TIGER-40620081', 'user-not-login', 501].findIndex(v => v === data.code)) {
+  if (~['TIGER-40620081', 'user-not-login', 501].findIndex(v => v == data.code)) {
     sessionStorage.setItem('warehouse', '')
     location.href = `/login`
     data = null
