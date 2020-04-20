@@ -45,7 +45,7 @@
         <template slot-scope="scope">
           <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
           <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
-           <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
+          <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
             scope.row[column.prop] | parseTime
             }}</span>
           <span v-else>{{scope.row[column.prop]}}</span>
@@ -324,11 +324,13 @@ export default {
         prop: 'customerLevel',
         apiEnum: 'getEnterpriseLevel',
         placeholder: '请输入客户等级'
-      },{label: '创建人',
+      }, {
+        label: '创建人',
         prop: 'createrName'
-      },{label: '创建时间',
+      }, {
+        label: '创建时间',
         prop: 'gmtCreate',
-        type:'time'
+        type: 'time'
       }),
       tableData: [],
       searchData: {},
@@ -460,7 +462,11 @@ export default {
       getCustomerList({ pageNum: this.pageNum, pageSize: this.pageSize, ...this.searchData })
         .then(res => {
           const result = res.data
-          this.tableData = result && result.list
+          this.tableData = (result && result.list || []).map(v => {
+            v.customerState += ''
+            v.customerLevel += ''
+            return v
+          })
           this.total = result.total
           this.currentPage = result.pageNum
           this.loading = false
