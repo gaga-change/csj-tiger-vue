@@ -1,25 +1,27 @@
 import request from '@/utils/request'
-import {stringify} from 'qs';
+import { stringify } from 'qs';
 
 //出库业务单数据
-export function outBillList(data={}) {
+export function outBillList(data = {}) {
   return request({
-    url: `/webApi/out/bill/list?${stringify(data)}`,
-    method: 'get',
+    url: `/webApi/out/bill/list`,
+    method: 'post',
+    data
   })
 }
 
 
 //出库计划数据
-export function outPlanSelect(data={}) {
+export function outPlanSelect(data = {}) {
   return request({
-    url: `/webApi/out/plan/select?${stringify(data)}`,
-    method: 'get',
+    url: `/webApi/out/plan/select`,
+    method: 'post',
+    data
   })
 }
 
 //出库计划详情数据
-export function outPlanDetail(data={}) {
+export function outPlanDetail(data = {}) {
   return request({
     url: `/webApi/out/plan/detail?${stringify(data)}`,
     method: 'get',
@@ -35,7 +37,7 @@ export function outPlanClose(planCode) {
 }
 
 //出库计划修改
-export function outPlanUpdate(data={}) {
+export function outPlanUpdate(data = {}) {
   return request({
     url: `/webApi/out/plan/update`,
     method: 'put',
@@ -44,15 +46,16 @@ export function outPlanUpdate(data={}) {
 }
 
 //出库单查询数据
-export function outOrderSelect(data={}) {
+export function outOrderSelect(data = {}) {
   return request({
-    url: `/webApi/out/order/select?${stringify(data)}`,
-    method: 'get',
+    url: `/webApi/out/order/select`,
+    method: 'post',
+    data
   })
 }
 
 //出库单查询详情数据
-export function outOrderDetail(data={}) {
+export function outOrderDetail(data = {}) {
   return request({
     url: `/webApi/out/order/detail?${stringify(data)}`,
     method: 'get',
@@ -60,7 +63,7 @@ export function outOrderDetail(data={}) {
 }
 
 // 根据出库业务单查询采购单信息
-export function planGetBill(data={}) {
+export function planGetBill(data = {}) {
   return request({
     url: `/webApi/out/plan/getBill?${stringify(data)}`,
     method: 'get',
@@ -69,15 +72,15 @@ export function planGetBill(data={}) {
 
 
 // 自动匹配
-export function planAutoMatch(data={}) {
+export function planAutoMatch(data = {}) {
   return request({
     url: `/webApi/out/plan/autoMatch?${stringify(data)}`,
-    method:'get',
+    method: 'get',
   })
 }
 
 // 匹配操作
-export function planHandMatch(data={}) {
+export function planHandMatch(data = {}) {
   return request({
     url: `/webApi/out/plan/handMatch`,
     method: 'post',
@@ -86,7 +89,7 @@ export function planHandMatch(data={}) {
 }
 
 //匹配明细
-export function getBillDetail(data={}) {
+export function getBillDetail(data = {}) {
   return request({
     url: `/webApi/out/plan/getBillDetail?${stringify(data)}`,
     method: 'get',
@@ -96,7 +99,7 @@ export function getBillDetail(data={}) {
 
 
 // 取消操作
-export function planCancelMatch(data={}) {
+export function planCancelMatch(data = {}) {
   return request({
     url: `/webApi/out/plan/cancelMatch`,
     method: 'post',
@@ -106,7 +109,7 @@ export function planCancelMatch(data={}) {
 
 
 //匹配明细
-export function planPush(data={}) {
+export function planPush(data = {}) {
   return request({
     url: `/webApi/out/plan/push?${stringify(data)}`,
     method: 'get',
@@ -115,7 +118,7 @@ export function planPush(data={}) {
 
 
 //确认并生成出库单接口
-export function orderSave(data={}) {
+export function orderSave(data = {}) {
   return request({
     url: `/webApi/out/order/save`,
     method: 'post',
@@ -123,7 +126,7 @@ export function orderSave(data={}) {
   })
 }
 
-export function customerAddrInfo(customerCode,billType) {
+export function customerAddrInfo(customerCode, billType) {
   return request({
     url: `/webApi/customer/addr/info/${customerCode}/${billType}`,
     method: 'get',
@@ -131,7 +134,7 @@ export function customerAddrInfo(customerCode,billType) {
 }
 
 
-export function skuInfoList(ownerCode,arrivalCode,customerType, data={}) {
+export function skuInfoList(ownerCode, arrivalCode, customerType, data = {}) {
   return request({
     url: `/webApi/sku/info/list`,
     method: 'get',
@@ -139,7 +142,7 @@ export function skuInfoList(ownerCode,arrivalCode,customerType, data={}) {
   })
 }
 
-export function outBillAdd(data={}) {
+export function outBillAdd(data = {}) {
   return request({
     url: `/webApi/out/bill/add`,
     method: 'post',
@@ -154,7 +157,7 @@ export function outBillDetail(outWarehouseBillId) {
   })
 }
 
-export function outBillUpdate(data={}) {
+export function outBillUpdate(data = {}) {
   return request({
     url: `/webApi/out/bill/update`,
     method: 'put',
@@ -162,7 +165,7 @@ export function outBillUpdate(data={}) {
   })
 }
 
-export function outBillImprove(data={}) {
+export function outBillImprove(data = {}) {
   return request({
     url: `/webApi/out/bill/improve`,
     method: 'put',
@@ -170,7 +173,7 @@ export function outBillImprove(data={}) {
   })
 }
 
-export function outOrderPrint(data={}) {
+export function outOrderPrint(data = {}) {
   return request({
     url: `/webApi/out/order/print`,
     method: 'put',
@@ -178,7 +181,7 @@ export function outOrderPrint(data={}) {
   })
 }
 
-export function planOrderPrint(data={}) {
+export function planOrderPrint(data = {}) {
   return request({
     url: `/webApi/out/plan/print`,
     method: 'put',
@@ -212,7 +215,7 @@ export function outBillClose(busiBillNo) {
 }
 
 
-export function skuInfoGetRecommendStock(ownerCode,skuCode) {
+export function skuInfoGetRecommendStock(ownerCode, skuCode) {
   return request({
     url: `/webApi/sku/info/getRecommendStock/${ownerCode}/${skuCode}`,
     method: 'get',
@@ -220,7 +223,7 @@ export function skuInfoGetRecommendStock(ownerCode,skuCode) {
 }
 
 
-export function outPlanAdd(data={}) {
+export function outPlanAdd(data = {}) {
   return request({
     url: ` /webApi/out/plan/add`,
     method: 'post',
@@ -237,8 +240,9 @@ export function outPlanPrint(planCode) {
 
 export function outBillImproveList(data) {
   return request({
-    url: `/webApi/out/bill/improve/list?${stringify(data)}`,
-    method: 'get',
+    url: `/webApi/out/bill/improve/list`,
+    method: 'post',
+    data
   })
 }
 
@@ -324,7 +328,7 @@ export function outCloseOperate(data) {
   return request({
     url: `/webApi/out/plan/end`,
     method: 'post',
-    data:data
+    data: data
   })
 }
 
@@ -333,7 +337,7 @@ export function customNameSearch(data) {
   return request({
     url: `/webApi/customer/detail`,
     method: 'post',
-    data:data
+    data: data
   })
 }
 
@@ -342,7 +346,7 @@ export function outOrderNo(data) {
   return request({
     url: `/webApi/out/bill/queryBill`,
     method: 'post',
-    data:data
+    data: data
   })
 }
 
@@ -351,6 +355,6 @@ export function outRelativeNo(data) {
   return request({
     url: `/webApi/out/order/getOutOrder`,
     method: 'put',
-    data:data
+    data: data
   })
 }

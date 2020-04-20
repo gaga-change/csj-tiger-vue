@@ -182,8 +182,8 @@ export function outQueryApprovedItems(id) {
 export function queryWarehouseCode(data) {
   return request({
     url: `/webApi/out/order/select`,
-    method: 'get',
-    params: data
+    method: 'post',
+    data
   })
 }
 
@@ -191,8 +191,8 @@ export function queryWarehouseCode(data) {
 export function queryInWarehouseCode(data) {
   return request({
     url: `/webApi/in/order/inWarehouseOrderList`,
-    method: 'get',
-    params: data
+    method: 'post',
+    data
   })
 }
 
