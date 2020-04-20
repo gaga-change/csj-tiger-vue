@@ -272,6 +272,8 @@ export default {
       if (type === 'update') {
         this.addVisible = true;
         this.dialogTitle = "修改供应商"
+        row.providerLevel += ''
+        row.providerState += ''
         this.addForm = row
       } else if (type === 'add') {
         this.addVisible = true;
