@@ -10,7 +10,7 @@ let newAxios = axios.create({
 
 export function httpMiddler(response) {
   let data = response.data
-  let message = data.detailError || data.message || data.errorMsg || ''
+  let message = data.errorMsg || data.detailError || data.message || ''
   // 系统异常提示（返回的数据为 null）
   if (~['TIGER-40620081', 'user-not-login', 501].findIndex(v => v == data.code)) {
     sessionStorage.setItem('warehouse', '')
@@ -31,7 +31,7 @@ export function httpMiddler(response) {
 
 // 响应拦截器
 newAxios.interceptors.response.use(httpMiddler, function (error) {
-  let message = data.detailError || error.message
+  let message = data.errorMsg || data.detailError || error.message
   if (message === 'timeout of 1500ms exceeded') message = '请求超时，请稍后再试！'
   Notification({
     title: '错误信息',

@@ -77,5 +77,13 @@ export const expenseTypeDel = params => http.get(`/webApi/expenseType/delete`, {
 export const expenseTypeUpdate = params => http.post(`/webApi/expenseType/updateDict`, params)
 // 异常接收人 删除
 export const exceptionReceiverDelete = id => http.delete(`/webApi/exceptionReceiver/delete/${id}`)
+// 租户管理员 列表
+export const tenantAdminList = params => http.post(`/webApi/tenant/admin/page`, params)
+// 租户管理员 修改状态
+export const effectTenant = params => http.post(`/webApi/owner/info/effect`, params)
+// 租户管理员 删除
+export const delTenant = params => http.get(`/webApi/owner/info/del`, { params })
+
+
 // /** 货主列表  -- 枚举已有，无需手动添加 */
 // export const ownerInfoList = params => http.get(`/webApi/owner/info/list`, { params })

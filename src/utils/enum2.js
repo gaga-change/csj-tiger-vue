@@ -92,14 +92,14 @@ export const expenseNatureEnum = [
   },
 ]
 
-// // 审核配置 - 审核类型
-// export const auditType = [
-//   {
-//     name: '自动审批',
-//     value: 1
-//   },
-//   {
-//     name: '自动审批',
-//     value: 2
-//   },
-// ]
+// 审核配置 - 审核类型
+export const activeState = [
+  {
+    name: '启用',
+    value: 1
+  },
+  {
+    name: '禁用',
+    value: 2
+  },
+]

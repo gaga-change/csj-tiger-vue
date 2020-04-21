@@ -7,20 +7,6 @@ export function tenantList(data) {
     params: data
   })
 }
-// export function tenantAdminList(data) {
-//   return request({
-//     url: '/webApi/owner/info/listAdmin',
-//     method: 'post',
-//     data: data
-//   })
-// }
-export function tenantAdminList(data) {
-  return request({
-    url: '/webApi/tenant/admin/page',
-    method: 'post',
-    data: data
-  })
-}
 
 export function saveTenant(data) {
   return request({
@@ -38,21 +24,6 @@ export function updateTenant(data) {
   })
 }
 
-export function effectTenant(data) {
-  return request({
-    url: '/webApi/owner/info/effect',
-    method: 'post',
-    data: data
-  })
-}
-
-export function delTenant(data) {
-  return request({
-    url: '/webApi/owner/info/del',
-    method: 'get',
-    params: data
-  })
-}
 export function tenantDetail(data) {
   return request({
     url: '/webApi/owner/info/detail',
