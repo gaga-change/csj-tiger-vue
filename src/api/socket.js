@@ -49,7 +49,7 @@ export function connectSocket(user) {
     function update(v) {
       Notification({
         title: '提示',
-        message: `当前系统版本更新，刷新页面获取最新内容！当前版本：${process.env.IMAGE_TAG}，最新版本：${v}`,
+        message: `当前系统版本更新，点击浏览器左上角的刷新按钮刷新页面获取最新内容！当前版本：${process.env.IMAGE_TAG}，最新版本：${v}`,
         duration: 0
       });
     }
