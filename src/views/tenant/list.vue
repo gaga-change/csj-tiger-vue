@@ -176,7 +176,8 @@ import SearchFrom from './components/search'
 import { listIndexConfig } from './components/config'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
-import { tenantList, delTenant, effectTenant, saveOwnerWarehouse, ownerWarehouseList, configPush, configInfo } from '@/api/tenant'
+import { tenantList, saveOwnerWarehouse, ownerWarehouseList, configPush, configInfo } from '@/api/tenant'
+import { effectTenant, delTenant } from '@/api'
 import { projectInfo, tenantProjectContact, tenantProjectInfo } from '@/api/mis'
 import moment from 'moment'
 export default {
@@ -485,11 +486,8 @@ export default {
       effectTenant(arg)
         .then(res => {
           loading.close()
+          if (!res) return
           this.getCurrentTableData()
-        })
-        .catch(err => {
-          loading.close()
-          console.error(err)
         })
     },
     showStore(row) {
@@ -528,12 +526,9 @@ export default {
         delTenant(arg)
           .then(res => {
             loading.close()
+            if (!res) return
             this.$message(res.data)
             this.getCurrentTableData()
-          })
-          .catch(err => {
-            loading.close()
-            console.error(err)
           })
       })
     },

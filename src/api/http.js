@@ -31,7 +31,11 @@ export function httpMiddler(response) {
 
 // 响应拦截器
 newAxios.interceptors.response.use(httpMiddler, function (error) {
-  let message = data.errorMsg || data.detailError || error.message
+  let data = error.response.data
+  let message = data.errorMsg || data.detailError || data.message || error.message
+  if (message === '会话超时') {
+    return location.href = `/login`
+  }
   if (message === 'timeout of 1500ms exceeded') message = '请求超时，请稍后再试！'
   Notification({
     title: '错误信息',

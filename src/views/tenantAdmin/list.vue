@@ -5,7 +5,7 @@
       :tableConfig="tableConfig"
       :searchConfig="searchConfig"
       :api="listApi"
-      :showControl="true"
+      :showControl="false"
       :controlWidth="80"
     >
       <template slot-scope="scope">
@@ -15,13 +15,6 @@
         >{{scope.row.userStatus == 1 ? '禁用': '启用'}}</el-link>
       </template>
       <template slot="btns">
-        <el-button
-          type="primary"
-          size="mini"
-          @click="handleCreate"
-        >
-          新建质检记录
-        </el-button>
       </template>
     </base-list>
   </div>
