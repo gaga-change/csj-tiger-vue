@@ -13,7 +13,7 @@
         <h3
           class="title"
           style="font-size:16px !important;"
-        >供应链云仓库管理系统</h3>
+        >物流交付协同平台</h3>
         <div v-if="usernameSubmit">
           <el-form-item prop="username">
             <span class="svg-container svg-container_login">
