@@ -191,6 +191,17 @@ export default {
                 </p>
               }
             }; break;
+            case 'content': tableConfig[i].formatter = (row, column, cellValue, index) => {
+                let showtext=row[tableConfig[i].prop] && row[tableConfig[i].prop].length>10?row[tableConfig[i].prop].substring(0,10)+'...':row[tableConfig[i].prop]
+                let tiptext=row[tableConfig[i].prop]?row[tableConfig[i].prop]:''
+                if(row[tableConfig[i].prop] && row[tableConfig[i].prop].length>10){
+                  return <el-tooltip class="item" effect="dark" content={tiptext} placement="top">
+                        <span>{ showtext }</span>
+                      </el-tooltip>
+                    }else{
+                      return <span>{ tiptext }</span>
+                    }
+              }; break;
           }
         }
       } else if (tableConfig[i].dom) {
