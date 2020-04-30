@@ -21,7 +21,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="货主名称:"  prop="ownerCode"  :rules="[{ required: true, message: '该项为必填'}]" >
-        <el-select  v-model="addForm.ownerCode"   @change="getownerName" placeholder="请搜索选择" size="small" class="formitem" clearable filterable>
+        <el-select  v-model="addForm.ownerCode"   @change="getownerName" placeholder="请搜索选择" size="small" class="formitem" clearable filterable multiple>
           <el-option
             v-for="item in ownerData"
             :label="item.ownerName"
@@ -127,7 +127,8 @@ export default {
         messageType:0,
         messageTitle:null,
         messageContent:null,
-        filePathList:[]
+        filePathList:[],
+        ownerCode:[]
       },
       fileList: [],
       submitloading: false,
@@ -150,14 +151,16 @@ export default {
   methods: {
     getownerName(){
       this.addForm.ownerInfos=[]
-      if(this.addForm.ownerCode){
-        if(this.addForm.ownerCode!='total'){
-          this.addForm.ownerInfos.push({
-            ownerCode:this.addForm.ownerCode,
-            ownerName:this.ownerData.filter(v=>v.ownerCode===this.addForm.ownerCode)[0].ownerName
-          })
-        }else{
+      if(this.addForm.ownerCode && this.addForm.ownerCode.length>0){
+        if(this.addForm.ownerCode.indexOf('total')>-1){
           this.addForm.ownerInfos=this.totalData
+        }else{
+          for(let i=0;i<this.addForm.ownerCode.length;i++){
+            this.addForm.ownerInfos.push({
+              ownerCode:this.addForm.ownerCode[i],
+              ownerName:this.ownerData.filter(v=>v.ownerCode===this.addForm.ownerCode[i])[0].ownerName
+            })
+          }
         }
       }
     },
