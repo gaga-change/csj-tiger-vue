@@ -33,11 +33,11 @@
       <el-form-item label="备注：">
         <el-input
           type="textarea"
-          :rows="4"
+          :rows="2"
           v-model="addForm.remarkInfo"
           style="width:400px;"
           placeholder="请输入"
-          maxlength="100"
+          maxlength="40"
           show-word-limit
         ></el-input>
       </el-form-item>
