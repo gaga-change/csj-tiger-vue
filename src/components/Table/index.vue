@@ -162,23 +162,46 @@ export default {
             case 'toFixed': tableConfig[i].formatter = (row, column, cellValue, index) => cellValue && Number(Number(cellValue).toFixed(2)) || tableConfig[i].format || ''; break;
             case 'code': tableConfig[i].formatter = (row, column, cellValue, index) => <bar-code code={cellValue} />; break;
             case 'files': tableConfig[i].formatter = (row, column, cellValue, index) => {
-              let files = row.files;
+              let files = row.files || row.filePathList;
               if (!files || files.length < 1) {
                 return ''
               }
-              return <el-dropdown>
-                <span class="el-dropdown-link">
-                  查看附件<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  {
-                    files.map((v, i) => <el-dropdown-item>
-                      <a class="el-dropdown-link" target="blank" href={v.path}>{v.name || `附件${i + 1}`}</a>
-                    </el-dropdown-item>)
-                  }
-                </el-dropdown-menu>
-              </el-dropdown>
+              if(row.files){
+                return <el-dropdown>
+                  <span class="el-dropdown-link">
+                    查看附件<i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    {
+                      files.map((v, i) => <el-dropdown-item>
+                        <a class="el-dropdown-link" target="_blank" href={v.path}>{v.name || `附件${i + 1}`}</a>
+                      </el-dropdown-item>)
+                    }
+                  </el-dropdown-menu>
+                </el-dropdown>
+              }else{
+                return <p>
+                  <div>
+                    {
+                      files.map((v, i) => 
+                        <div class="tableLinkBox"><a class="tableLink" target="_blank" href={v.filePath}>{v.fileName || `附件${i + 1}`}</a></div>
+                      )
+                    }
+                  </div>
+                </p>
+              }
             }; break;
+            case 'content': tableConfig[i].formatter = (row, column, cellValue, index) => {
+                let showtext=row[tableConfig[i].prop] && row[tableConfig[i].prop].length>10?row[tableConfig[i].prop].substring(0,10)+'...':row[tableConfig[i].prop]
+                let tiptext=row[tableConfig[i].prop]?row[tableConfig[i].prop]:''
+                if(row[tableConfig[i].prop] && row[tableConfig[i].prop].length>10){
+                  return <el-tooltip class="item" effect="dark" content={tiptext} placement="top">
+                        <span>{ showtext }</span>
+                      </el-tooltip>
+                    }else{
+                      return <span>{ tiptext }</span>
+                    }
+              }; break;
           }
         }
       } else if (tableConfig[i].dom) {

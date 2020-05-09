@@ -25,3 +25,13 @@ export  const listIndexConfig=[ //list页配置
     { label:'发票号',prop:'invoiceNo'},
     { label:'发票金额',prop:'invoiceAmt'},
   ]
+
+  export  const quationListConfig=[
+  { label:'序号',type:'index',width:50},
+  { label:'货主',prop:'ownerName'},
+  { label:'标题',prop:'messageTitle'},
+  { label:'备注',prop:'remarkInfo',type:'content'},
+  { label:'创建日期',prop:'gmtCreate',type:'time'},
+  { label:'附件',prop:'filePathList',type:'files'},
+  { label:'操作',fixed:'right',useLink:true,width:220}
+]
