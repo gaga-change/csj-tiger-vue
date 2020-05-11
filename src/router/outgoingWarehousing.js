@@ -163,7 +163,31 @@ export default [
       }
     ]
   },
+  {
 
+    path: '/otherOrder',
+    component: Layout,
+    redirect: 'otherOrder',
+    mark: '出入库',
+    meta: { title: '其他单据', noCache: true, icon: 'back' },
+    hidden: false,
+    children: [
+      {
+        name: 'otherOrderInList',
+        path: 'otherOrderInList',
+        meta: { title: '杂收', noCache: true },
+        component: _import('otherOrder/otherOrderIn/otherOrderInList'),
+        hidden: false,
+      },
+      {
+        name: 'otherOrderInForm',
+        path: 'otherOrderInForm',
+        meta: { title: '杂收', noCache: true },
+        component: _import('otherOrder/otherOrderIn/otherOrderInForm'),
+        hidden: true,
+      }
+    ]
+  },
   {
     path: '/reply',
     component: Layout,

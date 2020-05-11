@@ -83,6 +83,8 @@ export const tenantAdminList = params => http.post(`/webApi/tenant/admin/page`, 
 export const effectTenant = params => http.post(`/webApi/owner/info/effect`, params)
 // 租户管理员 删除
 export const delTenant = params => http.get(`/webApi/owner/info/del`, { params })
+// 商品列表
+export const skuListByCondition = params => http.post(`/webApi/sku/info/skuListByCondition`, params)
 
 
 // /** 货主列表  -- 枚举已有，无需手动添加 */
