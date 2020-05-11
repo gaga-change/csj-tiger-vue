@@ -46,6 +46,20 @@ export default [
         component: _import('reconciliation/detail'),
         hidden: true,
       },
+      {
+        name: 'reconciliationMessage',
+        path: 'reconciliationMessage',
+        meta: { title: '对账推送', noCache: true },
+        component: _import('reconciliation/messageList/list'),
+        hidden: false,
+      },
+      {
+        name: 'reconciliationMessageAdd',
+        path: 'reconciliationMessageAdd',
+        meta: { title: '对账推送新建', noCache: true },
+        component: _import('reconciliation/messageList/add'),
+        hidden: true,
+      },
     ]
   },
 
