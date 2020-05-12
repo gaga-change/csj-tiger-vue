@@ -180,12 +180,40 @@ export default [
         hidden: false,
       },
       {
-        name: 'otherOrderInForm',
-        path: 'otherOrderInForm',
-        meta: { title: '杂收', noCache: true },
+        name: 'otherOrderInFormAdd',
+        path: 'otherOrderInForm/add',
+        meta: { title: '新增杂收', noCache: true },
         component: _import('otherOrder/otherOrderIn/otherOrderInForm'),
         hidden: true,
-      }
+      },
+      {
+        name: 'otherOrderInFormModify',
+        path: 'otherOrderInForm/modify',
+        meta: { title: '编辑杂收', noCache: true },
+        component: _import('otherOrder/otherOrderIn/otherOrderInForm'),
+        hidden: true,
+      },
+      {
+        name: 'otherOrderOutList',
+        path: 'otherOrderOutList',
+        meta: { title: '杂发', noCache: true },
+        component: _import('otherOrder/otherOrderOut/otherOrderOutList'),
+        hidden: false,
+      },
+      {
+        name: 'otherOrderOutFormAdd',
+        path: 'otherOrderOutForm/add',
+        meta: { title: '新增杂发', noCache: true },
+        component: _import('otherOrder/otherOrderOut/otherOrderOutForm'),
+        hidden: true,
+      },
+      {
+        name: 'otherOrderOutFormModify',
+        path: 'otherOrderOutForm/modify',
+        meta: { title: '编辑杂发', noCache: true },
+        component: _import('otherOrder/otherOrderOut/otherOrderOutForm'),
+        hidden: true,
+      },
     ]
   },
   {

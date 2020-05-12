@@ -80,7 +80,7 @@ export default {
     },
     /** 新建 */
     handleCreate() {
-      this.$router.push({ path: '/otherOrder/otherOrderInForm/add' })
+      this.$router.push({ path: '/otherOrder/otherOrderOutForm/add' })
     },
     /** 删除 */
     handleDel(row) {
