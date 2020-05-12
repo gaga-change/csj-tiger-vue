@@ -156,7 +156,11 @@ export default {
     init() {
       this.config.forEach(item => {
         item = this.$copy(item)
-        if (item.type === 'enum' && item.default !== undefined && item.default !== null) item.default = item.default + ''
+        if (item.type === 'enum' && typeof item.default === 'string') {
+          if (/^\d+$/.test(item.default)) {
+            item.default = Number(item.default)
+          }
+        }
         this.$set(this.formData, item.prop, item.default)
       })
     },

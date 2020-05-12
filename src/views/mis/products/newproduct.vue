@@ -1194,8 +1194,8 @@ export default {
     return {
       productForm: {
         currentCode: null,
-        saleType: "1",
-        isTrace: "0",
+        saleType: 1,
+        isTrace: 0,
       },
       activeTab: 'first',
       customerConfig,
@@ -1347,7 +1347,6 @@ export default {
       const loading = this.$loading({ text: '请稍后..' })
       productDetail({ skuCode: this.$route.query.skuCode, ownerCode: this.$route.query.ownerCode }).then(res => {
         const result = res.data || {}
-        this.$valToString(result, ['isTrace', 'saleType'])
         const { skuCustomerInfoRespList, skuProviderInfoRespList, ownerCode, ownerName, ...rest } = result
         this.customerTableData = skuCustomerInfoRespList
         this.servicerTableData = skuProviderInfoRespList
