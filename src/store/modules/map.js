@@ -46,7 +46,7 @@ async function getEnum() {
   let config = {};
   await apiMap['getEnum']().then(res => {
     if (res.success) {
-      config = { ...config, ...res.data }
+      config = { ...config, ...toNumber(res.data) }
     }
   }).catch(err => {
   })
@@ -59,7 +59,7 @@ async function config() {
     await apiMap[i]().then(res => {
       if (res.success) {
         if (i === 'getEnum') {
-          config = { ...config, ...res.data }
+          config = { ...config, ...toNumber(res.data) }
         } else if (Array.isArray(res.data)) {
           config[i] = res.data
         } else {
@@ -78,6 +78,19 @@ async function config() {
     })
   }
   return config
+}
+
+/** 将字符串转为数字 */
+function toNumber(map) {
+  for (let key in map) {
+    let item = map[key]
+    item.forEach(v => {
+      if (/^\d+$/.test(v.key)) {
+        v.key = Number(v.key)
+      }
+    })
+  }
+  return map
 }
 
 export default map

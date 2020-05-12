@@ -308,7 +308,7 @@ export default {
         keys.split(' ').forEach(key => {
           this.formData[key] = detail[key]
         })
-        this.formData.templateType = detail.templateType + ''
+        this.formData.templateType = detail.templateType
         this.formData.startPlace = [detail.startPlace]
         if (detail.templateType == 1) {
           this.formData.startPlace = detail.startPlace.split('_')

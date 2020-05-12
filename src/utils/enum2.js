@@ -84,11 +84,11 @@ export const auditBillTypeEnum = [
 export const expenseNatureEnum = [
   {
     name: '费用',
-    value: '0'
+    value: 0
   },
   {
     name: '收入',
-    value: '1'
+    value: 1
   },
 ]
 

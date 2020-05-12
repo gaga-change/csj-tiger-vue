@@ -68,15 +68,7 @@ export default {
     }
   },
   computed: {
-    saleTypeMap() {
-      let obj = {}
-      let getSaleType = this.mapConfig['getSaleType'] || []
-      getSaleType.forEach(v => {
-        obj[v.key + ''] = v.value
-      })
-      return obj
-    },
-    ...mapGetters(['mapConfig'])
+
   },
   methods: {
     search() {

@@ -120,15 +120,6 @@ export default {
       if (!this.value) return ''
       return this.selectRow ? this.selectRow.customerName : this.value
     },
-    saleTypeMap() {
-      let obj = {}
-      let getSaleType = this.mapConfig['getSaleType'] || []
-      getSaleType.forEach(v => {
-        obj[v.key + ''] = v.value
-      })
-      return obj
-    },
-    ...mapGetters(['mapConfig'])
   },
   methods: {
     selectChange(record) {
