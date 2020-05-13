@@ -45,6 +45,14 @@ export function billOwnerInfoMap() {
   return request({
     url: '/webApi/owner/info/getOwner',
     method: 'get',
+  }).then(res => {
+    let map = {}
+    res.data.forEach(item => {
+      map[item.key] = item.value
+    })
+    res.data = Object.keys(map).map(key => ({ key, value: map[key] }))
+    console.log(res)
+    return res
   })
 }
 
