@@ -10,16 +10,6 @@ export function skuInfoProviderList(ownerCode, arrivalCode, customerType, data =
   })
 }
 
-//入库业务单数据
-export function inBillSelect(data = {}) {
-  return request({
-    url: `/webApi/in/bill/select`,
-    method: 'post',
-    data
-  })
-}
-
-
 //入库业务单详情数据
 export function inBillDetail(data = {}) {
   return request({
@@ -126,13 +116,6 @@ export function inbillPrint(inWarehouseBillId) {
   return request({
     url: `/webApi/in/bill/print/${inWarehouseBillId}`,
     method: 'get'
-  })
-}
-
-export function inBillUpdateStatus(data = {}) {
-  return request({
-    url: `/webApi/in/bill/updateStatus?${stringify(data)}`,
-    method: 'put'
   })
 }
 

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
-import {stringify} from 'qs'
+import { stringify } from 'qs'
 
-export function selectSaleBillDetailFromSCM(data={}) {
+export function selectSaleBillDetailFromSCM(data = {}) {
   return request({
     url: `/webApi/out/bill/selectSaleBillDetailFromSCM?${stringify(data)}`,
     method: 'get',
@@ -9,21 +9,16 @@ export function selectSaleBillDetailFromSCM(data={}) {
 }
 
 
-export function selectPurchaseBillDetailFromSCM(data={}) {
+export function selectPurchaseBillDetailFromSCM(data = {}) {
   return request({
     url: `/webApi/in/bill/selectPurchaseBillDetailFromSCM?${stringify(data)}`,
     method: 'get',
   })
 }
 
-export function billAudit(data={}) {
+export function billAudit(data = {}) {
   return request({
     url: `/webApi/out/bill/billAudit?${stringify(data)}`,
     method: 'get',
   })
 }
-
-
-
-
-

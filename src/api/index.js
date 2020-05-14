@@ -85,7 +85,7 @@ export const effectTenant = params => http.post(`/webApi/owner/info/effect`, par
 export const delTenant = params => http.get(`/webApi/owner/info/del`, { params })
 // 商品列表
 export const skuListByCondition = params => http.post(`/webApi/sku/info/skuListByCondition`, params)
-
-
-// /** 货主列表  -- 枚举已有，无需手动添加 */
-// export const ownerInfoList = params => http.get(`/webApi/owner/info/list`, { params })
+// 入库业务单管理 列表查询（杂收同用）（fromSystemId 必传 杂发传 QLL 出库传 TIGER）
+export const inBillSelect = params => http.post(`/webApi/in/bill/select`, params)
+// 修改单据状态（杂收删除，杂收审核调另外审核接口）
+export const inBillUpdateStatus = params => http.put(`/webApi/in/bill/updateStatus`, {}, { params })

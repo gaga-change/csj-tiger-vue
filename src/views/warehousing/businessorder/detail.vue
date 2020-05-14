@@ -127,7 +127,8 @@
 
 import { tableConfig, infoConfig, printingTable_config, detail_planTableConfig, detail_warehousingTableConfig } from './config';
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { inbilldetail, inbillPrint, inBillUpdateStatus, inPlanSelect, inOrderSelect } from '@/api/warehousing'
+import { inBillUpdateStatus } from '@/api'
+import { inbilldetail, inbillPrint, inPlanSelect, inOrderSelect } from '@/api/warehousing'
 import Sticky from '@/components/Sticky'
 import Invoice from './conpoments/invoice'
 import { mapGetters } from 'vuex'
@@ -231,31 +232,27 @@ export default {
         inWarehouseBillId: this.$route.query.id,
         statusFlag,
       }).then(res => {
-        if (res.success) {
-          if (type === 'delete') {
-            this.$message({
-              type: 'success',
-              message: '操作成功,即将跳转到列表页！',
-              duration: 1500,
-              onClose: () => {
-                this.$store.dispatch('delVisitedViews', view[0]).then(() => {
-                  this.$router.push({
-                    path: `/warehousing/businessorder`,
-                  })
-                }).catch(err => {
-                  console.error(err)
+        if (!res) return
+        if (type === 'delete') {
+          this.$message({
+            type: 'success',
+            message: '操作成功,即将跳转到列表页！',
+            duration: 1500,
+            onClose: () => {
+              this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+                this.$router.push({
+                  path: `/warehousing/businessorder`,
                 })
-              }
-            })
-          } else {
-            this.$message({ type: 'success', message: '操作成功' });
-            this.inbilldetailApi()
-          }
+              }).catch(err => {
+                console.error(err)
+              })
+            }
+          })
+        } else {
+          this.$message({ type: 'success', message: '操作成功' });
+          this.inbilldetailApi()
         }
-      }).catch(err => {
-        console.error(err)
       })
-
       //对话配置
       component(tip, '提示', {
         confirmButtonText: '确定',

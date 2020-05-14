@@ -1,5 +1,5 @@
 import * as apiMap from '@/api/map'
-import * as appendMap from '@/utils/enum2'
+import * as appendMap from '@/utils/enum'
 let turnAppendMap = {}
 Object.keys(appendMap).forEach(key => {
   let item = appendMap[key]

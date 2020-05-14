@@ -12,7 +12,8 @@ export function httpMiddler(response) {
   let data = response.data
   let message = data.errorMsg || data.detailError || data.message || ''
   // 系统异常提示（返回的数据为 null）
-  if (~['TIGER-40620081', 'user-not-login', 501].findIndex(v => v == data.code)) {
+  // 'TIGER-40620081' inBillUpdateStatus 接口删除报错时提示
+  if (~['user-not-login', 501].findIndex(v => v == data.code)) {
     sessionStorage.setItem('warehouse', '')
     location.href = `/login`
     data = null

@@ -375,7 +375,8 @@
 
 <script>
 import moment from 'moment';
-import { inBillSelect, inBillUpdateStatus, batchInBill, batchAdd } from '@/api/warehousing'
+import { inBillSelect } from '@/api'
+import { inBillUpdateStatus, batchInBill, batchAdd } from '@/api/warehousing'
 import { misWarehousingBillStatusEnum, misWarehousingBillStateEnum, planStatusList } from "@/utils/enum.js";
 import { getBillType, getExecState } from '@/api/map'
 import BaseTable from '@/components/Table'
@@ -398,8 +399,8 @@ export default {
       ruleForm: {
         busiBillType: '',
         busiBillNo: '',
-        billState:'',
-        billStatus:'',
+        billState: '',
+        billStatus: '',
         ownerCode: '',
         providerName: '',
         contractNo: '',
@@ -407,7 +408,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         time: '',
-        planStatusList:[0,1]
+        planStatusList: [0, 1]
       },
       total: 0,
       rules: {
@@ -499,11 +500,11 @@ export default {
       Methods[type](postData[type]).then(res => {
         this.batchLoading = false
         if (res.success) {
-          let showmessage=(res.data?res.data:'操作成功！')
+          let showmessage = (res.data ? res.data : '操作成功！')
           this.$message({
-            message:showmessage,
-            type:'success',
-            duration:5000
+            message: showmessage,
+            type: 'success',
+            duration: 5000
           })
           // this.$message.success(showmessage)
           this.$refs.listTable.clearSelection()
@@ -583,10 +584,10 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.ruleForm.planStatusList=[]
-      this.ruleForm.billStatus=null
-      this.ruleForm.billState=null
-      this.ruleForm.busiBillNo=null
+      this.ruleForm.planStatusList = []
+      this.ruleForm.billStatus = null
+      this.ruleForm.billState = null
+      this.ruleForm.busiBillNo = null
       this.ruleForm = { ...this.ruleForm, pageSize: 10, pageNum: 1 }
       this.getCurrentTableData()
     },
@@ -618,17 +619,13 @@ export default {
           }
         }
       }
-      let data = { ...json }
+      let data = { ...json, fromSystemId: 'TIGER' }
       inBillSelect(data).then(res => {
-        if (res.success) {
-          let data = res.data;
-          this.tableData = data.list || [];
-          this.total = data.total;
-        }
         this.loading = false;
-
-      }).catch(err => {
-        this.loading = false;
+        if (!res) return
+        let data = res.data;
+        this.tableData = data.list || [];
+        this.total = data.total;
       })
     }
   }
