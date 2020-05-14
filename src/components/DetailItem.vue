@@ -67,7 +67,8 @@ export default {
         console.error(`列【${item.label} : ${item.prop}】,需要 【enum】字段`)
         return ''
       }
-      let temp = mapConfig[item.enum].find(v => v.value == val)
+      if (!mapConfig[item.enum] && !mapConfig.loading) console.error(`枚举【${item.enum}】不存在`)
+      let temp = (mapConfig[item.enum] || []).find(v => v.value == val)
       if (!temp) {
         console.error(`列【${item.label} : ${item.prop}】,没有对应枚举值（${val}）`)
         return ''

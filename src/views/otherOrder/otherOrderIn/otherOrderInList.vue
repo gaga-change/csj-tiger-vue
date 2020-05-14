@@ -12,13 +12,13 @@
       <template slot-scope="scope">
         <el-link
           type="primary"
-          @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
+          @click="$router.push({path:`/otherOrder/otherOrderInDetail`,query:{id: scope.row.id}})"
         >查看</el-link>
-        <template v-if="scope.row.billStatus !== 1">
+        <template v-if="scope.row.billStatus === 1">
           <el-divider direction="vertical"></el-divider>
           <el-link
             type="primary"
-            @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
+            @click="$router.push({path:`/otherOrder/otherOrderInDetail`,query:{id: scope.row.id}})"
           >审核</el-link>
           <el-divider direction="vertical"></el-divider>
           <el-link

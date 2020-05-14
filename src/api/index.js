@@ -89,7 +89,13 @@ export const skuListByCondition = params => http.post(`/webApi/sku/info/skuListB
 export const inBillSelect = params => http.post(`/webApi/in/bill/select`, params)
 // 修改单据状态（杂收删除，杂收审核调另外审核接口）
 export const inBillUpdateStatus = params => http.put(`/webApi/in/bill/updateStatus`, {}, { params })
+// 入库业务单明细查询（杂收明细查看）
+export const inBillDetail = id => http.get(`/webApi/in/bill/detail/${id}`)
 // 出库业务单列表（fromSystemId 必传 杂发传QLL 出库传TIGER）
 export const outBillList = params => http.put(`/webApi/out/bill/list`, params)
 // 出库业务单删除功能（杂发）
 export const outBillDelete = id => http.delete(`/webApi/out/bill/delete/${id}`)
+// 出库业务单详情（查看功能）(杂发查看)
+export const outBillDetail = id => http.get(`/webApi/out/bill/detail/${id}`)
+// 出库业务单审核（杂发审核）
+export const outBillCheck = id => http.get(`/webApi/out/bill/check/${id}`)

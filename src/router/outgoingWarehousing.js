@@ -194,6 +194,13 @@ export default [
         hidden: true,
       },
       {
+        name: 'otherOrderInDetail',
+        path: 'otherOrderInDetail',
+        meta: { title: '杂收详情', noCache: true },
+        component: _import('otherOrder/otherOrderIn/otherOrderInDetail'),
+        hidden: true,
+      },
+      {
         name: 'otherOrderOutList',
         path: 'otherOrderOutList',
         meta: { title: '杂发', noCache: true },
@@ -212,6 +219,13 @@ export default [
         path: 'otherOrderOutForm/modify',
         meta: { title: '编辑杂发', noCache: true },
         component: _import('otherOrder/otherOrderOut/otherOrderOutForm'),
+        hidden: true,
+      },
+      {
+        name: 'otherOrderOutDetail',
+        path: 'otherOrderOutDetail',
+        meta: { title: '杂发详情', noCache: true },
+        component: _import('otherOrder/otherOrderOut/otherOrderOutDetail'),
         hidden: true,
       },
     ]
