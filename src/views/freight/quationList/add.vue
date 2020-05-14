@@ -48,53 +48,59 @@
           :width="column.width"
         >
           <template slot-scope="scope">
-            <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
-            <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
-             <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
+  <span v-if="column.apiEnum">{{scope.row[column.prop]|apiEnum(mapConfig, column.apiEnum) }}</span>
+  <span v-else-if="column.localEnum">{{ scope.row[column.prop]|localEnum(column.localEnum) }}</span>
+  <span v-else-if="column.type === 'time' && scope.row[column.prop]">{{
               scope.row[column.prop] | parseTime
               }}</span>
-              <span v-else-if="column.type === 'index'">{{
+  <span v-else-if="column.type === 'index'">{{
               scope.$index+1
               }}</span>
-              <template v-else-if="column.prop === 'heavyRulesList' || column.prop === 'lightRulesList'">
-                <template v-if="scope.row[column.prop] && scope.row[column.prop].length>0" v-for="item in scope.row[column.prop]">
-                  <template v-if="item.startWeight>=0 && item.endWeight">
-                    <div>
-                      <span>{{item.startWeight+'~'+item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')}}</span>
-                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
-                    </div>
-                  </template>
-                  <template v-else-if="item.startWeight>=0 && !item.endWeight">
-                    <div>
-                      <span>{{item.startWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以上'}}</span>
-                      <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
-                    </div>
-                  </template>
-                  <template v-else-if="!item.startWeight && item.endWeight">
-                    <div>
-                        <span>{{item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以内'}}</span>
-                        <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
-                    </div>
-                  </template>
-                </template>
-                <template v-if="column.prop === 'heavyRulesList'">
-                  <div>
-                    <span>{{(scope.row.heavyLowPrice && scope.row.heavyLowPrice>=0)?('最低一票'+scope.row.heavyLowPrice+'元'):''}}</span>
-                  </div>
-                </template>
-                <template v-else>
-                   <div>
-                    <span>{{(scope.row.lightLowPrice && scope.row.lightLowPrice>=0)?('最低一票'+scope.row.lightLowPrice+'元'):''}}</span>
-                  </div>
-                </template>
-              </template>
-              <template v-else-if="column.prop === 'endPlaseList'">
-                <template v-if="scope.row[column.prop] && scope.row[column.prop].length>0" v-for="item in scope.row[column.prop]">
-                  <div>{{item+';'}}</div>
-                </template>
-              </template>
-            <span v-else>{{scope.row[column.prop]}}</span>
-          </template>
+  <template v-else-if="column.prop === 'heavyRulesList' || column.prop === 'lightRulesList'">
+    <template
+      v-if="scope.row[column.prop] && scope.row[column.prop].length>0"
+      v-for="item in scope.row[column.prop]"
+    >
+      <template v-if="item.startWeight>=0 && item.endWeight">
+        <div>
+          <span>{{item.startWeight+'~'+item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')}}</span>
+          <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
+        </div>
+      </template>
+      <template v-else-if="item.startWeight>=0 && !item.endWeight">
+        <div>
+          <span>{{item.startWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以上'}}</span>
+          <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
+        </div>
+      </template>
+      <template v-else-if="!item.startWeight && item.endWeight">
+        <div>
+          <span>{{item.endWeight+(column.prop === 'heavyRulesList'?'公斤':'m³')+'以内'}}</span>
+          <span>{{item.unitPrice?(item.unitPrice+'元/'+(column.prop === 'heavyRulesList'?'公斤；':'m³；')):'一口价'+item.price+'元；'}}</span>
+        </div>
+      </template>
+    </template>
+    <template v-if="column.prop === 'heavyRulesList'">
+      <div>
+        <span>{{(scope.row.heavyLowPrice && scope.row.heavyLowPrice>=0)?('最低一票'+scope.row.heavyLowPrice+'元'):''}}</span>
+      </div>
+    </template>
+    <template v-else>
+      <div>
+        <span>{{(scope.row.lightLowPrice && scope.row.lightLowPrice>=0)?('最低一票'+scope.row.lightLowPrice+'元'):''}}</span>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="column.prop === 'endPlaseList'">
+    <template
+      v-if="scope.row[column.prop] && scope.row[column.prop].length>0"
+      v-for="item in scope.row[column.prop]"
+    >
+      <div>{{item+';'}}</div>
+    </template>
+  </template>
+  <span v-else>{{scope.row[column.prop]}}</span>
+</template>
         </el-table-column>
       </el-table>
     </div>
@@ -172,8 +178,8 @@
         prop="consoildatorName"
       >
         <template slot-scope="scope">
-          <span>{{scope.row.templateType | apiEnum(mapConfig, 'getTemplateTransport') }}</span>
-        </template>
+  <span>{{scope.row.templateType | apiEnum(mapConfig, 'getTemplateTransport') }}</span>
+</template>
       </el-table-column>
       <el-table-column
         label="出发地"
@@ -213,33 +219,33 @@ export default {
   data() {
     return {
       searchForm: {
-        ownerName:null,
-        nameList:'',
-        templateList:[],
-        quoteDiscount:null
+        ownerName: null,
+        nameList: '',
+        templateList: [],
+        quoteDiscount: null
       },
       expressConfig: [],
       localEnum,
       quationTemConfig,
-      tableData:[],
-      temVisible:false,
-      temData:[],
-      temForm:{
-        templateName:null,
-        templateType:null,
-        consoildatorCode:null
+      tableData: [],
+      temVisible: false,
+      temData: [],
+      temForm: {
+        templateName: null,
+        templateType: null,
+        consoildatorCode: null
       },
-      projectpageNum:1,
-      projectpageSize:10,
-      projecttotal:0,
-      consoil:[],
-      tags:[],
-      pageNum:1,
-      pageSize:10,
-      ownerData:[],
-      tagsData:[],
-      spanArr:[],
-      position:0,
+      projectpageNum: 1,
+      projectpageSize: 10,
+      projecttotal: 0,
+      consoil: [],
+      tags: [],
+      pageNum: 1,
+      pageSize: 10,
+      ownerData: [],
+      tagsData: [],
+      spanArr: [],
+      position: 0,
     }
   },
 
@@ -249,16 +255,16 @@ export default {
       visitedViews: 'visitedViews'
     })
   },
-  created(){
+  created() {
     this.areaMap = new Map()
-      const _ = arr => {
-        arr.forEach(item => {
-          if (item.children) {
-            _(item.children)
-          }
-          this.areaMap.set(item.value, item.label)
-        })
-      }
+    const _ = arr => {
+      arr.forEach(item => {
+        if (item.children) {
+          _(item.children)
+        }
+        this.areaMap.set(item.value, item.label)
+      })
+    }
     _(Area)
   },
   mounted() {
@@ -267,67 +273,66 @@ export default {
     this.getOwnerData()
   },
   methods: {
-    getownerName(){
-      if(this.searchForm.ownerCode){
-        this.searchForm.ownerName=this.ownerData.filter(v=>v.ownerCode===this.searchForm.ownerCode)[0].ownerName
+    getownerName() {
+      if (this.searchForm.ownerCode) {
+        this.searchForm.ownerName = this.ownerData.filter(v => v.ownerCode === this.searchForm.ownerCode)[0].ownerName
       }
     },
-    linkSubmit(type){
-      let submittype=type
-      let namelist=[]
-      if(submittype){
-        this.tableData=[]
-        this.searchForm.templateList=[]
-        this.tagsData.map(item=>{
+    linkSubmit(type) {
+      let submittype = type
+      let namelist = []
+      if (submittype) {
+        this.tableData = []
+        this.searchForm.templateList = []
+        this.tagsData.map(item => {
           namelist.push(item.templateName)
-          if(this.tableData.findIndex(indexItem => indexItem.templateCode === item.templateCode)<0){
-            if(item.costRulesList.length>0){
-              item.costRulesList.map(subitem=>{
+          if (this.tableData.findIndex(indexItem => indexItem.templateCode === item.templateCode) < 0) {
+            if (item.costRulesList.length > 0) {
+              item.costRulesList.map(subitem => {
                 this.tableData.push({
-                  templateCode:item.templateCode,
-                  templateName:item.templateName,
-                  consoildatorCode:item.consoildatorCode,
-                  consoildatorName:item.consoildatorName,
-                  templateType:item.templateType,
-                  startPlace:item.startPlaceName,
-                  endPlaseList:subitem.endPlaseList,
-                  heavyRulesList:subitem.heavyRulesList,
-                  lightRulesList:subitem.lightRulesList,
-                  heavyLowPrice:subitem.heavyLowPrice,
-                  lightLowPrice:subitem.lightLowPrice
+                  templateCode: item.templateCode,
+                  templateName: item.templateName,
+                  consoildatorCode: item.consoildatorCode,
+                  consoildatorName: item.consoildatorName,
+                  templateType: item.templateType,
+                  startPlace: item.startPlaceName,
+                  endPlaseList: subitem.endPlaseList,
+                  heavyRulesList: subitem.heavyRulesList,
+                  lightRulesList: subitem.lightRulesList,
+                  heavyLowPrice: subitem.heavyLowPrice,
+                  lightLowPrice: subitem.lightLowPrice
                 })
               })
-            }else{
-              if(this.tableData.findIndex(indexItem => indexItem.templateCode === item.templateCode)<0){
+            } else {
+              if (this.tableData.findIndex(indexItem => indexItem.templateCode === item.templateCode) < 0) {
                 this.tableData.push(item)
               }
             }
             this.searchForm.templateList.push({
-              templateCode:item.templateCode,
-              templateName:item.templateName
+              templateCode: item.templateCode,
+              templateName: item.templateName
             })
           }
         })
-        this.searchForm.nameList=namelist.join(',')
-      }else{
-        this.tagsData=[]
+        this.searchForm.nameList = namelist.join(',')
+      } else {
+        this.tagsData = []
       }
-      this.temVisible=false
+      this.temVisible = false
     },
     rowspan() {
       this.spanArr = [];//在data里面定义
       this.position = 0; //在data里面定义
-      this.tableData.forEach((item,index) => {
-        if(index === 0){
+      this.tableData.forEach((item, index) => {
+        if (index === 0) {
           this.spanArr.push(1);
           this.position = 0;
-        }else{
-          if(this.tableData[index].templateCode === this.tableData[index-1].templateCode ){
+        } else {
+          if (this.tableData[index].templateCode === this.tableData[index - 1].templateCode) {
             this.spanArr[this.position] += 1;//连续有几行项目名名称相同
             this.spanArr.push(0); // 名称相同后往数组里面加一项0
-            // console.log(this.spanArr)
             //当主类型名称相同时
-          }else{
+          } else {
             this.spanArr.push(1);
             this.position = index;
             //当项目名称不同时
@@ -336,87 +341,84 @@ export default {
       })
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {  //表格合并行
-      if(columnIndex === 1){  //主类型编码也进行合并(第一列)
+      if (columnIndex === 1) {  //主类型编码也进行合并(第一列)
         //this.spanArr这个数组里面存的是table里面连续的有几条数据相同
         //例如:[1,1,2,0,2,0]
         //1  代表的没有连续的相同的
         //2  代表连续的两个相同
         //0  代表是和上一条内容相同
         const _row = this.spanArr[rowIndex]
-        const _col = _row>0 ? 1 : 0;
-        // console.log("ppp")
-        // console.log(_row)
-        // console.log(_col)
+        const _col = _row > 0 ? 1 : 0;
         return {
           rowspan: _row, //行
           colspan: _col  //列
         }
       }
-      if(columnIndex === 2){ //主类型名称也进行合并(第二列)
+      if (columnIndex === 2) { //主类型名称也进行合并(第二列)
         const _row = this.spanArr[rowIndex]
-        const _col = _row>0 ? 1 : 0;
+        const _col = _row > 0 ? 1 : 0;
         return {
           rowspan: _row,
           colspan: _col
         }
       }
     },
-    showTem(){
-      this.tagsData=[]
-      if(this.searchForm.templateList && this.searchForm.templateList.length>0){
-        this.searchForm.templateList.map(item=>{
-          this.tagsData.push(this.temData.filter(v=>v.templateCode===item.templateCode)[0])
+    showTem() {
+      this.tagsData = []
+      if (this.searchForm.templateList && this.searchForm.templateList.length > 0) {
+        this.searchForm.templateList.map(item => {
+          this.tagsData.push(this.temData.filter(v => v.templateCode === item.templateCode)[0])
         })
       }
-      this.temVisible=true
+      this.temVisible = true
     },
-    handleProjectCurrentPageChange(val){
-      this.projectpageNum=val
+    handleProjectCurrentPageChange(val) {
+      this.projectpageNum = val
       this.getTemInfo()
     },
     getTemInfo() {
-      let that=this
+      let that = this
       temSelect({ pageNum: this.projectpageNum, pageSize: this.projectpageSize, ...this.temForm }).then(res => {
         const result = res.data
         this.temData = result && result.list
         this.temData.forEach(v => {
-        if (v.templateType == 1 && v.startPlace) {
-          let temp = v.startPlace.split('_')
-          if (temp.length === 2) {
-            v.startPlaceName = [this.areaMap.get(temp[0]), this.areaMap.get(temp[1])].join('_')
+          if (v.templateType == 1 && v.startPlace) {
+            let temp = v.startPlace.split('_')
+            if (temp.length === 2) {
+              v.startPlaceName = [this.areaMap.get(temp[0]), this.areaMap.get(temp[1])].join('_')
+            }
+            if (v.costRulesList && v.costRulesList.length > 0) {
+              v.costRulesList.forEach(rule => {
+                if (rule.endPlaseList && rule.endPlaseList.length > 0) {
+                  let endPlaceData = []
+                  rule.endPlaseList.forEach(item => {
+                    item = item.split('_')
+                    item = [that.areaMap.get(item[0]), that.areaMap.get(item[1])].join('_')
+                    endPlaceData.push(item)
+                  })
+                  rule.endPlaseList = endPlaceData
+                }
+              })
+            }
+          } else if (v.startPlace) {
+            let place = this.areaMap.get(v.startPlace)
+            v.startPlaceName = place
+            if (v.costRulesList && v.costRulesList.length > 0) {
+              v.costRulesList.forEach(rule => {
+                if (rule.endPlaseList && rule.endPlaseList.length > 0) {
+                  let endPlaceData = []
+                  rule.endPlaseList.forEach(item => {
+                    item = that.areaMap.get(item)
+                    endPlaceData.push(item)
+                  })
+                  rule.endPlaseList = endPlaceData
+                }
+              })
+            }
           }
-          if(v.costRulesList && v.costRulesList.length>0){
-            v.costRulesList.forEach(rule=>{
-              if(rule.endPlaseList && rule.endPlaseList.length>0){
-                let endPlaceData=[]
-                rule.endPlaseList.forEach(item=>{
-                  item=item.split('_')
-                  item=[that.areaMap.get(item[0]),that.areaMap.get(item[1])].join('_')
-                  endPlaceData.push(item)
-                })
-                rule.endPlaseList=endPlaceData
-              }
-            })
-          }
-        } else if (v.startPlace) {
-          let place = this.areaMap.get(v.startPlace)
-          v.startPlaceName = place
-          if(v.costRulesList && v.costRulesList.length>0){
-            v.costRulesList.forEach(rule=>{
-              if(rule.endPlaseList && rule.endPlaseList.length>0){
-                let endPlaceData=[]
-                rule.endPlaseList.forEach(item=>{
-                  item=that.areaMap.get(item)
-                  endPlaceData.push(item)
-                })
-                rule.endPlaseList=endPlaceData
-              }
-            })
-          }
-        }
-      })
+        })
         this.projecttotal = result.total
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           this.getDetail()
         })
       }).catch(err => {
@@ -435,7 +437,7 @@ export default {
       tenantList({
         pageSize: 1000000,
         pageNum: 1,
-        ownerState:1
+        ownerState: 1
       }).then(res => {
         this.loading = false
         if (res.success) {
@@ -444,39 +446,39 @@ export default {
       })
     },
     getDetail() {
-      let namelist=[]
-      let tableData=[]
+      let namelist = []
+      let tableData = []
       if (this.$route.query.type === 'modify') {
         quotionDetail({
           id: this.$route.query.id
         }).then(res => {
           if (res.success) {
-            this.searchForm = {...res.data}
-            this.searchForm.templateList=JSON.parse(JSON.stringify(this.searchForm.itemList))
-            this.searchForm.itemList.map(item=>{
+            this.searchForm = { ...res.data }
+            this.searchForm.templateList = JSON.parse(JSON.stringify(this.searchForm.itemList))
+            this.searchForm.itemList.map(item => {
               namelist.push(item.templateName)
-              tableData.push(this.temData.filter(v=>v.templateCode===item.templateCode)[0])
+              tableData.push(this.temData.filter(v => v.templateCode === item.templateCode)[0])
             })
-            this.searchForm.nameList=namelist.join(',')
-            this.searchForm.quoteDiscount=this.searchForm.quoteDiscount
-            tableData.map(item=>{
-              if(item.costRulesList && item.costRulesList.length>0){
-                item.costRulesList.map(subitem=>{
+            this.searchForm.nameList = namelist.join(',')
+            this.searchForm.quoteDiscount = this.searchForm.quoteDiscount
+            tableData.map(item => {
+              if (item.costRulesList && item.costRulesList.length > 0) {
+                item.costRulesList.map(subitem => {
                   this.tableData.push({
-                    templateCode:item.templateCode,
-                    templateName:item.templateName,
-                    consoildatorCode:item.consoildatorCode,
-                    consoildatorName:item.consoildatorName,
-                    templateType:item.templateType,
-                    startPlace:item.startPlaceName,
-                    endPlaseList:subitem.endPlaseList,
-                    heavyRulesList:subitem.heavyRulesList,
-                    lightRulesList:subitem.lightRulesList,
-                    heavyLowPrice:subitem.heavyLowPrice,
-                    lightLowPrice:subitem.lightLowPrice
+                    templateCode: item.templateCode,
+                    templateName: item.templateName,
+                    consoildatorCode: item.consoildatorCode,
+                    consoildatorName: item.consoildatorName,
+                    templateType: item.templateType,
+                    startPlace: item.startPlaceName,
+                    endPlaseList: subitem.endPlaseList,
+                    heavyRulesList: subitem.heavyRulesList,
+                    lightRulesList: subitem.lightRulesList,
+                    heavyLowPrice: subitem.heavyLowPrice,
+                    lightLowPrice: subitem.lightLowPrice
                   })
                 })
-              }else{
+              } else {
                 this.tableData.push(item)
               }
             })
@@ -519,16 +521,16 @@ export default {
         }
       })
     },
-    handleCurrentChange(val){
-      if(this.tagsData && this.tagsData.length>0){
-        if(this.tagsData.findIndex(indexItem => indexItem.templateCode === val.templateCode)<0){
+    handleCurrentChange(val) {
+      if (this.tagsData && this.tagsData.length > 0) {
+        if (this.tagsData.findIndex(indexItem => indexItem.templateCode === val.templateCode) < 0) {
           this.tagsData.push(val)
         }
-      }else{
+      } else {
         this.tagsData.push(val)
       }
     },
-    deletetag(val){
+    deletetag(val) {
       this.tagsData.splice(this.tagsData.findIndex(indexItem => indexItem.templateCode === val.templateCode), 1)
     }
   }

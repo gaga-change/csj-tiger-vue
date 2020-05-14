@@ -381,7 +381,7 @@ export default {
       total: 0,
       tableConfig: indexTableConfig,
       loading: false,
-      tableData: [{}],
+      tableData: [],
       outBillStatusEnum,
       outBillStateEnum,
       planStatusList,

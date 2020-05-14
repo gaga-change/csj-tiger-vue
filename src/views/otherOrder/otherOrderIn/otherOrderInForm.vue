@@ -312,7 +312,6 @@ export default {
     },
     /** 添加商品数据 */
     handleAddSubmit(rows) {
-      console.log(rows, '##')
       this.commodityList.push(...rows)
     }
   }

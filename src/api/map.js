@@ -51,7 +51,6 @@ export function billOwnerInfoMap() {
       map[item.key] = item.value
     })
     res.data = Object.keys(map).map(key => ({ key, value: map[key] }))
-    console.log(res)
     return res
   })
 }
