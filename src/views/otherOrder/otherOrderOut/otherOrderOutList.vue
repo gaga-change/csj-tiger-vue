@@ -4,6 +4,7 @@
       ref="baseList"
       :tableConfig="tableConfig"
       :searchConfig="searchConfig"
+      :appendSearchParams="appendSearchParams"
       :api="listApi"
       :showControl="true"
       :controlWidth="160"
@@ -13,11 +14,19 @@
           type="primary"
           @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
         >查看</el-link>
-        <el-divider direction="vertical"></el-divider>
-        <el-link
-          type="primary"
-          @click="handleDel(scope.row)"
-        >删除</el-link>
+
+        <template v-if=" scope.row.billStatus !== 1">
+          <el-divider direction="vertical"></el-divider>
+          <el-link
+            type="primary"
+            @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
+          >审核</el-link>
+          <el-divider direction="vertical"></el-divider>
+          <el-link
+            type="primary"
+            @click="handleDel(scope.row)"
+          >删除</el-link>
+        </template>
       </template>
       <template slot="btns">
         <el-button
@@ -33,33 +42,35 @@
 </template>
 
 <script>
-import { basicAuditConfigList } from '@/api'
+import { outBillList, outBillDelete } from '@/api'
 const tableConfig = [
-  { label: '业务单号 ', prop: 'AA', width: 140 },
-  { label: '单据类型 ', prop: 'AA' },
-  { label: '货主', prop: 'AA' },
-  { label: '供应商', prop: 'AA' },
-  { label: '单据状态', prop: 'AA', type: 'enum', enum: 'yesOrNoEnum' },
-  { label: '执行状态', prop: 'AA', type: 'enum', enum: 'yesOrNoEnum' },
+  { label: '业务单号 ', prop: 'billNo', width: 140 },
+  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '供应商', prop: 'providerName' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
 ]
 const searchConfig = [
-  { label: '业务单号 ', prop: 'AA' },
-  { label: '单据类型 ', prop: 'AA' },
-  { label: '货主', prop: 'AA' },
-  { label: '供应商', prop: 'AA' },
-  { label: '单据状态', prop: 'AA', type: 'enum', enum: 'yesOrNoEnum' },
-  { label: '执行状态', prop: 'AA', type: 'enum', enum: 'yesOrNoEnum' },
-  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea' },
+  { label: '业务单号 ', prop: 'billNo', width: 140 },
+  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '供应商', prop: 'providerName' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
+  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
 ]
 export default {
   data() {
     return {
       tableConfig,
       searchConfig,
-      listApi: basicAuditConfigList,
+      listApi: outBillList,
       // 可选 附加查询条件
-      appendSearchParams: {},
+      appendSearchParams: {
+        fromSystemId: 'QLL'
+      },
     }
   },
   methods: {
@@ -84,7 +95,7 @@ export default {
     },
     /** 删除 */
     handleDel(row) {
-      this.$delConfirm('此操作将永久删除该模板, 是否继续?', () => deleteLogisticsExpenseInfo(row.id).then(res => {
+      this.$delConfirm('请再次确认是否要删除该单据?', () => outBillDelete(row.id).then(res => {
         if (!res) return
         this.$message.success('删除成功！')
         this.getTableData()

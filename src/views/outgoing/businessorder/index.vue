@@ -354,7 +354,8 @@
 </template>
 
 <script>
-import { outBillList, outBillCheck, outBillDelete, outBillClose, outBillCheckBatch, outBillDeleteBatch, outBillAddBatch } from '@/api/outgoing'
+import { outBillList } from '@/api'
+import { outBillCheck, outBillClose, outBillCheckBatch, outBillDeleteBatch, outBillAddBatch } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig } from './config';
@@ -541,17 +542,13 @@ export default {
           }
         }
       }
-      let data = { ...json }
+      let data = { ...json, fromSystemId: 'TIGER' }
       outBillList(data).then(res => {
-        if (res.success) {
-          let data = res.data;
-          this.tableData = data.list || [];
-          this.total = data.total;
-        }
         this.loading = false;
-
-      }).catch(err => {
-        this.loading = false;
+        if (!res) return
+        let data = res.data;
+        this.tableData = data.list || [];
+        this.total = data.total;
       })
     }
   }

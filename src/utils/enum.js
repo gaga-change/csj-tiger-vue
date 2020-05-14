@@ -715,6 +715,21 @@ export const misWarehousingBillStateEnum = [{
 }
 ]
 
+//mis 入库执行状态状态枚举2
+export const billStateEnum = [{
+  name: '未执行',
+  value: 0
+},
+{
+  name: '部分执行',
+  value: 5
+},
+{
+  name: '全部执行',
+  value: 8
+}
+]
+
 // mis入库业务单订正 - 单据状态
 export const misRevisalStateEnum = [{
   name: '草稿',

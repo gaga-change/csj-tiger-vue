@@ -4,6 +4,7 @@
       ref="baseList"
       :tableConfig="tableConfig"
       :searchConfig="searchConfig"
+      :appendSearchParams="appendSearchParams"
       :api="listApi"
       :showControl="true"
       :controlWidth="160"
@@ -13,11 +14,18 @@
           type="primary"
           @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
         >查看</el-link>
-        <el-divider direction="vertical"></el-divider>
-        <el-link
-          type="primary"
-          @click="handleDel(scope.row)"
-        >删除</el-link>
+        <template v-if="scope.row.billStatus !== 1">
+          <el-divider direction="vertical"></el-divider>
+          <el-link
+            type="primary"
+            @click="$router.push({path:`/qualityTesting/detail`,query:{id: scope.row.id}})"
+          >审核</el-link>
+          <el-divider direction="vertical"></el-divider>
+          <el-link
+            type="primary"
+            @click="handleDel(scope.row)"
+          >删除</el-link>
+        </template>
       </template>
       <template slot="btns">
         <el-button
@@ -39,8 +47,8 @@ const tableConfig = [
   { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
-  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'misWarehousingBillStatusEnum' },
-  { label: '执行状态', prop: 'billState', type: 'enum', enum: 'misWarehousingBillStateEnum' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
 ]
 const searchConfig = [
@@ -48,9 +56,9 @@ const searchConfig = [
   { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
-  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'misWarehousingBillStatusEnum' },
-  { label: '执行状态', prop: 'billState', type: 'enum', enum: 'misWarehousingBillStateEnum' },
-  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
+  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
 ]
 export default {
   data() {

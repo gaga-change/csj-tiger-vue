@@ -375,8 +375,8 @@
 
 <script>
 import moment from 'moment';
-import { inBillSelect } from '@/api'
-import { inBillUpdateStatus, batchInBill, batchAdd } from '@/api/warehousing'
+import { inBillSelect, inBillUpdateStatus } from '@/api'
+import { batchInBill, batchAdd } from '@/api/warehousing'
 import { misWarehousingBillStatusEnum, misWarehousingBillStateEnum, planStatusList } from "@/utils/enum.js";
 import { getBillType, getExecState } from '@/api/map'
 import BaseTable from '@/components/Table'
@@ -541,14 +541,9 @@ export default {
         inWarehouseBillId: row.id,
         statusFlag,
       }).then(res => {
-        if (res.success) {
-          this.$message({ type: 'success', message: '操作成功' });
-          this.getCurrentTableData()
-        } else {
-          this.$message.error('操作失败')
-        }
-      }).catch(err => {
-        this.$message.error('操作失败')
+        if (!res) return
+        this.$message({ type: 'success', message: '操作成功' });
+        this.getCurrentTableData()
       })
 
       //对话配置

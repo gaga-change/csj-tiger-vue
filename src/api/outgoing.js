@@ -1,16 +1,6 @@
 import request from '@/utils/request'
 import { stringify } from 'qs';
 
-//出库业务单数据
-export function outBillList(data = {}) {
-  return request({
-    url: `/webApi/out/bill/list`,
-    method: 'post',
-    data
-  })
-}
-
-
 //出库计划数据
 export function outPlanSelect(data = {}) {
   return request({
@@ -195,14 +185,6 @@ export function outBillCheck(outWarehouseBillId) {
   return request({
     url: `/webApi/out/bill/check/${outWarehouseBillId}`,
     method: 'put',
-  })
-}
-
-//出库业务单删除功能
-export function outBillDelete(outWarehouseBillId) {
-  return request({
-    url: `/webApi/out/bill/delete/${outWarehouseBillId}`,
-    method: 'DELETE',
   })
 }
 

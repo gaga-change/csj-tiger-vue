@@ -1,5 +1,6 @@
 
-import { outBillCheck, outBillDelete, outBillClose } from '@/api/outgoing'
+import { outBillDelete } from '@/api'
+import { outBillCheck, outBillClose } from '@/api/outgoing'
 
 export function operation(row, api, tip) {
   //接口配置
@@ -11,6 +12,7 @@ export function operation(row, api, tip) {
 
   //请求配置
   let submit = () => apiConfig[api](data).then(res => {
+    if (!res) return
     if (res.success) {
       this.$message({ type: 'success', message: '操作成功' });
       if (api === 'outBillDelete' && this.$router.history.current.path === '/outgoing/businessorder-detail') {
@@ -24,8 +26,6 @@ export function operation(row, api, tip) {
         this.getCurrentTableData()
       }
     }
-  }).catch(err => {
-    console.error(err)
   })
 
   let component = this.$confirm;
