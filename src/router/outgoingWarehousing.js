@@ -228,6 +228,13 @@ export default [
         component: _import('otherOrder/otherOrderOut/otherOrderOutDetail'),
         hidden: true,
       },
+      {
+        name: 'salesReturnList',
+        path: 'salesReturnList',
+        meta: { title: '采购退货单', noCache: true },
+        component: _import('otherOrder/salesReturn/salesReturnList'),
+        hidden: false,
+      },
     ]
   },
   {
