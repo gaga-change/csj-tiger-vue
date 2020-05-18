@@ -242,6 +242,20 @@ export default [
         component: _import('otherOrder/salesReturn/salesReturnDetail'),
         hidden: true,
       },
+      {
+        name: 'salesReturnFormAdd',
+        path: 'salesReturnForm/add',
+        meta: { title: '新增采购退货单', noCache: true },
+        component: _import('otherOrder/salesReturn/salesReturnForm'),
+        hidden: true,
+      },
+      {
+        name: 'salesReturnFormModify',
+        path: 'salesReturnForm/modify',
+        meta: { title: '编辑采购退货单', noCache: true },
+        component: _import('otherOrder/salesReturn/salesReturnForm'),
+        hidden: true,
+      },
     ]
   },
   {
