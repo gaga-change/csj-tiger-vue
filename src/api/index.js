@@ -92,7 +92,7 @@ export const inBillUpdateStatus = params => http.put(`/webApi/in/bill/updateStat
 // 入库业务单明细查询（杂收明细查看）
 export const inBillDetail = id => http.get(`/webApi/in/bill/detail/${id}`)
 // 出库业务单列表（fromSystemId 必传 杂发传QLL 出库传TIGER）
-export const outBillList = params => http.put(`/webApi/out/bill/list`, params)
+export const outBillList = params => http.post(`/webApi/out/bill/list`, params)
 // 出库业务单删除功能（杂发）
 export const outBillDelete = id => http.delete(`/webApi/out/bill/delete/${id}`)
 // 出库业务单详情（查看功能）(杂发查看)
