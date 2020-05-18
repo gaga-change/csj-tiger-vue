@@ -15,7 +15,7 @@ export function httpMiddler(response) {
   // 'TIGER-40620081' inBillUpdateStatus 接口删除报错时提示
   if (~['user-not-login', 501].findIndex(v => v == data.code)) {
     sessionStorage.setItem('warehouse', '')
-    location.href = `/login`
+    location.href = `/login?backUrl=${location.href}`
     data = null
   } else if (~['ratel-40620008'].findIndex(v => v === data.code)) {
     // 白名单
@@ -35,7 +35,7 @@ newAxios.interceptors.response.use(httpMiddler, function (error) {
   let data = error.response.data
   let message = data.errorMsg || data.detailError || data.message || error.message
   if (message === '会话超时') {
-    return location.href = `/login`
+    return location.href = `/login?backUrl=${location.href}`
   }
   if (message === 'timeout of 1500ms exceeded') message = '请求超时，请稍后再试！'
   Notification({

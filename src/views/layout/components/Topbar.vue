@@ -190,7 +190,7 @@ export default {
       }).then(action => {
         if (action === 'confirm') {
           logout()
-          location.href = `/login`
+          location.href = `/login?backUrl=${location.href}`
         }
       })
     }
