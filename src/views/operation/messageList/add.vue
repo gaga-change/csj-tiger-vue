@@ -158,7 +158,7 @@ export default {
       storeSysCode: '',
       ownerData: [],
       totalData: [],
-      pictureuploadUrl: '/webApi/fileupload/common/filetoserver',
+      pictureuploadUrl: '/webApi/fileupload/filetoserver',
       musicList: []
     }
   },

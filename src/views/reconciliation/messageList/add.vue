@@ -20,8 +20,20 @@
           show-word-limit
         ></el-input>
       </el-form-item>
-      <el-form-item label="货主名称:"  prop="ownerCode"  :rules="[{ required: true, message: '该项为必填'}]" >
-        <el-select  v-model="addForm.ownerCode"   @change="getownerName" placeholder="请搜索选择" size="small" class="formitem" clearable filterable>
+      <el-form-item
+        label="货主名称:"
+        prop="ownerCode"
+        :rules="[{ required: true, message: '该项为必填'}]"
+      >
+        <el-select
+          v-model="addForm.ownerCode"
+          @change="getownerName"
+          placeholder="请搜索选择"
+          size="small"
+          class="formitem"
+          clearable
+          filterable
+        >
           <el-option
             v-for="item in ownerData"
             :label="item.ownerName"
@@ -41,7 +53,11 @@
           show-word-limit
         ></el-input>
       </el-form-item>
-      <el-form-item label="附件："  prop="file" :rules="[{ required: true, message: '该项为必填'}]">
+      <el-form-item
+        label="附件："
+        prop="file"
+        :rules="[{ required: true, message: '该项为必填'}]"
+      >
         <el-upload
           class="musicupload"
           ref="pictureupload"
@@ -53,8 +69,8 @@
           name="myFile"
           :on-success="handleMusicUploadSuccess"
           v-if="fileList.length<3"
-          >
-            <i>选择上传文件</i>
+        >
+          <i>选择上传文件</i>
         </el-upload>
         <div>支持文档或图片，最多不超过3个；单个附件大小不超过5M；</div>
         <div
@@ -62,7 +78,11 @@
           class="photoview"
           :key="index"
         >
-          <a :href="file.filePath" height="150" target="_blank">{{file.fileName}}</a>
+          <a
+            :href="file.filePath"
+            height="150"
+            target="_blank"
+          >{{file.fileName}}</a>
           <i
             class="el-icon-close close"
             style="pointer:cursor"
@@ -79,7 +99,7 @@
           v-show="false"
         ></el-input>
       </el-form-item>
-       
+
       <el-form-item>
         <el-button
           type="primary"
@@ -132,12 +152,12 @@ export default {
     }
     return {
       addForm: {
-        ownerInfos:[],
-        messageType:1,
-        messageTitle:null,
-        remarkInfo:null,
-        filePathList:[],
-        file:null
+        ownerInfos: [],
+        messageType: 1,
+        messageTitle: null,
+        remarkInfo: null,
+        filePathList: [],
+        file: null
       },
       fileList: [],
       submitloading: false,
@@ -145,10 +165,10 @@ export default {
       validateTel,
       validateDcno,
       storeSysCode: '',
-      ownerData:[],
-      totalData:[],
-      pictureuploadUrl:'/webApi/fileupload/common/filetoserver',
-      musicList:[]
+      ownerData: [],
+      totalData: [],
+      pictureuploadUrl: '/webApi/fileupload/filetoserver',
+      musicList: []
     }
   },
   computed: {
@@ -158,12 +178,12 @@ export default {
     this.getOwnerData()
   },
   methods: {
-    getownerName(){
-      this.addForm.ownerInfos=[]
-      if(this.addForm.ownerCode){
+    getownerName() {
+      this.addForm.ownerInfos = []
+      if (this.addForm.ownerCode) {
         this.addForm.ownerInfos.push({
-          ownerCode:this.addForm.ownerCode,
-          ownerName:this.ownerData.filter(v=>v.ownerCode===this.addForm.ownerCode)[0].ownerName
+          ownerCode: this.addForm.ownerCode,
+          ownerName: this.ownerData.filter(v => v.ownerCode === this.addForm.ownerCode)[0].ownerName
         })
       }
     },
@@ -171,15 +191,15 @@ export default {
       tenantList({
         pageSize: 1000000,
         pageNum: 1,
-        ownerState:1
+        ownerState: 1
       }).then(res => {
         this.loading = false
         if (res.success) {
           this.ownerData = (res.data && res.data.list) || []
-          this.ownerData.map(item=>{
+          this.ownerData.map(item => {
             this.totalData.push({
-              ownerCode:item.ownerCode,
-              ownerName:item.ownerName
+              ownerCode: item.ownerCode,
+              ownerName: item.ownerName
             })
           })
         }
@@ -194,24 +214,24 @@ export default {
       return isLt5KB;
     },
     handleMusicUploadSuccess(res, file, pictureList) {
-      this.musicloading=true
-      if (file.response.code=='200') {
+      this.musicloading = true
+      if (file.response.code == '200') {
         this.fileList.push({
           fileName: file.name,
           filePath: file.response.data.filePath
         })
         this.$message.success('上传成功')
-        this.musicloading=false
-      }else{
+        this.musicloading = false
+      } else {
         this.$message.error(file.response.errorMsg)
-        this.musicloading=false
+        this.musicloading = false
       }
       this.$refs['pictureupload'].clearFiles()
     },
     removeFile(enc) {
-      this.fileList.map((item,index) =>{
-        if(item.filePath==enc.filePath){
-          this.fileList.splice(index,1)
+      this.fileList.map((item, index) => {
+        if (item.filePath == enc.filePath) {
+          this.fileList.splice(index, 1)
         }
       })
     },
@@ -220,10 +240,10 @@ export default {
     },
     onSubmit() {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
-      if(this.fileList.length>0){
-        this.addForm.file=1
-      }else{
-        this.addForm.file=null
+      if (this.fileList.length > 0) {
+        this.addForm.file = 1
+      } else {
+        this.addForm.file = null
       }
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
@@ -246,7 +266,7 @@ export default {
       }
       )
     },
-    onCancel() { 
+    onCancel() {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
         this.$router.push({

@@ -411,7 +411,7 @@ export default {
       planCode: '',
 
       filesDialogVisible: false,
-      filesuploadUrl: '/webApi/fileupload/common/filetoserver',
+      filesuploadUrl: '/webApi/fileupload/filetoserver',
       uploadButtonVisible: false,
 
       reply: '',
