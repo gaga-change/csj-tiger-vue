@@ -69,7 +69,7 @@
           >
             <el-select
               v-model="formData.warehouseAreaNature"
-              placeholder="请选择库区性质"
+              placeholder="请选择"
               clearable
             >
               <el-option

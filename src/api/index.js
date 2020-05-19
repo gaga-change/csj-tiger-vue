@@ -99,3 +99,7 @@ export const outBillDelete = id => http.delete(`/webApi/out/bill/delete/${id}`)
 export const outBillDetail = id => http.get(`/webApi/out/bill/detail/${id}`)
 // 出库业务单审核（杂发审核）
 export const outBillCheck = id => http.get(`/webApi/out/bill/check/${id}`)
+// 亚太U9组织分页列表
+export const asiaOrganizeList = params => http.post(`/webApi/asia/organize/list`, params)
+// 根据组织和业务类型查询单据类型分页列表
+export const asiaBillTypeList = params => http.post(`/webApi/asia/billType/list`, params)

@@ -88,7 +88,41 @@
             </el-option>
           </el-select>
         </el-form-item>
-
+        <el-form-item
+          label="单据组织"
+          prop="billOrganize"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <OrganizeSelect
+            v-model="searchForm.billOrganize"
+            @change="handelBillOrganizeChange"
+          />
+        </el-form-item>
+        <el-form-item
+          label="单据类型"
+          prop="outBusiBillType"
+          :rules="[{ required: true, message: '该项为必填'}]"
+          v-if="searchForm.billOrganize"
+        >
+          <BillTypeSelect
+            v-model="searchForm.outBusiBillType"
+            :organizationCode="searchForm.billOrganize"
+            busiTypeCode="004"
+          />
+        </el-form-item>
+        <el-form-item
+          label="调出组织"
+          prop="outOrganize"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <OrganizeSelect v-model="searchForm.outOrganize" />
+        </el-form-item>
+        <el-form-item label="调入组织">
+          <el-input
+            v-model="billOrganizeName"
+            disabled
+          ></el-input>
+        </el-form-item>
         <el-form-item
           label="调出仓库"
           label-width="90px"
@@ -149,7 +183,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-
         <el-form-item
           label="调入日期"
           prop="inDate"
@@ -163,7 +196,6 @@
             @change="checkTime"
           ></el-date-picker>
         </el-form-item>
-
         <el-form-item
           label="接收人"
           prop="warehouseLinkName"
@@ -175,7 +207,6 @@
             class="formitem"
           ></el-input>
         </el-form-item>
-
         <el-form-item
           label="所在地区"
           prop="area"
@@ -187,7 +218,6 @@
             :disabled="true"
           ></el-input>
         </el-form-item>
-
         <el-form-item
           label="详细地址"
           prop="warehouseAddress"
@@ -199,7 +229,6 @@
             :disabled="true"
           ></el-input>
         </el-form-item>
-
         <el-form-item
           label="联系方式"
           prop="linkTel"
@@ -211,7 +240,6 @@
             class="formitem"
           ></el-input>
         </el-form-item>
-
         <el-form-item label="备注">
           <el-input
             v-model="searchForm.remarkInfo"
@@ -264,13 +292,16 @@ import editTable from '@/components/Table/editTable';
 import selectSku from './conpoments/selectSku'
 import { ownerWarehouseList } from '@/api/tenant'
 import { warehouseDetail, totalSkuList, requisitionSave, requisitionmodify, requisitiondetail } from '@/api/requisition'
+import { asiaOrganizeList } from '@/api'
 import Sticky from '@/components/Sticky'
+import OrganizeSelect from '@/components/select/OrganizeSelect'
+import BillTypeSelect from '@/components/select/BillTypeSelect'
 import _ from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';
 export default {
   name: "businessorderadd",
-  components: { editTable, selectSku, Sticky },
+  components: { editTable, selectSku, Sticky, OrganizeSelect, BillTypeSelect },
   data() {
     return {
       skuInfoListLoading: false,
@@ -278,8 +309,12 @@ export default {
       warehouseCodeLoading: false,
       saveLoading: false,
       //表单项
+      billOrganizeName: '',
       searchForm: {
-        transferBillDetailDOList: []
+        transferBillDetailDOList: [],
+        billOrganize: undefined,
+        outBusiBillType: undefined,
+        outOrganize: undefined,
       },
       //表单table配置项
       addtable_config,
@@ -440,6 +475,9 @@ export default {
         }
       }
     },
+    handelBillOrganizeChange(item) {
+      this.billOrganizeName = item.organizationName || ''
+    },
     submit(type, value) {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       if (type === 'addCommodity') {
@@ -509,7 +547,8 @@ export default {
                 }
                 json.id = this.$route.query.id;
               }
-              api(json).then(res => {
+              json.inOrganize = json.billOrganize
+              api({ ...json, fromSysCode: 'QLL' }).then(res => {
                 if (res.success) {
                   if (res.data === 'success') res.data = ''
                   this.$message({
