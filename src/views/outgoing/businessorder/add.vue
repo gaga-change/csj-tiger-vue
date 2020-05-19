@@ -543,7 +543,7 @@ export default {
       //表单项
       searchForm: {
         saleType: 1,
-        busiBillType: "21",
+        busiBillType: 21,
         ownerCode: '',
         outWarehouseBillDetailList: []
       },
@@ -619,10 +619,10 @@ export default {
     skuCodeChange(value) {
       this.addCommodityForm = value
     },
-    getcustomerName(customerCode){
-      customNameSearch({customerCode:customerCode}).then(res=>{
-        if(res.success){
-          this.searchForm.arrivalName=res.data.customerName
+    getcustomerName(customerCode) {
+      customNameSearch({ customerCode: customerCode }).then(res => {
+        if (res.success) {
+          this.searchForm.arrivalName = res.data.customerName
         }
       })
     },

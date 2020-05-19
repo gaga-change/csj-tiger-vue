@@ -329,8 +329,8 @@ export default {
     return {
       addForm: {
         costCalcWay: 1,
-        chargeType: "2",
-        settlementType: "3"
+        chargeType: 2,
+        settlementType: 3
       },
       carrier: [],
       submitloading: false,
@@ -443,8 +443,6 @@ export default {
     },
     getDetail() {
       queryLogisticsDetail(this.$route.query.id).then(res => {
-        res.data.chargeType += ''
-        res.data.settlementType += ''
         const { relationList, consoildatorName, consoildatorCode, ...rest } = res.data
         this.addForm = { carrier: { consoildatorName, consoildatorCode }, ...rest }
         this.outTableData = relationList;
@@ -480,7 +478,7 @@ export default {
 
     getConsoilInfoList() {
       consoilInfoList({
-        consoildatorState: '31',
+        consoildatorState: 31,
         pageSize: 9999,
         pageNum: 1
       }).then(res => {
@@ -598,8 +596,8 @@ export default {
                     this.addForm[i] = null
                   }
                   this.addForm.costCalcWay = 1
-                  this.addForm.chargeType = "2"
-                  this.addForm.settlementType = "3"
+                  this.addForm.chargeType = 2
+                  this.addForm.settlementType = 3
                   this.outTableData = []
                   this.unionOutStore()
                 }

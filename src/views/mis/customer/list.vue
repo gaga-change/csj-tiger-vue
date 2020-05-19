@@ -462,11 +462,7 @@ export default {
       getCustomerList({ pageNum: this.pageNum, pageSize: this.pageSize, ...this.searchData })
         .then(res => {
           const result = res.data
-          this.tableData = (result && result.list || []).map(v => {
-            v.customerState += ''
-            v.customerLevel += ''
-            return v
-          })
+          this.tableData = result.list || []
           this.total = result.total
           this.currentPage = result.pageNum
           this.loading = false

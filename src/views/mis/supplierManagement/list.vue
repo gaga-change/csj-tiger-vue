@@ -272,15 +272,13 @@ export default {
       if (type === 'update') {
         this.addVisible = true;
         this.dialogTitle = "修改供应商"
-        row.providerLevel += ''
-        row.providerState += ''
         this.addForm = row
       } else if (type === 'add') {
         this.addVisible = true;
         this.dialogTitle = "新增供应商"
         this.addForm = {
-          providerLevel: "1",
-          providerState: "1"
+          providerLevel: 1,
+          providerState: 1
         }
       } else if (type === 'relation') {
         this.relationVisible = true;
