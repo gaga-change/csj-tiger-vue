@@ -10,6 +10,15 @@ export default {
 }
 </script>
 <style lang="scss">
+.BaseForm {
+  .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
+    width: 200px;
+  }
+  input {
+    width: 200px;
+  }
+}
 // 字数限制的输入框，附加样式
 .input-suffix-fa {
   .el-input__suffix {

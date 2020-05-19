@@ -23,314 +23,237 @@
     </sticky>
     <el-card shadow="hover">
       <el-form
+        class="BaseForm"
         ref="searchForm"
         labelWidth="90px"
+        :inline="true"
         :model="searchForm"
       >
-        <el-row>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="调拨单号"
-              prop="transferNo"
-            >
-              <el-input
-                v-model="searchForm.transferNo"
-                size="mini"
-                class="formitem"
-                :disabled="true"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="外部订单号"
-              prop="busiBillNo"
-            >
-              <el-input
-                v-model="searchForm.busiBillNo"
-                size="mini"
-                class="formitem"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="货主"
-              prop="ownerCode"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-select
-                v-model="searchForm.ownerCode"
-                filterable
-                size="mini"
-                @focus="confirmchange('owner')"
-                @change="ownerCodeChange"
-                placeholder="请选择货主"
-              >
-                <el-option
-                  value=""
-                  v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length"
-                  :disabled="true"
-                >
-                  <div class="providerList">
-                    <span>货主编号</span>
-                    <span>货主名称</span>
-                  </div>
-                </el-option>
-                <el-option
-                  v-for="item in mapConfig['billOwnerInfoMap']"
-                  :key="item.key"
-                  :label="item.value"
-                  :value="item.key"
-                >
-                  <div class="providerList">
-                    <span>{{ item.key }}</span>
-                    <span>{{ item.value }}</span>
-                  </div>
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="调出仓库"
-              label-width="90px"
-              prop="outWarehouseCode"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-select
-                v-model="searchForm.outWarehouseCode"
-                clearable
-                placeholder="请选择仓库"
-                size="mini"
-                class="formitem"
-                @focus="warehouseCodeFocus('warehouse')"
-                @change="checkoutWarehouse"
-              >
-                <el-option
-                  v-for="item in warehouseList"
-                  :label="item.warehouseName"
-                  :key="item.warehouseCode"
-                  :value="item.warehouseCode"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="调出日期"
-              label-width="100px"
-              prop="outDate"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-date-picker
-                v-model="searchForm.outDate"
-                size="mini"
-                type="date"
-                placeholder="选择日期"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="调入仓库"
-              label-width="90px"
-              prop="inWarehouseCode"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-select
-                v-model="searchForm.inWarehouseCode"
-                clearable
-                placeholder="请选择仓库"
-                size="mini"
-                class="formitem"
-                @focus="warehouseCodeFocus('inwarehouse')"
-                @change="checkInWarehouse"
-                :loading="warehouseCodeLoading"
-              >
-                <el-option
-                  v-for="item in warehouseList"
-                  :label="item.warehouseName"
-                  :key="item.warehouseCode"
-                  :value="item.warehouseCode"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="调入日期"
-              label-width="100px"
-              prop="inDate"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-date-picker
-                v-model="searchForm.inDate"
-                size="mini"
-                type="date"
-                placeholder="选择日期"
-                @change="checkTime"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="接收人"
-              prop="warehouseLinkName"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-input
-                v-model="searchForm.warehouseLinkName"
-                size="mini"
-                class="formitem"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="所在地区"
-              prop="area"
-            >
-              <el-input
-                v-model="searchForm.area"
-                size="mini"
-                class="formitem"
-                :disabled="true"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="详细地址"
-              prop="warehouseAddress"
-            >
-              <el-input
-                v-model="searchForm.warehouseAddress"
-                size="mini"
-                class="formitem"
-                :disabled="true"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item
-              label="联系方式"
-              prop="linkTel"
-              :rules="[{ required: true, message: '该项为必填'}]"
-            >
-              <el-input
-                v-model="searchForm.linkTel"
-                size="mini"
-                class="formitem"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col
-            :sm="12"
-            :md="8"
-            :lg="8"
-            :xl="6"
-          >
-            <el-form-item label="备注">
-              <el-input
-                v-model="searchForm.remarkInfo"
-                placeholder="请输入备注"
-                size="mini"
-                class="formitem"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <div class="tableBox">
-          <div class="tableTitle">
-            <item-title text="商品明细" />
-            <div class="tableBtn">
-              <el-button
-                size="mini"
-                class="addCommodity"
-                @click="showDialog('add')"
-                type="primary"
-              >添加商品</el-button>
-            </div>
-          </div>
-          <edit-Table
-            :useEdit="true"
-            :config="addtable_config"
-            @goeditrow="goeditrow"
-            @handleDelete="handleDelete"
-            :allTableData="searchForm.transferBillDetailDOList"
-          />
-        </div>
-
-        <el-dialog
-          title="选择调拨商品"
-          :visible.sync="addVisible"
-          width="80%"
-          height="60%"
-          :before-close="handleClose"
+        <el-form-item
+          label="调拨单号"
+          prop="transferNo"
         >
-          <select-sku
-            :selectform="skuForm"
-            @handleClose="handleClose"
-            @submit="submit"
-          />
-        </el-dialog>
+          <el-input
+            v-model="searchForm.transferNo"
+            size="mini"
+            class="formitem"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="外部订单号"
+          prop="busiBillNo"
+        >
+          <el-input
+            v-model="searchForm.busiBillNo"
+            size="mini"
+            class="formitem"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="货主"
+          prop="ownerCode"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-select
+            v-model="searchForm.ownerCode"
+            filterable
+            size="mini"
+            @focus="confirmchange('owner')"
+            @change="ownerCodeChange"
+            placeholder="请选择货主"
+          >
+            <el-option
+              value=""
+              v-if="mapConfig['billOwnerInfoMap']&&mapConfig['billOwnerInfoMap'].length"
+              :disabled="true"
+            >
+              <div class="providerList">
+                <span>货主编号</span>
+                <span>货主名称</span>
+              </div>
+            </el-option>
+            <el-option
+              v-for="item in mapConfig['billOwnerInfoMap']"
+              :key="item.key"
+              :label="item.value"
+              :value="item.key"
+            >
+              <div class="providerList">
+                <span>{{ item.key }}</span>
+                <span>{{ item.value }}</span>
+              </div>
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="调出仓库"
+          label-width="90px"
+          prop="outWarehouseCode"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-select
+            v-model="searchForm.outWarehouseCode"
+            clearable
+            placeholder="请选择仓库"
+            size="mini"
+            class="formitem"
+            @focus="warehouseCodeFocus('warehouse')"
+            @change="checkoutWarehouse"
+          >
+            <el-option
+              v-for="item in warehouseList"
+              :label="item.warehouseName"
+              :key="item.warehouseCode"
+              :value="item.warehouseCode"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="调出日期"
+          prop="outDate"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-date-picker
+            v-model="searchForm.outDate"
+            size="mini"
+            type="date"
+            placeholder="选择日期"
+          ></el-date-picker>
+        </el-form-item>
+
+        <el-form-item
+          label="调入仓库"
+          prop="inWarehouseCode"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-select
+            v-model="searchForm.inWarehouseCode"
+            clearable
+            placeholder="请选择仓库"
+            size="mini"
+            class="formitem"
+            @focus="warehouseCodeFocus('inwarehouse')"
+            @change="checkInWarehouse"
+            :loading="warehouseCodeLoading"
+          >
+            <el-option
+              v-for="item in warehouseList"
+              :label="item.warehouseName"
+              :key="item.warehouseCode"
+              :value="item.warehouseCode"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="调入日期"
+          prop="inDate"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-date-picker
+            v-model="searchForm.inDate"
+            size="mini"
+            type="date"
+            placeholder="选择日期"
+            @change="checkTime"
+          ></el-date-picker>
+        </el-form-item>
+
+        <el-form-item
+          label="接收人"
+          prop="warehouseLinkName"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-input
+            v-model="searchForm.warehouseLinkName"
+            size="mini"
+            class="formitem"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="所在地区"
+          prop="area"
+        >
+          <el-input
+            v-model="searchForm.area"
+            size="mini"
+            class="formitem"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="详细地址"
+          prop="warehouseAddress"
+        >
+          <el-input
+            v-model="searchForm.warehouseAddress"
+            size="mini"
+            class="formitem"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="联系方式"
+          prop="linkTel"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-input
+            v-model="searchForm.linkTel"
+            size="mini"
+            class="formitem"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="备注">
+          <el-input
+            v-model="searchForm.remarkInfo"
+            placeholder="请输入备注"
+            size="mini"
+            class="formitem"
+          ></el-input>
+        </el-form-item>
       </el-form>
+      <div class="tableBox">
+        <div class="tableTitle">
+          <item-title text="商品明细" />
+          <div class="tableBtn">
+            <el-button
+              size="mini"
+              class="addCommodity"
+              @click="showDialog('add')"
+              type="primary"
+            >添加商品</el-button>
+          </div>
+        </div>
+        <edit-Table
+          :useEdit="true"
+          :config="addtable_config"
+          @goeditrow="goeditrow"
+          @handleDelete="handleDelete"
+          :allTableData="searchForm.transferBillDetailDOList"
+        />
+      </div>
+      <el-dialog
+        title="选择调拨商品"
+        :visible.sync="addVisible"
+        width="80%"
+        height="60%"
+        :before-close="handleClose"
+      >
+        <select-sku
+          :selectform="skuForm"
+          @handleClose="handleClose"
+          @submit="submit"
+        />
+      </el-dialog>
     </el-card>
   </div>
 </template>
