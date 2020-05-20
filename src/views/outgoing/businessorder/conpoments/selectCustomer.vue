@@ -1,7 +1,7 @@
 <template>
   <div
     class="selectCustomerTemplate"
-    style="min-height: 28px;line-height: 28px;"
+    style="min-height: 28px;line-height: 28px;width: 200px"
   >
     <span
       style="display: inline-block;

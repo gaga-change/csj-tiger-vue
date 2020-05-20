@@ -53,55 +53,78 @@
           :label="item.label"
         >
           <template slot-scope="scope">
-            <el-input-number
-              v-if="item.inputType==='number'"
-              size="mini"
-              v-model="scope.row[item.prop]"
-              controls-position="right"
-              :disabled="scope.row['inputTypeNumberDisabled']"
-              :precision="item.precision || 0"
-              @change="val => handleInputNumberChange(scope.row, scope.$index, item, val)"
-              :min="item.min || 0"
-              :max="item.max || 99999999"
-            ></el-input-number>
-            <el-input-number
-              v-if="item.inputType==='number2'"
-              size="mini"
-              v-model="scope.row[item.prop]"
-              controls-position="right"
-              :disabled="scope.row['inputTypeNumberDisabled']"
-              :precision="item.precision || 0"
-              @change="val => handleInputNumberChange(scope.row, scope.$index, item, val)"
-              :min="item.min || 0"
-              :max="Number(scope.row[item.maxKey])"
-            ></el-input-number>
-            <el-input
-              v-if="item.inputType==='input'"
-              v-model="scope.row[item.prop]"
-              :maxlength="item.max || 50"
-            >
-            </el-input>
-            <el-select
-              v-if="item.inputType==='select'"
-              v-model="scope.row[item.prop]"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="(v, i) in item.enum"
-                :key="i"
-                :label="v.name"
-                :value="v.value"
+            <template v-if="!scope.row._hideEdit">
+              <el-input-number
+                v-if="item.inputType==='number'"
+                size="mini"
+                v-model="scope.row[item.prop]"
+                controls-position="right"
+                :disabled="scope.row['inputTypeNumberDisabled']"
+                :precision="item.precision || 0"
+                @change="val => handleInputNumberChange(scope.row, scope.$index, item, val)"
+                :min="item.min || 0"
+                :max="item.max || 99999999"
+              ></el-input-number>
+              <el-input-number
+                v-if="item.inputType==='number2'"
+                size="mini"
+                v-model="scope.row[item.prop]"
+                controls-position="right"
+                :disabled="scope.row['inputTypeNumberDisabled']"
+                :precision="item.precision || 0"
+                @change="val => handleInputNumberChange(scope.row, scope.$index, item, val)"
+                :min="item.min || 0"
+                :max="Number(scope.row[item.maxKey])"
+              ></el-input-number>
+              <el-input
+                v-if="item.inputType==='input'"
+                v-model="scope.row[item.prop]"
+                :maxlength="item.max || 50"
               >
-              </el-option>
-            </el-select>
-            <template v-if="item.type === 'slot'">
-              <slot
-                name="col"
-                v-bind:row="scope.row"
-                v-bind:index="scope.$index"
-                v-bind:item="item"
+              </el-input>
+              <el-select
+                v-if="item.inputType==='select'"
+                v-model="scope.row[item.prop]"
+                placeholder="请选择"
               >
-              </slot>
+                <el-option
+                  v-for="(v, i) in item.enum"
+                  :key="i"
+                  :label="v.name"
+                  :value="v.value"
+                >
+                </el-option>
+              </el-select>
+              <el-select
+                v-if="item.inputType==='map'"
+                v-model="scope.row[item.prop]"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="v in mapConfig[item.enum] || []"
+                  :key="v.key"
+                  :label="v.value"
+                  :value="v.key"
+                >
+                </el-option>
+              </el-select>
+              <template v-if="item.type === 'slot'">
+                <slot
+                  name="col"
+                  v-bind:row="scope.row"
+                  v-bind:index="scope.$index"
+                  v-bind:item="item"
+                >
+                </slot>
+              </template>
+            </template>
+            <template v-else>
+              <BaseTableCell
+                :row="scope.row"
+                :index="scope.$index"
+                :configItem="item"
+                :formatter="item.formatter"
+              />
             </template>
           </template>
         </el-table-column>
@@ -155,8 +178,9 @@
 
 import moment from 'moment';
 import { mapGetters } from 'vuex'
-
+import BaseTableCell from './BaseTableCell'
 export default {
+  components: { BaseTableCell },
   props: {
     /** 是否扩展 */
     expand: {
@@ -306,7 +330,7 @@ export default {
                     if (temp) {
                       res = temp.value
                     } else {
-                      !this.mapConfig.loading && console.error(`枚举异常, 在【${configItem.enum}】下未找到相应枚举值【${cellValue}】`)
+                      !this.mapConfig.loading && cellValue !== undefined && console.error(`枚举异常, 在【${configItem.enum}】下未找到相应枚举值【${cellValue}】`)
                       res = ''
                     }
                   }

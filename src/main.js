@@ -18,6 +18,8 @@ import PrintTableDialog from '@/components/PrintTableDialog'
 import BasePrintTable from '@/components/BasePrintTable'
 import DetailItem from '@/components/DetailItem'
 import BaseForm from '@/components/BaseForm'
+import ApiSelect from '@/components/select/ApiSelect'
+import MapSelect from '@/components/select/MapSelect'
 import 'normalize.css/normalize.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
@@ -52,6 +54,8 @@ Vue.component('PrintTableDialog', PrintTableDialog);
 Vue.component('BasePrintTable', BasePrintTable);
 Vue.component('DetailItem', DetailItem);
 Vue.component('BaseForm', BaseForm);
+Vue.component('ApiSelect', ApiSelect);
+Vue.component('MapSelect', MapSelect);
 
 Vue.prototype.$copy = obj => cloneDeep(obj)
 Vue.prototype.$delConfirm = (msg, api, close) => {

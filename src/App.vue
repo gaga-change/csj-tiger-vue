@@ -11,13 +11,21 @@ export default {
 </script>
 <style lang="scss">
 .BaseForm {
-  .el-date-editor.el-input,
-  .el-date-editor.el-input__inner {
-    width: 200px;
+  & > .el-form-item {
+    .el-date-editor.el-input,
+    .el-date-editor.el-input__inner {
+      width: 200px;
+    }
+    input {
+      width: 200px;
+    }
   }
-  input {
-    width: 200px;
-  }
+  // .BaseTable_ItemBlocak {
+  //   display: block;
+  //   & > .el-form-item__content {
+  //     display: block;
+  //   }
+  // }
 }
 // 字数限制的输入框，附加样式
 .input-suffix-fa {

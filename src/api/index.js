@@ -103,3 +103,15 @@ export const outBillCheck = id => http.get(`/webApi/out/bill/check/${id}`)
 export const asiaOrganizeList = params => http.post(`/webApi/asia/organize/list`, params)
 // 根据组织和业务类型查询单据类型分页列表
 export const asiaBillTypeList = params => http.post(`/webApi/asia/billType/list`, params)
+// 根据组织查询受益部门分页列表
+export const asiaDepartmentList = params => http.post(`/webApi/asia/department/list`, params)
+// 亚太U9研发项目分页列表
+export const asiaProjectList = params => http.post(`/webApi/asia/project/list`, params)
+// 根据研发项目查询工作号分页列表
+export const asiaWorkList = params => http.post(`/webApi/asia/work/list`, params)
+// 亚太U9服务与费用分页列表
+export const asiaServiceCostList = params => http.post(`/webApi/asia/servicecost/list`, params)
+// 仓库列表
+export const ownerWarehouseList = params => http.get(`/webApi/owner/info/ownerWarehouseList`, { params })
+// 新增业务单（杂收新建）
+export const inBillAdd = params => http.post(`/webApi/in/bill/add`, params)

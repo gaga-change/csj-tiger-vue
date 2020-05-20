@@ -2,6 +2,7 @@
   <div class="">
     <div>
       <el-form
+        class="BaseForm"
         :inline="true"
         :model="formData"
         :rules="rules"
@@ -24,295 +25,256 @@
         </div>
         <el-form-item
           label="单据组织"
-          prop="AA"
+          prop="billOrganize"
+          key="billOrganize"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.AA"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <ApiSelect
+            api="asiaOrganizeList"
+            :config="['organizationCode', 'organizationName']"
+            v-model="formData.billOrganize"
+          />
         </el-form-item>
         <el-form-item
           label="单据类型"
-          prop="BB"
+          prop="outBusiBillType"
+          key="outBusiBillType"
+          v-if="formData.billOrganize"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.BB"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+
+          <ApiSelect
+            api="asiaBillTypeList"
+            :config="['billTypeCode', 'billTypeName']"
+            :params="{organizationCode:  formData.billOrganize, busiTypeCode: '001'}"
+            v-model="formData.outBusiBillType"
+          />
         </el-form-item>
         <el-form-item
           label="货主"
-          prop="CC"
+          prop="ownerCode"
+          key="ownerCode"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.CC"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <OwnerSelect
+            v-model="formData.ownerCode"
+            :name.sync="formData.ownerName"
+          />
         </el-form-item>
         <el-form-item
           label="供应商"
-          prop="DD"
+          prop="providerCode"
+          key="providerCode"
+          v-if="formData.ownerCode"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.DD"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <CustomerSelect
+            label="供应商"
+            v-model="formData.providerCode"
+            :name.sync="formData.providerName"
+            :params="{ownerCode: formData.ownerCode, busiBillType: 21}"
+            @change="validate('providerCode')"
+          />
         </el-form-item>
         <el-form-item
           label="是否生产相关"
-          prop="EE"
+          prop="isProduct"
+          key="isProduct"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.EE"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <map-select
+            map="isPrint"
+            v-model="formData.isProduct"
+          ></map-select>
         </el-form-item>
         <el-form-item
           label="受益部门"
-          prop="FF"
+          prop="benefitDepartment"
+          key="benefitDepartment"
+          v-if="formData.billOrganize"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.FF"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+
+          <ApiSelect
+            api="asiaDepartmentList"
+            :config="['departmentCode', 'departmentName']"
+            :params="{organizationCode:  formData.billOrganize}"
+            v-model="formData.benefitDepartment"
+          />
         </el-form-item>
         <el-form-item
           label="仓库"
-          prop="GG"
+          prop="warehouseCode"
+          key="warehouseCode"
+          v-if="formData.ownerCode"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.GG"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          label="工作号"
-          prop="HH"
-        >
-          <el-select
-            style="width:200px;"
-            v-model="formData.HH"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+
+          <ApiSelect
+            api="ownerWarehouseList"
+            :config="['warehouseCode', 'warehouseName']"
+            :params="{ownerCode: formData.ownerCode}"
+            v-model="formData.warehouseCode"
+            :name.sync="formData.warehouseName"
+          />
         </el-form-item>
         <el-form-item
           label="研发项目"
-          prop="II"
+          prop="developProject"
+          key="developProject"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.II"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+
+          <ApiSelect
+            api="asiaProjectList"
+            :config="['projectCode', 'projectName']"
+            v-model="formData.developProject"
+          />
         </el-form-item>
         <el-form-item
           label="服务与费用"
-          prop="JJ"
+          prop="serviceCost"
+          key="serviceCost"
         >
-          <el-select
-            style="width:200px;"
-            v-model="formData.JJ"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in []"
-              :key="item.name"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+
+          <ApiSelect
+            api="asiaServiceCostList"
+            :config="['serviceCostCode', 'serviceCostName']"
+            v-model="formData.serviceCost"
+          />
         </el-form-item>
-        <div style="text-align:right">
-          <el-button
-            type=""
-            @click="handleAddProd"
-          >添加商品</el-button>
-        </div>
-        <div class="">
-          <item-title text="商品明细" />
-          <base-table
-            :config="commdityConfig"
-            :data="commodityList"
-          ></base-table>
-        </div>
+        <el-form-item
+          label="工作号"
+          prop="workNo"
+          key="workNo"
+          v-if="formData.developProject"
+        >
+          <ApiSelect
+            api="asiaWorkList"
+            :config="['workCode', 'workName']"
+            :params="{projectCode: formData.developProject}"
+            v-model="formData.workNo"
+          />
+        </el-form-item>
       </el-form>
+      <template v-if="formData.ownerCode">
+        <CommdityAddAndModify
+          numberKey="planInQty"
+          :tableConfig="commdityTableConfig"
+          :ownerCode="formData.ownerCode"
+          :checkInput="checkInput"
+          v-model="formData.detailItemList"
+        />
+      </template>
     </div>
-    <template v-if="selectProdVisible">
-      <selectProd
-        :visible.sync="selectProdVisible"
-        :selected="commodityList"
-        @submited="handleAddSubmit"
-      />
-    </template>
   </div>
 </template>
 
 <script>
 import _ from 'lodash';
-
-/**
- * 父级设置
- * <dialog
-      :visible.sync="dialogVisible"
-      :row="selectedRow"
-      @submited="getTableData()"
-    />
- */
-import { skuListByCondition } from '@/api'
+import { inBillAdd, } from '@/api'
 import selectProd from './components/selectProd'
-const commdityConfig = [
-  { label: '商品编码', prop: 'skuCode' },
+import CommdityAddAndModify from '@/components/select/CommdityAddAndModify'
+import OwnerSelect from '@/components/select/OwnerSelect'
+import CustomerSelect from '@/components/select/CustomerSelect'
+import { mapGetters } from 'vuex'
+
+const commdityTableConfig = [
+  { label: '商品编码', prop: 'skuCode', width: 120 },
   { label: '商品名称', prop: 'skuName' },
-  { label: '货主商品编码', prop: 'providerSkuCode' },
+  { label: '货主商品编码', prop: 'customerSkuCode' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
-  { label: '备注', prop: 'remarkInfo' }
+  { label: '数量', prop: 'planInQty', edit: true, inputType: 'number', width: 160 },
+  { label: '进货价', prop: 'inPrice', },
+  { label: '生产订单号', prop: 'ownerOrderNo', edit: true, inputType: 'input', width: 150 },
+  { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint', edit: true, inputType: 'map', width: 150 },
 ]
 export default {
-  components: { selectProd },
+  components: { selectProd, CommdityAddAndModify, OwnerSelect, CustomerSelect },
   data() {
     return {
-      commdityConfig,
+      commdityTableConfig,
       loading: false,
-      selectProdVisible: false,
-      skuInfoListLoading: false,
-      commodityList: [],
-      addCommodityForm: {},
       formData: {
+        busiType: '001',
+        fromSystemId: 'QLL',
         //  ... 表单字段
-        AA: undefined,
-        BB: undefined,
-        CC: undefined,
-        DD: undefined,
-        EE: undefined,
-        FF: undefined,
-        GG: undefined,
-        HH: undefined,
-        II: undefined,
-        JJ: undefined,
-        detailItemList: []
+        billOrganize: undefined,
+        outBusiBillType: undefined,
+        ownerCode: undefined,
+        ownerName: undefined,
+        providerCode: undefined,
+        providerName: undefined,
+        isProduct: undefined,
+        benefitDepartment: undefined,
+        warehouseCode: undefined,
+        warehouseName: undefined,
+        workNo: undefined,
+        developProject: undefined,
+        serviceCost: undefined,
+        detailItemList: [],
       },
       rules: {
-        //  ... 表单校验
-        AA: [{ required: true, message: '必填项', trigger: 'blur' }],
-        BB: [{ required: true, message: '必填项', trigger: 'blur' }],
-        CC: [{ required: true, message: '必填项', trigger: 'blur' }],
-        DD: [{ required: true, message: '必填项', trigger: 'blur' }],
-        EE: [{ required: true, message: '必填项', trigger: 'blur' }],
-        FF: [{ required: true, message: '必填项', trigger: 'blur' }],
-        GG: [{ required: true, message: '必填项', trigger: 'blur' }],
+        billOrganize: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        outBusiBillType: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        ownerCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        providerCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        isProduct: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        benefitDepartment: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        warehouseCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      'mapConfig': 'mapConfig',
+      visitedViews: 'visitedViews'
+    }),
   },
   methods: {
     /** 确定 */
     confirm() {
+      const view = this.visitedViews.filter(v => v.path === this.$route.path)
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.loading = true
           let params = { ...this.formData }
-          for (let key in params) {
-            if (params[key] === undefined) {
-              params[key] = ''
-            }
+          const { detailItemList } = params
+          if (!detailItemList.length) {
+            return this.$message.error('请添加商品!')
           }
+          const api = inBillAdd
+
+          this.loading = true
+          api(params).then(res => {
+            this.loading = false
+            if (!res) return
+            this.$message.suownerCodeess('操作成功！')
+            this.$store.dispatch('delVisitedViews', view[0]).then(() => {
+              this.$router.push({
+                path: '/otherOrder/otherOrderInList',
+              })
+            })
+          })
+          // this.loading = true
+
           // saveApi(params).then(res => {
           //   this.loading = false
           //   if (!res) return
-          //   this.$message.success('操作成功！')
+          //   this.$message.suownerCodeess('操作成功！')
           //   this.$emit('submited')
           //   this.close()
           // })
         }
       })
     },
-    /** 添加商品按钮 点击事件 */
-    handleAddProd() {
-      this.selectProdVisible = true
+    validate(prop) {
+      this.$refs['form'] && this.$refs['form'].validateField(prop)
     },
-    /** 添加商品数据 */
-    handleAddSubmit(rows) {
-      this.commodityList.push(...rows)
+    checkInput(row) {
+      const { planInQty, zoroCost } = row
+      let msg = ''
+      if (zoroCost === undefined || zoroCost === null) {
+        msg = '请完善数据，填写是否为零成本！'
+      } else if (!planInQty) {
+        msg = '请完善数据，填写数量！'
+      }
+      if (msg) {
+        this.$message.error(msg)
+      }
+      return !msg
     }
   }
 }
