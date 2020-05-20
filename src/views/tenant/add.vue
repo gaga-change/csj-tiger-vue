@@ -173,7 +173,7 @@
           :loading="submitloading"
           :disabled="submitloading"
         >提交</el-button>
-        <el-button @click="onCancel">取消</el-button>
+        <!-- <el-button @click="onCancel">取消</el-button> -->
       </el-form-item>
     </el-form>
   </div>
@@ -298,7 +298,6 @@ export default {
       }
       )
     },
-    onCancel() { }
   }
 }
 </script>
