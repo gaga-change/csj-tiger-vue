@@ -150,10 +150,10 @@
         </el-form-item>
       </el-form>
       <template v-if="formData.ownerCode && formData.providerCode">
-        <CommdityAddAndModify
+        <CommdityAddAndModifyIn
           numberKey="planInQty"
           :tableConfig="commdityTableConfig"
-          :params="{ownerCode:formData.ownerCode, providerCode: formData.providerCode }"
+          :params="{ownerCode:formData.ownerCode, providerCode: formData.providerCode, providerName: formData.providerName }"
           :checkInput="checkInput"
           v-model="formData.detailItemList"
         />
@@ -165,7 +165,7 @@
 <script>
 import _ from 'lodash';
 import { inBillAdd, } from '@/api'
-import CommdityAddAndModify from '@/components/select/CommdityAddAndModify'
+import CommdityAddAndModifyIn from '@/components/select/CommdityAddAndModifyIn'
 import OwnerSelect from '@/components/select/OwnerSelect'
 import CustomerSelect from '@/components/select/CustomerSelect'
 import { mapGetters } from 'vuex'
@@ -177,12 +177,12 @@ const commdityTableConfig = [
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
   { label: '数量', prop: 'planInQty', edit: true, inputType: 'number', width: 160 },
-  { label: '进货价', prop: 'inPrice', },
+  { label: '进货价', prop: 'purchasePrice', },
   { label: '生产订单号', prop: 'ownerOrderNo', edit: true, inputType: 'input', width: 150 },
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint', edit: true, inputType: 'map', width: 150 },
 ]
 export default {
-  components: { CommdityAddAndModify, OwnerSelect, CustomerSelect },
+  components: { CommdityAddAndModifyIn, OwnerSelect, CustomerSelect },
   data() {
     return {
       commdityTableConfig,

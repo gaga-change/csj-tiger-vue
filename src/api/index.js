@@ -115,3 +115,5 @@ export const asiaServiceCostList = params => http.post(`/webApi/asia/servicecost
 export const ownerWarehouseList = params => http.get(`/webApi/owner/info/ownerWarehouseList`, { params })
 // 新增业务单（杂收新建）
 export const inBillAdd = params => http.post(`/webApi/in/bill/add`, params)
+// 商品查询
+export const skuInfoProviderList = params => http.get(`/webApi/sku/info/provider/list`, { params })

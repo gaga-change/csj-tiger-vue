@@ -1,5 +1,5 @@
 <template>
-  <div class="SelectComponentsAddform">
+  <div>
     <el-form
       class="BaseForm"
       ref="searchForm"
@@ -59,7 +59,7 @@
         ></el-input>
       </el-form-item>
     </el-form>
-    <div class="btnBox">
+    <div style="text-align:right">
       <el-button @click="$emit('handleClose')">取 消</el-button>
       <el-button
         type="primary"
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import selectSku from './selectSku'
+import selectSku from './selectSkuOut'
 
 export default {
   components: { selectSku },
@@ -127,12 +127,3 @@ export default {
 }
 
 </script>
-
-<style rel="stylesheet/scss" lang="scss">
-.SelectComponentsAddform {
-  .btnBox {
-    display: flex;
-    justify-content: flex-end;
-  }
-}
-</style>

@@ -43,7 +43,7 @@
 </template>
 <script>
 import editTable from '@/components/Table/editTable';
-import addForm from './components/addForm'
+import addForm from './components/addFormIn'
 
 export default {
   components: { editTable, addForm },
