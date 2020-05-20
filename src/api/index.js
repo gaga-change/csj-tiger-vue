@@ -117,3 +117,5 @@ export const ownerWarehouseList = params => http.get(`/webApi/owner/info/ownerWa
 export const inBillAdd = params => http.post(`/webApi/in/bill/add`, params)
 // 商品查询
 export const skuInfoProviderList = params => http.get(`/webApi/sku/info/provider/list`, { params })
+// 供应商查询
+export const customerInfo = ({ ownerCode, busiBillType }) => http.get(`/webApi/customer/info/${ownerCode}/${busiBillType}`)

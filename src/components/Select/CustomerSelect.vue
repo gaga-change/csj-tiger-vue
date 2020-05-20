@@ -118,12 +118,6 @@ export default {
     },
 
     showDialogTable() {
-      if (!this.params.busiBillType) {
-        return this.$message.error('请选择业务单类型！')
-      }
-      if (!this.params.ownerCode) {
-        return this.$message.error('请选择货主！')
-      }
       this.selectVisiable = true
     },
   }

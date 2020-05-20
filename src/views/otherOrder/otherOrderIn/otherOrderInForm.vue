@@ -64,12 +64,12 @@
           key="providerCode"
           v-if="formData.ownerCode"
         >
-          <CustomerSelect
-            label="供应商"
+          <ApiSelect
+            api="customerInfo"
+            :config="['customerCode', 'customerName']"
+            :params="{ownerCode: formData.ownerCode, busiBillType: 22}"
             v-model="formData.providerCode"
             :name.sync="formData.providerName"
-            :params="{ownerCode: formData.ownerCode, busiBillType: 21}"
-            @change="validate('providerCode')"
           />
         </el-form-item>
         <el-form-item
@@ -169,6 +169,7 @@ import CommdityAddAndModifyIn from '@/components/select/CommdityAddAndModifyIn'
 import OwnerSelect from '@/components/select/OwnerSelect'
 import CustomerSelect from '@/components/select/CustomerSelect'
 import { mapGetters } from 'vuex'
+import * as api from '@/api';
 
 const commdityTableConfig = [
   { label: '商品编码', prop: 'skuCode', width: 120 },
