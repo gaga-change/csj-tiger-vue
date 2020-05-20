@@ -76,7 +76,7 @@
       <div v-if="selectVisiable">
         <select-sku
           @select="selectChange"
-          :ownerCode="ownerCode"
+          :params="params"
         />
       </div>
     </el-dialog>
@@ -91,11 +91,11 @@ export default {
   props: {
     searchForm: {
       type: Object,
-      default: () => { }
+      default: () => ({})
     },
-    ownerCode: {
-      type: String,
-      default: ''
+    params: {
+      type: Object,
+      default: () => ({})
     }
   },
 

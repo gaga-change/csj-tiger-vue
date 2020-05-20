@@ -33,7 +33,7 @@
       <add-form
         v-loading="skuInfoListLoading"
         @submit="submit"
-        :ownerCode="ownerCode"
+        :params="params"
         @skuCodeChange="skuCodeChange"
         :searchForm="addCommodityForm"
         @handleClose="handleClose"
@@ -52,7 +52,10 @@ export default {
     event: 'update'
   },
   props: {
-    ownerCode: String,
+    params: {
+      type: Object,
+      default: () => ({})
+    },
     numberKey: String,
     value: Array,
     tableConfig: Array,
@@ -65,12 +68,16 @@ export default {
       skuList: [],
       addCommodityForm: {},
       dataList: [],
+      oldParams: ''
     }
   },
   watch: {
-    ownerCode() {
-      this.dataList = []
-      this.$emit('update', [])
+    params(val) {
+      if (JSON.stringify(val) !== this.oldParams) {
+        this.oldParams = JSON.stringify(val)
+        this.dataList = []
+        this.$emit('update', [])
+      }
     }
   },
   created() {
@@ -80,13 +87,10 @@ export default {
   },
   methods: {
     showDialog(type) {
-      if (!this.ownerCode) {
-        this.$message.error('请选择货主！');
-      } else {
-        this.addVisible = true;
-        this.skuList = []
-        this.addCommodityForm = {}
-      }
+
+      this.addVisible = true;
+      this.skuList = []
+      this.addCommodityForm = {}
     },
     handleEdit(row) {
       if (!row._hideEdit) {

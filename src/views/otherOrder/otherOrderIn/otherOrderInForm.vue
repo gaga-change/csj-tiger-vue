@@ -149,11 +149,11 @@
           />
         </el-form-item>
       </el-form>
-      <template v-if="formData.ownerCode">
+      <template v-if="formData.ownerCode && formData.providerCode">
         <CommdityAddAndModify
           numberKey="planInQty"
           :tableConfig="commdityTableConfig"
-          :ownerCode="formData.ownerCode"
+          :params="{ownerCode:formData.ownerCode, providerCode: formData.providerCode }"
           :checkInput="checkInput"
           v-model="formData.detailItemList"
         />
@@ -165,7 +165,6 @@
 <script>
 import _ from 'lodash';
 import { inBillAdd, } from '@/api'
-import selectProd from './components/selectProd'
 import CommdityAddAndModify from '@/components/select/CommdityAddAndModify'
 import OwnerSelect from '@/components/select/OwnerSelect'
 import CustomerSelect from '@/components/select/CustomerSelect'
@@ -183,7 +182,7 @@ const commdityTableConfig = [
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint', edit: true, inputType: 'map', width: 150 },
 ]
 export default {
-  components: { selectProd, CommdityAddAndModify, OwnerSelect, CustomerSelect },
+  components: { CommdityAddAndModify, OwnerSelect, CustomerSelect },
   data() {
     return {
       commdityTableConfig,
@@ -234,6 +233,9 @@ export default {
           const { detailItemList } = params
           if (!detailItemList.length) {
             return this.$message.error('请添加商品!')
+          }
+          if (detailItemList.some(v => !v._hideEdit)) {
+            return this.$message.error('请完善商品信息!')
           }
           const api = inBillAdd
 

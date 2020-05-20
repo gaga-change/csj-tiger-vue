@@ -51,9 +51,9 @@ import { getProductList } from '@/api/productcenter'
 
 export default {
   props: {
-    ownerCode: {
-      type: String,
-      default: ''
+    params: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -63,7 +63,7 @@ export default {
       searchParams: {
         skuName: undefined,
         skuCode: undefined,
-        ownerCode: this.ownerCode,
+        ...this.params
       }
     }
   },
@@ -78,7 +78,7 @@ export default {
       this.searchParams = {
         skuName: '',
         skuCode: '',
-        ownerCode: this.ownerCode
+        ...this.params
       }
       this.search()
     },
