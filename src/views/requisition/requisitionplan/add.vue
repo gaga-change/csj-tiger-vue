@@ -294,8 +294,8 @@ import { ownerWarehouseList } from '@/api/tenant'
 import { warehouseDetail, totalSkuList, requisitionSave, requisitionmodify, requisitiondetail } from '@/api/requisition'
 import { asiaOrganizeList } from '@/api'
 import Sticky from '@/components/Sticky'
-import OrganizeSelect from '@/components/select/OrganizeSelect'
-import BillTypeSelect from '@/components/select/BillTypeSelect'
+import OrganizeSelect from '@/components/Select/OrganizeSelect'
+import BillTypeSelect from '@/components/Select/BillTypeSelect'
 import _ from 'lodash';
 import { mapGetters } from 'vuex'
 import moment from 'moment';

@@ -165,9 +165,9 @@
 <script>
 import _ from 'lodash';
 import { inBillAdd, } from '@/api'
-import CommdityAddAndModifyOut from '@/components/select/CommdityAddAndModifyOut'
-import OwnerSelect from '@/components/select/OwnerSelect'
-import CustomerSelect from '@/components/select/CustomerSelect'
+import CommdityAddAndModifyOut from '@/components/Select/CommdityAddAndModifyOut'
+import OwnerSelect from '@/components/Select/OwnerSelect'
+import CustomerSelect from '@/components/Select/CustomerSelect'
 import { mapGetters } from 'vuex'
 
 const commdityTableConfig = [
