@@ -373,7 +373,8 @@
 
 <script>
 import moment from 'moment';
-import { inPlanSelect, batchApprovePlan, inPlanClose, inCloseOperate } from '@/api/warehousing'
+import { inPlanSelect } from '@/api'
+import { batchApprovePlan, inPlanClose, inCloseOperate } from '@/api/warehousing'
 import BaseTable from '@/components/Table'
 import { indexTableConfig } from './config';
 import editTable from '@/components/Table/editTable';
@@ -579,15 +580,12 @@ export default {
       let data = { ...json }
       this.linkData = data;
       inPlanSelect(data).then(res => {
-        if (res.success) {
+        this.loading = false;
+        if (res) {
           let data = res.data;
           this.tableData = data.list || [];
           this.total = data.total;
         }
-        this.loading = false;
-
-      }).catch(err => {
-        this.loading = false;
       })
     }
   }

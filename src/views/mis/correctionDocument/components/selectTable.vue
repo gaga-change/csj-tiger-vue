@@ -1,6 +1,9 @@
 <template>
   <div class="selectSkuTemplate">
-    <div style="margin-bottom:20px" :loading="loading">
+    <div
+      style="margin-bottom:20px"
+      :loading="loading"
+    >
       <el-input
         v-model="searchSkuForm.warehouseExeCode"
         :placeholder="type=='outgoing'?'请输入出库单号':'请输入入库单号'"
@@ -34,12 +37,11 @@
       highlight-current-row
       @current-change="submit"
     >
-      <el-table-column
-        label="序号">
-      <template slot-scope="scope">
-        <span>{{scope.$index+1}}</span>
-      </template>
-    </el-table-column>
+      <el-table-column label="序号">
+        <template slot-scope="scope">
+          <span>{{scope.$index+1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         property="warehouseExeCode"
         :label="type=='outgoing'?'出库单号':'入库单号'"
@@ -64,33 +66,33 @@
 </template>
 
 <script>
-import { queryWarehouseCode, queryInWarehouseCode } from '@/api/correction'
+import { queryInWarehouseCode, queryWarehouseCode } from '@/api'
 export default {
-  props:['selectOwnercode','datatype'],
+  props: ['selectOwnercode', 'datatype'],
   data() {
     return {
       data: [],
       currentPageSize: 10,
       currentPage: 1,
       totalLen: 0,
-      searchSkuForm:{
-        ownerCode:null,
-        warehouseExeCode:null,
-        billNo:null,
+      searchSkuForm: {
+        ownerCode: null,
+        warehouseExeCode: null,
+        billNo: null,
       },
-      loading:false,
-      type:null,
+      loading: false,
+      type: null,
     }
   },
   watch: {
-    selectOwnercode(val){  
-      this.searchSkuForm.ownerCode=val
+    selectOwnercode(val) {
+      this.searchSkuForm.ownerCode = val
       this.gettotallist()
     }
   },
   created() {
-    this.type=this.datatype
-    this.searchSkuForm.ownerCode=this.selectOwnercode
+    this.type = this.datatype
+    this.searchSkuForm.ownerCode = this.selectOwnercode
     this.gettotallist()
   },
   methods: {
@@ -98,21 +100,18 @@ export default {
       this.currentPage = val
       this.gettotallist()
     },
-    gettotallist(){
-      this.loading=true
-      let api= queryWarehouseCode
-      if(this.type==='inWarehouse'){
+    gettotallist() {
+      this.loading = true
+      let api = queryWarehouseCode
+      if (this.type === 'inWarehouse') {
         api = queryInWarehouseCode
       }
-      api({pageNum:this.currentPage,pageSize:this.currentPageSize,...this.searchSkuForm}).then(res => {
-        if (res.success) {
-          this.data=Array.isArray(res.data.list) && res.data.list || []
-          this.loading=false
-          this.totalLen=res.data.total
-        }
-      }).catch(err => {
-      }).then(res => {
+      api({ pageNum: this.currentPage, pageSize: this.currentPageSize, ...this.searchSkuForm }).then(res => {
         this.loading = false
+        if (res) {
+          this.data = Array.isArray(res.data.list) && res.data.list || []
+          this.totalLen = res.data.total
+        }
       })
     },
     submit(val) {

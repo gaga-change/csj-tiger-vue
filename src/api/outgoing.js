@@ -35,15 +35,6 @@ export function outPlanUpdate(data = {}) {
   })
 }
 
-//出库单查询数据
-export function outOrderSelect(data = {}) {
-  return request({
-    url: `/webApi/out/order/select`,
-    method: 'post',
-    data
-  })
-}
-
 //出库单查询详情数据
 export function outOrderDetail(data = {}) {
   return request({

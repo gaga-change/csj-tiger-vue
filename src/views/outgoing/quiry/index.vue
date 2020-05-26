@@ -279,7 +279,7 @@
           size="mini"
         >导出Excel</el-button>
       </a>
-    <!--   <el-button
+      <!--   <el-button
         type="primary"
         size="mini"
         @click="printing"
@@ -340,7 +340,8 @@
 
 <script>
 import moment from 'moment';
-import { outOrderSelect, outOrderPrint } from '@/api/outgoing'
+import { outOrderPrint } from '@/api/outgoing'
+import { queryWarehouseCode } from '@/api'
 import BaseTable from '@/components/Table'
 import { indexTableConfig, printingTable_config } from './config';
 import { mapGetters } from 'vuex'
@@ -506,15 +507,12 @@ export default {
       }
       let data = { ...json }
       this.linkData = data;
-      outOrderSelect(data).then(res => {
-        if (res.success) {
+      queryWarehouseCode(data).then(res => {
+        if (res) {
           let data = res.data;
           this.tableData = data.list || [];
           this.total = data.total;
         }
-        this.loading = false;
-
-      }).catch(err => {
         this.loading = false;
       })
     }

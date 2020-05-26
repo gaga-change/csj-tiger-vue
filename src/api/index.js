@@ -119,3 +119,9 @@ export const inBillAdd = params => http.post(`/webApi/in/bill/add`, params)
 export const skuInfoProviderList = params => http.get(`/webApi/sku/info/provider/list`, { params })
 // 供应商查询
 export const customerInfo = ({ ownerCode, busiBillType }) => http.get(`/webApi/customer/info/${ownerCode}/${busiBillType}`)
+// 获取入库计划
+export const inPlanSelect = params => http.post(`/webApi/in/plan/getInPlanData`, params)
+// 入库单查询数据
+export const queryInWarehouseCode = params => http.post(`/webApi/in/order/inWarehouseOrderList`, params)
+// 入库单查询数据
+export const queryWarehouseCode = params => http.post(`/webApi/out/order/select`, params)

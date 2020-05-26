@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import { inPlanDetail, inOrderSelect, orderSave, inPlanCheck } from '@/api/warehousing'
+import { inPlanDetail, orderSave, inPlanCheck } from '@/api/warehousing'
+import { queryInWarehouseCode } from '@/api'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import editTable from '@/components/Table/editTable'
 import Sticky from '@/components/Sticky'
@@ -210,18 +211,16 @@ export default {
       if (tab.name == 'warehousing') {
         if (!this.warehousingTableData.length) {
           this.warehousingLoding = true;
-          inOrderSelect({
+          queryInWarehouseCode({
             planCode: this.planCode,
             pageSize: 500,
             pageNum: 1,
             ownerCode: this.config.ownerCode
           }).then(res => {
-            if (res.success) {
+            this.warehousingLoding = false;
+            if (res) {
               this.warehousingTableData = res.data && res.data.list || []
             }
-            this.warehousingLoding = false;
-          }).catch(err => {
-
           })
         }
       }

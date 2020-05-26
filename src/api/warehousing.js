@@ -19,15 +19,6 @@ export function inBillDetail(data = {}) {
 }
 
 
-//入库计划数据
-export function inPlanSelect(data = {}) {
-  return request({
-    url: `/webApi/in/plan/getInPlanData`,
-    method: 'post',
-    data
-  })
-}
-
 //入库计划详情数据
 export function inPlanDetail(data = {}) {
   return request({
@@ -52,16 +43,6 @@ export function inPlanUpdate(data = {}) {
     data,
   })
 }
-
-//入库单查询数据
-export function inOrderSelect(data = {}) {
-  return request({
-    url: `/webApi/in/order/inWarehouseOrderList`,
-    method: 'post',
-    data
-  })
-}
-
 
 //入库单查询详情数据
 export function inOrderDetail(data = {}) {

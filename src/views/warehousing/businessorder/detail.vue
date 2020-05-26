@@ -127,8 +127,8 @@
 
 import { tableConfig, infoConfig, printingTable_config, detail_planTableConfig, detail_warehousingTableConfig } from './config';
 import webPaginationTable from '@/components/Table/webPaginationTable';
-import { inBillUpdateStatus } from '@/api'
-import { inbilldetail, inbillPrint, inPlanSelect, inOrderSelect } from '@/api/warehousing'
+import { inBillUpdateStatus, inPlanSelect, queryInWarehouseCode } from '@/api'
+import { inbilldetail, inbillPrint } from '@/api/warehousing'
 import Sticky from '@/components/Sticky'
 import Invoice from './conpoments/invoice'
 import { mapGetters } from 'vuex'
@@ -184,27 +184,22 @@ export default {
             billNo: res.data && res.data.billNo,
             ownerCode: res.data && res.data.ownerCode
           }).then(result => {
-            if (result.success) {
+            if (result) {
               this.detail_planTableData = result.data && Array.isArray(result.data.list) && result.data.list || [];
             }
-          }).catch(err => {
-            console.error(err)
           })
 
           //相关入库单数据
-          inOrderSelect({
+          queryInWarehouseCode({
             pageNum: 1,
             pageSize: 1000,
             billNo: res.data && res.data.billNo,
             ownerCode: res.data && res.data.ownerCode
           }).then(result => {
-            if (result.success) {
+            if (result) {
               this.detail_warehousingTableData = result.data && Array.isArray(result.data.list) && result.data.list || [];
             }
-          }).catch(err => {
-            console.error(err)
           })
-
         }
       }).catch(err => {
         console.error(err)

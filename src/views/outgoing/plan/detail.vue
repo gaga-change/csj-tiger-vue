@@ -100,7 +100,8 @@
 </template>
 
 <script>
-import { outPlanDetail, outOrderSelect, orderSave, outPlanPrint, outPlanCheck } from '@/api/outgoing';
+import { outPlanDetail, orderSave, outPlanPrint, outPlanCheck } from '@/api/outgoing';
+import { queryWarehouseCode } from '@/api'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import editTable from '@/components/Table/editTable'
 import { tableConfig, infoConfig, outgoingTableConfig, printingTable_config } from './config';
@@ -136,7 +137,7 @@ export default {
       printingVisible: false,
       printingTable_data: {},
       printingTable_config,
-      typeDes:null
+      typeDes: null
     }
   },
 
@@ -201,14 +202,14 @@ export default {
           let data = res.data;
           this.config = data;
           this.planCode = data.planCode;
-          this.typeDes=data.issuedState==7?'productNum':null
+          this.typeDes = data.issuedState == 7 ? 'productNum' : null
           let tableData = Array.isArray(data.itemList) ? data.itemList : [];
           if (this.$route.query.history) {
             this.tableData = _.cloneDeep(tableData).map(v => {
-              if(v.canUseSkuQty - v.planOutQty <0){
-                v.pointtitle='(商品不足)'
-              }else{
-                v.pointtitle=''
+              if (v.canUseSkuQty - v.planOutQty < 0) {
+                v.pointtitle = '(商品不足)'
+              } else {
+                v.pointtitle = ''
               }
               let json = v;
               if (v.planOutQty - v.realOutQty > 0) {
@@ -222,10 +223,10 @@ export default {
             })
           } else {
             this.tableData = tableData.map(v => {
-              if(v.canUseSkuQty - v.planOutQty <0){
-                v.pointtitle='(商品不足)'
-              }else{
-                v.pointtitle=''
+              if (v.canUseSkuQty - v.planOutQty < 0) {
+                v.pointtitle = '(商品不足)'
+              } else {
+                v.pointtitle = ''
               }
               let json = v;
               json.qty = v.handOutQty;
@@ -282,18 +283,16 @@ export default {
       if (tab.name == 'outgoing') {
         if (!this.outgoingTableData.length) {
           this.outgoingLoding = true;
-          outOrderSelect({
+          queryWarehouseCode({
             planCode: this.planCode,
             pageSize: 500,
             pageNum: 1,
             ownerCode: this.config.ownerCode
           }).then(res => {
-            if (res.success) {
+            if (res) {
               this.outgoingTableData = res.data && res.data.list || []
             }
             this.outgoingLoding = false;
-          }).catch(err => {
-            console.error(err)
           })
         }
       }

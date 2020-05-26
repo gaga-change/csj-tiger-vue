@@ -177,22 +177,3 @@ export function outQueryApprovedItems(id) {
     method: 'get'
   })
 }
-
-//出库订正出库单选择
-export function queryWarehouseCode(data) {
-  return request({
-    url: `/webApi/out/order/select`,
-    method: 'post',
-    data
-  })
-}
-
-// 入库订正入库单选择
-export function queryInWarehouseCode(data) {
-  return request({
-    url: `/webApi/in/order/inWarehouseOrderList`,
-    method: 'post',
-    data
-  })
-}
-

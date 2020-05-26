@@ -109,7 +109,8 @@ import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
-import { outBillDetail, outPlanSelect, outOrderSelect } from '@/api/outgoing'
+import { queryWarehouseCode } from '@/api'
+import { outBillDetail, outPlanSelect } from '@/api/outgoing'
 import { operation } from './conpoments/lib';
 import _ from 'lodash';
 
@@ -176,17 +177,15 @@ export default {
           })
 
           //查询相关出库单
-          outOrderSelect({
+          queryWarehouseCode({
             pageNum: 1,
             pageSize: 1000,
             billNo: data.billNo,
             ownerCode: data.ownerCode
           }).then(result => {
-            if (result.success) {
+            if (result) {
               this.detail_outGoingTableData = result.data && Array.isArray(result.data.list) && result.data.list || [];
             }
-          }).catch(err => {
-            console.error(err)
           })
         }
       }).catch(err => {
