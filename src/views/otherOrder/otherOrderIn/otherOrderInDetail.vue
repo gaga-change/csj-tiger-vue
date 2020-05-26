@@ -71,12 +71,12 @@
   </div>
 </template>
 <script>
-import { inBillDetail, inBillUpdateStatus } from '@/api'
+import { inBillDetail, inBillUpdateStatus, inPlanSelect, queryInWarehouseCode } from '@/api'
 
 const detailItemConfig = [
   { label: '业务单号 ', prop: 'billNo' },
   { label: '单据组织 ', prop: 'billOrganize' },
-  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
   { label: '是否生产相关', prop: 'isProduct', type: 'enum', enum: 'isPrint' },
@@ -168,12 +168,33 @@ export default {
       this.loading = true
       const id = this.$route.query.id
       inBillDetail(id).then(res => {
-        this.loading = false
         if (!res) return
         res.data.sonList = (res.data.items || []).map((v, i) => ({ ...v, index: i + 1 }))
         res.data.planList = res.data.planList || []
         res.data.orderList = res.data.orderList || []
-        this.detail = res.data
+        return this.detail = res.data
+      }).then((res) => {
+        if (!res) return
+        const { billNo, ownerCode } = res
+        return Promise.all([
+          inPlanSelect({ billNo, ownerCode, pageNum: 1, pageSize: 999 }),
+          queryInWarehouseCode({ billNo, ownerCode, pageNum: 1, pageSize: 999 })
+        ]).then(resArr => {
+          {
+            const res = resArr[0]
+            if (res) {
+              this.planList = res.data.list
+            }
+          }
+          {
+            const res = resArr[1]
+            if (res) {
+              this.orderList = res.data.list
+            }
+          }
+        })
+      }).then(res => {
+        this.loading = false
       })
     },
   },
