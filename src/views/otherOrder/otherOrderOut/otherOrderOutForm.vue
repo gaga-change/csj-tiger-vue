@@ -68,7 +68,7 @@
             label="客户"
             v-model="formData.providerCode"
             :name.sync="formData.providerName"
-            :params="{ownerCode: formData.ownerCode, billType: 21}"
+            :params="{ownerCode: formData.ownerCode, billType: 20}"
             @change="validate('providerCode')"
           />
         </el-form-item>
@@ -188,7 +188,7 @@ export default {
       commdityTableConfig,
       loading: false,
       formData: {
-        busiType: '001',
+        busiBillType: '20',
         fromSystemId: 'QLL',
         //  ... 表单字段
         billOrganize: undefined,

@@ -1,5 +1,8 @@
 <template>
-  <div class="CommdityAddAndModify">
+  <div
+    class="CommdityAddAndModify"
+    v-if="show"
+  >
     <div class="tableBox">
       <div class="tableTitle">
         <item-title text="商品明细" />
@@ -61,6 +64,11 @@ export default {
     tableConfig: Array,
     checkInput: Function
   },
+  computed: {
+    show() {
+      return this.params.providerCode && this.params.ownerCode
+    }
+  },
   data() {
     return {
       skuInfoListLoading: false,
@@ -82,6 +90,7 @@ export default {
   },
   created() {
     if (this.value) {
+      const temp = this.$copy(this.value)
       this.dataList = [...this.value].map(v => ({ ...v, _hideEdit: true }))
     }
   },
@@ -122,10 +131,14 @@ export default {
         value = this.$copy(value)
         value[this.numberKey] = value.number
         value._hideEdit = false
-        this.dataList.push(value);
+        let temp = this.$copy(this.dataList)
+        temp.push(value)
+        // this.dataList.push(value);
+        this.dataList = temp
         this.addCommodityForm = {};
         this.addVisible = false;
-        this.$emit('update', [...this.dataList])
+        console.log('推送商品', this.dataList)
+        this.$emit('update', temp)
       }
     }
   }

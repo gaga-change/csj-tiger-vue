@@ -46,6 +46,12 @@
               >{{v.name}}</el-radio>
             </el-radio-group>
           </template>
+          <template v-else-if="item.type === 'outBusiBillType'">
+            <CascaderBillType
+              v-model="searchForms[item.prop]"
+              @change="hanldeSubmit"
+            />
+          </template>
           <template v-else-if="item.type === 'timeArea'">
             <el-date-picker
               size="mini"
@@ -104,7 +110,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import CascaderBillType from './Select/CascaderBillType'
 export default {
+  components: { CascaderBillType },
   props: {
     config: {
       type: Array,

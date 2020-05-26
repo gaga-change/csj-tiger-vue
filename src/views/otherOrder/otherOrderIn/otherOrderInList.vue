@@ -44,21 +44,21 @@
 import { inBillSelect, inBillUpdateStatus } from '@/api'
 const tableConfig = [
   { label: '业务单号 ', prop: 'billNo', width: 140 },
-  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
-  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'billStatusInEnum' },
   { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
 ]
 const searchConfig = [
   { label: '业务单号 ', prop: 'billNo', width: 140 },
-  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType', type: 'outBusiBillType' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
-  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'billStatusInEnum' },
   { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
-  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
+  { label: '创建时间', prop: 'createTimeArea', props: ['createTimeForm', 'createTimeTo'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
 ]
 export default {
   data() {
@@ -68,6 +68,7 @@ export default {
       listApi: inBillSelect,
       // 可选 附加查询条件
       appendSearchParams: {
+        // busiBillType: 16,
         fromSystemId: 'QLL'
       },
     }

@@ -107,7 +107,7 @@
           <BillTypeSelect
             v-model="searchForm.outBusiBillType"
             :organizationCode="searchForm.billOrganize"
-            busiTypeCode="004"
+            busiTypeCode=""
           />
         </el-form-item>
         <el-form-item

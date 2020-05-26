@@ -681,6 +681,21 @@ export const invoiceState = [{
   value: 3
 }
 ]
+
+export const billStatusInEnum = [{
+  name: '草稿',
+  value: 0
+},
+{
+  name: '审核通过',
+  value: 1
+},
+{
+  name: '审核未通过',
+  value: 2
+}
+]
+
 //mis 入库单据状态枚举
 export const misWarehousingBillStatusEnum = [{
   name: '草稿',

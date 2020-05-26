@@ -44,7 +44,7 @@
           <ApiSelect
             api="asiaBillTypeList"
             :config="['billTypeCode', 'billTypeName']"
-            :params="{organizationCode:  formData.billOrganize, busiTypeCode: '001'}"
+            :params="{organizationCode: formData.billOrganize, busiTypeCode: '16'}"
             v-model="formData.outBusiBillType"
           />
         </el-form-item>
@@ -149,15 +149,13 @@
           />
         </el-form-item>
       </el-form>
-      <template v-if="formData.ownerCode && formData.providerCode">
-        <CommdityAddAndModifyIn
-          numberKey="planInQty"
-          :tableConfig="commdityTableConfig"
-          :params="{ownerCode:formData.ownerCode, providerCode: formData.providerCode, providerName: formData.providerName }"
-          :checkInput="checkInput"
-          v-model="formData.detailItemList"
-        />
-      </template>
+      <CommdityAddAndModifyIn
+        numberKey="planInQty"
+        :tableConfig="commdityTableConfig"
+        :params="{ownerCode:formData.ownerCode, providerCode: formData.providerCode, providerName: formData.providerName }"
+        :checkInput="checkInput"
+        v-model="formData.detailItemList"
+      />
     </div>
   </div>
 </template>
@@ -182,6 +180,7 @@ const commdityTableConfig = [
   { label: '生产订单号', prop: 'ownerOrderNo', edit: true, inputType: 'input', width: 150 },
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint', edit: true, inputType: 'map', width: 150 },
 ]
+// IP32 MCE
 export default {
   components: { CommdityAddAndModifyIn, OwnerSelect, CustomerSelect },
   data() {
@@ -189,7 +188,7 @@ export default {
       commdityTableConfig,
       loading: false,
       formData: {
-        busiType: '001',
+        busiBillType: '16',
         fromSystemId: 'QLL',
         //  ... 表单字段
         billOrganize: undefined,
@@ -244,7 +243,7 @@ export default {
           api(params).then(res => {
             this.loading = false
             if (!res) return
-            this.$message.suownerCodeess('操作成功！')
+            this.$message.success('操作成功！')
             this.$store.dispatch('delVisitedViews', view[0]).then(() => {
               this.$router.push({
                 path: '/otherOrder/otherOrderInList',
@@ -256,7 +255,7 @@ export default {
           // saveApi(params).then(res => {
           //   this.loading = false
           //   if (!res) return
-          //   this.$message.suownerCodeess('操作成功！')
+          //   this.$message.success('操作成功！')
           //   this.$emit('submited')
           //   this.close()
           // })
