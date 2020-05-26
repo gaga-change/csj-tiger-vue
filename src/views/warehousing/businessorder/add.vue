@@ -599,6 +599,7 @@ export default {
               Api = inBillUpdate
             }
             this.saveLoading = true
+            json.fromSystemId =  'TIGER'
             Api(json).then(res => {
               if (res.success) {
                 this.$message({

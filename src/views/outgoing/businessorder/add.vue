@@ -694,6 +694,7 @@ export default {
               json.outWarehouseBillId = this.$route.query.id;
             }
             this.saveLoading = true
+            json.fromSystemId = 'TIGER'
             api(json).then(res => {
               if (res.success) {
                 if (res.data === 'success') res.data = ''
