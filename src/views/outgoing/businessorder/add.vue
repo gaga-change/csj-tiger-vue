@@ -385,7 +385,8 @@ import addForm from './conpoments/addForm'
 import { outgoingOrderTypeEnum, sendOutRequireEnum } from "@/utils/enum.js";
 import { ownerWarehouseList } from '@/api/tenant'
 import { getProductList } from '@/api/productcenter'
-import { customerAddrInfo, skuInfoList, outBillAdd, outBillDetail, outBillUpdate, outBillImprove, customNameSearch } from '@/api/outgoing'
+import { customerAddrInfo, outBillAdd, outBillUpdate, outBillImprove } from '@/api'
+import { skuInfoList, outBillDetail, customNameSearch } from '@/api/outgoing'
 import Sticky from '@/components/Sticky'
 import _ from 'lodash';
 import { mapGetters } from 'vuex'
@@ -574,8 +575,8 @@ export default {
       this.searchForm = searchForm;
       this.addrListConfig = [];
       let id = provider.id
-      customerAddrInfo(provider.customerCode, this.searchForm.busiBillType).then(res => {
-        if (res.success) {
+      customerAddrInfo({ customerCode: provider.customerCode, billType: this.searchForm.busiBillType }).then(res => {
+        if (res) {
           this.addrListConfig = Array.isArray(res.data) && res.data || [];
           const defaultAddress = this.addrListConfig.find(item => item.isDefault === 1) || {}
           this.$nextTick(() => {
@@ -696,7 +697,7 @@ export default {
             this.saveLoading = true
             json.fromSystemId = 'TIGER'
             api(json).then(res => {
-              if (res.success) {
+              if (res) {
                 if (res.data === 'success') res.data = ''
                 this.$message({
                   type: 'success',
@@ -715,11 +716,9 @@ export default {
               } else {
                 this.saveLoading = false
               }
-            }).catch(err => {
-              this.saveLoading = false
             })
           }
-        });
+        })
       }
     }
   }

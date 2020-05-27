@@ -123,5 +123,12 @@ export const customerInfo = ({ ownerCode, busiBillType }) => http.get(`/webApi/c
 export const inPlanSelect = params => http.post(`/webApi/in/plan/getInPlanData`, params)
 // 入库单查询数据
 export const queryInWarehouseCode = params => http.post(`/webApi/in/order/inWarehouseOrderList`, params)
-// 入库单查询数据
+// 
 export const queryWarehouseCode = params => http.post(`/webApi/out/order/select`, params)
+// 杂发、出库  创建
+export const outBillAdd = params => http.post(`/webApi/out/bill/add`, params)
+// 杂发 修改
+export const outBillUpdate = params => http.put(`/webApi/out/bill/update`, params)
+export const outBillImprove = params => http.put(`/webApi/out/bill/improve`, params)
+// 客户地址查询
+export const customerAddrInfo = ({ customerCode, billType }) => http.get(`/webApi/customer/addr/info/${customerCode}/${billType}`)

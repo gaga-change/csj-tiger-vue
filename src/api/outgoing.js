@@ -107,14 +107,6 @@ export function orderSave(data = {}) {
   })
 }
 
-export function customerAddrInfo(customerCode, billType) {
-  return request({
-    url: `/webApi/customer/addr/info/${customerCode}/${billType}`,
-    method: 'get',
-  })
-}
-
-
 export function skuInfoList(ownerCode, arrivalCode, customerType, data = {}) {
   return request({
     url: `/webApi/sku/info/list`,
@@ -123,34 +115,10 @@ export function skuInfoList(ownerCode, arrivalCode, customerType, data = {}) {
   })
 }
 
-export function outBillAdd(data = {}) {
-  return request({
-    url: `/webApi/out/bill/add`,
-    method: 'post',
-    data: data,
-  })
-}
-
 export function outBillDetail(outWarehouseBillId) {
   return request({
     url: `/webApi/out/bill/detail/${outWarehouseBillId}`,
     method: 'get',
-  })
-}
-
-export function outBillUpdate(data = {}) {
-  return request({
-    url: `/webApi/out/bill/update`,
-    method: 'put',
-    data: data,
-  })
-}
-
-export function outBillImprove(data = {}) {
-  return request({
-    url: `/webApi/out/bill/improve`,
-    method: 'put',
-    data: data,
   })
 }
 

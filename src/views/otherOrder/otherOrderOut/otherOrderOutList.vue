@@ -58,7 +58,7 @@ const searchConfig = [
   { label: '供应商', prop: 'providerName' },
   { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
   { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
-  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
+  { label: '创建时间', prop: 'createTimeArea', props: ['createTimeForm', 'createTimeTo'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
 ]
 export default {
   data() {

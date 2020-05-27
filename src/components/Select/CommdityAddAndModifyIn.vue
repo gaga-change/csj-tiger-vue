@@ -1,6 +1,6 @@
 <template>
   <div
-    class="CommdityAddAndModify"
+    class="CommdityAddAndModifyIn"
     v-if="show"
   >
     <div class="tableBox">
@@ -90,7 +90,6 @@ export default {
   },
   created() {
     if (this.value) {
-      const temp = this.$copy(this.value)
       this.dataList = [...this.value].map(v => ({ ...v, _hideEdit: true }))
     }
   },
@@ -146,7 +145,7 @@ export default {
 </script>
 
 <style lang="scss">
-.CommdityAddAndModify {
+.CommdityAddAndModifyIn {
   .tableBox {
     .tableTitle {
       display: flex;

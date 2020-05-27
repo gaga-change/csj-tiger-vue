@@ -1,6 +1,6 @@
 <template>
   <el-select
-    :value="val"
+    :value="value"
     filterable
     @change="handleChange"
     :placeholder="placeholder"
@@ -17,6 +17,16 @@
 </template>
 
 <script>
+/*
+<ApiSelect
+  api="selectPutPlotByPlotName"
+  :config="['plotCode', 'plotName']"
+  :name.sync="formData.plotName"
+  :params="{organizationCode:  formData.billOrganize, busiTypeCode: 20}"
+  v-model="formData.outBusiBillType"
+/>
+
+*/
 import * as api from '@/api'
 export default {
   model: {
@@ -24,7 +34,7 @@ export default {
     event: 'update'
   },
   props: {
-    value: String,
+    value: [String, Number],
     api: String,
     config: Array,
     name: String,
@@ -70,23 +80,21 @@ export default {
         return
       }
       this.dataList = []
-      this.val = undefined
       this.loading = true
       this.oldParams = JSON.stringify(this.params)
       api[this.api]({ pageNum: 1, pageSize: 9999, ...(this.params || {}) }).then(res => {
         this.loading = false
         if (!res) return
         if (Array.isArray(res.data)) {
-          this.dataList = res.data
+          this.dataList = res.data.map((v, i) => ({ ...v, _index: i + '' }))
         } else {
-          this.dataList = res.data.list
+          this.dataList = res.data.list.map((v, i) => ({ ...v, _index: i + '' }))
         }
         if (this.value) { // 初始化
           let temp = this.dataList.find(v => v[this.config[0]] === this.value)
-          if (temp) {
-            this.val = this.value
-          } else {
+          if (!temp) {
             this.$emit('update', undefined)
+            this.$emit('change', undefined)
           }
           this.$emit('update:name', temp && temp[config[1]])
         } else {
@@ -96,9 +104,9 @@ export default {
     },
     handleChange(v) {
       const config = this.config
-      this.val = v
       let temp = this.dataList.find(item => item[this.config[0]] === v)
       this.$emit('update', v)
+      this.$emit('change', temp)
       this.$emit('update:name', temp && temp[config[1]])
     }
   }

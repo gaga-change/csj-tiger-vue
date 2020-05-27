@@ -9,12 +9,6 @@
         label-width="100px"
         ref="form"
       >
-        <!-- 
-          1. 确认元素
-          2. 配置文案&描述 、调整样式
-          3. 字段配置
-          4. 规则配置
-          -->
         <!-- 输入框 -->
         <div class="text-right mb20">
           <el-button
@@ -44,7 +38,7 @@
           <ApiSelect
             api="asiaBillTypeList"
             :config="['billTypeCode', 'billTypeName']"
-            :params="{organizationCode:  formData.billOrganize, busiTypeCode: '001'}"
+            :params="{organizationCode:  formData.billOrganize, busiTypeCode: 20}"
             v-model="formData.outBusiBillType"
           />
         </el-form-item>
@@ -71,6 +65,43 @@
             :params="{ownerCode: formData.ownerCode, billType: 20}"
             @change="validate('providerCode')"
           />
+        </el-form-item>
+        <el-form-item
+          label="客户地址"
+          prop="_arrivalIndex"
+          v-if="formData.providerCode"
+        >
+          <ApiSelect
+            api="customerAddrInfo"
+            :config="['_index', 'arrivalAddress']"
+            :params="{customerCode: formData.providerCode, billType: 20}"
+            v-model="formData._arrivalIndex"
+            :name.sync="formData.arrivalAddress"
+            @change="handleAddressChnage"
+          />
+        </el-form-item>
+        <el-form-item
+          label="联系人"
+          prop="arrivalLinkUser"
+        >
+          <el-input
+            v-model="formData.arrivalLinkUser"
+            placeholder="请输入联系人"
+            size="mini"
+            class="formitem"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="联系电话"
+          prop="arrivalLinkTel"
+        >
+          <el-input
+            v-model="formData.arrivalLinkTel"
+            placeholder="请输入联系电话"
+            size="mini"
+            class="formitem"
+          ></el-input>
         </el-form-item>
         <el-form-item
           label="是否生产相关"
@@ -149,22 +180,20 @@
           />
         </el-form-item>
       </el-form>
-      <template v-if="formData.ownerCode && formData.providerCode">
-        <CommdityAddAndModifyOut
-          numberKey="planInQty"
-          :tableConfig="commdityTableConfig"
-          :params="{ownerCode:formData.ownerCode }"
-          :checkInput="checkInput"
-          v-model="formData.detailItemList"
-        />
-      </template>
+      <CommdityAddAndModifyOut
+        numberKey="planInQty"
+        :tableConfig="commdityTableConfig"
+        :params="{ownerCode:formData.ownerCode }"
+        :checkInput="checkInput"
+        v-model="formData.detailItemList"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import _ from 'lodash';
-import { inBillAdd, } from '@/api'
+import { outBillAdd } from '@/api'
 import CommdityAddAndModifyOut from '@/components/Select/CommdityAddAndModifyOut'
 import OwnerSelect from '@/components/Select/OwnerSelect'
 import CustomerSelect from '@/components/Select/CustomerSelect'
@@ -188,7 +217,7 @@ export default {
       commdityTableConfig,
       loading: false,
       formData: {
-        busiBillType: '20',
+        busiBillType: 20,
         fromSystemId: 'QLL',
         //  ... 表单字段
         billOrganize: undefined,
@@ -205,6 +234,10 @@ export default {
         developProject: undefined,
         serviceCost: undefined,
         detailItemList: [],
+        _arrivalIndex: undefined, // 地址序号
+        arrivalAddress: undefined, // 地址
+        arrivalLinkUser: undefined, // 联系人
+        arrivalLinkTel: undefined, // 联系方式
       },
       rules: {
         billOrganize: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
@@ -214,6 +247,10 @@ export default {
         isProduct: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         benefitDepartment: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         warehouseCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        _arrivalIndex: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        arrivalAddress: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        arrivalLinkUser: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        arrivalLinkTel: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
       }
     }
   },
@@ -224,6 +261,13 @@ export default {
     }),
   },
   methods: {
+    /** 地址改变 */
+    handleAddressChnage(add) {
+      if (add) {
+        this.formData.arrivalLinkUser = add.arrivalLinkUser
+        this.formData.arrivalLinkTel = add.arrivalLinkTel
+      }
+    },
     /** 确定 */
     confirm() {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
@@ -237,7 +281,7 @@ export default {
           if (detailItemList.some(v => !v._hideEdit)) {
             return this.$message.error('请完善商品信息!')
           }
-          const api = inBillAdd
+          const api = outBillAdd
 
           this.loading = true
           api(params).then(res => {

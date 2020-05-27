@@ -1,5 +1,8 @@
 <template>
-  <div class="CommdityAddAndModify">
+  <div
+    class="CommdityAddAndModifyOut"
+    v-if="show"
+  >
     <div class="tableBox">
       <div class="tableTitle">
         <item-title text="商品明细" />
@@ -71,6 +74,11 @@ export default {
       oldParams: ''
     }
   },
+  computed: {
+    show() {
+      return this.params.ownerCode
+    }
+  },
   watch: {
     params(val) {
       if (JSON.stringify(val) !== this.oldParams) {
@@ -122,10 +130,12 @@ export default {
         value = this.$copy(value)
         value[this.numberKey] = value.number
         value._hideEdit = false
-        this.dataList.push(value);
+        let dataList = this.$copy(this.dataList)
+        dataList.push(value)
+        this.dataList = dataList
         this.addCommodityForm = {};
         this.addVisible = false;
-        this.$emit('update', [...this.dataList])
+        this.$emit('update', this.$copy(dataList))
       }
     }
   }
@@ -133,7 +143,7 @@ export default {
 </script>
 
 <style lang="scss">
-.CommdityAddAndModify {
+.CommdityAddAndModifyOut {
   .tableBox {
     .tableTitle {
       display: flex;
