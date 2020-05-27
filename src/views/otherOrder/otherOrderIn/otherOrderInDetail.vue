@@ -84,7 +84,7 @@ const detailItemConfig = [
   { label: '工作号', prop: 'workNo' },
   { label: '研发项目', prop: 'developProject' },
   { label: '服务与费用', prop: 'serviceCost' },
-  { label: '仓库', prop: 'warehouseName' },
+  { label: '仓库', prop: 'warehouseCode', type: 'enum', enum: 'getWarehouse' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time' },
 ]
 
