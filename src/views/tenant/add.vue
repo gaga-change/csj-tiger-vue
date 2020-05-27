@@ -64,8 +64,8 @@
           :key="index"
         >
           <img
+            style="max-height:150px;max-width:200px"
             :src="file.path"
-            height="150"
           />
           <i
             class="el-icon-close close"
