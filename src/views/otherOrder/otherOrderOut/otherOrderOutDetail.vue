@@ -167,7 +167,7 @@ export default {
       outBillDetail(id).then(res => {
         this.loading = false
         if (!res) return
-        res.data.sonList = (res.data.items || []).map((v, i) => ({ ...v, index: i + 1 }))
+        res.data.sonList = (res.data.busiBillDetails || []).map((v, i) => ({ ...v, index: i + 1 }))
         res.data.planList = res.data.planList || []
         res.data.orderList = res.data.orderList || []
         this.detail = res.data

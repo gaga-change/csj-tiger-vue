@@ -54,27 +54,27 @@
         </el-form-item>
         <el-form-item
           label="客户"
-          prop="providerCode"
-          key="providerCode"
+          prop="arrivalCode"
+          key="arrivalCode"
           v-if="formData.ownerCode"
         >
           <CustomerSelect
             label="客户"
-            v-model="formData.providerCode"
-            :name.sync="formData.providerName"
+            v-model="formData.arrivalCode"
+            :name.sync="formData.arrivalName"
             :params="{ownerCode: formData.ownerCode, billType: 20}"
-            @change="validate('providerCode')"
+            @change="validate('arrivalCode')"
           />
         </el-form-item>
         <el-form-item
           label="客户地址"
           prop="_arrivalIndex"
-          v-if="formData.providerCode"
+          v-if="formData.arrivalCode"
         >
           <ApiSelect
             api="customerAddrInfo"
             :config="['_index', 'arrivalAddress']"
-            :params="{customerCode: formData.providerCode, billType: 20}"
+            :params="{customerCode: formData.arrivalCode, billType: 20}"
             v-model="formData._arrivalIndex"
             :name.sync="formData.arrivalAddress"
             @change="handleAddressChnage"
@@ -181,11 +181,11 @@
         </el-form-item>
       </el-form>
       <CommdityAddAndModifyOut
-        numberKey="planInQty"
+        numberKey="planOutQty"
         :tableConfig="commdityTableConfig"
         :params="{ownerCode:formData.ownerCode }"
         :checkInput="checkInput"
-        v-model="formData.detailItemList"
+        v-model="formData.outWarehouseBillDetailList"
       />
     </div>
   </div>
@@ -224,8 +224,8 @@ export default {
         outBusiBillType: undefined,
         ownerCode: undefined,
         ownerName: undefined,
-        providerCode: undefined,
-        providerName: undefined,
+        arrivalCode: undefined,
+        arrivalName: undefined,
         isProduct: undefined,
         benefitDepartment: undefined,
         warehouseCode: undefined,
@@ -233,7 +233,7 @@ export default {
         workNo: undefined,
         developProject: undefined,
         serviceCost: undefined,
-        detailItemList: [],
+        outWarehouseBillDetailList: [],
         _arrivalIndex: undefined, // 地址序号
         arrivalAddress: undefined, // 地址
         arrivalLinkUser: undefined, // 联系人
@@ -243,7 +243,7 @@ export default {
         billOrganize: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         outBusiBillType: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         ownerCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
-        providerCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        arrivalCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         isProduct: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         benefitDepartment: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         warehouseCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
@@ -266,6 +266,11 @@ export default {
       if (add) {
         this.formData.arrivalLinkUser = add.arrivalLinkUser
         this.formData.arrivalLinkTel = add.arrivalLinkTel
+        this.formData.arrivalCity = add.arrivalCity
+      } else {
+        this.formData.arrivalLinkUser = ''
+        this.formData.arrivalLinkTel = ''
+        this.formData.arrivalCity = ''
       }
     },
     /** 确定 */
@@ -274,11 +279,11 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           let params = { ...this.formData }
-          const { detailItemList } = params
-          if (!detailItemList.length) {
+          const { outWarehouseBillDetailList } = params
+          if (!outWarehouseBillDetailList.length) {
             return this.$message.error('请添加商品!')
           }
-          if (detailItemList.some(v => !v._hideEdit)) {
+          if (outWarehouseBillDetailList.some(v => !v._hideEdit)) {
             return this.$message.error('请完善商品信息!')
           }
           const api = outBillAdd
@@ -287,22 +292,13 @@ export default {
           api(params).then(res => {
             this.loading = false
             if (!res) return
-            this.$message.suownerCodeess('操作成功！')
+            this.$message.success('操作成功！')
             this.$store.dispatch('delVisitedViews', view[0]).then(() => {
               this.$router.push({
-                path: '/otherOrder/otherOrderInList',
+                path: '/otherOrder/otherOrderOutList',
               })
             })
           })
-          // this.loading = true
-
-          // saveApi(params).then(res => {
-          //   this.loading = false
-          //   if (!res) return
-          //   this.$message.suownerCodeess('操作成功！')
-          //   this.$emit('submited')
-          //   this.close()
-          // })
         }
       })
     },

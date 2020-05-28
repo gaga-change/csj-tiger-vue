@@ -53,7 +53,7 @@ const tableConfig = [
 ]
 const searchConfig = [
   { label: '业务单号 ', prop: 'billNo', width: 140 },
-  { label: '单据类型 ', prop: 'outBusiBillType', type: 'outBusiBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType', type: 'outBusiBillType', busiTypeCode: 16 },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
   { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'billStatusInEnum' },

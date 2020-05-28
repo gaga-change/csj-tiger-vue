@@ -17,7 +17,8 @@ export default {
     event: 'update'
   },
   props: {
-    value: String
+    value: String,
+    busiTypeCode: [String, Number]
   },
   watch: {
     value(newV, oldV) {
@@ -27,6 +28,7 @@ export default {
     }
   },
   data() {
+    const busiTypeCode = this.busiTypeCode
     return {
       outBusiBillTypeCascaderProps: {
         lazy: true,
@@ -46,7 +48,7 @@ export default {
               }
             })
           } else {
-            asiaBillTypeList({ organizationCode: node.value, busiTypeCode: 16 }).then(res => {
+            asiaBillTypeList({ organizationCode: node.value, busiTypeCode }).then(res => {
               if (!res) {
                 resolve([])
               } else {

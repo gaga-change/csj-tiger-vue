@@ -48,6 +48,7 @@
           </template>
           <template v-else-if="item.type === 'outBusiBillType'">
             <CascaderBillType
+              :busiTypeCode="item.busiTypeCode"
               v-model="searchForms[item.prop]"
               @change="hanldeSubmit"
             />
