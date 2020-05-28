@@ -41,34 +41,36 @@
 </template>
 
 <script>
-import { inBillSelect, inBillUpdateStatus } from '@/api'
+import { outBillList, outBillDelete } from '@/api'
+
 const tableConfig = [
   { label: '业务单号 ', prop: 'billNo', width: 140 },
-  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType' },
   { label: '货主', prop: 'ownerName' },
-  { label: '供应商', prop: 'providerName' },
-  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '供应商', prop: 'arrivalName' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'billStatusInEnum' },
   { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time', width: 140 },
 ]
 const searchConfig = [
   { label: '业务单号 ', prop: 'billNo', width: 140 },
-  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType', type: 'outBusiBillType', busiTypeCode: 22 },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
-  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'invoiceState' },
+  { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'billStatusInEnum' },
   { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
-  { label: '创建时间', prop: 'createTimeArea', props: ['startDate', 'endDate'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
+  { label: '创建时间', prop: 'createTimeArea', props: ['createTimeForm', 'createTimeTo'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },
 ]
 export default {
   data() {
     return {
       tableConfig,
       searchConfig,
-      listApi: inBillSelect,
+      listApi: outBillList,
       // 可选 附加查询条件
       appendSearchParams: {
-        fromSystemId: 'QLL'
+        fromSystemId: 'QLL',
+        busiBillType: 22,
       },
     }
   },
@@ -94,7 +96,7 @@ export default {
     },
     /** 删除 */
     handleDel(row) {
-      this.$delConfirm('请再次确认是否要删除该单据?', () => inBillUpdateStatus({ inWarehouseBillId: row.id, statusFlag: 9 }).then(res => {
+      this.$delConfirm('请再次确认是否要删除该单据?', () => outBillDelete(row.id).then(res => {
         if (!res) return
         this.$message.success('删除成功！')
         this.getTableData()

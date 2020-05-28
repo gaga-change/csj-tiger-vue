@@ -68,7 +68,8 @@ export default {
       listApi: outBillList,
       // 可选 附加查询条件
       appendSearchParams: {
-        fromSystemId: 'QLL'
+        fromSystemId: 'QLL',
+        busiBillType: 20,
       },
     }
   },

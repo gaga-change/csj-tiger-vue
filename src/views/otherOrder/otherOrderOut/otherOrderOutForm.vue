@@ -205,7 +205,7 @@ const commdityTableConfig = [
   { label: '货主商品编码', prop: 'customerSkuCode' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
-  { label: '数量', prop: 'planInQty', edit: true, inputType: 'number', width: 160 },
+  { label: '数量', prop: 'planOutQty', edit: true, inputType: 'number', width: 160 },
   { label: '进货价', prop: 'purchasePrice', },
   { label: '生产订单号', prop: 'ownerOrderNo', edit: true, inputType: 'input', width: 150 },
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint', edit: true, inputType: 'map', width: 150 },
@@ -306,11 +306,11 @@ export default {
       this.$refs['form'] && this.$refs['form'].validateField(prop)
     },
     checkInput(row) {
-      const { planInQty, zoroCost } = row
+      const { planOutQty, zoroCost } = row
       let msg = ''
       if (zoroCost === undefined || zoroCost === null) {
         msg = '请完善数据，填写是否为零成本！'
-      } else if (!planInQty) {
+      } else if (!planOutQty) {
         msg = '请完善数据，填写数量！'
       }
       if (msg) {
