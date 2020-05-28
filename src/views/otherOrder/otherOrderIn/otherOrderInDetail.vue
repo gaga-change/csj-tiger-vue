@@ -2,11 +2,11 @@
   <div v-loading="loading">
     <div
       class="mb20 text-right"
-      v-if="detail.billStatus === 1"
+      v-if="detail.billStatus === 0"
     >
       <el-button
         type="primary"
-        @click="handleTryPush"
+        @click="handleAudit"
       >
         审核
       </el-button>
@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-import { inBillDetail, inBillUpdateStatus, inPlanSelect, queryInWarehouseCode } from '@/api'
+import { inBillDetail, inPlanSelect, queryInWarehouseCode, inBillAudit } from '@/api'
 
 const detailItemConfig = [
   { label: '业务单号 ', prop: 'billNo' },
@@ -139,29 +139,16 @@ export default {
     this.initData()
   },
   methods: {
-    /** 手动推送点击事件 */
-    handleTryPush() {
-
-      this.$prompt('审核意见', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /^.{0,50}$/,
-        inputErrorMessage: '意见长度最多50个字'
-      }).then(({ value }) => {
-        this.loading = true
-        inBillUpdateStatus({
-          inWarehouseBillId: this.$route.query.id,
-          statusFlag: 1,
-        }).then(res => {
-          if (!res) {
-            this.loading = false
-            return
-          }
-          this.$message.success('操作成功！')
-          this.initData()
-        })
-      }).catch(() => {
-      })
+    /** 审核 */
+    handleAudit() {
+      this.$auditPrompt('请输入审核意见！', ({ pass, value }) => inBillAudit({
+        inWarehouseBillId: this.detail.id,
+        auditOpinion: value,
+        billStatus: pass ? 1 : 2
+      }).then(res => {
+        if (!res) return
+        this.$message.success('操作成功！')
+      }))
     },
     /** 获取详情内容 */
     initData() {

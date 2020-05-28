@@ -138,15 +138,6 @@ export function planOrderPrint(data = {}) {
   })
 }
 
-
-//出库业务单审核
-export function outBillCheck(outWarehouseBillId) {
-  return request({
-    url: `/webApi/out/bill/check/${outWarehouseBillId}`,
-    method: 'put',
-  })
-}
-
 //出库业务单关闭功能
 export function outBillClose(busiBillNo) {
   return request({

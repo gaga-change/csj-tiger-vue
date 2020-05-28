@@ -98,7 +98,7 @@ export const outBillDelete = id => http.delete(`/webApi/out/bill/delete/${id}`)
 // 出库业务单详情（查看功能）(杂发查看)
 export const outBillDetail = id => http.get(`/webApi/out/bill/detail/${id}`)
 // 出库业务单审核（杂发审核）
-export const outBillCheck = id => http.get(`/webApi/out/bill/check/${id}`)
+export const outBillCheck = params => http.put(`/webApi/out/bill/check`, params)
 // 亚太U9组织分页列表
 export const asiaOrganizeList = params => http.post(`/webApi/asia/organize/list`, params)
 // 根据组织和业务类型查询单据类型分页列表
@@ -130,5 +130,7 @@ export const outBillAdd = params => http.post(`/webApi/out/bill/add`, params)
 // 杂发 修改
 export const outBillUpdate = params => http.put(`/webApi/out/bill/update`, params)
 export const outBillImprove = params => http.put(`/webApi/out/bill/improve`, params)
+// 杂收业务单审核
+export const inBillAudit = params => http.put(`/webApi/in/bill/billAudit`, params)
 // 客户地址查询
 export const customerAddrInfo = ({ customerCode, billType }) => http.get(`/webApi/customer/addr/info/${customerCode}/${billType}`)

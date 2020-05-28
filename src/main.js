@@ -82,6 +82,43 @@ Vue.prototype.$delConfirm = (msg, api, close) => {
   })
 }
 
+Vue.prototype.$auditPrompt = (msg, api, options = {}) => {
+  return MessageBox.prompt(msg || '请输入审核意见！', '提示', {
+    distinguishCancelAndClose: true,
+    inputPattern: /^.{0,50}$/,
+    inputErrorMessage: '意见长度最多50个字',
+    confirmButtonText: '通过',
+    cancelButtonText: '驳回',
+    beforeClose: (action, instance, done) => {
+      const value = instance.inputValue
+      if (action === 'confirm') {
+        instance.confirmButtonLoading = true
+        instance.cancelButtonDisabled = true
+        api({ pass: true, value }).then(() => {
+          done()
+          setTimeout(() => {
+            instance.confirmButtonLoading = false
+            instance.cancelButtonDisabled = false
+          }, 300)
+        })
+      } else if (action === 'cancel') {
+        instance.cancelButtonLoading = true
+        instance.confirmButtonDisabled = true
+        api({ pass: false, value }).then(() => {
+          done()
+          setTimeout(() => {
+            instance.cancelButtonLoading = false
+            instance.confirmButtonDisabled = false
+          }, 300)
+        })
+      } else {
+        done()
+      }
+    },
+    ...options,
+  }).catch(() => { })
+}
+
 Vue.config.productionTip = false
 
 new Vue({

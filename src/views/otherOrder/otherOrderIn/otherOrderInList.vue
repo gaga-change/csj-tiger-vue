@@ -14,7 +14,7 @@
           type="primary"
           @click="$router.push({path:`/otherOrder/otherOrderInDetail`,query:{id: scope.row.id}})"
         >查看</el-link>
-        <template v-if="scope.row.billStatus === 1">
+        <template v-if="scope.row.billStatus === 0">
           <el-divider direction="vertical"></el-divider>
           <el-link
             type="primary"
