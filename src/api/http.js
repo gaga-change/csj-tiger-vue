@@ -1,10 +1,10 @@
 import axios from 'axios'
 import {
   Notification,
-  Message
+  Message,
 } from 'element-ui'
 
-let newAxios = axios.create({
+export const newAxios = axios.create({
   timeout: 15000 // 请求超时时间
 })
 
@@ -46,7 +46,6 @@ newAxios.interceptors.response.use(httpMiddler, function (error) {
   })
   return Promise.reject(error)
 })
-
 
 const http = {
   get(...params) {

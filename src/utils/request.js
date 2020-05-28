@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MessageBox, Notification } from 'element-ui'
+import { Message, Notification } from 'element-ui'
 
 // 创建axios实例
 const service = axios.create({
@@ -10,45 +10,36 @@ const service = axios.create({
 // respone拦截器
 service.interceptors.response.use(
   response => {
-    const res = response.data;
-    if (res.code !== '200' && !res.success && res.code !== 'success') {
-      if (res.code === '512' || res.code === 501) {
-        MessageBox.alert('验证失败,请重新登录').then(_ => {
-          location.href = `/login?backUrl=${location.href}`
-        })
-      } else {
-        let message = res.message || res.errorMsg || '';
-        if (message == '用户未登录' || message.includes('登录失效')) {
-          location.href = `/login?backUrl=${location.href}`
-        }
-        if (res.code != 'ratel-40620008') {
-          Notification({
-            title: '错误信息',
-            message: message,
-            type: 'error',
-            duration: 5 * 1000
-          })
-        }
-      }
-      if (res.code == 'ratel-40620008') {
-        return res;
-      }
-      return Promise.reject(res)
-    } else {
-      return res;
+    let data = response.data
+    let message = data.errorMsg || data.detailError || data.message || ''
+    // 系统异常提示（返回的数据为 null）
+    // 'TIGER-40620081' inBillUpdateStatus 接口删除报错时提示
+    if (~['user-not-login', 501].findIndex(v => v == data.code)) {
+      sessionStorage.setItem('warehouse', '')
+      location.href = `/login?backUrl=${location.href}`
+    } else if (~['ratel-40620008'].findIndex(v => v === data.code)) {
+      // 白名单
+    } else if (data.code != 200) {
+      Message({
+        type: 'error',
+        message: message || '系统异常',
+        duration: 3000
+      })
     }
+    return data
   },
   error => {
-    let message = error.message || err.errorMsg || ''
-    if (message == '用户未登录' || message.includes('登录失效')) {
-      location.href = `/login?backUrl=${location.href}`
+    let data = error.response.data
+    let message = data.errorMsg || data.detailError || data.message || error.message
+    if (message === '会话超时' || message === '登录失效') {
+      return location.href = `/login?backUrl=${location.href}`
     }
+    if (message === 'timeout of 1500ms exceeded') message = '请求超时，请稍后再试！'
     Notification({
       title: '错误信息',
       message: message,
       type: 'error',
-      duration: 5 * 1000,
-      onClose: () => Promise.reject(error)
+      duration: 5000,
     })
   }
 )
