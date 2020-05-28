@@ -256,6 +256,26 @@ export default [
         component: _import('otherOrder/salesReturn/salesReturnForm'),
         hidden: true,
       },
+      {
+        name: 'requisitionplanList',
+        path: 'requisitionplanList',
+        meta: { title: '调拨单', noCache: true },
+        component: _import('otherOrder/requisitionplan/requisitionplanList')
+      },
+      {
+        name: 'requisitionplanForm',
+        path: 'requisitionplanForm',
+        hidden: true,
+        meta: { title: '创建调拨单', noCache: false },
+        component: _import('otherOrder/requisitionplan/requisitionplanForm')
+      },
+      {
+        name: 'requisitionplanDetail',
+        path: 'requisitionplanDetail',
+        meta: { title: '调拨单详情', noCache: true },
+        component: _import('otherOrder/requisitionplan/requisitionplanDetail'),
+        hidden: true,
+      }
     ]
   },
   {
