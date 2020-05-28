@@ -90,27 +90,27 @@
         </el-form-item>
         <el-form-item
           label="单据组织"
-          prop="billOrganize"
-          key="billOrganize"
+          prop="inOrganize"
+          key="inOrganize"
         >
           <ApiSelect
             api="asiaOrganizeList"
             :config="['organizationCode', 'organizationName']"
             :name.sync="billOrganizeName"
-            v-model="searchForm.billOrganize"
+            v-model="searchForm.inOrganize"
           />
         </el-form-item>
         <el-form-item
           label="单据类型"
           prop="outBusiBillType"
           key="outBusiBillType"
-          v-if="searchForm.billOrganize"
+          v-if="searchForm.inOrganize"
         >
 
           <ApiSelect
             api="asiaBillTypeList"
             :config="['billTypeCode', 'billTypeName']"
-            :params="{organizationCode: searchForm.billOrganize, busiTypeCode: ''}"
+            :params="{organizationCode: searchForm.inOrganize, busiTypeCode: 40}"
             v-model="searchForm.outBusiBillType"
           />
         </el-form-item>
@@ -318,7 +318,7 @@ export default {
       billOrganizeName: '',
       searchForm: {
         transferBillDetailDOList: [],
-        billOrganize: undefined,
+        inOrganize: undefined,
         outBusiBillType: undefined,
         outOrganize: undefined,
       },
@@ -481,9 +481,6 @@ export default {
         }
       }
     },
-    handelBillOrganizeChange(item) {
-      this.billOrganizeName = item.organizationName || ''
-    },
     submit(type, value) {
       const view = this.visitedViews.filter(v => v.path === this.$route.path)
       if (type === 'addCommodity') {
@@ -553,7 +550,6 @@ export default {
                 }
                 json.id = this.$route.query.id;
               }
-              json.inOrganize = json.billOrganize
               api({ ...json, fromSysCode: 'QLL' }).then(res => {
                 if (res.success) {
                   if (res.data === 'success') res.data = ''
