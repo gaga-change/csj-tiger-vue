@@ -1,15 +1,6 @@
 import request from '@/utils/request'
 import { stringify } from 'qs';
 
-//出库计划数据
-export function outPlanSelect(data = {}) {
-  return request({
-    url: `/webApi/out/plan/select`,
-    method: 'post',
-    data
-  })
-}
-
 //出库计划详情数据
 export function outPlanDetail(data = {}) {
   return request({

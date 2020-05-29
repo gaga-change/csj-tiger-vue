@@ -102,20 +102,20 @@ const detailSonListConfig = [
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint' },
 ]
 const planListConfig = [
-  { label: '计划单号', prop: 'AAA' },
-  { label: '单据状态', prop: 'AAA' },
-  { label: '业务单号', prop: 'AAA' },
-  { label: '货主', prop: 'AAA' },
-  { label: '供应商', prop: 'AAA' },
+  { label: '计划单号', prop: 'planCode' },
+  { label: '单据类型', prop: 'orderType', type: 'enum', enum: 'busiBillTypeEnum' },
+  { label: '业务单号', prop: 'billNo' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '供应商', prop: 'providerName' },
 ]
 const orderListConfig = [
-  { label: '出/入库单号', prop: 'AAA' },
-  { label: '计划单号', prop: 'AAA' },
-  { label: '业务单号', prop: 'AAA' },
-  { label: '货主', prop: 'AAA' },
-  { label: '供应商', prop: 'AAA' },
-  { label: '出/入库数量', prop: 'AAA' },
-  { label: '出/入库日期', prop: 'AAA' },
+  { label: '出/入库单号', prop: 'warehouseExeCode' },
+  { label: '计划单号', prop: 'planCode' },
+  { label: '业务单号', prop: 'billNo' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '供应商', prop: 'providerName' },
+  { label: '出/入库数量', prop: 'inQty' },
+  { label: '出/入库日期', prop: 'inWarehouseTime', type: 'time' },
 ]
 
 export default {

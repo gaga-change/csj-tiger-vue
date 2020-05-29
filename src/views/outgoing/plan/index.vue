@@ -517,7 +517,8 @@
 
 <script>
 import moment from 'moment';
-import { outPlanSelect, outPlanCheckBatch, outPlanClose, planOrderPrint, outPlandelete, outCloseOperate } from '@/api/outgoing'
+import { outPlanSelect } from '@/api'
+import { outPlanCheckBatch, outPlanClose, planOrderPrint, outPlandelete, outCloseOperate } from '@/api/outgoing'
 import BaseTable from '@/components/Table'
 import { mapGetters } from 'vuex'
 import { indexTableConfig, manual_config, printingTable_config } from './config';
@@ -620,7 +621,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        outCloseOperate({planCode:submitPlanCode}).then(res => {
+        outCloseOperate({ planCode: submitPlanCode }).then(res => {
           if (res.success) {
             this.$message({
               type: 'success',
@@ -744,15 +745,12 @@ export default {
       let data = { ...json }
       this.linkData = data;
       outPlanSelect(data).then(res => {
-        if (res.success) {
+        this.loading = false;
+        if (res) {
           let data = res.data;
           this.tableData = data.list || [];
           this.total = data.total;
         }
-        this.loading = false;
-
-      }).catch(err => {
-        this.loading = false;
       })
     },
     printing() {

@@ -71,12 +71,12 @@
   </div>
 </template>
 <script>
-import { outBillDetail, outBillCheck } from '@/api'
+import { outBillDetail, outBillCheck, outPlanSelect, queryWarehouseCode } from '@/api'
 
 const detailItemConfig = [
   { label: '业务单号 ', prop: 'billNo' },
   { label: '单据组织 ', prop: 'billOrganize' },
-  { label: '单据类型 ', prop: 'busiBillType', type: 'enum', enum: 'getInBillType' },
+  { label: '单据类型 ', prop: 'outBusiBillType' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
   { label: '是否生产相关', prop: 'isProduct', type: 'enum', enum: 'isPrint' },
@@ -102,20 +102,20 @@ const detailSonListConfig = [
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint' },
 ]
 const planListConfig = [
-  { label: '计划单号', prop: 'AAA' },
-  { label: '单据状态', prop: 'AAA' },
-  { label: '业务单号', prop: 'AAA' },
-  { label: '货主', prop: 'AAA' },
-  { label: '供应商', prop: 'AAA' },
+  { label: '计划单号', prop: 'planCode' },
+  { label: '单据类型', prop: 'orderType', type: 'enum', enum: 'busiBillTypeEnum' },
+  { label: '业务单号', prop: 'billNo' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '供应商', prop: 'providerName' },
 ]
 const orderListConfig = [
-  { label: '出/入库单号', prop: 'AAA' },
-  { label: '计划单号', prop: 'AAA' },
-  { label: '业务单号', prop: 'AAA' },
-  { label: '货主', prop: 'AAA' },
-  { label: '供应商', prop: 'AAA' },
-  { label: '出/入库数量', prop: 'AAA' },
-  { label: '出/入库日期', prop: 'AAA' },
+  { label: '出/入库单号', prop: 'warehouseExeCode' },
+  { label: '计划单号', prop: 'planCode' },
+  { label: '业务单号', prop: 'billNo' },
+  { label: '货主', prop: 'ownerName' },
+  { label: '供应商', prop: 'providerName' },
+  { label: '出/入库数量', prop: 'inQty' },
+  { label: '出/入库日期', prop: 'inWarehouseTime', type: 'time' },
 ]
 
 export default {
@@ -158,9 +158,24 @@ export default {
         this.loading = false
         if (!res) return
         res.data.sonList = (res.data.busiBillDetails || []).map((v, i) => ({ ...v, index: i + 1 }))
-        res.data.planList = res.data.planList || []
-        res.data.orderList = res.data.orderList || []
         this.detail = res.data
+        return res.data
+      }).then(({ billNo, ownerCode }) => {
+        Promise.all([
+          outPlanSelect({ pageNum: 1, pageSize: 999, billNo, ownerCode }),
+          queryWarehouseCode({ pageNum: 1, pageSize: 999, billNo, ownerCode })
+        ]).then(resArr => {
+          {
+            const res = resArr[0]
+            if (res)
+              this.planList = res.data.list
+          }
+          {
+            const res = resArr[1]
+            if (res)
+              this.orderList = res.data.list
+          }
+        })
       })
     },
   },

@@ -109,8 +109,8 @@ import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
-import { queryWarehouseCode } from '@/api'
-import { outBillDetail, outPlanSelect } from '@/api/outgoing'
+import { queryWarehouseCode, outPlanSelect } from '@/api'
+import { outBillDetail } from '@/api/outgoing'
 import { operation } from './conpoments/lib';
 import _ from 'lodash';
 
@@ -169,11 +169,9 @@ export default {
             billNo: data.billNo,
             ownerCode: data.ownerCode
           }).then(result => {
-            if (result.success) {
+            if (result) {
               this.detail_planTableData = result.data && Array.isArray(result.data.list) && result.data.list || [];
             }
-          }).catch(err => {
-            console.error(err)
           })
 
           //查询相关出库单

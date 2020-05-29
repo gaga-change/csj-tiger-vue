@@ -134,3 +134,5 @@ export const outBillImprove = params => http.put(`/webApi/out/bill/improve`, par
 export const inBillAudit = params => http.put(`/webApi/in/bill/billAudit`, params)
 // 客户地址查询
 export const customerAddrInfo = ({ customerCode, billType }) => http.get(`/webApi/customer/addr/info/${customerCode}/${billType}`)
+// 出库计划数据
+export const outPlanSelect = params => http.post(`/webApi/out/plan/select`, params)
