@@ -33,7 +33,7 @@ export function httpMiddler(response) {
 // 响应拦截器
 newAxios.interceptors.response.use(httpMiddler, function (error) {
   let data = error.response.data
-  let message = data.errorMsg || data.detailError || data.message || error.message
+  let message = data.errorMsg || data.message || data.detailError || error.message
   if (message === '会话超时' || message === '登录失效') {
     return location.href = `/login?backUrl=${location.href}`
   }
