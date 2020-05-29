@@ -78,6 +78,7 @@
             v-model="formData._arrivalIndex"
             :name.sync="formData.arrivalAddress"
             @change="handleAddressChnage"
+            @loadedEnum="hnadleCustomerLoadedEnum"
           />
         </el-form-item>
         <el-form-item
@@ -261,6 +262,15 @@ export default {
     }),
   },
   methods: {
+    /** 地址载入 设置默认值 */
+    hnadleCustomerLoadedEnum(list) {
+      const def = list.find(v => v.isDefault)
+      if (def) {
+        this.formData.arrivalAddress = def.arrivalAddress
+        this.formData._arrivalIndex = def._index
+        this.handleAddressChnage(def)
+      }
+    },
     /** 地址改变 */
     handleAddressChnage(add) {
       if (add) {

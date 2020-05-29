@@ -100,6 +100,9 @@ export default {
         } else {
           this.$emit('update:name', '')
         }
+        this.$nextTick(() => {
+          this.$emit('loadedEnum', this.$copy(this.dataList))
+        })
       })
     },
     handleChange(v) {
