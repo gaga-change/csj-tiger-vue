@@ -13538,6 +13538,23 @@ export const Area = [
   }
 ]
 
+/**
+ * 根据编码 转为名称
+ * @param {Array<String>} codes 
+ */
+export const codesTurnName = (codes = []) => {
+  const res = []
+  let temp = Area
+  codes.forEach(code => {
+    let item = temp.find(v => v.value === code)
+    if (item) {
+      temp = item.children
+      res.push(item.label)
+    }
+  })
+  return res
+}
+
 export const areaTools = () => {
   // let areaMap = new Map()
   // const _ = (arr, parent) => {
@@ -13566,6 +13583,9 @@ export const areaTools = () => {
     //   }
     //   return code
     // },
+    /**
+     * 根据 编码查询城市
+     */
     getCityByCode(code) {
       let name = cityMap.get(code)
       return name || code

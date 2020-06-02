@@ -12,13 +12,13 @@
           :loading="saveLoading"
           :disabled="savedisabled"
         >保存</el-button>
-        <el-button
+        <!-- <el-button
           type="primary"
           size="mini"
           @click="submit('update')"
           :loading="updateLoading"
           :disabled="savedisabled"
-        >提交</el-button>
+        >提交</el-button> -->
       </template>
     </sticky>
     <el-card shadow="hover">
@@ -92,37 +92,13 @@
           label="单据组织"
           prop="inOrganize"
           key="inOrganize"
+          :rules="[{ required: true, message: '该项为必填'}]"
         >
           <ApiSelect
             api="asiaOrganizeList"
             :config="['organizationCode', 'organizationName']"
             :name.sync="billOrganizeName"
             v-model="searchForm.inOrganize"
-          />
-        </el-form-item>
-        <el-form-item
-          label="单据类型"
-          prop="outBusiBillType"
-          key="outBusiBillType"
-          v-if="searchForm.inOrganize"
-        >
-
-          <ApiSelect
-            api="asiaBillTypeList"
-            :config="['billTypeCode', 'billTypeName']"
-            :params="{organizationCode: searchForm.inOrganize, busiTypeCode: 40}"
-            v-model="searchForm.outBusiBillType"
-          />
-        </el-form-item>
-        <el-form-item
-          label="调出组织"
-          prop="outOrganize"
-          key="outOrganize"
-        >
-          <ApiSelect
-            api="asiaOrganizeList"
-            :config="['organizationCode', 'organizationName']"
-            v-model="searchForm.outOrganize"
           />
         </el-form-item>
         <el-form-item label="调入组织">
@@ -132,64 +108,21 @@
           ></el-input>
         </el-form-item>
         <el-form-item
-          label="调出仓库"
-          label-width="90px"
-          prop="outWarehouseCode"
-          :rules="[{ required: true, message: '该项为必填'}]"
-        >
-          <el-select
-            v-model="searchForm.outWarehouseCode"
-            clearable
-            placeholder="请选择仓库"
-            size="mini"
-            class="formitem"
-            @focus="warehouseCodeFocus('warehouse')"
-            @change="checkoutWarehouse"
-          >
-            <el-option
-              v-for="item in warehouseList"
-              :label="item.warehouseName"
-              :key="item.warehouseCode"
-              :value="item.warehouseCode"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item
-          label="调出日期"
-          prop="outDate"
-          :rules="[{ required: true, message: '该项为必填'}]"
-        >
-          <el-date-picker
-            v-model="searchForm.outDate"
-            size="mini"
-            type="date"
-            placeholder="选择日期"
-          ></el-date-picker>
-        </el-form-item>
-
-        <el-form-item
           label="调入仓库"
           prop="inWarehouseCode"
+          key="inWarehouseCode"
           :rules="[{ required: true, message: '该项为必填'}]"
+          v-if="searchForm.inOrganize"
         >
-          <el-select
+
+          <ApiSelect
+            api="asiaWareHouseList"
+            :config="['outWarehouseCode', 'outWarehouseName']"
+            :params="{organizationCode: searchForm.inOrganize}"
             v-model="searchForm.inWarehouseCode"
-            clearable
-            placeholder="请选择仓库"
-            size="mini"
-            class="formitem"
-            @focus="warehouseCodeFocus('inwarehouse')"
+            :name.sync="searchForm.inWarehouseName"
             @change="checkInWarehouse"
-            :loading="warehouseCodeLoading"
-          >
-            <el-option
-              v-for="item in warehouseList"
-              :label="item.warehouseName"
-              :key="item.warehouseCode"
-              :value="item.warehouseCode"
-            ></el-option>
-          </el-select>
+          />
         </el-form-item>
         <el-form-item
           label="调入日期"
@@ -205,9 +138,64 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item
+          label="单据类型"
+          prop="outBusiBillType"
+          key="outBusiBillType"
+          :rules="[{ required: true, message: '该项为必填'}]"
+          v-if="searchForm.inOrganize"
+        >
+
+          <ApiSelect
+            api="asiaBillTypeList"
+            :config="['billTypeCode', 'billTypeName']"
+            :params="{organizationCode: searchForm.inOrganize, busiTypeCode: 40}"
+            v-model="searchForm.outBusiBillType"
+          />
+        </el-form-item>
+        <el-form-item
+          label="调出组织"
+          prop="outOrganize"
+          key="outOrganize"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <ApiSelect
+            api="asiaOrganizeList"
+            :config="['organizationCode', 'organizationName']"
+            v-model="searchForm.outOrganize"
+          />
+        </el-form-item>
+        <el-form-item
+          label="调出仓库"
+          prop="outWarehouseCode"
+          key="outWarehouseCode"
+          v-if="searchForm.outOrganize"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+
+          <ApiSelect
+            api="asiaWareHouseList"
+            :config="['outWarehouseCode', 'outWarehouseName']"
+            :params="{organizationCode: searchForm.outOrganize}"
+            v-model="searchForm.outWarehouseCode"
+            :name.sync="searchForm.outWarehouseName"
+            @change="checkoutWarehouse"
+          />
+        </el-form-item>
+        <el-form-item
+          label="调出日期"
+          prop="outDate"
+          :rules="[{ required: true, message: '该项为必填'}]"
+        >
+          <el-date-picker
+            v-model="searchForm.outDate"
+            size="mini"
+            type="date"
+            placeholder="选择日期"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item
           label="接收人"
           prop="warehouseLinkName"
-          :rules="[{ required: true, message: '该项为必填'}]"
         >
           <el-input
             v-model="searchForm.warehouseLinkName"
@@ -219,12 +207,12 @@
           label="所在地区"
           prop="area"
         >
-          <el-input
+          <el-cascader
+            :options="Area"
             v-model="searchForm.area"
-            size="mini"
-            class="formitem"
-            :disabled="true"
-          ></el-input>
+            placeholder="请选择出发地"
+          >
+          </el-cascader>
         </el-form-item>
         <el-form-item
           label="详细地址"
@@ -234,13 +222,11 @@
             v-model="searchForm.warehouseAddress"
             size="mini"
             class="formitem"
-            :disabled="true"
           ></el-input>
         </el-form-item>
         <el-form-item
           label="联系方式"
           prop="linkTel"
-          :rules="[{ required: true, message: '该项为必填'}]"
         >
           <el-input
             v-model="searchForm.linkTel"
@@ -295,6 +281,7 @@
 </template>
 
 <script>
+import { Area, codesTurnName } from '@/utils/area2'
 import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import selectSku from './conpoments/selectSku'
@@ -310,6 +297,7 @@ export default {
   components: { editTable, selectSku, Sticky },
   data() {
     return {
+      Area,
       skuInfoListLoading: false,
       customerInfoLoading: false,
       warehouseCodeLoading: false,
@@ -321,6 +309,14 @@ export default {
         inOrganize: undefined,
         outBusiBillType: undefined,
         outOrganize: undefined,
+        inWarehouseName: undefined,
+        inWarehouseCode: undefined,
+        outWarehouseName: undefined,
+        outWarehouseCode: undefined,
+        area: undefined,
+        warehouseAddress: undefined,
+        warehouseLinkName: undefined,
+        linkTel: undefined,
       },
       //表单table配置项
       addtable_config,
@@ -387,11 +383,6 @@ export default {
     //选择货主
     ownerCodeChange(value) {
       let searchForm = _.cloneDeep(this.searchForm);
-      searchForm.outWarehouseCode = ''
-      searchForm.inWarehouseCode = ''
-      searchForm.warehouseLinkName = ''
-      searchForm.warehouseAddress = ''
-      searchForm.linkTel = ''
       searchForm.outDate = null
       searchForm.inDate = null
       searchForm.transferBillDetailDOList = [];
@@ -425,33 +416,30 @@ export default {
       }
     },
     checkInWarehouse() {
-      this.searchForm.warehouseLinkName = null
-      this.searchForm.warehouseAddress = null
-      this.searchForm.linkTel = null
       if (this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
         this.$message.error('调出仓库不应和调入仓库一致')
         this.searchForm.inWarehouseCode = ''
         return false
       }
-      warehouseDetail({ warehouseNo: this.searchForm.inWarehouseCode }).then(res => {
-        if (res.success) {
-          let data = res.data;
-          if (data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)) {
-            this.searchForm.area = data.warehouseProvince + data.warehouseCity + data.warehouseArea
-            this.searchForm.warehouseProvince = data.warehouseProvince
-            this.searchForm.warehouseCity = data.warehouseCity
-            this.searchForm.warehouseArea = data.warehouseArea
-            this.searchForm.warehouseLinkName = data.warehouseLinkName
-            this.searchForm.warehouseAddress = data.warehouseAddress
-            this.searchForm.linkTel = data.linkTel
-          } else {
-            this.$message.error('请先去维护调入仓库接收人、所在地区、详细地址和联系方式')
-            this.searchForm.inWarehouseCode = ''
-          }
-        }
-      }).catch(err => {
+      // warehouseDetail({ warehouseNo: this.searchForm.inWarehouseCode }).then(res => {
+      //   if (res.success) {
+      //     let data = res.data;
+      //     if (data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)) {
+      //       this.searchForm.area = data.warehouseProvince + data.warehouseCity + data.warehouseArea
+      //       this.searchForm.warehouseProvince = data.warehouseProvince
+      //       this.searchForm.warehouseCity = data.warehouseCity
+      //       this.searchForm.warehouseArea = data.warehouseArea
+      //       this.searchForm.warehouseLinkName = data.warehouseLinkName
+      //       this.searchForm.warehouseAddress = data.warehouseAddress
+      //       this.searchForm.linkTel = data.linkTel
+      //     } else {
+      //       this.$message.error('请先去维护调入仓库接收人、所在地区、详细地址和联系方式')
+      //       this.searchForm.inWarehouseCode = ''
+      //     }
+      //   }
+      // }).catch(err => {
 
-      })
+      // })
     },
     goeditrow(index, type) {
       let searchForm = _.cloneDeep(this.searchForm);
@@ -527,8 +515,10 @@ export default {
               }
             })
             json.ownerName = this.mapConfig['billOwnerInfoMap'].find(v => v.key === json.ownerCode).value;
-            json.outWarehouseName = this.warehouseList.find(v => v.warehouseCode === json.outWarehouseCode).warehouseName;
-            json.inWarehouseName = this.warehouseList.find(v => v.warehouseCode === json.inWarehouseCode).warehouseName;
+            const areaNames = codesTurnName(this.searchForm.area || [])
+            json.warehouseProvince = areaNames[0]
+            json.warehouseCity = areaNames[1]
+            json.warehouseArea = areaNames[2]
             if (json.transferBillDetailDOList.length <= 0) {
               this.$message.error('商品明细不能为空！')
             } else {
