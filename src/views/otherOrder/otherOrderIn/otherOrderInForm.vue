@@ -16,6 +16,7 @@
           4. 规则配置
           -->
         <!-- 输入框 -->
+
         <div class="text-right mb20">
           <el-button
             type="primary"
@@ -23,131 +24,152 @@
             @click="confirm()"
           >保 存</el-button>
         </div>
-        <el-form-item
-          label="单据组织"
-          prop="billOrganize"
-          key="billOrganize"
+        <el-card
+          shadow="hover"
+          class="box-card BaseFormCard"
         >
-          <ApiSelect
-            api="asiaOrganizeList"
-            :config="['organizationCode', 'organizationName']"
-            v-model="formData.billOrganize"
-          />
-        </el-form-item>
-        <el-form-item
-          label="单据类型"
-          prop="outBusiBillType"
-          key="outBusiBillType"
-          v-if="formData.billOrganize"
-        >
+          <el-form-item
+            label="单据组织"
+            prop="billOrganize"
+            key="billOrganize"
+          >
+            <ApiSelect
+              api="asiaOrganizeList"
+              :config="['organizationCode', 'organizationName']"
+              v-model="formData.billOrganize"
+            />
+          </el-form-item>
+          <el-form-item
+            label="单据类型"
+            prop="outBusiBillType"
+            key="outBusiBillType"
+            v-if="formData.billOrganize"
+          >
 
-          <ApiSelect
-            api="asiaBillTypeList"
-            :config="['billTypeCode', 'billTypeName']"
-            :params="{organizationCode: formData.billOrganize, busiTypeCode: '16'}"
-            v-model="formData.outBusiBillType"
-          />
-        </el-form-item>
-        <el-form-item
-          label="货主"
-          prop="ownerCode"
-          key="ownerCode"
-        >
-          <OwnerSelect
-            v-model="formData.ownerCode"
-            :name.sync="formData.ownerName"
-          />
-        </el-form-item>
-        <el-form-item
-          label="供应商"
-          prop="providerCode"
-          key="providerCode"
-          v-if="formData.ownerCode"
-        >
-          <ApiSelect
-            api="customerInfo"
-            :config="['customerCode', 'customerName']"
-            :params="{ownerCode: formData.ownerCode, busiBillType: 22}"
-            v-model="formData.providerCode"
-            :name.sync="formData.providerName"
-          />
-        </el-form-item>
-        <el-form-item
-          label="是否生产相关"
-          prop="isProduct"
-          key="isProduct"
-        >
-          <map-select
-            map="isPrint"
-            v-model="formData.isProduct"
-          ></map-select>
-        </el-form-item>
-        <el-form-item
-          label="受益部门"
-          prop="benefitDepartment"
-          key="benefitDepartment"
-          v-if="formData.billOrganize"
-        >
+            <ApiSelect
+              api="asiaBillTypeList"
+              :config="['billTypeCode', 'billTypeName']"
+              :params="{organizationCode: formData.billOrganize, busiTypeCode: '16'}"
+              v-model="formData.outBusiBillType"
+            />
+          </el-form-item>
+          <el-form-item
+            label="仓库"
+            prop="warehouseCode"
+            key="warehouseCode"
+            v-if="formData.billOrganize"
+          >
 
-          <ApiSelect
-            api="asiaDepartmentList"
-            :config="['departmentCode', 'departmentName']"
-            :params="{organizationCode:  formData.billOrganize}"
-            v-model="formData.benefitDepartment"
-          />
-        </el-form-item>
-        <el-form-item
-          label="仓库"
-          prop="warehouseCode"
-          key="warehouseCode"
-          v-if="formData.ownerCode"
-        >
+            <ApiSelect
+              api="asiaWareHouseList"
+              :config="['outWarehouseCode', 'outWarehouseName']"
+              :params="{organizationCode: formData.billOrganize}"
+              v-model="formData.warehouseCode"
+              :name.sync="formData.warehouseName"
+            />
+          </el-form-item>
+          <el-form-item
+            label="受益部门"
+            prop="benefitDepartment"
+            key="benefitDepartment"
+            v-if="formData.billOrganize"
+          >
 
-          <ApiSelect
-            api="ownerWarehouseList"
-            :config="['warehouseCode', 'warehouseName']"
-            :params="{ownerCode: formData.ownerCode}"
-            v-model="formData.warehouseCode"
-            :name.sync="formData.warehouseName"
-          />
-        </el-form-item>
-        <el-form-item
-          label="研发项目"
-          prop="developProject"
-          key="developProject"
-        >
+            <ApiSelect
+              api="asiaDepartmentList"
+              :config="['departmentCode', 'departmentName']"
+              :params="{organizationCode:  formData.billOrganize}"
+              v-model="formData.benefitDepartment"
+            />
+          </el-form-item>
 
-          <ApiSelect
-            api="asiaProjectList"
-            :config="['projectCode', 'projectName']"
-            v-model="formData.developProject"
-          />
-        </el-form-item>
-        <el-form-item
-          label="服务与费用"
-          prop="serviceCost"
-          key="serviceCost"
+        </el-card>
+        <el-card
+          shadow="hover"
+          class="box-card BaseFormCard mt10"
         >
+          <el-form-item
+            label="研发项目"
+            prop="developProject"
+            key="developProject"
+          >
 
-          <ApiSelect
-            api="asiaServiceCostList"
-            :config="['serviceCostCode', 'serviceCostName']"
-            v-model="formData.serviceCost"
-          />
-        </el-form-item>
-        <el-form-item
-          label="工作号"
-          prop="workNo"
-          key="workNo"
-          v-if="formData.developProject"
+            <ApiSelect
+              api="asiaProjectList"
+              :config="['projectCode', 'projectName']"
+              v-model="formData.developProject"
+            />
+          </el-form-item>
+          <el-form-item
+            label="工作号"
+            prop="workNo"
+            key="workNo"
+            v-if="formData.developProject"
+          >
+            <ApiSelect
+              api="asiaWorkList"
+              :config="['workCode', 'workName']"
+              :params="{projectCode: formData.developProject}"
+              v-model="formData.workNo"
+            />
+          </el-form-item>
+        </el-card>
+        <el-card
+          shadow="hover"
+          class="box-card BaseFormCard mt10"
         >
-          <ApiSelect
-            api="asiaWorkList"
-            :config="['workCode', 'workName']"
-            :params="{projectCode: formData.developProject}"
-            v-model="formData.workNo"
-          />
-        </el-form-item>
+          <el-form-item
+            label="是否生产相关"
+            prop="isProduct"
+            key="isProduct"
+          >
+            <map-select
+              map="isPrint"
+              v-model="formData.isProduct"
+            ></map-select>
+          </el-form-item>
+          <el-form-item
+            label="服务与费用"
+            prop="serviceCost"
+            key="serviceCost"
+          >
+
+            <ApiSelect
+              api="asiaServiceCostList"
+              :config="['serviceCostCode', 'serviceCostName']"
+              v-model="formData.serviceCost"
+            />
+          </el-form-item>
+        </el-card>
+        <el-card
+          shadow="hover"
+          class="box-card BaseFormCard mt10"
+        >
+          <el-form-item
+            label="货主"
+            prop="ownerCode"
+            key="ownerCode"
+          >
+            <OwnerSelect
+              v-model="formData.ownerCode"
+              :name.sync="formData.ownerName"
+            />
+          </el-form-item>
+          <el-form-item
+            label="供应商"
+            prop="providerCode"
+            key="providerCode"
+            v-if="formData.ownerCode"
+          >
+            <ApiSelect
+              api="customerInfo"
+              :config="['customerCode', 'customerName']"
+              :params="{ownerCode: formData.ownerCode, busiBillType: 22}"
+              v-model="formData.providerCode"
+              :name.sync="formData.providerName"
+            />
+          </el-form-item>
+        </el-card>
       </el-form>
       <CommdityAddAndModifyIn
         numberKey="planInQty"

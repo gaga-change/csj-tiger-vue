@@ -84,7 +84,7 @@ const detailItemConfig = [
   { label: '工作号', prop: 'workNo' },
   { label: '研发项目', prop: 'developProject' },
   { label: '服务与费用', prop: 'serviceCost' },
-  { label: '仓库', prop: 'warehouseCode', type: 'enum', enum: 'getWarehouse' },
+  { label: '仓库', prop: 'outWarehouseName' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time' },
 ]
 
@@ -95,19 +95,47 @@ const detailSonListConfig = [
   { label: '货主商品编码', prop: 'customerSkuCode' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
-  { label: '数量', prop: 'planInAmt' },
-  { label: '已出/入', prop: 'realInAmt' },
+  { label: '数量', prop: 'skuInQty' },
+  { label: '已出/入', prop: 'realInQty' },
   { label: '进货价', prop: 'inPrice' },
   { label: '生产订单号', prop: 'ownerOrderNo' },
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint' },
 ]
+
+// export const detail_planTableConfig = [
+//   { label: '计划单号', prop: 'planCode', width: 150, fixed: true, linkTo: '/warehousing/plan-detail', query: [{ key: 'planCode', value: 'planCode' }] },
+//   { label: '业务单号', prop: 'billNo', width: 170 },
+//   { label: '单据状态', prop: 'planState', type: 'getPlanState', useApi: true, width: 80 },
+//   { label: '供应商名称', prop: 'providerName', width: 180 },
+//   { label: '货主', prop: 'ownerName', width: 180 },
+//   { label: '制单人', prop: 'createrName' },
+//   { label: '计划入库仓库', prop: 'planWarehouseName' },
+//   { label: '执行状态', width: 80, prop: 'execStatus', type: 'getExecState', useApi: true },
+//   { label: '计划入库日期', prop: 'planTime', type: 'time', width: 140 }
+// ]
+
 const planListConfig = [
   { label: '计划单号', prop: 'planCode' },
-  { label: '单据类型', prop: 'orderType', type: 'enum', enum: 'busiBillTypeEnum' },
+  { label: '单据类型', prop: 'planState', type: 'enum', enum: 'getPlanState' },
   { label: '业务单号', prop: 'billNo' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
 ]
+
+// export const detail_warehousingTableConfig = [
+//   { label: '入库单号', fixed: true, prop: 'warehouseExeCode', linkTo: '/warehousing/quiry-detail', width: 150, query: [{ key: 'warehouseExeCode', value: 'warehouseExeCode' }] },
+//   { label: '业务单号', prop: 'billNo', width: 180 },
+//   { label: '计划单号', prop: 'planCode', width: 150, linkTo: '/warehousing/plan-detail', query: [{ key: 'planCode', value: 'planCode' }] },
+//   { label: '合同编号', prop: 'contractNo', width: 100 },
+//   { label: '供应商名称', prop: 'providerName', width: 180 },
+//   { label: '货主', prop: 'ownerName', width: 180 },
+//   { label: '仓库', prop: 'warehouseName', width: 140 },
+//   { label: '入库金额', prop: 'inAmt' },
+//   { label: '入库数量', prop: 'inQty' },
+//   { label: '业务板块', prop: 'busiPlate', width: 100, useLocalEnum: true, type: 'busiPlateConfig' },
+//   { label: '入库日期', prop: 'inWarehouseTime', type: 'time', width: 140 },
+// ]
+
 const orderListConfig = [
   { label: '出/入库单号', prop: 'warehouseExeCode' },
   { label: '计划单号', prop: 'planCode' },
@@ -148,6 +176,7 @@ export default {
       }).then(res => {
         if (!res) return
         this.$message.success('操作成功！')
+        this.initData()
       }))
     },
     /** 获取详情内容 */

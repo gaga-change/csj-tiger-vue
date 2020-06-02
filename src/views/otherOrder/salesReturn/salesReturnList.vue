@@ -14,7 +14,7 @@
           type="primary"
           @click="$router.push({path:`/otherOrder/salesReturnDetail`,query:{id: scope.row.id}})"
         >查看</el-link>
-        <template v-if="scope.row.billStatus === 1">
+        <template v-if="scope.row.billStatus === 0">
           <el-divider direction="vertical"></el-divider>
           <el-link
             type="primary"
@@ -55,8 +55,8 @@ const tableConfig = [
 const searchConfig = [
   { label: '业务单号 ', prop: 'billNo', width: 140 },
   { label: '单据类型 ', prop: 'outBusiBillType', type: 'outBusiBillType', busiTypeCode: 22 },
-  { label: '货主', prop: 'ownerName' },
-  { label: '供应商', prop: 'providerName' },
+  { label: '货主', prop: 'ownerCode', type: 'enum', enum: 'billOwnerInfoMap' },
+  { label: '供应商', prop: 'arrivalName' },
   { label: '单据状态', prop: 'billStatus', type: 'enum', enum: 'billStatusInEnum' },
   { label: '执行状态', prop: 'billState', type: 'enum', enum: 'billStateEnum' },
   { label: '创建时间', prop: 'createTimeArea', props: ['createTimeFrom', 'createTimeTo'], type: 'timeArea', default: [new Date(Date.now() - 24 * 60 * 60 * 1000 * 7), new Date()] },

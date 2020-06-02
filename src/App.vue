@@ -11,7 +11,8 @@ export default {
 </script>
 <style lang="scss">
 .BaseForm {
-  & > .el-form-item {
+  & > .el-form-item,
+  .BaseFormCard .el-card__body > .el-form-item {
     .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
       width: 200px;
@@ -20,6 +21,7 @@ export default {
       width: 200px;
     }
   }
+
   // .BaseTable_ItemBlocak {
   //   display: block;
   //   & > .el-form-item__content {

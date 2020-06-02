@@ -2,7 +2,7 @@
   <div class="DetailItemCom">
     <div
       class="item"
-      :style="{width: labelWidth ? (labelWidth + 120) + 'px' : undefined}"
+      :style="{width: labelWidth ? (labelWidth + 170) + 'px' : undefined}"
       v-for="(item, index) in config"
       :key="index"
     >
@@ -89,12 +89,13 @@ export default {
   font-size: 12px;
   .item {
     display: flex;
-    width: 200px;
-    margin-right: 20px;
-    margin-top: 10px;
+    width: 250px;
+    margin-right: 10px;
+    margin-top: 12px;
     .label-text {
       width: 80px;
       text-align: right;
+      font-weight: bold;
     }
     .value-content {
       flex: 1;

@@ -78,11 +78,11 @@ const detailItemConfig = [
   { label: '单据组织 ', prop: 'billOrganize' },
   { label: '单据类型 ', prop: 'outBusiBillType' },
   { label: '货主', prop: 'ownerName' },
-  { label: '供应商', prop: 'providerName' },
+  { label: '供应商', prop: 'arrivalName' },
   { label: '联系人', prop: 'arrivalLinkUser' },
   { label: '联系电话', prop: 'arrivalLinkTel' },
   { label: '供应商地址', prop: 'arrivalAddress' },
-  { label: '仓库', prop: 'warehouseName' },
+  { label: '仓库', prop: 'outWarehouseName' },
   { label: '退料理由', prop: 'returnReason' },
   { label: '备注', prop: 'remarkInfo' },
   { label: '创建时间', prop: 'gmtCreate', type: 'time' },
@@ -92,28 +92,28 @@ const detailSonListConfig = [
   { label: '序号', prop: 'index' },
   { label: '商品编码', prop: 'skuCode' },
   { label: '商品名称', prop: 'skuName' },
-  { label: '货主商品编码', prop: 'providerSkuCode' },
+  { label: '货主商品编码', prop: 'customerSkuCode' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
-  { label: '数量', prop: 'planInQty' },
-  { label: '已出', prop: 'realInQty' },
-  { label: '进货价', prop: 'inPrice' },
+  { label: '数量', prop: 'realOutQty' },
+  { label: '已出', prop: 'realOutQty' },
+  { label: '进货价', prop: 'outStorePrice' },
 ]
 const planListConfig = [
   { label: '计划单号', prop: 'planCode' },
-  { label: '单据类型', prop: 'orderType', type: 'enum', enum: 'busiBillTypeEnum' },
+  { label: '单据类型', prop: 'planState', type: 'enum', enum: 'getPlanState' },
   { label: '业务单号', prop: 'billNo' },
   { label: '货主', prop: 'ownerName' },
-  { label: '供应商', prop: 'providerName' },
+  { label: '供应商', prop: 'arrivalName' },
 ]
 const orderListConfig = [
   { label: '出库单号', prop: 'warehouseExeCode' },
   { label: '计划单号', prop: 'planCode' },
   { label: '业务单号', prop: 'billNo' },
   { label: '货主', prop: 'ownerName' },
-  { label: '供应商', prop: 'providerName' },
-  { label: '入库数量', prop: 'inQty' },
-  { label: '入库日期', prop: 'inWarehouseTime', type: 'time' },
+  { label: '供应商', prop: 'arrivalName' },
+  { label: '入库数量', prop: 'outQty' },
+  { label: '入库日期', prop: 'outStoreTime', type: 'time' },
 ]
 
 export default {
@@ -146,6 +146,7 @@ export default {
       }).then(res => {
         if (!res) return
         this.$message.success('操作成功！')
+        this.initData()
       }))
     },
     /** 获取详情内容 */

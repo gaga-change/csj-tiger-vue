@@ -136,3 +136,5 @@ export const inBillAudit = params => http.put(`/webApi/in/bill/billAudit`, param
 export const customerAddrInfo = ({ customerCode, billType }) => http.get(`/webApi/customer/addr/info/${customerCode}/${billType}`)
 // 出库计划数据
 export const outPlanSelect = params => http.post(`/webApi/out/plan/select`, params)
+// 根据组织查询仓库分页列表
+export const asiaWareHouseList = params => http.post(`/webApi/asia/warehouse/list`, params)
