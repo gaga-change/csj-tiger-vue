@@ -41,11 +41,11 @@
         </el-tab-pane>
         <el-tab-pane
           label="计划单"
-          name="palnList"
+          name="planList"
         >
           <base-table
             :config="planListConfig"
-            :data="detail.palnList"
+            :data="planList"
             :showControl="false"
             :controlWidth="160"
             :select="false"
@@ -58,7 +58,7 @@
         >
           <base-table
             :config="orderListConfig"
-            :data="detail.orderList"
+            :data="orderList"
             :showControl="false"
             :controlWidth="160"
             :select="false"
@@ -156,10 +156,10 @@ export default {
       planListConfig,
       orderListConfig,
       activeName: 'items',
+      planList: [],
+      orderList: [],
       detail: {
         sonList: [],
-        planList: [],
-        orderList: []
       },
     }
   },
@@ -186,8 +186,6 @@ export default {
       inBillDetail(id).then(res => {
         if (!res) return
         res.data.sonList = (res.data.items || []).map((v, i) => ({ ...v, index: i + 1 }))
-        res.data.planList = res.data.planList || []
-        res.data.orderList = res.data.orderList || []
         return this.detail = res.data
       }).then((res) => {
         if (!res) return

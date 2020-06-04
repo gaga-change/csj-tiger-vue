@@ -41,11 +41,11 @@
         </el-tab-pane>
         <el-tab-pane
           label="计划单"
-          name="palnList"
+          name="planList"
         >
           <base-table
             :config="planListConfig"
-            :data="detail.palnList"
+            :data="planList"
             :showControl="false"
             :controlWidth="160"
             :select="false"
@@ -58,7 +58,7 @@
         >
           <base-table
             :config="orderListConfig"
-            :data="detail.orderList"
+            :data="orderList"
             :showControl="false"
             :controlWidth="160"
             :select="false"
@@ -126,10 +126,11 @@ export default {
       planListConfig,
       orderListConfig,
       activeName: 'items',
+      planList: [],
+      orderList: [],
       detail: {
         sonList: [],
-        planList: [],
-        orderList: []
+
       },
     }
   },
