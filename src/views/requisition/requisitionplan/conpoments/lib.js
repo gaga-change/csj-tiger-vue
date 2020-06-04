@@ -1,14 +1,14 @@
 
-import { handleTransferNo } from '@/api/requisition'
+import { handleTransferNo } from '@/api'
 
 export function operation(row, status, tip) {
   //接口配置
   let apiConfig = { handleTransferNo };
-  let data = { id: row.id, statusFlag: status };
+  let data = { id: row.id, transferStatus: status };
 
   //请求配置
   let submit = () => apiConfig['handleTransferNo'](data).then(res => {
-    if (res.success) {
+    if (res && res.success) {
       this.$message({ type: 'success', message: '操作成功' });
       this.getCurrentTableData()
     }

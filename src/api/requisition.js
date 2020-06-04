@@ -71,15 +71,6 @@ export function queryOrderdetail(data = {}) {
   })
 }
 
-//调拨单提交删除
-export function handleTransferNo(data = {}) {
-  return request({
-    url: `/webApi/tranferBill/updateStatus`,
-    method: 'get',
-    params: data
-  })
-}
-
 // //出库计划关闭
 // export function outPlanClose(planCode) {
 //   return request({

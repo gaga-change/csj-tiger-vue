@@ -138,3 +138,6 @@ export const customerAddrInfo = ({ customerCode, billType }) => http.get(`/webAp
 export const outPlanSelect = params => http.post(`/webApi/out/plan/select`, params)
 // 根据组织查询仓库分页列表
 export const asiaWareHouseList = params => http.post(`/webApi/asia/warehouse/list`, params)
+//调拨单状态修改
+export const handleTransferNo = params => http.post(`/webApi/tranferBill/updateStatus`, params)
+
