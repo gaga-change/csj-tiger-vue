@@ -48,8 +48,8 @@
           </el-form-item>
           <el-form-item
             label="仓库"
-            prop="warehouseCode"
-            key="warehouseCode"
+            prop="outWarehouseCode"
+            key="outWarehouseCode"
             v-if="formData.billOrganize"
           >
 
@@ -57,7 +57,7 @@
               api="asiaWareHouseList"
               :config="['outWarehouseCode', 'outWarehouseName']"
               :params="{organizationCode: formData.billOrganize}"
-              v-model="formData.warehouseCode"
+              v-model="formData.outWarehouseCode"
               :name.sync="formData.warehouseName"
             />
           </el-form-item>
@@ -249,7 +249,7 @@ export default {
         arrivalName: undefined,
         isProduct: undefined,
         benefitDepartment: undefined,
-        warehouseCode: undefined,
+        outWarehouseCode: undefined,
         warehouseName: undefined,
         workNo: undefined,
         developProject: undefined,
@@ -267,7 +267,7 @@ export default {
         arrivalCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         isProduct: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         benefitDepartment: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
-        warehouseCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
+        outWarehouseCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         _arrivalIndex: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         arrivalAddress: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         arrivalLinkUser: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],

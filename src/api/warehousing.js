@@ -61,14 +61,6 @@ export function selectSumNo(data = {}) {
   })
 }
 
-export function inBillAdd(data = {}) {
-  return request({
-    url: `/webApi/in/bill/add`,
-    method: 'post',
-    data: data,
-  })
-}
-
 export function customerInfo(ownerCode, busiBillType = 22) {
 
   return request({

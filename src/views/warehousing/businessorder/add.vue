@@ -395,7 +395,8 @@ import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import addForm from './conpoments/addForm'
-import { inBillAdd, customerInfo, inbilldetail, inBillUpdate, skuInfoProviderList } from '@/api/warehousing'
+import { inBillAdd } from '@/api'
+import { customerInfo, inbilldetail, inBillUpdate, skuInfoProviderList } from '@/api/warehousing'
 import { ownerWarehouseList } from '@/api/tenant'
 import { mapGetters } from 'vuex'
 import _ from 'lodash';
@@ -599,9 +600,9 @@ export default {
               Api = inBillUpdate
             }
             this.saveLoading = true
-            json.fromSystemId =  'TIGER'
+            json.fromSystemId = 'TIGER'
             Api(json).then(res => {
-              if (res.success) {
+              if (res && res.success) {
                 this.$message({
                   type: 'success',
                   message: '操作成功,即将跳转到列表页！',
