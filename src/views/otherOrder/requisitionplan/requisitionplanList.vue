@@ -151,7 +151,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="100"
+        width="150"
         fixed="right"
       >
         <template slot-scope="scope">
@@ -170,11 +170,16 @@
               class="tableLink"
               @click="operation(scope.row,1,'确定要提交吗 ?')"
             >提交</span> -->
-            <!-- <span
+            <span
               v-if="[0,2].includes(scope.row.transferStatus)"
               class="tableLink"
               @click="operation(scope.row,9,'确定要删除吗 ?')"
-            >删除</span> -->
+            >删除</span>
+            <router-link
+              v-if="[0].includes(scope.row.transferStatus)"
+              :to="`/otherOrder/requisitionplanDetail?id=${scope.row.id}`"
+              class="tableLink"
+            >审核</router-link>
           </div>
         </template>
       </el-table-column>

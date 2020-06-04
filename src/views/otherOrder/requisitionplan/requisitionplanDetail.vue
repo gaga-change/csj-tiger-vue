@@ -1,5 +1,16 @@
 <template>
   <div class="outgoing-quirydetail-container">
+    <div
+      class="mb20 text-right"
+      v-if="infoData.transferStatus === 0"
+    >
+      <el-button
+        type="primary"
+        @click="handleAudit"
+      >
+        审核
+      </el-button>
+    </div>
     <item-title text="基本信息" />
     <item-card
       :config="infoConfig"
@@ -100,6 +111,7 @@ import editTable from '@/components/Table/editTable';
 import Sticky from '@/components/Sticky'
 import moment from 'moment';
 import { mapGetters } from 'vuex'
+import { handleTransferNo } from '@/api'
 import { requisitiondetail, queryPlandetail, queryOrderdetail } from '@/api/requisition'
 // import { operation } from './conpoments/lib';
 import _ from 'lodash';
@@ -133,7 +145,18 @@ export default {
 
   methods: {
     moment,
-    // operation,
+    /** 审核 */
+    handleAudit() {
+      this.$auditPrompt('请输入审核意见！', ({ pass, value }) => handleTransferNo({
+        id: this.infoData.id,
+        transferStatus: pass ? 1 : 3,
+        auditOpinion: value
+      }).then(res => {
+        if (!res) return
+        this.$message.success('操作成功！')
+        this.getCurrentTableData()
+      }))
+    },
     getCurrentTableData() {
       requisitiondetail({ id: this.$route.query.id }).then(res => {
         if (res.success) {
