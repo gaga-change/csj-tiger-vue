@@ -58,8 +58,6 @@ export const addtable_config = [
   { label: '序号', type: 'index', width: 50 },
   { label: '商品编码', prop: 'skuCode' },
   { label: '商品名称', prop: 'skuName', width: 120 },
-  { label: '客户商品编码', prop: 'customerSkuCode', width: 100 },
-  { label: '客户商品名称', prop: 'customerSkuName', width: 120 },
   { label: '规格', prop: 'skuFormat', width: 120 },
   { label: '型号', prop: 'skuModel', width: 120 },
   { label: '数量', prop: 'planOutQty', useEdit: true, width: 120 },

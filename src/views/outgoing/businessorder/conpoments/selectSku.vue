@@ -36,8 +36,6 @@
       :config="[
       {label: '商品编码', prop: 'skuCode'},
       {label: '商品名称', prop: 'skuName'},
-      {label: '商品供应商编码', prop: 'providerSkuCode'},
-      {label: '商品供应商名称', prop: 'providerSkuName'},
       {label: '销售区分', prop: 'saleType',useApi: true, type: 'getSaleType'}
       ]"
     >
