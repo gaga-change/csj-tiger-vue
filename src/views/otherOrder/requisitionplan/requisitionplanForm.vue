@@ -540,6 +540,7 @@ export default {
                 }
                 json.id = this.$route.query.id;
               }
+              json.billOrganize = json.inOrganize
               api({ ...json, fromSysCode: 'QLL' }).then(res => {
                 if (res.success) {
                   if (res.data === 'success') res.data = ''
