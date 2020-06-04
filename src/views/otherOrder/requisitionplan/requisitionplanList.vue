@@ -351,7 +351,7 @@ export default {
           }
         }
       }
-      let data = { ...json }
+      let data = { ...json, fromSysCode: 'QLL' }
       requisitionList(data).then(res => {
         if (res.success) {
           let data = res.data;
