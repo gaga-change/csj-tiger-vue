@@ -64,7 +64,10 @@
         property="availableQty"
         label="可用库存"
       />
-      <el-table-column label="调拨数量" width="180px">
+      <el-table-column
+        label="调拨数量"
+        width="180px"
+      >
         <template slot-scope="scope">
           <el-input-number
             size="mini"
@@ -74,9 +77,7 @@
           ></el-input-number>
         </template>
       </el-table-column>
-      <el-table-column
-        label="备注"
-      >
+      <el-table-column label="备注">
         <template slot-scope="scope">
           <el-input
             size="mini"
@@ -161,7 +162,7 @@ export default {
     },
     gettotallist() {
       this.skuInfoListLoading = true
-      totalSkuList({ pageNum: this.currentPage, pageSize: this.currentPageSize, ...this.searchSkuForm }).then(res => {
+      totalSkuList({ pageNum: this.currentPage, pageSize: this.currentPageSize, ...this.searchSkuForm, fromSysCode: 'QLL' }).then(res => {
         if (res.success) {
           this.data = Array.isArray(res.data.list) && res.data.list || []
           if (this.data.length > 0) {

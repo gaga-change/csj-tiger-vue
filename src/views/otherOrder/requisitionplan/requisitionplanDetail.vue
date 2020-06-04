@@ -89,10 +89,10 @@ const infoConfig = [
   { title: '详细地址', prop: 'warehouseAddress' },
   { title: '联系方式', prop: 'linkTel' },
   { title: '备注', prop: 'remarkInfo', span: 12 },
-  { title: '单据组织', prop: 'billOrganize' },
-  { title: '单据类型', prop: 'orderType', type: 'enum', enum: 'busiBillTypeEnum' },
-  { title: '调出组织', prop: 'inOrganize' },
-  { title: '调入组织', prop: 'outOrganize' },
+  { title: '单据组织', prop: 'inOrganize' },
+  { title: '单据类型', prop: 'outBusiBillType' },
+  { title: '调出组织', prop: 'outOrganize' },
+  { title: '调入组织', prop: 'inOrganize' },
 ]
 
 const tableConfig = [
