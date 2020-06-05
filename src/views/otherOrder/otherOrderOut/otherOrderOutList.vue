@@ -33,7 +33,7 @@
           size="mini"
           @click="handleCreate"
         >
-          新增杂收
+          新增杂发
         </el-button>
       </template>
     </base-list>
