@@ -25,7 +25,7 @@ export const infoConfig = [
   { title: '计划单号', prop: 'planCode' },
   { title: '业务单号', prop: 'billNo' },
   { title: '外部订单号', prop: 'busiBillNo' },
-  { title: '入库类型', prop: 'busiBillType', type: 'getBillType', useApi: true },
+  { title: '入库类型', prop: 'busiBillType', type: 'billTypeTotal', useApi: true },
   { title: '计划人', prop: 'busiBillCreater' },
   { title: '计划仓库', prop: 'planWarehouseName' },
   { title: '计划制定时间', prop: 'busiBillCreaterTime', type: 'time' },

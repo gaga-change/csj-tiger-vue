@@ -31,7 +31,7 @@ export const infoConfig = [
   { title: '业务单号', prop: 'billNo' },
   { title: '合同号', prop: 'contractNo' },
   { title: '外部订单号', prop: 'busiBillNo' },
-  { title: '出库类型', prop: 'busiBillType', type: 'getBillType', useApi: true },
+  { title: '出库类型', prop: 'busiBillType', type: 'billTypeTotal', useApi: true },
   { title: '计划人', prop: 'planName' },
   { title: '计划仓库', prop: 'planWarehouseName' },
   { title: '执行状态', prop: 'execStatus', type: 'getExecState', useApi: true },

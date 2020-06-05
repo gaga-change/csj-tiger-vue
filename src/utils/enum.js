@@ -1060,3 +1060,20 @@ export const activeState = [
     value: 2
   },
 ]
+
+
+// 其他单据
+export const localBillType = [
+  {
+    name: '杂收',
+    value: 16
+  },
+  {
+    name: '杂发',
+    value: 20
+  },
+  {
+    name: '采购退货单',
+    value: 22
+  },
+]

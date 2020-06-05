@@ -15,6 +15,7 @@ const map = {
   mutations: {
     SET_MAP: (state, config) => {
       state.mapConfig = { ...state.mapConfig, ...config }
+      apiAndLocalJoin(state.mapConfig)
     },
     ADD_MAP: (state, item) => {
       let temp = { ...state.mapConfig }
@@ -78,6 +79,10 @@ async function config() {
     })
   }
   return config
+}
+
+function apiAndLocalJoin(config) {
+  config['billTypeTotal'] = [...config['getBillType'], ...config['localBillType']]
 }
 
 /** 将字符串转为数字 */
