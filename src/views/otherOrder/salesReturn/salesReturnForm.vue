@@ -61,35 +61,11 @@
               :name.sync="formData.warehouseName"
             />
           </el-form-item>
-          <el-form-item
-            label="受益部门"
-            prop="benefitDepartment"
-            key="benefitDepartment"
-            v-if="formData.billOrganize"
-          >
-
-            <ApiSelect
-              api="asiaDepartmentList"
-              :config="['departmentCode', 'departmentName']"
-              :params="{organizationCode:  formData.billOrganize}"
-              v-model="formData.benefitDepartment"
-            />
-          </el-form-item>
         </el-card>
         <el-card
           shadow="hover"
           class="box-card BaseFormCard mt10"
         >
-          <el-form-item
-            label="是否生产相关"
-            prop="isProduct"
-            key="isProduct"
-          >
-            <map-select
-              map="isPrint"
-              v-model="formData.isProduct"
-            ></map-select>
-          </el-form-item>
           <el-form-item
             label="退料理由"
             prop="returnReason"
@@ -222,8 +198,6 @@ export default {
         ownerName: undefined,
         arrivalCode: undefined,
         arrivalName: undefined,
-        isProduct: undefined,
-        benefitDepartment: undefined,
         outWarehouseCode: undefined,
         warehouseName: undefined,
         outWarehouseBillDetailList: [],
@@ -239,8 +213,6 @@ export default {
         outBusiBillType: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         ownerCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         arrivalCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
-        isProduct: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
-        benefitDepartment: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         outWarehouseCode: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         _arrivalIndex: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
         arrivalAddress: [{ required: true, message: '必填项', trigger: ['blur', 'change'] }],
