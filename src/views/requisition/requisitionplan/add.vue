@@ -153,6 +153,7 @@
                 size="mini"
                 type="date"
                 placeholder="选择日期"
+                @change="checkTime"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -398,10 +399,11 @@ export default {
 
   methods: {
     checkTime() {
-      if (this.searchForm.inDate) {
+      if (this.searchForm.inDate && this.searchForm.outDate) {
         if (this.searchForm.inDate < this.searchForm.outDate) {
           this.$message.error('调入日期应大于等于调出日期')
           this.searchForm.inDate = null
+          this.searchForm.outDate = null
         }
       }
     },

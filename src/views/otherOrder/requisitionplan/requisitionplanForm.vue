@@ -188,6 +188,7 @@
         >
           <el-date-picker
             v-model="searchForm.outDate"
+            @change="checkTime"
             size="mini"
             type="date"
             placeholder="选择日期"
@@ -358,10 +359,11 @@ export default {
 
   methods: {
     checkTime() {
-      if (this.searchForm.inDate) {
+      if (this.searchForm.inDate && this.searchForm.outDate) {
         if (this.searchForm.inDate < this.searchForm.outDate) {
           this.$message.error('调入日期应大于等于调出日期')
           this.searchForm.inDate = null
+          this.searchForm.outDate = null
         }
       }
     },
