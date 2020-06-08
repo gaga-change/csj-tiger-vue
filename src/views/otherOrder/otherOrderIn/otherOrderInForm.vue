@@ -199,7 +199,7 @@ const commdityTableConfig = [
   { label: '型号', prop: 'skuModel' },
   { label: '数量', prop: 'planInQty', edit: true, inputType: 'number', width: 160 },
   { label: '进货价', prop: 'purchasePrice', },
-  { label: '生产订单号', prop: 'ownerOrderNo', edit: true, inputType: 'input', width: 150 },
+  { label: '生产订单号', prop: 'ownerOrderNo', edit: true, inputType: 'input', width: 150, max: 30 },
   { label: '零成本', prop: 'zoroCost', type: 'enum', enum: 'isPrint', edit: true, inputType: 'map', width: 150 },
 ]
 // IP32 MCE
