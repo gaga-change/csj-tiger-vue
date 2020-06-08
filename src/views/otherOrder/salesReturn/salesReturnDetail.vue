@@ -95,7 +95,7 @@ const detailSonListConfig = [
   { label: '货主商品编码', prop: 'customerSkuCode' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
-  { label: '数量', prop: 'realOutQty' },
+  { label: '数量', prop: 'skuOutQty' },
   { label: '已出', prop: 'realOutQty' },
   { label: '进货价', prop: 'outStorePrice' },
 ]
