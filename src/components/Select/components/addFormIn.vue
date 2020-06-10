@@ -88,6 +88,7 @@
       :visible.sync="selectVisiable"
       width="80%"
       height="60%"
+      destroy-on-close
       append-to-body
     >
       <select-sku
