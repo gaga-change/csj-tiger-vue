@@ -7,7 +7,7 @@ export const tableConfig=[
   { label:'单位',prop:'skuUnitName'},
   { label:'单价',prop:'skuOutPrice'},
   { label:'出库数量',prop:'outStoreQty'},
-  { label:'出库金额',prop:'outStoreAmt',dom:(row, column, cellValue, index)=>{
+  { label:'出库金额',prop:'outStoreAmt',dom:(row)=>{
     let amount = row.outStoreAmt
     if (row.settleUnit ===2) {
       amount = row.skuOutPrice * (row.outStoreWeight || 0)
@@ -23,7 +23,7 @@ export  const infoConfig=[
   {title:'外部订单号',prop:'busiBillNo'},
   { title:'出库数量合计',prop:'outQty'},
   { title:'出库金额合计',prop:'outAmt'},
-  {title:'出库类型',prop:'busiBillType',type:'getBillType',useApi:true},
+  {title:'出库类型',prop:'busiBillType',type:'billTypeTotal',useApi:true},
   {title:'出库日期',prop:'outStoreTime',type:'time'},
   {title:'客户编号',prop:'arrivalCode'},
   {title:'客户名称',prop:'arrivalName'},
