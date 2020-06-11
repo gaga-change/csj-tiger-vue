@@ -116,7 +116,7 @@ const detailSonListConfig = [
 
 const planListConfig = [
   { label: '计划单号', prop: 'planCode' },
-  { label: '单据类型', prop: 'planState', type: 'enum', enum: 'getPlanState' },
+  { label: '单据状态', prop: 'planState', type: 'enum', enum: 'getPlanState' },
   { label: '业务单号', prop: 'billNo' },
   { label: '货主', prop: 'ownerName' },
   { label: '供应商', prop: 'providerName' },
@@ -207,7 +207,7 @@ export default {
             }
           }
         })
-      }).then(res => {
+      }).then(() => {
         this.loading = false
       })
     },
