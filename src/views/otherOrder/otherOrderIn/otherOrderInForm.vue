@@ -9,7 +9,7 @@
         label-width="100px"
         ref="form"
       >
-        <!-- 
+        <!--
           1. 确认元素
           2. 配置文案&描述 、调整样式
           3. 字段配置
@@ -183,18 +183,16 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { inBillAdd, } from '@/api'
 import CommdityAddAndModifyIn from '@/components/Select/CommdityAddAndModifyIn'
 import OwnerSelect from '@/components/Select/OwnerSelect'
 import CustomerSelect from '@/components/Select/CustomerSelect'
 import { mapGetters } from 'vuex'
-import * as api from '@/api';
 
 const commdityTableConfig = [
   { label: '商品编码', prop: 'skuCode', width: 120 },
   { label: '商品名称', prop: 'skuName' },
-  { label: '货主商品编码', prop: 'customerSkuCode' },
+  { label: '货主商品编码', prop: 'ownerSkuCode' },
   { label: '规格', prop: 'skuFormat' },
   { label: '型号', prop: 'skuModel' },
   { label: '数量', prop: 'planInQty', edit: true, inputType: 'number', width: 160 },
