@@ -15,6 +15,7 @@ export const indexTableConfig = [
 
 export const addtable_config = [
   { label: '序号', type: 'index', width: 50 },
+  { label: '货主商品编码', prop: 'ownerSkuCode' },
   { label: '商品编码', prop: 'skuCode' },
   { label: '商品名称', prop: 'skuName' },
   { label: '规格', prop: 'skuFormat' },

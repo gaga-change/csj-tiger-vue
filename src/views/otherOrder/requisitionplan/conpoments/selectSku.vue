@@ -45,6 +45,10 @@
         label="货主"
       />
       <el-table-column
+        property="ownerSkuCode"
+        label="货主商品编码"
+      />
+      <el-table-column
         property="skuCode"
         label="商品编码"
       />
@@ -129,7 +133,7 @@ export default {
     }
   },
   watch: {
-    selectform(val) {
+    selectform() {
       this.updateData()
     }
   },
@@ -180,8 +184,8 @@ export default {
           this.skuInfoListLoading = false
           this.totalLen = res.data.total
         }
-      }).catch(err => {
-      }).then(res => {
+      }).catch(() => {
+      }).then(() => {
         this.skuInfoListLoading = false
       })
     },

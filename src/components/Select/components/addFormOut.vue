@@ -47,7 +47,12 @@
           class="formitem"
         ></el-input>
       </el-form-item>
-
+      <el-form-item label="货主商品编码:">
+        <el-input
+          disabled
+          v-model="searchForm.ownerSkuCode"
+        ></el-input>
+      </el-form-item>
       <el-form-item label="备注:">
         <el-input
           v-model="searchForm.remarkInfo"

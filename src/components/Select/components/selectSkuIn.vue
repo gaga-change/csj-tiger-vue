@@ -23,7 +23,7 @@
         style="margin-left: 20px;"
         type="primary"
         size="mini"
-        @click="currentPage=1;skuCode='';skuName='',updateData()"
+        @click="currentPage=1;skuCode='';skuName='';updateData()"
       >重置</el-button>
 
     </div>
@@ -41,6 +41,10 @@
       <el-table-column
         property="skuName"
         label="商品名称"
+      />
+      <el-table-column
+        property="ownerSkuCode"
+        label="货主商品编码"
       />
       <el-table-column
         property="providerSkuCode"
@@ -160,8 +164,8 @@ export default {
         let skuName = v.skuName || ''
         let skuCode = v.skuCode || ''
         if (this.skuName && skuName.indexOf(this.skuName) < 0) return false
-        if (this.skuCode && skuCode.indexOf(this.skuCode) < 0) return false
-        return true
+        return !(this.skuCode && skuCode.indexOf(this.skuCode) < 0);
+
       })
       this.totalLen = total.length
       this.data = total.splice(start, length)

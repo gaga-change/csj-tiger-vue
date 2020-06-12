@@ -36,6 +36,7 @@
       :config="[
       {label: '商品编码', prop: 'skuCode'},
       {label: '商品名称', prop: 'skuName'},
+      {label: '货主商品编码', prop: 'ownerSkuCode'},
       {label: '销售区分', prop: 'saleType',useApi: true, type: 'getSaleType'}
       ]"
     >
@@ -44,7 +45,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getProductList } from '@/api/productcenter'
 
 export default {

@@ -44,7 +44,12 @@
           placeholder="请输入数量"
         ></el-input>
       </el-form-item>
-
+      <el-form-item label="货主商品编码:">
+        <el-input
+          disabled
+          v-model="searchForm.ownerSkuCode"
+        ></el-input>
+      </el-form-item>
       <el-form-item label="商品供应商名称:">
         <el-input
           disabled
