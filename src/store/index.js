@@ -15,7 +15,14 @@ const store = new Vuex.Store({
     map,
     menu
   },
+  state: {
+    update: false,
+  },
+  mutations: {
+    versionUpdate: (state) => {
+      state.update = true
+    }
+  },
   getters
 })
-
 export default store

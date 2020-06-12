@@ -1,5 +1,6 @@
 import io from 'socket.io-client'
 import { Notification } from 'element-ui';
+import store from '../store'
 
 export function connectSocket(user) {
   /** 发布环境 - 监听版本更新 */
@@ -38,15 +39,14 @@ export function connectSocket(user) {
           tick = null
         }, 1000)
       }
-      document.addEventListener('click', (e) => {
-        if (tick) {
-          return
-        } else {
+      document.addEventListener('click', () => {
+        if (!tick) {
           temp()
         }
       })
     }
     function update(v) {
+      store && store.commit('versionUpdate')
       Notification({
         title: '提示',
         message: `当前系统版本更新，点击浏览器左上角的刷新按钮刷新页面获取最新内容！当前版本：${process.env.IMAGE_TAG}，最新版本：${v}`,
