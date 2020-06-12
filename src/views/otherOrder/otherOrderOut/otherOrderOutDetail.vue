@@ -58,7 +58,7 @@
         >
           <base-table
             :config="orderListConfig"
-            :data="detail.orderList"
+            :data="orderList"
             :showControl="false"
             :controlWidth="160"
             :select="false"
