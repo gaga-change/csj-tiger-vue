@@ -11,7 +11,8 @@
           size="mini"
           :loading="saveLoading"
           :disabled="savedisabled"
-        >保存</el-button>
+        >保存
+        </el-button>
         <!-- <el-button
           type="primary"
           size="mini"
@@ -87,6 +88,21 @@
               </div>
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item
+          label="供应商"
+          prop="providerCode"
+          key="providerCode"
+          :rules="[{ required: true, message: '该项为必填'}]"
+          v-if="searchForm.ownerCode"
+        >
+          <ApiSelect
+            api="customerInfo"
+            :config="['customerCode', 'customerName']"
+            :params="{ownerCode: searchForm.ownerCode, busiBillType: 23}"
+            v-model="searchForm.providerCode"
+            :name.sync="searchForm.providerName"
+          />
         </el-form-item>
         <el-form-item
           label="单据组织"
@@ -246,17 +262,18 @@
       </el-form>
       <div class="tableBox">
         <div class="tableTitle">
-          <item-title text="商品明细" />
+          <item-title text="商品明细"/>
           <div class="tableBtn">
             <el-button
               size="mini"
               class="addCommodity"
               @click="showDialog('add')"
               type="primary"
-            >添加商品</el-button>
+            >添加商品
+            </el-button>
           </div>
         </div>
-        <edit-Table
+        <edit-table
           :useEdit="true"
           :config="addtable_config"
           @goeditrow="goeditrow"
@@ -282,20 +299,20 @@
 </template>
 
 <script>
-import { Area, codesTurnName } from '@/utils/area2'
-import { addtable_config } from './config';
+import {Area, codesTurnName} from '@/utils/area2'
+import {addtable_config} from './config';
 import editTable from '@/components/Table/editTable';
 import selectSku from './conpoments/selectSku'
-import { ownerWarehouseList } from '@/api/tenant'
-import { warehouseDetail, totalSkuList, requisitionSave, requisitionmodify, requisitiondetail } from '@/api/requisition'
-import { asiaOrganizeList } from '@/api'
+import {ownerWarehouseList} from '@/api/tenant'
+import {requisitiondetail, requisitionmodify, requisitionSave} from '@/api/requisition'
 import Sticky from '@/components/Sticky'
 import _ from 'lodash';
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import moment from 'moment';
+
 export default {
   name: "businessorderadd",
-  components: { editTable, selectSku, Sticky },
+  components: {editTable, selectSku, Sticky},
   data() {
     return {
       Area,
@@ -318,6 +335,8 @@ export default {
         warehouseAddress: undefined,
         warehouseLinkName: undefined,
         linkTel: undefined,
+        providerCode: undefined,
+        providerName: undefined
       },
       //表单table配置项
       addtable_config,
@@ -337,15 +356,15 @@ export default {
   mounted() {
     if (this.$route.query.id) {
       let api = requisitiondetail;
-      api({ id: Number(this.$route.query.id) }).then(res => {
+      api({id: Number(this.$route.query.id)}).then(res => {
         if (res.success) {
-          let searchForm = _.cloneDeep(this.searchForm);
+          let searchForm;
           searchForm = res.data;
-          searchForm.ownerCode && this.showStore({ ownerCode: searchForm.ownerCode })
+          searchForm.ownerCode && this.showStore({ownerCode: searchForm.ownerCode})
           searchForm.area = searchForm.warehouseProvince ? (searchForm.warehouseProvince + searchForm.warehouseCity + searchForm.warehouseArea) : null
           this.searchForm = searchForm;
         }
-      }).catch(err => {
+      }).catch(() => {
       })
     }
   },
@@ -390,17 +409,16 @@ export default {
       searchForm.transferBillDetailDOList = [];
       this.searchForm = searchForm;
       this.warehouseList.length = 0
-      this.showStore({ ownerCode: value })
+      this.showStore({ownerCode: value})
     },
 
     showStore(row) {
       this.warehouseList = []
       this.warehouseCodeLoading = true
-      ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
-        let result = res.data
-        this.warehouseList = result
-      }).catch(err => {
-      }).then(res => {
+      ownerWarehouseList({ownerCode: row.ownerCode}).then(res => {
+        this.warehouseList = res.data
+      }).catch(() => {
+      }).then(() => {
         this.warehouseCodeLoading = false
       })
     },
@@ -443,13 +461,13 @@ export default {
 
       // })
     },
-    goeditrow(index, type) {
+    goeditrow(index) {
       let searchForm = _.cloneDeep(this.searchForm);
       searchForm.transferBillDetailDOList[index].edit = !searchForm.transferBillDetailDOList[index].edit
       this.searchForm = searchForm;
     },
 
-    handleDelete(index, row) {
+    handleDelete(index) {
       let searchForm = _.cloneDeep(this.searchForm);
       searchForm.transferBillDetailDOList.splice(index, 1)
       this.searchForm = searchForm;
@@ -463,9 +481,12 @@ export default {
       if (type === 'add') {
         let ownerCode = this.searchForm.ownerCode
         let warehouseCode = this.searchForm.outWarehouseCode
+        let outOrganize = this.searchForm.outOrganize
         if (ownerCode && warehouseCode) {
           this.addVisible = true;
-          this.skuForm = { ownerCode: ownerCode, warehouseCode: warehouseCode, skuCode: null, skuName: null }
+          this.skuForm = {ownerCode: ownerCode, warehouseCode: warehouseCode, skuCode: null, skuName: null}
+        } else if (!outOrganize) {
+          this.$message.error('请选择调出组织！')
         } else {
           this.$message.error('请选择货主和调出仓库！');
         }
@@ -543,7 +564,7 @@ export default {
                 json.id = this.$route.query.id;
               }
               json.billOrganize = json.inOrganize
-              api({ ...json, fromSysCode: 'QLL' }).then(res => {
+              api({...json, fromSysCode: 'QLL'}).then(res => {
                 if (res.success) {
                   if (res.data === 'success') res.data = ''
                   this.$message({
@@ -557,9 +578,9 @@ export default {
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
                           path: '/otherOrder/requisitionplanList',
-                          query: { t: Date.now() }
+                          query: {t: Date.now()}
                         })
-                      }).catch(err => {
+                      }).catch(() => {
                       })
                     }
                   })
@@ -568,7 +589,7 @@ export default {
                   this.savedisabled = false
                   this.updateLoading = false
                 }
-              }).catch(err => {
+              }).catch(() => {
                 this.saveLoading = false
                 this.savedisabled = false
                 this.updateLoading = false
@@ -583,42 +604,49 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.addCarrier {
-  .operationitem {
-    display: flex;
-    justify-content: flex-end;
-    margin: 16px 0;
-  }
-  .el-form-item {
-    height: 40px;
-  }
-  .tableBox {
-    .tableTitle {
+  .addCarrier {
+    .operationitem {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       margin: 16px 0;
     }
-    .tableBtn {
-      display: flex;
+
+    .el-form-item {
+      height: 40px;
     }
-    .addCommodity {
-      height: 28px;
-      line-height: 26px;
-      padding: 0 12px;
-      margin-left: 12px;
+
+    .tableBox {
+      .tableTitle {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 0;
+      }
+
+      .tableBtn {
+        display: flex;
+      }
+
+      .addCommodity {
+        height: 28px;
+        line-height: 26px;
+        padding: 0 12px;
+        margin-left: 12px;
+      }
     }
   }
-}
-.providerList {
-  display: flex;
-  justify-content: space-between;
-  > span {
-    &:first-child {
-      min-width: 150px;
-    }
-    &:nth-child(2) {
-      min-width: 100px;
+
+  .providerList {
+    display: flex;
+    justify-content: space-between;
+
+    > span {
+      &:first-child {
+        min-width: 150px;
+      }
+
+      &:nth-child(2) {
+        min-width: 100px;
+      }
     }
   }
-}
 </style>

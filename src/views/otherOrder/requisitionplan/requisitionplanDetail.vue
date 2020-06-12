@@ -27,7 +27,7 @@
         label="调拨单"
         name="business"
       >
-        <edit-Table
+        <edit-table
           :loading="loading"
           :config="detailTableConfig"
           :allTableData="tableData"
@@ -37,7 +37,7 @@
         label="计划单"
         name="plan"
       >
-        <edit-Table
+        <edit-table
           :loading="loading"
           :config="detail_planTableConfig"
           :allTableData="detail_planTableData"
@@ -47,7 +47,7 @@
         label="出/入库单"
         name="outgonging"
       >
-        <edit-Table
+        <edit-table
           :loading="loading"
           :config="detail_outGoingTableConfig"
           :allTableData="detail_outGoingTableData"
@@ -93,6 +93,7 @@ const infoConfig = [
   { title: '单据类型', prop: 'outBusiBillType' },
   { title: '调出组织', prop: 'outOrganize' },
   { title: '调入组织', prop: 'inOrganize' },
+  { title: '供应商', prop: 'providerName' },
 ]
 
 const tableConfig = [
@@ -113,8 +114,6 @@ import moment from 'moment';
 import { mapGetters } from 'vuex'
 import { handleTransferNo } from '@/api'
 import { requisitiondetail, queryPlandetail, queryOrderdetail } from '@/api/requisition'
-// import { operation } from './conpoments/lib';
-import _ from 'lodash';
 
 export default {
   components: { editTable, Sticky },
