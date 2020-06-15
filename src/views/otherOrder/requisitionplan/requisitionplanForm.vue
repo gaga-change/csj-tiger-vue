@@ -510,6 +510,7 @@ export default {
                 skuFormat: item.skuFormat,
                 skuModel: item.skuModel,
                 transferQty: item.transferQty,
+                ownerSkuCode: item.ownerSkuCode,
                 remarkInfo: item.remarkInfo
               })
             }
@@ -522,6 +523,7 @@ export default {
               skuFormat: item.skuFormat,
               skuModel: item.skuModel,
               transferQty: item.transferQty,
+              ownerSkuCode: item.ownerSkuCode,
               remarkInfo: item.remarkInfo
             })
           })
