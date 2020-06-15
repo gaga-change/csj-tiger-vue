@@ -34,6 +34,7 @@
       >
 
         <el-form-item
+          v-if="$route.query.type==='revision'"
           label="调整原因"
           prop="improveReason"
           :rules="[{ required: true, message: '该项为必填'}]"
