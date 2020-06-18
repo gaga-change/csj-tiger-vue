@@ -213,9 +213,8 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { outBillAdd } from '@/api'
-import CommdityAddAndModifyOut from '@/components/Select/CommdityAddAndModifyOut'
+import CommdityAddAndModifyOut from './components/CommdityAddAndModifyOut'
 import OwnerSelect from '@/components/Select/OwnerSelect'
 import CustomerSelect from '@/components/Select/CustomerSelect'
 import { mapGetters } from 'vuex'

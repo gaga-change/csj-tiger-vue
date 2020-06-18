@@ -20,6 +20,9 @@ export default {
     input {
       width: 200px;
     }
+    .el-input-number {
+      width: 200px;
+    }
   }
 
   // .BaseTable_ItemBlocak {
