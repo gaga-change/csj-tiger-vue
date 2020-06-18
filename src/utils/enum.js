@@ -869,6 +869,10 @@ export const transferBillStatusEnum = [{
   name: '已关闭',
   value: 2
 },
+  {
+    name: '已驳回',
+    value: 3
+  }
 ]
 
 //调拨单出库状态
