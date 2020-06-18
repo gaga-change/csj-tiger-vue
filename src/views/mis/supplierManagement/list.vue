@@ -341,6 +341,7 @@ export default {
           id: this.activeRow.id,
           providerCode: this.activeRow.providerCode,
           providerName: this.activeRow.providerName,
+          outProviderCode: this.activeRow.outProviderCode,
           ...this.ownerListForm
         }).then(res => {
           if (res.success) {
