@@ -315,6 +315,9 @@ export default {
           if (outWarehouseBillDetailList.some(v => !v._hideEdit)) {
             return this.$message.error('请完善商品信息!')
           }
+          outWarehouseBillDetailList.forEach(v => {
+            v.outStorePrice = v.costPrice
+          })
           const api = outBillAdd
 
           this.loading = true
