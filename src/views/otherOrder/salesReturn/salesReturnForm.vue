@@ -165,7 +165,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { outBillAdd } from '@/api'
 import CommdityAddAndModifyOut from '@/components/Select/CommdityAddAndModifyOut'
 import OwnerSelect from '@/components/Select/OwnerSelect'
@@ -264,6 +263,9 @@ export default {
           if (outWarehouseBillDetailList.some(v => !v._hideEdit)) {
             return this.$message.error('请完善商品信息!')
           }
+          outWarehouseBillDetailList.forEach(v => {
+            v.outStorePrice = 0
+          })
           const api = outBillAdd
 
           this.loading = true
