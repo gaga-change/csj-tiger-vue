@@ -22,7 +22,7 @@
           v-if="config.planState === 1 || config.planState === 0"
           type="success"
           size="mini"
-          @click="planCheck(1)"
+          @click="handleAudit()"
           :loading="auditLoading"
           :disabled="rejectLoading"
         >审核</el-button>
@@ -101,7 +101,7 @@
 
 <script>
 import { outPlanDetail, orderSave, outPlanPrint, outPlanCheck } from '@/api/outgoing';
-import { queryWarehouseCode } from '@/api'
+import { queryWarehouseCode, outPlanCheckBatch } from '@/api'
 import webPaginationTable from '@/components/Table/webPaginationTable'
 import editTable from '@/components/Table/editTable'
 import { tableConfig, infoConfig, outgoingTableConfig, printingTable_config } from './config';
@@ -151,6 +151,18 @@ export default {
   },
 
   methods: {
+    /**
+     * 审核
+     */
+    handleAudit() {
+      this.auditLoading = true
+      outPlanCheckBatch([this.config.planCode,]).then(res => {
+        this.auditLoading = false
+        if(!res) return
+        this.$message.success("操作成功！")
+        this.getCurrentTableData()
+      })
+    },
     planCheck(isAgree) {
       Check({
         global: this,

@@ -123,7 +123,7 @@ export const customerInfo = ({ ownerCode, busiBillType }) => http.get(`/webApi/c
 export const inPlanSelect = params => http.post(`/webApi/in/plan/getInPlanData`, params)
 // 入库单查询数据
 export const queryInWarehouseCode = params => http.post(`/webApi/in/order/inWarehouseOrderList`, params)
-// 
+//
 export const queryWarehouseCode = params => http.post(`/webApi/out/order/select`, params)
 // 杂发、出库  创建
 export const outBillAdd = params => http.post(`/webApi/out/bill/add`, params)
@@ -140,4 +140,6 @@ export const outPlanSelect = params => http.post(`/webApi/out/plan/select`, para
 export const asiaWareHouseList = params => http.post(`/webApi/asia/warehouse/list`, params)
 //调拨单状态修改
 export const handleTransferNo = params => http.post(`/webApi/tranferBill/updateStatus`, params)
+// 出库计划审核
+export const outPlanCheckBatch = params => http.put(`/webApi/out/plan/check/batch`, params)
 
