@@ -50,13 +50,13 @@
             label="仓库"
             prop="outWarehouseCode"
             key="outWarehouseCode"
-            v-if="formData.billOrganize"
+            v-if="formData.billOrganize && outWarehouseType !== undefined"
           >
 
             <ApiSelect
               api="asiaWareHouseList"
               :config="['outWarehouseCode', 'outWarehouseName']"
-              :params="{organizationCode: formData.billOrganize}"
+              :params="{organizationCode: formData.billOrganize, outWarehouseType}"
               v-model="formData.outWarehouseCode"
               :name.sync="formData.warehouseName"
             />
@@ -279,6 +279,15 @@ export default {
       'mapConfig': 'mapConfig',
       visitedViews: 'visitedViews'
     }),
+    outWarehouseType() {
+      if (this.formData.ownerCode) {
+        if (this.formData.ownerCode === 'EP001')
+          return  0
+        else return 1
+      } else {
+        return undefined;
+      }
+    }
   },
   methods: {
     /** 地址载入 设置默认值 */

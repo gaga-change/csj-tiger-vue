@@ -128,13 +128,13 @@
           prop="inWarehouseCode"
           key="inWarehouseCode"
           :rules="[{ required: true, message: '该项为必填'}]"
-          v-if="searchForm.inOrganize"
+          v-if="searchForm.inOrganize && outWarehouseType !== undefined"
         >
 
           <ApiSelect
             api="asiaWareHouseList"
             :config="['outWarehouseCode', 'outWarehouseName']"
-            :params="{organizationCode: searchForm.inOrganize}"
+            :params="{organizationCode: searchForm.inOrganize, outWarehouseType}"
             v-model="searchForm.inWarehouseCode"
             :name.sync="searchForm.inWarehouseName"
             @change="checkInWarehouse"
@@ -184,14 +184,14 @@
           label="调出仓库"
           prop="outWarehouseCode"
           key="outWarehouseCode"
-          v-if="searchForm.outOrganize"
+          v-if="searchForm.outOrganize && outWarehouseType !== undefined"
           :rules="[{ required: true, message: '该项为必填'}]"
         >
 
           <ApiSelect
             api="asiaWareHouseList"
             :config="['outWarehouseCode', 'outWarehouseName']"
-            :params="{organizationCode: searchForm.outOrganize}"
+            :params="{organizationCode: searchForm.outOrganize, outWarehouseType}"
             v-model="searchForm.outWarehouseCode"
             :name.sync="searchForm.outWarehouseName"
             @change="checkoutWarehouse"
@@ -373,7 +373,16 @@ export default {
     ...mapGetters({
       'mapConfig': 'mapConfig',
       visitedViews: 'visitedViews'
-    })
+    }),
+    outWarehouseType() {
+      if (this.searchForm.ownerCode) {
+        if (this.searchForm.ownerCode === 'EP001')
+          return  0
+        else return 1
+      } else {
+        return undefined;
+      }
+    }
   },
 
   methods: {
