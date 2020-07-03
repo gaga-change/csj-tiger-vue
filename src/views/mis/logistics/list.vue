@@ -55,13 +55,14 @@
               查看
             </a>
             <a
-              v-if="$haspermission('logisticsUpdate')"
+              v-if="scope.row.costSettlementStatus !== 2 && $haspermission('logisticsUpdate')"
               @click="edit({ id: scope.row.id })"
               :style="linkstyle"
             >
               修改
             </a>
             <a
+              v-if="scope.row.costSettlementStatus !== 2"
               @click="deleteRow({ id: scope.row.id })"
               :style="linkstyle"
             >
