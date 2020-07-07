@@ -262,7 +262,7 @@
       </el-form>
       <div class="tableBox">
         <div class="tableTitle">
-          <item-title text="商品明细"/>
+          <item-title text="商品明细" />
           <div class="tableBtn">
             <el-button
               size="mini"
@@ -299,20 +299,20 @@
 </template>
 
 <script>
-import {Area, codesTurnName} from '@/utils/area2'
-import {addtable_config} from './config';
+import { Area, codesTurnName } from '@/utils/area2'
+import { addtable_config } from './config';
 import editTable from '@/components/Table/editTable';
 import selectSku from './conpoments/selectSku'
-import {ownerWarehouseList} from '@/api/tenant'
-import {requisitiondetail, requisitionmodify, requisitionSave} from '@/api/requisition'
+import { ownerWarehouseList } from '@/api/tenant'
+import { requisitiondetail, requisitionmodify, requisitionSave } from '@/api/requisition'
 import Sticky from '@/components/Sticky'
 import _ from 'lodash';
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import moment from 'moment';
 
 export default {
   name: "businessorderadd",
-  components: {editTable, selectSku, Sticky},
+  components: { editTable, selectSku, Sticky },
   data() {
     return {
       Area,
@@ -356,11 +356,11 @@ export default {
   mounted() {
     if (this.$route.query.id) {
       let api = requisitiondetail;
-      api({id: Number(this.$route.query.id)}).then(res => {
+      api({ id: Number(this.$route.query.id) }).then(res => {
         if (res.success) {
           let searchForm;
           searchForm = res.data;
-          searchForm.ownerCode && this.showStore({ownerCode: searchForm.ownerCode})
+          searchForm.ownerCode && this.showStore({ ownerCode: searchForm.ownerCode })
           searchForm.area = searchForm.warehouseProvince ? (searchForm.warehouseProvince + searchForm.warehouseCity + searchForm.warehouseArea) : null
           this.searchForm = searchForm;
         }
@@ -377,7 +377,7 @@ export default {
     outWarehouseType() {
       if (this.searchForm.ownerCode) {
         if (this.searchForm.ownerCode === 'EP001')
-          return  0
+          return 0
         else return 1
       } else {
         return undefined;
@@ -418,13 +418,13 @@ export default {
       searchForm.transferBillDetailDOList = [];
       this.searchForm = searchForm;
       this.warehouseList.length = 0
-      this.showStore({ownerCode: value})
+      this.showStore({ ownerCode: value })
     },
 
     showStore(row) {
       this.warehouseList = []
       this.warehouseCodeLoading = true
-      ownerWarehouseList({ownerCode: row.ownerCode}).then(res => {
+      ownerWarehouseList({ ownerCode: row.ownerCode }).then(res => {
         this.warehouseList = res.data
       }).catch(() => {
       }).then(() => {
@@ -438,37 +438,18 @@ export default {
       this.confirmchange(type)
     },
     checkoutWarehouse() {
-      this.searchForm.transferBillDetailDOList = []
-      if (this.searchForm.inWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
-        this.$message.error('调出仓库不应和调入仓库一致')
-        this.searchForm.outWarehouseCode = ''
-      }
+      // this.searchForm.transferBillDetailDOList = []
+      // if (this.searchForm.inWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
+      //   this.$message.error('调出仓库不应和调入仓库一致')
+      //   this.searchForm.outWarehouseCode = ''
+      // }
     },
     checkInWarehouse() {
-      if (this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
-        this.$message.error('调出仓库不应和调入仓库一致')
-        this.searchForm.inWarehouseCode = ''
-        return false
-      }
-      // warehouseDetail({ warehouseNo: this.searchForm.inWarehouseCode }).then(res => {
-      //   if (res.success) {
-      //     let data = res.data;
-      //     if (data && (((data.warehouseLinkName && data.warehouseAddress) && data.linkTel) && data.warehouseProvince)) {
-      //       this.searchForm.area = data.warehouseProvince + data.warehouseCity + data.warehouseArea
-      //       this.searchForm.warehouseProvince = data.warehouseProvince
-      //       this.searchForm.warehouseCity = data.warehouseCity
-      //       this.searchForm.warehouseArea = data.warehouseArea
-      //       this.searchForm.warehouseLinkName = data.warehouseLinkName
-      //       this.searchForm.warehouseAddress = data.warehouseAddress
-      //       this.searchForm.linkTel = data.linkTel
-      //     } else {
-      //       this.$message.error('请先去维护调入仓库接收人、所在地区、详细地址和联系方式')
-      //       this.searchForm.inWarehouseCode = ''
-      //     }
-      //   }
-      // }).catch(err => {
-
-      // })
+      // if (this.searchForm.outWarehouseCode && this.searchForm.outWarehouseCode === this.searchForm.inWarehouseCode) {
+      //   this.$message.error('调出仓库不应和调入仓库一致')
+      //   this.searchForm.inWarehouseCode = ''
+      //   return false
+      // }
     },
     goeditrow(index) {
       let searchForm = _.cloneDeep(this.searchForm);
@@ -493,7 +474,7 @@ export default {
         let outOrganize = this.searchForm.outOrganize
         if (ownerCode && warehouseCode) {
           this.addVisible = true;
-          this.skuForm = {ownerCode: ownerCode, warehouseCode: warehouseCode, skuCode: null, skuName: null}
+          this.skuForm = { ownerCode: ownerCode, warehouseCode: warehouseCode, skuCode: null, skuName: null }
         } else if (!outOrganize) {
           this.$message.error('请选择调出组织！')
         } else {
@@ -575,7 +556,7 @@ export default {
                 json.id = this.$route.query.id;
               }
               json.billOrganize = json.inOrganize
-              api({...json, fromSysCode: 'QLL'}).then(res => {
+              api({ ...json, fromSysCode: 'QLL' }).then(res => {
                 if (res.success) {
                   if (res.data === 'success') res.data = ''
                   this.$message({
@@ -589,7 +570,7 @@ export default {
                       this.$store.dispatch('delVisitedViews', view[0]).then(() => {
                         this.$router.push({
                           path: '/otherOrder/requisitionplanList',
-                          query: {t: Date.now()}
+                          query: { t: Date.now() }
                         })
                       }).catch(() => {
                       })
@@ -615,49 +596,49 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-  .addCarrier {
-    .operationitem {
+.addCarrier {
+  .operationitem {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px 0;
+  }
+
+  .el-form-item {
+    height: 40px;
+  }
+
+  .tableBox {
+    .tableTitle {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       margin: 16px 0;
     }
 
-    .el-form-item {
-      height: 40px;
+    .tableBtn {
+      display: flex;
     }
 
-    .tableBox {
-      .tableTitle {
-        display: flex;
-        justify-content: space-between;
-        margin: 16px 0;
-      }
-
-      .tableBtn {
-        display: flex;
-      }
-
-      .addCommodity {
-        height: 28px;
-        line-height: 26px;
-        padding: 0 12px;
-        margin-left: 12px;
-      }
+    .addCommodity {
+      height: 28px;
+      line-height: 26px;
+      padding: 0 12px;
+      margin-left: 12px;
     }
   }
+}
 
-  .providerList {
-    display: flex;
-    justify-content: space-between;
+.providerList {
+  display: flex;
+  justify-content: space-between;
 
-    > span {
-      &:first-child {
-        min-width: 150px;
-      }
+  > span {
+    &:first-child {
+      min-width: 150px;
+    }
 
-      &:nth-child(2) {
-        min-width: 100px;
-      }
+    &:nth-child(2) {
+      min-width: 100px;
     }
   }
+}
 </style>
