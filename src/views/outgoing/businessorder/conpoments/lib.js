@@ -18,7 +18,7 @@ export function operation(row, api, tip) {
   //请求配置
   let submit = (append) => {
     let temp = data
-    if (append) {
+    if (append && typeof temp === 'object') {
       temp = { ...temp, ...append }
     }
     apiConfig[api](temp).then(res => {
