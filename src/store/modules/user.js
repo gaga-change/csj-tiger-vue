@@ -3,7 +3,7 @@ import { jsonFamart } from '@/utils/deepSortMenu'
 const _import = require('@/router/_import_' + process.env.NODE_ENV)
 import Layout from '@/views/layout/Layout'
 import { reportCenterUrl } from '@/utils'
-import { connectSocket } from '@/api/socket'
+// import { connectSocket } from '@/api/socket'
 
 
 const user = {
@@ -42,7 +42,7 @@ const user = {
           commit('SET_PERMISSIONCODES', data.permissionCodes || [])
           commit('SET_COMPANY', data.companyname || '')
           commit('SET_COMPANYID', data.companyid || '')
-          connectSocket(data)
+          // connectSocket(data)
         }
         return res
       })
